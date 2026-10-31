@@ -17,6 +17,8 @@ pnpm android        # Expo dev server для Android
 pnpm run ci         # всё, что проверяет CI
 ```
 
+Веб-версия деплоится на Vercel без настройки: `vercel.json` в корне задаёт установку, сборку (`expo export --platform web`) и папку `apps/mobile/dist`. Достаточно импортировать репозиторий на vercel.com.
+
 Сборка для Google Play — через EAS (`apps/mobile/eas.json`):
 
 ```bash
