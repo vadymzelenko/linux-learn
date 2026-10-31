@@ -1,0 +1,783 @@
+[
+  {
+    "id": "server-down",
+    "title": {
+      "en": "The server is down",
+      "uk": "Сервер упав",
+      "ru": "Сервер упал",
+      "pl": "Serwer padł"
+    },
+    "story": {
+      "en": "3:47 AM. The monitoring is red: the API stopped answering. The logs are in /var/log/syslog. Find the FATAL line that explains what happened and save it to ~/incident.txt for the morning report.",
+      "uk": "3:47 ночі. Моніторинг червоний: API перестав відповідати. Логи лежать у /var/log/syslog. Знайдіть рядок FATAL, що пояснює, що сталося, і збережіть його в ~/incident.txt для ранкового звіту.",
+      "ru": "3:47 ночи. Мониторинг красный: API перестал отвечать. Логи лежат в /var/log/syslog. Найдите строку FATAL, объясняющую, что случилось, и сохраните её в ~/incident.txt для утреннего отчёта.",
+      "pl": "3:47 w nocy. Monitoring świeci na czerwono: API przestało odpowiadać. Logi są w /var/log/syslog. Znajdź linię FATAL, która wyjaśnia, co się stało, i zapisz ją do ~/incident.txt na poranny raport."
+    },
+    "difficulty": 1,
+    "requires": "text",
+    "xp": 60,
+    "setup": {
+      "hostname": "web01",
+      "files": {
+        "/var/log/syslog": {
+          "content": "Oct 30 03:00:00 web01 nginx[901]: GET /api/health 200\nOct 30 03:01:13 web01 nginx[901]: GET /api/health 200\nOct 30 03:02:26 web01 nginx[901]: GET /api/health 200\nOct 30 03:03:39 web01 nginx[901]: GET /api/health 200\nOct 30 03:04:52 web01 nginx[901]: GET /api/health 200\nOct 30 03:05:05 web01 nginx[901]: GET /api/health 200\nOct 30 03:06:18 web01 nginx[901]: GET /api/health 200\nOct 30 03:07:31 web01 nginx[901]: GET /api/health 200\nOct 30 03:08:44 web01 nginx[901]: GET /api/health 200\nOct 30 03:09:57 web01 nginx[901]: GET /api/health 200\nOct 30 03:10:10 web01 nginx[901]: GET /api/health 200\nOct 30 03:11:23 web01 nginx[901]: GET /api/health 200\nOct 30 03:12:36 web01 nginx[901]: GET /api/health 200\nOct 30 03:13:49 web01 nginx[901]: GET /api/health 200\nOct 30 03:14:02 web01 nginx[901]: GET /api/health 200\nOct 30 03:15:15 web01 nginx[901]: GET /api/health 200\nOct 30 03:16:28 web01 nginx[901]: GET /api/health 200\nOct 30 03:17:41 web01 nginx[901]: GET /api/health 200\nOct 30 03:18:54 web01 nginx[901]: GET /api/health 200\nOct 30 03:19:07 web01 nginx[901]: GET /api/health 200\nOct 30 03:20:20 web01 nginx[901]: GET /api/health 200\nOct 30 03:21:33 web01 nginx[901]: GET /api/health 200\nOct 30 03:22:46 web01 nginx[901]: GET /api/health 200\nOct 30 03:23:59 web01 nginx[901]: GET /api/health 200\nOct 30 03:24:12 web01 nginx[901]: GET /api/health 200\nOct 30 03:25:25 web01 nginx[901]: GET /api/health 200\nOct 30 03:26:38 web01 nginx[901]: GET /api/health 200\nOct 30 03:27:51 web01 nginx[901]: GET /api/health 200\nOct 30 03:28:04 web01 nginx[901]: GET /api/health 200\nOct 30 03:29:17 web01 nginx[901]: GET /api/health 200\nOct 30 03:30:30 web01 nginx[901]: GET /api/health 200\nOct 30 03:31:43 web01 nginx[901]: GET /api/health 200\nOct 30 03:32:56 web01 nginx[901]: GET /api/health 200\nOct 30 03:33:09 web01 nginx[901]: GET /api/health 200\nOct 30 03:34:22 web01 nginx[901]: GET /api/health 200\nOct 30 03:35:35 web01 nginx[901]: GET /api/health 200\nOct 30 03:36:48 web01 nginx[901]: GET /api/health 200\nOct 30 03:37:01 web01 nginx[901]: GET /api/health 200\nOct 30 03:38:14 web01 nginx[901]: GET /api/health 200\nOct 30 03:39:27 web01 nginx[901]: GET /api/health 200\nOct 30 03:40:40 web01 nginx[901]: GET /api/health 200\nOct 30 03:41:13 web01 app[1337]: FATAL out of memory: killed process 1337 (api-server)\nOct 30 03:42:46 web01 systemd[1]: api-server.service: Main process exited, code=killed, status=9/KILL\nOct 30 03:43:19 web01 nginx[901]: GET /api/health 200\nOct 30 03:44:32 web01 nginx[901]: GET /api/health 200\nOct 30 03:45:45 web01 nginx[901]: GET /api/health 200\nOct 30 03:46:58 web01 nginx[901]: GET /api/health 200\nOct 30 03:47:11 web01 nginx[901]: GET /api/health 200\nOct 30 03:48:24 web01 nginx[901]: GET /api/health 200\nOct 30 03:49:37 web01 nginx[901]: GET /api/health 200\nOct 30 03:50:50 web01 nginx[901]: GET /api/health 200\nOct 30 03:51:03 web01 nginx[901]: GET /api/health 200\nOct 30 03:52:16 web01 nginx[901]: GET /api/health 200\nOct 30 03:53:29 web01 nginx[901]: GET /api/health 200\nOct 30 03:54:42 web01 nginx[901]: GET /api/health 200\nOct 30 03:55:55 web01 nginx[901]: GET /api/health 200\nOct 30 03:56:08 web01 nginx[901]: GET /api/health 200\nOct 30 03:57:21 web01 nginx[901]: GET /api/health 200\nOct 30 03:58:34 web01 nginx[901]: GET /api/health 200\nOct 30 03:59:47 web01 nginx[901]: GET /api/health 200\n",
+          "owner": "root",
+          "mode": "644"
+        }
+      }
+    },
+    "checks": [
+      {
+        "type": "fileContains",
+        "path": "~/incident.txt",
+        "text": "out of memory",
+        "label": {
+          "en": "incident.txt names the cause",
+          "uk": "incident.txt називає причину",
+          "ru": "incident.txt называет причину",
+          "pl": "incident.txt podaje przyczynę"
+        }
+      },
+      {
+        "type": "fileNotContains",
+        "path": "~/incident.txt",
+        "text": "GET /api/health",
+        "label": {
+          "en": "No noise in the report",
+          "uk": "У звіті немає шуму",
+          "ru": "В отчёте нет шума",
+          "pl": "Brak szumu w raporcie"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "Search the log for FATAL and redirect the result into the file.",
+        "uk": "Знайдіть у лозі FATAL і перенаправте результат у файл.",
+        "ru": "Найдите в логе FATAL и перенаправьте результат в файл.",
+        "pl": "Wyszukaj w logu FATAL i przekieruj wynik do pliku."
+      },
+      "command": "grep"
+    },
+    "solution": [
+      "grep FATAL /var/log/syslog > ~/incident.txt"
+    ]
+  },
+  {
+    "id": "disk-full",
+    "title": {
+      "en": "Disk full",
+      "uk": "Диск переповнений",
+      "ru": "Диск переполнен",
+      "pl": "Pełny dysk"
+    },
+    "story": {
+      "en": "The build server complains: No space left on device. Someone left huge files in ~/builds. Delete every file bigger than 500 MB there, but keep the small artifacts.",
+      "uk": "Білд-сервер скаржиться: No space left on device. Хтось залишив величезні файли в ~/builds. Видаліть там усі файли, більші за 500 МБ, але залиште маленькі артефакти.",
+      "ru": "Билд-сервер жалуется: No space left on device. Кто-то оставил огромные файлы в ~/builds. Удалите там все файлы больше 500 МБ, но оставьте маленькие артефакты.",
+      "pl": "Serwer buildów narzeka: No space left on device. Ktoś zostawił ogromne pliki w ~/builds. Usuń tam wszystkie pliki większe niż 500 MB, ale zostaw małe artefakty."
+    },
+    "difficulty": 2,
+    "requires": "search",
+    "xp": 80,
+    "setup": {
+      "files": {
+        "~/builds/app-v1.0.tar.gz": {
+          "content": "(binary)",
+          "size": 15728640
+        },
+        "~/builds/app-v1.1.tar.gz": {
+          "content": "(binary)",
+          "size": 16777216
+        },
+        "~/builds/debug/core.dump": {
+          "content": "(binary)",
+          "size": 3221225472
+        },
+        "~/builds/cache/layer-01.img": {
+          "content": "(binary)",
+          "size": 1073741824
+        },
+        "~/builds/cache/layer-02.img": {
+          "content": "(binary)",
+          "size": 734003200
+        },
+        "~/builds/report.html": "<h1>Build report</h1>\n"
+      }
+    },
+    "checks": [
+      {
+        "type": "notExists",
+        "path": "~/builds/debug/core.dump",
+        "label": {
+          "en": "core.dump (3 GB) is deleted",
+          "uk": "core.dump (3 ГБ) видалено",
+          "ru": "core.dump (3 ГБ) удалён",
+          "pl": "core.dump (3 GB) usunięty"
+        }
+      },
+      {
+        "type": "notExists",
+        "path": "~/builds/cache/layer-01.img",
+        "label": {
+          "en": "layer-01.img (1 GB) is deleted",
+          "uk": "layer-01.img (1 ГБ) видалено",
+          "ru": "layer-01.img (1 ГБ) удалён",
+          "pl": "layer-01.img (1 GB) usunięty"
+        }
+      },
+      {
+        "type": "notExists",
+        "path": "~/builds/cache/layer-02.img",
+        "label": {
+          "en": "layer-02.img (700 MB) is deleted",
+          "uk": "layer-02.img (700 МБ) видалено",
+          "ru": "layer-02.img (700 МБ) удалён",
+          "pl": "layer-02.img (700 MB) usunięty"
+        }
+      },
+      {
+        "type": "fileExists",
+        "path": "~/builds/app-v1.1.tar.gz",
+        "label": {
+          "en": "Release archives are kept",
+          "uk": "Архіви релізів збережено",
+          "ru": "Архивы релизов сохранены",
+          "pl": "Archiwa wydań zachowane"
+        }
+      },
+      {
+        "type": "fileExists",
+        "path": "~/builds/report.html",
+        "label": {
+          "en": "The report is kept",
+          "uk": "Звіт збережено",
+          "ru": "Отчёт сохранён",
+          "pl": "Raport zachowany"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "find can both search by size and delete what it found (-delete).",
+        "uk": "find уміє і шукати за розміром, і видаляти знайдене (-delete).",
+        "ru": "find умеет и искать по размеру, и удалять найденное (-delete).",
+        "pl": "find potrafi szukać po rozmiarze i usuwać to, co znalazł (-delete)."
+      },
+      "command": "find"
+    },
+    "solution": [
+      "find ~/builds -type f -size +500M -delete"
+    ]
+  },
+  {
+    "id": "sort-downloads",
+    "title": {
+      "en": "Tidy up Downloads",
+      "uk": "Розберіть завантаження",
+      "ru": "Разберите загрузки",
+      "pl": "Posprzątaj Pobrane"
+    },
+    "story": {
+      "en": "Your Downloads folder is a mess. Put pictures (.jpg, .png) into ~/Downloads/images, documents (.pdf) into ~/Downloads/docs and music (.mp3) into ~/Downloads/music.",
+      "uk": "У папці Downloads безлад. Покладіть картинки (.jpg, .png) у ~/Downloads/images, документи (.pdf) у ~/Downloads/docs, а музику (.mp3) у ~/Downloads/music.",
+      "ru": "В папке Downloads бардак. Положите картинки (.jpg, .png) в ~/Downloads/images, документы (.pdf) в ~/Downloads/docs, а музыку (.mp3) в ~/Downloads/music.",
+      "pl": "W folderze Downloads jest bałagan. Przenieś obrazy (.jpg, .png) do ~/Downloads/images, dokumenty (.pdf) do ~/Downloads/docs, a muzykę (.mp3) do ~/Downloads/music."
+    },
+    "difficulty": 1,
+    "requires": "files",
+    "xp": 60,
+    "setup": {
+      "files": {
+        "~/Downloads/holiday.jpg": {
+          "content": "(binary)",
+          "size": 2400000
+        },
+        "~/Downloads/screenshot.png": {
+          "content": "PNG",
+          "size": 380000
+        },
+        "~/Downloads/selfie.jpg": {
+          "content": "(binary)",
+          "size": 1900000
+        },
+        "~/Downloads/invoice.pdf": {
+          "content": "%PDF-1.7",
+          "size": 120000
+        },
+        "~/Downloads/ticket.pdf": {
+          "content": "%PDF-1.7",
+          "size": 90000
+        },
+        "~/Downloads/song.mp3": {
+          "content": "(binary)",
+          "size": 7300000
+        },
+        "~/Downloads/podcast.mp3": {
+          "content": "(binary)",
+          "size": 52000000
+        }
+      }
+    },
+    "checks": [
+      {
+        "type": "countIn",
+        "path": "~/Downloads/images",
+        "eq": 3,
+        "label": {
+          "en": "3 pictures in images",
+          "uk": "3 картинки в images",
+          "ru": "3 картинки в images",
+          "pl": "3 obrazy w images"
+        }
+      },
+      {
+        "type": "countIn",
+        "path": "~/Downloads/docs",
+        "pattern": "*.pdf",
+        "eq": 2,
+        "label": {
+          "en": "2 PDFs in docs",
+          "uk": "2 PDF у docs",
+          "ru": "2 PDF в docs",
+          "pl": "2 PDF w docs"
+        }
+      },
+      {
+        "type": "countIn",
+        "path": "~/Downloads/music",
+        "pattern": "*.mp3",
+        "eq": 2,
+        "label": {
+          "en": "2 songs in music",
+          "uk": "2 треки в music",
+          "ru": "2 трека в music",
+          "pl": "2 utwory w music"
+        }
+      },
+      {
+        "type": "countIn",
+        "path": "~/Downloads",
+        "fileType": "file",
+        "eq": 0,
+        "label": {
+          "en": "No loose files left",
+          "uk": "Не лишилося розкиданих файлів",
+          "ru": "Не осталось разбросанных файлов",
+          "pl": "Nie zostały luźne pliki"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "mkdir several directories at once, then mv with *.jpg, *.png, *.pdf, *.mp3.",
+        "uk": "mkdir кількох директорій одразу, потім mv з *.jpg, *.png, *.pdf, *.mp3.",
+        "ru": "mkdir нескольких директорий сразу, затем mv с *.jpg, *.png, *.pdf, *.mp3.",
+        "pl": "mkdir kilku katalogów naraz, potem mv z *.jpg, *.png, *.pdf, *.mp3."
+      },
+      "command": "mv"
+    },
+    "solution": [
+      "cd ~/Downloads",
+      "mkdir images docs music",
+      "mv *.jpg *.png images/",
+      "mv *.pdf docs/",
+      "mv *.mp3 music/"
+    ]
+  },
+  {
+    "id": "fix-deploy",
+    "title": {
+      "en": "Fix the deploy script",
+      "uk": "Полагодьте скрипт деплою",
+      "ru": "Почините скрипт деплоя",
+      "pl": "Napraw skrypt wdrożenia"
+    },
+    "story": {
+      "en": "A colleague left a note: “just run ~/deploy.sh”. It does not start. Make it executable for you and your group (but not for others) and run it — it must create the release in ~/releases.",
+      "uk": "Колега залишив записку: «просто запусти ~/deploy.sh». Скрипт не стартує. Зробіть його виконуваним для себе і групи (але не для інших) і запустіть — він має створити реліз у ~/releases.",
+      "ru": "Коллега оставил записку: «просто запусти ~/deploy.sh». Скрипт не стартует. Сделайте его исполняемым для себя и группы (но не для остальных) и запустите — он должен создать релиз в ~/releases.",
+      "pl": "Kolega zostawił notatkę: „po prostu uruchom ~/deploy.sh”. Skrypt się nie uruchamia. Nadaj mu prawo wykonania dla siebie i grupy (ale nie dla innych) i uruchom — ma utworzyć wydanie w ~/releases."
+    },
+    "difficulty": 2,
+    "requires": "permissions",
+    "xp": 80,
+    "setup": {
+      "files": {
+        "~/deploy.sh": {
+          "content": "#!/bin/bash\n# deploy the current build\nmkdir -p ~/releases/v2.0\ncp ~/build/app.js ~/releases/v2.0/\necho \"deployed v2.0\" > ~/releases/v2.0/RELEASE\necho \"Deploy finished\"\n",
+          "mode": "640"
+        },
+        "~/build/app.js": "console.log('v2.0');\n"
+      }
+    },
+    "checks": [
+      {
+        "type": "modeIs",
+        "path": "~/deploy.sh",
+        "mode": "750",
+        "label": {
+          "en": "deploy.sh is rwxr-x---",
+          "uk": "deploy.sh має rwxr-x---",
+          "ru": "deploy.sh имеет rwxr-x---",
+          "pl": "deploy.sh ma rwxr-x---"
+        }
+      },
+      {
+        "type": "fileContains",
+        "path": "~/releases/v2.0/RELEASE",
+        "text": "deployed v2.0",
+        "label": {
+          "en": "The release is deployed",
+          "uk": "Реліз розгорнуто",
+          "ru": "Релиз развёрнут",
+          "pl": "Wydanie wdrożone"
+        }
+      },
+      {
+        "type": "usedCommand",
+        "command": "deploy.sh",
+        "success": true,
+        "label": {
+          "en": "The script itself was run",
+          "uk": "Запущено сам скрипт",
+          "ru": "Запущен сам скрипт",
+          "pl": "Uruchomiono sam skrypt"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "rwx = 7, r-x = 5, --- = 0. Then run ./deploy.sh.",
+        "uk": "rwx = 7, r-x = 5, --- = 0. Потім запустіть ./deploy.sh.",
+        "ru": "rwx = 7, r-x = 5, --- = 0. Затем запустите ./deploy.sh.",
+        "pl": "rwx = 7, r-x = 5, --- = 0. Potem uruchom ./deploy.sh."
+      },
+      "command": "chmod"
+    },
+    "solution": [
+      "chmod 750 deploy.sh",
+      "./deploy.sh"
+    ]
+  },
+  {
+    "id": "lost-config",
+    "title": {
+      "en": "The lost config",
+      "uk": "Загублений конфіг",
+      "ru": "Потерянный конфиг",
+      "pl": "Zgubiony konfig"
+    },
+    "story": {
+      "en": "The new service needs its configuration file database.yml. It is somewhere under /srv, nobody remembers where. Find it and copy it to ~/app/config/.",
+      "uk": "Новому сервісу потрібен конфігураційний файл database.yml. Він десь у /srv, ніхто не пам'ятає де. Знайдіть його і скопіюйте в ~/app/config/.",
+      "ru": "Новому сервису нужен конфигурационный файл database.yml. Он где-то в /srv, никто не помнит где. Найдите его и скопируйте в ~/app/config/.",
+      "pl": "Nowa usługa potrzebuje pliku konfiguracyjnego database.yml. Jest gdzieś w /srv, nikt nie pamięta gdzie. Znajdź go i skopiuj do ~/app/config/."
+    },
+    "difficulty": 1,
+    "requires": "search",
+    "xp": 60,
+    "setup": {
+      "files": {
+        "/srv/legacy/2019/app/settings/database.yml": {
+          "content": "host: db.internal\nport: 5432\nuser: app\n",
+          "owner": "root",
+          "mode": "644"
+        },
+        "/srv/legacy/2019/app/settings/cache.yml": {
+          "content": "ttl: 60\n",
+          "owner": "root",
+          "mode": "644"
+        },
+        "/srv/www/index.html": {
+          "content": "<h1>it works</h1>\n",
+          "owner": "root",
+          "mode": "644"
+        },
+        "~/app/config/": null
+      }
+    },
+    "checks": [
+      {
+        "type": "fileContains",
+        "path": "~/app/config/database.yml",
+        "text": "db.internal",
+        "label": {
+          "en": "database.yml is in ~/app/config",
+          "uk": "database.yml у ~/app/config",
+          "ru": "database.yml в ~/app/config",
+          "pl": "database.yml jest w ~/app/config"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "find /srv -name ... shows the path, then cp it.",
+        "uk": "find /srv -name ... покаже шлях, потім cp.",
+        "ru": "find /srv -name ... покажет путь, затем cp.",
+        "pl": "find /srv -name ... pokaże ścieżkę, potem cp."
+      },
+      "command": "find"
+    },
+    "solution": [
+      "find /srv -name database.yml",
+      "cp /srv/legacy/2019/app/settings/database.yml ~/app/config/"
+    ]
+  },
+  {
+    "id": "runaway-process",
+    "title": {
+      "en": "The runaway process",
+      "uk": "Процес-утікач",
+      "ru": "Сбежавший процесс",
+      "pl": "Zbuntowany proces"
+    },
+    "story": {
+      "en": "The server is at 100% CPU and the site is slow. Find which of YOUR processes is responsible and stop it. Do not touch the web server.",
+      "uk": "Сервер завантажений на 100% CPU, сайт гальмує. Знайдіть, який із ВАШИХ процесів винен, і зупиніть його. Вебсервер не чіпайте.",
+      "ru": "Сервер загружен на 100% CPU, сайт тормозит. Найдите, какой из ВАШИХ процессов виноват, и остановите его. Веб-сервер не трогайте.",
+      "pl": "Serwer ma 100% CPU, a strona działa wolno. Znajdź, który z TWOICH procesów jest winny, i zatrzymaj go. Nie ruszaj serwera WWW."
+    },
+    "difficulty": 2,
+    "requires": "power",
+    "xp": 70,
+    "setup": "system",
+    "checks": [
+      {
+        "type": "processGone",
+        "name": "mining.py",
+        "label": {
+          "en": "The CPU hog is stopped",
+          "uk": "Пожирача CPU зупинено",
+          "ru": "Пожиратель CPU остановлен",
+          "pl": "Pożeracz CPU zatrzymany"
+        }
+      },
+      {
+        "type": "usedCommand",
+        "command": "ps",
+        "label": {
+          "en": "You looked at the processes first",
+          "uk": "Спершу ви переглянули процеси",
+          "ru": "Сначала вы посмотрели процессы",
+          "pl": "Najpierw sprawdziłeś procesy"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "ps aux, look at %CPU, then kill the PID.",
+        "uk": "ps aux, подивіться на %CPU, потім kill PID.",
+        "ru": "ps aux, посмотрите на %CPU, затем kill PID.",
+        "pl": "ps aux, spójrz na %CPU, potem kill PID."
+      },
+      "command": "kill"
+    },
+    "solution": [
+      "ps aux",
+      "kill 2048"
+    ]
+  },
+  {
+    "id": "project-backup",
+    "title": {
+      "en": "Backup before the release",
+      "uk": "Бекап перед релізом",
+      "ru": "Бэкап перед релизом",
+      "pl": "Kopia przed wydaniem"
+    },
+    "story": {
+      "en": "Tomorrow is the big release. Make a full copy of ~/project into ~/backups/project-2026-10-31 and write the list of copied files (find output) into ~/backups/manifest.txt.",
+      "uk": "Завтра великий реліз. Зробіть повну копію ~/project у ~/backups/project-2026-10-31 і запишіть список скопійованих файлів (вивід find) у ~/backups/manifest.txt.",
+      "ru": "Завтра большой релиз. Сделайте полную копию ~/project в ~/backups/project-2026-10-31 и запишите список скопированных файлов (вывод find) в ~/backups/manifest.txt.",
+      "pl": "Jutro duże wydanie. Zrób pełną kopię ~/project w ~/backups/project-2026-10-31 i zapisz listę skopiowanych plików (wynik find) do ~/backups/manifest.txt."
+    },
+    "difficulty": 2,
+    "requires": "search",
+    "xp": 70,
+    "setup": {
+      "files": {
+        "~/project/src/main.py": "print('hello')\n",
+        "~/project/src/utils.py": "def add(a, b): return a + b\n",
+        "~/project/tests/test_utils.py": "from src.utils import add\n",
+        "~/project/README.md": "# Project\n"
+      }
+    },
+    "checks": [
+      {
+        "type": "fileExists",
+        "path": "~/backups/project-2026-10-31/src/main.py",
+        "label": {
+          "en": "The project is copied",
+          "uk": "Проєкт скопійовано",
+          "ru": "Проект скопирован",
+          "pl": "Projekt skopiowany"
+        }
+      },
+      {
+        "type": "fileExists",
+        "path": "~/backups/project-2026-10-31/tests/test_utils.py",
+        "label": {
+          "en": "Including subdirectories",
+          "uk": "Разом із піддиректоріями",
+          "ru": "Вместе с поддиректориями",
+          "pl": "Razem z podkatalogami"
+        }
+      },
+      {
+        "type": "fileContains",
+        "path": "~/backups/manifest.txt",
+        "text": "utils.py",
+        "label": {
+          "en": "manifest.txt lists the files",
+          "uk": "manifest.txt перелічує файли",
+          "ru": "manifest.txt перечисляет файлы",
+          "pl": "manifest.txt wymienia pliki"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "mkdir -p ~/backups, cp -r, then find ... > ~/backups/manifest.txt.",
+        "uk": "mkdir -p ~/backups, cp -r, потім find ... > ~/backups/manifest.txt.",
+        "ru": "mkdir -p ~/backups, cp -r, затем find ... > ~/backups/manifest.txt.",
+        "pl": "mkdir -p ~/backups, cp -r, potem find ... > ~/backups/manifest.txt."
+      },
+      "command": "cp"
+    },
+    "solution": [
+      "mkdir -p ~/backups",
+      "cp -r ~/project ~/backups/project-2026-10-31",
+      "find ~/backups/project-2026-10-31 -type f > ~/backups/manifest.txt"
+    ]
+  },
+  {
+    "id": "who-is-attacking",
+    "title": {
+      "en": "Who is hammering the site?",
+      "uk": "Хто атакує сайт?",
+      "ru": "Кто атакует сайт?",
+      "pl": "Kto atakuje stronę?"
+    },
+    "story": {
+      "en": "The site is slow and the boss suspects a bot. Analyse /var/log/nginx/access.log: find the IP address with the most requests and write just that IP into ~/block.txt.",
+      "uk": "Сайт гальмує, і бос підозрює бота. Проаналізуйте /var/log/nginx/access.log: знайдіть IP-адресу з найбільшою кількістю запитів і запишіть лише цю IP у ~/block.txt.",
+      "ru": "Сайт тормозит, и босс подозревает бота. Проанализируйте /var/log/nginx/access.log: найдите IP-адрес с наибольшим числом запросов и запишите только этот IP в ~/block.txt.",
+      "pl": "Strona działa wolno, a szef podejrzewa bota. Przeanalizuj /var/log/nginx/access.log: znajdź adres IP z największą liczbą żądań i zapisz tylko ten IP do ~/block.txt."
+    },
+    "difficulty": 3,
+    "requires": "power",
+    "xp": 120,
+    "setup": {
+      "files": {
+        "/var/log/nginx/access.log": {
+          "content": "10.0.0.7 - - [30/Oct/2026:10:00:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 4555\n172.16.0.9 - - [30/Oct/2026:10:01:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 2773\n10.0.0.5 - - [30/Oct/2026:10:02:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 4996\n172.16.0.9 - - [30/Oct/2026:10:03:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 3162\n203.0.113.42 - - [30/Oct/2026:10:04:00 +0000] \"GET /api/items HTTP/1.1\" 200 2235\n10.0.0.7 - - [30/Oct/2026:10:05:00 +0000] \"GET /login HTTP/1.1\" 200 2199\n10.0.0.5 - - [30/Oct/2026:10:06:00 +0000] \"GET / HTTP/1.1\" 200 4905\n203.0.113.42 - - [30/Oct/2026:10:07:00 +0000] \"GET /api/items HTTP/1.1\" 200 4502\n203.0.113.42 - - [30/Oct/2026:10:08:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 3013\n172.16.0.9 - - [30/Oct/2026:10:09:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 2558\n203.0.113.42 - - [30/Oct/2026:10:10:00 +0000] \"GET /admin HTTP/1.1\" 200 799\n10.0.0.5 - - [30/Oct/2026:10:11:00 +0000] \"GET / HTTP/1.1\" 200 4393\n10.0.0.5 - - [30/Oct/2026:10:12:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 1551\n192.168.1.20 - - [30/Oct/2026:10:13:00 +0000] \"GET /api/items HTTP/1.1\" 200 1445\n203.0.113.42 - - [30/Oct/2026:10:14:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 3654\n203.0.113.42 - - [30/Oct/2026:10:15:00 +0000] \"GET / HTTP/1.1\" 200 835\n192.168.1.20 - - [30/Oct/2026:10:16:00 +0000] \"GET /admin HTTP/1.1\" 200 4894\n203.0.113.42 - - [30/Oct/2026:10:17:00 +0000] \"GET /api/items HTTP/1.1\" 200 2986\n203.0.113.42 - - [30/Oct/2026:10:18:00 +0000] \"GET /api/items HTTP/1.1\" 200 4268\n203.0.113.42 - - [30/Oct/2026:10:19:00 +0000] \"GET /admin HTTP/1.1\" 200 3937\n192.168.1.20 - - [30/Oct/2026:10:20:00 +0000] \"GET / HTTP/1.1\" 200 966\n203.0.113.42 - - [30/Oct/2026:10:21:00 +0000] \"GET /api/items HTTP/1.1\" 200 4083\n203.0.113.42 - - [30/Oct/2026:10:22:00 +0000] \"GET / HTTP/1.1\" 200 697\n203.0.113.42 - - [30/Oct/2026:10:23:00 +0000] \"GET /api/items HTTP/1.1\" 200 4934\n10.0.0.5 - - [30/Oct/2026:10:24:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 2531\n203.0.113.42 - - [30/Oct/2026:10:25:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 3042\n172.16.0.9 - - [30/Oct/2026:10:26:00 +0000] \"GET / HTTP/1.1\" 200 3982\n10.0.0.5 - - [30/Oct/2026:10:27:00 +0000] \"GET /api/items HTTP/1.1\" 200 1576\n192.168.1.20 - - [30/Oct/2026:10:28:00 +0000] \"GET /admin HTTP/1.1\" 200 1159\n10.0.0.7 - - [30/Oct/2026:10:29:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 682\n203.0.113.42 - - [30/Oct/2026:10:30:00 +0000] \"GET /login HTTP/1.1\" 200 2554\n192.168.1.20 - - [30/Oct/2026:10:31:00 +0000] \"GET /login HTTP/1.1\" 200 2228\n10.0.0.5 - - [30/Oct/2026:10:32:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 3402\n203.0.113.42 - - [30/Oct/2026:10:33:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 860\n203.0.113.42 - - [30/Oct/2026:10:34:00 +0000] \"GET /login HTTP/1.1\" 200 3879\n203.0.113.42 - - [30/Oct/2026:10:35:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 4701\n192.168.1.20 - - [30/Oct/2026:10:36:00 +0000] \"GET /api/items HTTP/1.1\" 200 1321\n203.0.113.42 - - [30/Oct/2026:10:37:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 4707\n172.16.0.9 - - [30/Oct/2026:10:38:00 +0000] \"GET /api/items HTTP/1.1\" 200 3602\n172.16.0.9 - - [30/Oct/2026:10:39:00 +0000] \"GET /api/items HTTP/1.1\" 200 3316\n10.0.0.5 - - [30/Oct/2026:10:40:00 +0000] \"GET /login HTTP/1.1\" 200 1436\n10.0.0.5 - - [30/Oct/2026:10:41:00 +0000] \"GET / HTTP/1.1\" 200 1643\n10.0.0.5 - - [30/Oct/2026:10:42:00 +0000] \"GET /login HTTP/1.1\" 200 2100\n203.0.113.42 - - [30/Oct/2026:10:43:00 +0000] \"GET /login HTTP/1.1\" 200 298\n203.0.113.42 - - [30/Oct/2026:10:44:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 1693\n203.0.113.42 - - [30/Oct/2026:10:45:00 +0000] \"GET /api/items HTTP/1.1\" 200 2509\n172.16.0.9 - - [30/Oct/2026:10:46:00 +0000] \"GET / HTTP/1.1\" 200 1393\n10.0.0.5 - - [30/Oct/2026:10:47:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 4579\n203.0.113.42 - - [30/Oct/2026:10:48:00 +0000] \"GET /api/items HTTP/1.1\" 200 4839\n10.0.0.5 - - [30/Oct/2026:10:49:00 +0000] \"GET /api/items HTTP/1.1\" 200 1228\n10.0.0.5 - - [30/Oct/2026:10:50:00 +0000] \"GET /admin HTTP/1.1\" 200 642\n203.0.113.42 - - [30/Oct/2026:10:51:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 4781\n172.16.0.9 - - [30/Oct/2026:10:52:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 3460\n10.0.0.5 - - [30/Oct/2026:10:53:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 3428\n172.16.0.9 - - [30/Oct/2026:10:54:00 +0000] \"GET / HTTP/1.1\" 200 4144\n",
+          "owner": "root",
+          "mode": "644"
+        }
+      }
+    },
+    "checks": [
+      {
+        "type": "fileContains",
+        "path": "~/block.txt",
+        "regex": "^203\\.0\\.113\\.42\\s*$",
+        "label": {
+          "en": "block.txt contains exactly the attacker's IP",
+          "uk": "block.txt містить саме IP нападника",
+          "ru": "block.txt содержит ровно IP атакующего",
+          "pl": "block.txt zawiera dokładnie IP atakującego"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "awk '{print $1}' → sort → uniq -c → sort -rn → head -1, then keep only the IP.",
+        "uk": "awk '{print $1}' → sort → uniq -c → sort -rn → head -1, потім лишіть тільки IP.",
+        "ru": "awk '{print $1}' → sort → uniq -c → sort -rn → head -1, затем оставьте только IP.",
+        "pl": "awk '{print $1}' → sort → uniq -c → sort -rn → head -1, potem zostaw tylko IP."
+      },
+      "command": "awk"
+    },
+    "solution": [
+      "awk '{print $1}' /var/log/nginx/access.log | sort | uniq -c | sort -rn | head -n 1 | awk '{print $2}' > ~/block.txt"
+    ]
+  },
+  {
+    "id": "tmp-cleanup",
+    "title": {
+      "en": "Clean up the junk",
+      "uk": "Приберіть сміття",
+      "ru": "Уберите мусор",
+      "pl": "Posprzątaj śmieci"
+    },
+    "story": {
+      "en": "The editor left temporary files everywhere in ~/code: *.tmp and *.swp in every subdirectory. Remove all of them in one go without touching the source files.",
+      "uk": "Редактор залишив тимчасові файли по всьому ~/code: *.tmp і *.swp у кожній піддиректорії. Видаліть їх усі за один раз, не зачепивши вихідні файли.",
+      "ru": "Редактор оставил временные файлы по всему ~/code: *.tmp и *.swp в каждой поддиректории. Удалите их все за один раз, не задев исходные файлы.",
+      "pl": "Edytor zostawił pliki tymczasowe w całym ~/code: *.tmp i *.swp w każdym podkatalogu. Usuń je wszystkie za jednym razem, nie ruszając plików źródłowych."
+    },
+    "difficulty": 2,
+    "requires": "search",
+    "xp": 70,
+    "setup": {
+      "files": {
+        "~/code/main.c": "int main(){return 0;}\n",
+        "~/code/main.c.swp": "x",
+        "~/code/lib/list.c": "/* list */\n",
+        "~/code/lib/list.tmp": "x",
+        "~/code/lib/.list.c.swp": "x",
+        "~/code/docs/guide.md": "# guide\n",
+        "~/code/docs/draft.tmp": "x",
+        "~/code/build/out.tmp": "x"
+      }
+    },
+    "checks": [
+      {
+        "type": "notExists",
+        "path": "~/code/lib/list.tmp",
+        "label": {
+          "en": "*.tmp files are gone",
+          "uk": "Файлів *.tmp немає",
+          "ru": "Файлов *.tmp нет",
+          "pl": "Plików *.tmp nie ma"
+        }
+      },
+      {
+        "type": "notExists",
+        "path": "~/code/build/out.tmp",
+        "label": {
+          "en": "…in every directory",
+          "uk": "…у кожній директорії",
+          "ru": "…в каждой директории",
+          "pl": "…w każdym katalogu"
+        }
+      },
+      {
+        "type": "notExists",
+        "path": "~/code/lib/.list.c.swp",
+        "label": {
+          "en": "*.swp files are gone (hidden too)",
+          "uk": "Файлів *.swp немає (і прихованих)",
+          "ru": "Файлов *.swp нет (и скрытых)",
+          "pl": "Plików *.swp nie ma (także ukrytych)"
+        }
+      },
+      {
+        "type": "fileExists",
+        "path": "~/code/lib/list.c",
+        "label": {
+          "en": "Sources are intact",
+          "uk": "Вихідні файли цілі",
+          "ru": "Исходники целы",
+          "pl": "Źródła są nietknięte"
+        }
+      },
+      {
+        "type": "fileExists",
+        "path": "~/code/docs/guide.md",
+        "label": {
+          "en": "Docs are intact",
+          "uk": "Документація ціла",
+          "ru": "Документация цела",
+          "pl": "Dokumentacja nietknięta"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "find with two -name conditions joined by -o, and -delete. Use \\( \\) to group.",
+        "uk": "find з двома умовами -name через -o і -delete. Групуйте через \\( \\).",
+        "ru": "find с двумя условиями -name через -o и -delete. Группируйте через \\( \\).",
+        "pl": "find z dwoma warunkami -name połączonymi -o oraz -delete. Grupuj przez \\( \\)."
+      },
+      "command": "find"
+    },
+    "solution": [
+      "find ~/code \\( -name '*.tmp' -o -name '*.swp' \\) -delete"
+    ]
+  },
+  {
+    "id": "ssh-keys",
+    "title": {
+      "en": "Lock down the SSH keys",
+      "uk": "Захистіть SSH-ключі",
+      "ru": "Защитите SSH-ключи",
+      "pl": "Zabezpiecz klucze SSH"
+    },
+    "story": {
+      "en": "SSH refuses to use your key: “UNPROTECTED PRIVATE KEY FILE!”. Fix the permissions: ~/.ssh must be 700, the private key id_ed25519 must be 600, the public key id_ed25519.pub 644.",
+      "uk": "SSH відмовляється використовувати ваш ключ: «UNPROTECTED PRIVATE KEY FILE!». Виправте права: ~/.ssh має бути 700, приватний ключ id_ed25519 — 600, публічний id_ed25519.pub — 644.",
+      "ru": "SSH отказывается использовать ваш ключ: «UNPROTECTED PRIVATE KEY FILE!». Исправьте права: ~/.ssh должна быть 700, приватный ключ id_ed25519 — 600, публичный id_ed25519.pub — 644.",
+      "pl": "SSH odmawia użycia twojego klucza: „UNPROTECTED PRIVATE KEY FILE!”. Popraw uprawnienia: ~/.ssh ma mieć 700, klucz prywatny id_ed25519 — 600, publiczny id_ed25519.pub — 644."
+    },
+    "difficulty": 2,
+    "requires": "permissions",
+    "xp": 70,
+    "setup": {
+      "files": {
+        "~/.ssh/": {
+          "dir": true,
+          "mode": "777"
+        },
+        "~/.ssh/id_ed25519": {
+          "content": "-----BEGIN OPENSSH PRIVATE KEY-----\n(secret)\n-----END OPENSSH PRIVATE KEY-----\n",
+          "mode": "666"
+        },
+        "~/.ssh/id_ed25519.pub": {
+          "content": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5 student@trainer\n",
+          "mode": "666"
+        }
+      }
+    },
+    "checks": [
+      {
+        "type": "modeIs",
+        "path": "~/.ssh",
+        "mode": "700",
+        "label": {
+          "en": "~/.ssh is 700",
+          "uk": "~/.ssh — 700",
+          "ru": "~/.ssh — 700",
+          "pl": "~/.ssh to 700"
+        }
+      },
+      {
+        "type": "modeIs",
+        "path": "~/.ssh/id_ed25519",
+        "mode": "600",
+        "label": {
+          "en": "The private key is 600",
+          "uk": "Приватний ключ — 600",
+          "ru": "Приватный ключ — 600",
+          "pl": "Klucz prywatny to 600"
+        }
+      },
+      {
+        "type": "modeIs",
+        "path": "~/.ssh/id_ed25519.pub",
+        "mode": "644",
+        "label": {
+          "en": "The public key is 644",
+          "uk": "Публічний ключ — 644",
+          "ru": "Публичный ключ — 644",
+          "pl": "Klucz publiczny to 644"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "Three chmod commands with numeric modes.",
+        "uk": "Три команди chmod з числовими правами.",
+        "ru": "Три команды chmod с числовыми правами.",
+        "pl": "Trzy polecenia chmod z liczbowymi uprawnieniami."
+      },
+      "command": "chmod"
+    },
+    "solution": [
+      "chmod 700 ~/.ssh",
+      "chmod 600 ~/.ssh/id_ed25519",
+      "chmod 644 ~/.ssh/id_ed25519.pub"
+    ]
+  }
+]

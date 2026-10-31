@@ -1,0 +1,688 @@
+{
+  "id": "power",
+  "path": "/learn/power",
+  "icon": "zap",
+  "title": {
+    "en": "Power user",
+    "uk": "Досвідчений користувач",
+    "ru": "Продвинутый пользователь",
+    "pl": "Zaawansowany użytkownik"
+  },
+  "description": {
+    "en": "Variables, aliases, disk space, processes, scripts and text wizardry.",
+    "uk": "Змінні, аліаси, місце на диску, процеси, скрипти та магія з текстом.",
+    "ru": "Переменные, алиасы, место на диске, процессы, скрипты и магия с текстом.",
+    "pl": "Zmienne, aliasy, miejsce na dysku, procesy, skrypty i magia tekstu."
+  },
+  "lessons": [
+    {
+      "id": "power-variables",
+      "title": {
+        "en": "Variables and aliases",
+        "uk": "Змінні та аліаси",
+        "ru": "Переменные и алиасы",
+        "pl": "Zmienne i aliasy"
+      },
+      "commands": [
+        "echo",
+        "export",
+        "alias"
+      ],
+      "setup": "system",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "Variables keep values: `NAME=Linux` (no spaces around =), read them with `$NAME`: `echo \"Hi $NAME\"`. `export NAME` makes the variable visible to programs you start. Built-in ones: `$HOME`, `$USER`, `$PWD`, `$PATH`.\n\nAn alias is your own short command: `alias ll='ls -alF'`.",
+            "uk": "Змінні зберігають значення: `NAME=Linux` (без пробілів навколо =), читайте їх через `$NAME`: `echo \"Hi $NAME\"`. `export NAME` робить змінну видимою для програм, які ви запускаєте. Вбудовані: `$HOME`, `$USER`, `$PWD`, `$PATH`.\n\nАліас — ваша власна коротка команда: `alias ll='ls -alF'`.",
+            "ru": "Переменные хранят значения: `NAME=Linux` (без пробелов вокруг =), читайте их через `$NAME`: `echo \"Hi $NAME\"`. `export NAME` делает переменную видимой для запускаемых программ. Встроенные: `$HOME`, `$USER`, `$PWD`, `$PATH`.\n\nАлиас — ваша собственная короткая команда: `alias ll='ls -alF'`.",
+            "pl": "Zmienne przechowują wartości: `NAME=Linux` (bez spacji wokół =), odczytujesz je przez `$NAME`: `echo \"Hi $NAME\"`. `export NAME` udostępnia zmienną uruchamianym programom. Wbudowane: `$HOME`, `$USER`, `$PWD`, `$PATH`.\n\nAlias to twoje własne krótkie polecenie: `alias ll='ls -alF'`."
+          },
+          "demo": {
+            "commands": [
+              "echo $HOME",
+              "NAME=Linux",
+              "echo \"Hi $NAME\""
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Create the variable PROJECT with the value linux-trainer and export it.",
+            "uk": "Створіть змінну PROJECT зі значенням linux-trainer і експортуйте її.",
+            "ru": "Создайте переменную PROJECT со значением linux-trainer и экспортируйте её.",
+            "pl": "Utwórz zmienną PROJECT o wartości linux-trainer i wyeksportuj ją."
+          },
+          "checks": [
+            {
+              "type": "varEquals",
+              "name": "PROJECT",
+              "value": "linux-trainer",
+              "label": {
+                "en": "PROJECT=linux-trainer",
+                "uk": "PROJECT=linux-trainer",
+                "ru": "PROJECT=linux-trainer",
+                "pl": "PROJECT=linux-trainer"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "export",
+              "label": {
+                "en": "The variable is exported",
+                "uk": "Змінну експортовано",
+                "ru": "Переменная экспортирована",
+                "pl": "Zmienna wyeksportowana"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "export can assign and export in one go: export NAME=value.",
+              "uk": "export може присвоїти й експортувати разом: export NAME=value.",
+              "ru": "export может присвоить и экспортировать сразу: export NAME=value.",
+              "pl": "export może przypisać i wyeksportować naraz: export NAME=value."
+            },
+            "command": "export"
+          },
+          "solution": [
+            "export PROJECT=linux-trainer"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Create an alias up that runs cd .. .",
+            "uk": "Створіть аліас up, що виконує cd .. .",
+            "ru": "Создайте алиас up, который выполняет cd .. .",
+            "pl": "Utwórz alias up, który wykonuje cd .. ."
+          },
+          "checks": [
+            {
+              "type": "aliasExists",
+              "name": "up",
+              "value": "cd ..",
+              "label": {
+                "en": "alias up='cd ..'",
+                "uk": "alias up='cd ..'",
+                "ru": "alias up='cd ..'",
+                "pl": "alias up='cd ..'"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Quote the value because it contains a space.",
+              "uk": "Візьміть значення в лапки, бо в ньому є пробіл.",
+              "ru": "Возьмите значение в кавычки, потому что в нём есть пробел.",
+              "pl": "Weź wartość w cudzysłów, bo zawiera spację."
+            },
+            "command": "alias"
+          },
+          "solution": [
+            "alias up='cd ..'"
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "X=5; echo \"$X apples\" '$X apples'",
+          "options": [
+            "5 apples $X apples",
+            "5 apples 5 apples",
+            "$X apples $X apples"
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "Double quotes expand variables, single quotes keep the text exactly as written.",
+            "uk": "Подвійні лапки розгортають змінні, одинарні зберігають текст як є.",
+            "ru": "Двойные кавычки раскрывают переменные, одинарные сохраняют текст как есть.",
+            "pl": "Cudzysłów podwójny rozwija zmienne, pojedynczy zostawia tekst bez zmian."
+          }
+        }
+      ]
+    },
+    {
+      "id": "power-disk",
+      "title": {
+        "en": "Disk space",
+        "uk": "Місце на диску",
+        "ru": "Место на диске",
+        "pl": "Miejsce na dysku"
+      },
+      "commands": [
+        "df",
+        "du"
+      ],
+      "setup": "system",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "`df -h` shows every disk: size, used, free space and where it is mounted.\n\n`du -sh dir` shows how much a directory takes. `du -sh *` — every item in the current directory. Add `| sort -h` to find the biggest.",
+            "uk": "`df -h` показує кожен диск: розмір, зайняте, вільне місце і точку монтування.\n\n`du -sh dir` показує, скільки займає директорія. `du -sh *` — кожен елемент поточної директорії. Додайте `| sort -h`, щоб знайти найбільший.",
+            "ru": "`df -h` показывает каждый диск: размер, занято, свободно и точку монтирования.\n\n`du -sh dir` показывает, сколько занимает директория. `du -sh *` — каждый элемент текущей директории. Добавьте `| sort -h`, чтобы найти самый большой.",
+            "pl": "`df -h` pokazuje każdy dysk: rozmiar, zajęte i wolne miejsce oraz punkt montowania.\n\n`du -sh dir` pokazuje, ile zajmuje katalog. `du -sh *` — każdy element bieżącego katalogu. Dodaj `| sort -h`, aby znaleźć największy."
+          },
+          "demo": {
+            "commands": [
+              "df -h"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "How much free space is left on the disks? Show it in human-readable units.",
+            "uk": "Скільки вільного місця на дисках? Покажіть у зручних одиницях.",
+            "ru": "Сколько свободного места на дисках? Покажите в удобных единицах.",
+            "pl": "Ile wolnego miejsca zostało na dyskach? Pokaż w czytelnych jednostkach."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "df",
+              "flags": [
+                "-h"
+              ],
+              "label": {
+                "en": "Use df -h",
+                "uk": "Використайте df -h",
+                "ru": "Используйте df -h",
+                "pl": "Użyj df -h"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "df = disk free; -h = human readable.",
+              "uk": "df = disk free; -h = human readable.",
+              "ru": "df = disk free; -h = human readable.",
+              "pl": "df = disk free; -h = human readable."
+            },
+            "command": "df"
+          },
+          "solution": [
+            "df -h"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "What eats space in downloads? Show the size of every file there in human units.",
+            "uk": "Що з'їдає місце в downloads? Покажіть розмір кожного файлу там у зручних одиницях.",
+            "ru": "Что съедает место в downloads? Покажите размер каждого файла там в удобных единицах.",
+            "pl": "Co zjada miejsce w downloads? Pokaż rozmiar każdego pliku w czytelnych jednostkach."
+          },
+          "checks": [
+            {
+              "type": "outputContains",
+              "regex": "2\\.0G\\s+\\S*movie\\.mkv",
+              "label": {
+                "en": "The 2 GB movie is found",
+                "uk": "Знайдено фільм на 2 ГБ",
+                "ru": "Найден фильм на 2 ГБ",
+                "pl": "Znaleziono film 2 GB"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "du",
+              "flags": [
+                "-h"
+              ],
+              "label": {
+                "en": "Use du with -h",
+                "uk": "Використайте du з -h",
+                "ru": "Используйте du с -h",
+                "pl": "Użyj du z -h"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "du -sh with a * pattern inside downloads.",
+              "uk": "du -sh із шаблоном * всередині downloads.",
+              "ru": "du -sh с шаблоном * внутри downloads.",
+              "pl": "du -sh z wzorcem * wewnątrz downloads."
+            },
+            "command": "du"
+          },
+          "solution": [
+            "du -sh downloads/*"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "power-processes",
+      "title": {
+        "en": "Processes",
+        "uk": "Процеси",
+        "ru": "Процессы",
+        "pl": "Procesy"
+      },
+      "commands": [
+        "ps",
+        "kill"
+      ],
+      "setup": "system",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "Every running program is a process with a number (PID). `ps aux` lists all of them with the owner, %CPU and %MEM.\n\n`kill PID` politely asks a process to stop, `kill -9 PID` stops it by force. You may kill only your own processes (root may kill any).",
+            "uk": "Кожна запущена програма — процес із номером (PID). `ps aux` показує всі процеси з власником, %CPU і %MEM.\n\n`kill PID` чемно просить процес завершитися, `kill -9 PID` зупиняє його примусово. Завершувати можна лише свої процеси (root — будь-які).",
+            "ru": "Каждая запущенная программа — процесс с номером (PID). `ps aux` показывает все процессы с владельцем, %CPU и %MEM.\n\n`kill PID` вежливо просит процесс завершиться, `kill -9 PID` останавливает его принудительно. Завершать можно только свои процессы (root — любые).",
+            "pl": "Każdy uruchomiony program to proces z numerem (PID). `ps aux` pokazuje wszystkie procesy z właścicielem, %CPU i %MEM.\n\n`kill PID` grzecznie prosi proces o zakończenie, `kill -9 PID` zatrzymuje go siłą. Możesz zabijać tylko własne procesy (root — dowolne)."
+          },
+          "demo": {
+            "commands": [
+              "ps"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The laptop is hot and noisy. List all processes and spot the one eating the CPU.",
+            "uk": "Ноутбук гарячий і шумить. Виведіть усі процеси і знайдіть той, що з'їдає CPU.",
+            "ru": "Ноутбук горячий и шумит. Выведите все процессы и найдите тот, что ест CPU.",
+            "pl": "Laptop jest gorący i hałasuje. Wyświetl wszystkie procesy i znajdź ten, który zjada CPU."
+          },
+          "checks": [
+            {
+              "type": "outputContains",
+              "text": "mining.py",
+              "label": {
+                "en": "The suspicious process is visible",
+                "uk": "Видно підозрілий процес",
+                "ru": "Виден подозрительный процесс",
+                "pl": "Widać podejrzany proces"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "ps",
+              "label": {
+                "en": "Use ps",
+                "uk": "Використайте ps",
+                "ru": "Используйте ps",
+                "pl": "Użyj ps"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ps aux shows the processes of all users.",
+              "uk": "ps aux показує процеси всіх користувачів.",
+              "ru": "ps aux показывает процессы всех пользователей.",
+              "pl": "ps aux pokazuje procesy wszystkich użytkowników."
+            },
+            "command": "ps"
+          },
+          "solution": [
+            "ps aux"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Stop the process python3 mining.py (look up its PID with ps).",
+            "uk": "Зупиніть процес python3 mining.py (його PID дізнайтеся через ps).",
+            "ru": "Остановите процесс python3 mining.py (его PID узнайте через ps).",
+            "pl": "Zatrzymaj proces python3 mining.py (jego PID sprawdź przez ps)."
+          },
+          "checks": [
+            {
+              "type": "processGone",
+              "name": "mining.py",
+              "label": {
+                "en": "The miner is stopped",
+                "uk": "Майнер зупинено",
+                "ru": "Майнер остановлен",
+                "pl": "Koparka zatrzymana"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "kill needs the number from the PID column.",
+              "uk": "kill потребує число з колонки PID.",
+              "ru": "kill нужно число из колонки PID.",
+              "pl": "kill potrzebuje liczby z kolumny PID."
+            },
+            "command": "kill"
+          },
+          "solution": [
+            "kill 2048"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You tried kill 901 (nginx, user www-data) and got “Operation not permitted”. Why?",
+            "uk": "Ви спробували kill 901 (nginx, користувач www-data) і отримали «Operation not permitted». Чому?",
+            "ru": "Вы попробовали kill 901 (nginx, пользователь www-data) и получили «Operation not permitted». Почему?",
+            "pl": "Spróbowałeś kill 901 (nginx, użytkownik www-data) i dostałeś „Operation not permitted”. Dlaczego?"
+          },
+          "options": [
+            {
+              "en": "The process belongs to another user",
+              "uk": "Процес належить іншому користувачу",
+              "ru": "Процесс принадлежит другому пользователю",
+              "pl": "Proces należy do innego użytkownika"
+            },
+            {
+              "en": "nginx cannot be stopped at all",
+              "uk": "nginx взагалі не можна зупинити",
+              "ru": "nginx вообще нельзя остановить",
+              "pl": "nginx w ogóle nie da się zatrzymać"
+            },
+            {
+              "en": "The PID is wrong",
+              "uk": "PID неправильний",
+              "ru": "PID неправильный",
+              "pl": "PID jest błędny"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "power-scripts",
+      "title": {
+        "en": "Your first script",
+        "uk": "Ваш перший скрипт",
+        "ru": "Ваш первый скрипт",
+        "pl": "Twój pierwszy skrypt"
+      },
+      "commands": [
+        "bash",
+        "chmod",
+        "echo"
+      ],
+      "setup": "system",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "A script is a text file with commands, executed line by line. The first line `#!/bin/bash` tells the system which interpreter to use. Inside, `$1`, `$2` are the arguments.\n\nTo run it as a program: `chmod +x script.sh`, then `./script.sh`. Or without the x bit: `bash script.sh`. Write files with `nano script.sh` or with echo and redirects.",
+            "uk": "Скрипт — це текстовий файл із командами, що виконуються рядок за рядком. Перший рядок `#!/bin/bash` повідомляє системі, яким інтерпретатором його запускати. Усередині `$1`, `$2` — аргументи.\n\nЩоб запускати як програму: `chmod +x script.sh`, потім `./script.sh`. Або без біта x: `bash script.sh`. Писати файли можна через `nano script.sh` або echo з перенаправленнями.",
+            "ru": "Скрипт — это текстовый файл с командами, которые выполняются строка за строкой. Первая строка `#!/bin/bash` сообщает системе, каким интерпретатором его запускать. Внутри `$1`, `$2` — аргументы.\n\nЧтобы запускать как программу: `chmod +x script.sh`, затем `./script.sh`. Или без бита x: `bash script.sh`. Писать файлы можно через `nano script.sh` или echo с перенаправлениями.",
+            "pl": "Skrypt to plik tekstowy z poleceniami wykonywanymi linia po linii. Pierwsza linia `#!/bin/bash` mówi systemowi, którym interpreterem go uruchomić. W środku `$1`, `$2` to argumenty.\n\nAby uruchamiać go jak program: `chmod +x skrypt.sh`, potem `./skrypt.sh`. Albo bez bitu x: `bash skrypt.sh`. Pliki piszesz przez `nano skrypt.sh` lub echo z przekierowaniami."
+          },
+          "demo": {
+            "commands": [
+              "echo 'echo \"Hello, $1\"' > hi.sh",
+              "bash hi.sh World"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Create scripts/greet.sh that prints Hello from my script, make it executable and run it.",
+            "uk": "Створіть scripts/greet.sh, що виводить Hello from my script, зробіть його виконуваним і запустіть.",
+            "ru": "Создайте scripts/greet.sh, который выводит Hello from my script, сделайте его исполняемым и запустите.",
+            "pl": "Utwórz scripts/greet.sh, który wypisuje Hello from my script, nadaj mu prawo wykonania i uruchom."
+          },
+          "checks": [
+            {
+              "type": "fileContains",
+              "path": "~/scripts/greet.sh",
+              "text": "Hello from my script",
+              "label": {
+                "en": "The script contains the message",
+                "uk": "Скрипт містить повідомлення",
+                "ru": "Скрипт содержит сообщение",
+                "pl": "Skrypt zawiera komunikat"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "greet.sh",
+              "success": true,
+              "label": {
+                "en": "The script was run directly",
+                "uk": "Скрипт запущено напряму",
+                "ru": "Скрипт запущен напрямую",
+                "pl": "Skrypt uruchomiony bezpośrednio"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "echo '...' > file, then chmod +x, then ./scripts/greet.sh.",
+              "uk": "echo '...' > файл, потім chmod +x, потім ./scripts/greet.sh.",
+              "ru": "echo '...' > файл, затем chmod +x, затем ./scripts/greet.sh.",
+              "pl": "echo '...' > plik, potem chmod +x, potem ./scripts/greet.sh."
+            },
+            "command": "chmod"
+          },
+          "solution": [
+            "echo 'echo Hello from my script' > scripts/greet.sh",
+            "chmod +x scripts/greet.sh",
+            "./scripts/greet.sh"
+          ]
+        },
+        {
+          "type": "fix",
+          "goal": {
+            "en": "This command was supposed to run greet.sh from the current directory, but the shell cannot find it. Fix it.",
+            "uk": "Ця команда мала запустити greet.sh з поточної директорії, але оболонка його не знаходить. Виправте її.",
+            "ru": "Эта команда должна была запустить greet.sh из текущей директории, но оболочка его не находит. Исправьте её.",
+            "pl": "To polecenie miało uruchomić greet.sh z bieżącego katalogu, ale powłoka go nie znajduje. Popraw je."
+          },
+          "setup": {
+            "files": {
+              "~/greet.sh": {
+                "content": "#!/bin/bash\necho Hi!\n",
+                "mode": "755"
+              }
+            }
+          },
+          "prefill": "greet.sh",
+          "checks": [
+            {
+              "type": "outputContains",
+              "text": "Hi!",
+              "label": {
+                "en": "The script says Hi!",
+                "uk": "Скрипт каже Hi!",
+                "ru": "Скрипт говорит Hi!",
+                "pl": "Skrypt mówi Hi!"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "The shell looks for commands only in $PATH. A program in the current directory needs ./ in front.",
+              "uk": "Оболонка шукає команди лише в $PATH. Програмі з поточної директорії потрібен префікс ./.",
+              "ru": "Оболочка ищет команды только в $PATH. Программе из текущей директории нужен префикс ./.",
+              "pl": "Powłoka szuka poleceń tylko w $PATH. Program z bieżącego katalogu potrzebuje przedrostka ./."
+            },
+            "command": "./greet.sh"
+          },
+          "solution": [
+            "./greet.sh"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "power-text-wizardry",
+      "title": {
+        "en": "Text wizardry: cut, sed, awk",
+        "uk": "Магія тексту: cut, sed, awk",
+        "ru": "Магия текста: cut, sed, awk",
+        "pl": "Magia tekstu: cut, sed, awk"
+      },
+      "commands": [
+        "cut",
+        "sed",
+        "awk"
+      ],
+      "setup": "text-files",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "`cut -d, -f1 file.csv` — the first column of a CSV.\n\n`sed 's/old/new/g' file` — replace text (`-i` edits the file in place).\n\n`awk '{print $2}' file` — the second word of every line; `awk -F, '$2 > 90' file` — lines where column 2 is greater than 90.",
+            "uk": "`cut -d, -f1 file.csv` — перша колонка CSV.\n\n`sed 's/old/new/g' file` — заміна тексту (`-i` редагує файл на місці).\n\n`awk '{print $2}' file` — друге слово кожного рядка; `awk -F, '$2 > 90' file` — рядки, де колонка 2 більша за 90.",
+            "ru": "`cut -d, -f1 file.csv` — первая колонка CSV.\n\n`sed 's/old/new/g' file` — замена текста (`-i` редактирует файл на месте).\n\n`awk '{print $2}' file` — второе слово каждой строки; `awk -F, '$2 > 90' file` — строки, где колонка 2 больше 90.",
+            "pl": "`cut -d, -f1 plik.csv` — pierwsza kolumna CSV.\n\n`sed 's/stare/nowe/g' plik` — zamiana tekstu (`-i` edytuje plik w miejscu).\n\n`awk '{print $2}' plik` — drugie słowo każdej linii; `awk -F, '$2 > 90' plik` — linie, gdzie kolumna 2 jest większa niż 90."
+          },
+          "demo": {
+            "commands": [
+              "cut -d, -f1 data/scores.csv",
+              "awk -F, '$2 > 90' data/scores.csv"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Print only the names (first column) from data/scores.csv.",
+            "uk": "Виведіть лише імена (першу колонку) з data/scores.csv.",
+            "ru": "Выведите только имена (первую колонку) из data/scores.csv.",
+            "pl": "Wypisz tylko imiona (pierwszą kolumnę) z data/scores.csv."
+          },
+          "checks": [
+            {
+              "type": "outputContains",
+              "text": "anna\nivan\nmarek",
+              "label": {
+                "en": "Names are printed",
+                "uk": "Імена виведено",
+                "ru": "Имена выведены",
+                "pl": "Imiona wypisane"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 7,
+              "label": {
+                "en": "One name per line",
+                "uk": "По одному імені в рядку",
+                "ru": "По одному имени в строке",
+                "pl": "Jedno imię na linię"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "cut with a comma delimiter and field 1.",
+              "uk": "cut із роздільником-комою і полем 1.",
+              "ru": "cut с разделителем-запятой и полем 1.",
+              "pl": "cut z przecinkiem jako separatorem i polem 1."
+            },
+            "command": "cut"
+          },
+          "solution": [
+            "cut -d, -f1 data/scores.csv"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "In poem.txt replace every word the with a, editing the file itself.",
+            "uk": "У poem.txt замініть кожне слово the на a, редагуючи сам файл.",
+            "ru": "В poem.txt замените каждое слово the на a, редактируя сам файл.",
+            "pl": "W poem.txt zamień każde słowo the na a, edytując sam plik."
+          },
+          "checks": [
+            {
+              "type": "fileContains",
+              "path": "~/poem.txt",
+              "text": "a cursor blinks",
+              "label": {
+                "en": "the → a",
+                "uk": "the → a",
+                "ru": "the → a",
+                "pl": "the → a"
+              }
+            },
+            {
+              "type": "fileNotContains",
+              "path": "~/poem.txt",
+              "regex": "\\bthe\\b",
+              "label": {
+                "en": "No lowercase the is left",
+                "uk": "Не лишилося the з малої літери",
+                "ru": "Не осталось the с маленькой буквы",
+                "pl": "Nie zostało the z małej litery"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sed -i 's/.../.../g' changes the file in place.",
+              "uk": "sed -i 's/.../.../g' змінює файл на місці.",
+              "ru": "sed -i 's/.../.../g' меняет файл на месте.",
+              "pl": "sed -i 's/.../.../g' zmienia plik w miejscu."
+            },
+            "command": "sed"
+          },
+          "solution": [
+            "sed -i 's/\\bthe\\b/a/g' poem.txt"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Who scored more than 90? Print the lines of data/scores.csv where the score is greater than 90 (skip the header line).",
+            "uk": "Хто набрав більше 90? Виведіть рядки data/scores.csv, де оцінка більша за 90 (без рядка заголовка).",
+            "ru": "Кто набрал больше 90? Выведите строки data/scores.csv, где оценка больше 90 (без строки заголовка).",
+            "pl": "Kto zdobył więcej niż 90? Wypisz linie data/scores.csv, gdzie wynik jest większy niż 90 (bez linii nagłówka)."
+          },
+          "checks": [
+            {
+              "type": "outputContains",
+              "text": "ivan,92",
+              "label": {
+                "en": "ivan is in the list",
+                "uk": "ivan у списку",
+                "ru": "ivan в списке",
+                "pl": "ivan jest na liście"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "olena,95",
+              "label": {
+                "en": "olena is in the list",
+                "uk": "olena у списку",
+                "ru": "olena в списке",
+                "pl": "olena jest na liście"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 2,
+              "label": {
+                "en": "Nobody else",
+                "uk": "Більше нікого",
+                "ru": "Больше никого",
+                "pl": "Nikt więcej"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "awk -F, with a condition on $2; NR > 1 skips the first line (in awk the text “score” is greater than 90!).",
+              "uk": "awk -F, з умовою на $2; NR > 1 пропускає перший рядок (для awk текст «score» більший за 90!).",
+              "ru": "awk -F, с условием на $2; NR > 1 пропускает первую строку (для awk текст «score» больше 90!).",
+              "pl": "awk -F, z warunkiem na $2; NR > 1 pomija pierwszą linię (dla awk tekst „score” jest większy niż 90!)."
+            },
+            "command": "awk"
+          },
+          "solution": [
+            "awk -F, 'NR > 1 && $2 > 90' data/scores.csv"
+          ]
+        }
+      ]
+    }
+  ]
+}

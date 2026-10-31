@@ -1,0 +1,20 @@
+{
+  "files": {
+    "~/notes.txt": "Buy coffee\nCall mom\nLearn Linux\n",
+    "~/todo.txt": "1. Finish the course\n2. Practice every day\n",
+    "~/docs/readme.md": "# My documents\nThis folder keeps my docs.\n",
+    "~/docs/report.txt": "Quarterly report\nRevenue: 1200\nCosts: 800\n",
+    "~/projects/website/index.html": "<!doctype html>\n<title>Hello</title>\n<h1>Hello, world!</h1>\n",
+    "~/projects/website/style.css": "body { font-family: sans-serif; }\n",
+    "~/photos/cat.jpg": {
+      "content": "(binary)",
+      "size": 245760
+    },
+    "~/photos/beach.png": {
+      "content": "PNG",
+      "size": 1048576
+    },
+    "~/music/": null,
+    "~/.config/app.conf": "theme=dark\nlanguage=en\n"
+  }
+}

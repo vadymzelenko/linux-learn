@@ -1,0 +1,349 @@
+{
+  "id": "files",
+  "path": "/learn/files",
+  "icon": "folder",
+  "title": { "en": "Files and folders", "uk": "Файли та папки", "ru": "Файлы и папки", "pl": "Pliki i foldery" },
+  "description": {
+    "en": "Create, read, copy, move and delete files and directories.",
+    "uk": "Створюйте, читайте, копіюйте, переміщуйте та видаляйте файли й директорії.",
+    "ru": "Создавайте, читайте, копируйте, перемещайте и удаляйте файлы и директории.",
+    "pl": "Twórz, czytaj, kopiuj, przenoś i usuwaj pliki oraz katalogi."
+  },
+  "lessons": [
+    {
+      "id": "files-create",
+      "title": { "en": "Create directories and files", "uk": "Створення директорій і файлів", "ru": "Создание директорий и файлов", "pl": "Tworzenie katalogów i plików" },
+      "commands": ["mkdir", "touch"],
+      "setup": "home-basic",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "`mkdir name` (make directory) creates a directory. With `-p` it creates the whole chain at once: `mkdir -p a/b/c`.\n\n`touch file.txt` creates an empty file (or updates the date of an existing one).",
+            "uk": "`mkdir назва` (make directory) створює директорію. З `-p` створює весь ланцюжок одразу: `mkdir -p a/b/c`.\n\n`touch file.txt` створює порожній файл (або оновлює дату наявного).",
+            "ru": "`mkdir имя` (make directory) создаёт директорию. С `-p` создаёт всю цепочку сразу: `mkdir -p a/b/c`.\n\n`touch file.txt` создаёт пустой файл (или обновляет дату существующего).",
+            "pl": "`mkdir nazwa` (make directory) tworzy katalog. Z `-p` tworzy od razu cały łańcuch: `mkdir -p a/b/c`.\n\n`touch plik.txt` tworzy pusty plik (lub aktualizuje datę istniejącego)."
+          },
+          "demo": { "commands": ["mkdir games", "touch games/save.dat", "ls games"] }
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Create a directory called games in your home.", "uk": "Створіть директорію games у домашній директорії.", "ru": "Создайте директорию games в домашней директории.", "pl": "Utwórz katalog games w katalogu domowym." },
+          "checks": [
+            { "type": "dirExists", "path": "~/games", "label": { "en": "~/games exists", "uk": "~/games існує", "ru": "~/games существует", "pl": "~/games istnieje" } }
+          ],
+          "hints": {
+            "direction": { "en": "The command name means “make directory”.", "uk": "Назва команди означає «make directory».", "ru": "Название команды означает «make directory».", "pl": "Nazwa polecenia oznacza „make directory”." },
+            "command": "mkdir"
+          },
+          "solution": ["mkdir games"]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Create the nested directories work/2026/october with ONE command.",
+            "uk": "Створіть вкладені директорії work/2026/october ОДНІЄЮ командою.",
+            "ru": "Создайте вложенные директории work/2026/october ОДНОЙ командой.",
+            "pl": "Utwórz zagnieżdżone katalogi work/2026/october JEDNYM poleceniem."
+          },
+          "checks": [
+            { "type": "dirExists", "path": "~/work/2026/october", "label": { "en": "~/work/2026/october exists", "uk": "~/work/2026/october існує", "ru": "~/work/2026/october существует", "pl": "~/work/2026/october istnieje" } },
+            { "type": "usedCommand", "command": "mkdir", "flags": ["-p"], "label": { "en": "Use the “parents” flag", "uk": "Використайте прапорець «parents»", "ru": "Используйте флаг «parents»", "pl": "Użyj flagi „parents”" } }
+          ],
+          "hints": {
+            "direction": { "en": "mkdir has a flag that creates missing parent directories.", "uk": "У mkdir є прапорець, що створює відсутні батьківські директорії.", "ru": "У mkdir есть флаг, который создаёт недостающие родительские директории.", "pl": "mkdir ma flagę, która tworzy brakujące katalogi nadrzędne." },
+            "command": "mkdir"
+          },
+          "solution": ["mkdir -p work/2026/october"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Create an empty file ideas.txt inside the docs directory.", "uk": "Створіть порожній файл ideas.txt у директорії docs.", "ru": "Создайте пустой файл ideas.txt в директории docs.", "pl": "Utwórz pusty plik ideas.txt w katalogu docs." },
+          "checks": [
+            { "type": "fileExists", "path": "~/docs/ideas.txt", "label": { "en": "~/docs/ideas.txt exists", "uk": "~/docs/ideas.txt існує", "ru": "~/docs/ideas.txt существует", "pl": "~/docs/ideas.txt istnieje" } }
+          ],
+          "hints": {
+            "direction": { "en": "This command “touches” a file, creating it if needed.", "uk": "Ця команда «торкається» файлу і створює його за потреби.", "ru": "Эта команда «касается» файла и создаёт его при необходимости.", "pl": "To polecenie „dotyka” pliku i tworzy go w razie potrzeby." },
+            "command": "touch"
+          },
+          "solution": ["touch docs/ideas.txt"]
+        },
+        {
+          "type": "quiz",
+          "question": { "en": "What happens with `mkdir a/b` if a does not exist?", "uk": "Що станеться з `mkdir a/b`, якщо a не існує?", "ru": "Что будет с `mkdir a/b`, если a не существует?", "pl": "Co się stanie z `mkdir a/b`, jeśli a nie istnieje?" },
+          "options": [
+            { "en": "An error: No such file or directory", "uk": "Помилка: No such file or directory", "ru": "Ошибка: No such file or directory", "pl": "Błąd: No such file or directory" },
+            { "en": "Both a and b are created", "uk": "Будуть створені a і b", "ru": "Будут созданы a и b", "pl": "Zostaną utworzone a i b" },
+            { "en": "A file named a/b is created", "uk": "Буде створено файл a/b", "ru": "Будет создан файл a/b", "pl": "Zostanie utworzony plik a/b" }
+          ],
+          "answer": 0,
+          "explanation": { "en": "Without -p, mkdir creates only the last directory and needs the parent to exist.", "uk": "Без -p mkdir створює лише останню директорію, а батьківська має існувати.", "ru": "Без -p mkdir создаёт только последнюю директорию, а родительская должна существовать.", "pl": "Bez -p mkdir tworzy tylko ostatni katalog, a nadrzędny musi istnieć." }
+        }
+      ]
+    },
+    {
+      "id": "files-read-write",
+      "title": { "en": "Read and write text", "uk": "Читання та запис тексту", "ru": "Чтение и запись текста", "pl": "Czytanie i zapisywanie tekstu" },
+      "commands": ["cat", "echo"],
+      "setup": "home-basic",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "`cat file` prints a file. `echo text` prints text.\n\nThe `>` sign sends output into a file instead of the screen: `echo Hi > hi.txt`. Careful: `>` **overwrites** the file. `>>` **appends** to the end.",
+            "uk": "`cat файл` виводить файл. `echo текст` виводить текст.\n\nЗнак `>` відправляє вивід у файл замість екрана: `echo Hi > hi.txt`. Обережно: `>` **перезаписує** файл. `>>` **дописує** в кінець.",
+            "ru": "`cat файл` выводит файл. `echo текст` выводит текст.\n\nЗнак `>` отправляет вывод в файл вместо экрана: `echo Hi > hi.txt`. Осторожно: `>` **перезаписывает** файл. `>>` **дописывает** в конец.",
+            "pl": "`cat plik` wypisuje plik. `echo tekst` wypisuje tekst.\n\nZnak `>` wysyła wynik do pliku zamiast na ekran: `echo Hi > hi.txt`. Uwaga: `>` **nadpisuje** plik. `>>` **dopisuje** na końcu."
+          },
+          "demo": { "commands": ["echo Hello > hi.txt", "echo World >> hi.txt", "cat hi.txt"] }
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Show the contents of notes.txt.", "uk": "Покажіть вміст notes.txt.", "ru": "Покажите содержимое notes.txt.", "pl": "Pokaż zawartość notes.txt." },
+          "checks": [
+            { "type": "outputContains", "text": "Learn Linux", "label": { "en": "The notes are on the screen", "uk": "Нотатки на екрані", "ru": "Заметки на экране", "pl": "Notatki są na ekranie" } }
+          ],
+          "hints": {
+            "direction": { "en": "The command name comes from “concatenate”.", "uk": "Назва команди походить від «concatenate».", "ru": "Название команды происходит от «concatenate».", "pl": "Nazwa polecenia pochodzi od „concatenate”." },
+            "command": "cat"
+          },
+          "solution": ["cat notes.txt"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Create the file greeting.txt containing the text Hello Linux.", "uk": "Створіть файл greeting.txt з текстом Hello Linux.", "ru": "Создайте файл greeting.txt с текстом Hello Linux.", "pl": "Utwórz plik greeting.txt z tekstem Hello Linux." },
+          "checks": [
+            { "type": "fileContains", "path": "~/greeting.txt", "text": "Hello Linux", "label": { "en": "greeting.txt says Hello Linux", "uk": "У greeting.txt написано Hello Linux", "ru": "В greeting.txt написано Hello Linux", "pl": "greeting.txt zawiera Hello Linux" } }
+          ],
+          "hints": {
+            "direction": { "en": "Print the text with echo and redirect it into the file with >.", "uk": "Виведіть текст через echo і перенаправте його у файл за допомогою >.", "ru": "Выведите текст через echo и перенаправьте его в файл с помощью >.", "pl": "Wypisz tekst przez echo i przekieruj go do pliku za pomocą >." },
+            "command": "echo"
+          },
+          "solution": ["echo Hello Linux > greeting.txt"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Add the line Walk the dog to the end of notes.txt without losing what is there.", "uk": "Додайте рядок Walk the dog у кінець notes.txt, не втративши вміст.", "ru": "Добавьте строку Walk the dog в конец notes.txt, не потеряв содержимое.", "pl": "Dodaj linię Walk the dog na koniec notes.txt, nie tracąc zawartości." },
+          "checks": [
+            { "type": "fileContains", "path": "~/notes.txt", "text": "Walk the dog", "label": { "en": "The new line is in the file", "uk": "Новий рядок у файлі", "ru": "Новая строка в файле", "pl": "Nowa linia jest w pliku" } },
+            { "type": "fileContains", "path": "~/notes.txt", "text": "Buy coffee", "label": { "en": "Old notes are still there", "uk": "Старі нотатки на місці", "ru": "Старые заметки на месте", "pl": "Stare notatki nadal są" } }
+          ],
+          "hints": {
+            "direction": { "en": "Two arrows >> append instead of overwriting.", "uk": "Дві стрілки >> дописують замість перезапису.", "ru": "Две стрелки >> дописывают вместо перезаписи.", "pl": "Dwie strzałki >> dopisują zamiast nadpisywać." },
+            "command": "echo"
+          },
+          "solution": ["echo Walk the dog >> notes.txt"]
+        },
+        {
+          "type": "predict",
+          "setup": "empty-home",
+          "command": "echo one > f.txt; echo two > f.txt; cat f.txt",
+          "options": ["two", "one\ntwo", "one"],
+          "answer": 0,
+          "explanation": { "en": "The second > overwrote the file, so only “two” is left.", "uk": "Другий > перезаписав файл, тож лишилося тільки «two».", "ru": "Второй > перезаписал файл, поэтому осталось только «two».", "pl": "Drugie > nadpisało plik, więc zostało tylko „two”." }
+        }
+      ]
+    },
+    {
+      "id": "files-copy-move",
+      "title": { "en": "Copy, move, rename", "uk": "Копіювання, переміщення, перейменування", "ru": "Копирование, перемещение, переименование", "pl": "Kopiowanie, przenoszenie, zmiana nazwy" },
+      "commands": ["cp", "mv"],
+      "setup": "home-basic",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "`cp source destination` copies. To copy a directory with everything inside add `-r` (recursive).\n\n`mv source destination` moves. There is no separate rename command: renaming is moving to a new name, `mv old.txt new.txt`.\n\nIf the destination is an existing directory, the file goes inside it.",
+            "uk": "`cp джерело призначення` копіює. Щоб скопіювати директорію з усім вмістом, додайте `-r` (recursive).\n\n`mv джерело призначення` переміщує. Окремої команди перейменування немає: перейменування — це переміщення під новою назвою, `mv old.txt new.txt`.\n\nЯкщо призначення — наявна директорія, файл потрапить усередину неї.",
+            "ru": "`cp источник назначение` копирует. Чтобы скопировать директорию со всем содержимым, добавьте `-r` (recursive).\n\n`mv источник назначение` перемещает. Отдельной команды переименования нет: переименование — это перемещение под новым именем, `mv old.txt new.txt`.\n\nЕсли назначение — существующая директория, файл попадёт внутрь неё.",
+            "pl": "`cp źródło cel` kopiuje. Aby skopiować katalog z całą zawartością, dodaj `-r` (recursive).\n\n`mv źródło cel` przenosi. Nie ma osobnego polecenia zmiany nazwy: zmiana nazwy to przeniesienie pod nową nazwę, `mv old.txt new.txt`.\n\nJeśli cel jest istniejącym katalogiem, plik trafi do jego środka."
+          },
+          "demo": { "commands": ["cp notes.txt notes.bak", "mv notes.bak docs/", "ls docs"] }
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Make a copy of notes.txt called notes.bak.", "uk": "Зробіть копію notes.txt з назвою notes.bak.", "ru": "Сделайте копию notes.txt с именем notes.bak.", "pl": "Zrób kopię notes.txt o nazwie notes.bak." },
+          "checks": [
+            { "type": "fileContains", "path": "~/notes.bak", "text": "Buy coffee", "label": { "en": "notes.bak is a copy", "uk": "notes.bak — копія", "ru": "notes.bak — копия", "pl": "notes.bak to kopia" } },
+            { "type": "fileExists", "path": "~/notes.txt", "label": { "en": "The original is still there", "uk": "Оригінал на місці", "ru": "Оригинал на месте", "pl": "Oryginał nadal jest" } }
+          ],
+          "hints": {
+            "direction": { "en": "The copy command is short for “copy”: two letters.", "uk": "Команда копіювання — скорочення від «copy», дві літери.", "ru": "Команда копирования — сокращение от «copy», две буквы.", "pl": "Polecenie kopiowania to skrót od „copy”, dwie litery." },
+            "command": "cp"
+          },
+          "solution": ["cp notes.txt notes.bak"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Create the project directory and move notes.txt into it.", "uk": "Створіть директорію project і перемістіть туди notes.txt.", "ru": "Создайте директорию project и переместите туда notes.txt.", "pl": "Utwórz katalog project i przenieś do niego notes.txt." },
+          "checks": [
+            { "type": "dirExists", "path": "~/project", "label": { "en": "~/project exists", "uk": "~/project існує", "ru": "~/project существует", "pl": "~/project istnieje" } },
+            { "type": "fileExists", "path": "~/project/notes.txt", "label": { "en": "notes.txt is inside project", "uk": "notes.txt у project", "ru": "notes.txt в project", "pl": "notes.txt jest w project" } },
+            { "type": "notExists", "path": "~/notes.txt", "label": { "en": "notes.txt is gone from home", "uk": "notes.txt більше немає вдома", "ru": "notes.txt больше нет дома", "pl": "notes.txt zniknął z domu" } }
+          ],
+          "hints": {
+            "direction": { "en": "Two commands: one creates a directory, the other moves a file.", "uk": "Дві команди: одна створює директорію, друга переміщує файл.", "ru": "Две команды: одна создаёт директорию, другая перемещает файл.", "pl": "Dwa polecenia: jedno tworzy katalog, drugie przenosi plik." },
+            "command": "mv"
+          },
+          "solution": ["mkdir project", "mv notes.txt project/"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Rename todo.txt to tasks.txt.", "uk": "Перейменуйте todo.txt на tasks.txt.", "ru": "Переименуйте todo.txt в tasks.txt.", "pl": "Zmień nazwę todo.txt na tasks.txt." },
+          "checks": [
+            { "type": "fileContains", "path": "~/tasks.txt", "text": "Finish the course", "label": { "en": "tasks.txt exists", "uk": "tasks.txt існує", "ru": "tasks.txt существует", "pl": "tasks.txt istnieje" } },
+            { "type": "notExists", "path": "~/todo.txt", "label": { "en": "todo.txt is gone", "uk": "todo.txt більше немає", "ru": "todo.txt больше нет", "pl": "todo.txt zniknął" } }
+          ],
+          "hints": {
+            "direction": { "en": "Renaming is moving a file to a new name.", "uk": "Перейменування — це переміщення файлу під новою назвою.", "ru": "Переименование — это перемещение файла под новым именем.", "pl": "Zmiana nazwy to przeniesienie pliku pod nową nazwę." },
+            "command": "mv"
+          },
+          "solution": ["mv todo.txt tasks.txt"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Back up the whole projects/website directory to ~/website-backup.", "uk": "Зробіть резервну копію всієї директорії projects/website у ~/website-backup.", "ru": "Сделайте резервную копию всей директории projects/website в ~/website-backup.", "pl": "Zrób kopię zapasową całego katalogu projects/website w ~/website-backup." },
+          "checks": [
+            { "type": "fileExists", "path": "~/website-backup/index.html", "label": { "en": "The backup contains index.html", "uk": "У копії є index.html", "ru": "В копии есть index.html", "pl": "Kopia zawiera index.html" } },
+            { "type": "fileExists", "path": "~/projects/website/index.html", "label": { "en": "The original is untouched", "uk": "Оригінал не зачеплено", "ru": "Оригинал не тронут", "pl": "Oryginał jest nietknięty" } }
+          ],
+          "hints": {
+            "direction": { "en": "cp copies directories only with the recursive flag.", "uk": "cp копіює директорії лише з рекурсивним прапорцем.", "ru": "cp копирует директории только с рекурсивным флагом.", "pl": "cp kopiuje katalogi tylko z flagą rekurencyjną." },
+            "command": "cp"
+          },
+          "solution": ["cp -r projects/website website-backup"]
+        }
+      ]
+    },
+    {
+      "id": "files-delete",
+      "title": { "en": "Delete carefully", "uk": "Обережне видалення", "ru": "Аккуратное удаление", "pl": "Ostrożne usuwanie" },
+      "commands": ["rm", "rmdir"],
+      "setup": "home-basic",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "`rm file` removes a file. **There is no trash bin**: it is gone for good.\n\n`rmdir dir` removes an empty directory. `rm -r dir` removes a directory with everything inside. `-f` silences questions and errors — use it only when you are sure.\n\nHere you can break anything safely: every machine can be reset with one button.",
+            "uk": "`rm файл` видаляє файл. **Кошика немає**: файл зникає назавжди.\n\n`rmdir dir` видаляє порожню директорію. `rm -r dir` видаляє директорію з усім вмістом. `-f` прибирає запитання та помилки — використовуйте, лише коли впевнені.\n\nТут можна безпечно ламати що завгодно: кожну машину можна скинути однією кнопкою.",
+            "ru": "`rm файл` удаляет файл. **Корзины нет**: файл исчезает навсегда.\n\n`rmdir dir` удаляет пустую директорию. `rm -r dir` удаляет директорию со всем содержимым. `-f` убирает вопросы и ошибки — используйте, только когда уверены.\n\nЗдесь можно безопасно ломать что угодно: каждую машину можно сбросить одной кнопкой.",
+            "pl": "`rm plik` usuwa plik. **Nie ma kosza**: plik znika na zawsze.\n\n`rmdir dir` usuwa pusty katalog. `rm -r dir` usuwa katalog z całą zawartością. `-f` wycisza pytania i błędy — używaj tylko, gdy masz pewność.\n\nTutaj możesz bezpiecznie psuć wszystko: każdą maszynę można zresetować jednym przyciskiem."
+          }
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Delete the file todo.txt.", "uk": "Видаліть файл todo.txt.", "ru": "Удалите файл todo.txt.", "pl": "Usuń plik todo.txt." },
+          "checks": [
+            { "type": "notExists", "path": "~/todo.txt", "label": { "en": "todo.txt is gone", "uk": "todo.txt видалено", "ru": "todo.txt удалён", "pl": "todo.txt usunięty" } }
+          ],
+          "hints": {
+            "direction": { "en": "The command is short for “remove”.", "uk": "Команда — скорочення від «remove».", "ru": "Команда — сокращение от «remove».", "pl": "Polecenie to skrót od „remove”." },
+            "command": "rm"
+          },
+          "solution": ["rm todo.txt"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "The music directory is empty. Remove it.", "uk": "Директорія music порожня. Видаліть її.", "ru": "Директория music пуста. Удалите её.", "pl": "Katalog music jest pusty. Usuń go." },
+          "checks": [
+            { "type": "notExists", "path": "~/music", "label": { "en": "~/music is gone", "uk": "~/music видалено", "ru": "~/music удалена", "pl": "~/music usunięty" } }
+          ],
+          "hints": {
+            "direction": { "en": "There is a special command for empty directories: remove + dir.", "uk": "Для порожніх директорій є окрема команда: remove + dir.", "ru": "Для пустых директорий есть отдельная команда: remove + dir.", "pl": "Dla pustych katalogów jest osobne polecenie: remove + dir." },
+            "command": "rmdir"
+          },
+          "solution": ["rmdir music"]
+        },
+        {
+          "type": "fix",
+          "goal": {
+            "en": "This command fails. Fix it so that the photos directory is deleted with everything inside.",
+            "uk": "Ця команда не працює. Виправте її, щоб директорія photos видалилася з усім вмістом.",
+            "ru": "Эта команда не работает. Исправьте её, чтобы директория photos удалилась со всем содержимым.",
+            "pl": "To polecenie nie działa. Popraw je, aby katalog photos został usunięty z całą zawartością."
+          },
+          "prefill": "rm photos",
+          "checks": [
+            { "type": "notExists", "path": "~/photos", "label": { "en": "~/photos is gone", "uk": "~/photos видалено", "ru": "~/photos удалена", "pl": "~/photos usunięty" } }
+          ],
+          "hints": {
+            "direction": { "en": "rm says “Is a directory”: it needs the recursive flag.", "uk": "rm каже «Is a directory»: потрібен рекурсивний прапорець.", "ru": "rm говорит «Is a directory»: нужен рекурсивный флаг.", "pl": "rm mówi „Is a directory”: potrzebna jest flaga rekurencyjna." },
+            "command": "rm"
+          },
+          "solution": ["rm -r photos"]
+        },
+        {
+          "type": "quiz",
+          "question": { "en": "You deleted a file with rm by mistake. Where do you find it?", "uk": "Ви помилково видалили файл через rm. Де його знайти?", "ru": "Вы по ошибке удалили файл через rm. Где его найти?", "pl": "Przez pomyłkę usunąłeś plik przez rm. Gdzie go znaleźć?" },
+          "options": [
+            { "en": "Nowhere: rm does not use a trash bin", "uk": "Ніде: rm не використовує кошик", "ru": "Нигде: rm не использует корзину", "pl": "Nigdzie: rm nie używa kosza" },
+            { "en": "In ~/.Trash", "uk": "У ~/.Trash", "ru": "В ~/.Trash", "pl": "W ~/.Trash" },
+            { "en": "In /tmp", "uk": "У /tmp", "ru": "В /tmp", "pl": "W /tmp" }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "files-wildcards",
+      "title": { "en": "Wildcards", "uk": "Шаблони (wildcards)", "ru": "Шаблоны (wildcards)", "pl": "Symbole wieloznaczne" },
+      "commands": ["mv", "rm", "echo"],
+      "setup": {
+        "files": {
+          "~/report1.txt": "r1\n",
+          "~/report2.txt": "r2\n",
+          "~/report10.txt": "r10\n",
+          "~/photo1.jpg": "p1",
+          "~/photo2.jpg": "p2",
+          "~/notes.md": "# notes\n"
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "The shell expands patterns **before** running a command: `*` matches any characters, `?` exactly one character, `[abc]` one of the listed.\n\n`rm *.jpg` deletes every .jpg file. Not sure what a pattern matches? Preview it first with `echo *.jpg`.",
+            "uk": "Оболонка розгортає шаблони **до** запуску команди: `*` — будь-які символи, `?` — рівно один символ, `[abc]` — один із перелічених.\n\n`rm *.jpg` видаляє всі .jpg файли. Не впевнені, що збігається з шаблоном? Спершу перевірте: `echo *.jpg`.",
+            "ru": "Оболочка раскрывает шаблоны **до** запуска команды: `*` — любые символы, `?` — ровно один символ, `[abc]` — один из перечисленных.\n\n`rm *.jpg` удаляет все .jpg файлы. Не уверены, что подходит под шаблон? Сначала проверьте: `echo *.jpg`.",
+            "pl": "Powłoka rozwija wzorce **przed** uruchomieniem polecenia: `*` pasuje do dowolnych znaków, `?` do dokładnie jednego znaku, `[abc]` do jednego z wymienionych.\n\n`rm *.jpg` usuwa wszystkie pliki .jpg. Nie wiesz, co pasuje do wzorca? Najpierw sprawdź: `echo *.jpg`."
+          },
+          "demo": { "commands": ["echo *.txt", "echo report?.txt"] }
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Create a photos directory and move ALL .jpg files into it with a single mv.", "uk": "Створіть директорію photos і перемістіть туди ВСІ .jpg файли одним mv.", "ru": "Создайте директорию photos и переместите туда ВСЕ .jpg файлы одним mv.", "pl": "Utwórz katalog photos i przenieś do niego WSZYSTKIE pliki .jpg jednym mv." },
+          "checks": [
+            { "type": "fileExists", "path": "~/photos/photo1.jpg", "label": { "en": "photo1.jpg is in photos", "uk": "photo1.jpg у photos", "ru": "photo1.jpg в photos", "pl": "photo1.jpg jest w photos" } },
+            { "type": "fileExists", "path": "~/photos/photo2.jpg", "label": { "en": "photo2.jpg is in photos", "uk": "photo2.jpg у photos", "ru": "photo2.jpg в photos", "pl": "photo2.jpg jest w photos" } },
+            { "type": "countIn", "path": "~", "pattern": "*.jpg", "eq": 0, "label": { "en": "No .jpg left in home", "uk": "Вдома не лишилося .jpg", "ru": "Дома не осталось .jpg", "pl": "W domu nie ma już .jpg" } }
+          ],
+          "hints": {
+            "direction": { "en": "*.jpg matches every file ending with .jpg.", "uk": "*.jpg збігається з кожним файлом, що закінчується на .jpg.", "ru": "*.jpg совпадает с каждым файлом, оканчивающимся на .jpg.", "pl": "*.jpg pasuje do każdego pliku kończącego się na .jpg." },
+            "command": "mv"
+          },
+          "solution": ["mkdir photos", "mv *.jpg photos/"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Delete report1.txt and report2.txt with one pattern, but keep report10.txt.", "uk": "Видаліть report1.txt і report2.txt одним шаблоном, але залиште report10.txt.", "ru": "Удалите report1.txt и report2.txt одним шаблоном, но оставьте report10.txt.", "pl": "Usuń report1.txt i report2.txt jednym wzorcem, ale zostaw report10.txt." },
+          "checks": [
+            { "type": "notExists", "path": "~/report1.txt", "label": { "en": "report1.txt is gone", "uk": "report1.txt видалено", "ru": "report1.txt удалён", "pl": "report1.txt usunięty" } },
+            { "type": "notExists", "path": "~/report2.txt", "label": { "en": "report2.txt is gone", "uk": "report2.txt видалено", "ru": "report2.txt удалён", "pl": "report2.txt usunięty" } },
+            { "type": "fileExists", "path": "~/report10.txt", "label": { "en": "report10.txt survived", "uk": "report10.txt вцілів", "ru": "report10.txt уцелел", "pl": "report10.txt ocalał" } }
+          ],
+          "hints": {
+            "direction": { "en": "? matches exactly one character, * would also catch report10.", "uk": "? збігається рівно з одним символом, а * зачепить і report10.", "ru": "? совпадает ровно с одним символом, а * зацепит и report10.", "pl": "? pasuje do dokładnie jednego znaku, a * złapie też report10." },
+            "command": "rm"
+          },
+          "solution": ["rm report?.txt"]
+        },
+        {
+          "type": "predict",
+          "command": "echo *.md",
+          "options": ["notes.md", "*.md", "notes.md report1.txt"],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

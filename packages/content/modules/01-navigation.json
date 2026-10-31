@@ -1,0 +1,604 @@
+{
+  "id": "navigation",
+  "path": "/learn/navigation",
+  "icon": "compass",
+  "title": {
+    "en": "Navigation",
+    "uk": "Навігація",
+    "ru": "Навигация",
+    "pl": "Nawigacja"
+  },
+  "description": {
+    "en": "Where am I, what is here and how to move around the file system.",
+    "uk": "Де я, що тут є і як пересуватися файловою системою.",
+    "ru": "Где я, что здесь есть и как перемещаться по файловой системе.",
+    "pl": "Gdzie jestem, co tu jest i jak poruszać się po systemie plików."
+  },
+  "lessons": [
+    {
+      "id": "nav-where-am-i",
+      "title": { "en": "Where am I?", "uk": "Де я?", "ru": "Где я?", "pl": "Gdzie jestem?" },
+      "commands": ["pwd", "whoami"],
+      "setup": "home-basic",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "The terminal is a text conversation with the computer: you type a **command**, press Enter and the computer answers.\n\nYou are always *somewhere* in the file system. The command `pwd` (print working directory) shows where you are right now.",
+            "uk": "Термінал — це текстова розмова з комп'ютером: ви вводите **команду**, натискаєте Enter, і комп'ютер відповідає.\n\nВи завжди перебуваєте *десь* у файловій системі. Команда `pwd` (print working directory) показує, де ви зараз.",
+            "ru": "Терминал — это текстовый разговор с компьютером: вы вводите **команду**, нажимаете Enter, и компьютер отвечает.\n\nВы всегда находитесь *где-то* в файловой системе. Команда `pwd` (print working directory) показывает, где вы сейчас.",
+            "pl": "Terminal to tekstowa rozmowa z komputerem: wpisujesz **polecenie**, naciskasz Enter, a komputer odpowiada.\n\nZawsze jesteś *gdzieś* w systemie plików. Polecenie `pwd` (print working directory) pokazuje, gdzie jesteś teraz."
+          },
+          "demo": { "commands": ["pwd"] }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Find out which directory you are in.",
+            "uk": "Дізнайтеся, в якій директорії ви перебуваєте.",
+            "ru": "Узнайте, в какой директории вы находитесь.",
+            "pl": "Sprawdź, w jakim katalogu jesteś."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "pwd",
+              "label": { "en": "Run pwd", "uk": "Виконайте pwd", "ru": "Выполните pwd", "pl": "Uruchom pwd" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "The command is an abbreviation of “print working directory”.",
+              "uk": "Команда — це скорочення від «print working directory».",
+              "ru": "Команда — это сокращение от «print working directory».",
+              "pl": "Polecenie to skrót od „print working directory”."
+            },
+            "command": "pwd"
+          },
+          "solution": ["pwd"]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Linux is a multi-user system. Ask the computer who you are.",
+            "uk": "Linux — багатокористувацька система. Запитайте комп'ютер, хто ви.",
+            "ru": "Linux — многопользовательская система. Спросите компьютер, кто вы.",
+            "pl": "Linux to system wieloużytkownikowy. Zapytaj komputer, kim jesteś."
+          },
+          "checks": [
+            {
+              "type": "outputContains",
+              "text": "student",
+              "label": { "en": "Print your user name", "uk": "Виведіть ім'я користувача", "ru": "Выведите имя пользователя", "pl": "Wyświetl nazwę użytkownika" }
+            },
+            {
+              "type": "usedCommand",
+              "command": "whoami",
+              "label": { "en": "Use whoami", "uk": "Використайте whoami", "ru": "Используйте whoami", "pl": "Użyj whoami" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Read the question in English as one word: “who am I”.",
+              "uk": "Прочитайте питання англійською одним словом: «who am I».",
+              "ru": "Прочитайте вопрос по-английски одним словом: «who am I».",
+              "pl": "Przeczytaj pytanie po angielsku jako jedno słowo: „who am I”."
+            },
+            "command": "whoami"
+          },
+          "solution": ["whoami"]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You ran `pwd` and saw `/home/student`. What does it mean?",
+            "uk": "Ви виконали `pwd` і побачили `/home/student`. Що це означає?",
+            "ru": "Вы выполнили `pwd` и увидели `/home/student`. Что это значит?",
+            "pl": "Uruchomiłeś `pwd` i zobaczyłeś `/home/student`. Co to znaczy?"
+          },
+          "options": [
+            { "en": "You are in the student directory inside /home", "uk": "Ви в директорії student всередині /home", "ru": "Вы в директории student внутри /home", "pl": "Jesteś w katalogu student wewnątrz /home" },
+            { "en": "The file student was created", "uk": "Створено файл student", "ru": "Создан файл student", "pl": "Utworzono plik student" },
+            { "en": "Your password is student", "uk": "Ваш пароль — student", "ru": "Ваш пароль — student", "pl": "Twoje hasło to student" }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "This is your home directory. Every user has one: /home/<name>.",
+            "uk": "Це ваша домашня директорія. Вона є в кожного користувача: /home/<ім'я>.",
+            "ru": "Это ваша домашняя директория. Она есть у каждого пользователя: /home/<имя>.",
+            "pl": "To twój katalog domowy. Każdy użytkownik ma swój: /home/<nazwa>."
+          }
+        }
+      ]
+    },
+    {
+      "id": "nav-look-around",
+      "title": { "en": "Look around", "uk": "Роззирніться", "ru": "Осмотритесь", "pl": "Rozejrzyj się" },
+      "commands": ["ls"],
+      "setup": "home-basic",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "`ls` (list) shows what is inside a directory. Directories are blue, ordinary files are white.\n\nGive `ls` a path to look into another directory without going there: `ls docs`.",
+            "uk": "`ls` (list) показує, що лежить у директорії. Директорії сині, звичайні файли — білі.\n\nПередайте `ls` шлях, щоб зазирнути в іншу директорію, не переходячи туди: `ls docs`.",
+            "ru": "`ls` (list) показывает, что лежит в директории. Директории синие, обычные файлы — белые.\n\nПередайте `ls` путь, чтобы заглянуть в другую директорию, не переходя туда: `ls docs`.",
+            "pl": "`ls` (list) pokazuje zawartość katalogu. Katalogi są niebieskie, zwykłe pliki białe.\n\nPodaj `ls` ścieżkę, aby zajrzeć do innego katalogu bez przechodzenia do niego: `ls docs`."
+          },
+          "demo": { "commands": ["ls", "ls docs"] }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "See what is in your home directory.",
+            "uk": "Подивіться, що є у вашій домашній директорії.",
+            "ru": "Посмотрите, что есть в вашей домашней директории.",
+            "pl": "Zobacz, co jest w twoim katalogu domowym."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ls",
+              "label": { "en": "List the directory", "uk": "Перегляньте вміст директорії", "ru": "Выведите содержимое директории", "pl": "Wyświetl zawartość katalogu" }
+            },
+            {
+              "type": "outputContains",
+              "text": "notes.txt",
+              "label": { "en": "notes.txt is visible", "uk": "Видно notes.txt", "ru": "Виден notes.txt", "pl": "Widać notes.txt" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "It is a two-letter command, short for “list”.",
+              "uk": "Це команда з двох літер, скорочення від «list».",
+              "ru": "Это команда из двух букв, сокращение от «list».",
+              "pl": "To dwuliterowe polecenie, skrót od „list”."
+            },
+            "command": "ls"
+          },
+          "solution": ["ls"]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Without leaving home, look inside the projects/website directory.",
+            "uk": "Не виходячи з домашньої директорії, зазирніть у projects/website.",
+            "ru": "Не выходя из домашней директории, загляните в projects/website.",
+            "pl": "Nie wychodząc z katalogu domowego, zajrzyj do projects/website."
+          },
+          "checks": [
+            {
+              "type": "outputContains",
+              "text": "style.css",
+              "label": { "en": "The website files are listed", "uk": "Виведено файли сайту", "ru": "Выведены файлы сайта", "pl": "Wyświetlono pliki strony" }
+            },
+            {
+              "type": "cwdIs",
+              "path": "~",
+              "label": { "en": "You are still at home", "uk": "Ви досі вдома", "ru": "Вы всё ещё дома", "pl": "Nadal jesteś w domu" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Give the path to ls as an argument, after a space.",
+              "uk": "Передайте шлях у ls як аргумент, через пробіл.",
+              "ru": "Передайте путь в ls как аргумент, через пробел.",
+              "pl": "Podaj ścieżkę do ls jako argument, po spacji."
+            },
+            "command": "ls"
+          },
+          "solution": ["ls projects/website"]
+        },
+        {
+          "type": "predict",
+          "setup": { "files": { "~/report.txt": "x", "~/data/": null } },
+          "command": "ls data",
+          "options": ["", "report.txt", "ls: cannot access 'data': No such file or directory"],
+          "answer": 0,
+          "explanation": {
+            "en": "data is an empty directory, so ls prints nothing at all. Silence in Linux usually means “all good”.",
+            "uk": "data — порожня директорія, тож ls нічого не виводить. Тиша в Linux зазвичай означає «все гаразд».",
+            "ru": "data — пустая директория, поэтому ls ничего не выводит. Тишина в Linux обычно значит «всё хорошо».",
+            "pl": "data to pusty katalog, więc ls nic nie wypisuje. Cisza w Linuksie zwykle oznacza „wszystko w porządku”."
+          }
+        }
+      ]
+    },
+    {
+      "id": "nav-moving",
+      "title": { "en": "Moving around", "uk": "Пересування", "ru": "Перемещение", "pl": "Poruszanie się" },
+      "commands": ["cd"],
+      "setup": "home-basic",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "`cd` (change directory) moves you to another directory: `cd docs`.\n\n`cd ..` goes one level up, to the parent directory. `cd` without arguments always brings you home, and `cd -` returns to the previous directory.\n\nWatch the prompt: it shows where you are. `~` means your home directory.",
+            "uk": "`cd` (change directory) переносить вас в іншу директорію: `cd docs`.\n\n`cd ..` піднімає на рівень вище, у батьківську директорію. `cd` без аргументів завжди повертає додому, а `cd -` — у попередню директорію.\n\nСтежте за запрошенням: воно показує, де ви. `~` — це ваша домашня директорія.",
+            "ru": "`cd` (change directory) переносит вас в другую директорию: `cd docs`.\n\n`cd ..` поднимает на уровень выше, в родительскую директорию. `cd` без аргументов всегда возвращает домой, а `cd -` — в предыдущую директорию.\n\nСледите за приглашением: оно показывает, где вы. `~` — это ваша домашняя директория.",
+            "pl": "`cd` (change directory) przenosi cię do innego katalogu: `cd docs`.\n\n`cd ..` przechodzi poziom wyżej, do katalogu nadrzędnego. `cd` bez argumentów zawsze wraca do domu, a `cd -` do poprzedniego katalogu.\n\nObserwuj znak zachęty: pokazuje, gdzie jesteś. `~` to twój katalog domowy."
+          },
+          "demo": { "commands": ["cd docs", "pwd", "cd ..", "pwd"] }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Go into the projects/website directory.",
+            "uk": "Перейдіть у директорію projects/website.",
+            "ru": "Перейдите в директорию projects/website.",
+            "pl": "Przejdź do katalogu projects/website."
+          },
+          "checks": [
+            {
+              "type": "cwdIs",
+              "path": "~/projects/website",
+              "label": { "en": "You are in ~/projects/website", "uk": "Ви в ~/projects/website", "ru": "Вы в ~/projects/website", "pl": "Jesteś w ~/projects/website" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "You can go there in one step: the path may contain several directories separated by /.",
+              "uk": "Туди можна перейти за один крок: шлях може містити кілька директорій через /.",
+              "ru": "Туда можно перейти за один шаг: путь может содержать несколько директорий через /.",
+              "pl": "Możesz tam przejść jednym krokiem: ścieżka może zawierać kilka katalogów oddzielonych /."
+            },
+            "command": "cd"
+          },
+          "solution": ["cd projects/website"]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "You are deep in projects/website. Go up one level, to projects.",
+            "uk": "Ви глибоко в projects/website. Підніміться на рівень вище, у projects.",
+            "ru": "Вы глубоко в projects/website. Поднимитесь на уровень выше, в projects.",
+            "pl": "Jesteś głęboko w projects/website. Przejdź poziom wyżej, do projects."
+          },
+          "prepare": ["cd projects/website"],
+          "checks": [
+            {
+              "type": "cwdIs",
+              "path": "~/projects",
+              "label": { "en": "You are in ~/projects", "uk": "Ви в ~/projects", "ru": "Вы в ~/projects", "pl": "Jesteś w ~/projects" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Two dots mean “the parent directory”.",
+              "uk": "Дві крапки означають «батьківська директорія».",
+              "ru": "Две точки означают «родительская директория».",
+              "pl": "Dwie kropki oznaczają „katalog nadrzędny”."
+            },
+            "command": "cd"
+          },
+          "solution": ["cd .."]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "You wandered off to /var/log. Go back home with the shortest command.",
+            "uk": "Ви забрели в /var/log. Поверніться додому найкоротшою командою.",
+            "ru": "Вы забрели в /var/log. Вернитесь домой самой короткой командой.",
+            "pl": "Zawędrowałeś do /var/log. Wróć do domu najkrótszym poleceniem."
+          },
+          "prepare": ["cd /var/log"],
+          "checks": [
+            {
+              "type": "cwdIs",
+              "path": "~",
+              "label": { "en": "You are at home", "uk": "Ви вдома", "ru": "Вы дома", "pl": "Jesteś w domu" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "cd without any arguments takes you home.",
+              "uk": "cd без аргументів веде додому.",
+              "ru": "cd без аргументов ведёт домой.",
+              "pl": "cd bez argumentów zabiera cię do domu."
+            },
+            "command": "cd"
+          },
+          "solution": ["cd"]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You are in /home/student/docs. Where does `cd ..` take you?",
+            "uk": "Ви в /home/student/docs. Куди переведе `cd ..`?",
+            "ru": "Вы в /home/student/docs. Куда переведёт `cd ..`?",
+            "pl": "Jesteś w /home/student/docs. Dokąd zabierze cię `cd ..`?"
+          },
+          "options": [
+            { "en": "/home/student", "uk": "/home/student", "ru": "/home/student", "pl": "/home/student" },
+            { "en": "/", "uk": "/", "ru": "/", "pl": "/" },
+            { "en": "/home/student/docs/..", "uk": "/home/student/docs/..", "ru": "/home/student/docs/..", "pl": "/home/student/docs/.." }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "nav-hidden-and-details",
+      "title": { "en": "Hidden files and details", "uk": "Приховані файли і деталі", "ru": "Скрытые файлы и детали", "pl": "Ukryte pliki i szczegóły" },
+      "commands": ["ls"],
+      "setup": "home-basic",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "Files whose names start with a dot (`.bashrc`, `.config`) are **hidden**: ls does not show them. Add the flag `-a` (all) to see everything.\n\nFlag `-l` turns on the long format: permissions, owner, size and date. `-h` makes sizes human readable (4.0K, 1.2M).\n\nShort flags can be glued together: `ls -la` is the same as `ls -l -a`.",
+            "uk": "Файли, назви яких починаються з крапки (`.bashrc`, `.config`), **приховані**: ls їх не показує. Додайте прапорець `-a` (all), щоб побачити все.\n\nПрапорець `-l` вмикає довгий формат: права, власник, розмір і дата. `-h` робить розміри зручними (4.0K, 1.2M).\n\nКороткі прапорці можна склеювати: `ls -la` — те саме, що `ls -l -a`.",
+            "ru": "Файлы, имена которых начинаются с точки (`.bashrc`, `.config`), **скрыты**: ls их не показывает. Добавьте флаг `-a` (all), чтобы увидеть всё.\n\nФлаг `-l` включает длинный формат: права, владелец, размер и дата. `-h` делает размеры удобными (4.0K, 1.2M).\n\nКороткие флаги можно склеивать: `ls -la` — то же самое, что `ls -l -a`.",
+            "pl": "Pliki, których nazwy zaczynają się od kropki (`.bashrc`, `.config`), są **ukryte**: ls ich nie pokazuje. Dodaj flagę `-a` (all), aby zobaczyć wszystko.\n\nFlaga `-l` włącza format długi: uprawnienia, właściciel, rozmiar i data. `-h` sprawia, że rozmiary są czytelne (4.0K, 1.2M).\n\nKrótkie flagi można sklejać: `ls -la` to to samo co `ls -l -a`."
+          },
+          "demo": { "commands": ["ls -a", "ls -lh photos"] }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show all files in your home directory, including hidden ones.",
+            "uk": "Покажіть усі файли в домашній директорії, включно з прихованими.",
+            "ru": "Покажите все файлы в домашней директории, включая скрытые.",
+            "pl": "Pokaż wszystkie pliki w katalogu domowym, łącznie z ukrytymi."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ls",
+              "flags": ["-a"],
+              "label": { "en": "Use ls with the “all” flag", "uk": "Використайте ls з прапорцем «all»", "ru": "Используйте ls с флагом «all»", "pl": "Użyj ls z flagą „all”" }
+            },
+            {
+              "type": "outputContains",
+              "text": ".config",
+              "label": { "en": ".config is visible", "uk": "Видно .config", "ru": "Виден .config", "pl": "Widać .config" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Add a flag to ls: a dash and the first letter of “all”.",
+              "uk": "Додайте до ls прапорець: дефіс і першу літеру слова «all».",
+              "ru": "Добавьте к ls флаг: дефис и первую букву слова «all».",
+              "pl": "Dodaj do ls flagę: myślnik i pierwszą literę słowa „all”."
+            },
+            "command": "ls"
+          },
+          "solution": ["ls -a"]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "How big are the photos? Show the photos directory in long format with human-readable sizes.",
+            "uk": "Скільки важать фото? Покажіть директорію photos у довгому форматі зі зручними розмірами.",
+            "ru": "Сколько весят фото? Покажите директорию photos в длинном формате с удобными размерами.",
+            "pl": "Ile ważą zdjęcia? Pokaż katalog photos w formacie długim z czytelnymi rozmiarami."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ls",
+              "flags": ["-l", "-h"],
+              "label": { "en": "Long format with human-readable sizes", "uk": "Довгий формат зі зручними розмірами", "ru": "Длинный формат с удобными размерами", "pl": "Format długi z czytelnymi rozmiarami" }
+            },
+            {
+              "type": "outputContains",
+              "text": "beach.png",
+              "label": { "en": "The photos are listed", "uk": "Виведено фото", "ru": "Выведены фото", "pl": "Wyświetlono zdjęcia" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "You need two flags: -l for the long format and -h for human sizes. They can be glued.",
+              "uk": "Потрібні два прапорці: -l для довгого формату і -h для зручних розмірів. Їх можна склеїти.",
+              "ru": "Нужны два флага: -l для длинного формата и -h для удобных размеров. Их можно склеить.",
+              "pl": "Potrzebujesz dwóch flag: -l dla formatu długiego i -h dla czytelnych rozmiarów. Można je skleić."
+            },
+            "command": "ls"
+          },
+          "solution": ["ls -lh photos"]
+        },
+        {
+          "type": "build",
+          "goal": {
+            "en": "Build a command that shows ALL files of the docs directory in long format.",
+            "uk": "Зберіть команду, що показує ВСІ файли директорії docs у довгому форматі.",
+            "ru": "Соберите команду, которая показывает ВСЕ файлы директории docs в длинном формате.",
+            "pl": "Zbuduj polecenie, które pokazuje WSZYSTKIE pliki katalogu docs w formacie długim."
+          },
+          "answer": ["ls", "-la", "docs"],
+          "distractors": ["cd", "-r"]
+        }
+      ]
+    },
+    {
+      "id": "nav-paths",
+      "title": { "en": "Absolute and relative paths", "uk": "Абсолютні та відносні шляхи", "ru": "Абсолютные и относительные пути", "pl": "Ścieżki bezwzględne i względne" },
+      "commands": ["cd", "ls"],
+      "setup": "home-basic",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "An **absolute** path starts at the root `/` and works from anywhere: `/home/student/docs`.\n\nA **relative** path starts from where you are: `docs`, `../music`.\n\nShortcuts: `~` is your home, `.` is the current directory, `..` is the parent.",
+            "uk": "**Абсолютний** шлях починається з кореня `/` і працює звідусіль: `/home/student/docs`.\n\n**Відносний** шлях починається з того місця, де ви є: `docs`, `../music`.\n\nСкорочення: `~` — ваш дім, `.` — поточна директорія, `..` — батьківська.",
+            "ru": "**Абсолютный** путь начинается с корня `/` и работает откуда угодно: `/home/student/docs`.\n\n**Относительный** путь начинается с того места, где вы находитесь: `docs`, `../music`.\n\nСокращения: `~` — ваш дом, `.` — текущая директория, `..` — родительская.",
+            "pl": "Ścieżka **bezwzględna** zaczyna się od korzenia `/` i działa z każdego miejsca: `/home/student/docs`.\n\nŚcieżka **względna** zaczyna się tam, gdzie jesteś: `docs`, `../music`.\n\nSkróty: `~` to twój dom, `.` to bieżący katalog, `..` to katalog nadrzędny."
+          },
+          "demo": { "commands": ["cd /tmp", "ls ~/docs", "cd ~/projects", "ls ../photos"] }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "You are in /tmp. Without leaving it, list your docs directory.",
+            "uk": "Ви в /tmp. Не виходячи звідти, перегляньте свою директорію docs.",
+            "ru": "Вы в /tmp. Не уходя оттуда, выведите содержимое своей директории docs.",
+            "pl": "Jesteś w /tmp. Nie wychodząc stamtąd, wyświetl swój katalog docs."
+          },
+          "prepare": ["cd /tmp"],
+          "checks": [
+            {
+              "type": "outputContains",
+              "text": "report.txt",
+              "label": { "en": "The docs are listed", "uk": "Виведено docs", "ru": "Выведено содержимое docs", "pl": "Wyświetlono docs" }
+            },
+            {
+              "type": "cwdIs",
+              "path": "/tmp",
+              "label": { "en": "You are still in /tmp", "uk": "Ви досі в /tmp", "ru": "Вы всё ещё в /tmp", "pl": "Nadal jesteś w /tmp" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "A path starting with ~ works from anywhere.",
+              "uk": "Шлях, що починається з ~, працює звідусіль.",
+              "ru": "Путь, начинающийся с ~, работает откуда угодно.",
+              "pl": "Ścieżka zaczynająca się od ~ działa z każdego miejsca."
+            },
+            "command": "ls"
+          },
+          "solution": ["ls ~/docs"]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "You are in ~/projects/website. Go to ~/photos using a relative path.",
+            "uk": "Ви в ~/projects/website. Перейдіть у ~/photos відносним шляхом.",
+            "ru": "Вы в ~/projects/website. Перейдите в ~/photos относительным путём.",
+            "pl": "Jesteś w ~/projects/website. Przejdź do ~/photos ścieżką względną."
+          },
+          "prepare": ["cd ~/projects/website"],
+          "checks": [
+            {
+              "type": "cwdIs",
+              "path": "~/photos",
+              "label": { "en": "You are in ~/photos", "uk": "Ви в ~/photos", "ru": "Вы в ~/photos", "pl": "Jesteś w ~/photos" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Go up two levels and then into photos: each .. is one level.",
+              "uk": "Підніміться на два рівні, а потім у photos: кожне .. — один рівень.",
+              "ru": "Поднимитесь на два уровня, а потом в photos: каждое .. — один уровень.",
+              "pl": "Przejdź dwa poziomy w górę, a potem do photos: każde .. to jeden poziom."
+            },
+            "command": "cd"
+          },
+          "solution": ["cd ../../photos"]
+        },
+        {
+          "type": "predict",
+          "command": "cd /var/log; cd ../..; pwd",
+          "options": ["/", "/var", "/var/log/../.."],
+          "answer": 0,
+          "explanation": {
+            "en": "From /var/log one level up is /var, two levels up is the root /.",
+            "uk": "З /var/log на рівень вище — /var, на два рівні — корінь /.",
+            "ru": "Из /var/log на уровень выше — /var, на два уровня — корень /.",
+            "pl": "Z /var/log poziom wyżej to /var, dwa poziomy wyżej to korzeń /."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Which path is absolute?",
+            "uk": "Який шлях абсолютний?",
+            "ru": "Какой путь абсолютный?",
+            "pl": "Która ścieżka jest bezwzględna?"
+          },
+          "options": [
+            { "en": "/etc/hostname", "uk": "/etc/hostname", "ru": "/etc/hostname", "pl": "/etc/hostname" },
+            { "en": "docs/report.txt", "uk": "docs/report.txt", "ru": "docs/report.txt", "pl": "docs/report.txt" },
+            { "en": "../music", "uk": "../music", "ru": "../music", "pl": "../music" }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "nav-superpowers",
+      "title": { "en": "Terminal superpowers", "uk": "Суперсили терміналу", "ru": "Суперсилы терминала", "pl": "Supermoce terminala" },
+      "commands": ["history", "man", "clear"],
+      "setup": "home-basic",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "Pros barely type. **Tab** completes command and file names: type `ls pro` and press Tab. **↑** and **↓** walk through previous commands, `history` lists them all.\n\nForgot a flag? `man ls` opens the manual, `ls --help` prints a short summary. `clear` (or Ctrl+L) cleans the screen.",
+            "uk": "Профі майже не друкують. **Tab** доповнює назви команд і файлів: наберіть `ls pro` і натисніть Tab. **↑** і **↓** гортають попередні команди, `history` показує їх усі.\n\nЗабули прапорець? `man ls` відкриває посібник, `ls --help` — коротку довідку. `clear` (або Ctrl+L) очищає екран.",
+            "ru": "Профи почти не печатают. **Tab** дополняет имена команд и файлов: наберите `ls pro` и нажмите Tab. **↑** и **↓** листают предыдущие команды, `history` показывает их все.\n\nЗабыли флаг? `man ls` открывает руководство, `ls --help` — краткую справку. `clear` (или Ctrl+L) очищает экран.",
+            "pl": "Zawodowcy prawie nie piszą. **Tab** uzupełnia nazwy poleceń i plików: wpisz `ls pro` i naciśnij Tab. **↑** i **↓** przewijają poprzednie polecenia, `history` pokazuje je wszystkie.\n\nZapomniałeś flagi? `man ls` otwiera podręcznik, `ls --help` krótką pomoc. `clear` (lub Ctrl+L) czyści ekran."
+          },
+          "demo": { "commands": ["ls --help"] }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Open the manual page of the ls command.",
+            "uk": "Відкрийте сторінку посібника команди ls.",
+            "ru": "Откройте страницу руководства команды ls.",
+            "pl": "Otwórz stronę podręcznika polecenia ls."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "man",
+              "args": ["ls"],
+              "label": { "en": "Read man ls", "uk": "Прочитайте man ls", "ru": "Прочитайте man ls", "pl": "Przeczytaj man ls" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "The manual command is short for “manual”.",
+              "uk": "Команда посібника — скорочення від «manual».",
+              "ru": "Команда руководства — сокращение от «manual».",
+              "pl": "Polecenie podręcznika to skrót od „manual”."
+            },
+            "command": "man"
+          },
+          "solution": ["man ls"]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Run any two commands, then show the list of everything you have typed.",
+            "uk": "Виконайте будь-які дві команди, потім покажіть список усього, що ви вводили.",
+            "ru": "Выполните любые две команды, затем покажите список всего, что вы вводили.",
+            "pl": "Uruchom dowolne dwa polecenia, a następnie pokaż listę wszystkiego, co wpisałeś."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "history",
+              "label": { "en": "Show the command history", "uk": "Покажіть історію команд", "ru": "Покажите историю команд", "pl": "Pokaż historię poleceń" }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "The command has the same name as the word “history”.",
+              "uk": "Команда називається так само, як англійське слово «history».",
+              "ru": "Команда называется так же, как английское слово «history».",
+              "pl": "Polecenie nazywa się tak jak angielskie słowo „history”."
+            },
+            "command": "history"
+          },
+          "solution": ["pwd", "ls", "history"]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Which key completes a file name for you?",
+            "uk": "Яка клавіша доповнює назву файлу за вас?",
+            "ru": "Какая клавиша дополняет имя файла за вас?",
+            "pl": "Który klawisz uzupełnia za ciebie nazwę pliku?"
+          },
+          "options": [
+            { "en": "Tab", "uk": "Tab", "ru": "Tab", "pl": "Tab" },
+            { "en": "Esc", "uk": "Esc", "ru": "Esc", "pl": "Esc" },
+            { "en": "Ctrl", "uk": "Ctrl", "ru": "Ctrl", "pl": "Ctrl" }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

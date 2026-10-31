@@ -1,0 +1,104 @@
+{
+  "files": {
+    "~/downloads/movie.mkv": {
+      "content": "(binary)",
+      "size": 2147483648
+    },
+    "~/downloads/installer.deb": {
+      "content": "(binary)",
+      "size": 104857600
+    },
+    "~/downloads/photo.jpg": {
+      "content": "(binary)",
+      "size": 3145728
+    },
+    "~/documents/cv.pdf": {
+      "content": "%PDF-1.7",
+      "size": 204800
+    },
+    "~/documents/notes.txt": "notes\n",
+    "~/scripts/": null
+  },
+  "processes": [
+    {
+      "pid": 1,
+      "user": "root",
+      "command": "/sbin/init",
+      "cpu": 0.0,
+      "mem": 0.3,
+      "rss": 12400,
+      "stat": "Ss",
+      "start": "09:00"
+    },
+    {
+      "pid": 412,
+      "user": "root",
+      "command": "/usr/sbin/cron -f",
+      "cpu": 0.0,
+      "mem": 0.1,
+      "rss": 2800,
+      "stat": "Ss",
+      "start": "09:00"
+    },
+    {
+      "pid": 538,
+      "user": "root",
+      "command": "sshd: /usr/sbin/sshd -D",
+      "cpu": 0.0,
+      "mem": 0.2,
+      "rss": 8100,
+      "stat": "Ss",
+      "start": "09:00"
+    },
+    {
+      "pid": 901,
+      "user": "www-data",
+      "command": "nginx: worker process",
+      "cpu": 0.3,
+      "mem": 0.5,
+      "rss": 9800,
+      "stat": "S",
+      "start": "09:02"
+    },
+    {
+      "pid": 1200,
+      "user": "student",
+      "command": "-bash",
+      "cpu": 0.0,
+      "mem": 0.1,
+      "rss": 5200,
+      "stat": "Ss",
+      "start": "09:05"
+    },
+    {
+      "pid": 2048,
+      "user": "student",
+      "command": "python3 mining.py",
+      "cpu": 98.7,
+      "mem": 4.2,
+      "rss": 170000,
+      "stat": "R",
+      "start": "10:14"
+    },
+    {
+      "pid": 2050,
+      "user": "student",
+      "command": "sleep 1000",
+      "cpu": 0.0,
+      "mem": 0.0,
+      "rss": 900,
+      "stat": "S",
+      "start": "10:15"
+    }
+  ],
+  "users": [
+    {
+      "name": "www-data",
+      "uid": 33,
+      "groups": [
+        "www-data"
+      ],
+      "home": "/var/www"
+    }
+  ]
+}

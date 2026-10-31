@@ -1,0 +1,733 @@
+[
+  {
+    "id": "ch-count-conf",
+    "type": "task",
+    "title": {
+      "en": "Count configs",
+      "uk": "Порахуйте конфіги",
+      "ru": "Посчитайте конфиги",
+      "pl": "Policz konfigi"
+    },
+    "goal": {
+      "en": "How many entries are in /etc? Print only the number.",
+      "uk": "Скільки записів у /etc? Виведіть лише число.",
+      "ru": "Сколько записей в /etc? Выведите только число.",
+      "pl": "Ile wpisów jest w /etc? Wypisz tylko liczbę."
+    },
+    "setup": "home-basic",
+    "checks": [
+      {
+        "type": "outputContains",
+        "regex": "^\\d+$",
+        "label": {
+          "en": "A single number",
+          "uk": "Одне число",
+          "ru": "Одно число",
+          "pl": "Jedna liczba"
+        }
+      },
+      {
+        "type": "usedCommand",
+        "command": "wc",
+        "label": {
+          "en": "Counted with wc",
+          "uk": "Пораховано через wc",
+          "ru": "Посчитано через wc",
+          "pl": "Policzono przez wc"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "ls into a pipe, then wc -l.",
+        "uk": "ls у конвеєр, потім wc -l.",
+        "ru": "ls в конвейер, затем wc -l.",
+        "pl": "ls do potoku, potem wc -l."
+      },
+      "command": "wc"
+    },
+    "solution": [
+      "ls /etc | wc -l"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-newest",
+    "type": "task",
+    "title": {
+      "en": "Newest log line",
+      "uk": "Найновіший рядок логу",
+      "ru": "Самая свежая строка лога",
+      "pl": "Najnowsza linia logu"
+    },
+    "goal": {
+      "en": "Show only the very last line of logs/app.log.",
+      "uk": "Покажіть лише останній рядок logs/app.log.",
+      "ru": "Покажите только последнюю строку logs/app.log.",
+      "pl": "Pokaż tylko ostatnią linię logs/app.log."
+    },
+    "setup": "text-files",
+    "checks": [
+      {
+        "type": "outputContains",
+        "text": "Cache refreshed",
+        "label": {
+          "en": "The last line is shown",
+          "uk": "Показано останній рядок",
+          "ru": "Показана последняя строка",
+          "pl": "Pokazano ostatnią linię"
+        }
+      },
+      {
+        "type": "outputLines",
+        "eq": 1,
+        "label": {
+          "en": "Just one line",
+          "uk": "Лише один рядок",
+          "ru": "Только одна строка",
+          "pl": "Tylko jedna linia"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "tail with a number of lines.",
+        "uk": "tail з кількістю рядків.",
+        "ru": "tail с количеством строк.",
+        "pl": "tail z liczbą linii."
+      },
+      "command": "tail"
+    },
+    "solution": [
+      "tail -n 1 logs/app.log"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-mkdir-tree",
+    "type": "task",
+    "title": {
+      "en": "Project skeleton",
+      "uk": "Каркас проєкту",
+      "ru": "Каркас проекта",
+      "pl": "Szkielet projektu"
+    },
+    "goal": {
+      "en": "Create app/src, app/tests and app/docs with a single command.",
+      "uk": "Створіть app/src, app/tests і app/docs однією командою.",
+      "ru": "Создайте app/src, app/tests и app/docs одной командой.",
+      "pl": "Utwórz app/src, app/tests i app/docs jednym poleceniem."
+    },
+    "setup": "empty-home",
+    "checks": [
+      {
+        "type": "dirExists",
+        "path": "~/app/src",
+        "label": {
+          "en": "app/src",
+          "uk": "app/src",
+          "ru": "app/src",
+          "pl": "app/src"
+        }
+      },
+      {
+        "type": "dirExists",
+        "path": "~/app/tests",
+        "label": {
+          "en": "app/tests",
+          "uk": "app/tests",
+          "ru": "app/tests",
+          "pl": "app/tests"
+        }
+      },
+      {
+        "type": "dirExists",
+        "path": "~/app/docs",
+        "label": {
+          "en": "app/docs",
+          "uk": "app/docs",
+          "ru": "app/docs",
+          "pl": "app/docs"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "mkdir -p accepts several paths.",
+        "uk": "mkdir -p приймає кілька шляхів.",
+        "ru": "mkdir -p принимает несколько путей.",
+        "pl": "mkdir -p przyjmuje kilka ścieżek."
+      },
+      "command": "mkdir"
+    },
+    "solution": [
+      "mkdir -p app/src app/tests app/docs"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-hidden",
+    "type": "task",
+    "title": {
+      "en": "Secrets in plain sight",
+      "uk": "Секрети на видноті",
+      "ru": "Секреты на виду",
+      "pl": "Sekrety na widoku"
+    },
+    "goal": {
+      "en": "Somewhere in your home there is a hidden directory. List its contents.",
+      "uk": "Десь у домашній директорії є прихована директорія. Покажіть її вміст.",
+      "ru": "Где-то в домашней директории есть скрытая директория. Покажите её содержимое.",
+      "pl": "Gdzieś w katalogu domowym jest ukryty katalog. Pokaż jego zawartość."
+    },
+    "setup": "search",
+    "checks": [
+      {
+        "type": "outputContains",
+        "text": "diary.txt",
+        "label": {
+          "en": "The secret file is found",
+          "uk": "Секретний файл знайдено",
+          "ru": "Секретный файл найден",
+          "pl": "Sekretny plik znaleziony"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "ls -a reveals names starting with a dot.",
+        "uk": "ls -a показує назви з крапкою на початку.",
+        "ru": "ls -a показывает имена с точкой в начале.",
+        "pl": "ls -a pokazuje nazwy zaczynające się od kropki."
+      },
+      "command": "ls"
+    },
+    "solution": [
+      "ls -a",
+      "ls .secret"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-biggest",
+    "type": "task",
+    "title": {
+      "en": "The biggest file",
+      "uk": "Найбільший файл",
+      "ru": "Самый большой файл",
+      "pl": "Największy plik"
+    },
+    "goal": {
+      "en": "List the videos directory sorted by size, biggest first.",
+      "uk": "Виведіть директорію videos, відсортовану за розміром, найбільші першими.",
+      "ru": "Выведите директорию videos, отсортированную по размеру, самые большие первыми.",
+      "pl": "Wyświetl katalog videos posortowany według rozmiaru, największe najpierw."
+    },
+    "setup": "search",
+    "checks": [
+      {
+        "type": "usedCommand",
+        "command": "ls",
+        "flags": [
+          "-S"
+        ],
+        "label": {
+          "en": "Sort by size",
+          "uk": "Сортування за розміром",
+          "ru": "Сортировка по размеру",
+          "pl": "Sortowanie po rozmiarze"
+        }
+      },
+      {
+        "type": "outputContains",
+        "regex": "holiday\\.mp4[\\s\\S]*clip\\.mp4",
+        "label": {
+          "en": "holiday.mp4 comes first",
+          "uk": "holiday.mp4 першим",
+          "ru": "holiday.mp4 первым",
+          "pl": "holiday.mp4 pierwszy"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "ls has a flag S for size sorting.",
+        "uk": "У ls є прапорець S для сортування за розміром.",
+        "ru": "У ls есть флаг S для сортировки по размеру.",
+        "pl": "ls ma flagę S do sortowania po rozmiarze."
+      },
+      "command": "ls"
+    },
+    "solution": [
+      "ls -lS videos"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-copy-safe",
+    "type": "task",
+    "title": {
+      "en": "Safety copy",
+      "uk": "Страхувальна копія",
+      "ru": "Страховочная копия",
+      "pl": "Kopia bezpieczeństwa"
+    },
+    "goal": {
+      "en": "Copy every .txt file from your home into a new directory txt-backup.",
+      "uk": "Скопіюйте всі .txt файли з домашньої директорії в нову директорію txt-backup.",
+      "ru": "Скопируйте все .txt файлы из домашней директории в новую директорию txt-backup.",
+      "pl": "Skopiuj wszystkie pliki .txt z katalogu domowego do nowego katalogu txt-backup."
+    },
+    "setup": "home-basic",
+    "checks": [
+      {
+        "type": "fileExists",
+        "path": "~/txt-backup/notes.txt",
+        "label": {
+          "en": "notes.txt copied",
+          "uk": "notes.txt скопійовано",
+          "ru": "notes.txt скопирован",
+          "pl": "notes.txt skopiowany"
+        }
+      },
+      {
+        "type": "fileExists",
+        "path": "~/txt-backup/todo.txt",
+        "label": {
+          "en": "todo.txt copied",
+          "uk": "todo.txt скопійовано",
+          "ru": "todo.txt скопирован",
+          "pl": "todo.txt skopiowany"
+        }
+      },
+      {
+        "type": "fileExists",
+        "path": "~/notes.txt",
+        "label": {
+          "en": "Originals stay",
+          "uk": "Оригінали лишаються",
+          "ru": "Оригиналы остаются",
+          "pl": "Oryginały zostają"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "mkdir, then cp *.txt into it.",
+        "uk": "mkdir, потім cp *.txt туди.",
+        "ru": "mkdir, затем cp *.txt туда.",
+        "pl": "mkdir, potem cp *.txt do niego."
+      },
+      "command": "cp"
+    },
+    "solution": [
+      "mkdir txt-backup",
+      "cp *.txt txt-backup/"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-top-score",
+    "type": "task",
+    "title": {
+      "en": "Top score",
+      "uk": "Найкращий результат",
+      "ru": "Лучший результат",
+      "pl": "Najlepszy wynik"
+    },
+    "goal": {
+      "en": "Print the line of data/scores.csv with the highest score.",
+      "uk": "Виведіть рядок data/scores.csv з найвищим балом.",
+      "ru": "Выведите строку data/scores.csv с наивысшим баллом.",
+      "pl": "Wypisz linię data/scores.csv z najwyższym wynikiem."
+    },
+    "setup": "text-files",
+    "checks": [
+      {
+        "type": "outputContains",
+        "regex": "^olena,95$",
+        "label": {
+          "en": "olena,95",
+          "uk": "olena,95",
+          "ru": "olena,95",
+          "pl": "olena,95"
+        }
+      },
+      {
+        "type": "outputLines",
+        "eq": 1,
+        "label": {
+          "en": "Only that line",
+          "uk": "Лише цей рядок",
+          "ru": "Только эта строка",
+          "pl": "Tylko ta linia"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "sort numerically by the 2nd comma-separated field, then take one line.",
+        "uk": "Відсортуйте числами за 2-м полем через кому, потім візьміть один рядок.",
+        "ru": "Отсортируйте числами по 2-му полю через запятую, затем возьмите одну строку.",
+        "pl": "Posortuj liczbowo po 2. polu oddzielonym przecinkiem, potem weź jedną linię."
+      },
+      "command": "sort"
+    },
+    "solution": [
+      "sort -t, -k2 -rn data/scores.csv | head -n 1"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-replace",
+    "type": "task",
+    "title": {
+      "en": "Rebrand",
+      "uk": "Ребрендинг",
+      "ru": "Ребрендинг",
+      "pl": "Rebranding"
+    },
+    "goal": {
+      "en": "Replace Hello with Welcome in projects/website/index.html, editing the file.",
+      "uk": "Замініть Hello на Welcome у projects/website/index.html, редагуючи файл.",
+      "ru": "Замените Hello на Welcome в projects/website/index.html, редактируя файл.",
+      "pl": "Zamień Hello na Welcome w projects/website/index.html, edytując plik."
+    },
+    "setup": "home-basic",
+    "checks": [
+      {
+        "type": "fileContains",
+        "path": "~/projects/website/index.html",
+        "text": "Welcome, world!",
+        "label": {
+          "en": "The heading says Welcome",
+          "uk": "Заголовок каже Welcome",
+          "ru": "Заголовок говорит Welcome",
+          "pl": "Nagłówek mówi Welcome"
+        }
+      },
+      {
+        "type": "fileNotContains",
+        "path": "~/projects/website/index.html",
+        "text": "Hello",
+        "label": {
+          "en": "No Hello left",
+          "uk": "Hello більше немає",
+          "ru": "Hello больше нет",
+          "pl": "Nie ma już Hello"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "sed -i with s/old/new/g.",
+        "uk": "sed -i із s/old/new/g.",
+        "ru": "sed -i с s/old/new/g.",
+        "pl": "sed -i z s/stare/nowe/g."
+      },
+      "command": "sed"
+    },
+    "solution": [
+      "sed -i 's/Hello/Welcome/g' projects/website/index.html"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-link",
+    "type": "task",
+    "title": {
+      "en": "Quick access",
+      "uk": "Швидкий доступ",
+      "ru": "Быстрый доступ",
+      "pl": "Szybki dostęp"
+    },
+    "goal": {
+      "en": "Create a link site in your home pointing to projects/website.",
+      "uk": "Створіть у домашній директорії посилання site на projects/website.",
+      "ru": "Создайте в домашней директории ссылку site на projects/website.",
+      "pl": "Utwórz w katalogu domowym dowiązanie site do projects/website."
+    },
+    "setup": "home-basic",
+    "checks": [
+      {
+        "type": "symlinkExists",
+        "path": "~/site",
+        "label": {
+          "en": "~/site is a link",
+          "uk": "~/site — посилання",
+          "ru": "~/site — ссылка",
+          "pl": "~/site to dowiązanie"
+        }
+      },
+      {
+        "type": "fileExists",
+        "path": "~/site/index.html",
+        "label": {
+          "en": "It leads to the website",
+          "uk": "Воно веде на сайт",
+          "ru": "Она ведёт на сайт",
+          "pl": "Prowadzi do strony"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "ln -s TARGET NAME.",
+        "uk": "ln -s ЦІЛЬ НАЗВА.",
+        "ru": "ln -s ЦЕЛЬ ИМЯ.",
+        "pl": "ln -s CEL NAZWA."
+      },
+      "command": "ln"
+    },
+    "solution": [
+      "ln -s projects/website site"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-private",
+    "type": "task",
+    "title": {
+      "en": "Private notes",
+      "uk": "Приватні нотатки",
+      "ru": "Приватные заметки",
+      "pl": "Prywatne notatki"
+    },
+    "goal": {
+      "en": "Make notes.txt readable and writable only by you.",
+      "uk": "Зробіть notes.txt доступним для читання й запису лише вам.",
+      "ru": "Сделайте notes.txt доступным для чтения и записи только вам.",
+      "pl": "Spraw, aby notes.txt był do odczytu i zapisu tylko dla ciebie."
+    },
+    "setup": "home-basic",
+    "checks": [
+      {
+        "type": "modeIs",
+        "path": "~/notes.txt",
+        "mode": "600",
+        "label": {
+          "en": "rw-------",
+          "uk": "rw-------",
+          "ru": "rw-------",
+          "pl": "rw-------"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "chmod with 6 for you and 0 for the rest.",
+        "uk": "chmod з 6 для вас і 0 для решти.",
+        "ru": "chmod с 6 для вас и 0 для остальных.",
+        "pl": "chmod z 6 dla ciebie i 0 dla reszty."
+      },
+      "command": "chmod"
+    },
+    "solution": [
+      "chmod 600 notes.txt"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-find-js",
+    "type": "task",
+    "title": {
+      "en": "Count the code",
+      "uk": "Порахуйте код",
+      "ru": "Посчитайте код",
+      "pl": "Policz kod"
+    },
+    "goal": {
+      "en": "How many .js files are there in projects? Print only the number.",
+      "uk": "Скільки .js файлів у projects? Виведіть лише число.",
+      "ru": "Сколько .js файлов в projects? Выведите только число.",
+      "pl": "Ile plików .js jest w projects? Wypisz tylko liczbę."
+    },
+    "setup": "search",
+    "checks": [
+      {
+        "type": "outputContains",
+        "regex": "^3$",
+        "label": {
+          "en": "The answer is 3",
+          "uk": "Відповідь — 3",
+          "ru": "Ответ — 3",
+          "pl": "Odpowiedź to 3"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "find ... -name \"*.js\" | wc -l",
+        "uk": "find ... -name \"*.js\" | wc -l",
+        "ru": "find ... -name \"*.js\" | wc -l",
+        "pl": "find ... -name \"*.js\" | wc -l"
+      },
+      "command": "find"
+    },
+    "solution": [
+      "find projects -name \"*.js\" | wc -l"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-alias",
+    "type": "task",
+    "title": {
+      "en": "Shortcut",
+      "uk": "Скорочення",
+      "ru": "Сокращение",
+      "pl": "Skrót"
+    },
+    "goal": {
+      "en": "Create an alias c that clears the screen.",
+      "uk": "Створіть аліас c, що очищає екран.",
+      "ru": "Создайте алиас c, который очищает экран.",
+      "pl": "Utwórz alias c, który czyści ekran."
+    },
+    "setup": "empty-home",
+    "checks": [
+      {
+        "type": "aliasExists",
+        "name": "c",
+        "value": "clear",
+        "label": {
+          "en": "alias c='clear'",
+          "uk": "alias c='clear'",
+          "ru": "alias c='clear'",
+          "pl": "alias c='clear'"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "alias name=command",
+        "uk": "alias назва=команда",
+        "ru": "alias имя=команда",
+        "pl": "alias nazwa=polecenie"
+      },
+      "command": "alias"
+    },
+    "solution": [
+      "alias c=clear"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-errors-only",
+    "type": "task",
+    "title": {
+      "en": "Errors only",
+      "uk": "Лише помилки",
+      "ru": "Только ошибки",
+      "pl": "Tylko błędy"
+    },
+    "goal": {
+      "en": "Save the lines of logs/app.log that are NOT INFO into ~/problems.txt.",
+      "uk": "Збережіть рядки logs/app.log, які НЕ є INFO, у ~/problems.txt.",
+      "ru": "Сохраните строки logs/app.log, которые НЕ INFO, в ~/problems.txt.",
+      "pl": "Zapisz linie logs/app.log, które NIE są INFO, do ~/problems.txt."
+    },
+    "setup": "text-files",
+    "checks": [
+      {
+        "type": "fileContains",
+        "path": "~/problems.txt",
+        "text": "ERROR",
+        "label": {
+          "en": "Errors are there",
+          "uk": "Помилки є",
+          "ru": "Ошибки есть",
+          "pl": "Błędy są"
+        }
+      },
+      {
+        "type": "fileContains",
+        "path": "~/problems.txt",
+        "text": "WARN",
+        "label": {
+          "en": "Warnings are there",
+          "uk": "Попередження є",
+          "ru": "Предупреждения есть",
+          "pl": "Ostrzeżenia są"
+        }
+      },
+      {
+        "type": "fileNotContains",
+        "path": "~/problems.txt",
+        "text": "INFO",
+        "label": {
+          "en": "No INFO lines",
+          "uk": "Немає рядків INFO",
+          "ru": "Нет строк INFO",
+          "pl": "Brak linii INFO"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "grep -v inverts the match.",
+        "uk": "grep -v інвертує пошук.",
+        "ru": "grep -v инвертирует поиск.",
+        "pl": "grep -v odwraca dopasowanie."
+      },
+      "command": "grep"
+    },
+    "solution": [
+      "grep -v INFO logs/app.log > problems.txt"
+    ],
+    "xp": 30
+  },
+  {
+    "id": "ch-disk-hog",
+    "type": "task",
+    "title": {
+      "en": "Disk hog",
+      "uk": "Пожирач диска",
+      "ru": "Пожиратель диска",
+      "pl": "Pożeracz dysku"
+    },
+    "goal": {
+      "en": "Delete the biggest file in downloads (it is over 1 GB).",
+      "uk": "Видаліть найбільший файл у downloads (він понад 1 ГБ).",
+      "ru": "Удалите самый большой файл в downloads (он больше 1 ГБ).",
+      "pl": "Usuń największy plik w downloads (ma ponad 1 GB)."
+    },
+    "setup": "system",
+    "checks": [
+      {
+        "type": "notExists",
+        "path": "~/downloads/movie.mkv",
+        "label": {
+          "en": "The 2 GB movie is gone",
+          "uk": "Фільм на 2 ГБ видалено",
+          "ru": "Фильм на 2 ГБ удалён",
+          "pl": "Film 2 GB usunięty"
+        }
+      },
+      {
+        "type": "fileExists",
+        "path": "~/downloads/photo.jpg",
+        "label": {
+          "en": "Other files stay",
+          "uk": "Інші файли лишаються",
+          "ru": "Остальные файлы остаются",
+          "pl": "Inne pliki zostają"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "du -sh downloads/* or ls -lhS shows sizes; then rm.",
+        "uk": "du -sh downloads/* або ls -lhS покаже розміри; потім rm.",
+        "ru": "du -sh downloads/* или ls -lhS покажет размеры; затем rm.",
+        "pl": "du -sh downloads/* lub ls -lhS pokaże rozmiary; potem rm."
+      },
+      "command": "rm"
+    },
+    "solution": [
+      "ls -lhS downloads",
+      "rm downloads/movie.mkv"
+    ],
+    "xp": 30
+  }
+]

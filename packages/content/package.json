@@ -1,0 +1,24 @@
+{
+  "name": "@linux-learn/content",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Lessons, missions, fixtures and achievements as JSON + schema and linter.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "tsx scripts/lint.ts",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@linux-learn/engine": "workspace:*",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.0"
+  }
+}

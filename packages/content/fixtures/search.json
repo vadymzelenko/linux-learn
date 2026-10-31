@@ -1,0 +1,27 @@
+{
+  "files": {
+    "~/projects/api/server.js": "// TODO: add auth\nconst port = 8080;\n",
+    "~/projects/api/routes.js": "// routes\nmodule.exports = [];\n",
+    "~/projects/api/README.md": "# API\n",
+    "~/projects/web/index.html": "<h1>Web</h1>\n",
+    "~/projects/web/app.js": "// TODO: dark mode\nconsole.log('app');\n",
+    "~/projects/web/notes.txt": "remember the deadline\n",
+    "~/projects/old/backup.tar.gz": {
+      "content": "(binary)",
+      "size": 52428800
+    },
+    "~/projects/old/legacy.txt": {
+      "content": "old stuff\n",
+      "mtime": "2025-03-01T10:00:00Z"
+    },
+    "~/videos/holiday.mp4": {
+      "content": "(binary)",
+      "size": 734003200
+    },
+    "~/videos/clip.mp4": {
+      "content": "(binary)",
+      "size": 5242880
+    },
+    "~/.secret/diary.txt": "dear diary\n"
+  }
+}

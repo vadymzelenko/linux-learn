@@ -1,0 +1,309 @@
+[
+  {
+    "id": "first-command",
+    "icon": "terminal",
+    "title": {
+      "en": "Hello, terminal",
+      "uk": "Привіт, термінале",
+      "ru": "Привет, терминал",
+      "pl": "Cześć, terminalu"
+    },
+    "description": {
+      "en": "Run your first command.",
+      "uk": "Виконайте першу команду.",
+      "ru": "Выполните первую команду.",
+      "pl": "Uruchom pierwsze polecenie."
+    }
+  },
+  {
+    "id": "first-lesson",
+    "icon": "book-open",
+    "title": {
+      "en": "First steps",
+      "uk": "Перші кроки",
+      "ru": "Первые шаги",
+      "pl": "Pierwsze kroki"
+    },
+    "description": {
+      "en": "Finish your first lesson.",
+      "uk": "Пройдіть перший урок.",
+      "ru": "Пройдите первый урок.",
+      "pl": "Ukończ pierwszą lekcję."
+    }
+  },
+  {
+    "id": "first-pipe",
+    "icon": "git-merge",
+    "title": {
+      "en": "First pipe",
+      "uk": "Перший конвеєр",
+      "ru": "Первый конвейер",
+      "pl": "Pierwszy potok"
+    },
+    "description": {
+      "en": "Connect two commands with |.",
+      "uk": "З'єднайте дві команди через |.",
+      "ru": "Соедините две команды через |.",
+      "pl": "Połącz dwa polecenia przez |."
+    }
+  },
+  {
+    "id": "grep-master",
+    "icon": "search",
+    "title": {
+      "en": "grep master",
+      "uk": "Майстер grep",
+      "ru": "Мастер grep",
+      "pl": "Mistrz grep"
+    },
+    "description": {
+      "en": "Use grep 25 times.",
+      "uk": "Використайте grep 25 разів.",
+      "ru": "Используйте grep 25 раз.",
+      "pl": "Użyj grep 25 razy."
+    }
+  },
+  {
+    "id": "no-hints-module",
+    "icon": "eye-off",
+    "title": {
+      "en": "No hints needed",
+      "uk": "Без підказок",
+      "ru": "Без подсказок",
+      "pl": "Bez podpowiedzi"
+    },
+    "description": {
+      "en": "Complete a whole module without a single hint.",
+      "uk": "Пройдіть цілий модуль без жодної підказки.",
+      "ru": "Пройдите целый модуль без единой подсказки.",
+      "pl": "Ukończ cały moduł bez żadnej podpowiedzi."
+    }
+  },
+  {
+    "id": "module-done",
+    "icon": "award",
+    "title": {
+      "en": "Module complete",
+      "uk": "Модуль пройдено",
+      "ru": "Модуль пройден",
+      "pl": "Moduł ukończony"
+    },
+    "description": {
+      "en": "Finish all lessons of a module.",
+      "uk": "Пройдіть усі уроки модуля.",
+      "ru": "Пройдите все уроки модуля.",
+      "pl": "Ukończ wszystkie lekcje modułu."
+    }
+  },
+  {
+    "id": "all-modules",
+    "icon": "crown",
+    "title": {
+      "en": "Course graduate",
+      "uk": "Випускник курсу",
+      "ru": "Выпускник курса",
+      "pl": "Absolwent kursu"
+    },
+    "description": {
+      "en": "Finish every module.",
+      "uk": "Пройдіть усі модулі.",
+      "ru": "Пройдите все модули.",
+      "pl": "Ukończ wszystkie moduły."
+    }
+  },
+  {
+    "id": "first-mission",
+    "icon": "flag",
+    "title": {
+      "en": "On duty",
+      "uk": "На чергуванні",
+      "ru": "На дежурстве",
+      "pl": "Na dyżurze"
+    },
+    "description": {
+      "en": "Complete your first mission.",
+      "uk": "Виконайте першу місію.",
+      "ru": "Выполните первую миссию.",
+      "pl": "Wykonaj pierwszą misję."
+    }
+  },
+  {
+    "id": "all-missions",
+    "icon": "shield",
+    "title": {
+      "en": "Incident commander",
+      "uk": "Командир інцидентів",
+      "ru": "Командир инцидентов",
+      "pl": "Dowódca incydentów"
+    },
+    "description": {
+      "en": "Complete every mission.",
+      "uk": "Виконайте всі місії.",
+      "ru": "Выполните все миссии.",
+      "pl": "Wykonaj wszystkie misje."
+    }
+  },
+  {
+    "id": "streak-3",
+    "icon": "flame",
+    "title": {
+      "en": "On fire",
+      "uk": "У вогні",
+      "ru": "В огне",
+      "pl": "W ogniu"
+    },
+    "description": {
+      "en": "Practise 3 days in a row.",
+      "uk": "Займайтеся 3 дні поспіль.",
+      "ru": "Занимайтесь 3 дня подряд.",
+      "pl": "Ćwicz 3 dni z rzędu."
+    }
+  },
+  {
+    "id": "streak-7",
+    "icon": "calendar",
+    "title": {
+      "en": "Week of Linux",
+      "uk": "Тиждень Linux",
+      "ru": "Неделя Linux",
+      "pl": "Tydzień Linuksa"
+    },
+    "description": {
+      "en": "Practise 7 days in a row.",
+      "uk": "Займайтеся 7 днів поспіль.",
+      "ru": "Занимайтесь 7 дней подряд.",
+      "pl": "Ćwicz 7 dni z rzędu."
+    }
+  },
+  {
+    "id": "daily-challenge",
+    "icon": "target",
+    "title": {
+      "en": "Daily challenger",
+      "uk": "Щоденний виклик",
+      "ru": "Ежедневный вызов",
+      "pl": "Codzienne wyzwanie"
+    },
+    "description": {
+      "en": "Solve a daily challenge.",
+      "uk": "Розв'яжіть щоденний челендж.",
+      "ru": "Решите ежедневный челлендж.",
+      "pl": "Rozwiąż codzienne wyzwanie."
+    }
+  },
+  {
+    "id": "level-root",
+    "icon": "hash",
+    "title": {
+      "en": "I am root",
+      "uk": "Я — root",
+      "ru": "Я — root",
+      "pl": "Jestem rootem"
+    },
+    "description": {
+      "en": "Reach the root level.",
+      "uk": "Досягніть рівня root.",
+      "ru": "Достигните уровня root.",
+      "pl": "Osiągnij poziom root."
+    }
+  },
+  {
+    "id": "sudo-user",
+    "icon": "key",
+    "title": {
+      "en": "With great power",
+      "uk": "З великою силою",
+      "ru": "С великой силой",
+      "pl": "Z wielką mocą"
+    },
+    "description": {
+      "en": "Run your first command with sudo.",
+      "uk": "Виконайте першу команду через sudo.",
+      "ru": "Выполните первую команду через sudo.",
+      "pl": "Uruchom pierwsze polecenie przez sudo."
+    }
+  },
+  {
+    "id": "explorer",
+    "icon": "map",
+    "title": {
+      "en": "Explorer",
+      "uk": "Дослідник",
+      "ru": "Исследователь",
+      "pl": "Odkrywca"
+    },
+    "description": {
+      "en": "Visit 10 different directories in the sandbox.",
+      "uk": "Відвідайте 10 різних директорій у пісочниці.",
+      "ru": "Посетите 10 разных директорий в песочнице.",
+      "pl": "Odwiedź 10 różnych katalogów w piaskownicy."
+    }
+  },
+  {
+    "id": "night-owl",
+    "icon": "moon",
+    "title": {
+      "en": "Night owl",
+      "uk": "Нічна сова",
+      "ru": "Ночная сова",
+      "pl": "Nocny marek"
+    },
+    "description": {
+      "en": "Solve a task after midnight.",
+      "uk": "Розв'яжіть завдання після опівночі.",
+      "ru": "Решите задание после полуночи.",
+      "pl": "Rozwiąż zadanie po północy."
+    },
+    "secret": true
+  },
+  {
+    "id": "rm-rf-root",
+    "icon": "alert-triangle",
+    "title": {
+      "en": "Nice try",
+      "uk": "Гарна спроба",
+      "ru": "Хорошая попытка",
+      "pl": "Niezła próba"
+    },
+    "description": {
+      "en": "Try to run rm -rf /. Linux said no.",
+      "uk": "Спробуйте виконати rm -rf /. Linux сказав «ні».",
+      "ru": "Попробуйте выполнить rm -rf /. Linux сказал «нет».",
+      "pl": "Spróbuj uruchomić rm -rf /. Linux powiedział „nie”."
+    },
+    "secret": true
+  },
+  {
+    "id": "fork-bomb",
+    "icon": "bomb",
+    "title": {
+      "en": "Defused",
+      "uk": "Знешкоджено",
+      "ru": "Обезврежено",
+      "pl": "Rozbrojone"
+    },
+    "description": {
+      "en": "Type a fork bomb. The trainer survived.",
+      "uk": "Введіть fork-бомбу. Тренажер вижив.",
+      "ru": "Введите fork-бомбу. Тренажёр выжил.",
+      "pl": "Wpisz bombę fork. Trener przetrwał."
+    },
+    "secret": true
+  },
+  {
+    "id": "exam-passed",
+    "icon": "graduation-cap",
+    "title": {
+      "en": "Certified",
+      "uk": "Сертифіковано",
+      "ru": "Сертифицирован",
+      "pl": "Certyfikowany"
+    },
+    "description": {
+      "en": "Pass the final exam.",
+      "uk": "Складіть підсумковий іспит.",
+      "ru": "Сдайте итоговый экзамен.",
+      "pl": "Zdaj egzamin końcowy."
+    }
+  }
+]

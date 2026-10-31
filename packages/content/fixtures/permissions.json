@@ -1,0 +1,43 @@
+{
+  "files": {
+    "~/scripts/hello.sh": {
+      "content": "#!/bin/bash\necho \"Hello from a script!\"\n",
+      "mode": "644"
+    },
+    "~/scripts/backup.sh": {
+      "content": "#!/bin/bash\n# copies notes into backup\nmkdir -p ~/backup\ncp ~/notes.txt ~/backup/\necho \"Backup done\"\n",
+      "mode": "644"
+    },
+    "~/notes.txt": "important notes\n",
+    "~/secret.txt": {
+      "content": "my password is hunter2\n",
+      "mode": "644"
+    },
+    "~/public/": null,
+    "/srv/shared/report.txt": {
+      "content": "company report\n",
+      "owner": "root",
+      "mode": "644"
+    },
+    "/srv/shared/salaries.txt": {
+      "content": "confidential\n",
+      "owner": "root",
+      "mode": "600"
+    },
+    "/opt/": {
+      "dir": true,
+      "owner": "root",
+      "mode": "755"
+    }
+  },
+  "users": [
+    {
+      "name": "www-data",
+      "uid": 33,
+      "groups": [
+        "www-data"
+      ],
+      "home": "/var/www"
+    }
+  ]
+}

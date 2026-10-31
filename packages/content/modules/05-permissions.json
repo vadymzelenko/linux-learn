@@ -1,0 +1,253 @@
+{
+  "id": "permissions",
+  "path": "/learn/permissions",
+  "icon": "lock",
+  "title": { "en": "Permissions", "uk": "Права доступу", "ru": "Права доступа", "pl": "Uprawnienia" },
+  "description": {
+    "en": "Read rwx, change permissions, work as root with sudo, change owners and create links.",
+    "uk": "Читайте rwx, змінюйте права, працюйте як root через sudo, змінюйте власників і створюйте посилання.",
+    "ru": "Читайте rwx, меняйте права, работайте как root через sudo, меняйте владельцев и создавайте ссылки.",
+    "pl": "Czytaj rwx, zmieniaj uprawnienia, pracuj jako root przez sudo, zmieniaj właścicieli i twórz dowiązania."
+  },
+  "lessons": [
+    {
+      "id": "perm-read",
+      "title": { "en": "Reading rwx", "uk": "Читаємо rwx", "ru": "Читаем rwx", "pl": "Czytamy rwx" },
+      "commands": ["ls"],
+      "setup": "permissions",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "In `ls -l` the first column looks like `-rwxr-xr--`. The first character is the type (`-` file, `d` directory, `l` link). Then three groups of three: **owner**, **group**, **others**.\n\n`r` read, `w` write, `x` execute (for a directory: enter it). A dash means “not allowed”.",
+            "uk": "У `ls -l` перша колонка має вигляд `-rwxr-xr--`. Перший символ — тип (`-` файл, `d` директорія, `l` посилання). Далі три групи по три: **власник**, **група**, **інші**.\n\n`r` — читання, `w` — запис, `x` — виконання (для директорії — вхід у неї). Дефіс означає «заборонено».",
+            "ru": "В `ls -l` первая колонка выглядит как `-rwxr-xr--`. Первый символ — тип (`-` файл, `d` директория, `l` ссылка). Дальше три группы по три: **владелец**, **группа**, **остальные**.\n\n`r` — чтение, `w` — запись, `x` — выполнение (для директории — вход в неё). Дефис означает «запрещено».",
+            "pl": "W `ls -l` pierwsza kolumna wygląda jak `-rwxr-xr--`. Pierwszy znak to typ (`-` plik, `d` katalog, `l` dowiązanie). Potem trzy grupy po trzy: **właściciel**, **grupa**, **pozostali**.\n\n`r` odczyt, `w` zapis, `x` wykonanie (dla katalogu: wejście do niego). Myślnik oznacza „zabronione”."
+          },
+          "demo": { "commands": ["ls -l", "ls -l /srv/shared"] }
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Check the permissions of secret.txt.", "uk": "Перевірте права файлу secret.txt.", "ru": "Проверьте права файла secret.txt.", "pl": "Sprawdź uprawnienia pliku secret.txt." },
+          "checks": [
+            { "type": "outputContains", "text": "-rw-r--r--", "label": { "en": "The permission string is visible", "uk": "Видно рядок прав", "ru": "Видна строка прав", "pl": "Widać ciąg uprawnień" } }
+          ],
+          "hints": {
+            "direction": { "en": "The long format of ls shows permissions.", "uk": "Довгий формат ls показує права.", "ru": "Длинный формат ls показывает права.", "pl": "Długi format ls pokazuje uprawnienia." },
+            "command": "ls"
+          },
+          "solution": ["ls -l secret.txt"]
+        },
+        {
+          "type": "quiz",
+          "question": { "en": "A file has -rw-r--r--. Who can change it?", "uk": "Файл має -rw-r--r--. Хто може його змінювати?", "ru": "У файла -rw-r--r--. Кто может его менять?", "pl": "Plik ma -rw-r--r--. Kto może go zmieniać?" },
+          "options": [
+            { "en": "Only the owner", "uk": "Лише власник", "ru": "Только владелец", "pl": "Tylko właściciel" },
+            { "en": "Everybody", "uk": "Усі", "ru": "Все", "pl": "Wszyscy" },
+            { "en": "Nobody", "uk": "Ніхто", "ru": "Никто", "pl": "Nikt" }
+          ],
+          "answer": 0,
+          "explanation": { "en": "w appears only in the first triple (owner). Group and others can only read.", "uk": "w є лише в першій трійці (власник). Група та інші можуть лише читати.", "ru": "w есть только в первой тройке (владелец). Группа и остальные могут только читать.", "pl": "w jest tylko w pierwszej trójce (właściciel). Grupa i pozostali mogą tylko czytać." }
+        },
+        {
+          "type": "predict",
+          "command": "cat /srv/shared/salaries.txt",
+          "options": ["cat: /srv/shared/salaries.txt: Permission denied", "confidential", "cat: /srv/shared/salaries.txt: No such file or directory"],
+          "answer": 0,
+          "explanation": { "en": "salaries.txt is -rw------- and belongs to root: nobody else may read it.", "uk": "salaries.txt має -rw------- і належить root: ніхто інший не може його читати.", "ru": "У salaries.txt права -rw------- и владелец root: никто другой не может его читать.", "pl": "salaries.txt ma -rw------- i należy do roota: nikt inny nie może go czytać." }
+        }
+      ]
+    },
+    {
+      "id": "perm-chmod",
+      "title": { "en": "chmod: change permissions", "uk": "chmod: змінюємо права", "ru": "chmod: меняем права", "pl": "chmod: zmiana uprawnień" },
+      "commands": ["chmod"],
+      "setup": "permissions",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "Symbolic form: `chmod u+x file` (user may execute), `chmod go-w file` (group and others may not write), `chmod a+r file` (all may read).\n\nNumeric form: r=4, w=2, x=1, add them for owner, group, others. `chmod 755` = rwxr-xr-x, `chmod 644` = rw-r--r--, `chmod 600` = rw------- (private).",
+            "uk": "Символьна форма: `chmod u+x file` (власник може виконувати), `chmod go-w file` (група та інші не можуть писати), `chmod a+r file` (усі можуть читати).\n\nЧислова форма: r=4, w=2, x=1, додайте для власника, групи та інших. `chmod 755` = rwxr-xr-x, `chmod 644` = rw-r--r--, `chmod 600` = rw------- (приватний).",
+            "ru": "Символьная форма: `chmod u+x file` (владелец может выполнять), `chmod go-w file` (группа и остальные не могут писать), `chmod a+r file` (все могут читать).\n\nЧисловая форма: r=4, w=2, x=1, сложите для владельца, группы и остальных. `chmod 755` = rwxr-xr-x, `chmod 644` = rw-r--r--, `chmod 600` = rw------- (приватный).",
+            "pl": "Forma symboliczna: `chmod u+x plik` (właściciel może wykonywać), `chmod go-w plik` (grupa i pozostali nie mogą pisać), `chmod a+r plik` (wszyscy mogą czytać).\n\nForma liczbowa: r=4, w=2, x=1, dodaj dla właściciela, grupy i pozostałych. `chmod 755` = rwxr-xr-x, `chmod 644` = rw-r--r--, `chmod 600` = rw------- (prywatny)."
+          }
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Make scripts/hello.sh executable and run it.", "uk": "Зробіть scripts/hello.sh виконуваним і запустіть його.", "ru": "Сделайте scripts/hello.sh исполняемым и запустите его.", "pl": "Nadaj scripts/hello.sh prawo wykonania i uruchom go." },
+          "checks": [
+            { "type": "usedCommand", "command": "chmod", "label": { "en": "Add the execute permission", "uk": "Додайте право виконання", "ru": "Добавьте право выполнения", "pl": "Dodaj prawo wykonania" } },
+            { "type": "usedCommand", "command": "hello.sh", "success": true, "label": { "en": "Run the script", "uk": "Запустіть скрипт", "ru": "Запустите скрипт", "pl": "Uruchom skrypt" } }
+          ],
+          "hints": {
+            "direction": { "en": "chmod +x adds the x bit; run a script in a directory with ./path or the path itself.", "uk": "chmod +x додає біт x; запускайте скрипт за його шляхом, наприклад ./scripts/hello.sh.", "ru": "chmod +x добавляет бит x; запускайте скрипт по пути, например ./scripts/hello.sh.", "pl": "chmod +x dodaje bit x; uruchom skrypt podając ścieżkę, np. ./scripts/hello.sh." },
+            "command": "chmod"
+          },
+          "solution": ["chmod +x scripts/hello.sh", "./scripts/hello.sh"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "secret.txt is readable by everyone. Make it private: only you can read and write it.", "uk": "secret.txt можуть читати всі. Зробіть його приватним: читати й писати можете лише ви.", "ru": "secret.txt могут читать все. Сделайте его приватным: читать и писать можете только вы.", "pl": "secret.txt może czytać każdy. Zrób go prywatnym: tylko ty możesz go czytać i zapisywać." },
+          "checks": [
+            { "type": "modeIs", "path": "~/secret.txt", "mode": "600", "label": { "en": "Permissions are rw-------", "uk": "Права rw-------", "ru": "Права rw-------", "pl": "Uprawnienia rw-------" } }
+          ],
+          "hints": {
+            "direction": { "en": "rw for the owner is 4+2=6, nothing for the rest is 0.", "uk": "rw для власника — це 4+2=6, нічого для решти — 0.", "ru": "rw для владельца — это 4+2=6, ничего для остальных — 0.", "pl": "rw dla właściciela to 4+2=6, nic dla reszty to 0." },
+            "command": "chmod"
+          },
+          "solution": ["chmod 600 secret.txt"]
+        },
+        {
+          "type": "build",
+          "goal": { "en": "Build the command that gives scripts/backup.sh the permissions rwxr-xr-x.", "uk": "Зберіть команду, що дає scripts/backup.sh права rwxr-xr-x.", "ru": "Соберите команду, которая даёт scripts/backup.sh права rwxr-xr-x.", "pl": "Zbuduj polecenie, które nada scripts/backup.sh uprawnienia rwxr-xr-x." },
+          "answer": ["chmod", "755", "scripts/backup.sh"],
+          "distractors": ["644", "chown"]
+        },
+        {
+          "type": "quiz",
+          "question": { "en": "What does chmod 644 file give?", "uk": "Що дає chmod 644 file?", "ru": "Что даёт chmod 644 file?", "pl": "Co daje chmod 644 plik?" },
+          "options": [
+            { "en": "rw-r--r--", "uk": "rw-r--r--", "ru": "rw-r--r--", "pl": "rw-r--r--" },
+            { "en": "rwxr--r--", "uk": "rwxr--r--", "ru": "rwxr--r--", "pl": "rwxr--r--" },
+            { "en": "rw-rw-rw-", "uk": "rw-rw-rw-", "ru": "rw-rw-rw-", "pl": "rw-rw-rw-" }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "perm-sudo",
+      "title": { "en": "sudo and root", "uk": "sudo і root", "ru": "sudo и root", "pl": "sudo i root" },
+      "commands": ["sudo"],
+      "setup": "permissions",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "**root** is the superuser: permissions do not apply to it. Working as root all the time is dangerous — one typo can destroy the system.\n\nThat is why admins use `sudo command`: one command with root powers. Got “Permission denied”? `sudo !!` repeats the last command with sudo.",
+            "uk": "**root** — суперкористувач: права на нього не діють. Постійно працювати як root небезпечно — одна помилка може зруйнувати систему.\n\nТому адміни використовують `sudo команда`: одна команда з правами root. Отримали «Permission denied»? `sudo !!` повторить останню команду через sudo.",
+            "ru": "**root** — суперпользователь: права на него не действуют. Постоянно работать как root опасно — одна опечатка может разрушить систему.\n\nПоэтому админы используют `sudo команда`: одна команда с правами root. Получили «Permission denied»? `sudo !!` повторит последнюю команду через sudo.",
+            "pl": "**root** to superużytkownik: uprawnienia go nie dotyczą. Ciągła praca jako root jest niebezpieczna — jedna literówka może zniszczyć system.\n\nDlatego administratorzy używają `sudo polecenie`: jedno polecenie z mocą roota. Dostałeś „Permission denied”? `sudo !!` powtórzy ostatnie polecenie przez sudo."
+          },
+          "demo": { "commands": ["whoami", "sudo whoami"] }
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Read /srv/shared/salaries.txt. Normal access is denied — use root powers.", "uk": "Прочитайте /srv/shared/salaries.txt. Звичайний доступ заборонено — скористайтеся правами root.", "ru": "Прочитайте /srv/shared/salaries.txt. Обычный доступ запрещён — воспользуйтесь правами root.", "pl": "Przeczytaj /srv/shared/salaries.txt. Zwykły dostęp jest zabroniony — użyj mocy roota." },
+          "checks": [
+            { "type": "outputContains", "text": "confidential", "label": { "en": "The file is read", "uk": "Файл прочитано", "ru": "Файл прочитан", "pl": "Plik przeczytany" } },
+            { "type": "usedCommand", "command": "sudo", "label": { "en": "Use sudo", "uk": "Використайте sudo", "ru": "Используйте sudo", "pl": "Użyj sudo" } }
+          ],
+          "hints": {
+            "direction": { "en": "Put sudo in front of the command that reads the file.", "uk": "Поставте sudo перед командою, що читає файл.", "ru": "Поставьте sudo перед командой, которая читает файл.", "pl": "Wstaw sudo przed polecenie, które czyta plik." },
+            "command": "sudo"
+          },
+          "solution": ["sudo cat /srv/shared/salaries.txt"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Create the directory /opt/myapp. Only root may write into /opt.", "uk": "Створіть директорію /opt/myapp. Писати в /opt може лише root.", "ru": "Создайте директорию /opt/myapp. Писать в /opt может только root.", "pl": "Utwórz katalog /opt/myapp. Do /opt może pisać tylko root." },
+          "checks": [
+            { "type": "dirExists", "path": "/opt/myapp", "label": { "en": "/opt/myapp exists", "uk": "/opt/myapp існує", "ru": "/opt/myapp существует", "pl": "/opt/myapp istnieje" } }
+          ],
+          "hints": {
+            "direction": { "en": "mkdir with root powers.", "uk": "mkdir з правами root.", "ru": "mkdir с правами root.", "pl": "mkdir z mocą roota." },
+            "command": "sudo"
+          },
+          "solution": ["sudo mkdir /opt/myapp"]
+        },
+        {
+          "type": "quiz",
+          "question": { "en": "Why not simply work as root all the time?", "uk": "Чому б просто не працювати як root постійно?", "ru": "Почему бы просто не работать как root постоянно?", "pl": "Dlaczego po prostu nie pracować cały czas jako root?" },
+          "options": [
+            { "en": "A single mistake could damage the whole system", "uk": "Одна помилка може пошкодити всю систему", "ru": "Одна ошибка может повредить всю систему", "pl": "Jeden błąd może uszkodzić cały system" },
+            { "en": "root is slower", "uk": "root повільніший", "ru": "root медленнее", "pl": "root jest wolniejszy" },
+            { "en": "root cannot read files", "uk": "root не може читати файли", "ru": "root не может читать файлы", "pl": "root nie może czytać plików" }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "perm-chown",
+      "title": { "en": "Owners", "uk": "Власники", "ru": "Владельцы", "pl": "Właściciele" },
+      "commands": ["chown"],
+      "setup": "permissions",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "Every file has an owner and a group. `chown user:group file` changes them. Giving files away is allowed only to root, so it is almost always `sudo chown ...`. Add `-R` for a whole directory.\n\nTypical example: a web server runs as the user www-data and must own its site files.",
+            "uk": "Кожен файл має власника і групу. `chown user:group file` змінює їх. Віддавати файли може лише root, тому майже завжди це `sudo chown ...`. Додайте `-R` для цілої директорії.\n\nТиповий приклад: вебсервер працює від користувача www-data і має володіти файлами сайту.",
+            "ru": "У каждого файла есть владелец и группа. `chown user:group file` меняет их. Отдавать файлы может только root, поэтому почти всегда это `sudo chown ...`. Добавьте `-R` для целой директории.\n\nТипичный пример: веб-сервер работает от пользователя www-data и должен владеть файлами сайта.",
+            "pl": "Każdy plik ma właściciela i grupę. `chown user:group plik` je zmienia. Oddawać pliki może tylko root, więc prawie zawsze jest to `sudo chown ...`. Dodaj `-R` dla całego katalogu.\n\nTypowy przykład: serwer WWW działa jako użytkownik www-data i musi być właścicielem plików strony."
+          }
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Create /opt/myapp and make yourself (student) its owner, so you can work there without sudo.", "uk": "Створіть /opt/myapp і зробіть себе (student) її власником, щоб працювати там без sudo.", "ru": "Создайте /opt/myapp и сделайте себя (student) её владельцем, чтобы работать там без sudo.", "pl": "Utwórz /opt/myapp i zrób siebie (student) jego właścicielem, aby pracować tam bez sudo." },
+          "checks": [
+            { "type": "ownerIs", "path": "/opt/myapp", "owner": "student", "label": { "en": "student owns /opt/myapp", "uk": "student володіє /opt/myapp", "ru": "student владеет /opt/myapp", "pl": "student jest właścicielem /opt/myapp" } }
+          ],
+          "hints": {
+            "direction": { "en": "Two commands with sudo: mkdir and chown.", "uk": "Дві команди через sudo: mkdir і chown.", "ru": "Две команды через sudo: mkdir и chown.", "pl": "Dwa polecenia przez sudo: mkdir i chown." },
+            "command": "chown"
+          },
+          "solution": ["sudo mkdir /opt/myapp", "sudo chown student:student /opt/myapp"]
+        },
+        {
+          "type": "task",
+          "goal": { "en": "The public directory must belong to the web server: make www-data its owner and group.", "uk": "Директорія public має належати вебсерверу: зробіть www-data її власником і групою.", "ru": "Директория public должна принадлежать веб-серверу: сделайте www-data её владельцем и группой.", "pl": "Katalog public musi należeć do serwera WWW: ustaw www-data jako właściciela i grupę." },
+          "checks": [
+            { "type": "ownerIs", "path": "~/public", "owner": "www-data", "group": "www-data", "label": { "en": "www-data:www-data owns public", "uk": "public належить www-data:www-data", "ru": "public принадлежит www-data:www-data", "pl": "public należy do www-data:www-data" } }
+          ],
+          "hints": {
+            "direction": { "en": "chown user:group directory, with sudo.", "uk": "chown user:group директорія, через sudo.", "ru": "chown user:group директория, через sudo.", "pl": "chown user:group katalog, przez sudo." },
+            "command": "chown"
+          },
+          "solution": ["sudo chown www-data:www-data public"]
+        }
+      ]
+    },
+    {
+      "id": "perm-links",
+      "title": { "en": "Symbolic links", "uk": "Символьні посилання", "ru": "Символьные ссылки", "pl": "Dowiązania symboliczne" },
+      "commands": ["ln", "readlink"],
+      "setup": "permissions",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "A symbolic link is a shortcut: `ln -s target name`. In `ls -l` it looks like `logs -> /var/log`.\n\nIf the target is removed, the link becomes broken (dangling). `readlink name` shows where a link points.",
+            "uk": "Символьне посилання — це ярлик: `ln -s ціль назва`. У `ls -l` воно виглядає як `logs -> /var/log`.\n\nЯкщо ціль видалити, посилання стане битим. `readlink назва` показує, куди веде посилання.",
+            "ru": "Символьная ссылка — это ярлык: `ln -s цель имя`. В `ls -l` она выглядит как `logs -> /var/log`.\n\nЕсли цель удалить, ссылка станет битой. `readlink имя` показывает, куда ведёт ссылка.",
+            "pl": "Dowiązanie symboliczne to skrót: `ln -s cel nazwa`. W `ls -l` wygląda jak `logs -> /var/log`.\n\nJeśli cel zostanie usunięty, dowiązanie stanie się zerwane. `readlink nazwa` pokazuje, dokąd prowadzi dowiązanie."
+          },
+          "demo": { "commands": ["ls -l /bin"] }
+        },
+        {
+          "type": "task",
+          "goal": { "en": "Create a shortcut called logs in your home that points to /var/log.", "uk": "Створіть ярлик logs у домашній директорії, що веде в /var/log.", "ru": "Создайте ярлык logs в домашней директории, ведущий в /var/log.", "pl": "Utwórz skrót logs w katalogu domowym wskazujący na /var/log." },
+          "checks": [
+            { "type": "symlinkExists", "path": "~/logs", "target": "/var/log", "label": { "en": "~/logs -> /var/log", "uk": "~/logs -> /var/log", "ru": "~/logs -> /var/log", "pl": "~/logs -> /var/log" } }
+          ],
+          "hints": {
+            "direction": { "en": "ln -s TARGET NAME — the target comes first.", "uk": "ln -s ЦІЛЬ НАЗВА — ціль іде першою.", "ru": "ln -s ЦЕЛЬ ИМЯ — цель идёт первой.", "pl": "ln -s CEL NAZWA — cel jest pierwszy." },
+            "command": "ln"
+          },
+          "solution": ["ln -s /var/log logs"]
+        },
+        {
+          "type": "predict",
+          "setup": { "files": { "~/a.txt": "A\n", "~/link": { "symlink": "a.txt" } } },
+          "prepare": ["rm a.txt"],
+          "command": "cat link",
+          "options": ["cat: link: No such file or directory", "A", "a.txt"],
+          "answer": 0,
+          "explanation": { "en": "The link still exists, but it points to a file that is gone: it is dangling.", "uk": "Посилання ще існує, але веде на файл, якого вже немає: воно бите.", "ru": "Ссылка ещё существует, но ведёт на файл, которого уже нет: она битая.", "pl": "Dowiązanie nadal istnieje, ale wskazuje na plik, którego już nie ma: jest zerwane." }
+        }
+      ]
+    }
+  ]
+}
