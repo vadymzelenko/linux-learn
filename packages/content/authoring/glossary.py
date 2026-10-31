@@ -356,6 +356,47 @@ g('log-rotation', 'noc', ('Log rotation', 'Ротация логов', 'Рота
   ('Regularly renaming and compressing old logs (access.log.1, .2.gz) so they do not fill the disk.', 'Регулярное переименование и сжатие старых логов (access.log.1, .2.gz), чтобы они не заполнили диск.', 'Регулярне перейменування та стискання старих логів (access.log.1, .2.gz), щоб вони не заповнили диск.'),
   ru=['ротаци'], uk=['ротаці'], en=['rotation'])
 
+# ---------------------------------------------------------------- added with the new modules
+g('sticky-bit', 'permissions', ('Sticky bit', 'Sticky bit', 'Sticky bit'),
+  ('A permission bit on a directory (the "t" in drwxrwxrwt): everybody may create files, but only the owner can delete them. Used on /tmp.', 'Бит прав на папке («t» в drwxrwxrwt): создавать файлы могут все, а удалять — только владелец. Стоит на /tmp.', 'Біт прав на папці («t» у drwxrwxrwt): створювати файли можуть усі, а видаляти — лише власник. Стоїть на /tmp.'),
+  ru=['sticky'], uk=['sticky'], en=['sticky bit'])
+g('setgid', 'permissions', ('setgid on a directory', 'setgid на папке', 'setgid на папці'),
+  ('The "s" in place of the group x (chmod 2770): new files inside get the group of the directory — handy for team folders.', '«s» на месте x группы (chmod 2770): новые файлы внутри получают группу папки — удобно для командных папок.', '«s» на місці x групи (chmod 2770): нові файли всередині отримують групу папки — зручно для командних папок.'),
+  ru=['setgid'], uk=['setgid'], en=['setgid'])
+g('system-user', 'permissions', ('System user', 'Системный пользователь', 'Системний користувач'),
+  ('An account for a service, not a person (www-data, postgres). Limits the damage if the service is hacked.', 'Учётная запись для сервиса, а не человека (www-data, postgres). Ограничивает ущерб при взломе сервиса.', 'Обліковий запис для сервісу, а не людини (www-data, postgres). Обмежує шкоду в разі зламу сервісу.'),
+  ru=['системн пользоват', 'системный пользователь'], uk=['системний користувач'], en=['system user'])
+g('sigterm-sigkill', 'processes', ('SIGTERM / SIGKILL', 'SIGTERM / SIGKILL', 'SIGTERM / SIGKILL'),
+  ('TERM (15) politely asks a process to finish and lets it clean up; KILL (9) is an immediate stop by the kernel without cleanup.', 'TERM (15) вежливо просит процесс завершиться и даёт прибраться; KILL (9) — мгновенная остановка ядром без уборки.', 'TERM (15) ввічливо просить процес завершитися й дає прибрати; KILL (9) — миттєва зупинка ядром без прибирання.'),
+  ru=['sigterm', 'sigkill'], uk=['sigterm', 'sigkill'], en=['sigterm', 'sigkill'], cmd='kill')
+g('process-state', 'processes', ('Process state (STAT)', 'Состояние процесса (STAT)', 'Стан процесу (STAT)'),
+  ('A letter in ps: R running, S sleeping, D waiting for disk, Z zombie, T stopped.', 'Буква в ps: R работает, S спит, D ждёт диск, Z зомби, T остановлен.', 'Літера в ps: R працює, S спить, D чекає диск, Z зомбі, T зупинений.'),
+  ru=['состояни процесс'], uk=['стан процес'], en=['process state'], cmd='ps')
+g('brace-expansion', 'shell', ('Brace expansion', 'Раскрытие скобок', 'Розкриття дужок'),
+  ('bash turns file{1,2}.txt into file1.txt file2.txt and {1..5} into 1 2 3 4 5 before running the command.', 'bash превращает file{1,2}.txt в file1.txt file2.txt, а {1..5} — в 1 2 3 4 5 до запуска команды.', 'bash перетворює file{1,2}.txt на file1.txt file2.txt, а {1..5} — на 1 2 3 4 5 до запуску команди.'),
+  ru=['раскрыти скобок', 'фигурн'], uk=['розкритт дужок', 'фігурн'], en=['brace expansion'])
+g('loop', 'shell', ('Loop', 'Цикл', 'Цикл'),
+  ('Repeating commands: for NAME in LIST; do …; done, or while CONDITION; do …; done.', 'Повторение команд: for ИМЯ in СПИСОК; do …; done или while УСЛОВИЕ; do …; done.', 'Повторення команд: for НАЗВА in СПИСОК; do …; done або while УМОВА; do …; done.'),
+  ru=['цикл'], uk=['цикл'], en=['loop'])
+g('quoting', 'shell', ('Quoting', 'Кавычки', 'Лапки'),
+  ('"double" quotes keep spaces but expand $VAR; \'single\' quotes keep everything literally.', '"двойные" кавычки сохраняют пробелы, но раскрывают $VAR; \'одинарные\' сохраняют всё буквально.', '"подвійні" лапки зберігають пробіли, але розкривають $VAR; \'одинарні\' зберігають усе буквально.'),
+  ru=['кавычк'], uk=['лапк'], en=['quotes', 'quoting'])
+g('exit-chain', 'shell', ('&& and ||', '&& и ||', '&& і ||'),
+  ('a && b runs b only if a succeeded; a || b runs b only if a failed.', 'a && b запускает b, только если a успешна; a || b — только если a упала.', 'a && b запускає b, лише якщо a успішна; a || b — лише якщо a впала.'),
+  ru=[], uk=[], en=[])
+g('upstream', 'noc', ('Upstream (backend)', 'Upstream (бэкенд)', 'Upstream (бекенд)'),
+  ('The server a proxy forwards requests to — e.g. nginx → the API on 127.0.0.1:3000. If it is down, the proxy answers 502.', 'Сервер, которому прокси передаёт запросы, — например nginx → API на 127.0.0.1:3000. Если он лежит, прокси отвечает 502.', 'Сервер, якому проксі передає запити, — наприклад nginx → API на 127.0.0.1:3000. Якщо він лежить, проксі відповідає 502.'),
+  ru=['upstream', 'бэкенд'], uk=['upstream', 'бекенд'], en=['upstream', 'backend'])
+g('timeline', 'noc', ('Incident timeline', 'Таймлайн инцидента', 'Таймлайн інциденту'),
+  ('The list of events of an incident in time order (UTC) with their sources — the backbone of a postmortem.', 'Список событий инцидента по времени (UTC) с источниками — основа постмортема.', 'Список подій інциденту за часом (UTC) із джерелами — основа постмортему.'),
+  ru=['таймлайн'], uk=['таймлайн'], en=['timeline'])
+g('blameless', 'noc', ('Blameless', 'Без поиска виноватых (blameless)', 'Без пошуку винних (blameless)'),
+  ('A postmortem culture that looks for weak spots in the system, not for a guilty person, so people share all facts.', 'Культура постмортемов, где ищут слабые места системы, а не виноватого, чтобы люди делились всеми фактами.', 'Культура постмортемів, де шукають слабкі місця системи, а не винного, щоб люди ділилися всіма фактами.'),
+  ru=['blameless'], uk=['blameless'], en=['blameless'])
+g('five-whys', 'noc', ('5 whys', '5 почему', '5 чому'),
+  ('Asking "why?" again and again (about five times) to get from a symptom to the root cause.', 'Спрашивать «почему?» снова и снова (около пяти раз), чтобы дойти от симптома до первопричины.', 'Питати «чому?» знову й знову (близько п’яти разів), щоб дійти від симптому до першопричини.'),
+  ru=['5 почему', 'пять почему'], uk=['5 чому', "п'ять чому"], en=['5 whys', 'five whys'])
+
 out = os.path.join(ROOT, 'glossary.json')
 with open(out, 'w') as f:
     json.dump(G, f, indent=2, ensure_ascii=False)

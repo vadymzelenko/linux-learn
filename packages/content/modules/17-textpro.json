@@ -1,0 +1,1035 @@
+{
+  "id": "textpro",
+  "path": "/linux/textpro",
+  "icon": "scroll",
+  "title": {
+    "en": "Text processing",
+    "ru": "Обработка текста",
+    "uk": "Обробка тексту"
+  },
+  "description": {
+    "en": "cut, tr, sed, awk reports, diff and comm, tee and xargs.",
+    "ru": "cut, tr, sed, отчёты на awk, diff и comm, tee и xargs.",
+    "uk": "cut, tr, sed, звіти на awk, diff і comm, tee і xargs."
+  },
+  "lessons": [
+    {
+      "id": "tp-cut-tr",
+      "title": {
+        "en": "cut and tr",
+        "ru": "cut и tr",
+        "uk": "cut і tr"
+      },
+      "commands": [
+        "cut",
+        "tr"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "files": {
+          "~/data/sales.csv": "date,city,product,amount\n2026-10-01,Kyiv,laptop,1200\n2026-10-01,Lviv,phone,600\n2026-10-02,Kyiv,phone,650\n2026-10-02,Odesa,laptop,1150\n2026-10-03,Lviv,laptop,1300\n2026-10-03,Kyiv,tablet,400\n",
+          "~/data/contacts.txt": "Olena   Shevchenko    +380501112233\nmarek  Nowak  +48600111222\nIVAN    petrenko +380671234567\n",
+          "~/config/app.conf": "# App settings\nport=8080\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=true\n\n# end\n",
+          "~/config/app.conf.bak": "# App settings\nport=80\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=false\n\n# end\n",
+          "~/data/team_old.txt": "anna\nivan\nmarek\nolena\n",
+          "~/data/team_new.txt": "anna\nmarek\nolena\npetro\n",
+          "~/data/urls.txt": "https://shop.example.com/cart\nhttps://shop.example.com/login\nhttps://api.example.com/v1/items\n"
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## cut — take columns\n```\n$ cut -d, -f2 sales.csv\n$ cut -d, -f1,4 sales.csv\n$ cut -c1-10 sales.csv\n```\n- `-d,` — the delimiter (comma); `-f2` — field number 2; `-f1,4` or `-f2-3`\n- `-c1-10` — characters 1 to 10\n\n## tr — replace or delete characters\n```\n$ tr a-z A-Z < file\n$ tr -s ' ' < contacts.txt\n$ tr -d '\\r' < windows.txt > unix.txt\n$ tr ',' '\\t' < sales.csv\n```\n- `-s` — squeeze repeats (\"a   b\" → \"a b\")\n- `-d` — delete those characters\n\n> tr reads only standard input — use `<` or a pipe, it does not take a file name.",
+            "ru": "## cut — взять колонки\n```\n$ cut -d, -f2 sales.csv\n$ cut -d, -f1,4 sales.csv\n$ cut -c1-10 sales.csv\n```\n- `-d,` — разделитель (запятая); `-f2` — поле номер 2; `-f1,4` или `-f2-3`\n- `-c1-10` — символы с 1 по 10\n\n## tr — заменить или удалить символы\n```\n$ tr a-z A-Z < file\n$ tr -s ' ' < contacts.txt\n$ tr -d '\\r' < windows.txt > unix.txt\n$ tr ',' '\\t' < sales.csv\n```\n- `-s` — сжать повторы («a   b» → «a b»)\n- `-d` — удалить эти символы\n\n> tr читает только стандартный ввод — используйте `<` или конвейер, имя файла он не принимает.",
+            "uk": "## cut — узяти колонки\n```\n$ cut -d, -f2 sales.csv\n$ cut -d, -f1,4 sales.csv\n$ cut -c1-10 sales.csv\n```\n- `-d,` — роздільник (кома); `-f2` — поле номер 2; `-f1,4` або `-f2-3`\n- `-c1-10` — символи з 1 по 10\n\n## tr — замінити чи видалити символи\n```\n$ tr a-z A-Z < file\n$ tr -s ' ' < contacts.txt\n$ tr -d '\\r' < windows.txt > unix.txt\n$ tr ',' '\\t' < sales.csv\n```\n- `-s` — стиснути повтори («a   b» → «a b»)\n- `-d` — видалити ці символи\n\n> tr читає лише стандартний ввід — використовуйте `<` або конвеєр, назву файлу він не приймає."
+          },
+          "title": {
+            "en": "Columns and characters",
+            "ru": "Колонки и символы",
+            "uk": "Колонки та символи"
+          },
+          "demo": {
+            "commands": [
+              "cut -d, -f2 ~/data/sales.csv"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Which cities appear in ~/data/sales.csv? Print each city once (no header).",
+            "ru": "Какие города есть в ~/data/sales.csv? Выведите каждый город один раз (без заголовка).",
+            "uk": "Які міста є в ~/data/sales.csv? Виведіть кожне місто один раз (без заголовка)."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "cut",
+              "label": {
+                "en": "cut -d, -f2",
+                "ru": "cut -d, -f2",
+                "uk": "cut -d, -f2"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 3,
+              "label": {
+                "en": "3 cities",
+                "ru": "3 города",
+                "uk": "3 міста"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^Odesa$",
+              "label": {
+                "en": "Odesa",
+                "ru": "Odesa",
+                "uk": "Odesa"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "tail -n +2 FILE | cut -d, -f2 | sort -u",
+              "ru": "tail -n +2 ФАЙЛ | cut -d, -f2 | sort -u",
+              "uk": "tail -n +2 ФАЙЛ | cut -d, -f2 | sort -u"
+            },
+            "command": "cut"
+          },
+          "solution": [
+            "tail -n +2 ~/data/sales.csv | cut -d, -f2 | sort -u"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "~/data/contacts.txt has messy spaces. Squeeze them so that there is exactly one space between words, and save it to ~/data/contacts_clean.txt.",
+            "ru": "В ~/data/contacts.txt беспорядок с пробелами. Сожмите их до одного между словами и сохраните в ~/data/contacts_clean.txt.",
+            "uk": "У ~/data/contacts.txt безлад із пробілами. Стисніть їх до одного між словами й збережіть у ~/data/contacts_clean.txt."
+          },
+          "checks": [
+            {
+              "type": "fileContains",
+              "path": "~/data/contacts_clean.txt",
+              "text": "Olena Shevchenko +380501112233",
+              "label": {
+                "en": "Olena Shevchenko +380…",
+                "ru": "Olena Shevchenko +380…",
+                "uk": "Olena Shevchenko +380…"
+              }
+            },
+            {
+              "type": "fileNotContains",
+              "path": "~/data/contacts_clean.txt",
+              "text": "  ",
+              "label": {
+                "en": "No double spaces",
+                "ru": "Нет двойных пробелов",
+                "uk": "Немає подвійних пробілів"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "tr -s ' ' < IN > OUT",
+              "ru": "tr -s ' ' < ВХОД > ВЫХОД",
+              "uk": "tr -s ' ' < ВХІД > ВИХІД"
+            },
+            "command": "tr"
+          },
+          "solution": [
+            "tr -s ' ' < ~/data/contacts.txt > ~/data/contacts_clean.txt"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Print the domain of every URL in ~/data/urls.txt (shop.example.com, …).",
+            "ru": "Выведите домен каждого URL из ~/data/urls.txt (shop.example.com, …).",
+            "uk": "Виведіть домен кожного URL з ~/data/urls.txt (shop.example.com, …)."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "cut",
+              "label": {
+                "en": "cut -d/ -f3",
+                "ru": "cut -d/ -f3",
+                "uk": "cut -d/ -f3"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^api\\.example\\.com$",
+              "label": {
+                "en": "api.example.com",
+                "ru": "api.example.com",
+                "uk": "api.example.com"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 3,
+              "label": {
+                "en": "3 lines",
+                "ru": "3 строки",
+                "uk": "3 рядки"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "\"https://shop…/cart\" split by \"/\" → field 3 is the domain",
+              "ru": "«https://shop…/cart» по «/» → поле 3 — домен",
+              "uk": "«https://shop…/cart» за «/» → поле 3 — домен"
+            },
+            "command": "cut"
+          },
+          "solution": [
+            "cut -d/ -f3 ~/data/urls.txt"
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "echo 'Hello World' | tr a-z A-Z",
+          "options": [
+            "HELLO WORLD",
+            "hello world",
+            "Hello World",
+            "HELLO world"
+          ],
+          "answer": 0,
+          "setup": {
+            "hostname": "trainer",
+            "files": {
+              "~/data/sales.csv": "date,city,product,amount\n2026-10-01,Kyiv,laptop,1200\n2026-10-01,Lviv,phone,600\n2026-10-02,Kyiv,phone,650\n2026-10-02,Odesa,laptop,1150\n2026-10-03,Lviv,laptop,1300\n2026-10-03,Kyiv,tablet,400\n",
+              "~/data/contacts.txt": "Olena   Shevchenko    +380501112233\nmarek  Nowak  +48600111222\nIVAN    petrenko +380671234567\n",
+              "~/config/app.conf": "# App settings\nport=8080\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=true\n\n# end\n",
+              "~/config/app.conf.bak": "# App settings\nport=80\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=false\n\n# end\n",
+              "~/data/team_old.txt": "anna\nivan\nmarek\nolena\n",
+              "~/data/team_new.txt": "anna\nmarek\nolena\npetro\n",
+              "~/data/urls.txt": "https://shop.example.com/cart\nhttps://shop.example.com/login\nhttps://api.example.com/v1/items\n"
+            }
+          },
+          "context": [],
+          "explanation": {
+            "en": "tr maps every lowercase letter to its uppercase twin.",
+            "ru": "tr заменяет каждую строчную букву её заглавной парой.",
+            "uk": "tr замінює кожну малу літеру її великою парою."
+          }
+        }
+      ]
+    },
+    {
+      "id": "tp-sed",
+      "title": {
+        "en": "sed: search and replace",
+        "ru": "sed: поиск и замена",
+        "uk": "sed: пошук і заміна"
+      },
+      "commands": [
+        "sed"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "files": {
+          "~/data/sales.csv": "date,city,product,amount\n2026-10-01,Kyiv,laptop,1200\n2026-10-01,Lviv,phone,600\n2026-10-02,Kyiv,phone,650\n2026-10-02,Odesa,laptop,1150\n2026-10-03,Lviv,laptop,1300\n2026-10-03,Kyiv,tablet,400\n",
+          "~/data/contacts.txt": "Olena   Shevchenko    +380501112233\nmarek  Nowak  +48600111222\nIVAN    petrenko +380671234567\n",
+          "~/config/app.conf": "# App settings\nport=8080\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=true\n\n# end\n",
+          "~/config/app.conf.bak": "# App settings\nport=80\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=false\n\n# end\n",
+          "~/data/team_old.txt": "anna\nivan\nmarek\nolena\n",
+          "~/data/team_new.txt": "anna\nmarek\nolena\npetro\n",
+          "~/data/urls.txt": "https://shop.example.com/cart\nhttps://shop.example.com/login\nhttps://api.example.com/v1/items\n"
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## The famous s///\n```\n$ sed 's/old/new/' file\n$ sed 's/old/new/g' file\n$ sed -i 's/port=8080/port=80/' app.conf\n```\n- without `g` — only the first match **in each line**\n- `-i` — edit the file **in place** (without it sed only prints)\n- `-i.bak` — in place, keeping a backup\n\n## Other everyday commands\n```\n$ sed -n '2,4p' file\n$ sed '/^#/d' app.conf\n$ sed '/^$/d' app.conf\n$ sed -n '/database/,/^$/p' app.conf\n```\n- `-n …p` — print only selected lines\n- `/regex/d` — delete matching lines\n\n> Test without `-i` first. When the output looks right, add `-i`.",
+            "ru": "## Знаменитый s///\n```\n$ sed 's/old/new/' file\n$ sed 's/old/new/g' file\n$ sed -i 's/port=8080/port=80/' app.conf\n```\n- без `g` — только первое совпадение **в каждой строке**\n- `-i` — править файл **на месте** (без него sed только печатает)\n- `-i.bak` — на месте, с резервной копией\n\n## Другие ежедневные команды\n```\n$ sed -n '2,4p' file\n$ sed '/^#/d' app.conf\n$ sed '/^$/d' app.conf\n$ sed -n '/database/,/^$/p' app.conf\n```\n- `-n …p` — печатать только выбранные строки\n- `/regex/d` — удалить совпадающие строки\n\n> Сначала проверьте без `-i`. Когда вывод правильный — добавьте `-i`.",
+            "uk": "## Знаменитий s///\n```\n$ sed 's/old/new/' file\n$ sed 's/old/new/g' file\n$ sed -i 's/port=8080/port=80/' app.conf\n```\n- без `g` — лише перший збіг **у кожному рядку**\n- `-i` — правити файл **на місці** (без нього sed лише друкує)\n- `-i.bak` — на місці, з резервною копією\n\n## Інші щоденні команди\n```\n$ sed -n '2,4p' file\n$ sed '/^#/d' app.conf\n$ sed '/^$/d' app.conf\n$ sed -n '/database/,/^$/p' app.conf\n```\n- `-n …p` — друкувати лише вибрані рядки\n- `/regex/d` — видалити рядки, що збігаються\n\n> Спершу перевірте без `-i`. Коли вивід правильний — додайте `-i`."
+          },
+          "title": {
+            "en": "Stream editor",
+            "ru": "Потоковый редактор",
+            "uk": "Потоковий редактор"
+          },
+          "demo": {
+            "commands": [
+              "sed '/^#/d' ~/config/app.conf"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show ~/config/app.conf without comments and without empty lines — only the real settings.",
+            "ru": "Покажите ~/config/app.conf без комментариев и пустых строк — только настройки.",
+            "uk": "Покажіть ~/config/app.conf без коментарів і порожніх рядків — лише налаштування."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "sed",
+              "label": {
+                "en": "sed with /d",
+                "ru": "sed с /d",
+                "uk": "sed з /d"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 4,
+              "label": {
+                "en": "4 settings",
+                "ru": "4 настройки",
+                "uk": "4 налаштування"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "db_host=db01",
+              "label": {
+                "en": "db_host=db01",
+                "ru": "db_host=db01",
+                "uk": "db_host=db01"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sed '/^#/d; /^$/d' FILE",
+              "ru": "sed '/^#/d; /^$/d' ФАЙЛ",
+              "uk": "sed '/^#/d; /^$/d' ФАЙЛ"
+            },
+            "command": "sed"
+          },
+          "solution": [
+            "sed '/^#/d; /^$/d' ~/config/app.conf"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Turn debug off in ~/config/app.conf (debug=true → debug=false), editing the file in place.",
+            "ru": "Выключите debug в ~/config/app.conf (debug=true → debug=false), правкой файла на месте.",
+            "uk": "Вимкніть debug у ~/config/app.conf (debug=true → debug=false), правкою файлу на місці."
+          },
+          "checks": [
+            {
+              "type": "fileContains",
+              "path": "~/config/app.conf",
+              "text": "debug=false",
+              "label": {
+                "en": "debug=false",
+                "ru": "debug=false",
+                "uk": "debug=false"
+              }
+            },
+            {
+              "type": "fileNotContains",
+              "path": "~/config/app.conf",
+              "text": "debug=true",
+              "label": {
+                "en": "No debug=true",
+                "ru": "Нет debug=true",
+                "uk": "Немає debug=true"
+              }
+            },
+            {
+              "type": "fileContains",
+              "path": "~/config/app.conf",
+              "text": "db_port=5432",
+              "label": {
+                "en": "The rest is intact",
+                "ru": "Остальное не тронуто",
+                "uk": "Решту не зачеплено"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sed -i 's/debug=true/debug=false/' FILE",
+              "ru": "sed -i 's/debug=true/debug=false/' ФАЙЛ",
+              "uk": "sed -i 's/debug=true/debug=false/' ФАЙЛ"
+            },
+            "command": "sed"
+          },
+          "solution": [
+            "sed -i 's/debug=true/debug=false/' ~/config/app.conf"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Print only lines 2 to 4 of ~/data/sales.csv.",
+            "ru": "Выведите только строки 2–4 файла ~/data/sales.csv.",
+            "uk": "Виведіть лише рядки 2–4 файлу ~/data/sales.csv."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "sed",
+              "flags": [
+                "-n"
+              ],
+              "label": {
+                "en": "sed -n '2,4p'",
+                "ru": "sed -n '2,4p'",
+                "uk": "sed -n '2,4p'"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 3,
+              "label": {
+                "en": "3 lines",
+                "ru": "3 строки",
+                "uk": "3 рядки"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^2026-10-01,Kyiv",
+              "label": {
+                "en": "starts with 2026-10-01,Kyiv",
+                "ru": "начинается с 2026-10-01,Kyiv",
+                "uk": "починається з 2026-10-01,Kyiv"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sed -n '2,4p' FILE",
+              "ru": "sed -n '2,4p' ФАЙЛ",
+              "uk": "sed -n '2,4p' ФАЙЛ"
+            },
+            "command": "sed"
+          },
+          "solution": [
+            "sed -n '2,4p' ~/data/sales.csv"
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "echo 'aaa' | sed 's/a/b/'",
+          "options": [
+            "baa",
+            "bbb",
+            "aab",
+            "aaa"
+          ],
+          "answer": 0,
+          "setup": {
+            "hostname": "trainer",
+            "files": {
+              "~/data/sales.csv": "date,city,product,amount\n2026-10-01,Kyiv,laptop,1200\n2026-10-01,Lviv,phone,600\n2026-10-02,Kyiv,phone,650\n2026-10-02,Odesa,laptop,1150\n2026-10-03,Lviv,laptop,1300\n2026-10-03,Kyiv,tablet,400\n",
+              "~/data/contacts.txt": "Olena   Shevchenko    +380501112233\nmarek  Nowak  +48600111222\nIVAN    petrenko +380671234567\n",
+              "~/config/app.conf": "# App settings\nport=8080\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=true\n\n# end\n",
+              "~/config/app.conf.bak": "# App settings\nport=80\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=false\n\n# end\n",
+              "~/data/team_old.txt": "anna\nivan\nmarek\nolena\n",
+              "~/data/team_new.txt": "anna\nmarek\nolena\npetro\n",
+              "~/data/urls.txt": "https://shop.example.com/cart\nhttps://shop.example.com/login\nhttps://api.example.com/v1/items\n"
+            }
+          },
+          "context": [],
+          "explanation": {
+            "en": "Without g only the first match in the line is replaced.",
+            "ru": "Без g заменяется только первое совпадение в строке.",
+            "uk": "Без g замінюється лише перший збіг у рядку."
+          }
+        }
+      ]
+    },
+    {
+      "id": "tp-awk",
+      "title": {
+        "en": "awk: reports in one line",
+        "ru": "awk: отчёт одной строкой",
+        "uk": "awk: звіт одним рядком"
+      },
+      "commands": [
+        "awk"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "files": {
+          "~/data/sales.csv": "date,city,product,amount\n2026-10-01,Kyiv,laptop,1200\n2026-10-01,Lviv,phone,600\n2026-10-02,Kyiv,phone,650\n2026-10-02,Odesa,laptop,1150\n2026-10-03,Lviv,laptop,1300\n2026-10-03,Kyiv,tablet,400\n",
+          "~/data/contacts.txt": "Olena   Shevchenko    +380501112233\nmarek  Nowak  +48600111222\nIVAN    petrenko +380671234567\n",
+          "~/config/app.conf": "# App settings\nport=8080\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=true\n\n# end\n",
+          "~/config/app.conf.bak": "# App settings\nport=80\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=false\n\n# end\n",
+          "~/data/team_old.txt": "anna\nivan\nmarek\nolena\n",
+          "~/data/team_new.txt": "anna\nmarek\nolena\npetro\n",
+          "~/data/urls.txt": "https://shop.example.com/cart\nhttps://shop.example.com/login\nhttps://api.example.com/v1/items\n"
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Sums, averages, groups\n```\n$ awk -F, 'NR>1 {s += $4} END {print s}' sales.csv\n$ awk -F, 'NR>1 {s += $4; n++} END {print s/n}' sales.csv\n$ awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' sales.csv\n$ awk -F, '$4 > 1000' sales.csv\n$ awk -F, 'NR>1 {printf \"%-6s %5d\\n\", $2, $4}' sales.csv\n```\n- `-F,` — the field separator\n- `NR>1` — skip the header (line 1)\n- `t[$2] += $4` — an **array**: a separate sum for every city\n- `for (c in t)` — walk over the array\n- `printf` — aligned columns: `%-6s` left-aligned text, `%5d` number\n\n> `awk '{n[$1]++} END {for (k in n) print n[k], k}'` is the awk version of `sort | uniq -c`.",
+            "ru": "## Суммы, средние, группы\n```\n$ awk -F, 'NR>1 {s += $4} END {print s}' sales.csv\n$ awk -F, 'NR>1 {s += $4; n++} END {print s/n}' sales.csv\n$ awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' sales.csv\n$ awk -F, '$4 > 1000' sales.csv\n$ awk -F, 'NR>1 {printf \"%-6s %5d\\n\", $2, $4}' sales.csv\n```\n- `-F,` — разделитель полей\n- `NR>1` — пропустить заголовок (строку 1)\n- `t[$2] += $4` — **массив**: своя сумма для каждого города\n- `for (c in t)` — обойти массив\n- `printf` — ровные колонки: `%-6s` текст влево, `%5d` число\n\n> `awk '{n[$1]++} END {for (k in n) print n[k], k}'` — это awk-версия `sort | uniq -c`.",
+            "uk": "## Суми, середні, групи\n```\n$ awk -F, 'NR>1 {s += $4} END {print s}' sales.csv\n$ awk -F, 'NR>1 {s += $4; n++} END {print s/n}' sales.csv\n$ awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' sales.csv\n$ awk -F, '$4 > 1000' sales.csv\n$ awk -F, 'NR>1 {printf \"%-6s %5d\\n\", $2, $4}' sales.csv\n```\n- `-F,` — роздільник полів\n- `NR>1` — пропустити заголовок (рядок 1)\n- `t[$2] += $4` — **масив**: окрема сума для кожного міста\n- `for (c in t)` — обійти масив\n- `printf` — рівні колонки: `%-6s` текст ліворуч, `%5d` число\n\n> `awk '{n[$1]++} END {for (k in n) print n[k], k}'` — це awk-версія `sort | uniq -c`."
+          },
+          "title": {
+            "en": "Arrays in awk",
+            "ru": "Массивы в awk",
+            "uk": "Масиви в awk"
+          },
+          "demo": {
+            "commands": [
+              "awk -F, 'NR>1 {s += $4} END {print s}' ~/data/sales.csv"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "What is the total amount of all sales in ~/data/sales.csv?",
+            "ru": "Какова общая сумма всех продаж в ~/data/sales.csv?",
+            "uk": "Яка загальна сума всіх продажів у ~/data/sales.csv?"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "awk",
+              "label": {
+                "en": "awk with END",
+                "ru": "awk с END",
+                "uk": "awk з END"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^5300$",
+              "label": {
+                "en": "5300",
+                "ru": "5300",
+                "uk": "5300"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "awk -F, 'NR>1 {s += $4} END {print s}' FILE",
+              "ru": "awk -F, 'NR>1 {s += $4} END {print s}' ФАЙЛ",
+              "uk": "awk -F, 'NR>1 {s += $4} END {print s}' ФАЙЛ"
+            },
+            "command": "awk"
+          },
+          "solution": [
+            "awk -F, 'NR>1 {s += $4} END {print s}' ~/data/sales.csv"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Total sales per city, biggest first.",
+            "ru": "Сумма продаж по каждому городу, сначала самые большие.",
+            "uk": "Сума продажів за кожним містом, спершу найбільші."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "awk",
+              "label": {
+                "en": "awk array t[$2]",
+                "ru": "awk-массив t[$2]",
+                "uk": "awk-масив t[$2]"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^Kyiv 2250",
+              "label": {
+                "en": "Kyiv 2250 on top",
+                "ru": "Kyiv 2250 сверху",
+                "uk": "Kyiv 2250 зверху"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 3,
+              "label": {
+                "en": "3 cities",
+                "ru": "3 города",
+                "uk": "3 міста"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' FILE | sort -k2 -rn",
+              "ru": "awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' ФАЙЛ | sort -k2 -rn",
+              "uk": "awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' ФАЙЛ | sort -k2 -rn"
+            },
+            "command": "awk"
+          },
+          "solution": [
+            "awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' ~/data/sales.csv | sort -k2 -rn"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show only the laptop sales above 1200.",
+            "ru": "Покажите только продажи ноутбуков (laptop) дороже 1200.",
+            "uk": "Покажіть лише продажі ноутбуків (laptop) дорожчих за 1200."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "awk",
+              "label": {
+                "en": "awk with && condition",
+                "ru": "awk с условием &&",
+                "uk": "awk з умовою &&"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 1,
+              "label": {
+                "en": "1 line",
+                "ru": "1 строка",
+                "uk": "1 рядок"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Lviv,laptop,1300",
+              "label": {
+                "en": "Lviv,laptop,1300",
+                "ru": "Lviv,laptop,1300",
+                "uk": "Lviv,laptop,1300"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "awk -F, '$3 == \"laptop\" && $4 > 1200' FILE",
+              "ru": "awk -F, '$3 == \"laptop\" && $4 > 1200' ФАЙЛ",
+              "uk": "awk -F, '$3 == \"laptop\" && $4 > 1200' ФАЙЛ"
+            },
+            "command": "awk"
+          },
+          "solution": [
+            "awk -F, '$3 == \"laptop\" && $4 > 1200' ~/data/sales.csv"
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "awk -F, 'NR>1 {n[$3]++} END {print n[\"laptop\"]}' ~/data/sales.csv",
+          "options": [
+            "3",
+            "2",
+            "1",
+            "laptop"
+          ],
+          "answer": 0,
+          "setup": {
+            "hostname": "trainer",
+            "files": {
+              "~/data/sales.csv": "date,city,product,amount\n2026-10-01,Kyiv,laptop,1200\n2026-10-01,Lviv,phone,600\n2026-10-02,Kyiv,phone,650\n2026-10-02,Odesa,laptop,1150\n2026-10-03,Lviv,laptop,1300\n2026-10-03,Kyiv,tablet,400\n",
+              "~/data/contacts.txt": "Olena   Shevchenko    +380501112233\nmarek  Nowak  +48600111222\nIVAN    petrenko +380671234567\n",
+              "~/config/app.conf": "# App settings\nport=8080\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=true\n\n# end\n",
+              "~/config/app.conf.bak": "# App settings\nport=80\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=false\n\n# end\n",
+              "~/data/team_old.txt": "anna\nivan\nmarek\nolena\n",
+              "~/data/team_new.txt": "anna\nmarek\nolena\npetro\n",
+              "~/data/urls.txt": "https://shop.example.com/cart\nhttps://shop.example.com/login\nhttps://api.example.com/v1/items\n"
+            }
+          },
+          "context": [
+            "cat ~/data/sales.csv"
+          ],
+          "explanation": {
+            "en": "Three rows have product = laptop.",
+            "ru": "В трёх строках product = laptop.",
+            "uk": "У трьох рядках product = laptop."
+          }
+        }
+      ]
+    },
+    {
+      "id": "tp-compare",
+      "title": {
+        "en": "Comparing files: diff and comm",
+        "ru": "Сравнение файлов: diff и comm",
+        "uk": "Порівняння файлів: diff і comm"
+      },
+      "commands": [
+        "diff",
+        "comm",
+        "sort"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "files": {
+          "~/data/sales.csv": "date,city,product,amount\n2026-10-01,Kyiv,laptop,1200\n2026-10-01,Lviv,phone,600\n2026-10-02,Kyiv,phone,650\n2026-10-02,Odesa,laptop,1150\n2026-10-03,Lviv,laptop,1300\n2026-10-03,Kyiv,tablet,400\n",
+          "~/data/contacts.txt": "Olena   Shevchenko    +380501112233\nmarek  Nowak  +48600111222\nIVAN    petrenko +380671234567\n",
+          "~/config/app.conf": "# App settings\nport=8080\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=true\n\n# end\n",
+          "~/config/app.conf.bak": "# App settings\nport=80\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=false\n\n# end\n",
+          "~/data/team_old.txt": "anna\nivan\nmarek\nolena\n",
+          "~/data/team_new.txt": "anna\nmarek\nolena\npetro\n",
+          "~/data/urls.txt": "https://shop.example.com/cart\nhttps://shop.example.com/login\nhttps://api.example.com/v1/items\n"
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## diff — what changed\n```\n$ diff app.conf.bak app.conf\n2c2\n< port=80\n---\n> port=8080\n```\n- `2c2` — line 2 **c**hanged (also `a` added, `d` deleted)\n- `<` — from the first (old) file, `>` — from the second (new)\n- `diff -u` — the \"unified\" format you know from git: `-` removed, `+` added\n- `diff -q` — only \"differ / identical\"\n\n## comm — sets of lines\nBoth files must be **sorted**:\n```\n$ comm team_old.txt team_new.txt\n$ comm -23 team_old.txt team_new.txt\n$ comm -13 team_old.txt team_new.txt\n$ comm -12 team_old.txt team_new.txt\n```\nColumn 1 — only in the first file, 2 — only in the second, 3 — in both. `-23` hides columns 2 and 3.",
+            "ru": "## diff — что изменилось\n```\n$ diff app.conf.bak app.conf\n2c2\n< port=80\n---\n> port=8080\n```\n- `2c2` — строка 2 **и**зменена (ещё `a` — добавлена, `d` — удалена)\n- `<` — из первого (старого) файла, `>` — из второго (нового)\n- `diff -u` — «унифицированный» формат, как в git: `-` удалено, `+` добавлено\n- `diff -q` — только «различаются / одинаковы»\n\n## comm — множества строк\nОба файла должны быть **отсортированы**:\n```\n$ comm team_old.txt team_new.txt\n$ comm -23 team_old.txt team_new.txt\n$ comm -13 team_old.txt team_new.txt\n$ comm -12 team_old.txt team_new.txt\n```\nКолонка 1 — только в первом файле, 2 — только во втором, 3 — в обоих. `-23` скрывает колонки 2 и 3.",
+            "uk": "## diff — що змінилося\n```\n$ diff app.conf.bak app.conf\n2c2\n< port=80\n---\n> port=8080\n```\n- `2c2` — рядок 2 **з**мінено (ще `a` — додано, `d` — видалено)\n- `<` — з першого (старого) файлу, `>` — з другого (нового)\n- `diff -u` — «уніфікований» формат, як у git: `-` видалено, `+` додано\n- `diff -q` — лише «різняться / однакові»\n\n## comm — множини рядків\nОбидва файли мають бути **відсортовані**:\n```\n$ comm team_old.txt team_new.txt\n$ comm -23 team_old.txt team_new.txt\n$ comm -13 team_old.txt team_new.txt\n$ comm -12 team_old.txt team_new.txt\n```\nКолонка 1 — лише в першому файлі, 2 — лише в другому, 3 — в обох. `-23` ховає колонки 2 і 3."
+          },
+          "title": {
+            "en": "Spot the difference",
+            "ru": "Найди отличия",
+            "uk": "Знайди відмінності"
+          },
+          "demo": {
+            "commands": [
+              "diff ~/config/app.conf.bak ~/config/app.conf; echo \"exit code: $?\""
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "What changed in ~/config/app.conf compared to its .bak? Show the difference in unified format.",
+            "ru": "Что изменилось в ~/config/app.conf по сравнению с .bak? Покажите разницу в унифицированном формате.",
+            "uk": "Що змінилося в ~/config/app.conf порівняно з .bak? Покажіть різницю в уніфікованому форматі."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "diff",
+              "flags": [
+                "-u"
+              ],
+              "label": {
+                "en": "diff -u",
+                "ru": "diff -u",
+                "uk": "diff -u"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^\\+port=8080$",
+              "label": {
+                "en": "+port=8080",
+                "ru": "+port=8080",
+                "uk": "+port=8080"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^-debug=false$",
+              "label": {
+                "en": "-debug=false",
+                "ru": "-debug=false",
+                "uk": "-debug=false"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "diff -u OLD NEW",
+              "ru": "diff -u СТАРЫЙ НОВЫЙ",
+              "uk": "diff -u СТАРИЙ НОВИЙ"
+            },
+            "command": "diff"
+          },
+          "solution": [
+            "diff -u ~/config/app.conf.bak ~/config/app.conf"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Who left the team? Show names that are in team_old.txt but not in team_new.txt.",
+            "ru": "Кто ушёл из команды? Покажите имена, которые есть в team_old.txt, но нет в team_new.txt.",
+            "uk": "Хто пішов із команди? Покажіть імена, які є в team_old.txt, але немає в team_new.txt."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "comm",
+              "label": {
+                "en": "comm -23",
+                "ru": "comm -23",
+                "uk": "comm -23"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^ivan$",
+              "label": {
+                "en": "ivan",
+                "ru": "ivan",
+                "uk": "ivan"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 1,
+              "label": {
+                "en": "only ivan",
+                "ru": "только ivan",
+                "uk": "лише ivan"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "comm -23 OLD NEW (both are already sorted)",
+              "ru": "comm -23 СТАРЫЙ НОВЫЙ (оба уже отсортированы)",
+              "uk": "comm -23 СТАРИЙ НОВИЙ (обидва вже відсортовані)"
+            },
+            "command": "comm"
+          },
+          "solution": [
+            "comm -23 ~/data/team_old.txt ~/data/team_new.txt"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "And who joined?",
+            "ru": "А кто пришёл?",
+            "uk": "А хто прийшов?"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "comm",
+              "label": {
+                "en": "comm -13",
+                "ru": "comm -13",
+                "uk": "comm -13"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^petro$",
+              "label": {
+                "en": "petro",
+                "ru": "petro",
+                "uk": "petro"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 1,
+              "label": {
+                "en": "only petro",
+                "ru": "только petro",
+                "uk": "лише petro"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "comm -13 OLD NEW",
+              "ru": "comm -13 СТАРЫЙ НОВЫЙ",
+              "uk": "comm -13 СТАРИЙ НОВИЙ"
+            },
+            "command": "comm"
+          },
+          "solution": [
+            "comm -13 ~/data/team_old.txt ~/data/team_new.txt"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "diff prints \"5d4\". What does it mean?",
+            "ru": "diff печатает «5d4». Что это значит?",
+            "uk": "diff друкує «5d4». Що це означає?"
+          },
+          "options": [
+            {
+              "en": "Line 5 of the first file was deleted",
+              "ru": "Строка 5 первого файла удалена",
+              "uk": "Рядок 5 першого файлу видалено"
+            },
+            {
+              "en": "Line 5 was duplicated 4 times",
+              "ru": "Строка 5 повторена 4 раза",
+              "uk": "Рядок 5 повторено 4 рази"
+            },
+            {
+              "en": "Files differ in 5 of 4 lines",
+              "ru": "Файлы различаются в 5 из 4 строк",
+              "uk": "Файли різняться в 5 із 4 рядків"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "tp-tee-xargs",
+      "title": {
+        "en": "tee and xargs",
+        "ru": "tee и xargs",
+        "uk": "tee і xargs"
+      },
+      "commands": [
+        "tee",
+        "xargs",
+        "find"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "files": {
+          "~/data/sales.csv": "date,city,product,amount\n2026-10-01,Kyiv,laptop,1200\n2026-10-01,Lviv,phone,600\n2026-10-02,Kyiv,phone,650\n2026-10-02,Odesa,laptop,1150\n2026-10-03,Lviv,laptop,1300\n2026-10-03,Kyiv,tablet,400\n",
+          "~/data/contacts.txt": "Olena   Shevchenko    +380501112233\nmarek  Nowak  +48600111222\nIVAN    petrenko +380671234567\n",
+          "~/config/app.conf": "# App settings\nport=8080\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=true\n\n# end\n",
+          "~/config/app.conf.bak": "# App settings\nport=80\n\n# database\ndb_host=db01\ndb_port=5432\ndebug=false\n\n# end\n",
+          "~/data/team_old.txt": "anna\nivan\nmarek\nolena\n",
+          "~/data/team_new.txt": "anna\nmarek\nolena\npetro\n",
+          "~/data/urls.txt": "https://shop.example.com/cart\nhttps://shop.example.com/login\nhttps://api.example.com/v1/items\n"
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## tee — see it and save it\n```\n$ grep Kyiv sales.csv | tee kyiv.csv\n$ df -h | tee -a report.txt\n$ echo \"nameserver 1.1.1.1\" | sudo tee -a /etc/resolv.conf\n```\n`tee` copies the stream to the screen **and** to a file (`-a` appends). The last example is the classic: `sudo echo … > /etc/file` does not work, because the redirection runs as you, not as root.\n\n## xargs — output becomes arguments\n```\n$ find . -name '*.tmp' | xargs rm\n$ cat servers.txt | xargs -n 1 ping -c 1\n$ ls *.log | xargs wc -l\n```\nMany commands (rm, wc, ping) take **arguments**, not standard input. xargs builds the command line for them. `-n 1` — one argument per run.",
+            "ru": "## tee — и увидеть, и сохранить\n```\n$ grep Kyiv sales.csv | tee kyiv.csv\n$ df -h | tee -a report.txt\n$ echo \"nameserver 1.1.1.1\" | sudo tee -a /etc/resolv.conf\n```\n`tee` копирует поток на экран **и** в файл (`-a` — дописать). Последний пример — классика: `sudo echo … > /etc/file` не работает, потому что перенаправление выполняется от вас, а не от root.\n\n## xargs — вывод превращается в аргументы\n```\n$ find . -name '*.tmp' | xargs rm\n$ cat servers.txt | xargs -n 1 ping -c 1\n$ ls *.log | xargs wc -l\n```\nМногие команды (rm, wc, ping) принимают **аргументы**, а не стандартный ввод. xargs собирает для них командную строку. `-n 1` — по одному аргументу за запуск.",
+            "uk": "## tee — і побачити, і зберегти\n```\n$ grep Kyiv sales.csv | tee kyiv.csv\n$ df -h | tee -a report.txt\n$ echo \"nameserver 1.1.1.1\" | sudo tee -a /etc/resolv.conf\n```\n`tee` копіює потік на екран **і** у файл (`-a` — дописати). Останній приклад — класика: `sudo echo … > /etc/file` не працює, бо перенаправлення виконується від вас, а не від root.\n\n## xargs — вивід стає аргументами\n```\n$ find . -name '*.tmp' | xargs rm\n$ cat servers.txt | xargs -n 1 ping -c 1\n$ ls *.log | xargs wc -l\n```\nБагато команд (rm, wc, ping) приймають **аргументи**, а не стандартний ввід. xargs збирає для них командний рядок. `-n 1` — по одному аргументу за запуск."
+          },
+          "title": {
+            "en": "Plumbing",
+            "ru": "Сантехника конвейеров",
+            "uk": "Сантехніка конвеєрів"
+          },
+          "demo": {
+            "commands": [
+              "grep Kyiv ~/data/sales.csv | tee /tmp/kyiv.csv"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show the Lviv sales on the screen AND save them to ~/data/lviv.csv at the same time.",
+            "ru": "Покажите продажи Lviv на экране И одновременно сохраните их в ~/data/lviv.csv.",
+            "uk": "Покажіть продажі Lviv на екрані Й одночасно збережіть їх у ~/data/lviv.csv."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "tee",
+              "label": {
+                "en": "tee",
+                "ru": "tee",
+                "uk": "tee"
+              }
+            },
+            {
+              "type": "fileContains",
+              "path": "~/data/lviv.csv",
+              "text": "Lviv,laptop,1300",
+              "label": {
+                "en": "lviv.csv has the Lviv lines",
+                "ru": "В lviv.csv строки Lviv",
+                "uk": "У lviv.csv рядки Lviv"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Lviv,phone",
+              "label": {
+                "en": "They were printed too",
+                "ru": "И они напечатаны",
+                "uk": "І їх надруковано"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "grep Lviv FILE | tee ~/data/lviv.csv",
+              "ru": "grep Lviv ФАЙЛ | tee ~/data/lviv.csv",
+              "uk": "grep Lviv ФАЙЛ | tee ~/data/lviv.csv"
+            },
+            "command": "tee"
+          },
+          "solution": [
+            "grep Lviv ~/data/sales.csv | tee ~/data/lviv.csv"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Count the lines of every .txt file in ~/data with ONE wc call via find + xargs.",
+            "ru": "Посчитайте строки каждого .txt в ~/data ОДНИМ вызовом wc через find + xargs.",
+            "uk": "Порахуйте рядки кожного .txt у ~/data ОДНИМ викликом wc через find + xargs."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "xargs",
+              "label": {
+                "en": "xargs wc -l",
+                "ru": "xargs wc -l",
+                "uk": "xargs wc -l"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "total",
+              "label": {
+                "en": "total line",
+                "ru": "строка total",
+                "uk": "рядок total"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "find ~/data -name '*.txt' | xargs wc -l",
+              "ru": "find ~/data -name '*.txt' | xargs wc -l",
+              "uk": "find ~/data -name '*.txt' | xargs wc -l"
+            },
+            "command": "xargs"
+          },
+          "solution": [
+            "find ~/data -name '*.txt' | xargs wc -l"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Why does \"sudo echo 1 > /root/x\" fail with Permission denied?",
+            "ru": "Почему «sudo echo 1 > /root/x» падает с Permission denied?",
+            "uk": "Чому «sudo echo 1 > /root/x» падає з Permission denied?"
+          },
+          "options": [
+            {
+              "en": "The > redirection is done by your shell, not by sudo — use | sudo tee",
+              "ru": "Перенаправление > делает ваша оболочка, а не sudo — используйте | sudo tee",
+              "uk": "Перенаправлення > робить ваша оболонка, а не sudo — використовуйте | sudo tee"
+            },
+            {
+              "en": "echo cannot run as root",
+              "ru": "echo нельзя запускать от root",
+              "uk": "echo не можна запускати від root"
+            },
+            {
+              "en": "/root does not exist",
+              "ru": "/root не существует",
+              "uk": "/root не існує"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

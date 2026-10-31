@@ -424,6 +424,13 @@ class Runner implements ShellApi {
   }
 
   runCompound(c: Compound, stdin: string | null, tty: boolean): RunResult {
+    const res = this.runCompoundInner(c, stdin, tty);
+    // record loops / conditions so that task checks can ask for them
+    if (c.kind !== 'group') this.executed.push({ name: c.kind, args: [], exitCode: res.code });
+    return res;
+  }
+
+  private runCompoundInner(c: Compound, stdin: string | null, tty: boolean): RunResult {
     const chunks: OutputChunk[] = [];
     let code = 0;
     const list = (sc: Script, input: string | null) => {

@@ -17,3 +17,4 @@ npm-debug.*
 /apps/mobile/ios
 .screens/
 apps/mobile/expo-env.d.ts
+__pycache__/

@@ -2951,5 +2951,341 @@
         "ротаці"
       ]
     }
+  },
+  {
+    "id": "sticky-bit",
+    "category": "permissions",
+    "term": {
+      "en": "Sticky bit",
+      "ru": "Sticky bit",
+      "uk": "Sticky bit"
+    },
+    "definition": {
+      "en": "A permission bit on a directory (the \"t\" in drwxrwxrwt): everybody may create files, but only the owner can delete them. Used on /tmp.",
+      "ru": "Бит прав на папке («t» в drwxrwxrwt): создавать файлы могут все, а удалять — только владелец. Стоит на /tmp.",
+      "uk": "Біт прав на папці («t» у drwxrwxrwt): створювати файли можуть усі, а видаляти — лише власник. Стоїть на /tmp."
+    },
+    "match": {
+      "en": [
+        "sticky bit"
+      ],
+      "ru": [
+        "sticky"
+      ],
+      "uk": [
+        "sticky"
+      ]
+    }
+  },
+  {
+    "id": "setgid",
+    "category": "permissions",
+    "term": {
+      "en": "setgid on a directory",
+      "ru": "setgid на папке",
+      "uk": "setgid на папці"
+    },
+    "definition": {
+      "en": "The \"s\" in place of the group x (chmod 2770): new files inside get the group of the directory — handy for team folders.",
+      "ru": "«s» на месте x группы (chmod 2770): новые файлы внутри получают группу папки — удобно для командных папок.",
+      "uk": "«s» на місці x групи (chmod 2770): нові файли всередині отримують групу папки — зручно для командних папок."
+    },
+    "match": {
+      "en": [
+        "setgid"
+      ],
+      "ru": [
+        "setgid"
+      ],
+      "uk": [
+        "setgid"
+      ]
+    }
+  },
+  {
+    "id": "system-user",
+    "category": "permissions",
+    "term": {
+      "en": "System user",
+      "ru": "Системный пользователь",
+      "uk": "Системний користувач"
+    },
+    "definition": {
+      "en": "An account for a service, not a person (www-data, postgres). Limits the damage if the service is hacked.",
+      "ru": "Учётная запись для сервиса, а не человека (www-data, postgres). Ограничивает ущерб при взломе сервиса.",
+      "uk": "Обліковий запис для сервісу, а не людини (www-data, postgres). Обмежує шкоду в разі зламу сервісу."
+    },
+    "match": {
+      "en": [
+        "system user"
+      ],
+      "ru": [
+        "системн пользоват",
+        "системный пользователь"
+      ],
+      "uk": [
+        "системний користувач"
+      ]
+    }
+  },
+  {
+    "id": "sigterm-sigkill",
+    "category": "processes",
+    "term": {
+      "en": "SIGTERM / SIGKILL",
+      "ru": "SIGTERM / SIGKILL",
+      "uk": "SIGTERM / SIGKILL"
+    },
+    "definition": {
+      "en": "TERM (15) politely asks a process to finish and lets it clean up; KILL (9) is an immediate stop by the kernel without cleanup.",
+      "ru": "TERM (15) вежливо просит процесс завершиться и даёт прибраться; KILL (9) — мгновенная остановка ядром без уборки.",
+      "uk": "TERM (15) ввічливо просить процес завершитися й дає прибрати; KILL (9) — миттєва зупинка ядром без прибирання."
+    },
+    "match": {
+      "en": [
+        "sigterm",
+        "sigkill"
+      ],
+      "ru": [
+        "sigterm",
+        "sigkill"
+      ],
+      "uk": [
+        "sigterm",
+        "sigkill"
+      ]
+    },
+    "command": "kill"
+  },
+  {
+    "id": "process-state",
+    "category": "processes",
+    "term": {
+      "en": "Process state (STAT)",
+      "ru": "Состояние процесса (STAT)",
+      "uk": "Стан процесу (STAT)"
+    },
+    "definition": {
+      "en": "A letter in ps: R running, S sleeping, D waiting for disk, Z zombie, T stopped.",
+      "ru": "Буква в ps: R работает, S спит, D ждёт диск, Z зомби, T остановлен.",
+      "uk": "Літера в ps: R працює, S спить, D чекає диск, Z зомбі, T зупинений."
+    },
+    "match": {
+      "en": [
+        "process state"
+      ],
+      "ru": [
+        "состояни процесс"
+      ],
+      "uk": [
+        "стан процес"
+      ]
+    },
+    "command": "ps"
+  },
+  {
+    "id": "brace-expansion",
+    "category": "shell",
+    "term": {
+      "en": "Brace expansion",
+      "ru": "Раскрытие скобок",
+      "uk": "Розкриття дужок"
+    },
+    "definition": {
+      "en": "bash turns file{1,2}.txt into file1.txt file2.txt and {1..5} into 1 2 3 4 5 before running the command.",
+      "ru": "bash превращает file{1,2}.txt в file1.txt file2.txt, а {1..5} — в 1 2 3 4 5 до запуска команды.",
+      "uk": "bash перетворює file{1,2}.txt на file1.txt file2.txt, а {1..5} — на 1 2 3 4 5 до запуску команди."
+    },
+    "match": {
+      "en": [
+        "brace expansion"
+      ],
+      "ru": [
+        "раскрыти скобок",
+        "фигурн"
+      ],
+      "uk": [
+        "розкритт дужок",
+        "фігурн"
+      ]
+    }
+  },
+  {
+    "id": "loop",
+    "category": "shell",
+    "term": {
+      "en": "Loop",
+      "ru": "Цикл",
+      "uk": "Цикл"
+    },
+    "definition": {
+      "en": "Repeating commands: for NAME in LIST; do …; done, or while CONDITION; do …; done.",
+      "ru": "Повторение команд: for ИМЯ in СПИСОК; do …; done или while УСЛОВИЕ; do …; done.",
+      "uk": "Повторення команд: for НАЗВА in СПИСОК; do …; done або while УМОВА; do …; done."
+    },
+    "match": {
+      "en": [
+        "loop"
+      ],
+      "ru": [
+        "цикл"
+      ],
+      "uk": [
+        "цикл"
+      ]
+    }
+  },
+  {
+    "id": "quoting",
+    "category": "shell",
+    "term": {
+      "en": "Quoting",
+      "ru": "Кавычки",
+      "uk": "Лапки"
+    },
+    "definition": {
+      "en": "\"double\" quotes keep spaces but expand $VAR; 'single' quotes keep everything literally.",
+      "ru": "\"двойные\" кавычки сохраняют пробелы, но раскрывают $VAR; 'одинарные' сохраняют всё буквально.",
+      "uk": "\"подвійні\" лапки зберігають пробіли, але розкривають $VAR; 'одинарні' зберігають усе буквально."
+    },
+    "match": {
+      "en": [
+        "quotes",
+        "quoting"
+      ],
+      "ru": [
+        "кавычк"
+      ],
+      "uk": [
+        "лапк"
+      ]
+    }
+  },
+  {
+    "id": "exit-chain",
+    "category": "shell",
+    "term": {
+      "en": "&& and ||",
+      "ru": "&& и ||",
+      "uk": "&& і ||"
+    },
+    "definition": {
+      "en": "a && b runs b only if a succeeded; a || b runs b only if a failed.",
+      "ru": "a && b запускает b, только если a успешна; a || b — только если a упала.",
+      "uk": "a && b запускає b, лише якщо a успішна; a || b — лише якщо a впала."
+    },
+    "match": {
+      "en": [
+        "&& and ||"
+      ],
+      "ru": [],
+      "uk": []
+    }
+  },
+  {
+    "id": "upstream",
+    "category": "noc",
+    "term": {
+      "en": "Upstream (backend)",
+      "ru": "Upstream (бэкенд)",
+      "uk": "Upstream (бекенд)"
+    },
+    "definition": {
+      "en": "The server a proxy forwards requests to — e.g. nginx → the API on 127.0.0.1:3000. If it is down, the proxy answers 502.",
+      "ru": "Сервер, которому прокси передаёт запросы, — например nginx → API на 127.0.0.1:3000. Если он лежит, прокси отвечает 502.",
+      "uk": "Сервер, якому проксі передає запити, — наприклад nginx → API на 127.0.0.1:3000. Якщо він лежить, проксі відповідає 502."
+    },
+    "match": {
+      "en": [
+        "upstream",
+        "backend"
+      ],
+      "ru": [
+        "upstream",
+        "бэкенд"
+      ],
+      "uk": [
+        "upstream",
+        "бекенд"
+      ]
+    }
+  },
+  {
+    "id": "timeline",
+    "category": "noc",
+    "term": {
+      "en": "Incident timeline",
+      "ru": "Таймлайн инцидента",
+      "uk": "Таймлайн інциденту"
+    },
+    "definition": {
+      "en": "The list of events of an incident in time order (UTC) with their sources — the backbone of a postmortem.",
+      "ru": "Список событий инцидента по времени (UTC) с источниками — основа постмортема.",
+      "uk": "Список подій інциденту за часом (UTC) із джерелами — основа постмортему."
+    },
+    "match": {
+      "en": [
+        "timeline"
+      ],
+      "ru": [
+        "таймлайн"
+      ],
+      "uk": [
+        "таймлайн"
+      ]
+    }
+  },
+  {
+    "id": "blameless",
+    "category": "noc",
+    "term": {
+      "en": "Blameless",
+      "ru": "Без поиска виноватых (blameless)",
+      "uk": "Без пошуку винних (blameless)"
+    },
+    "definition": {
+      "en": "A postmortem culture that looks for weak spots in the system, not for a guilty person, so people share all facts.",
+      "ru": "Культура постмортемов, где ищут слабые места системы, а не виноватого, чтобы люди делились всеми фактами.",
+      "uk": "Культура постмортемів, де шукають слабкі місця системи, а не винного, щоб люди ділилися всіма фактами."
+    },
+    "match": {
+      "en": [
+        "blameless"
+      ],
+      "ru": [
+        "blameless"
+      ],
+      "uk": [
+        "blameless"
+      ]
+    }
+  },
+  {
+    "id": "five-whys",
+    "category": "noc",
+    "term": {
+      "en": "5 whys",
+      "ru": "5 почему",
+      "uk": "5 чому"
+    },
+    "definition": {
+      "en": "Asking \"why?\" again and again (about five times) to get from a symptom to the root cause.",
+      "ru": "Спрашивать «почему?» снова и снова (около пяти раз), чтобы дойти от симптома до первопричины.",
+      "uk": "Питати «чому?» знову й знову (близько п’яти разів), щоб дійти від симптому до першопричини."
+    },
+    "match": {
+      "en": [
+        "5 whys",
+        "five whys"
+      ],
+      "ru": [
+        "5 почему",
+        "пять почему"
+      ],
+      "uk": [
+        "5 чому",
+        "п'ять чому"
+      ]
+    }
   }
 ]

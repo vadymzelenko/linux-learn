@@ -49,7 +49,10 @@
     "solution": [
       "ls /etc | wc -l"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "text-pipes"
+    ]
   },
   {
     "id": "ch-newest",
@@ -101,7 +104,10 @@
     "solution": [
       "tail -n 1 logs/app.log"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "text-head-tail"
+    ]
   },
   {
     "id": "ch-mkdir-tree",
@@ -163,7 +169,11 @@
     "solution": [
       "mkdir -p app/src app/tests app/docs"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "files-create",
+      "sp-braces"
+    ]
   },
   {
     "id": "ch-hidden",
@@ -206,7 +216,10 @@
       "ls -a",
       "ls .secret"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "nav-hidden-and-details"
+    ]
   },
   {
     "id": "ch-biggest",
@@ -261,7 +274,10 @@
     "solution": [
       "ls -lS videos"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "nav-hidden-and-details"
+    ]
   },
   {
     "id": "ch-copy-safe",
@@ -324,7 +340,10 @@
       "mkdir txt-backup",
       "cp *.txt txt-backup/"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "files-wildcards"
+    ]
   },
   {
     "id": "ch-top-score",
@@ -376,7 +395,10 @@
     "solution": [
       "sort -t, -k2 -rn data/scores.csv | head -n 1"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "text-sort-uniq"
+    ]
   },
   {
     "id": "ch-replace",
@@ -430,7 +452,11 @@
     "solution": [
       "sed -i 's/Hello/Welcome/g' projects/website/index.html"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "power-text-wizardry",
+      "tp-sed"
+    ]
   },
   {
     "id": "ch-link",
@@ -482,7 +508,10 @@
     "solution": [
       "ln -s projects/website site"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "perm-links"
+    ]
   },
   {
     "id": "ch-private",
@@ -525,7 +554,10 @@
     "solution": [
       "chmod 600 notes.txt"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "perm-chmod"
+    ]
   },
   {
     "id": "ch-find-js",
@@ -567,7 +599,10 @@
     "solution": [
       "find projects -name \"*.js\" | wc -l"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "search-find-name"
+    ]
   },
   {
     "id": "ch-alias",
@@ -610,7 +645,10 @@
     "solution": [
       "alias c=clear"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "power-variables"
+    ]
   },
   {
     "id": "ch-errors-only",
@@ -675,7 +713,11 @@
     "solution": [
       "grep -v INFO logs/app.log > problems.txt"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "text-wc-grep",
+      "text-redirects"
+    ]
   },
   {
     "id": "ch-disk-hog",
@@ -728,6 +770,9 @@
       "ls -lhS downloads",
       "rm downloads/movie.mkv"
     ],
-    "xp": 30
+    "xp": 30,
+    "topics": [
+      "search-find-type-size"
+    ]
   }
 ]
