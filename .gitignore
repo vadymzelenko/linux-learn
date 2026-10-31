@@ -16,3 +16,4 @@ npm-debug.*
 /apps/mobile/android
 /apps/mobile/ios
 .screens/
+apps/mobile/expo-env.d.ts

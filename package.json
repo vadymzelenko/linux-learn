@@ -6,6 +6,8 @@
     "test": "pnpm -r --if-present test",
     "typecheck": "pnpm -r --if-present typecheck",
     "content:lint": "pnpm --filter @linux-learn/content lint",
-    "ci": "pnpm typecheck && pnpm test && pnpm content:lint"
+    "ci": "pnpm typecheck && pnpm test && pnpm --filter @linux-learn/engine coverage && pnpm --filter @linux-learn/content lint -- --strict",
+    "web": "pnpm --filter @linux-learn/mobile web",
+    "android": "pnpm --filter @linux-learn/mobile android"
   }
 }

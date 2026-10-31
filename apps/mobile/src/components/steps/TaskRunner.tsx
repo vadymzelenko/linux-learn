@@ -1,0 +1,190 @@
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { evaluateTask, prepareSession, tr, type ContentCheck, type L10n } from '@linux-learn/content';
+import { stripAnsi, type ExecutedCommand, type ExecResult, type TaskEvaluation } from '@linux-learn/engine';
+import { useTheme, MONO, space } from '../../theme';
+import { Body, Button, Icon, Row } from '../ui';
+import { RichText } from '../ui/RichText';
+import { Terminal, useColumns, type TerminalHandle } from '../terminal/Terminal';
+import { useShell } from '../terminal/useShell';
+import { haptic } from '../../lib/haptics';
+
+export interface TaskSpec {
+  /** Unique key: changing it restarts the task. */
+  key: string;
+  goal?: L10n;
+  setup?: string | Record<string, unknown>;
+  prepare?: string[];
+  checks: ContentCheck[];
+  hints?: { direction: L10n; command: string };
+  solution: string[];
+  prefill?: string;
+  /** Extra text above the goal (mission briefing). */
+  story?: L10n;
+  title?: string;
+}
+
+interface Props {
+  task: TaskSpec;
+  allowHints?: boolean;
+  onSolved: (info: { hints: number; mistakes: number }) => void;
+  /** Rendered under the checklist once solved (Continue button). */
+  solvedFooter?: React.ReactNode;
+}
+
+/** A goal card with a live checklist + a terminal on the task's machine. */
+export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter }: Props) {
+  const theme = useTheme();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+  const columns = useColumns();
+  const { width, height } = useWindowDimensions();
+  const wide = width >= 720 && width > height;
+  const initial = useMemo(() => prepareSession(task.setup, task.prepare ?? []), [task.key]); // eslint-disable-line react-hooks/exhaustive-deps
+  const executed = useRef<ExecutedCommand[]>([]);
+  const mistakes = useRef(0);
+  const [evaluation, setEvaluation] = useState<TaskEvaluation | null>(null);
+  const [hints, setHints] = useState(0);
+  const [solved, setSolved] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const termRef = useRef<TerminalHandle>(null);
+
+  const onExec = useCallback(
+    (result: ExecResult) => {
+      if (solved) return;
+      executed.current.push(...result.executed);
+      if (result.exitCode !== 0) mistakes.current++;
+      const out = stripAnsi(result.output.map((o) => o.text).join(''));
+      const ev = evaluateTask(task.checks, result.session, executed.current, out, result.exitCode);
+      setEvaluation((prev) => {
+        const newlyPassed = ev.results.some((r, i) => r.status === 'pass' && prev?.results[i]?.status !== 'pass');
+        if (newlyPassed && !ev.passed) haptic.light();
+        return ev;
+      });
+      if (ev.passed) {
+        setSolved(true);
+        haptic.success();
+        onSolved({ hints, mistakes: mistakes.current });
+      }
+    },
+    [hints, onSolved, solved, task.checks],
+  );
+
+  const shell = useShell(initial, { onExec, columns, track: true });
+
+  const reset = () => {
+    const doIt = () => {
+      executed.current = [];
+      setEvaluation(null);
+      shell.replaceSession(prepareSession(task.setup, task.prepare ?? []));
+      if (task.prefill) termRef.current?.setInput(task.prefill);
+    };
+    if (Platform.OS === 'web') return doIt();
+    Alert.alert(t('lesson.resetConfirm'), undefined, [
+      { text: t('common.cancel'), style: 'cancel' },
+      { text: t('common.reset'), style: 'destructive', onPress: doIt },
+    ]);
+  };
+
+  const missing = evaluation?.results.find((r) => r.status === 'partial')?.missingFlags;
+
+  const card = (
+    <View style={[styles.card, { backgroundColor: theme.surface, borderColor: solved ? theme.success : theme.border }]}>
+      <Row style={{ justifyContent: 'space-between' }}>
+        <Text style={{ color: theme.textDim, fontWeight: '800', fontSize: 12, letterSpacing: 1 }}>{(task.title ?? t('lesson.goal')).toUpperCase()}</Text>
+        <Row gap={2}>
+          <Pressable onPress={reset} hitSlop={8} accessibilityRole="button" accessibilityLabel={t('lesson.resetMachine')} style={styles.iconBtn}>
+            <Icon name="refresh" size={20} color={theme.textDim} />
+          </Pressable>
+          <Pressable
+            onPress={() => setCollapsed(!collapsed)}
+            hitSlop={8}
+            accessibilityRole="button"
+            accessibilityLabel={collapsed ? t('lesson.expand') : t('lesson.collapse')}
+            style={styles.iconBtn}
+          >
+            <Icon name={collapsed ? 'chevron-down' : 'chevron-up'} size={20} color={theme.textDim} />
+          </Pressable>
+        </Row>
+      </Row>
+      {!collapsed ? (
+        <ScrollView style={{ maxHeight: wide ? undefined : height * 0.36 }} contentContainerStyle={{ gap: space.sm }}>
+          {task.story ? <RichText text={tr(task.story, lang)} style={{ fontSize: 15, color: theme.textDim, marginBottom: 4 }} /> : null}
+          {task.goal ? <RichText text={tr(task.goal, lang)} style={{ fontSize: 17, fontWeight: '600', marginBottom: 4 }} /> : null}
+          <View style={{ gap: 6 }} accessibilityLabel={t('lesson.checklist')}>
+            {task.checks.map((c, i) => {
+              const st = evaluation?.results[i]?.status;
+              return (
+                <Row key={i} gap={8}>
+                  <Icon
+                    name={st === 'pass' ? 'check-circle' : 'circle'}
+                    size={20}
+                    color={st === 'pass' ? theme.success : st === 'partial' ? theme.warning : theme.textDim}
+                  />
+                  <Text style={{ color: st === 'pass' ? theme.text : theme.textDim, flex: 1, fontSize: 15 }}>{tr(c.label, lang)}</Text>
+                </Row>
+              );
+            })}
+          </View>
+          {missing && !solved ? <Text style={{ color: theme.warning }}>{t('lesson.partial', { flags: missing.join(' ') })}</Text> : null}
+          {allowHints && task.hints && !solved ? (
+            <View style={{ gap: 6, marginTop: 4 }}>
+              {hints >= 1 ? <Hint label={t('lesson.hintLevel1')} text={tr(task.hints.direction, lang)} /> : null}
+              {hints >= 2 ? <Hint label={t('lesson.hintLevel2')} text={task.hints.command} mono onPress={() => termRef.current?.insert(task.hints!.command + ' ')} /> : null}
+              {hints >= 3 ? (
+                <Hint label={t('lesson.hintLevel3')} text={task.solution.join('\n')} mono onPress={() => termRef.current?.insert(task.solution[0]!)} />
+              ) : null}
+              {hints < 3 ? (
+                <Button
+                  small
+                  variant="ghost"
+                  icon="bulb"
+                  title={t('lesson.showHint', { n: hints + 1 })}
+                  onPress={() => setHints(hints + 1)}
+                  style={{ alignSelf: 'flex-start' }}
+                />
+              ) : null}
+            </View>
+          ) : null}
+          {solved ? (
+            <Row gap={8} style={{ marginTop: 4 }}>
+              <Icon name="check-circle" color={theme.success} />
+              <Text style={{ color: theme.success, fontWeight: '800', fontSize: 16 }}>{t('lesson.solved')}</Text>
+            </Row>
+          ) : null}
+          {solved ? solvedFooter : null}
+        </ScrollView>
+      ) : null}
+    </View>
+  );
+
+  return (
+    <View style={[styles.wrap, wide && { flexDirection: 'row' }]}>
+      <View style={wide ? { width: '38%' } : undefined}>{card}</View>
+      <Terminal ref={termRef} shell={shell} prefill={task.prefill} autoFocus={Platform.OS !== 'web'} style={{ flex: 1 }} />
+    </View>
+  );
+}
+
+function Hint({ label, text, mono, onPress }: { label: string; text: string; mono?: boolean; onPress?: () => void }) {
+  const theme = useTheme();
+  return (
+    <Pressable onPress={onPress} disabled={!onPress} accessibilityRole={onPress ? 'button' : 'text'} style={[styles.hint, { backgroundColor: theme.surface2 }]}>
+      <Text style={{ color: theme.warning, fontSize: 12, fontWeight: '800' }}>{label}</Text>
+      <Text style={{ color: theme.text, fontFamily: mono ? MONO : undefined, fontSize: mono ? 14 : 15 }}>{text}</Text>
+    </Pressable>
+  );
+}
+
+export function TaskSolvedNote({ xp }: { xp: number }) {
+  const { t } = useTranslation();
+  return <Body dim>{t('lesson.earned', { xp })}</Body>;
+}
+
+const styles = StyleSheet.create({
+  wrap: { flex: 1, gap: space.md },
+  card: { borderRadius: 16, borderWidth: 1, padding: space.md, gap: space.sm },
+  iconBtn: { padding: 6, borderRadius: 999 },
+  hint: { borderRadius: 10, padding: 10, gap: 2 },
+});

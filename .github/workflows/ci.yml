@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'claude/**']
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Typecheck (engine, content, app)
+        run: pnpm typecheck
+      - name: Unit, property and golden tests
+        run: pnpm test
+      - name: Engine coverage >= 90%
+        run: pnpm --filter @linux-learn/engine coverage
+      - name: Content linter — every task is solved by its reference solution
+        run: pnpm --filter @linux-learn/content lint -- --strict
+      - name: Web build (smoke test of the app bundle)
+        run: pnpm --filter @linux-learn/mobile export:web
