@@ -28,6 +28,7 @@ export type Check =
   | { type: 'varEquals'; name: string; value: string }
   | { type: 'aliasExists'; name: string; value?: string }
   | { type: 'userIs'; user: string }
+  | { type: 'userExists'; name: string; group?: string; exists?: boolean }
   | { type: 'processGone'; pid?: number; name?: string }
   | { type: 'serviceState'; name: string; state: 'active' | 'inactive' | 'failed' }
   | { type: 'serviceEnabled'; name: string; enabled: boolean }
@@ -159,6 +160,11 @@ export function evaluateCheck(check: Check, ctx: CheckContext): CheckResult {
       return ok(check.name in s.aliases && (check.value === undefined || s.aliases[check.name] === check.value));
     case 'userIs':
       return ok(s.user === check.user);
+    case 'userExists': {
+      const u = s.machine.users.find((x) => x.name === check.name);
+      if (check.exists === false) return ok(!u);
+      return ok(!!u && (check.group === undefined || u.groups.includes(check.group)));
+    }
     case 'processGone':
       return ok(!s.machine.processes.some((pr) => (check.pid !== undefined && pr.pid === check.pid) || (check.name !== undefined && pr.command.includes(check.name))));
     case 'serviceState':

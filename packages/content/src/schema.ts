@@ -21,6 +21,7 @@ export const CheckSchema = z
     z.object({ type: z.literal('dirExists'), path }),
     z.object({ type: z.literal('symlinkExists'), path, target: z.string().optional() }),
     z.object({ type: z.literal('notExists'), path }),
+    z.object({ type: z.literal('userExists'), name: z.string(), group: z.string().optional(), exists: z.boolean().optional() }),
     z.object({ type: z.literal('fileContains'), path, text: z.string().optional(), regex: z.string().optional(), flags: z.string().optional() }),
     z.object({ type: z.literal('fileNotContains'), path, text: z.string().optional(), regex: z.string().optional() }),
     z.object({ type: z.literal('fileEquals'), path, text: z.string() }),

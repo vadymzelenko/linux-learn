@@ -1,0 +1,872 @@
+{
+  "id": "users",
+  "path": "/linux/users",
+  "icon": "users",
+  "title": {
+    "en": "Users and groups",
+    "ru": "Пользователи и группы",
+    "uk": "Користувачі та групи"
+  },
+  "description": {
+    "en": "id, useradd, groups, a shared team folder, sudo and su.",
+    "ru": "id, useradd, группы, общая папка команды, sudo и su.",
+    "uk": "id, useradd, групи, спільна папка команди, sudo і su."
+  },
+  "lessons": [
+    {
+      "id": "users-id",
+      "title": {
+        "en": "Who am I, really?",
+        "ru": "Кто я на самом деле?",
+        "uk": "Хто я насправді?"
+      },
+      "commands": [
+        "id",
+        "groups",
+        "whoami"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          },
+          {
+            "name": "olena",
+            "uid": 1001,
+            "groups": [
+              "olena",
+              "developers"
+            ]
+          }
+        ],
+        "files": {
+          "/srv/": null
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Users and groups\nEvery process runs **as a user**. Each user has:\n- a **UID** — the number the kernel actually uses (root = 0)\n- a **primary group** and any number of **supplementary groups**\n\nGroups give shared rights: everyone in `developers` can write to the project folder; everyone in `sudo` may become root.\n```\n$ whoami\n$ id\n$ groups\n$ id olena\n```\n## System users\n`www-data`, `postgres`, `syslog`… are not people. Services run under them so that a hacked web server cannot read your home folder.",
+            "ru": "## Пользователи и группы\nКаждый процесс работает **от имени пользователя**. У пользователя есть:\n- **UID** — число, которым на самом деле оперирует ядро (root = 0)\n- **основная группа** и сколько угодно **дополнительных групп**\n\nГруппы дают общие права: все из `developers` могут писать в папку проекта; все из `sudo` могут стать root.\n```\n$ whoami\n$ id\n$ groups\n$ id olena\n```\n## Системные пользователи\n`www-data`, `postgres`, `syslog`… — не люди. Сервисы работают от их имени, чтобы взломанный веб-сервер не мог прочитать вашу домашнюю папку.",
+            "uk": "## Користувачі та групи\nКожен процес працює **від імені користувача**. У користувача є:\n- **UID** — число, яким насправді оперує ядро (root = 0)\n- **основна група** і скільки завгодно **додаткових груп**\n\nГрупи дають спільні права: усі з `developers` можуть писати в папку проєкту; усі з `sudo` можуть стати root.\n```\n$ whoami\n$ id\n$ groups\n$ id olena\n```\n## Системні користувачі\n`www-data`, `postgres`, `syslog`… — не люди. Сервіси працюють від їхнього імені, щоб зламаний вебсервер не міг прочитати вашу домашню папку."
+          },
+          "title": {
+            "en": "Identity",
+            "ru": "Идентичность",
+            "uk": "Ідентичність"
+          },
+          "demo": {
+            "commands": [
+              "id"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show your UID and all your groups with one command.",
+            "ru": "Покажите свой UID и все группы одной командой.",
+            "uk": "Покажіть свій UID і всі групи однією командою."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "id",
+              "label": {
+                "en": "id",
+                "ru": "id",
+                "uk": "id"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "uid=1000",
+              "label": {
+                "en": "uid=1000",
+                "ru": "uid=1000",
+                "uk": "uid=1000"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "id",
+              "ru": "id",
+              "uk": "id"
+            },
+            "command": "id"
+          },
+          "solution": [
+            "id"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Which groups is olena in?",
+            "ru": "В каких группах состоит olena?",
+            "uk": "У яких групах перебуває olena?"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "groups",
+              "label": {
+                "en": "groups olena (or id olena)",
+                "ru": "groups olena (или id olena)",
+                "uk": "groups olena (або id olena)"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "developers",
+              "label": {
+                "en": "developers",
+                "ru": "developers",
+                "uk": "developers"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "groups olena",
+              "ru": "groups olena",
+              "uk": "groups olena"
+            },
+            "command": "groups"
+          },
+          "solution": [
+            "groups olena"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "What does UID 0 mean?",
+            "ru": "Что означает UID 0?",
+            "uk": "Що означає UID 0?"
+          },
+          "options": [
+            {
+              "en": "root — the all-powerful administrator",
+              "ru": "root — всемогущий администратор",
+              "uk": "root — всемогутній адміністратор"
+            },
+            {
+              "en": "a deleted user",
+              "ru": "удалённый пользователь",
+              "uk": "видалений користувач"
+            },
+            {
+              "en": "a guest",
+              "ru": "гость",
+              "uk": "гість"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Why does nginx run as www-data and not as root?",
+            "ru": "Почему nginx работает от www-data, а не от root?",
+            "uk": "Чому nginx працює від www-data, а не від root?"
+          },
+          "options": [
+            {
+              "en": "If it is hacked, the attacker gets only www-data's limited rights",
+              "ru": "Если его взломают, атакующий получит лишь ограниченные права www-data",
+              "uk": "Якщо його зламають, атакувальник отримає лише обмежені права www-data"
+            },
+            {
+              "en": "root is slower",
+              "ru": "root медленнее",
+              "uk": "root повільніший"
+            },
+            {
+              "en": "It is a tradition only",
+              "ru": "Это просто традиция",
+              "uk": "Це просто традиція"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "users-add",
+      "title": {
+        "en": "Creating users",
+        "ru": "Создание пользователей",
+        "uk": "Створення користувачів"
+      },
+      "commands": [
+        "useradd",
+        "passwd",
+        "sudo"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          },
+          {
+            "name": "olena",
+            "uid": 1001,
+            "groups": [
+              "olena",
+              "developers"
+            ]
+          }
+        ],
+        "files": {
+          "/srv/": null
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## useradd\n```\n$ sudo useradd -m -s /bin/bash anna\n$ sudo passwd anna\n$ id anna\n```\n- `-m` — create the home folder `/home/anna` (without it there is none!)\n- `-s /bin/bash` — the login shell\n- `-G developers` — extra groups right away\n\nOn Debian/Ubuntu there is also the friendly `adduser`, which asks questions interactively.\n\n## Deleting\n```\n$ sudo userdel -r anna\n```\n`-r` removes the home folder too — think twice.\n\n> All these commands change /etc/passwd and /etc/group, so they need **sudo**.",
+            "ru": "## useradd\n```\n$ sudo useradd -m -s /bin/bash anna\n$ sudo passwd anna\n$ id anna\n```\n- `-m` — создать домашнюю папку `/home/anna` (без него её не будет!)\n- `-s /bin/bash` — оболочка входа\n- `-G developers` — сразу дополнительные группы\n\nВ Debian/Ubuntu есть ещё дружелюбный `adduser`, который задаёт вопросы интерактивно.\n\n## Удаление\n```\n$ sudo userdel -r anna\n```\n`-r` удаляет и домашнюю папку — подумайте дважды.\n\n> Все эти команды меняют /etc/passwd и /etc/group, поэтому им нужен **sudo**.",
+            "uk": "## useradd\n```\n$ sudo useradd -m -s /bin/bash anna\n$ sudo passwd anna\n$ id anna\n```\n- `-m` — створити домашню папку `/home/anna` (без нього її не буде!)\n- `-s /bin/bash` — оболонка входу\n- `-G developers` — одразу додаткові групи\n\nУ Debian/Ubuntu є ще дружній `adduser`, який ставить питання інтерактивно.\n\n## Видалення\n```\n$ sudo userdel -r anna\n```\n`-r` видаляє й домашню папку — подумайте двічі.\n\n> Усі ці команди змінюють /etc/passwd і /etc/group, тому їм потрібен **sudo**."
+          },
+          "title": {
+            "en": "New colleague",
+            "ru": "Новый коллега",
+            "uk": "Новий колега"
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "A new colleague, anna, starts today. Create her account with a home folder and bash as the shell.",
+            "ru": "Сегодня выходит новая коллега anna. Создайте ей учётную запись с домашней папкой и оболочкой bash.",
+            "uk": "Сьогодні виходить нова колега anna. Створіть їй обліковий запис із домашньою папкою та оболонкою bash."
+          },
+          "checks": [
+            {
+              "type": "userExists",
+              "name": "anna",
+              "label": {
+                "en": "User anna exists",
+                "ru": "Пользователь anna создан",
+                "uk": "Користувача anna створено"
+              }
+            },
+            {
+              "type": "dirExists",
+              "path": "/home/anna",
+              "label": {
+                "en": "/home/anna exists",
+                "ru": "/home/anna создана",
+                "uk": "/home/anna створено"
+              }
+            },
+            {
+              "type": "fileContains",
+              "path": "/etc/passwd",
+              "regex": "^anna:.*:/bin/bash$",
+              "label": {
+                "en": "Her shell is /bin/bash",
+                "ru": "Её оболочка /bin/bash",
+                "uk": "Її оболонка /bin/bash"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sudo useradd -m -s /bin/bash anna",
+              "ru": "sudo useradd -m -s /bin/bash anna",
+              "uk": "sudo useradd -m -s /bin/bash anna"
+            },
+            "command": "useradd"
+          },
+          "solution": [
+            "sudo useradd -m -s /bin/bash anna"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Set a password for anna.",
+            "ru": "Задайте пароль для anna.",
+            "uk": "Задайте пароль для anna."
+          },
+          "prepare": [
+            "sudo useradd -m -s /bin/bash anna"
+          ],
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "passwd",
+              "success": true,
+              "label": {
+                "en": "sudo passwd anna",
+                "ru": "sudo passwd anna",
+                "uk": "sudo passwd anna"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "updated successfully",
+              "label": {
+                "en": "password updated",
+                "ru": "password updated",
+                "uk": "password updated"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sudo passwd anna",
+              "ru": "sudo passwd anna",
+              "uk": "sudo passwd anna"
+            },
+            "command": "passwd"
+          },
+          "solution": [
+            "sudo passwd anna"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "An intern account \"intern1\" is no longer needed. Delete it together with its home folder.",
+            "ru": "Учётка стажёра «intern1» больше не нужна. Удалите её вместе с домашней папкой.",
+            "uk": "Обліковий запис стажера «intern1» більше не потрібен. Видаліть його разом із домашньою папкою."
+          },
+          "prepare": [
+            "sudo useradd -m intern1"
+          ],
+          "checks": [
+            {
+              "type": "userExists",
+              "name": "intern1",
+              "exists": false,
+              "label": {
+                "en": "intern1 is gone",
+                "ru": "intern1 удалён",
+                "uk": "intern1 видалено"
+              }
+            },
+            {
+              "type": "notExists",
+              "path": "/home/intern1",
+              "label": {
+                "en": "/home/intern1 is gone",
+                "ru": "/home/intern1 удалена",
+                "uk": "/home/intern1 видалено"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sudo userdel -r intern1",
+              "ru": "sudo userdel -r intern1",
+              "uk": "sudo userdel -r intern1"
+            },
+            "command": "userdel"
+          },
+          "solution": [
+            "sudo userdel -r intern1"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You ran \"sudo useradd bob\" (without -m). What is missing?",
+            "ru": "Вы выполнили «sudo useradd bob» (без -m). Чего не хватает?",
+            "uk": "Ви виконали «sudo useradd bob» (без -m). Чого бракує?"
+          },
+          "options": [
+            {
+              "en": "His home folder /home/bob",
+              "ru": "Его домашней папки /home/bob",
+              "uk": "Його домашньої папки /home/bob"
+            },
+            {
+              "en": "His UID",
+              "ru": "Его UID",
+              "uk": "Його UID"
+            },
+            {
+              "en": "Nothing",
+              "ru": "Ничего",
+              "uk": "Нічого"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "users-groups",
+      "title": {
+        "en": "Groups and a shared folder",
+        "ru": "Группы и общая папка",
+        "uk": "Групи та спільна папка"
+      },
+      "commands": [
+        "groupadd",
+        "usermod",
+        "chown",
+        "chmod"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          },
+          {
+            "name": "olena",
+            "uid": 1001,
+            "groups": [
+              "olena",
+              "developers"
+            ]
+          }
+        ],
+        "files": {
+          "/srv/": null
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## The classic task: a team folder\n\"Anna and Olena must both edit files in /srv/project, others must not.\"\n1. Create a group: `sudo groupadd webteam`\n2. Add the people: `sudo usermod -aG webteam olena`\n3. Give the folder to the group: `sudo chown :webteam /srv/project`\n4. Rights: `sudo chmod 2770 /srv/project`\n\n## What is 2770?\n- `770` — owner and group: everything; others: nothing\n- `2` — the **setgid** bit on a folder: new files inside automatically get the folder's group\n\n## -aG, not -G!\n`usermod -G webteam olena` **replaces** all her groups — she may lose `sudo` or `developers`. Always `-aG` (append).\n\n> Group changes apply at the **next login** of that user.",
+            "ru": "## Классическая задача: папка команды\n«Анна и Олена обе должны редактировать файлы в /srv/project, остальные — нет.»\n1. Создайте группу: `sudo groupadd webteam`\n2. Добавьте людей: `sudo usermod -aG webteam olena`\n3. Отдайте папку группе: `sudo chown :webteam /srv/project`\n4. Права: `sudo chmod 2770 /srv/project`\n\n## Что такое 2770?\n- `770` — владелец и группа: всё; остальные: ничего\n- `2` — бит **setgid** на папке: новые файлы внутри автоматически получают группу папки\n\n## -aG, а не -G!\n`usermod -G webteam olena` **заменяет** все её группы — она может потерять `sudo` или `developers`. Всегда `-aG` (append — добавить).\n\n> Изменения групп вступают в силу при **следующем входе** пользователя.",
+            "uk": "## Класичне завдання: папка команди\n«Анна та Олена обидві мають редагувати файли в /srv/project, інші — ні.»\n1. Створіть групу: `sudo groupadd webteam`\n2. Додайте людей: `sudo usermod -aG webteam olena`\n3. Віддайте папку групі: `sudo chown :webteam /srv/project`\n4. Права: `sudo chmod 2770 /srv/project`\n\n## Що таке 2770?\n- `770` — власник і група: усе; інші: нічого\n- `2` — біт **setgid** на папці: нові файли всередині автоматично отримують групу папки\n\n## -aG, а не -G!\n`usermod -G webteam olena` **замінює** всі її групи — вона може втратити `sudo` або `developers`. Завжди `-aG` (append — додати).\n\n> Зміни груп набувають чинності під час **наступного входу** користувача."
+          },
+          "title": {
+            "en": "Team access",
+            "ru": "Доступ для команды",
+            "uk": "Доступ для команди"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Create the group webteam and add olena and yourself (student) to it.",
+            "ru": "Создайте группу webteam и добавьте в неё olena и себя (student).",
+            "uk": "Створіть групу webteam і додайте до неї olena та себе (student)."
+          },
+          "instructions": {
+            "en": "1. `sudo groupadd webteam`\n2. `sudo usermod -aG webteam olena`\n3. `sudo usermod -aG webteam student`\n4. Check: `groups olena`",
+            "ru": "1. `sudo groupadd webteam`\n2. `sudo usermod -aG webteam olena`\n3. `sudo usermod -aG webteam student`\n4. Проверка: `groups olena`",
+            "uk": "1. `sudo groupadd webteam`\n2. `sudo usermod -aG webteam olena`\n3. `sudo usermod -aG webteam student`\n4. Перевірка: `groups olena`"
+          },
+          "checks": [
+            {
+              "type": "userExists",
+              "name": "olena",
+              "group": "webteam",
+              "label": {
+                "en": "olena is in webteam",
+                "ru": "olena в webteam",
+                "uk": "olena у webteam"
+              }
+            },
+            {
+              "type": "userExists",
+              "name": "olena",
+              "group": "developers",
+              "label": {
+                "en": "olena kept developers",
+                "ru": "olena осталась в developers",
+                "uk": "olena лишилася в developers"
+              }
+            },
+            {
+              "type": "userExists",
+              "name": "student",
+              "group": "webteam",
+              "label": {
+                "en": "student is in webteam",
+                "ru": "student в webteam",
+                "uk": "student у webteam"
+              }
+            },
+            {
+              "type": "userExists",
+              "name": "student",
+              "group": "sudo",
+              "label": {
+                "en": "student kept sudo",
+                "ru": "student остался в sudo",
+                "uk": "student лишився в sudo"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sudo groupadd webteam; sudo usermod -aG webteam olena; ...",
+              "ru": "sudo groupadd webteam; sudo usermod -aG webteam olena; ...",
+              "uk": "sudo groupadd webteam; sudo usermod -aG webteam olena; ..."
+            },
+            "command": "usermod"
+          },
+          "solution": [
+            "sudo groupadd webteam",
+            "sudo usermod -aG webteam olena",
+            "sudo usermod -aG webteam student"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Create /srv/project, give it to the group webteam and set permissions 2770.",
+            "ru": "Создайте /srv/project, отдайте её группе webteam и выставьте права 2770.",
+            "uk": "Створіть /srv/project, віддайте її групі webteam і виставте права 2770."
+          },
+          "prepare": [
+            "sudo groupadd webteam"
+          ],
+          "checks": [
+            {
+              "type": "dirExists",
+              "path": "/srv/project",
+              "label": {
+                "en": "/srv/project exists",
+                "ru": "/srv/project создана",
+                "uk": "/srv/project створено"
+              }
+            },
+            {
+              "type": "ownerIs",
+              "path": "/srv/project",
+              "group": "webteam",
+              "label": {
+                "en": "Group is webteam",
+                "ru": "Группа webteam",
+                "uk": "Група webteam"
+              }
+            },
+            {
+              "type": "modeIs",
+              "path": "/srv/project",
+              "mode": "2770",
+              "label": {
+                "en": "Mode 2770 (drwxrws---)",
+                "ru": "Права 2770 (drwxrws---)",
+                "uk": "Права 2770 (drwxrws---)"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sudo mkdir, sudo chown :webteam, sudo chmod 2770",
+              "ru": "sudo mkdir, sudo chown :webteam, sudo chmod 2770",
+              "uk": "sudo mkdir, sudo chown :webteam, sudo chmod 2770"
+            },
+            "command": "chmod"
+          },
+          "solution": [
+            "sudo mkdir /srv/project",
+            "sudo chown :webteam /srv/project",
+            "sudo chmod 2770 /srv/project"
+          ],
+          "xp": 30
+        },
+        {
+          "type": "predict",
+          "command": "ls -ld /srv/project",
+          "options": [
+            "drwxrws--- 2 root webteam 4096 Oct 31 12:00 /srv/project",
+            "drwxrwx--- 2 root webteam 4096 Oct 31 12:00 /srv/project",
+            "drwxr-xr-x 2 root root 4096 Oct 31 12:00 /srv/project"
+          ],
+          "answer": 0,
+          "setup": {
+            "hostname": "trainer",
+            "users": [
+              {
+                "name": "www-data",
+                "uid": 33,
+                "home": "/var/www"
+              },
+              {
+                "name": "olena",
+                "uid": 1001,
+                "groups": [
+                  "olena",
+                  "developers"
+                ]
+              }
+            ],
+            "files": {
+              "/srv/": null
+            }
+          },
+          "prepare": [
+            "sudo groupadd webteam",
+            "sudo mkdir /srv/project",
+            "sudo chown :webteam /srv/project",
+            "sudo chmod 2770 /srv/project"
+          ],
+          "context": [
+            "ls /srv"
+          ],
+          "explanation": {
+            "en": "The setgid bit shows as \"s\" in place of the group x.",
+            "ru": "Бит setgid показывается как «s» на месте x группы.",
+            "uk": "Біт setgid показується як «s» на місці x групи."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "What happens after \"sudo usermod -G webteam student\" (no -a)?",
+            "ru": "Что будет после «sudo usermod -G webteam student» (без -a)?",
+            "uk": "Що буде після «sudo usermod -G webteam student» (без -a)?"
+          },
+          "options": [
+            {
+              "en": "student loses all other supplementary groups, including sudo",
+              "ru": "student теряет все остальные доп. группы, включая sudo",
+              "uk": "student втрачає всі інші додаткові групи, зокрема sudo"
+            },
+            {
+              "en": "Nothing different from -aG",
+              "ru": "То же, что -aG",
+              "uk": "Те саме, що -aG"
+            },
+            {
+              "en": "An error",
+              "ru": "Ошибка",
+              "uk": "Помилка"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "users-switch",
+      "title": {
+        "en": "su, sudo and root",
+        "ru": "su, sudo и root",
+        "uk": "su, sudo і root"
+      },
+      "commands": [
+        "sudo",
+        "su",
+        "exit"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          },
+          {
+            "name": "olena",
+            "uid": 1001,
+            "groups": [
+              "olena",
+              "developers"
+            ]
+          }
+        ],
+        "files": {
+          "/srv/": null
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Becoming another user\n| command | what it does |\n|---|---|\n| `sudo CMD` | run one command as root (asks **your** password) |\n| `sudo -i` | an interactive root shell; leave with `exit` |\n| `sudo -u olena CMD` | run a command as olena |\n| `su - olena` | log in as olena (asks **her** password) |\n| `sudo -l` | what am I allowed to do with sudo? |\n\nWho may use sudo is decided by the `sudo` group (Ubuntu) or `wheel` (RHEL) and by the file `/etc/sudoers` (edit only with `visudo`!).\n\n> Work as a normal user, use sudo for single commands. A root shell left open is an accident waiting to happen. Every sudo is written to /var/log/auth.log.",
+            "ru": "## Стать другим пользователем\n| команда | что делает |\n|---|---|\n| `sudo CMD` | выполнить одну команду от root (спрашивает **ваш** пароль) |\n| `sudo -i` | интерактивная оболочка root; выход — `exit` |\n| `sudo -u olena CMD` | выполнить команду от olena |\n| `su - olena` | войти как olena (спрашивает **её** пароль) |\n| `sudo -l` | что мне разрешено через sudo? |\n\nКто может пользоваться sudo, решает группа `sudo` (Ubuntu) или `wheel` (RHEL) и файл `/etc/sudoers` (правьте только через `visudo`!).\n\n> Работайте обычным пользователем, sudo — для отдельных команд. Забытая открытая root-оболочка — авария, которая ждёт своего часа. Каждый sudo записывается в /var/log/auth.log.",
+            "uk": "## Стати іншим користувачем\n| команда | що робить |\n|---|---|\n| `sudo CMD` | виконати одну команду від root (питає **ваш** пароль) |\n| `sudo -i` | інтерактивна оболонка root; вихід — `exit` |\n| `sudo -u olena CMD` | виконати команду від olena |\n| `su - olena` | увійти як olena (питає **її** пароль) |\n| `sudo -l` | що мені дозволено через sudo? |\n\nХто може користуватися sudo, вирішує група `sudo` (Ubuntu) або `wheel` (RHEL) і файл `/etc/sudoers` (правте лише через `visudo`!).\n\n> Працюйте звичайним користувачем, sudo — для окремих команд. Забута відкрита root-оболонка — аварія, що чекає свого часу. Кожен sudo записується в /var/log/auth.log."
+          },
+          "title": {
+            "en": "Switching users",
+            "ru": "Смена пользователя",
+            "uk": "Зміна користувача"
+          },
+          "demo": {
+            "commands": [
+              "sudo -l"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Open a root shell, check who you are, and then leave it again.",
+            "ru": "Откройте оболочку root, проверьте, кто вы, и выйдите из неё.",
+            "uk": "Відкрийте оболонку root, перевірте, хто ви, і вийдіть із неї."
+          },
+          "instructions": {
+            "en": "1. `sudo -i`\n2. `whoami` → root\n3. `exit`",
+            "ru": "1. `sudo -i`\n2. `whoami` → root\n3. `exit`",
+            "uk": "1. `sudo -i`\n2. `whoami` → root\n3. `exit`"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "sudo",
+              "flags": [
+                "-i"
+              ],
+              "label": {
+                "en": "sudo -i",
+                "ru": "sudo -i",
+                "uk": "sudo -i"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "whoami",
+              "label": {
+                "en": "whoami as root",
+                "ru": "whoami под root",
+                "uk": "whoami під root"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "exit",
+              "label": {
+                "en": "exit",
+                "ru": "exit",
+                "uk": "exit"
+              }
+            },
+            {
+              "type": "userIs",
+              "user": "student",
+              "label": {
+                "en": "You are student again",
+                "ru": "Вы снова student",
+                "uk": "Ви знову student"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sudo -i, whoami, exit",
+              "ru": "sudo -i, whoami, exit",
+              "uk": "sudo -i, whoami, exit"
+            },
+            "command": "sudo"
+          },
+          "solution": [
+            "sudo -i",
+            "whoami",
+            "exit"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Run \"whoami\" as the user www-data — without becoming root.",
+            "ru": "Выполните «whoami» от имени www-data — не становясь root.",
+            "uk": "Виконайте «whoami» від імені www-data — не стаючи root."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "sudo",
+              "flags": [
+                "-u"
+              ],
+              "label": {
+                "en": "sudo -u www-data",
+                "ru": "sudo -u www-data",
+                "uk": "sudo -u www-data"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^www-data$",
+              "label": {
+                "en": "www-data",
+                "ru": "www-data",
+                "uk": "www-data"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sudo -u USER COMMAND",
+              "ru": "sudo -u ПОЛЬЗОВАТЕЛЬ КОМАНДА",
+              "uk": "sudo -u КОРИСТУВАЧ КОМАНДА"
+            },
+            "command": "sudo"
+          },
+          "solution": [
+            "sudo -u www-data whoami"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "sudo asks for a password. Whose?",
+            "ru": "sudo спрашивает пароль. Чей?",
+            "uk": "sudo питає пароль. Чий?"
+          },
+          "options": [
+            {
+              "en": "Yours",
+              "ru": "Ваш",
+              "uk": "Ваш"
+            },
+            {
+              "en": "root's",
+              "ru": "root",
+              "uk": "root"
+            },
+            {
+              "en": "The target user's",
+              "ru": "Целевого пользователя",
+              "uk": "Цільового користувача"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Why edit /etc/sudoers only with visudo?",
+            "ru": "Почему /etc/sudoers правят только через visudo?",
+            "uk": "Чому /etc/sudoers правлять лише через visudo?"
+          },
+          "options": [
+            {
+              "en": "It checks the syntax: a broken sudoers can lock everyone out of sudo",
+              "ru": "Он проверяет синтаксис: сломанный sudoers может отрезать всех от sudo",
+              "uk": "Він перевіряє синтаксис: зламаний sudoers може відрізати всіх від sudo"
+            },
+            {
+              "en": "It is faster",
+              "ru": "Так быстрее",
+              "uk": "Так швидше"
+            },
+            {
+              "en": "nano cannot open it",
+              "ru": "nano не может его открыть",
+              "uk": "nano не може його відкрити"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

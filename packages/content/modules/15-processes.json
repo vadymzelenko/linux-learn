@@ -1,0 +1,1523 @@
+{
+  "id": "processes",
+  "path": "/linux/processes",
+  "icon": "activity",
+  "title": {
+    "en": "Processes and services",
+    "ru": "Процессы и сервисы",
+    "uk": "Процеси та сервіси"
+  },
+  "description": {
+    "en": "ps, pgrep, signals, kill and pkill, resource hogs, systemd.",
+    "ru": "ps, pgrep, сигналы, kill и pkill, пожиратели ресурсов, systemd.",
+    "uk": "ps, pgrep, сигнали, kill і pkill, пожирачі ресурсів, systemd."
+  },
+  "lessons": [
+    {
+      "id": "proc-basics",
+      "title": {
+        "en": "What is a process",
+        "ru": "Что такое процесс",
+        "uk": "Що таке процес"
+      },
+      "commands": [
+        "ps"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          },
+          {
+            "name": "postgres",
+            "uid": 114,
+            "home": "/var/lib/postgresql"
+          }
+        ],
+        "processes": [
+          {
+            "pid": 1,
+            "user": "root",
+            "command": "/sbin/init",
+            "cpu": 0.0,
+            "mem": 0.3,
+            "rss": 12400,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 412,
+            "user": "root",
+            "command": "/usr/sbin/cron -f",
+            "cpu": 0.0,
+            "mem": 0.1,
+            "rss": 2800,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 538,
+            "user": "root",
+            "command": "sshd: /usr/sbin/sshd -D",
+            "cpu": 0.0,
+            "mem": 0.2,
+            "rss": 8100,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 700,
+            "user": "postgres",
+            "command": "/usr/lib/postgresql/16/bin/postgres -D /var/lib/postgresql/16/main",
+            "cpu": 1.5,
+            "mem": 6.2,
+            "rss": 250000,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 901,
+            "user": "root",
+            "command": "nginx: master process /usr/sbin/nginx",
+            "cpu": 0.0,
+            "mem": 0.2,
+            "rss": 7000,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 902,
+            "user": "www-data",
+            "command": "nginx: worker process",
+            "cpu": 0.3,
+            "mem": 0.4,
+            "rss": 9100,
+            "stat": "S",
+            "start": "09:00"
+          },
+          {
+            "pid": 903,
+            "user": "www-data",
+            "command": "nginx: worker process",
+            "cpu": 0.2,
+            "mem": 0.4,
+            "rss": 9050,
+            "stat": "S",
+            "start": "09:00"
+          },
+          {
+            "pid": 1200,
+            "user": "student",
+            "command": "-bash",
+            "cpu": 0.0,
+            "mem": 0.1,
+            "rss": 5200,
+            "stat": "Ss",
+            "start": "09:05"
+          },
+          {
+            "pid": 3100,
+            "user": "student",
+            "command": "python3 resize_photos.py",
+            "cpu": 96.0,
+            "mem": 9.5,
+            "rss": 380000,
+            "stat": "R",
+            "start": "10:20"
+          },
+          {
+            "pid": 3150,
+            "user": "student",
+            "command": "tail -f /var/log/syslog",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 1800,
+            "stat": "S",
+            "start": "10:25"
+          },
+          {
+            "pid": 3160,
+            "user": "student",
+            "command": "sleep 3600",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 900,
+            "stat": "S",
+            "start": "10:26"
+          },
+          {
+            "pid": 3161,
+            "user": "student",
+            "command": "sleep 7200",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 900,
+            "stat": "S",
+            "start": "10:26"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Program vs process\nA **program** is a file on disk (`/usr/bin/python3`). A **process** is a running copy of it with its own number — **PID**, owner, memory and state.\n\n## ps aux — every process\n| column | meaning |\n|---|---|\n| USER | who runs it |\n| PID | process ID |\n| %CPU, %MEM | share of CPU / memory |\n| RSS | real memory in KiB |\n| STAT | state: `R` running, `S` sleeping, `D` waiting for disk, `Z` zombie, `T` stopped |\n| START, TIME | when started, CPU time used |\n| COMMAND | the command line |\n\n```\n$ ps aux\n$ ps -ef\n$ ps -u student\n```\n> PID 1 (`init` / `systemd`) is the ancestor of all processes. Every process has a parent (PPID).",
+            "ru": "## Программа и процесс\n**Программа** — файл на диске (`/usr/bin/python3`). **Процесс** — её запущенная копия со своим номером — **PID**, владельцем, памятью и состоянием.\n\n## ps aux — все процессы\n| колонка | значение |\n|---|---|\n| USER | кто запустил |\n| PID | идентификатор процесса |\n| %CPU, %MEM | доля процессора / памяти |\n| RSS | реальная память в КиБ |\n| STAT | состояние: `R` работает, `S` спит, `D` ждёт диск, `Z` зомби, `T` остановлен |\n| START, TIME | когда запущен, сколько процессорного времени съел |\n| COMMAND | командная строка |\n\n```\n$ ps aux\n$ ps -ef\n$ ps -u student\n```\n> PID 1 (`init` / `systemd`) — предок всех процессов. У каждого процесса есть родитель (PPID).",
+            "uk": "## Програма і процес\n**Програма** — файл на диску (`/usr/bin/python3`). **Процес** — її запущена копія зі своїм номером — **PID**, власником, пам’яттю та станом.\n\n## ps aux — усі процеси\n| колонка | значення |\n|---|---|\n| USER | хто запустив |\n| PID | ідентифікатор процесу |\n| %CPU, %MEM | частка процесора / пам’яті |\n| RSS | реальна пам’ять у КіБ |\n| STAT | стан: `R` працює, `S` спить, `D` чекає диск, `Z` зомбі, `T` зупинений |\n| START, TIME | коли запущено, скільки процесорного часу з’їв |\n| COMMAND | командний рядок |\n\n```\n$ ps aux\n$ ps -ef\n$ ps -u student\n```\n> PID 1 (`init` / `systemd`) — предок усіх процесів. Кожен процес має батька (PPID)."
+          },
+          "title": {
+            "en": "Processes",
+            "ru": "Процессы",
+            "uk": "Процеси"
+          },
+          "demo": {
+            "commands": [
+              "ps aux"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show only your own processes.",
+            "ru": "Покажите только свои процессы.",
+            "uk": "Покажіть лише свої процеси."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ps",
+              "flags": [
+                "-u"
+              ],
+              "label": {
+                "en": "ps -u student",
+                "ru": "ps -u student",
+                "uk": "ps -u student"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "python3",
+              "label": {
+                "en": "resize_photos.py is visible",
+                "ru": "Виден resize_photos.py",
+                "uk": "Видно resize_photos.py"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^(?![\\s\\S]*postgres)",
+              "label": {
+                "en": "No postgres lines",
+                "ru": "Нет строк postgres",
+                "uk": "Немає рядків postgres"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ps -u student",
+              "ru": "ps -u student",
+              "uk": "ps -u student"
+            },
+            "command": "ps"
+          },
+          "solution": [
+            "ps -u student"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show all processes of the postgres user in full BSD format (with %CPU and %MEM).",
+            "ru": "Покажите все процессы пользователя postgres в полном BSD-формате (с %CPU и %MEM).",
+            "uk": "Покажіть усі процеси користувача postgres у повному BSD-форматі (з %CPU і %MEM)."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ps",
+              "label": {
+                "en": "ps u -U postgres",
+                "ru": "ps u -U postgres",
+                "uk": "ps u -U postgres"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "%MEM",
+              "label": {
+                "en": "%MEM header",
+                "ru": "Заголовок %MEM",
+                "uk": "Заголовок %MEM"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "postgresql/16",
+              "label": {
+                "en": "The postgres server",
+                "ru": "Сервер postgres",
+                "uk": "Сервер postgres"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ps u -U postgres",
+              "ru": "ps u -U postgres",
+              "uk": "ps u -U postgres"
+            },
+            "command": "ps"
+          },
+          "solution": [
+            "ps u -U postgres"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "A process has STAT \"D\" for a long time. What is it doing?",
+            "ru": "У процесса долго STAT «D». Что он делает?",
+            "uk": "У процесу довго STAT «D». Що він робить?"
+          },
+          "options": [
+            {
+              "en": "Waiting for disk / I/O — it cannot even be killed until the I/O ends",
+              "ru": "Ждёт диск / ввод-вывод — его не убить, пока I/O не закончится",
+              "uk": "Чекає диск / ввід-вивід — його не вбити, доки I/O не закінчиться"
+            },
+            {
+              "en": "Running at full speed",
+              "ru": "Работает на полной скорости",
+              "uk": "Працює на повній швидкості"
+            },
+            {
+              "en": "It is dead",
+              "ru": "Он мёртв",
+              "uk": "Він мертвий"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "proc-find",
+      "title": {
+        "en": "Finding processes",
+        "ru": "Поиск процессов",
+        "uk": "Пошук процесів"
+      },
+      "commands": [
+        "pgrep",
+        "ps",
+        "grep"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          },
+          {
+            "name": "postgres",
+            "uid": 114,
+            "home": "/var/lib/postgresql"
+          }
+        ],
+        "processes": [
+          {
+            "pid": 1,
+            "user": "root",
+            "command": "/sbin/init",
+            "cpu": 0.0,
+            "mem": 0.3,
+            "rss": 12400,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 412,
+            "user": "root",
+            "command": "/usr/sbin/cron -f",
+            "cpu": 0.0,
+            "mem": 0.1,
+            "rss": 2800,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 538,
+            "user": "root",
+            "command": "sshd: /usr/sbin/sshd -D",
+            "cpu": 0.0,
+            "mem": 0.2,
+            "rss": 8100,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 700,
+            "user": "postgres",
+            "command": "/usr/lib/postgresql/16/bin/postgres -D /var/lib/postgresql/16/main",
+            "cpu": 1.5,
+            "mem": 6.2,
+            "rss": 250000,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 901,
+            "user": "root",
+            "command": "nginx: master process /usr/sbin/nginx",
+            "cpu": 0.0,
+            "mem": 0.2,
+            "rss": 7000,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 902,
+            "user": "www-data",
+            "command": "nginx: worker process",
+            "cpu": 0.3,
+            "mem": 0.4,
+            "rss": 9100,
+            "stat": "S",
+            "start": "09:00"
+          },
+          {
+            "pid": 903,
+            "user": "www-data",
+            "command": "nginx: worker process",
+            "cpu": 0.2,
+            "mem": 0.4,
+            "rss": 9050,
+            "stat": "S",
+            "start": "09:00"
+          },
+          {
+            "pid": 1200,
+            "user": "student",
+            "command": "-bash",
+            "cpu": 0.0,
+            "mem": 0.1,
+            "rss": 5200,
+            "stat": "Ss",
+            "start": "09:05"
+          },
+          {
+            "pid": 3100,
+            "user": "student",
+            "command": "python3 resize_photos.py",
+            "cpu": 96.0,
+            "mem": 9.5,
+            "rss": 380000,
+            "stat": "R",
+            "start": "10:20"
+          },
+          {
+            "pid": 3150,
+            "user": "student",
+            "command": "tail -f /var/log/syslog",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 1800,
+            "stat": "S",
+            "start": "10:25"
+          },
+          {
+            "pid": 3160,
+            "user": "student",
+            "command": "sleep 3600",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 900,
+            "stat": "S",
+            "start": "10:26"
+          },
+          {
+            "pid": 3161,
+            "user": "student",
+            "command": "sleep 7200",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 900,
+            "stat": "S",
+            "start": "10:26"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Three ways\n```\n$ ps aux | grep nginx\n$ pgrep -a nginx\n$ pgrep -u www-data -l nginx\n```\n`ps aux | grep` also finds **the grep itself** — a classic trap. `pgrep` does not.\n\n## pgrep options\n- `-a` — show the full command line\n- `-l` — show the name\n- `-f` — search in the whole command line, not just the name (`pgrep -f resize_photos`)\n- `-u USER` — only this user's processes\n- `-c` — count\n\n> Before killing by name, always look first with `pgrep -a`.",
+            "ru": "## Три способа\n```\n$ ps aux | grep nginx\n$ pgrep -a nginx\n$ pgrep -u www-data -l nginx\n```\n`ps aux | grep` находит и **сам grep** — классическая ловушка. `pgrep` — нет.\n\n## Опции pgrep\n- `-a` — полная командная строка\n- `-l` — имя\n- `-f` — искать по всей командной строке, а не только по имени (`pgrep -f resize_photos`)\n- `-u USER` — только процессы этого пользователя\n- `-c` — посчитать\n\n> Прежде чем убивать по имени, всегда сначала посмотрите через `pgrep -a`.",
+            "uk": "## Три способи\n```\n$ ps aux | grep nginx\n$ pgrep -a nginx\n$ pgrep -u www-data -l nginx\n```\n`ps aux | grep` знаходить і **сам grep** — класична пастка. `pgrep` — ні.\n\n## Опції pgrep\n- `-a` — повний командний рядок\n- `-l` — ім’я\n- `-f` — шукати по всьому командному рядку, а не лише за ім’ям (`pgrep -f resize_photos`)\n- `-u USER` — лише процеси цього користувача\n- `-c` — порахувати\n\n> Перш ніж убивати за ім’ям, завжди спершу подивіться через `pgrep -a`."
+          },
+          "title": {
+            "en": "pgrep",
+            "ru": "pgrep",
+            "uk": "pgrep"
+          },
+          "demo": {
+            "commands": [
+              "pgrep -a nginx"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Find the PIDs of all nginx processes with their command lines.",
+            "ru": "Найдите PID всех процессов nginx с их командными строками.",
+            "uk": "Знайдіть PID усіх процесів nginx з їхніми командними рядками."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "pgrep",
+              "flags": [
+                "-a"
+              ],
+              "label": {
+                "en": "pgrep -a",
+                "ru": "pgrep -a",
+                "uk": "pgrep -a"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 3,
+              "label": {
+                "en": "3 nginx processes",
+                "ru": "3 процесса nginx",
+                "uk": "3 процеси nginx"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "pgrep -a nginx",
+              "ru": "pgrep -a nginx",
+              "uk": "pgrep -a nginx"
+            },
+            "command": "pgrep"
+          },
+          "solution": [
+            "pgrep -a nginx"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "How many nginx WORKER processes run as www-data?",
+            "ru": "Сколько рабочих (worker) процессов nginx работает от www-data?",
+            "uk": "Скільки робочих (worker) процесів nginx працює від www-data?"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "pgrep",
+              "flags": [
+                "-c"
+              ],
+              "label": {
+                "en": "pgrep -c -u www-data",
+                "ru": "pgrep -c -u www-data",
+                "uk": "pgrep -c -u www-data"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^2$",
+              "label": {
+                "en": "2",
+                "ru": "2",
+                "uk": "2"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "pgrep -c -u www-data nginx",
+              "ru": "pgrep -c -u www-data nginx",
+              "uk": "pgrep -c -u www-data nginx"
+            },
+            "command": "pgrep"
+          },
+          "solution": [
+            "pgrep -c -u www-data nginx"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Find the PID of the photo script by a part of its file name: resize_photos.",
+            "ru": "Найдите PID скрипта с фото по части имени файла: resize_photos.",
+            "uk": "Знайдіть PID скрипта з фото за частиною назви файлу: resize_photos."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "pgrep",
+              "flags": [
+                "-f"
+              ],
+              "label": {
+                "en": "pgrep -f",
+                "ru": "pgrep -f",
+                "uk": "pgrep -f"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "3100",
+              "label": {
+                "en": "3100",
+                "ru": "3100",
+                "uk": "3100"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Its name is python3 — so search the full command line with -f.",
+              "ru": "Его имя — python3, поэтому ищите по всей строке через -f.",
+              "uk": "Його ім’я — python3, тому шукайте по всьому рядку через -f."
+            },
+            "command": "pgrep"
+          },
+          "solution": [
+            "pgrep -f resize_photos"
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "ps aux | grep -c sleep",
+          "options": [
+            "3",
+            "2",
+            "1"
+          ],
+          "answer": 0,
+          "setup": {
+            "hostname": "trainer",
+            "users": [
+              {
+                "name": "www-data",
+                "uid": 33,
+                "home": "/var/www"
+              },
+              {
+                "name": "postgres",
+                "uid": 114,
+                "home": "/var/lib/postgresql"
+              }
+            ],
+            "processes": [
+              {
+                "pid": 1,
+                "user": "root",
+                "command": "/sbin/init",
+                "cpu": 0.0,
+                "mem": 0.3,
+                "rss": 12400,
+                "stat": "Ss",
+                "start": "09:00"
+              },
+              {
+                "pid": 412,
+                "user": "root",
+                "command": "/usr/sbin/cron -f",
+                "cpu": 0.0,
+                "mem": 0.1,
+                "rss": 2800,
+                "stat": "Ss",
+                "start": "09:00"
+              },
+              {
+                "pid": 538,
+                "user": "root",
+                "command": "sshd: /usr/sbin/sshd -D",
+                "cpu": 0.0,
+                "mem": 0.2,
+                "rss": 8100,
+                "stat": "Ss",
+                "start": "09:00"
+              },
+              {
+                "pid": 700,
+                "user": "postgres",
+                "command": "/usr/lib/postgresql/16/bin/postgres -D /var/lib/postgresql/16/main",
+                "cpu": 1.5,
+                "mem": 6.2,
+                "rss": 250000,
+                "stat": "Ss",
+                "start": "09:00"
+              },
+              {
+                "pid": 901,
+                "user": "root",
+                "command": "nginx: master process /usr/sbin/nginx",
+                "cpu": 0.0,
+                "mem": 0.2,
+                "rss": 7000,
+                "stat": "Ss",
+                "start": "09:00"
+              },
+              {
+                "pid": 902,
+                "user": "www-data",
+                "command": "nginx: worker process",
+                "cpu": 0.3,
+                "mem": 0.4,
+                "rss": 9100,
+                "stat": "S",
+                "start": "09:00"
+              },
+              {
+                "pid": 903,
+                "user": "www-data",
+                "command": "nginx: worker process",
+                "cpu": 0.2,
+                "mem": 0.4,
+                "rss": 9050,
+                "stat": "S",
+                "start": "09:00"
+              },
+              {
+                "pid": 1200,
+                "user": "student",
+                "command": "-bash",
+                "cpu": 0.0,
+                "mem": 0.1,
+                "rss": 5200,
+                "stat": "Ss",
+                "start": "09:05"
+              },
+              {
+                "pid": 3100,
+                "user": "student",
+                "command": "python3 resize_photos.py",
+                "cpu": 96.0,
+                "mem": 9.5,
+                "rss": 380000,
+                "stat": "R",
+                "start": "10:20"
+              },
+              {
+                "pid": 3150,
+                "user": "student",
+                "command": "tail -f /var/log/syslog",
+                "cpu": 0.0,
+                "mem": 0.0,
+                "rss": 1800,
+                "stat": "S",
+                "start": "10:25"
+              },
+              {
+                "pid": 3160,
+                "user": "student",
+                "command": "sleep 3600",
+                "cpu": 0.0,
+                "mem": 0.0,
+                "rss": 900,
+                "stat": "S",
+                "start": "10:26"
+              },
+              {
+                "pid": 3161,
+                "user": "student",
+                "command": "sleep 7200",
+                "cpu": 0.0,
+                "mem": 0.0,
+                "rss": 900,
+                "stat": "S",
+                "start": "10:26"
+              }
+            ]
+          },
+          "context": [
+            "pgrep -a sleep"
+          ],
+          "explanation": {
+            "en": "Two sleep processes plus the grep itself — its command line \"grep -c sleep\" also contains \"sleep\".",
+            "ru": "Два процесса sleep плюс сам grep, в чьей командной строке тоже есть «sleep».",
+            "uk": "Два процеси sleep плюс сам grep, у командному рядку якого теж є «sleep»."
+          }
+        }
+      ]
+    },
+    {
+      "id": "proc-signals",
+      "title": {
+        "en": "Signals: TERM and KILL",
+        "ru": "Сигналы: TERM и KILL",
+        "uk": "Сигнали: TERM і KILL"
+      },
+      "commands": [
+        "kill",
+        "pkill",
+        "killall"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          },
+          {
+            "name": "postgres",
+            "uid": 114,
+            "home": "/var/lib/postgresql"
+          }
+        ],
+        "processes": [
+          {
+            "pid": 1,
+            "user": "root",
+            "command": "/sbin/init",
+            "cpu": 0.0,
+            "mem": 0.3,
+            "rss": 12400,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 412,
+            "user": "root",
+            "command": "/usr/sbin/cron -f",
+            "cpu": 0.0,
+            "mem": 0.1,
+            "rss": 2800,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 538,
+            "user": "root",
+            "command": "sshd: /usr/sbin/sshd -D",
+            "cpu": 0.0,
+            "mem": 0.2,
+            "rss": 8100,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 700,
+            "user": "postgres",
+            "command": "/usr/lib/postgresql/16/bin/postgres -D /var/lib/postgresql/16/main",
+            "cpu": 1.5,
+            "mem": 6.2,
+            "rss": 250000,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 901,
+            "user": "root",
+            "command": "nginx: master process /usr/sbin/nginx",
+            "cpu": 0.0,
+            "mem": 0.2,
+            "rss": 7000,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 902,
+            "user": "www-data",
+            "command": "nginx: worker process",
+            "cpu": 0.3,
+            "mem": 0.4,
+            "rss": 9100,
+            "stat": "S",
+            "start": "09:00"
+          },
+          {
+            "pid": 903,
+            "user": "www-data",
+            "command": "nginx: worker process",
+            "cpu": 0.2,
+            "mem": 0.4,
+            "rss": 9050,
+            "stat": "S",
+            "start": "09:00"
+          },
+          {
+            "pid": 1200,
+            "user": "student",
+            "command": "-bash",
+            "cpu": 0.0,
+            "mem": 0.1,
+            "rss": 5200,
+            "stat": "Ss",
+            "start": "09:05"
+          },
+          {
+            "pid": 3100,
+            "user": "student",
+            "command": "python3 resize_photos.py",
+            "cpu": 96.0,
+            "mem": 9.5,
+            "rss": 380000,
+            "stat": "R",
+            "start": "10:20"
+          },
+          {
+            "pid": 3150,
+            "user": "student",
+            "command": "tail -f /var/log/syslog",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 1800,
+            "stat": "S",
+            "start": "10:25"
+          },
+          {
+            "pid": 3160,
+            "user": "student",
+            "command": "sleep 3600",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 900,
+            "stat": "S",
+            "start": "10:26"
+          },
+          {
+            "pid": 3161,
+            "user": "student",
+            "command": "sleep 7200",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 900,
+            "stat": "S",
+            "start": "10:26"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## kill sends signals\n`kill` does not necessarily kill — it sends a **signal**.\n\n| signal | number | meaning |\n|---|---|---|\n| SIGTERM | 15 | \"please finish\" — the default, the process can clean up |\n| SIGKILL | 9 | immediate death by the kernel, no cleanup |\n| SIGHUP | 1 | \"reload the config\" for many daemons |\n| SIGINT | 2 | what **Ctrl+C** sends |\n| SIGSTOP / SIGCONT | 19 / 18 | pause / resume (Ctrl+Z) |\n\n```\n$ kill 3100\n$ kill -9 3100\n$ pkill -f resize_photos\n$ killall sleep\n```\n## The right order\n1. `kill PID` (TERM) and wait a few seconds\n2. only if it ignores you — `kill -9 PID`\n\n> `kill -9` on a database may corrupt data: it has no chance to write its buffers.",
+            "ru": "## kill отправляет сигналы\n`kill` не обязательно убивает — он отправляет **сигнал**.\n\n| сигнал | номер | значение |\n|---|---|---|\n| SIGTERM | 15 | «пожалуйста, завершись» — по умолчанию, процесс может прибраться |\n| SIGKILL | 9 | мгновенная смерть от ядра, без уборки |\n| SIGHUP | 1 | для многих демонов — «перечитай конфиг» |\n| SIGINT | 2 | то, что отправляет **Ctrl+C** |\n| SIGSTOP / SIGCONT | 19 / 18 | пауза / продолжение (Ctrl+Z) |\n\n```\n$ kill 3100\n$ kill -9 3100\n$ pkill -f resize_photos\n$ killall sleep\n```\n## Правильный порядок\n1. `kill PID` (TERM) и подождать несколько секунд\n2. только если не реагирует — `kill -9 PID`\n\n> `kill -9` для базы данных может испортить данные: она не успеет записать буферы.",
+            "uk": "## kill надсилає сигнали\n`kill` не обов’язково вбиває — він надсилає **сигнал**.\n\n| сигнал | номер | значення |\n|---|---|---|\n| SIGTERM | 15 | «будь ласка, завершися» — за замовчуванням, процес може прибрати |\n| SIGKILL | 9 | миттєва смерть від ядра, без прибирання |\n| SIGHUP | 1 | для багатьох демонів — «перечитай конфіг» |\n| SIGINT | 2 | те, що надсилає **Ctrl+C** |\n| SIGSTOP / SIGCONT | 19 / 18 | пауза / продовження (Ctrl+Z) |\n\n```\n$ kill 3100\n$ kill -9 3100\n$ pkill -f resize_photos\n$ killall sleep\n```\n## Правильний порядок\n1. `kill PID` (TERM) і зачекати кілька секунд\n2. лише якщо не реагує — `kill -9 PID`\n\n> `kill -9` для бази даних може зіпсувати дані: вона не встигне записати буфери."
+          },
+          "title": {
+            "en": "Stopping processes",
+            "ru": "Остановка процессов",
+            "uk": "Зупинка процесів"
+          },
+          "demo": {
+            "commands": [
+              "kill -l"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The photo script eats the CPU. Stop it politely (SIGTERM) by its PID.",
+            "ru": "Скрипт с фото съедает процессор. Остановите его вежливо (SIGTERM) по PID.",
+            "uk": "Скрипт із фото з’їдає процесор. Зупиніть його ввічливо (SIGTERM) за PID."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "kill",
+              "label": {
+                "en": "kill PID (no -9)",
+                "ru": "kill PID (без -9)",
+                "uk": "kill PID (без -9)"
+              }
+            },
+            {
+              "type": "processGone",
+              "name": "resize_photos",
+              "label": {
+                "en": "The script is stopped",
+                "ru": "Скрипт остановлен",
+                "uk": "Скрипт зупинено"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "pgrep -f resize_photos, then kill PID",
+              "ru": "pgrep -f resize_photos, затем kill PID",
+              "uk": "pgrep -f resize_photos, потім kill PID"
+            },
+            "command": "kill"
+          },
+          "solution": [
+            "kill 3100"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Stop all \"sleep\" processes at once by name.",
+            "ru": "Остановите все процессы «sleep» разом по имени.",
+            "uk": "Зупиніть усі процеси «sleep» разом за назвою."
+          },
+          "checks": [
+            {
+              "type": "processGone",
+              "name": "sleep",
+              "label": {
+                "en": "No sleep processes left",
+                "ru": "Процессов sleep не осталось",
+                "uk": "Процесів sleep не лишилося"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "killall sleep  or  pkill sleep",
+              "ru": "killall sleep  или  pkill sleep",
+              "uk": "killall sleep  або  pkill sleep"
+            },
+            "command": "killall"
+          },
+          "solution": [
+            "killall sleep"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Try to stop the nginx worker 902 as yourself. What does Linux say?",
+            "ru": "Попробуйте остановить воркер nginx 902 от своего имени. Что ответит Linux?",
+            "uk": "Спробуйте зупинити воркер nginx 902 від свого імені. Що відповість Linux?"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "kill",
+              "label": {
+                "en": "kill 902",
+                "ru": "kill 902",
+                "uk": "kill 902"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Operation not permitted",
+              "label": {
+                "en": "Operation not permitted",
+                "ru": "Operation not permitted",
+                "uk": "Operation not permitted"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "kill 902",
+              "ru": "kill 902",
+              "uk": "kill 902"
+            },
+            "command": "kill"
+          },
+          "solution": [
+            "kill 902"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "What do you press to send SIGINT to the program running in your terminal?",
+            "ru": "Что нажать, чтобы отправить SIGINT программе в вашем терминале?",
+            "uk": "Що натиснути, щоб надіслати SIGINT програмі у вашому терміналі?"
+          },
+          "options": [
+            {
+              "en": "Ctrl+C",
+              "ru": "Ctrl+C",
+              "uk": "Ctrl+C"
+            },
+            {
+              "en": "Ctrl+D",
+              "ru": "Ctrl+D",
+              "uk": "Ctrl+D"
+            },
+            {
+              "en": "Ctrl+S",
+              "ru": "Ctrl+S",
+              "uk": "Ctrl+S"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "\"pkill a\" — why is it dangerous?",
+            "ru": "«pkill a» — чем опасно?",
+            "uk": "«pkill a» — чим небезпечно?"
+          },
+          "options": [
+            {
+              "en": "It matches every process with \"a\" in its name",
+              "ru": "Совпадёт с каждым процессом, у которого в имени есть «a»",
+              "uk": "Збіжиться з кожним процесом, у назві якого є «a»"
+            },
+            {
+              "en": "It kills only process \"a\"",
+              "ru": "Убьёт только процесс «a»",
+              "uk": "Уб’є лише процес «a»"
+            },
+            {
+              "en": "It reboots",
+              "ru": "Перезагрузит",
+              "uk": "Перезавантажить"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "proc-top",
+      "title": {
+        "en": "Who uses the resources",
+        "ru": "Кто потребляет ресурсы",
+        "uk": "Хто споживає ресурси"
+      },
+      "commands": [
+        "top",
+        "ps"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          },
+          {
+            "name": "postgres",
+            "uid": 114,
+            "home": "/var/lib/postgresql"
+          }
+        ],
+        "processes": [
+          {
+            "pid": 1,
+            "user": "root",
+            "command": "/sbin/init",
+            "cpu": 0.0,
+            "mem": 0.3,
+            "rss": 12400,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 412,
+            "user": "root",
+            "command": "/usr/sbin/cron -f",
+            "cpu": 0.0,
+            "mem": 0.1,
+            "rss": 2800,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 538,
+            "user": "root",
+            "command": "sshd: /usr/sbin/sshd -D",
+            "cpu": 0.0,
+            "mem": 0.2,
+            "rss": 8100,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 700,
+            "user": "postgres",
+            "command": "/usr/lib/postgresql/16/bin/postgres -D /var/lib/postgresql/16/main",
+            "cpu": 1.5,
+            "mem": 6.2,
+            "rss": 250000,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 901,
+            "user": "root",
+            "command": "nginx: master process /usr/sbin/nginx",
+            "cpu": 0.0,
+            "mem": 0.2,
+            "rss": 7000,
+            "stat": "Ss",
+            "start": "09:00"
+          },
+          {
+            "pid": 902,
+            "user": "www-data",
+            "command": "nginx: worker process",
+            "cpu": 0.3,
+            "mem": 0.4,
+            "rss": 9100,
+            "stat": "S",
+            "start": "09:00"
+          },
+          {
+            "pid": 903,
+            "user": "www-data",
+            "command": "nginx: worker process",
+            "cpu": 0.2,
+            "mem": 0.4,
+            "rss": 9050,
+            "stat": "S",
+            "start": "09:00"
+          },
+          {
+            "pid": 1200,
+            "user": "student",
+            "command": "-bash",
+            "cpu": 0.0,
+            "mem": 0.1,
+            "rss": 5200,
+            "stat": "Ss",
+            "start": "09:05"
+          },
+          {
+            "pid": 3100,
+            "user": "student",
+            "command": "python3 resize_photos.py",
+            "cpu": 96.0,
+            "mem": 9.5,
+            "rss": 380000,
+            "stat": "R",
+            "start": "10:20"
+          },
+          {
+            "pid": 3150,
+            "user": "student",
+            "command": "tail -f /var/log/syslog",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 1800,
+            "stat": "S",
+            "start": "10:25"
+          },
+          {
+            "pid": 3160,
+            "user": "student",
+            "command": "sleep 3600",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 900,
+            "stat": "S",
+            "start": "10:26"
+          },
+          {
+            "pid": 3161,
+            "user": "student",
+            "command": "sleep 7200",
+            "cpu": 0.0,
+            "mem": 0.0,
+            "rss": 900,
+            "stat": "S",
+            "start": "10:26"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## top — live view\n```\n$ top\n```\nIn top: `P` — sort by CPU, `M` — by memory, `k` — kill, `q` — quit. `htop` is the colorful friend (if installed).\n\n## Snapshots with ps\n```\n$ ps aux --sort=-%cpu | head -5\n$ ps aux --sort=-%mem | head -5\n$ ps aux --sort=-rss | head\n```\n`-` before the field = descending.\n\n## 100% CPU — is that bad?\nOn a 4-core machine one process can show up to **400%**. A single busy process at 100% uses one core fully — fine for a batch job, a problem for a web server that should be idle.",
+            "ru": "## top — живой вид\n```\n$ top\n```\nВ top: `P` — сортировка по CPU, `M` — по памяти, `k` — убить, `q` — выход. `htop` — цветной друг (если установлен).\n\n## Снимки через ps\n```\n$ ps aux --sort=-%cpu | head -5\n$ ps aux --sort=-%mem | head -5\n$ ps aux --sort=-rss | head\n```\n`-` перед полем = по убыванию.\n\n## 100% CPU — это плохо?\nНа 4-ядерной машине один процесс может показывать до **400%**. Процесс на 100% полностью занимает одно ядро — нормально для пакетной задачи, проблема для веб-сервера, который должен простаивать.",
+            "uk": "## top — живий вигляд\n```\n$ top\n```\nУ top: `P` — сортування за CPU, `M` — за пам’яттю, `k` — убити, `q` — вихід. `htop` — кольоровий друг (якщо встановлено).\n\n## Знімки через ps\n```\n$ ps aux --sort=-%cpu | head -5\n$ ps aux --sort=-%mem | head -5\n$ ps aux --sort=-rss | head\n```\n`-` перед полем = за спаданням.\n\n## 100% CPU — це погано?\nНа 4-ядерній машині один процес може показувати до **400%**. Процес на 100% повністю займає одне ядро — нормально для пакетного завдання, проблема для вебсервера, який має простоювати."
+          },
+          "title": {
+            "en": "Resource hogs",
+            "ru": "Пожиратели ресурсов",
+            "uk": "Пожирачі ресурсів"
+          },
+          "demo": {
+            "commands": [
+              "ps aux --sort=-%cpu | head -3"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show the top 3 processes by CPU (plus the header line).",
+            "ru": "Покажите топ-3 процесса по CPU (плюс строка заголовка).",
+            "uk": "Покажіть топ-3 процеси за CPU (плюс рядок заголовка)."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ps",
+              "label": {
+                "en": "ps --sort=-%cpu",
+                "ru": "ps --sort=-%cpu",
+                "uk": "ps --sort=-%cpu"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 4,
+              "label": {
+                "en": "4 lines",
+                "ru": "4 строки",
+                "uk": "4 рядки"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^student\\s+3100",
+              "label": {
+                "en": "python3 first",
+                "ru": "python3 первым",
+                "uk": "python3 першим"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ps aux --sort=-%cpu | head -4",
+              "ru": "ps aux --sort=-%cpu | head -4",
+              "uk": "ps aux --sort=-%cpu | head -4"
+            },
+            "command": "ps"
+          },
+          "solution": [
+            "ps aux --sort=-%cpu | head -4"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Which process uses the most memory? Show the header and the first line.",
+            "ru": "Какой процесс использует больше всего памяти? Покажите заголовок и первую строку.",
+            "uk": "Який процес використовує найбільше пам’яті? Покажіть заголовок і перший рядок."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ps",
+              "label": {
+                "en": "ps --sort=-%mem",
+                "ru": "ps --sort=-%mem",
+                "uk": "ps --sort=-%mem"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 2,
+              "label": {
+                "en": "2 lines",
+                "ru": "2 строки",
+                "uk": "2 рядки"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "resize_photos",
+              "label": {
+                "en": "python3 (9.5%)",
+                "ru": "python3 (9.5%)",
+                "uk": "python3 (9.5%)"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ps aux --sort=-%mem | head -2",
+              "ru": "ps aux --sort=-%mem | head -2",
+              "uk": "ps aux --sort=-%mem | head -2"
+            },
+            "command": "ps"
+          },
+          "solution": [
+            "ps aux --sort=-%mem | head -2"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "top shows a process at 180% CPU. Possible?",
+            "ru": "top показывает процесс со 180% CPU. Такое возможно?",
+            "uk": "top показує процес зі 180% CPU. Таке можливо?"
+          },
+          "options": [
+            {
+              "en": "Yes, on a multi-core machine it uses almost two cores",
+              "ru": "Да, на многоядерной машине он занимает почти два ядра",
+              "uk": "Так, на багатоядерній машині він займає майже два ядра"
+            },
+            {
+              "en": "No, the maximum is 100%",
+              "ru": "Нет, максимум 100%",
+              "uk": "Ні, максимум 100%"
+            },
+            {
+              "en": "Only for root",
+              "ru": "Только для root",
+              "uk": "Лише для root"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "proc-daemons",
+      "title": {
+        "en": "Daemons and services",
+        "ru": "Демоны и сервисы",
+        "uk": "Демони та сервіси"
+      },
+      "commands": [
+        "systemctl"
+      ],
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## A daemon is a background process\ncron, sshd, nginx, postgres — they start at boot and wait for work. On modern Linux **systemd** (PID 1) starts and supervises them.\n```\n$ systemctl status cron\n$ systemctl list-units --type=service\n$ sudo systemctl restart ssh\n$ sudo systemctl enable nginx\n```\n- `start` / `stop` / `restart` — now\n- `enable` / `disable` — at boot\n- `status` — state + the latest log lines\n\n> Do not kill a daemon's PID by hand — systemd may simply start it again. Use systemctl.",
+            "ru": "## Демон — фоновый процесс\ncron, sshd, nginx, postgres — запускаются при загрузке и ждут работы. В современном Linux их запускает и контролирует **systemd** (PID 1).\n```\n$ systemctl status cron\n$ systemctl list-units --type=service\n$ sudo systemctl restart ssh\n$ sudo systemctl enable nginx\n```\n- `start` / `stop` / `restart` — сейчас\n- `enable` / `disable` — при загрузке\n- `status` — состояние + последние строки лога\n\n> Не убивайте PID демона руками — systemd может просто запустить его снова. Используйте systemctl.",
+            "uk": "## Демон — фоновий процес\ncron, sshd, nginx, postgres — запускаються під час завантаження й чекають роботи. У сучасному Linux їх запускає й контролює **systemd** (PID 1).\n```\n$ systemctl status cron\n$ systemctl list-units --type=service\n$ sudo systemctl restart ssh\n$ sudo systemctl enable nginx\n```\n- `start` / `stop` / `restart` — зараз\n- `enable` / `disable` — під час завантаження\n- `status` — стан + останні рядки логу\n\n> Не вбивайте PID демона вручну — systemd може просто запустити його знову. Використовуйте systemctl."
+          },
+          "title": {
+            "en": "systemd",
+            "ru": "systemd",
+            "uk": "systemd"
+          },
+          "demo": {
+            "commands": [
+              "systemctl status cron"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "List all services on this machine.",
+            "ru": "Выведите все сервисы на этой машине.",
+            "uk": "Виведіть усі сервіси на цій машині."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "systemctl",
+              "label": {
+                "en": "systemctl list-units",
+                "ru": "systemctl list-units",
+                "uk": "systemctl list-units"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "cron.service",
+              "label": {
+                "en": "cron.service is listed",
+                "ru": "Есть cron.service",
+                "uk": "Є cron.service"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "systemctl list-units --type=service",
+              "ru": "systemctl list-units --type=service",
+              "uk": "systemctl list-units --type=service"
+            },
+            "command": "systemctl"
+          },
+          "solution": [
+            "systemctl list-units --type=service"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Restart the ssh service and check that it is active.",
+            "ru": "Перезапустите сервис ssh и проверьте, что он активен.",
+            "uk": "Перезапустіть сервіс ssh і перевірте, що він активний."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "systemctl",
+              "args": [
+                "restart"
+              ],
+              "success": true,
+              "label": {
+                "en": "sudo systemctl restart ssh",
+                "ru": "sudo systemctl restart ssh",
+                "uk": "sudo systemctl restart ssh"
+              }
+            },
+            {
+              "type": "serviceState",
+              "name": "ssh",
+              "state": "active",
+              "label": {
+                "en": "ssh is active",
+                "ru": "ssh активен",
+                "uk": "ssh активний"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sudo systemctl restart ssh",
+              "ru": "sudo systemctl restart ssh",
+              "uk": "sudo systemctl restart ssh"
+            },
+            "command": "systemctl"
+          },
+          "solution": [
+            "sudo systemctl restart ssh",
+            "systemctl is-active ssh"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "A service must start automatically after every reboot. Which command?",
+            "ru": "Сервис должен запускаться сам после каждой перезагрузки. Какая команда?",
+            "uk": "Сервіс має запускатися сам після кожного перезавантаження. Яка команда?"
+          },
+          "options": [
+            {
+              "en": "sudo systemctl enable NAME",
+              "ru": "sudo systemctl enable ИМЯ",
+              "uk": "sudo systemctl enable НАЗВА"
+            },
+            {
+              "en": "sudo systemctl start NAME",
+              "ru": "sudo systemctl start ИМЯ",
+              "uk": "sudo systemctl start НАЗВА"
+            },
+            {
+              "en": "sudo systemctl restart NAME",
+              "ru": "sudo systemctl restart ИМЯ",
+              "uk": "sudo systemctl restart НАЗВА"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

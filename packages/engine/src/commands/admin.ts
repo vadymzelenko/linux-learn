@@ -6,7 +6,7 @@ import type { ProcessInfo, UserInfo } from '../types';
 import type { CommandDef, Ctx } from '../shell/context';
 import { ArgError, parseArgs } from '../shell/args';
 import { FsError, makeDir, makeFile, putChild, resolve as fsResolve, updateAt, type Cred } from '../vfs/fs';
-import { ereToJs, joinLines, lines, makeRegExp } from './util';
+import { eachInput, ereToJs, joinLines, lines, makeRegExp } from './util';
 
 const ROOT: Cred = { name: 'root', groups: ['root'], root: true };
 
@@ -560,3 +560,94 @@ export const zcat = zWrapper('zcat', 'cat', 'print the contents of compressed fi
 export const zgrep = zWrapper('zgrep', 'grep', 'search compressed files for a pattern');
 export const zless = zWrapper('zless', 'less', 'view compressed files');
 
+
+// ---------------------------------------------------------------- paste / comm
+
+export const paste: CommandDef = {
+  name: 'paste',
+  category: 'text',
+  doc: {
+    summary: 'merge lines of files side by side',
+    usage: ['paste [-d LIST] [-s] [FILE]...'],
+    description: 'Write lines consisting of the corresponding lines of each FILE, separated by TABs.',
+    options: [
+      ['-d, --delimiters=LIST', 'use characters from LIST instead of TABs'],
+      ['-s, --serial', 'paste one file at a time instead of in parallel'],
+    ],
+    examples: [['paste names.txt phones.txt', 'two columns'], ['paste -sd, list.txt', 'join all lines with commas']],
+    seeAlso: ['cut', 'join'],
+  },
+  run(ctx) {
+    const a = parseArgs(ctx.args, { flags: 's', withValue: 'd', long: { serial: 's' }, longWithValue: { delimiters: 'd' } });
+    const delims = (a.values.get('d') ?? '\t').replace(/\\t/g, '\t').replace(/\\n/g, '\n') || '\t';
+    const cols: string[][] = [];
+    const ok = eachInput(ctx, a.operands, (t) => cols.push(lines(t)));
+    let out = '';
+    const join = (cells: string[]) => cells.reduce((acc, c, i) => (i === 0 ? c : acc + delims[(i - 1) % delims.length] + c), '');
+    if (a.flags.has('s')) for (const c of cols) out += join(c) + '\n';
+    else {
+      const n = Math.max(0, ...cols.map((c) => c.length));
+      for (let i = 0; i < n; i++) out += join(cols.map((c) => c[i] ?? '')) + '\n';
+    }
+    ctx.out(out);
+    return ok ? 0 : 1;
+  },
+};
+
+export const comm: CommandDef = {
+  name: 'comm',
+  category: 'text',
+  doc: {
+    summary: 'compare two sorted files line by line',
+    usage: ['comm [-123] FILE1 FILE2'],
+    description: 'Three columns: lines only in FILE1, lines only in FILE2, lines in both. Both files must be sorted (use sort first).',
+    options: [
+      ['-1', 'suppress column 1 (lines unique to FILE1)'],
+      ['-2', 'suppress column 2 (lines unique to FILE2)'],
+      ['-3', 'suppress column 3 (lines that appear in both files)'],
+    ],
+    examples: [['comm -12 a.txt b.txt', 'only lines present in both'], ['comm -23 yesterday.txt today.txt', 'what disappeared']],
+    seeAlso: ['diff', 'sort', 'uniq'],
+  },
+  run(ctx) {
+    const a = parseArgs(ctx.args, { flags: '123' });
+    if (a.operands.length !== 2) {
+      ctx.err(a.operands.length < 2 ? `comm: missing operand${a.operands.length ? ` after '${a.operands[0]}'` : ''}\nTry 'comm --help' for more information.\n` : `comm: extra operand '${a.operands[2]}'\n`);
+      return 1;
+    }
+    const texts: string[] = [];
+    if (!eachInput(ctx, a.operands, (t) => texts.push(t))) return 1;
+    const x = lines(texts[0]!);
+    const y = lines(texts[1]!);
+    const show = [!a.flags.has('1'), !a.flags.has('2'), !a.flags.has('3')];
+    const col = (n: 0 | 1 | 2, s: string) => {
+      if (!show[n]) return '';
+      return '\t'.repeat(show.slice(0, n).filter(Boolean).length) + s + '\n';
+    };
+    let out = '';
+    let i = 0;
+    let j = 0;
+    let warned = false;
+    const checkOrder = (arr: string[], k: number, f: number) => {
+      if (!warned && k > 0 && arr[k]! < arr[k - 1]!) {
+        warned = true;
+        ctx.err(`comm: file ${f} is not in sorted order\n`);
+      }
+    };
+    while (i < x.length || j < y.length) {
+      if (j >= y.length || (i < x.length && x[i]! < y[j]!)) {
+        checkOrder(x, i, 1);
+        out += col(0, x[i++]!);
+      } else if (i >= x.length || y[j]! < x[i]!) {
+        checkOrder(y, j, 2);
+        out += col(1, y[j++]!);
+      } else {
+        out += col(2, x[i]!);
+        i++;
+        j++;
+      }
+    }
+    ctx.out(out);
+    return warned ? 1 : 0;
+  },
+};

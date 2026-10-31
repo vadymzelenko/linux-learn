@@ -379,7 +379,7 @@ describe('search & system', () => {
     expect(t.$('ps aux | grep runaway | head -1')).toContain('python3 runaway.py');
     expect(t.$('kill 900')).toBe('bash: kill: (900) - Operation not permitted\n');
     expect(t.$('kill 777')).toBe('');
-    expect(t.$('ps aux | grep -c runaway')).toBe('0\n');
+    expect(t.$('ps aux | grep -c runaway')).toBe('1\n');
     expect(t.$('kill 12345')).toBe('bash: kill: (12345) - No such process\n');
   });
   it('xargs', () => {

@@ -9,7 +9,8 @@ export type Quote = 0 | 1 | 2; // 0 = unquoted, 1 = single/escaped (fully litera
 export type WordPart =
   | { t: 'lit'; v: string; q: Quote }
   | { t: 'var'; name: string; q: Quote }
-  | { t: 'sub'; src: string; q: Quote };
+  | { t: 'sub'; src: string; q: Quote }
+  | { t: 'arith'; src: string; q: Quote };
 
 export interface Word {
   parts: WordPart[];
@@ -26,10 +27,18 @@ export interface Redirect {
   target: Word;
 }
 
+export type Compound =
+  | { kind: 'for'; name: string; list: Word[] | null; body: Script }
+  | { kind: 'if'; clauses: { cond: Script; body: Script }[]; otherwise: Script | null }
+  | { kind: 'while' | 'until'; cond: Script; body: Script }
+  | { kind: 'group'; body: Script };
+
 export interface SimpleCommand {
   assignments: { name: string; value: Word }[];
   words: Word[];
   redirects: Redirect[];
+  /** for / if / while / until / { …; } — words and assignments are empty then. */
+  compound?: Compound;
 }
 
 export type Connector = ';' | '&&' | '||' | '&';
@@ -129,7 +138,13 @@ export function tokenize(src: string): Token[] {
     const n = src[i + 1];
     if (n === undefined) return false;
     if (n === '(') {
-      if (src[i + 2] === '(') throw new ParseError('arithmetic expansion $((...)) is not supported');
+      if (src[i + 2] === '(') {
+        const close = findClosingParen(src, i + 3);
+        if (src[close + 1] !== ')') throw new ParseError('arithmetic expansion: missing `))\'');
+        parts.push({ t: 'arith', src: src.slice(i + 3, close), q });
+        i = close + 2;
+        return true;
+      }
       const close = findClosingParen(src, i + 2);
       parts.push({ t: 'sub', src: src.slice(i + 2, close), q });
       i = close + 1;
@@ -308,17 +323,89 @@ const ASSIGN_RE = /^([A-Za-z_][A-Za-z0-9_]*)=/;
 
 export function parse(src: string): Script {
   const tokens = tokenize(src);
-  const items: ListItem[] = [];
   let pos = 0;
   const peek = () => tokens[pos];
 
   const unexpected = (t: Token | undefined) => new ParseError(`syntax error near unexpected token \`${tokenText(t)}'`);
 
+  const isReserved = (t: Token | undefined, ...names: string[]): boolean => {
+    if (!t || t.k !== 'word') return false;
+    const p = t.word.parts;
+    return p.length === 1 && p[0]!.t === 'lit' && p[0]!.q === 0 && names.includes(p[0]!.v);
+  };
+  const expect = (name: string) => {
+    if (!isReserved(peek(), name)) throw pos >= tokens.length ? new ParseError('syntax error: unexpected end of file') : unexpected(peek());
+    pos++;
+  };
+  const skipNewlines = () => {
+    while (peek()?.k === 'newline') pos++;
+  };
+
+  const parseCompound = (): Compound => {
+    const kw = (peek() as { word: Word }).word.raw;
+    pos++;
+    if (kw === 'for') {
+      const nameTok = peek();
+      if (!nameTok || nameTok.k !== 'word' || !/^[A-Za-z_][A-Za-z0-9_]*$/.test(nameTok.word.raw)) throw unexpected(nameTok);
+      pos++;
+      let list: Word[] | null = null;
+      skipNewlines();
+      if (isReserved(peek(), 'in')) {
+        pos++;
+        list = [];
+        while (peek()?.k === 'word') list.push((tokens[pos++] as { word: Word }).word);
+      }
+      const sep = peek();
+      if (sep && ((sep.k === 'op' && sep.op === ';') || sep.k === 'newline')) pos++;
+      skipNewlines();
+      expect('do');
+      const body = parseList(['done']);
+      expect('done');
+      return { kind: 'for', name: nameTok.word.raw, list, body };
+    }
+    if (kw === 'if') {
+      const clauses: { cond: Script; body: Script }[] = [];
+      let otherwise: Script | null = null;
+      for (;;) {
+        const cond = parseList(['then']);
+        expect('then');
+        const body = parseList(['elif', 'else', 'fi']);
+        clauses.push({ cond, body });
+        if (isReserved(peek(), 'elif')) {
+          pos++;
+          continue;
+        }
+        if (isReserved(peek(), 'else')) {
+          pos++;
+          otherwise = parseList(['fi']);
+        }
+        expect('fi');
+        return { kind: 'if', clauses, otherwise };
+      }
+    }
+    if (kw === '{') {
+      const body = parseList(['}']);
+      expect('}');
+      return { kind: 'group', body };
+    }
+    const cond = parseList(['do']);
+    expect('do');
+    const body = parseList(['done']);
+    expect('done');
+    return { kind: kw as 'while' | 'until', cond, body };
+  };
+
   const parseSimple = (): SimpleCommand => {
     const cmd: SimpleCommand = { assignments: [], words: [], redirects: [] };
+    if (isReserved(peek(), 'for', 'if', 'while', 'until', '{')) {
+      cmd.compound = parseCompound();
+      const c = cmd.compound;
+      if (c.kind === 'if' ? c.clauses.some((x) => x.cond.items.length === 0 || x.body.items.length === 0) : c.body.items.length === 0 || ((c.kind === 'while' || c.kind === 'until') && c.cond.items.length === 0))
+        throw new ParseError('syntax error: empty command list');
+    }
     while (pos < tokens.length) {
       const t = peek()!;
-      if (t.k === 'word') {
+      if (t.k === 'word' && !cmd.compound) {
         pos++;
         const first = t.word.parts[0];
         if (cmd.words.length === 0 && first && first.t === 'lit' && first.q === 0) {
@@ -343,53 +430,63 @@ export function parse(src: string): Script {
         cmd.redirects.push({ fd: t.fd, op: t.op, target: target.word });
         continue;
       }
+      if (t.k === 'word' && cmd.compound) throw unexpected(t);
       break;
     }
     return cmd;
   };
 
-  const isEmpty = (c: SimpleCommand) => c.words.length === 0 && c.assignments.length === 0 && c.redirects.length === 0;
+  const isEmpty = (c: SimpleCommand) => !c.compound && c.words.length === 0 && c.assignments.length === 0 && c.redirects.length === 0;
 
-  while (pos < tokens.length) {
-    while (peek()?.k === 'newline') pos++;
-    if (pos >= tokens.length) break;
-    const pipeline: SimpleCommand[] = [];
-    while (true) {
-      const cmd = parseSimple();
-      if (isEmpty(cmd)) throw unexpected(peek());
-      pipeline.push(cmd);
+  function parseList(stop: string[]): Script {
+    const items: ListItem[] = [];
+    while (pos < tokens.length) {
+      skipNewlines();
+      if (pos >= tokens.length) break;
+      if (stop.length && isReserved(peek(), ...stop)) break;
+      if (isReserved(peek(), 'do', 'done', 'then', 'elif', 'else', 'fi', '}') && !stop.includes((peek() as { word: Word }).word.raw)) throw unexpected(peek());
+      const pipeline: SimpleCommand[] = [];
+      while (true) {
+        const cmd = parseSimple();
+        if (isEmpty(cmd)) throw unexpected(peek());
+        pipeline.push(cmd);
+        const t = peek();
+        if (t && t.k === 'op' && t.op === '|') {
+          pos++;
+          skipNewlines();
+          if (pos >= tokens.length) throw new ParseError('syntax error: unexpected end of file');
+          continue;
+        }
+        break;
+      }
       const t = peek();
-      if (t && t.k === 'op' && t.op === '|') {
+      let next: Connector | null = null;
+      if (t && t.k === 'op') {
         pos++;
-        while (peek()?.k === 'newline') pos++;
-        if (pos >= tokens.length) throw new ParseError('syntax error: unexpected end of file');
-        continue;
+        next = t.op as Connector;
+        if (next === '&&' || next === '||') {
+          skipNewlines();
+          if (pos >= tokens.length) throw new ParseError('syntax error: unexpected end of file');
+        }
+      } else if (t && t.k === 'newline') {
+        pos++;
+        next = ';';
+      } else if (t && !(stop.length && isReserved(t, ...stop))) {
+        throw unexpected(t);
       }
-      break;
+      items.push({ pipeline, next });
     }
-    const t = peek();
-    let next: Connector | null = null;
-    if (t && t.k === 'op') {
-      pos++;
-      next = t.op as Connector;
-      if (next === '&&' || next === '||') {
-        while (peek()?.k === 'newline') pos++;
-        if (pos >= tokens.length) throw new ParseError('syntax error: unexpected end of file');
-      }
-    } else if (t && t.k === 'newline') {
-      pos++;
-      next = ';';
-    } else if (t) {
-      throw unexpected(t);
-    }
-    items.push({ pipeline, next });
+    return { items };
   }
-  return { items };
+
+  const script = parseList([]);
+  if (pos < tokens.length) throw unexpected(peek());
+  return script;
 }
 
 /** Plain text of a word ignoring expansions (used for completion & explain). */
 export function wordLiteral(w: Word): string {
   return w.parts
-    .map((p) => (p.t === 'lit' ? p.v : p.t === 'var' ? '$' + p.name : `$(${p.src})`))
+    .map((p) => (p.t === 'lit' ? p.v : p.t === 'var' ? '$' + p.name : p.t === 'arith' ? `$((${p.src}))` : `$(${p.src})`))
     .join('');
 }

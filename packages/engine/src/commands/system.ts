@@ -375,13 +375,25 @@ export const ps: CommandDef = {
   },
   run(ctx) {
     const unix = ctx.args.filter((x) => x.startsWith('-') && !x.startsWith('--')).join('').replace(/-/g, '');
-    const bsdArgs = ctx.args.filter((x, i) => !x.startsWith('-') && ctx.args[i - 1] !== '--sort').join('');
+    const bsdArgs = ctx.args.filter((x, i) => !x.startsWith('-') && !['--sort', '-u', '-U', '--user'].includes(ctx.args[i - 1] ?? '')).join('');
     const all = /[ax]/.test(bsdArgs) || /[eA]/.test(unix);
     const bsd = bsdArgs.includes('u');
     const full = unix.includes('f');
     const shellPid = 1200;
-    const procs = [...ctx.shell.processes(), { pid: 4242, user: ctx.user, command: `ps ${ctx.args.join(' ')}`.trim(), cpu: 0, mem: 0.1, rss: 4_100, stat: 'R+', start: '12:00' }];
-    const visible = all ? procs : procs.filter((p) => p.pid === shellPid || p.pid === 4242);
+    const self = `ps ${ctx.args.join(' ')}`.trim();
+    const siblings = (ctx.shell.pipeline?.() ?? []).filter((c) => c !== self && !c.startsWith('ps '));
+    const mine = new Set([shellPid, 4242, ...siblings.map((_, i) => 4243 + i)]);
+    const procs = [
+      ...ctx.shell.processes(),
+      { pid: 4242, user: ctx.user, command: self, cpu: 0, mem: 0.1, rss: 4_100, stat: 'R+', start: '12:00' },
+      ...siblings.map((c, i) => ({ pid: 4243 + i, user: ctx.user, command: c, cpu: 0, mem: 0.0, rss: 2_000, stat: 'S+', start: '12:00' })),
+    ];
+    const userSel = (() => {
+      const i = ctx.args.findIndex((x) => x === '-u' || x === '-U' || x === '--user');
+      const v = i >= 0 ? ctx.args[i + 1] : ctx.args.find((x) => /^-[uU]./.test(x))?.slice(2);
+      return v ? v.split(',') : null;
+    })();
+    const visible = userSel ? procs.filter((p) => userSel.includes(p.user)) : all ? procs : procs.filter((p) => mine.has(p.pid));
     const sortArg = ctx.args.find((x) => x.startsWith('--sort='))?.slice(7) ?? (ctx.args.includes('--sort') ? ctx.args[ctx.args.indexOf('--sort') + 1] : undefined);
     if (sortArg) {
       const desc = sortArg.startsWith('-');
@@ -394,14 +406,14 @@ export const ps: CommandDef = {
       out += 'USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\n';
       for (const p of visible) {
         const vsz = Math.round((p.rss ?? 4000) * 2.6);
-        out += `${p.user.slice(0, 8).padEnd(8)} ${String(p.pid).padStart(7)} ${p.cpu.toFixed(1).padStart(4)} ${p.mem.toFixed(1).padStart(4)} ${String(vsz).padStart(6)} ${String(p.rss ?? 4000).padStart(5)} ${(p.pid === shellPid || p.pid === 4242 ? 'pts/0' : '?').padEnd(8)} ${(p.stat ?? 'S').padEnd(4)} ${(p.start ?? '09:00').padEnd(5)} ${`${Math.floor(p.cpu / 60)}:${String(Math.floor(p.cpu) % 60).padStart(2, '0')}`.padStart(6)} ${p.command}\n`;
+        out += `${p.user.slice(0, 8).padEnd(8)} ${String(p.pid).padStart(7)} ${p.cpu.toFixed(1).padStart(4)} ${p.mem.toFixed(1).padStart(4)} ${String(vsz).padStart(6)} ${String(p.rss ?? 4000).padStart(5)} ${(mine.has(p.pid) ? 'pts/0' : '?').padEnd(8)} ${(p.stat ?? 'S').padEnd(4)} ${(p.start ?? '09:00').padEnd(5)} ${`${Math.floor(p.cpu / 60)}:${String(Math.floor(p.cpu) % 60).padStart(2, '0')}`.padStart(6)} ${p.command}\n`;
       }
     } else if (full) {
       out += 'UID          PID    PPID  C STIME TTY          TIME CMD\n';
-      for (const p of visible) out += `${p.user.slice(0, 8).padEnd(8)} ${String(p.pid).padStart(7)} ${String(p.pid === 1 ? 0 : 1).padStart(7)}  ${Math.floor(p.cpu)} ${(p.start ?? '09:00').padEnd(5)} ${(p.pid === shellPid || p.pid === 4242 ? 'pts/0' : '?').padEnd(8)} 00:00:0${Math.min(9, Math.floor(p.cpu))} ${p.command}\n`;
+      for (const p of visible) out += `${p.user.slice(0, 8).padEnd(8)} ${String(p.pid).padStart(7)} ${String(p.pid === 1 ? 0 : 1).padStart(7)}  ${Math.floor(p.cpu)} ${(p.start ?? '09:00').padEnd(5)} ${(mine.has(p.pid) ? 'pts/0' : '?').padEnd(8)} 00:00:0${Math.min(9, Math.floor(p.cpu))} ${p.command}\n`;
     } else {
       out += '    PID TTY          TIME CMD\n';
-      for (const p of visible) out += `${String(p.pid).padStart(7)} ${(p.pid === shellPid || p.pid === 4242 ? 'pts/0' : '?').padEnd(8)} 00:00:00 ${pathBasename(p.command.split(' ')[0]!.replace(/^-/, ''))}\n`;
+      for (const p of visible) out += `${String(p.pid).padStart(7)} ${(mine.has(p.pid) ? 'pts/0' : '?').padEnd(8)} 00:00:00 ${pathBasename(p.command.split(' ')[0]!.replace(/^-/, ''))}\n`;
     }
     ctx.out(out);
     return 0;

@@ -4,9 +4,9 @@ import { basename, normalize } from '../vfs/path';
 import { suggest } from '../util/levenshtein';
 import { ArgError } from './args';
 import { Ctx, type CommandDef, type RunResult, type ShellApi } from './context';
-import { expandWord, expandWordSingle, type ExpandEnv } from './expand';
+import { ArithError, expandWord, expandWordSingle, type ExpandEnv } from './expand';
 import type { GlobFs } from './glob';
-import { parse, ParseError, type Script, type SimpleCommand } from './parser';
+import { parse, ParseError, type Compound, type Script, type SimpleCommand } from './parser';
 import { formatHelp } from './help';
 
 export type Registry = ReadonlyMap<string, CommandDef>;
@@ -339,7 +339,7 @@ class Runner implements ShellApi {
         chunks.push(...res.chunks);
         code = res.code;
         this.lastExit = code;
-        if (this.exitRequested) break;
+        if (this.exitRequested || this.loopCtl) break;
       }
       prevConnector = item.next;
     }
@@ -348,7 +348,23 @@ class Runner implements ShellApi {
 
   exitRequested = false;
 
+  /** Raw text of the commands in the pipeline being run (ps shows its siblings). */
+  pipelineCmds: string[] = [];
+  pipeline() {
+    return this.pipelineCmds;
+  }
+
   runPipeline(cmds: SimpleCommand[], stdin: string | null, tty: boolean): RunResult {
+    const prevPipeline = this.pipelineCmds;
+    if (cmds.length > 1) this.pipelineCmds = cmds.filter((c) => !c.compound).map((c) => c.words.map((w) => w.raw.replace(/^(['"])(.*)\1$/, '$2')).join(' '));
+    try {
+      return this.runPipelineInner(cmds, stdin, tty);
+    } finally {
+      this.pipelineCmds = prevPipeline;
+    }
+  }
+
+  private runPipelineInner(cmds: SimpleCommand[], stdin: string | null, tty: boolean): RunResult {
     const upward: OutputChunk[] = [];
     let input = stdin;
     let code = 0;
@@ -371,6 +387,96 @@ class Runner implements ShellApi {
   }
 
   runSimple(cmd: SimpleCommand, stdin: string | null, tty: boolean): RunResult {
+    try {
+      return this.runSimpleInner(cmd, stdin, tty);
+    } catch (e) {
+      if (e instanceof ArithError) {
+        this.pendingStderr = [];
+        return { chunks: [{ stream: 'stderr', text: `bash: ${e.message}\n` }], code: 1 };
+      }
+      throw e;
+    }
+  }
+
+  // ---------- loops and conditions ----------
+  loopDepth = 0;
+  loopCtl: { kind: 'break' | 'continue'; n: number } | null = null;
+  /** Shared stdin of a while-read loop: `read` consumes it line by line. */
+  readBuf: { rest: string } | null = null;
+
+  readLine(stdin: string | null): string | null {
+    if (this.readBuf) {
+      if (this.readBuf.rest === '') return null;
+      const nl = this.readBuf.rest.indexOf('\n');
+      const line = nl === -1 ? this.readBuf.rest : this.readBuf.rest.slice(0, nl);
+      this.readBuf.rest = nl === -1 ? '' : this.readBuf.rest.slice(nl + 1);
+      return line;
+    }
+    if (!stdin) return null;
+    const nl = stdin.indexOf('\n');
+    return nl === -1 ? stdin : stdin.slice(0, nl);
+  }
+
+  loopControl(kind: 'break' | 'continue', n: number): boolean {
+    if (this.loopDepth === 0) return false;
+    this.loopCtl = { kind, n: Math.max(1, Math.min(n, this.loopDepth)) };
+    return true;
+  }
+
+  runCompound(c: Compound, stdin: string | null, tty: boolean): RunResult {
+    const chunks: OutputChunk[] = [];
+    let code = 0;
+    const list = (sc: Script, input: string | null) => {
+      const r = this.runList(sc, input, tty);
+      chunks.push(...r.chunks);
+      return r.code;
+    };
+    if (c.kind === 'group') return { chunks, code: list(c.body, stdin) };
+    if (c.kind === 'if') {
+      for (const cl of c.clauses) {
+        if (list(cl.cond, stdin) === 0) return { chunks, code: list(cl.body, stdin) };
+        if (this.exitRequested || this.loopCtl) return { chunks, code: this.lastExit };
+      }
+      code = c.otherwise ? list(c.otherwise, stdin) : 0;
+      return { chunks, code };
+    }
+    const prevBuf = this.readBuf;
+    if (c.kind !== 'for' && stdin !== null && !this.readBuf) this.readBuf = { rest: stdin };
+    this.loopDepth++;
+    let iterations = 0;
+    try {
+      const env = this.expandEnv();
+      const items = c.kind === 'for' ? (c.list ? c.list.flatMap((w) => expandWord(w, env)) : this.positional) : null;
+      for (;;) {
+        if (++iterations > 10_000) throw new LimitError();
+        if (c.kind === 'for') {
+          if (iterations > items!.length) break;
+          this.setVar(c.name, items![iterations - 1]!);
+        } else {
+          const ok = list(c.cond, stdin) === 0;
+          if (this.exitRequested) break;
+          if (ok !== (c.kind === 'while')) break;
+        }
+        code = list(c.body, stdin);
+        if (this.exitRequested) break;
+        if (this.loopCtl) {
+          const ctl = this.loopCtl;
+          if (ctl.n > 1) {
+            this.loopCtl = { ...ctl, n: ctl.n - 1 };
+            break;
+          }
+          this.loopCtl = null;
+          if (ctl.kind === 'break') break;
+        }
+      }
+    } finally {
+      this.loopDepth--;
+      this.readBuf = prevBuf;
+    }
+    return { chunks, code };
+  }
+
+  private runSimpleInner(cmd: SimpleCommand, stdin: string | null, tty: boolean): RunResult {
     if (++this.steps > MAX_STEPS) throw new LimitError();
     const env = this.expandEnv();
     const pre: OutputChunk[] = [];
@@ -456,7 +562,9 @@ class Runner implements ShellApi {
 
     // ---- run ----
     let res: RunResult;
-    if (argv.length === 0) {
+    if (cmd.compound) {
+      res = this.runCompound(cmd.compound, input, tty && sinks[1].kind === 'parent' && sinks[1].stream === 'stdout');
+    } else if (argv.length === 0) {
       for (const a of assigns) this.setVar(a.name, a.value);
       res = { chunks: [], code: this.pendingSubCode ?? 0 };
     } else {
@@ -529,6 +637,16 @@ class Runner implements ShellApi {
     if (name.includes('/')) return this.runPath(name, args, stdin, tty);
     const def = this.registry.get(name);
     if (!def) {
+      // a script installed somewhere in $PATH (e.g. /usr/local/bin/backup.sh)
+      for (const dir of (this.env['PATH'] ?? '').split(':').filter(Boolean)) {
+        const candidate = `${dir.replace(/\/$/, '')}/${name}`;
+        try {
+          const n = resolve(this.fs, candidate, this.cred(), true).node;
+          if (n.type === 'file' && can(n, this.cred(), X) && !n.content.startsWith('\x7fELF')) return this.runPath(candidate, args, stdin, tty);
+        } catch {
+          // not here
+        }
+      }
       if (this.depth === 0 && this.sudoDepth === 0) {
         const s = suggest(name, [...this.registry.keys()].filter((n) => /^[a-z]/.test(n))) ?? suggest(name, Object.keys(this.aliasMap));
         if (s) this.emit({ type: 'didYouMean', command: name, suggestion: s });

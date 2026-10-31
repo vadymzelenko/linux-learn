@@ -27,6 +27,9 @@
       "text",
       "search",
       "permissions",
+      "fhs",
+      "users",
+      "processes",
       "power"
     ]
   },

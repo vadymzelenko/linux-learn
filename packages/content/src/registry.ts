@@ -14,6 +14,9 @@ import m_09_noc_network from '../modules/09-noc-network.json';
 import m_10_noc_web from '../modules/10-noc-web.json';
 import m_11_noc_logs from '../modules/11-noc-logs.json';
 import m_12_noc_ir from '../modules/12-noc-ir.json';
+import m_13_fhs from '../modules/13-fhs.json';
+import m_14_users from '../modules/14-users.json';
+import m_15_processes from '../modules/15-processes.json';
 import f_empty_home from '../fixtures/empty-home.json';
 import f_home_basic from '../fixtures/home-basic.json';
 import f_noc_busy from '../fixtures/noc-busy.json';
@@ -23,7 +26,7 @@ import f_search from '../fixtures/search.json';
 import f_system from '../fixtures/system.json';
 import f_text_files from '../fixtures/text-files.json';
 
-export const moduleList = [m_01_navigation, m_02_files, m_03_text, m_04_search, m_05_permissions, m_06_power, m_07_noc_intro, m_08_noc_health, m_09_noc_network, m_10_noc_web, m_11_noc_logs, m_12_noc_ir] as unknown as Module[];
+export const moduleList = [m_01_navigation, m_02_files, m_03_text, m_04_search, m_05_permissions, m_06_power, m_07_noc_intro, m_08_noc_health, m_09_noc_network, m_10_noc_web, m_11_noc_logs, m_12_noc_ir, m_13_fhs, m_14_users, m_15_processes] as unknown as Module[];
 
 export const fixtureMap: Record<string, MachineSpec> = {
   'empty-home': f_empty_home as unknown as MachineSpec,

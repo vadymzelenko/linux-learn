@@ -162,3 +162,55 @@ describe('z-tools', () => {
     expect(t.$('man zgrep')).toContain('compressed');
   });
 });
+
+describe('brace expansion, paste, comm', () => {
+  it('braces', () => {
+    const t = term();
+    expect(t.$('echo {1..3}')).toBe('1 2 3\n');
+    expect(t.$('echo {3..1}')).toBe('3 2 1\n');
+    expect(t.$('echo {01..03}')).toBe('01 02 03\n');
+    expect(t.$('echo {1..10..4}')).toBe('1 5 9\n');
+    expect(t.$('echo {a..c}')).toBe('a b c\n');
+    expect(t.$('echo file{A,B}.txt')).toBe('fileA.txt fileB.txt\n');
+    expect(t.$('echo {a,b}{1,2}')).toBe('a1 a2 b1 b2\n');
+    expect(t.$('echo x{a,{b,c}}y')).toBe('xay xby xcy\n');
+    expect(t.$('echo "{a,b}" {} {x} {,z}')).toBe('{a,b} {} {x} z\n');
+    t.$('mkdir -p proj/{src,docs,tests}');
+    expect(t.$('ls proj')).toBe('docs\nsrc\ntests\n');
+    t.$('touch proj/src/f{1..3}.py');
+    expect(t.$('ls proj/src')).toBe('f1.py\nf2.py\nf3.py\n');
+    expect(t.$('X=pre; echo $X{1,2}')).toBe('pre1 pre2\n');
+    expect(t.$('echo {1..100000}').length).toBeLessThan(100);
+  });
+  it('paste and comm', () => {
+    const t = term({ files: { '~/a.txt': 'apple\nbanana\ncherry\n', '~/b.txt': 'banana\ncherry\ndate\n', '~/n.txt': '1\n2\n' } });
+    expect(t.$('paste a.txt n.txt')).toBe('apple\t1\nbanana\t2\ncherry\t\n');
+    expect(t.$('paste -d, a.txt n.txt')).toBe('apple,1\nbanana,2\ncherry,\n');
+    expect(t.$('paste -sd, a.txt')).toBe('apple,banana,cherry\n');
+    expect(t.$('comm a.txt b.txt')).toBe('apple\n\t\tbanana\n\t\tcherry\n\tdate\n');
+    expect(t.$('comm -12 a.txt b.txt')).toBe('banana\ncherry\n');
+    expect(t.$('comm -23 a.txt b.txt')).toBe('apple\n');
+    expect(t.$('comm -13 a.txt b.txt')).toBe('date\n');
+    expect(t.$('comm a.txt')).toContain("missing operand after 'a.txt'");
+    expect(t.$('comm a.txt b.txt n.txt')).toContain('extra operand');
+    t.$("printf 'b\\na\\n' > u.txt");
+    expect(t.$('comm u.txt a.txt')).toContain('not in sorted order');
+  });
+});
+
+describe('PATH scripts and ps details', () => {
+  it('runs scripts found in $PATH', () => {
+    const t = term({ files: { '/usr/local/bin/hello': { content: '#!/bin/bash\necho "hi $1"\n', owner: 'root', mode: '755' }, '/usr/local/bin/noexec': { content: 'echo x\n', owner: 'root', mode: '644' } } });
+    expect(t.$('hello you')).toBe('hi you\n');
+    expect(t.$('noexec')).toContain('command not found');
+    expect(t.$('PATH=/bin; hello')).toContain('command not found');
+  });
+  it('ps -u USER and pipeline siblings', () => {
+    const t = term({ users: [{ name: 'www-data', uid: 33 }], processes: [{ pid: 900, user: 'www-data', command: 'nginx: worker process', cpu: 0, mem: 0.1 }, { pid: 3160, user: 'student', command: 'sleep 3600', cpu: 0, mem: 0 }] });
+    expect(t.$('ps -u www-data')).toContain('nginx');
+    expect(t.$('ps -u www-data')).not.toContain('sleep');
+    expect(t.$('ps aux -u student 2>/dev/null | grep -c sleep')).toBe('2\n');
+    expect(t.$('ps aux | grep sleep')).toContain('grep sleep');
+    expect(t.$('ps aux | grep [s]leep')).not.toContain('grep');
+  });
+});

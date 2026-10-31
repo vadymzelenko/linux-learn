@@ -148,7 +148,7 @@ describe('services', () => {
     expect(t.$('curl -s localhost/api')).toBe('api\n');
     t.$('sudo systemctl stop postgresql');
     expect(t.$('curl -I localhost/api')).toContain('HTTP/1.1 502 Bad Gateway');
-    expect(t.$('ps aux | grep -c nginx')).toBe('1\n');
+    expect(t.$('ps aux | grep -c nginx')).toBe('2\n');
     expect(t.$('journalctl -u nginx -n 1')).toContain('Started nginx.service');
     const ev = evaluateChecks([{ type: 'serviceState', name: 'nginx', state: 'active' }], { session: t.session, executed: [], lastOutput: '', lastExitCode: 0 });
     expect(ev.passed).toBe(true);
@@ -201,7 +201,7 @@ describe('monitoring', () => {
     expect(top).toContain('%Cpu(s)');
     expect(top).toContain('sshd');
     expect(t.$('ps aux --sort=-%mem | head -2 | tail -1')).toContain('init');
-    expect(t.$('ps aux --sort -pid | head -2 | tail -1')).toContain('ps aux');
-    expect(t.$('ps aux --sort=%mem | head -2 | tail -1')).toContain('cron');
+    expect(t.$('ps aux --sort -pid | head -2 | tail -1')).toContain('tail -1');
+    expect(t.$('ps aux --sort=%mem | head -2 | tail -1')).toContain('head -2');
   });
 });

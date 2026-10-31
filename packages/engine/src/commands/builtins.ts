@@ -521,3 +521,57 @@ export const help: CommandDef = {
     return 0;
   },
 };
+
+export const read: CommandDef = {
+  name: 'read',
+  builtin: true,
+  category: 'shell',
+  doc: {
+    summary: 'read a line from standard input into variables',
+    usage: ['read [-r] [-p PROMPT] NAME...'],
+    description: 'Read one line and split it into words: the first word goes to the first NAME, the rest of the line to the last one. Exit status is 1 at end of input, which makes `while read line; do …; done < file` stop.',
+    options: [
+      ['-r', 'do not treat backslashes as escapes'],
+      ['-p PROMPT', 'print PROMPT first'],
+    ],
+    examples: [['while read line; do echo "> $line"; done < notes.txt', 'process a file line by line'], ['read -p "Name: " name', 'ask the user (interactive)']],
+    seeAlso: ['echo'],
+  },
+  run(ctx) {
+    const a = parseArgs(ctx.args, { flags: 'rs', withValue: 'pdnt' });
+    const names = a.operands.length ? a.operands : ['REPLY'];
+    const line = ctx.shell.readLine(ctx.stdin);
+    if (line === null) {
+      for (const n of names) ctx.shell.setVar(n, '');
+      return 1;
+    }
+    const text = a.flags.has('r') ? line : line.replace(/\\(.)/g, '$1');
+    if (names.length === 1) {
+      ctx.shell.setVar(names[0]!, names[0] === 'REPLY' ? text : text.trim());
+      return 0;
+    }
+    const words = text.trim().split(/[ \t]+/);
+    names.forEach((n, i) => ctx.shell.setVar(n, i === names.length - 1 ? words.slice(i).join(' ') : (words[i] ?? '')));
+    return 0;
+  },
+};
+
+function loopBuiltin(kind: 'break' | 'continue'): CommandDef {
+  return {
+    name: kind,
+    builtin: true,
+    category: 'shell',
+    doc: { summary: kind === 'break' ? 'exit from a for, while or until loop' : 'resume the next iteration of a loop', usage: [`${kind} [N]`] },
+    run(ctx) {
+      const n = Number(ctx.args[0] ?? 1);
+      if (!Number.isInteger(n) || n < 1) {
+        ctx.err(`bash: ${kind}: ${ctx.args[0]}: loop count out of range\n`);
+        return 1;
+      }
+      if (!ctx.shell.loopControl(kind, n)) return 0;
+      return 0;
+    },
+  };
+}
+export const breakCmd = loopBuiltin('break');
+export const continueCmd = loopBuiltin('continue');

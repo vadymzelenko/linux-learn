@@ -36,7 +36,7 @@ describe('builtins', () => {
   it('exit codes in scripts, bash -c, sh < stdin, source', () => {
     const t = term({ files: { '~/s.sh': 'echo a\nexit 3\necho never\n', '~/env.sh': 'export FROM_FILE=yes\nalias zz=pwd\n' } });
     expect(t.$('bash s.sh; echo $?')).toBe('a\n3\n');
-    expect(t.$('bash -c "echo $((1))"')).toContain('not supported');
+    expect(t.$('bash -c "echo $((1+1))"')).toBe('2\n');
     expect(t.$("bash -c 'echo hi; false'; echo $?")).toBe('hi\n1\n');
     expect(t.$('bash -c')).toBe('bash: -c: option requires an argument\n');
     expect(t.$('echo "echo from-stdin" | sh')).toBe('from-stdin\n');
@@ -98,7 +98,7 @@ describe('system commands', () => {
     expect(t.$('kill -l')).toContain('SIGKILL');
     expect(t.$('kill')).toContain('usage');
     expect(t.$('kill abc')).toBe('bash: kill: abc: arguments must be process or job IDs\n');
-    expect(t.$('sudo kill -9 412; ps aux | grep -c cron')).toBe('0\n');
+    expect(t.$('sudo kill -9 412; ps aux | grep -c cron')).toBe('1\n');
     expect(t.$('sudo kill 1; echo $?')).toBe('0\n');
   });
   it('uname, hostname, date', () => {

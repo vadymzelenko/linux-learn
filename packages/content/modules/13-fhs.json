@@ -1,0 +1,1075 @@
+{
+  "id": "fhs",
+  "path": "/linux/fhs",
+  "icon": "map",
+  "title": {
+    "en": "Linux filesystem tour",
+    "ru": "Устройство файловой системы",
+    "uk": "Будова файлової системи"
+  },
+  "description": {
+    "en": "/etc, /var, /tmp, /usr and friends; PATH and file types.",
+    "ru": "/etc, /var, /tmp, /usr и компания; PATH и типы файлов.",
+    "uk": "/etc, /var, /tmp, /usr і компанія; PATH і типи файлів."
+  },
+  "lessons": [
+    {
+      "id": "fhs-tree",
+      "title": {
+        "en": "A map of the filesystem",
+        "ru": "Карта файловой системы",
+        "uk": "Мапа файлової системи"
+      },
+      "commands": [
+        "ls",
+        "tree"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "files": {
+          "/usr/local/bin/hello": {
+            "content": "#!/bin/bash\necho \"Hello from /usr/local/bin\"\n",
+            "owner": "root",
+            "mode": "755"
+          },
+          "/opt/shopapp/": null,
+          "/opt/shopapp/app.py": {
+            "content": "print('shop')\n",
+            "owner": "root"
+          },
+          "/etc/shopapp.conf": {
+            "content": "port=8080\nlog=/var/log/shopapp.log\ndebug=false\n",
+            "owner": "root"
+          },
+          "/var/log/shopapp.log": {
+            "content": "2026-10-31 09:00 started on port 8080\n2026-10-31 09:05 GET / 200\n",
+            "owner": "root"
+          },
+          "/tmp/upload-7f3a.tmp": {
+            "content": "partial upload\n",
+            "owner": "www-data"
+          },
+          "/srv/ftp/": null,
+          "/mnt/usb/": null
+        },
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## One tree, one root\nLinux has no drives C: and D:. Everything hangs from **one root** `/`. Disks and USB sticks are *mounted* into folders of this tree.\n\n| folder | what lives there |\n|---|---|\n| `/etc` | **configuration** of the system and programs (text files) |\n| `/home` | the users' personal folders (`/home/student`) |\n| `/root` | the home of the root user |\n| `/var` | **variable** data: logs (`/var/log`), databases, mail, caches |\n| `/tmp` | temporary files, cleared on reboot |\n| `/usr` | installed programs and libraries (`/usr/bin`, `/usr/lib`) |\n| `/usr/local` | programs you installed by hand |\n| `/opt` | big third-party applications |\n| `/bin`, `/sbin` | basic commands (today links to `/usr/bin`, `/usr/sbin`) |\n| `/dev` | devices as files (`/dev/sda`, `/dev/null`) |\n| `/proc`, `/sys` | windows into the running kernel |\n| `/mnt`, `/media` | mount points for disks and USB |\n| `/srv` | data that the server serves (sites, FTP) |\n| `/boot` | the kernel and the boot loader |\n\n> Rule of thumb: **settings → /etc, logs → /var/log, programs → /usr/bin, your stuff → /home.**",
+            "ru": "## Одно дерево, один корень\nВ Linux нет дисков C: и D:. Всё висит на **одном корне** `/`. Диски и флешки *монтируются* в папки этого дерева.\n\n| папка | что там живёт |\n|---|---|\n| `/etc` | **настройки** системы и программ (текстовые файлы) |\n| `/home` | личные папки пользователей (`/home/student`) |\n| `/root` | домашняя папка пользователя root |\n| `/var` | **изменяемые** данные: логи (`/var/log`), базы, почта, кэши |\n| `/tmp` | временные файлы, очищаются при перезагрузке |\n| `/usr` | установленные программы и библиотеки (`/usr/bin`, `/usr/lib`) |\n| `/usr/local` | программы, установленные вручную |\n| `/opt` | крупные сторонние приложения |\n| `/bin`, `/sbin` | базовые команды (сейчас — ссылки на `/usr/bin`, `/usr/sbin`) |\n| `/dev` | устройства в виде файлов (`/dev/sda`, `/dev/null`) |\n| `/proc`, `/sys` | окна в работающее ядро |\n| `/mnt`, `/media` | точки монтирования дисков и флешек |\n| `/srv` | данные, которые раздаёт сервер (сайты, FTP) |\n| `/boot` | ядро и загрузчик |\n\n> Правило: **настройки → /etc, логи → /var/log, программы → /usr/bin, ваше → /home.**",
+            "uk": "## Одне дерево, один корінь\nУ Linux немає дисків C: і D:. Усе висить на **одному корені** `/`. Диски й флешки *монтуються* в папки цього дерева.\n\n| папка | що там живе |\n|---|---|\n| `/etc` | **налаштування** системи й програм (текстові файли) |\n| `/home` | особисті папки користувачів (`/home/student`) |\n| `/root` | домашня папка користувача root |\n| `/var` | **змінні** дані: логи (`/var/log`), бази, пошта, кеші |\n| `/tmp` | тимчасові файли, очищуються під час перезавантаження |\n| `/usr` | установлені програми й бібліотеки (`/usr/bin`, `/usr/lib`) |\n| `/usr/local` | програми, установлені вручну |\n| `/opt` | великі сторонні застосунки |\n| `/bin`, `/sbin` | базові команди (зараз — посилання на `/usr/bin`, `/usr/sbin`) |\n| `/dev` | пристрої у вигляді файлів (`/dev/sda`, `/dev/null`) |\n| `/proc`, `/sys` | вікна в робоче ядро |\n| `/mnt`, `/media` | точки монтування дисків і флешок |\n| `/srv` | дані, які роздає сервер (сайти, FTP) |\n| `/boot` | ядро й завантажувач |\n\n> Правило: **налаштування → /etc, логи → /var/log, програми → /usr/bin, ваше → /home.**"
+          },
+          "title": {
+            "en": "Filesystem Hierarchy Standard",
+            "ru": "Стандарт иерархии (FHS)",
+            "uk": "Стандарт ієрархії (FHS)"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Look at the top level of the tree: list the root directory /.",
+            "ru": "Посмотрите на верхний уровень дерева: выведите содержимое корня /.",
+            "uk": "Подивіться на верхній рівень дерева: виведіть вміст кореня /."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ls",
+              "args": [
+                "/"
+              ],
+              "label": {
+                "en": "ls /",
+                "ru": "ls /",
+                "uk": "ls /"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "etc",
+              "label": {
+                "en": "etc and var are visible",
+                "ru": "Видны etc и var",
+                "uk": "Видно etc і var"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ls /",
+              "ru": "ls /",
+              "uk": "ls /"
+            },
+            "command": "ls"
+          },
+          "solution": [
+            "ls /"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "A colleague installed \"shopapp\" by hand into /opt. Show what is inside /opt (two levels deep).",
+            "ru": "Коллега вручную поставил «shopapp» в /opt. Покажите, что внутри /opt (на два уровня).",
+            "uk": "Колега вручну встановив «shopapp» в /opt. Покажіть, що всередині /opt (на два рівні)."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "tree",
+              "label": {
+                "en": "tree -L 2",
+                "ru": "tree -L 2",
+                "uk": "tree -L 2"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "app.py",
+              "label": {
+                "en": "app.py is visible",
+                "ru": "Виден app.py",
+                "uk": "Видно app.py"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "tree -L 2 /opt",
+              "ru": "tree -L 2 /opt",
+              "uk": "tree -L 2 /opt"
+            },
+            "command": "tree"
+          },
+          "solution": [
+            "tree -L 2 /opt"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Where would you look for the configuration of the SSH server?",
+            "ru": "Где искать настройки SSH-сервера?",
+            "uk": "Де шукати налаштування SSH-сервера?"
+          },
+          "options": [
+            {
+              "en": "/etc/ssh/",
+              "ru": "/etc/ssh/",
+              "uk": "/etc/ssh/"
+            },
+            {
+              "en": "/var/ssh/",
+              "ru": "/var/ssh/",
+              "uk": "/var/ssh/"
+            },
+            {
+              "en": "/home/ssh/",
+              "ru": "/home/ssh/",
+              "uk": "/home/ssh/"
+            },
+            {
+              "en": "/usr/bin/ssh",
+              "ru": "/usr/bin/ssh",
+              "uk": "/usr/bin/ssh"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "A database grows every day. In which top-level folder does it most likely live?",
+            "ru": "База данных растёт каждый день. В какой папке верхнего уровня она скорее всего живёт?",
+            "uk": "База даних росте щодня. У якій папці верхнього рівня вона найімовірніше живе?"
+          },
+          "options": [
+            {
+              "en": "/var (variable data)",
+              "ru": "/var (изменяемые данные)",
+              "uk": "/var (змінні дані)"
+            },
+            {
+              "en": "/etc",
+              "ru": "/etc",
+              "uk": "/etc"
+            },
+            {
+              "en": "/boot",
+              "ru": "/boot",
+              "uk": "/boot"
+            },
+            {
+              "en": "/usr",
+              "ru": "/usr",
+              "uk": "/usr"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "fhs-etc",
+      "title": {
+        "en": "/etc: the settings",
+        "ru": "/etc: настройки",
+        "uk": "/etc: налаштування"
+      },
+      "commands": [
+        "cat",
+        "cut",
+        "grep"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "files": {
+          "/usr/local/bin/hello": {
+            "content": "#!/bin/bash\necho \"Hello from /usr/local/bin\"\n",
+            "owner": "root",
+            "mode": "755"
+          },
+          "/opt/shopapp/": null,
+          "/opt/shopapp/app.py": {
+            "content": "print('shop')\n",
+            "owner": "root"
+          },
+          "/etc/shopapp.conf": {
+            "content": "port=8080\nlog=/var/log/shopapp.log\ndebug=false\n",
+            "owner": "root"
+          },
+          "/var/log/shopapp.log": {
+            "content": "2026-10-31 09:00 started on port 8080\n2026-10-31 09:05 GET / 200\n",
+            "owner": "root"
+          },
+          "/tmp/upload-7f3a.tmp": {
+            "content": "partial upload\n",
+            "owner": "www-data"
+          },
+          "/srv/ftp/": null,
+          "/mnt/usb/": null
+        },
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Everything is a text file\nLinux keeps its settings in **plain text** in `/etc` — you can read and back them up with ordinary commands.\n```\n$ cat /etc/hostname\n$ cat /etc/os-release\n$ cat /etc/hosts\n```\n## /etc/passwd — the list of accounts\n```\nstudent:x:1000:1000:student:/home/student:/bin/bash\n```\n| field | meaning |\n|---|---|\n| 1 | login name |\n| 2 | `x` = the password is in /etc/shadow |\n| 3, 4 | UID and GID |\n| 6 | home directory |\n| 7 | login shell |\n\nFields are separated by `:` — perfect for `cut -d: -f1`.\n\n> Before editing anything in /etc: `sudo cp file file.bak`. One typo can stop a service.",
+            "ru": "## Всё — текстовые файлы\nLinux хранит настройки **простым текстом** в `/etc` — их можно читать и сохранять обычными командами.\n```\n$ cat /etc/hostname\n$ cat /etc/os-release\n$ cat /etc/hosts\n```\n## /etc/passwd — список учётных записей\n```\nstudent:x:1000:1000:student:/home/student:/bin/bash\n```\n| поле | значение |\n|---|---|\n| 1 | имя входа |\n| 2 | `x` = пароль хранится в /etc/shadow |\n| 3, 4 | UID и GID |\n| 6 | домашняя папка |\n| 7 | оболочка входа |\n\nПоля разделены `:` — идеально для `cut -d: -f1`.\n\n> Перед любой правкой в /etc: `sudo cp файл файл.bak`. Одна опечатка может остановить сервис.",
+            "uk": "## Усе — текстові файли\nLinux зберігає налаштування **простим текстом** у `/etc` — їх можна читати й зберігати звичайними командами.\n```\n$ cat /etc/hostname\n$ cat /etc/os-release\n$ cat /etc/hosts\n```\n## /etc/passwd — список облікових записів\n```\nstudent:x:1000:1000:student:/home/student:/bin/bash\n```\n| поле | значення |\n|---|---|\n| 1 | ім’я входу |\n| 2 | `x` = пароль зберігається в /etc/shadow |\n| 3, 4 | UID і GID |\n| 6 | домашня папка |\n| 7 | оболонка входу |\n\nПоля розділено `:` — ідеально для `cut -d: -f1`.\n\n> Перед будь-якою правкою в /etc: `sudo cp файл файл.bak`. Одна друкарська помилка може зупинити сервіс."
+          },
+          "title": {
+            "en": "Reading the configuration",
+            "ru": "Читаем настройки",
+            "uk": "Читаємо налаштування"
+          },
+          "demo": {
+            "commands": [
+              "cat /etc/hostname"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Which Linux distribution and version is this? Read /etc/os-release.",
+            "ru": "Какой это дистрибутив и версия? Прочитайте /etc/os-release.",
+            "uk": "Який це дистрибутив і версія? Прочитайте /etc/os-release."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "cat",
+              "label": {
+                "en": "cat /etc/os-release",
+                "ru": "cat /etc/os-release",
+                "uk": "cat /etc/os-release"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Ubuntu",
+              "label": {
+                "en": "Ubuntu",
+                "ru": "Ubuntu",
+                "uk": "Ubuntu"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "cat /etc/os-release",
+              "ru": "cat /etc/os-release",
+              "uk": "cat /etc/os-release"
+            },
+            "command": "cat"
+          },
+          "solution": [
+            "cat /etc/os-release"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Print only the login names of all accounts (first field of /etc/passwd).",
+            "ru": "Выведите только имена всех учётных записей (первое поле /etc/passwd).",
+            "uk": "Виведіть лише імена всіх облікових записів (перше поле /etc/passwd)."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "cut",
+              "label": {
+                "en": "cut -d: -f1",
+                "ru": "cut -d: -f1",
+                "uk": "cut -d: -f1"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^www-data$",
+              "label": {
+                "en": "www-data is listed",
+                "ru": "Есть www-data",
+                "uk": "Є www-data"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^root$",
+              "label": {
+                "en": "No other fields",
+                "ru": "Других полей нет",
+                "uk": "Інших полів немає"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "cut -d: -f1 /etc/passwd",
+              "ru": "cut -d: -f1 /etc/passwd",
+              "uk": "cut -d: -f1 /etc/passwd"
+            },
+            "command": "cut"
+          },
+          "solution": [
+            "cut -d: -f1 /etc/passwd"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "On which port does shopapp listen? Find it in /etc/shopapp.conf.",
+            "ru": "На каком порту слушает shopapp? Найдите в /etc/shopapp.conf.",
+            "uk": "На якому порту слухає shopapp? Знайдіть у /etc/shopapp.conf."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "grep",
+              "label": {
+                "en": "grep port",
+                "ru": "grep port",
+                "uk": "grep port"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "port=8080",
+              "label": {
+                "en": "port=8080",
+                "ru": "port=8080",
+                "uk": "port=8080"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "grep port /etc/shopapp.conf",
+              "ru": "grep port /etc/shopapp.conf",
+              "uk": "grep port /etc/shopapp.conf"
+            },
+            "command": "grep"
+          },
+          "solution": [
+            "grep port /etc/shopapp.conf"
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "cut -d: -f7 /etc/passwd | sort -u",
+          "options": [
+            "/bin/bash",
+            "/bin/bash\n/usr/sbin/nologin",
+            "bash",
+            "x"
+          ],
+          "answer": 0,
+          "setup": {
+            "hostname": "trainer",
+            "files": {
+              "/usr/local/bin/hello": {
+                "content": "#!/bin/bash\necho \"Hello from /usr/local/bin\"\n",
+                "owner": "root",
+                "mode": "755"
+              },
+              "/opt/shopapp/": null,
+              "/opt/shopapp/app.py": {
+                "content": "print('shop')\n",
+                "owner": "root"
+              },
+              "/etc/shopapp.conf": {
+                "content": "port=8080\nlog=/var/log/shopapp.log\ndebug=false\n",
+                "owner": "root"
+              },
+              "/var/log/shopapp.log": {
+                "content": "2026-10-31 09:00 started on port 8080\n2026-10-31 09:05 GET / 200\n",
+                "owner": "root"
+              },
+              "/tmp/upload-7f3a.tmp": {
+                "content": "partial upload\n",
+                "owner": "www-data"
+              },
+              "/srv/ftp/": null,
+              "/mnt/usb/": null
+            },
+            "users": [
+              {
+                "name": "www-data",
+                "uid": 33,
+                "home": "/var/www"
+              }
+            ]
+          },
+          "context": [
+            "cat /etc/passwd"
+          ],
+          "explanation": {
+            "en": "Field 7 is the shell; every account here uses /bin/bash and sort -u removes duplicates.",
+            "ru": "Поле 7 — оболочка; у всех учёток здесь /bin/bash, а sort -u убирает повторы.",
+            "uk": "Поле 7 — оболонка; у всіх облікових записів тут /bin/bash, а sort -u прибирає повтори."
+          }
+        }
+      ]
+    },
+    {
+      "id": "fhs-var-tmp",
+      "title": {
+        "en": "/var and /tmp",
+        "ru": "/var и /tmp",
+        "uk": "/var і /tmp"
+      },
+      "commands": [
+        "ls",
+        "du",
+        "touch"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "files": {
+          "/usr/local/bin/hello": {
+            "content": "#!/bin/bash\necho \"Hello from /usr/local/bin\"\n",
+            "owner": "root",
+            "mode": "755"
+          },
+          "/opt/shopapp/": null,
+          "/opt/shopapp/app.py": {
+            "content": "print('shop')\n",
+            "owner": "root"
+          },
+          "/etc/shopapp.conf": {
+            "content": "port=8080\nlog=/var/log/shopapp.log\ndebug=false\n",
+            "owner": "root"
+          },
+          "/var/log/shopapp.log": {
+            "content": "2026-10-31 09:00 started on port 8080\n2026-10-31 09:05 GET / 200\n",
+            "owner": "root"
+          },
+          "/tmp/upload-7f3a.tmp": {
+            "content": "partial upload\n",
+            "owner": "www-data"
+          },
+          "/srv/ftp/": null,
+          "/mnt/usb/": null
+        },
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## /var — data that changes\n- `/var/log` — logs\n- `/var/lib` — program state: databases, package lists\n- `/var/cache` — caches that can be rebuilt\n- `/var/www` — classic place for websites\n- `/var/spool` — queues: mail, print, cron jobs\n\nWhen \"the disk is full\", the culprit is usually in /var.\n```\n$ sudo du -sh /var/* | sort -h\n```\n## /tmp — for everyone, but carefully\n`/tmp` is writable by **all** users, yet nobody can delete other people's files there. That is the **sticky bit** — the `t` at the end of `drwxrwxrwt`.\n\n> Never keep anything important in /tmp: it is wiped on reboot.",
+            "ru": "## /var — данные, которые меняются\n- `/var/log` — логи\n- `/var/lib` — состояние программ: базы, списки пакетов\n- `/var/cache` — кэши, которые можно пересоздать\n- `/var/www` — классическое место для сайтов\n- `/var/spool` — очереди: почта, печать, задания cron\n\nКогда «кончилось место на диске», виновник обычно в /var.\n```\n$ sudo du -sh /var/* | sort -h\n```\n## /tmp — для всех, но аккуратно\nВ `/tmp` могут писать **все** пользователи, но удалить чужой файл там нельзя. Это **sticky bit** — буква `t` в конце `drwxrwxrwt`.\n\n> Ничего важного в /tmp не держите: при перезагрузке он очищается.",
+            "uk": "## /var — дані, що змінюються\n- `/var/log` — логи\n- `/var/lib` — стан програм: бази, списки пакетів\n- `/var/cache` — кеші, які можна перестворити\n- `/var/www` — класичне місце для сайтів\n- `/var/spool` — черги: пошта, друк, завдання cron\n\nКоли «скінчилося місце на диску», винуватець зазвичай у /var.\n```\n$ sudo du -sh /var/* | sort -h\n```\n## /tmp — для всіх, але обережно\nУ `/tmp` можуть писати **усі** користувачі, але видалити чужий файл там не можна. Це **sticky bit** — літера `t` наприкінці `drwxrwxrwt`.\n\n> Нічого важливого в /tmp не тримайте: під час перезавантаження він очищується."
+          },
+          "title": {
+            "en": "Changing data and temp files",
+            "ru": "Изменяемые данные и временные файлы",
+            "uk": "Змінні дані й тимчасові файли"
+          },
+          "demo": {
+            "commands": [
+              "ls -ld /tmp"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show the size of every folder in /var, sorted from small to big.",
+            "ru": "Покажите размер каждой папки в /var, от маленьких к большим.",
+            "uk": "Покажіть розмір кожної папки в /var, від малих до великих."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "du",
+              "flags": [
+                "-s"
+              ],
+              "label": {
+                "en": "du -sh",
+                "ru": "du -sh",
+                "uk": "du -sh"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "sort",
+              "flags": [
+                "-h"
+              ],
+              "label": {
+                "en": "sort -h",
+                "ru": "sort -h",
+                "uk": "sort -h"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "sudo du -sh /var/* | sort -h",
+              "ru": "sudo du -sh /var/* | sort -h",
+              "uk": "sudo du -sh /var/* | sort -h"
+            },
+            "command": "du"
+          },
+          "solution": [
+            "sudo du -sh /var/* | sort -h"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Try to delete /tmp/upload-7f3a.tmp — it belongs to www-data. What happens?",
+            "ru": "Попробуйте удалить /tmp/upload-7f3a.tmp — он принадлежит www-data. Что произойдёт?",
+            "uk": "Спробуйте видалити /tmp/upload-7f3a.tmp — він належить www-data. Що станеться?"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "rm",
+              "label": {
+                "en": "rm the file",
+                "ru": "rm файла",
+                "uk": "rm файлу"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Operation not permitted",
+              "label": {
+                "en": "Operation not permitted",
+                "ru": "Operation not permitted",
+                "uk": "Operation not permitted"
+              }
+            },
+            {
+              "type": "fileExists",
+              "path": "/tmp/upload-7f3a.tmp",
+              "label": {
+                "en": "The file survived",
+                "ru": "Файл уцелел",
+                "uk": "Файл уцілів"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "rm -f /tmp/upload-7f3a.tmp",
+              "ru": "rm -f /tmp/upload-7f3a.tmp",
+              "uk": "rm -f /tmp/upload-7f3a.tmp"
+            },
+            "command": "rm"
+          },
+          "solution": [
+            "rm -f /tmp/upload-7f3a.tmp"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Why can you NOT delete other users' files in /tmp, though everyone may write there?",
+            "ru": "Почему нельзя удалить чужие файлы в /tmp, хотя писать туда могут все?",
+            "uk": "Чому не можна видалити чужі файли в /tmp, хоча писати туди можуть усі?"
+          },
+          "options": [
+            {
+              "en": "The sticky bit (t) on /tmp",
+              "ru": "Sticky bit (t) на /tmp",
+              "uk": "Sticky bit (t) на /tmp"
+            },
+            {
+              "en": "/tmp is read-only",
+              "ru": "/tmp только для чтения",
+              "uk": "/tmp лише для читання"
+            },
+            {
+              "en": "Files in /tmp are encrypted",
+              "ru": "Файлы в /tmp зашифрованы",
+              "uk": "Файли в /tmp зашифровано"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "fhs-bin-path",
+      "title": {
+        "en": "Where commands live: PATH",
+        "ru": "Где живут команды: PATH",
+        "uk": "Де живуть команди: PATH"
+      },
+      "commands": [
+        "which",
+        "echo",
+        "type"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "files": {
+          "/usr/local/bin/hello": {
+            "content": "#!/bin/bash\necho \"Hello from /usr/local/bin\"\n",
+            "owner": "root",
+            "mode": "755"
+          },
+          "/opt/shopapp/": null,
+          "/opt/shopapp/app.py": {
+            "content": "print('shop')\n",
+            "owner": "root"
+          },
+          "/etc/shopapp.conf": {
+            "content": "port=8080\nlog=/var/log/shopapp.log\ndebug=false\n",
+            "owner": "root"
+          },
+          "/var/log/shopapp.log": {
+            "content": "2026-10-31 09:00 started on port 8080\n2026-10-31 09:05 GET / 200\n",
+            "owner": "root"
+          },
+          "/tmp/upload-7f3a.tmp": {
+            "content": "partial upload\n",
+            "owner": "www-data"
+          },
+          "/srv/ftp/": null,
+          "/mnt/usb/": null
+        },
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## How the shell finds `ls`\nWhen you type `ls`, bash looks through the folders listed in **$PATH**, left to right, and runs the first `ls` it finds.\n```\n$ echo $PATH\n$ which ls\n$ type cd\n```\n- `which` — where the program file is\n- `type` — also tells about builtins and aliases (`cd` is built into bash, there is no file)\n- `/usr/local/bin` comes **before** `/usr/bin`, so your own scripts there win\n\n## Running a script that is not in PATH\n`./script.sh` — the `./` says \"from the current folder\". Without it bash searches only PATH.\n\n> Security: never put `.` (the current folder) into PATH.",
+            "ru": "## Как оболочка находит `ls`\nКогда вы набираете `ls`, bash просматривает папки из **$PATH** слева направо и запускает первый найденный `ls`.\n```\n$ echo $PATH\n$ which ls\n$ type cd\n```\n- `which` — где лежит файл программы\n- `type` — сообщает и о встроенных командах и алиасах (`cd` встроен в bash, файла нет)\n- `/usr/local/bin` стоит **раньше** `/usr/bin`, поэтому ваши скрипты там побеждают\n\n## Запуск скрипта не из PATH\n`./script.sh` — `./` означает «из текущей папки». Без этого bash ищет только по PATH.\n\n> Безопасность: никогда не добавляйте `.` (текущую папку) в PATH.",
+            "uk": "## Як оболонка знаходить `ls`\nКоли ви набираєте `ls`, bash переглядає папки з **$PATH** зліва направо й запускає перший знайдений `ls`.\n```\n$ echo $PATH\n$ which ls\n$ type cd\n```\n- `which` — де лежить файл програми\n- `type` — повідомляє й про вбудовані команди та аліаси (`cd` вбудовано в bash, файлу немає)\n- `/usr/local/bin` стоїть **раніше** за `/usr/bin`, тому ваші скрипти там перемагають\n\n## Запуск скрипта не з PATH\n`./script.sh` — `./` означає «з поточної папки». Без цього bash шукає лише за PATH.\n\n> Безпека: ніколи не додавайте `.` (поточну папку) в PATH."
+          },
+          "title": {
+            "en": "$PATH",
+            "ru": "$PATH",
+            "uk": "$PATH"
+          },
+          "demo": {
+            "commands": [
+              "echo $PATH",
+              "which ls"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Find out where the program \"hello\" lives.",
+            "ru": "Узнайте, где лежит программа «hello».",
+            "uk": "Дізнайтеся, де лежить програма «hello»."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "which",
+              "label": {
+                "en": "which hello",
+                "ru": "which hello",
+                "uk": "which hello"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "/usr/local/bin/hello",
+              "label": {
+                "en": "/usr/local/bin/hello",
+                "ru": "/usr/local/bin/hello",
+                "uk": "/usr/local/bin/hello"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "which hello",
+              "ru": "which hello",
+              "uk": "which hello"
+            },
+            "command": "which"
+          },
+          "solution": [
+            "which hello"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Run it — just by its name.",
+            "ru": "Запустите её — просто по имени.",
+            "uk": "Запустіть її — просто за назвою."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "hello",
+              "label": {
+                "en": "hello",
+                "ru": "hello",
+                "uk": "hello"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Hello from",
+              "label": {
+                "en": "Hello from /usr/local/bin",
+                "ru": "Hello from /usr/local/bin",
+                "uk": "Hello from /usr/local/bin"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "hello",
+              "ru": "hello",
+              "uk": "hello"
+            },
+            "command": "hello"
+          },
+          "solution": [
+            "hello"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Is \"cd\" a file or part of bash? Ask the shell.",
+            "ru": "«cd» — это файл или часть bash? Спросите оболочку.",
+            "uk": "«cd» — це файл чи частина bash? Запитайте оболонку."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "type",
+              "label": {
+                "en": "type cd",
+                "ru": "type cd",
+                "uk": "type cd"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "builtin",
+              "label": {
+                "en": "shell builtin",
+                "ru": "shell builtin",
+                "uk": "shell builtin"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "type cd",
+              "ru": "type cd",
+              "uk": "type cd"
+            },
+            "command": "type"
+          },
+          "solution": [
+            "type cd"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You created ~/bin/deploy.sh. Why does \"deploy.sh\" say \"command not found\" while \"./deploy.sh\" works inside ~/bin?",
+            "ru": "Вы создали ~/bin/deploy.sh. Почему «deploy.sh» пишет «command not found», а «./deploy.sh» в ~/bin работает?",
+            "uk": "Ви створили ~/bin/deploy.sh. Чому «deploy.sh» пише «command not found», а «./deploy.sh» у ~/bin працює?"
+          },
+          "options": [
+            {
+              "en": "~/bin is not in $PATH",
+              "ru": "~/bin нет в $PATH",
+              "uk": "~/bin немає в $PATH"
+            },
+            {
+              "en": "The file is too big",
+              "ru": "Файл слишком большой",
+              "uk": "Файл завеликий"
+            },
+            {
+              "en": "Bash does not run .sh files",
+              "ru": "Bash не запускает .sh",
+              "uk": "Bash не запускає .sh"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "fhs-types",
+      "title": {
+        "en": "File types and stat",
+        "ru": "Типы файлов и stat",
+        "uk": "Типи файлів і stat"
+      },
+      "commands": [
+        "file",
+        "stat",
+        "ls"
+      ],
+      "setup": {
+        "hostname": "trainer",
+        "files": {
+          "/usr/local/bin/hello": {
+            "content": "#!/bin/bash\necho \"Hello from /usr/local/bin\"\n",
+            "owner": "root",
+            "mode": "755"
+          },
+          "/opt/shopapp/": null,
+          "/opt/shopapp/app.py": {
+            "content": "print('shop')\n",
+            "owner": "root"
+          },
+          "/etc/shopapp.conf": {
+            "content": "port=8080\nlog=/var/log/shopapp.log\ndebug=false\n",
+            "owner": "root"
+          },
+          "/var/log/shopapp.log": {
+            "content": "2026-10-31 09:00 started on port 8080\n2026-10-31 09:05 GET / 200\n",
+            "owner": "root"
+          },
+          "/tmp/upload-7f3a.tmp": {
+            "content": "partial upload\n",
+            "owner": "www-data"
+          },
+          "/srv/ftp/": null,
+          "/mnt/usb/": null
+        },
+        "users": [
+          {
+            "name": "www-data",
+            "uid": 33,
+            "home": "/var/www"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## The first letter of ls -l\n| letter | type |\n|---|---|\n| `-` | regular file |\n| `d` | directory |\n| `l` | symbolic link |\n| `c`, `b` | character / block device (`/dev`) |\n| `s`, `p` | socket, named pipe |\n\n## Extensions mean nothing\nLinux does not care about `.txt` or `.jpg`. To know what a file really is:\n```\n$ file /usr/bin/ls\n$ file /etc/shopapp.conf\n```\n## stat — everything about a file\nSize, permissions in numbers (0644), owner, times of access and modification.\n```\n$ stat /etc/hostname\n```",
+            "ru": "## Первая буква в ls -l\n| буква | тип |\n|---|---|\n| `-` | обычный файл |\n| `d` | каталог |\n| `l` | символическая ссылка |\n| `c`, `b` | символьное / блочное устройство (`/dev`) |\n| `s`, `p` | сокет, именованный канал |\n\n## Расширения ничего не значат\nLinux всё равно, `.txt` или `.jpg`. Чтобы узнать, что за файл на самом деле:\n```\n$ file /usr/bin/ls\n$ file /etc/shopapp.conf\n```\n## stat — всё о файле\nРазмер, права числом (0644), владелец, время доступа и изменения.\n```\n$ stat /etc/hostname\n```",
+            "uk": "## Перша літера в ls -l\n| літера | тип |\n|---|---|\n| `-` | звичайний файл |\n| `d` | каталог |\n| `l` | символьне посилання |\n| `c`, `b` | символьний / блоковий пристрій (`/dev`) |\n| `s`, `p` | сокет, іменований канал |\n\n## Розширення нічого не означають\nLinux байдуже, `.txt` чи `.jpg`. Щоб дізнатися, що за файл насправді:\n```\n$ file /usr/bin/ls\n$ file /etc/shopapp.conf\n```\n## stat — усе про файл\nРозмір, права числом (0644), власник, час доступу й змін.\n```\n$ stat /etc/hostname\n```"
+          },
+          "title": {
+            "en": "What is this file?",
+            "ru": "Что это за файл?",
+            "uk": "Що це за файл?"
+          },
+          "demo": {
+            "commands": [
+              "ls -l /",
+              "file /usr/bin/ls"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "What kind of file is /usr/local/bin/hello?",
+            "ru": "Что за файл /usr/local/bin/hello?",
+            "uk": "Що за файл /usr/local/bin/hello?"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "file",
+              "label": {
+                "en": "file",
+                "ru": "file",
+                "uk": "file"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "script|text",
+              "label": {
+                "en": "a script",
+                "ru": "скрипт",
+                "uk": "скрипт"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "file /usr/local/bin/hello",
+              "ru": "file /usr/local/bin/hello",
+              "uk": "file /usr/local/bin/hello"
+            },
+            "command": "file"
+          },
+          "solution": [
+            "file /usr/local/bin/hello"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show the permissions of /etc/shopapp.conf as a number with stat.",
+            "ru": "Покажите права /etc/shopapp.conf числом через stat.",
+            "uk": "Покажіть права /etc/shopapp.conf числом через stat."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "stat",
+              "label": {
+                "en": "stat",
+                "ru": "stat",
+                "uk": "stat"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "0644",
+              "label": {
+                "en": "0644",
+                "ru": "0644",
+                "uk": "0644"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "stat /etc/shopapp.conf",
+              "ru": "stat /etc/shopapp.conf",
+              "uk": "stat /etc/shopapp.conf"
+            },
+            "command": "stat"
+          },
+          "solution": [
+            "stat /etc/shopapp.conf"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "ls -l shows \"lrwxrwxrwx 1 root root 7 ... bin -> usr/bin\". What is /bin?",
+            "ru": "ls -l показывает «lrwxrwxrwx 1 root root 7 ... bin -> usr/bin». Что такое /bin?",
+            "uk": "ls -l показує «lrwxrwxrwx 1 root root 7 ... bin -> usr/bin». Що таке /bin?"
+          },
+          "options": [
+            {
+              "en": "A symbolic link to /usr/bin",
+              "ru": "Символическая ссылка на /usr/bin",
+              "uk": "Символьне посилання на /usr/bin"
+            },
+            {
+              "en": "A copy of /usr/bin",
+              "ru": "Копия /usr/bin",
+              "uk": "Копія /usr/bin"
+            },
+            {
+              "en": "A device",
+              "ru": "Устройство",
+              "uk": "Пристрій"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "photo.jpg was renamed to photo.txt. What does \"file photo.txt\" say?",
+            "ru": "photo.jpg переименовали в photo.txt. Что скажет «file photo.txt»?",
+            "uk": "photo.jpg перейменували на photo.txt. Що скаже «file photo.txt»?"
+          },
+          "options": [
+            {
+              "en": "JPEG image data — file looks at the content",
+              "ru": "JPEG image data — file смотрит на содержимое",
+              "uk": "JPEG image data — file дивиться на вміст"
+            },
+            {
+              "en": "ASCII text",
+              "ru": "ASCII text",
+              "uk": "ASCII text"
+            },
+            {
+              "en": "An error",
+              "ru": "Ошибку",
+              "uk": "Помилку"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

@@ -53,6 +53,11 @@ def cwd(path, label): return _c({"type": "cwdIs", "path": path}, label)
 def mode(path, m, label): return _c({"type": "modeIs", "path": path, "mode": m}, label)
 def svc(name, state, label): return _c({"type": "serviceState", "name": name, "state": state}, label)
 def enabled(name, on, label): return _c({"type": "serviceEnabled", "name": name, "enabled": on}, label)
+def uexists(name, label, group=None, exists=True):
+    d = {"type": "userExists", "name": name}
+    if group: d["group"] = group
+    if not exists: d["exists"] = False
+    return _c(d, label)
 def proc_gone(name, label): return _c({"type": "processGone", "name": name}, label)
 def var(name, value, label): return _c({"type": "varEquals", "name": name, "value": value}, label)
 def alias(name, label, value=None):

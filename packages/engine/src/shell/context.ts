@@ -46,6 +46,12 @@ export interface ShellApi {
   setProcesses(p: ProcessInfo[]): void;
   services(): Service[];
   users(): UserInfo[];
+  /** Commands of the pipeline currently running (empty for a single command). */
+  pipeline(): string[];
+  /** Next line for `read` (shared stdin of a while-read loop). */
+  readLine(stdin: string | null): string | null;
+  /** break / continue: false if not inside a loop. */
+  loopControl(kind: 'break' | 'continue', n: number): boolean;
   setUsers(u: UserInfo[]): void;
   setServices(s: Service[]): void;
   cwd(): string;

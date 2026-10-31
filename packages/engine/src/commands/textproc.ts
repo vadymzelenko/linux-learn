@@ -376,7 +376,7 @@ function lexAwk(src: string): Tok[] {
       i += 2;
       continue;
     }
-    if ('{}()$+-*/%<>=!~,?:^'.includes(c)) {
+    if ('{}()[]$+-*/%<>=!~,?:^'.includes(c)) {
       toks.push({ t: 'op', v: c });
       i++;
       continue;
@@ -399,6 +399,8 @@ type Node =
   | { k: 'match'; neg: boolean; l: Node; r: Node }
   | { k: 'cond'; c: Node; a: Node; b: Node }
   | { k: 'call'; name: string; args: Node[] }
+  | { k: 'index'; name: string; keys: Node[] }
+  | { k: 'in'; keys: Node[]; name: string }
   | { k: 'concat'; parts: Node[] };
 
 type Stmt =
@@ -407,6 +409,13 @@ type Stmt =
   | { k: 'expr'; e: Node }
   | { k: 'block'; body: Stmt[] }
   | { k: 'if'; c: Node; then: Stmt; else?: Stmt }
+  | { k: 'for'; init: Node | null; c: Node | null; step: Node | null; body: Stmt }
+  | { k: 'forin'; v: string; arr: string; body: Stmt }
+  | { k: 'while'; c: Node; body: Stmt }
+  | { k: 'delete'; name: string; keys: Node[] | null }
+  | { k: 'break' }
+  | { k: 'continue' }
+  | { k: 'exit' }
   | { k: 'next' };
 
 interface Rule {
@@ -469,7 +478,7 @@ function parseAwk(toks: Tok[]): Rule[] {
     }
     if (t.t === 'id') {
       p++;
-      if (['length', 'toupper', 'tolower', 'substr', 'index', 'int', 'sprintf'].includes(t.v)) {
+      if (['length', 'toupper', 'tolower', 'substr', 'index', 'int', 'sprintf', 'split'].includes(t.v)) {
         const args: Node[] = [];
         if (isOp('(')) {
           p++;
@@ -484,7 +493,17 @@ function parseAwk(toks: Tok[]): Rule[] {
         }
         return { k: 'call', name: t.v, args };
       }
-      const v: Node = { k: 'var', name: t.v };
+      let v: Node = { k: 'var', name: t.v };
+      if (isOp('[')) {
+        p++;
+        const keys = [expr()];
+        while (isOp(',')) {
+          p++;
+          keys.push(expr());
+        }
+        expectOp(']');
+        v = { k: 'index', name: t.v, keys };
+      }
       if (isOp('++') || isOp('--')) {
         const op = (peek() as { v: string }).v;
         p++;
@@ -528,7 +547,14 @@ function parseAwk(toks: Tok[]): Rule[] {
   };
   let noGt = false;
   const comparison = (): Node => {
-    const l = concat();
+    let l = concat();
+    if (peek()?.t === 'id' && (peek() as { v: string }).v === 'in') {
+      p++;
+      const arr = peek();
+      if (arr?.t !== 'id') throw new AwkError("syntax error: expected array name after 'in'");
+      p++;
+      l = { k: 'in', keys: [l], name: arr.v };
+    }
     const t = peek();
     if (t?.t === 'op' && ['<', '<=', '==', '!=', '>=', ...(noGt ? [] : ['>'])].includes(t.v)) {
       p++;
@@ -562,7 +588,7 @@ function parseAwk(toks: Tok[]): Rule[] {
     const lhs = ternary();
     const t = peek();
     if (t?.t === 'op' && ['=', '+=', '-=', '*=', '/=', '%=', '^='].includes(t.v)) {
-      if (lhs.k !== 'var' && lhs.k !== 'field') {
+      if (lhs.k !== 'var' && lhs.k !== 'field' && lhs.k !== 'index') {
         p = start;
         throw new AwkError('syntax error: invalid assignment');
       }
@@ -609,9 +635,46 @@ function parseAwk(toks: Tok[]): Rule[] {
       if (t.v === 'printf') return { k: 'printf', args };
       return redirect ? { k: 'print', args, redirect } : { k: 'print', args };
     }
-    if (t?.t === 'id' && t.v === 'next') {
+    if (t?.t === 'id' && (t.v === 'next' || t.v === 'break' || t.v === 'continue' || t.v === 'exit')) {
       p++;
-      return { k: 'next' };
+      if (t.v === 'exit' && peek()?.t === 'num') p++;
+      return { k: t.v };
+    }
+    if (t?.t === 'id' && t.v === 'delete') {
+      p++;
+      const n = peek();
+      if (n?.t !== 'id') throw new AwkError('syntax error: delete needs an array');
+      p++;
+      if (!isOp('[')) return { k: 'delete', name: n.v, keys: null };
+      p++;
+      const keys = [expr()];
+      expectOp(']');
+      return { k: 'delete', name: n.v, keys };
+    }
+    if (t?.t === 'id' && t.v === 'while') {
+      p++;
+      expectOp('(');
+      const c = expr();
+      expectOp(')');
+      return { k: 'while', c, body: stmt() };
+    }
+    if (t?.t === 'id' && t.v === 'for') {
+      p++;
+      expectOp('(');
+      const a = toks[p];
+      const b = toks[p + 1];
+      const c = toks[p + 2];
+      if (a?.t === 'id' && b?.t === 'id' && b.v === 'in' && c?.t === 'id' && toks[p + 3]?.t === 'op' && (toks[p + 3] as { v: string }).v === ')') {
+        p += 4;
+        return { k: 'forin', v: a.v, arr: c.v, body: stmt() };
+      }
+      const init = isOp(';') ? null : expr();
+      expectOp(';');
+      const cond = isOp(';') ? null : expr();
+      expectOp(';');
+      const step = isOp(')') ? null : expr();
+      expectOp(')');
+      return { k: 'for', init, c: cond, step, body: stmt() };
     }
     if (t?.t === 'id' && t.v === 'if') {
       p++;
@@ -652,6 +715,10 @@ function parseAwk(toks: Tok[]): Rule[] {
 }
 
 class NextSignal {}
+class LoopSignal {
+  constructor(public kind: 'break' | 'continue') {}
+}
+class ExitSignal {}
 
 export const awk: CommandDef = {
   name: 'awk',
@@ -660,7 +727,7 @@ export const awk: CommandDef = {
     summary: 'pattern scanning and text processing language',
     usage: ["awk [-F fs] [-v var=value] 'program' [file ...]"],
     description:
-      "Awk splits every input line into fields $1, $2, ... ($0 is the whole line, NF the number of fields, NR the line number) and runs `pattern { action }` rules. The trainer supports a practical subset: print, printf, variables, arithmetic, comparisons, regex patterns, if/else, BEGIN/END and length/toupper/tolower/substr/index/int.",
+      "Awk splits every input line into fields $1, $2, ... ($0 is the whole line, NF the number of fields, NR the line number) and runs `pattern { action }` rules. The trainer supports a practical subset: print, printf, variables, associative arrays (count[$1]++), arithmetic, comparisons, regex patterns, if/else, for, for (k in arr), while, BEGIN/END and length/toupper/tolower/substr/index/int/split.",
     options: [
       ['-F fs', 'use fs as the input field separator'],
       ['-v var=value', 'assign a variable before the program starts'],
@@ -670,6 +737,7 @@ export const awk: CommandDef = {
       ["awk -F: '{print $1, $7}' /etc/passwd", 'user names and their shells'],
       ["awk '$3 > 100' data.txt", 'lines where the 3rd field is greater than 100'],
       ["awk '{sum += $2} END {print sum}' sales.txt", 'sum a column'],
+      ["awk '{n[$1]++} END {for (ip in n) print n[ip], ip}' access.log", 'count lines per IP'],
     ],
     seeAlso: ['cut', 'sed', 'grep'],
   },
@@ -692,6 +760,12 @@ export const awk: CommandDef = {
       throw e;
     }
     const vars = new Map<string, string | number>();
+    const arrays = new Map<string, Map<string, string | number>>();
+    const arr = (name: string) => {
+      let m = arrays.get(name);
+      if (!m) arrays.set(name, (m = new Map()));
+      return m;
+    };
     let fsOpt = a.values.get('F');
     if (fsOpt === '\\t' || fsOpt === 't') fsOpt = '\t';
     vars.set('FS', fsOpt ?? ' ');
@@ -747,7 +821,9 @@ export const awk: CommandDef = {
           rebuild();
         }
       } else if (target.k === 'field') setField(toNum(evaluate(target.e)), toStr(v));
+      else if (target.k === 'index') arr(target.name).set(keyOf(target.keys), v);
     };
+    const keyOf = (keys: Node[]) => keys.map((x) => toStr(evaluate(x))).join('\x1c');
 
     const evaluate = (n: Node): string | number => {
       if (++steps > 200_000) throw new AwkError('program is too slow (step limit)');
@@ -791,6 +867,13 @@ export const awk: CommandDef = {
         }
         case 'cond': return truthy(evaluate(n.c)) ? evaluate(n.a) : evaluate(n.b);
         case 'concat': return n.parts.map((x) => toStr(evaluate(x))).join('');
+        case 'index': {
+          const m = arr(n.name);
+          const key = keyOf(n.keys);
+          if (!m.has(key)) m.set(key, '');
+          return m.get(key)!;
+        }
+        case 'in': return arrays.get(n.name)?.has(keyOf(n.keys)) ? 1 : 0;
         case 'assign': {
           const v = evaluate(n.e);
           let res: string | number = v;
@@ -809,6 +892,18 @@ export const awk: CommandDef = {
           return n.prefix ? next : cur;
         }
         case 'call': {
+          if (n.name === 'length' && n.args[0]?.k === 'var' && arrays.has(n.args[0].name)) return arrays.get(n.args[0].name)!.size;
+          if (n.name === 'split') {
+            const target = n.args[1];
+            if (target?.k !== 'var') throw new AwkError('split: second argument must be an array');
+            const str = toStr(evaluate(n.args[0]!));
+            const sep = n.args[2] ? toStr(evaluate(n.args[2])) : toStr(vars.get('FS') ?? ' ');
+            const parts = str === '' ? [] : sep === ' ' ? str.trim().split(/[ \t\n]+/) : sep.length === 1 ? str.split(sep) : str.split(new RegExp(sep));
+            const m = new Map<string, string | number>();
+            parts.forEach((x, i) => m.set(String(i + 1), x));
+            arrays.set(target.name, m);
+            return parts.length;
+          }
           const args = n.args.map(evaluate);
           switch (n.name) {
             case 'length': return (args.length ? toStr(args[0]!) : getField(0)).length;
@@ -879,19 +974,61 @@ export const awk: CommandDef = {
           else if (s.else) exec(s.else);
           break;
         case 'next': throw new NextSignal();
+        case 'break': throw new LoopSignal('break');
+        case 'continue': throw new LoopSignal('continue');
+        case 'exit': throw new ExitSignal();
+        case 'delete':
+          if (s.keys) arrays.get(s.name)?.delete(keyOf(s.keys));
+          else arrays.delete(s.name);
+          break;
+        case 'while':
+        case 'for':
+        case 'forin': {
+          const runBody = (): boolean => {
+            try {
+              exec(s.body);
+            } catch (e) {
+              if (e instanceof LoopSignal) return e.kind === 'continue';
+              throw e;
+            }
+            return true;
+          };
+          if (s.k === 'forin') {
+            for (const key of [...(arrays.get(s.arr)?.keys() ?? [])]) {
+              vars.set(s.v, key);
+              if (!runBody()) break;
+            }
+          } else if (s.k === 'while') {
+            while (truthy(evaluate(s.c))) if (!runBody()) break;
+          } else {
+            if (s.init) evaluate(s.init);
+            while (!s.c || truthy(evaluate(s.c))) {
+              if (!runBody()) break;
+              if (s.step) evaluate(s.step);
+            }
+          }
+          break;
+        }
       }
     };
 
     try {
-      for (const r of rules) if (r.pattern === 'BEGIN') r.body?.forEach(exec);
+      let exited = false;
+      try {
+        for (const r of rules) if (r.pattern === 'BEGIN') r.body?.forEach(exec);
+      } catch (e) {
+        if (!(e instanceof ExitSignal)) throw e;
+        exited = true;
+      }
       let nr = 0;
       let input = '';
       const ok = eachInput(ctx, operands.filter((o) => !/^[A-Za-z_]\w*=/.test(o)), (t) => (input += t.endsWith('\n') || t === '' ? t : t + '\n'));
       if (!ok) return 2;
       const hasMain = rules.some((r) => r.pattern !== 'BEGIN' && r.pattern !== 'END');
       const hasEnd = rules.some((r) => r.pattern === 'END');
-      if (hasMain || hasEnd) {
+      if ((hasMain || hasEnd) && !exited) {
         for (const line of lines(input)) {
+          if (exited) break;
           nr++;
           vars.set('NR', nr);
           vars.set('FNR', nr);
@@ -904,11 +1041,16 @@ export const awk: CommandDef = {
               else out += getField(0) + '\n';
             }
           } catch (e) {
-            if (!(e instanceof NextSignal)) throw e;
+            if (e instanceof ExitSignal) exited = true;
+            else if (!(e instanceof NextSignal)) throw e;
           }
         }
       }
-      for (const r of rules) if (r.pattern === 'END') r.body?.forEach(exec);
+      try {
+        for (const r of rules) if (r.pattern === 'END') r.body?.forEach(exec);
+      } catch (e) {
+        if (!(e instanceof ExitSignal)) throw e;
+      }
     } catch (e) {
       if (e instanceof AwkError) {
         ctx.out(out);
