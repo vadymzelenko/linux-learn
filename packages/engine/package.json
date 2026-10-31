@@ -1,0 +1,29 @@
+{
+  "name": "@linux-learn/engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure TypeScript Linux shell simulator: virtual FS, parser, interpreter, commands, task checks.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "sideEffects": false,
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "typecheck": "tsc -p tsconfig.json",
+    "golden:record": "tsx scripts/record-golden.ts",
+    "golden:record:docker": "docker build -t linux-learn-golden -f scripts/Dockerfile.golden scripts && docker run --rm -v \"$PWD\":/work linux-learn-golden npx --yes tsx scripts/record-golden.ts"
+  },
+  "dependencies": {
+    "immer": "^11.0.0"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^5.0.0",
+    "fast-check": "^4.0.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.0"
+  }
+}

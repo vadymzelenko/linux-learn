@@ -1,0 +1,1458 @@
+{
+  "navigation and listing": [
+    {
+      "cmd": "pwd",
+      "stdout": "/home/student\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ls",
+      "stdout": "docs\nempty\nnotes.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ls docs",
+      "stdout": "readme.md\ntodo.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ls -1 docs notes.txt",
+      "stdout": "notes.txt\n\ndocs:\nreadme.md\ntodo.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ls notes.txt docs empty",
+      "stdout": "notes.txt\n\ndocs:\nreadme.md\ntodo.txt\n\nempty:\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ls -d docs",
+      "stdout": "docs\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ls -F",
+      "stdout": "docs/\nempty/\nnotes.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ls -R",
+      "stdout": ".:\ndocs\nempty\nnotes.txt\n\n./docs:\nreadme.md\ntodo.txt\n\n./empty:\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ls nope",
+      "stdout": "",
+      "stderr": "ls: cannot access 'nope': No such file or directory\n",
+      "code": 2
+    },
+    {
+      "cmd": "ls nope docs",
+      "stdout": "docs:\nreadme.md\ntodo.txt\n",
+      "stderr": "ls: cannot access 'nope': No such file or directory\n",
+      "code": 2
+    },
+    {
+      "cmd": "ls -z",
+      "stdout": "",
+      "stderr": "ls: invalid option -- 'z'\nTry 'ls --help' for more information.\n",
+      "code": 2
+    },
+    {
+      "cmd": "ls --bogus",
+      "stdout": "",
+      "stderr": "ls: unrecognized option '--bogus'\nTry 'ls --help' for more information.\n",
+      "code": 2
+    },
+    {
+      "cmd": "cd docs && pwd",
+      "stdout": "/home/student/docs\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cd nope",
+      "stdout": "",
+      "stderr": "bash: cd: nope: No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "cd notes.txt",
+      "stdout": "",
+      "stderr": "bash: cd: notes.txt: Not a directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "cd a b",
+      "stdout": "",
+      "stderr": "bash: cd: too many arguments\n",
+      "code": 1
+    }
+  ],
+  "files: mkdir touch rm rmdir": [
+    {
+      "cmd": "mkdir new && ls",
+      "stdout": "a.txt\ndir\nnew\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "mkdir new",
+      "stdout": "",
+      "stderr": "mkdir: cannot create directory ‘new’: File exists\n",
+      "code": 1
+    },
+    {
+      "cmd": "mkdir x/y",
+      "stdout": "",
+      "stderr": "mkdir: cannot create directory ‘x/y’: No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "mkdir -p x/y/z && ls x/y",
+      "stdout": "z\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "mkdir -pv p/q",
+      "stdout": "mkdir: created directory 'p'\nmkdir: created directory 'p/q'\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "mkdir",
+      "stdout": "",
+      "stderr": "mkdir: missing operand\nTry 'mkdir --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "mkdir -p a.txt/x",
+      "stdout": "",
+      "stderr": "mkdir: cannot create directory ‘a.txt’: Not a directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "mkdir -m zz q",
+      "stdout": "",
+      "stderr": "mkdir: invalid mode ‘zz’\n",
+      "code": 1
+    },
+    {
+      "cmd": "touch t1 t2 && ls",
+      "stdout": "a.txt\ndir\nnew\np\nt1\nt2\nx\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "touch nodir/f",
+      "stdout": "",
+      "stderr": "touch: cannot touch 'nodir/f': No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "rm nope",
+      "stdout": "",
+      "stderr": "rm: cannot remove 'nope': No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "rm -f nope; echo $?",
+      "stdout": "0\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "rm dir",
+      "stdout": "",
+      "stderr": "rm: cannot remove 'dir': Is a directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "rm -v t1",
+      "stdout": "removed 't1'\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "rm",
+      "stdout": "",
+      "stderr": "rm: missing operand\nTry 'rm --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "rmdir dir",
+      "stdout": "",
+      "stderr": "rmdir: failed to remove 'dir': Directory not empty\n",
+      "code": 1
+    },
+    {
+      "cmd": "rmdir a.txt",
+      "stdout": "",
+      "stderr": "rmdir: failed to remove 'a.txt': Not a directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "rmdir nope",
+      "stdout": "",
+      "stderr": "rmdir: failed to remove 'nope': No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "rmdir -v x/y/z",
+      "stdout": "rmdir: removing directory, 'x/y/z'\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "rm -rv dir",
+      "stdout": "removed 'dir/inner.txt'\nremoved directory 'dir'\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "rm -r .",
+      "stdout": "",
+      "stderr": "rm: refusing to remove '.' or '..' directory: skipping '.'\n",
+      "code": 1
+    },
+    {
+      "cmd": "ls",
+      "stdout": "a.txt\nnew\np\nt2\nx\n",
+      "stderr": "",
+      "code": 0
+    }
+  ],
+  "files: cp mv ln": [
+    {
+      "cmd": "cp a.txt c.txt && cat c.txt",
+      "stdout": "alpha\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cp src dst",
+      "stdout": "",
+      "stderr": "cp: -r not specified; omitting directory 'src'\n",
+      "code": 1
+    },
+    {
+      "cmd": "cp -r src dst && ls -R dst",
+      "stdout": "dst:\none.txt\nsub\n\ndst/sub:\ntwo.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cp a.txt b.txt nope",
+      "stdout": "",
+      "stderr": "cp: target 'nope': No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "cp nope x",
+      "stdout": "",
+      "stderr": "cp: cannot stat 'nope': No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "cp a.txt a.txt",
+      "stdout": "",
+      "stderr": "cp: 'a.txt' and 'a.txt' are the same file\n",
+      "code": 1
+    },
+    {
+      "cmd": "cp -r src src/inner",
+      "stdout": "",
+      "stderr": "cp: cannot copy a directory, 'src', into itself, 'src/inner'\n",
+      "code": 1
+    },
+    {
+      "cmd": "cp a.txt",
+      "stdout": "",
+      "stderr": "cp: missing destination file operand after 'a.txt'\nTry 'cp --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "cp",
+      "stdout": "",
+      "stderr": "cp: missing file operand\nTry 'cp --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "cp -v a.txt copy.txt",
+      "stdout": "'a.txt' -> 'copy.txt'\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cp a.txt b.txt src && ls src",
+      "stdout": "a.txt\nb.txt\ninner\none.txt\nsub\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "mv c.txt e.txt && ls",
+      "stdout": "a.txt\nb.txt\ncopy.txt\ndst\ne.txt\nsrc\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "mv nope x",
+      "stdout": "",
+      "stderr": "mv: cannot stat 'nope': No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "mv src src/sub",
+      "stdout": "",
+      "stderr": "mv: cannot move 'src' to a subdirectory of itself, 'src/sub/src'\n",
+      "code": 1
+    },
+    {
+      "cmd": "mv -v e.txt f.txt",
+      "stdout": "renamed 'e.txt' -> 'f.txt'\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "mv a.txt",
+      "stdout": "",
+      "stderr": "mv: missing destination file operand after 'a.txt'\nTry 'mv --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "ln -s b.txt link && cat link",
+      "stdout": "beta\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ln -s x link",
+      "stdout": "",
+      "stderr": "ln: failed to create symbolic link 'link': File exists\n",
+      "code": 1
+    },
+    {
+      "cmd": "readlink link",
+      "stdout": "b.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ln -sv a.txt link2",
+      "stdout": "'link2' -> 'a.txt'\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cp a.txt b.txt link2",
+      "stdout": "",
+      "stderr": "cp: target 'link2': Not a directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "mv a.txt b.txt nope",
+      "stdout": "",
+      "stderr": "mv: target 'nope': No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "find src | sort",
+      "stdout": "src\nsrc/a.txt\nsrc/b.txt\nsrc/inner\nsrc/inner/one.txt\nsrc/inner/sub\nsrc/inner/sub/two.txt\nsrc/one.txt\nsrc/sub\nsrc/sub/two.txt\n",
+      "stderr": "",
+      "code": 0
+    }
+  ],
+  "cat head tail wc": [
+    {
+      "cmd": "cat g.txt nonl.txt",
+      "stdout": "one two\nthree\na\nb",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cat -n g.txt",
+      "stdout": "     1\tone two\n     2\tthree\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cat -A g.txt",
+      "stdout": "one two$\nthree$\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cat nope",
+      "stdout": "",
+      "stderr": "cat: nope: No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "cat dir",
+      "stdout": "",
+      "stderr": "cat: dir: Is a directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "head f.txt",
+      "stdout": "line 1\nline 2\nline 3\nline 4\nline 5\nline 6\nline 7\nline 8\nline 9\nline 10\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "head -n 3 f.txt",
+      "stdout": "line 1\nline 2\nline 3\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "head -3 f.txt",
+      "stdout": "line 1\nline 2\nline 3\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "head -c 5 f.txt",
+      "stdout": "line ",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "head -n 1 g.txt nonl.txt",
+      "stdout": "==> g.txt <==\none two\n\n==> nonl.txt <==\na\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "head -n x f.txt",
+      "stdout": "",
+      "stderr": "head: invalid number of lines: ‘x’\n",
+      "code": 1
+    },
+    {
+      "cmd": "tail -n 2 f.txt",
+      "stdout": "line 19\nline 20\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "tail -n +19 f.txt",
+      "stdout": "line 19\nline 20\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "tail -1 nonl.txt",
+      "stdout": "b",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "tail -n 1 g.txt f.txt",
+      "stdout": "==> g.txt <==\nthree\n\n==> f.txt <==\nline 20\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "wc g.txt",
+      "stdout": " 2  3 14 g.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "wc -l g.txt",
+      "stdout": "2 g.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "wc -w g.txt",
+      "stdout": "3 g.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "wc -c g.txt",
+      "stdout": "14 g.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "wc g.txt f.txt",
+      "stdout": "  2   3  14 g.txt\n 20  40 151 f.txt\n 22  43 165 total\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "wc -l g.txt f.txt",
+      "stdout": "  2 g.txt\n 20 f.txt\n 22 total\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cat g.txt | wc",
+      "stdout": "      2       3      14\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cat g.txt | wc -l",
+      "stdout": "2\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "wc nope",
+      "stdout": "",
+      "stderr": "wc: nope: No such file or directory\n",
+      "code": 1
+    }
+  ],
+  "grep": [
+    {
+      "cmd": "grep ERROR log.txt",
+      "stdout": "ERROR disk full\nERROR net down\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -i info log.txt",
+      "stdout": "INFO start\ninfo done\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -c ERROR log.txt",
+      "stdout": "2\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -n net log.txt",
+      "stdout": "4:ERROR net down\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -v ERROR log.txt",
+      "stdout": "INFO start\ninfo done\nwarning: low\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -w do log.txt; echo $?",
+      "stdout": "1\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -o \"ERROR [a-z]*\" log.txt",
+      "stdout": "ERROR disk\nERROR net\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -E \"disk|net\" log.txt",
+      "stdout": "ERROR disk full\nERROR net down\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep \"disk\\|net\" log.txt",
+      "stdout": "ERROR disk full\nERROR net down\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -x \"ok\" src/a.txt",
+      "stdout": "ok\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -r TODO src",
+      "stdout": "src/a.txt:TODO one\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -rn TODO .",
+      "stdout": "./src/a.txt:1:TODO one\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -l o src/a.txt src/b.txt",
+      "stdout": "src/a.txt\nsrc/b.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -L TODO src/a.txt src/b.txt",
+      "stdout": "src/b.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -h o src/a.txt src/b.txt",
+      "stdout": "TODO one\nok\nnothing\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -c o src/a.txt src/b.txt",
+      "stdout": "src/a.txt:2\nsrc/b.txt:1\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep x nope; echo $?",
+      "stdout": "2\n",
+      "stderr": "grep: nope: No such file or directory\n",
+      "code": 0
+    },
+    {
+      "cmd": "grep x src",
+      "stdout": "",
+      "stderr": "grep: src: Is a directory\n",
+      "code": 2
+    },
+    {
+      "cmd": "grep \"^[[:upper:]]* \" log.txt",
+      "stdout": "INFO start\nERROR disk full\nERROR net down\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -e INFO -e warning log.txt",
+      "stdout": "INFO start\nwarning: low\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep -m 1 ERROR log.txt",
+      "stdout": "ERROR disk full\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "grep",
+      "stdout": "",
+      "stderr": "Usage: grep [OPTION]... PATTERNS [FILE]...\nTry 'grep --help' for more information.\n",
+      "code": 2
+    },
+    {
+      "cmd": "sort nope",
+      "stdout": "",
+      "stderr": "sort: cannot read: nope: No such file or directory\n",
+      "code": 2
+    },
+    {
+      "cmd": "uniq nope",
+      "stdout": "",
+      "stderr": "uniq: nope: No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "cut -f x log.txt",
+      "stdout": "",
+      "stderr": "cut: invalid field value ‘x’\nTry 'cut --help' for more information.\n",
+      "code": 1
+    }
+  ],
+  "sort uniq cut tr": [
+    {
+      "cmd": "sort words.txt",
+      "stdout": "apple\napple\napple\nbanana\nbanana\ncherry\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort -r words.txt",
+      "stdout": "cherry\nbanana\nbanana\napple\napple\napple\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort -u words.txt",
+      "stdout": "apple\nbanana\ncherry\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort nums.txt",
+      "stdout": "-1\n10\n100\n2.5\n9\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort -n nums.txt",
+      "stdout": "-1\n2.5\n9\n10\n100\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort -rn nums.txt",
+      "stdout": "100\n10\n9\n2.5\n-1\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort -h sizes.txt",
+      "stdout": "20\n1K\n5M\n3G\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort -t, -k2 -n csv.txt",
+      "stdout": "name,age,city\nbob,25,lviv\nann,31,kyiv\ncid,40,odesa\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort words.txt | uniq",
+      "stdout": "apple\nbanana\ncherry\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort words.txt | uniq -c",
+      "stdout": "      3 apple\n      2 banana\n      1 cherry\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort words.txt | uniq -c | sort -rn",
+      "stdout": "      3 apple\n      2 banana\n      1 cherry\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort words.txt | uniq -d",
+      "stdout": "apple\nbanana\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort words.txt | uniq -u",
+      "stdout": "cherry\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cut -d, -f1 csv.txt",
+      "stdout": "name\nann\nbob\ncid\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cut -d, -f1,3 csv.txt",
+      "stdout": "name,city\nann,kyiv\nbob,lviv\ncid,odesa\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cut -d, -f2- csv.txt",
+      "stdout": "age,city\n31,kyiv\n25,lviv\n40,odesa\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cut -c1-3 csv.txt",
+      "stdout": "nam\nann\nbob\ncid\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cut csv.txt",
+      "stdout": "",
+      "stderr": "cut: you must specify a list of bytes, characters, or fields\nTry 'cut --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "echo hello world | tr a-z A-Z",
+      "stdout": "HELLO WORLD\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo hello | tr -d l",
+      "stdout": "heo\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo \"a    b  c\" | tr -s \" \"",
+      "stdout": "a b c\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo abc | tr abc xyz",
+      "stdout": "xyz\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo \"a:b:c\" | tr : \"\\n\"",
+      "stdout": "a\nb\nc\n",
+      "stderr": "",
+      "code": 0
+    }
+  ],
+  "echo printf variables quoting": [
+    {
+      "cmd": "echo hello   world",
+      "stdout": "hello world\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo \"hello   world\"",
+      "stdout": "hello   world\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo 'single $HOME'",
+      "stdout": "single $HOME\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo -n no-newline",
+      "stdout": "no-newline",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo -e \"a\\tb\\nc\"",
+      "stdout": "a\tb\nc\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo --help",
+      "stdout": "--help\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "X=5; echo \"x is $X\"",
+      "stdout": "x is 5\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "X=\"a  b\"; echo $X; echo \"$X\"",
+      "stdout": "a b\na  b\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo $UNSET_VAR_ZZ end",
+      "stdout": "end\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "false; echo $?",
+      "stdout": "1\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "true && echo yes || echo no",
+      "stdout": "yes\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "false && echo yes || echo no",
+      "stdout": "no\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo $(echo inner)",
+      "stdout": "inner\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo \"count: $(printf \"a\\nb\\n\" | wc -l)\"",
+      "stdout": "count: 2\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "printf '%s-%s\\n' a b c d",
+      "stdout": "a-b\nc-d\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "printf '%5s|%-5s|\\n' ab cd",
+      "stdout": "   ab|cd   |\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "printf '%d items\\n' 42",
+      "stdout": "42 items\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "printf '%03d\\n' 7",
+      "stdout": "007\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo a\\ b",
+      "stdout": "a b\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo \"quote \\\" inside\"",
+      "stdout": "quote \" inside\n",
+      "stderr": "",
+      "code": 0
+    }
+  ],
+  "redirections and pipes": [
+    {
+      "cmd": "echo one > out.txt; echo two >> out.txt; cat out.txt",
+      "stdout": "one\ntwo\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cat nope 2> err.txt; cat err.txt",
+      "stdout": "cat: nope: No such file or directory\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cat nope in.txt > all.txt 2>&1; cat all.txt",
+      "stdout": "cat: nope: No such file or directory\nb\na\nc\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sort < in.txt",
+      "stdout": "a\nb\nc\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "cat nope 2>/dev/null; echo $?",
+      "stdout": "1\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ls nope &> both.txt; cat both.txt",
+      "stdout": "ls: cannot access 'nope': No such file or directory\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo x > nodir/f",
+      "stdout": "",
+      "stderr": "bash: nodir/f: No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "echo x > .",
+      "stdout": "",
+      "stderr": "bash: .: Is a directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "cat < nope",
+      "stdout": "",
+      "stderr": "bash: nope: No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "sort in.txt | head -n 2 | tail -n 1",
+      "stdout": "b\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "ls | wc -l",
+      "stdout": "5\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo hi | tee t.txt; cat t.txt",
+      "stdout": "hi\nhi\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo a > x; echo b >> x; wc -l < x",
+      "stdout": "2\n",
+      "stderr": "",
+      "code": 0
+    }
+  ],
+  "sed and awk": [
+    {
+      "cmd": "sed s/cat/CAT/ pets.txt",
+      "stdout": "CAT\ndog\nCAT dog\n# comment\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sed 's/o/0/g' pets.txt",
+      "stdout": "cat\nd0g\ncat d0g\n# c0mment\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sed -n '2p' pets.txt",
+      "stdout": "dog\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sed '/^#/d' pets.txt",
+      "stdout": "cat\ndog\ncat dog\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sed -n '/cat/p' pets.txt",
+      "stdout": "cat\ncat dog\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sed '2,3d' pets.txt",
+      "stdout": "cat\n# comment\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sed -E 's/(cat) (dog)/\\2 \\1/' pets.txt",
+      "stdout": "cat\ndog\ndog cat\n# comment\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sed 's/cat/[&]/' pets.txt",
+      "stdout": "[cat]\ndog\n[cat] dog\n# comment\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sed '1d' pets.txt",
+      "stdout": "dog\ncat dog\n# comment\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "sed '$d' pets.txt",
+      "stdout": "cat\ndog\ncat dog\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "awk '{print $1}' sales.txt",
+      "stdout": "apple\npear\nplum\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "awk '$2 > 5 {print $1, $2}' sales.txt",
+      "stdout": "pear 10\nplum 7\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "awk '{s += $2} END {print s}' sales.txt",
+      "stdout": "20\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "awk 'END {print NR}' sales.txt",
+      "stdout": "3\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "awk '/pl/' sales.txt",
+      "stdout": "apple 3 1.5\nplum 7 2\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "awk '{print $NF}' sales.txt",
+      "stdout": "1.5\n0.5\n2\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "awk '{print NR \": \" toupper($1)}' sales.txt",
+      "stdout": "1: APPLE\n2: PEAR\n3: PLUM\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "awk '{printf \"%-6s%3d\\n\", $1, $2}' sales.txt",
+      "stdout": "apple   3\npear   10\nplum    7\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "awk '{print $2 * $3}' sales.txt",
+      "stdout": "4.5\n5\n14\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "awk -F' ' '{print length($1)}' sales.txt",
+      "stdout": "5\n4\n4\n",
+      "stderr": "",
+      "code": 0
+    }
+  ],
+  "find and xargs": [
+    {
+      "cmd": "find p | sort",
+      "stdout": "p\np/a.txt\np/b.log\np/empty\np/sub\np/sub/c.txt\np/sub/deep\np/sub/deep/d.md\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "find p -name \"*.txt\" | sort",
+      "stdout": "p/a.txt\np/sub/c.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "find p -type d | sort",
+      "stdout": "p\np/empty\np/sub\np/sub/deep\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "find p -type f -name \"*.md\"",
+      "stdout": "p/sub/deep/d.md\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "find p -empty | sort",
+      "stdout": "p/empty\np/sub/c.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "find p -maxdepth 1 -type f | sort",
+      "stdout": "p/a.txt\np/b.log\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "find p -name \"*.txt\" -o -name \"*.log\" | sort",
+      "stdout": "p/a.txt\np/b.log\np/sub/c.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "find p ! -name \"*.txt\" -type f | sort",
+      "stdout": "p/b.log\np/sub/deep/d.md\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "find nope",
+      "stdout": "",
+      "stderr": "find: ‘nope’: No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "find p -bogus",
+      "stdout": "",
+      "stderr": "find: unknown predicate `-bogus'\n",
+      "code": 1
+    },
+    {
+      "cmd": "find p -name \"*.log\" -exec cat {} \\;",
+      "stdout": "log",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "find p -name \"*.txt\" | sort | xargs echo",
+      "stdout": "p/a.txt p/sub/c.txt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo a b c | xargs -n 1 echo item",
+      "stdout": "item a\nitem b\nitem c\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "find p -name \"*.md\" -delete; find p -name \"*.md\" | wc -l",
+      "stdout": "0\n",
+      "stderr": "",
+      "code": 0
+    }
+  ],
+  "misc utilities": [
+    {
+      "cmd": "basename /var/log/syslog",
+      "stdout": "syslog\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "basename photo.jpg .jpg",
+      "stdout": "photo\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "dirname /var/log/syslog",
+      "stdout": "/var/log\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "dirname file",
+      "stdout": ".\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "seq 3",
+      "stdout": "1\n2\n3\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "seq 2 2 8",
+      "stdout": "2\n4\n6\n8\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "seq -s , 1 4",
+      "stdout": "1,2,3,4\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "./run.sh a b; echo $?",
+      "stdout": "126\n",
+      "stderr": "bash: ./run.sh: Permission denied\n",
+      "code": 0
+    },
+    {
+      "cmd": "chmod +x run.sh && ./run.sh a b",
+      "stdout": "args: a b\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "bash run.sh x y",
+      "stdout": "args: x y\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "stat -c %a run.sh",
+      "stdout": "755\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "chmod 600 run.sh && stat -c %A run.sh",
+      "stdout": "-rw-------\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "chmod u=rw,go=r data.txt && stat -c %a data.txt",
+      "stdout": "644\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "chmod xyz data.txt",
+      "stdout": "",
+      "stderr": "chmod: invalid mode: ‘xyz’\nTry 'chmod --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "chmod 644 nope",
+      "stdout": "",
+      "stderr": "chmod: cannot access 'nope': No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "nl data.txt",
+      "stdout": "     1\tx\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "printf \"b\\na\\n\" | tac",
+      "stdout": "a\nb\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "echo abc | rev",
+      "stdout": "cba\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "test -f data.txt && echo file",
+      "stdout": "file\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "[ -d data.txt ] || echo notdir",
+      "stdout": "notdir\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "[ 3 -gt 2 ] && echo gt",
+      "stdout": "gt\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "type cd",
+      "stdout": "cd is a shell builtin\n",
+      "stderr": "",
+      "code": 0
+    },
+    {
+      "cmd": "command_that_does_not_exist",
+      "stdout": "",
+      "stderr": "bash: command_that_does_not_exist: command not found\n",
+      "code": 127
+    },
+    {
+      "cmd": "seq x",
+      "stdout": "",
+      "stderr": "seq: invalid floating point argument: ‘x’\nTry 'seq --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "sleep x",
+      "stdout": "",
+      "stderr": "sleep: invalid time interval ‘x’\nTry 'sleep --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "whoami x",
+      "stdout": "",
+      "stderr": "whoami: extra operand ‘x’\nTry 'whoami --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "basename a b c",
+      "stdout": "",
+      "stderr": "basename: extra operand ‘c’\nTry 'basename --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "stat nope",
+      "stdout": "",
+      "stderr": "stat: cannot statx 'nope': No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "tr abc",
+      "stdout": "",
+      "stderr": "tr: missing operand after ‘abc’\nTwo strings must be given when translating.\nTry 'tr --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "tail -n x data.txt",
+      "stdout": "",
+      "stderr": "tail: invalid number of lines: ‘x’\n",
+      "code": 1
+    },
+    {
+      "cmd": "head -c x data.txt",
+      "stdout": "",
+      "stderr": "head: invalid number of bytes: ‘x’\n",
+      "code": 1
+    },
+    {
+      "cmd": "find . -maxdepth x",
+      "stdout": "",
+      "stderr": "find: Expected a positive decimal integer argument to -maxdepth, but got ‘x’\n",
+      "code": 1
+    },
+    {
+      "cmd": "find . -type q",
+      "stdout": "",
+      "stderr": "find: Unknown argument to -type: q\n",
+      "code": 1
+    },
+    {
+      "cmd": "find . -size 1Q",
+      "stdout": "",
+      "stderr": "find: invalid -size type `Q'\n",
+      "code": 1
+    },
+    {
+      "cmd": "wc -l nope",
+      "stdout": "",
+      "stderr": "wc: nope: No such file or directory\n",
+      "code": 1
+    },
+    {
+      "cmd": "cat -z",
+      "stdout": "",
+      "stderr": "cat: invalid option -- 'z'\nTry 'cat --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "readlink",
+      "stdout": "",
+      "stderr": "readlink: missing operand\nTry 'readlink --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "touch",
+      "stdout": "",
+      "stderr": "touch: missing file operand\nTry 'touch --help' for more information.\n",
+      "code": 1
+    },
+    {
+      "cmd": "file nope",
+      "stdout": "nope: cannot open `nope' (No such file or directory)\n",
+      "stderr": "",
+      "code": 0
+    }
+  ]
+}
