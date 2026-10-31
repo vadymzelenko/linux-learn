@@ -14,7 +14,7 @@ C = [
      "title": {**L("NOC engineer", "NOC-инженер", "NOC-інженер"), "pl": "Inżynier NOC"},
      "subtitle": {**L("Monitoring, networks, services, logs and incidents", "Мониторинг, сети, сервисы, логи и инциденты", "Моніторинг, мережі, сервіси, логи та інциденти"), "pl": "Monitoring, sieci, usługi, logi i incydenty"},
      "description": {**L("Everything a NOC / L1 support engineer does on a shift: diagnose a server, a network and a web service and handle an incident.", "Всё, что делает NOC-инженер / L1 на смене: диагностика сервера, сети и веб-сервиса, работа с инцидентом.", "Усе, що робить NOC-інженер / L1 на зміні: діагностика сервера, мережі та веб-сервісу, робота з інцидентом."), "pl": "Wszystko, co robi inżynier NOC / L1 na zmianie."},
-     "modules": ["noc-intro", "noc-health", "noc-network", "noc-web", "noc-logs", "noc-incidents"]},
+     "modules": ["noc-intro", "noc-health", "noc-network", "noc-web", "noc-logs", "noc-ir"]},
 ]
 for c in C:
     c["modules"] = [m for m in c["modules"] if m in existing]

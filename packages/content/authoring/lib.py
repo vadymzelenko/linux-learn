@@ -68,6 +68,11 @@ def fcontains(path, label, text=None, regex=None):
     return _c(d, label)
 
 
+def flines(path, n, label):
+    """The file has exactly n lines."""
+    return _c({"type": "fileContains", "path": path, "regex": "^(?:[^\\n]*\\n){%d}$" % n, "flags": ""}, label)
+
+
 def fnot(path, label, text=None, regex=None):
     d = {"type": "fileNotContains", "path": path}
     if text is not None: d["text"] = text

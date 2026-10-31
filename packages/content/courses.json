@@ -56,7 +56,9 @@
       "noc-intro",
       "noc-health",
       "noc-network",
-      "noc-web"
+      "noc-web",
+      "noc-logs",
+      "noc-ir"
     ]
   }
 ]
