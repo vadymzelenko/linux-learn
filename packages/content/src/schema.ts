@@ -45,6 +45,8 @@ export const CheckSchema = z
     z.object({ type: z.literal('userIs'), user: z.string() }),
     z.object({ type: z.literal('processGone'), pid: z.number().optional(), name: z.string().optional() }),
     z.object({ type: z.literal('exitCode'), code: z.number() }),
+    z.object({ type: z.literal('serviceState'), name: z.string(), state: z.enum(['active', 'inactive', 'failed']) }),
+    z.object({ type: z.literal('serviceEnabled'), name: z.string(), enabled: z.boolean() }),
   ])
   .and(z.object({ label: L10n }));
 export type ContentCheck = z.infer<typeof CheckSchema>;
@@ -62,6 +64,10 @@ const Hints = z.object({
 
 const TheoryStep = z.object({
   type: z.literal('theory'),
+  /** Card heading. */
+  title: L10n.optional(),
+  /** false = pure reading, no terminal under the text. */
+  terminal: z.boolean().optional(),
   /** Paragraphs separated by blank lines; `code` and **bold** are supported. Tapping `code` pastes it into the terminal. */
   text: L10n,
   /** Animated demo: the command is "typed", its real output appears line by line. */
@@ -71,6 +77,8 @@ const TheoryStep = z.object({
 const TaskStep = z.object({
   type: z.literal('task'),
   goal: L10n,
+  /** Step-by-step instructions ("1. ...\n2. ..."). */
+  instructions: L10n.optional(),
   setup: SetupSchema.optional(),
   /** Commands run silently on the setup before the task starts. */
   prepare: z.array(z.string()).optional(),
@@ -89,6 +97,8 @@ const PredictStep = z.object({
   setup: SetupSchema.optional(),
   prepare: z.array(z.string()).optional(),
   command: z.string(),
+  /** Commands whose output is shown as context (default: where you are + tree). */
+  context: z.array(z.string()).optional(),
   /** Candidate outputs (terminal text, always English). The linter verifies the right one. */
   options: z.array(z.string()).min(2).max(4),
   answer: z.number().int().min(0),
@@ -141,6 +151,11 @@ export type Module = z.infer<typeof ModuleSchema>;
 
 export const MissionSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
+  /** Course the mission belongs to. */
+  course: z.string().optional(),
+  /** Lessons to re-read before / during the mission. */
+  topics: z.array(z.string()).optional(),
+  instructions: L10n.optional(),
   title: L10n,
   story: L10n,
   difficulty: z.number().int().min(1).max(3),
@@ -156,8 +171,32 @@ export const MissionSchema = z.object({
 });
 export type Mission = z.infer<typeof MissionSchema>;
 
-export const ChallengeSchema = TaskStep.extend({ id: z.string(), title: L10n });
+export const ChallengeSchema = TaskStep.extend({ id: z.string(), title: L10n, topics: z.array(z.string()).optional() });
 export type Challenge = z.infer<typeof ChallengeSchema>;
+
+export const CourseSchema = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/),
+  icon: z.string(),
+  color: z.string(),
+  title: L10n,
+  subtitle: L10n,
+  description: L10n,
+  modules: z.array(z.string()).min(1),
+});
+export type Course = z.infer<typeof CourseSchema>;
+
+export const GlossarySchema = z.object({
+  id: z.string(),
+  /** Category: basics, files, text, permissions, processes, network, noc, shell. */
+  category: z.string(),
+  term: L10n,
+  definition: L10n,
+  /** Word forms that get underlined in theory texts, per language (lowercase). */
+  match: z.record(z.string(), z.array(z.string())).optional(),
+  /** Related command (opens the man page). */
+  command: z.string().optional(),
+});
+export type GlossaryTerm = z.infer<typeof GlossarySchema>;
 
 export const AchievementSchema = z.object({
   id: z.string(),

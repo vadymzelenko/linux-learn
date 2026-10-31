@@ -1,0 +1,908 @@
+{
+  "id": "noc-intro",
+  "path": "/noc/intro",
+  "icon": "headset",
+  "title": {
+    "en": "The NOC profession",
+    "ru": "Профессия NOC-инженер",
+    "uk": "Професія NOC-інженер"
+  },
+  "description": {
+    "en": "Monitoring, alerts, incidents, priorities and SLAs — the language of operations.",
+    "ru": "Мониторинг, алерты, инциденты, приоритеты и SLA — язык эксплуатации.",
+    "uk": "Моніторинг, алерти, інциденти, пріоритети та SLA — мова експлуатації."
+  },
+  "lessons": [
+    {
+      "id": "noc-role",
+      "title": {
+        "en": "Who is a NOC engineer",
+        "ru": "Кто такой NOC-инженер",
+        "uk": "Хто такий NOC-інженер"
+      },
+      "commands": [
+        "cat",
+        "less"
+      ],
+      "setup": "noc-web01",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Network Operations Center\nA **NOC** is the team that watches the health of servers, networks and applications around the clock. When a website slows down at 3 AM, the NOC notices first — usually before customers do.\n\n## What you do on a shift\n- Watch dashboards and the **monitoring** system\n- React to every **alert**: confirm it, assess impact, act or escalate\n- Follow **runbooks** — step-by-step instructions for known problems\n- Keep the **ticket** up to date: what happened, when, what you did\n- Hand over the shift: open incidents, things to watch\n\n## Support levels\n| Level | Who | What they do |\n|---|---|---|\n| L1 | NOC | detect, triage, run runbooks, escalate |\n| L2 | system / service experts | deep diagnostics, fixes |\n| L3 | product developers | code bugs, architecture |\n\n> A great NOC engineer is not the one who knows everything, but the one who **reacts fast, writes clearly and escalates on time**.",
+            "ru": "## Network Operations Center\n**NOC** — это команда, которая круглосуточно следит за здоровьем серверов, сетей и приложений. Когда сайт начинает тормозить в 3 часа ночи, NOC замечает это первым — обычно раньше клиентов.\n\n## Что вы делаете на смене\n- Смотрите на дашборды и систему **мониторинга**\n- Реагируете на каждый **алерт**: подтверждаете, оцениваете влияние, действуете или эскалируете\n- Работаете по **ранбукам** — пошаговым инструкциям для известных проблем\n- Ведёте **тикет**: что случилось, когда, что вы сделали\n- Передаёте смену: открытые инциденты, за чем присматривать\n\n## Линии поддержки\n| Линия | Кто | Что делает |\n|---|---|---|\n| L1 | NOC | обнаруживает, сортирует, выполняет ранбуки, эскалирует |\n| L2 | эксперты по системам и сервисам | глубокая диагностика, исправления |\n| L3 | разработчики продукта | баги в коде, архитектура |\n\n> Хороший NOC-инженер — не тот, кто знает всё, а тот, кто **быстро реагирует, понятно пишет и вовремя эскалирует**.",
+            "uk": "## Network Operations Center\n**NOC** — це команда, яка цілодобово стежить за здоров’ям серверів, мереж і застосунків. Коли сайт починає гальмувати о 3-й ночі, NOC помічає це першим — зазвичай раніше за клієнтів.\n\n## Що ви робите на зміні\n- Дивитеся на дашборди та систему **моніторингу**\n- Реагуєте на кожен **алерт**: підтверджуєте, оцінюєте вплив, дієте або ескалюєте\n- Працюєте за **ранбуками** — покроковими інструкціями для відомих проблем\n- Ведете **тікет**: що сталося, коли, що ви зробили\n- Передаєте зміну: відкриті інциденти, за чим наглядати\n\n## Лінії підтримки\n| Лінія | Хто | Що робить |\n|---|---|---|\n| L1 | NOC | виявляє, сортує, виконує ранбуки, ескалює |\n| L2 | експерти із систем і сервісів | глибока діагностика, виправлення |\n| L3 | розробники продукту | баги в коді, архітектура |\n\n> Хороший NOC-інженер — не той, хто знає все, а той, хто **швидко реагує, зрозуміло пише й вчасно ескалює**."
+          },
+          "title": {
+            "en": "Your new job",
+            "ru": "Ваша новая работа",
+            "uk": "Ваша нова робота"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "It's your first shift on server web01. Read the on-call note ~/notes/oncall.txt — who is the L2 for the website?",
+            "ru": "Ваша первая смена на сервере web01. Прочитайте памятку дежурного ~/notes/oncall.txt — кто L2 по сайту?",
+            "uk": "Ваша перша зміна на сервері web01. Прочитайте пам’ятку чергового ~/notes/oncall.txt — хто L2 по сайту?"
+          },
+          "instructions": {
+            "en": "1. Type `cat ~/notes/oncall.txt`\n2. Find the line \"L2 web\"",
+            "ru": "1. Наберите `cat ~/notes/oncall.txt`\n2. Найдите строку «L2 web»",
+            "uk": "1. Наберіть `cat ~/notes/oncall.txt`\n2. Знайдіть рядок «L2 web»"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "cat",
+              "label": {
+                "en": "Read the file with cat (or less)",
+                "ru": "Прочитайте файл через cat (или less)",
+                "uk": "Прочитайте файл через cat (або less)"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "L2 web",
+              "label": {
+                "en": "The on-call list is on the screen",
+                "ru": "Список дежурных на экране",
+                "uk": "Список чергових на екрані"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "cat prints a file; the path starts at your home ~.",
+              "ru": "cat выводит файл; путь начинается с домашней папки ~.",
+              "uk": "cat виводить файл; шлях починається з домашньої теки ~."
+            },
+            "command": "cat"
+          },
+          "solution": [
+            "cat ~/notes/oncall.txt"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Runbooks are stored in ~/runbooks. List them and open the one about a website being down.",
+            "ru": "Ранбуки лежат в ~/runbooks. Посмотрите список и откройте тот, что про падение сайта.",
+            "uk": "Ранбуки лежать у ~/runbooks. Перегляньте список і відкрийте той, що про падіння сайту."
+          },
+          "instructions": {
+            "en": "1. `ls ~/runbooks`\n2. `cat ~/runbooks/website-down.md`",
+            "ru": "1. `ls ~/runbooks`\n2. `cat ~/runbooks/website-down.md`",
+            "uk": "1. `ls ~/runbooks`\n2. `cat ~/runbooks/website-down.md`"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ls",
+              "label": {
+                "en": "List the runbooks",
+                "ru": "Посмотрите список ранбуков",
+                "uk": "Перегляньте список ранбуків"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Escalate to L2",
+              "label": {
+                "en": "The website runbook is open",
+                "ru": "Ранбук про сайт открыт",
+                "uk": "Ранбук про сайт відкрито"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ls shows the files, cat (or less) reads one.",
+              "ru": "ls покажет файлы, cat (или less) прочитает один из них.",
+              "uk": "ls покаже файли, cat (або less) прочитає один із них."
+            },
+            "command": "cat"
+          },
+          "solution": [
+            "ls ~/runbooks",
+            "cat ~/runbooks/website-down.md"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "An alert fires, you followed the runbook for 15 minutes and the site is still down. What now?",
+            "ru": "Сработал алерт, вы 15 минут действуете по ранбуку, а сайт всё ещё лежит. Что дальше?",
+            "uk": "Спрацював алерт, ви 15 хвилин дієте за ранбуком, а сайт досі лежить. Що далі?"
+          },
+          "options": [
+            {
+              "en": "Escalate to L2 as the runbook says",
+              "ru": "Эскалировать на L2, как написано в ранбуке",
+              "uk": "Ескалювати на L2, як написано в ранбуку"
+            },
+            {
+              "en": "Keep trying alone until it works",
+              "ru": "Пытаться дальше в одиночку, пока не получится",
+              "uk": "Пробувати далі самостійно, поки не вийде"
+            },
+            {
+              "en": "Close the alert as a false positive",
+              "ru": "Закрыть алерт как ложное срабатывание",
+              "uk": "Закрити алерт як хибне спрацювання"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "Time matters more than pride. Escalating on time shortens the outage.",
+            "ru": "Время важнее самолюбия. Своевременная эскалация сокращает простой.",
+            "uk": "Час важливіший за самолюбство. Вчасна ескалація скорочує простій."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Which task belongs to L1 (the NOC)?",
+            "ru": "Какая задача относится к L1 (NOC)?",
+            "uk": "Яке завдання належить L1 (NOC)?"
+          },
+          "options": [
+            {
+              "en": "Confirm an alert and follow the runbook",
+              "ru": "Подтвердить алерт и выполнить ранбук",
+              "uk": "Підтвердити алерт і виконати ранбук"
+            },
+            {
+              "en": "Rewrite the payment module code",
+              "ru": "Переписать код платёжного модуля",
+              "uk": "Переписати код платіжного модуля"
+            },
+            {
+              "en": "Choose a new database for the product",
+              "ru": "Выбрать новую базу данных для продукта",
+              "uk": "Обрати нову базу даних для продукту"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "noc-monitoring",
+      "title": {
+        "en": "Monitoring and alerts",
+        "ru": "Мониторинг и алерты",
+        "uk": "Моніторинг і алерти"
+      },
+      "commands": [
+        "curl"
+      ],
+      "setup": "noc-web01",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Three kinds of signals\n- **Metrics** — numbers over time: CPU %, free disk, requests per second, error rate\n- **Logs** — text events: \"ERROR database connection refused\"\n- **Checks** — active probes: \"does http://shop/health answer 200?\"\n\n## The four golden signals\n1. **Latency** — how long requests take\n2. **Traffic** — how many requests arrive\n3. **Errors** — how many fail (5xx)\n4. **Saturation** — how full the resources are (CPU, memory, disk)\n\n## Thresholds and alerts\nAn alert fires when a metric crosses a **threshold**: warning at 80% disk, critical at 90%. Good alerts are *actionable*: there is something a human can do.\n\n!> Too many noisy alerts lead to *alert fatigue*: people start ignoring them — and miss the real one.",
+            "ru": "## Три вида сигналов\n- **Метрики** — числа во времени: CPU %, свободный диск, запросы в секунду, доля ошибок\n- **Логи** — текстовые события: «ERROR database connection refused»\n- **Проверки** — активные пробы: «отвечает ли http://shop/health кодом 200?»\n\n## Четыре золотых сигнала\n1. **Задержка** (latency) — сколько длится запрос\n2. **Трафик** — сколько запросов приходит\n3. **Ошибки** — сколько запросов падает (5xx)\n4. **Насыщение** (saturation) — насколько заняты ресурсы (CPU, память, диск)\n\n## Пороги и алерты\nАлерт срабатывает, когда метрика пересекает **порог**: warning на 80% диска, critical на 90%. Хороший алерт *действенный*: человеку есть что сделать.\n\n!> Слишком много шумных алертов ведёт к «усталости от алертов»: их начинают игнорировать — и пропускают настоящий.",
+            "uk": "## Три види сигналів\n- **Метрики** — числа в часі: CPU %, вільний диск, запити за секунду, частка помилок\n- **Логи** — текстові події: «ERROR database connection refused»\n- **Перевірки** — активні проби: «чи відповідає http://shop/health кодом 200?»\n\n## Чотири золоті сигнали\n1. **Затримка** (latency) — скільки триває запит\n2. **Трафік** — скільки запитів надходить\n3. **Помилки** — скільки запитів падає (5xx)\n4. **Насичення** (saturation) — наскільки зайняті ресурси (CPU, пам’ять, диск)\n\n## Пороги та алерти\nАлерт спрацьовує, коли метрика перетинає **поріг**: warning на 80% диска, critical на 90%. Добрий алерт *дієвий*: людині є що зробити.\n\n!> Забагато шумних алертів веде до «втоми від алертів»: їх починають ігнорувати — і пропускають справжній."
+          },
+          "title": {
+            "en": "What we watch",
+            "ru": "За чем мы следим",
+            "uk": "За чим ми стежимо"
+          },
+          "terminal": false
+        },
+        {
+          "type": "theory",
+          "text": {
+            "en": "## A health check by hand\nMonitoring often just calls a special URL. You can do the same with `curl`:\n```\n$ curl -s localhost/health\n$ curl -I localhost\n```\n`-s` hides progress, `-I` asks only for the headers — the first line contains the **status code**.",
+            "ru": "## Проверка здоровья вручную\nМониторинг часто просто вызывает специальный URL. То же можно сделать через `curl`:\n```\n$ curl -s localhost/health\n$ curl -I localhost\n```\n`-s` скрывает прогресс, `-I` просит только заголовки — в первой строке будет **код ответа**.",
+            "uk": "## Перевірка здоров’я вручну\nМоніторинг часто просто викликає спеціальний URL. Те саме можна зробити через `curl`:\n```\n$ curl -s localhost/health\n$ curl -I localhost\n```\n`-s` ховає прогрес, `-I` просить лише заголовки — у першому рядку буде **код відповіді**."
+          },
+          "demo": {
+            "commands": [
+              "curl -s localhost/health",
+              "curl -I localhost"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Monitoring says \"web01 health check: UNKNOWN\". Check the health endpoint http://localhost/health yourself.",
+            "ru": "Мониторинг пишет «web01 health check: UNKNOWN». Проверьте эндпоинт http://localhost/health сами.",
+            "uk": "Моніторинг пише «web01 health check: UNKNOWN». Перевірте ендпоінт http://localhost/health самі."
+          },
+          "instructions": {
+            "en": "1. Type `curl localhost/health`\n2. Expect the answer OK",
+            "ru": "1. Наберите `curl localhost/health`\n2. Ожидаемый ответ — OK",
+            "uk": "1. Наберіть `curl localhost/health`\n2. Очікувана відповідь — OK"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "curl",
+              "label": {
+                "en": "Request it with curl",
+                "ru": "Запросите его через curl",
+                "uk": "Запитайте його через curl"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^OK$",
+              "label": {
+                "en": "The service answered OK",
+                "ru": "Сервис ответил OK",
+                "uk": "Сервіс відповів OK"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "curl URL prints the answer of the server.",
+              "ru": "curl URL печатает ответ сервера.",
+              "uk": "curl URL друкує відповідь сервера."
+            },
+            "command": "curl"
+          },
+          "solution": [
+            "curl localhost/health"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Get only the HTTP headers of the main page and read the status code.",
+            "ru": "Получите только HTTP-заголовки главной страницы и посмотрите код ответа.",
+            "uk": "Отримайте лише HTTP-заголовки головної сторінки й подивіться код відповіді."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "curl",
+              "flags": [
+                "-I"
+              ],
+              "label": {
+                "en": "Use curl with -I",
+                "ru": "Используйте curl с -I",
+                "uk": "Використайте curl з -I"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "HTTP/1.1 200 OK",
+              "label": {
+                "en": "Status line: HTTP/1.1 200 OK",
+                "ru": "Строка статуса: HTTP/1.1 200 OK",
+                "uk": "Рядок статусу: HTTP/1.1 200 OK"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "-I = headers only.",
+              "ru": "-I = только заголовки.",
+              "uk": "-I = лише заголовки."
+            },
+            "command": "curl"
+          },
+          "solution": [
+            "curl -I localhost"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Which of these is a golden signal of saturation?",
+            "ru": "Какой из этих показателей — золотой сигнал «насыщение»?",
+            "uk": "Який із цих показників — золотий сигнал «насичення»?"
+          },
+          "options": [
+            {
+              "en": "Disk is 93% full",
+              "ru": "Диск заполнен на 93%",
+              "uk": "Диск заповнено на 93%"
+            },
+            {
+              "en": "500 requests per second",
+              "ru": "500 запросов в секунду",
+              "uk": "500 запитів за секунду"
+            },
+            {
+              "en": "2% of requests return 502",
+              "ru": "2% запросов возвращают 502",
+              "uk": "2% запитів повертають 502"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "Saturation = how full a resource is. Requests per second is traffic, 502s are errors.",
+            "ru": "Насыщение — насколько заполнен ресурс. Запросы в секунду — трафик, 502 — ошибки.",
+            "uk": "Насичення — наскільки заповнений ресурс. Запити за секунду — трафік, 502 — помилки."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "An alert \"CPU > 50%\" fires 40 times a day and nobody ever acts on it. What is the right fix?",
+            "ru": "Алерт «CPU > 50%» срабатывает 40 раз в день, и никто никогда ничего не делает. Как правильно поступить?",
+            "uk": "Алерт «CPU > 50%» спрацьовує 40 разів на день, і ніхто ніколи нічого не робить. Як правильно вчинити?"
+          },
+          "options": [
+            {
+              "en": "Tune or remove it: an alert must be actionable",
+              "ru": "Настроить или убрать: алерт должен требовать действия",
+              "uk": "Налаштувати або прибрати: алерт має вимагати дії"
+            },
+            {
+              "en": "Mute notifications on your phone",
+              "ru": "Выключить уведомления на телефоне",
+              "uk": "Вимкнути сповіщення на телефоні"
+            },
+            {
+              "en": "Add five more similar alerts to be sure",
+              "ru": "Добавить ещё пять похожих алертов для надёжности",
+              "uk": "Додати ще п’ять схожих алертів для певності"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "noc-incidents",
+      "title": {
+        "en": "Incidents and priorities",
+        "ru": "Инциденты и приоритеты",
+        "uk": "Інциденти та пріоритети"
+      },
+      "commands": [
+        "cat"
+      ],
+      "setup": "noc-web01",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Incident lifecycle\n1. **Detect** — an alert or a user report\n2. **Acknowledge** — \"I'm on it\", so nobody else duplicates the work\n3. **Triage** — who is affected, how badly, since when\n4. **Mitigate** — reduce the damage now: restart, failover, rollback\n5. **Resolve** — the service works normally again\n6. **Postmortem** — find the root cause so it never repeats\n\n## Severity\n| Priority | Meaning | Reaction |\n|---|---|---|\n| P1 | everything down for everyone, money is lost | page on-call immediately, all hands |\n| P2 | a major feature broken for many users | within 15 minutes |\n| P3 | minor issue, a workaround exists | working hours |\n| P4 | cosmetic | backlog |\n\n> First ask: **what changed?** Most incidents start right after a deploy or a config edit.",
+            "ru": "## Жизненный цикл инцидента\n1. **Обнаружение** — алерт или жалоба пользователя\n2. **Подтверждение** (acknowledge) — «я занимаюсь», чтобы никто не дублировал работу\n3. **Триаж** — кого затронуло, насколько сильно, с какого момента\n4. **Митигация** — уменьшить ущерб прямо сейчас: рестарт, переключение, откат\n5. **Решение** — сервис снова работает нормально\n6. **Постмортем** — найти корневую причину, чтобы не повторилось\n\n## Приоритет\n| Приоритет | Значение | Реакция |\n|---|---|---|\n| P1 | всё лежит у всех, теряются деньги | сразу будить дежурного, все на борт |\n| P2 | сломана важная функция у многих | в течение 15 минут |\n| P3 | мелкая проблема, есть обходной путь | в рабочее время |\n| P4 | косметика | в бэклог |\n\n> Первый вопрос: **что поменялось?** Большинство инцидентов начинаются сразу после деплоя или правки конфига.",
+            "uk": "## Життєвий цикл інциденту\n1. **Виявлення** — алерт або скарга користувача\n2. **Підтвердження** (acknowledge) — «я займаюся», щоб ніхто не дублював роботу\n3. **Тріаж** — кого зачепило, наскільки сильно, з якого моменту\n4. **Мітигація** — зменшити шкоду просто зараз: рестарт, перемикання, відкат\n5. **Розв’язання** — сервіс знову працює нормально\n6. **Постмортем** — знайти кореневу причину, щоб не повторилося\n\n## Пріоритет\n| Пріоритет | Значення | Реакція |\n|---|---|---|\n| P1 | усе лежить у всіх, втрачаються гроші | одразу будити чергового, усі на борт |\n| P2 | зламано важливу функцію в багатьох | протягом 15 хвилин |\n| P3 | дрібна проблема, є обхідний шлях | у робочий час |\n| P4 | косметика | у беклог |\n\n> Перше питання: **що змінилося?** Більшість інцидентів починаються одразу після деплою чи правки конфігу."
+          },
+          "title": {
+            "en": "From alert to postmortem",
+            "ru": "От алерта до постмортема",
+            "uk": "Від алерту до постмортему"
+          },
+          "terminal": false
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "The online shop does not open for anybody, orders stopped. Priority?",
+            "ru": "Интернет-магазин не открывается ни у кого, заказы остановились. Приоритет?",
+            "uk": "Інтернет-магазин не відкривається ні в кого, замовлення зупинилися. Пріоритет?"
+          },
+          "options": [
+            {
+              "en": "P1",
+              "ru": "P1",
+              "uk": "P1"
+            },
+            {
+              "en": "P2",
+              "ru": "P2",
+              "uk": "P2"
+            },
+            {
+              "en": "P3",
+              "ru": "P3",
+              "uk": "P3"
+            },
+            {
+              "en": "P4",
+              "ru": "P4",
+              "uk": "P4"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Product images load slowly for 5% of users, everything else works. Priority?",
+            "ru": "Картинки товаров медленно грузятся у 5% пользователей, остальное работает. Приоритет?",
+            "uk": "Зображення товарів повільно вантажаться у 5% користувачів, решта працює. Пріоритет?"
+          },
+          "options": [
+            {
+              "en": "P1",
+              "ru": "P1",
+              "uk": "P1"
+            },
+            {
+              "en": "P2",
+              "ru": "P2",
+              "uk": "P2"
+            },
+            {
+              "en": "P3",
+              "ru": "P3",
+              "uk": "P3"
+            },
+            {
+              "en": "P4",
+              "ru": "P4",
+              "uk": "P4"
+            }
+          ],
+          "answer": 2
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "A typo in the footer of the \"About us\" page. Priority?",
+            "ru": "Опечатка в подвале страницы «О нас». Приоритет?",
+            "uk": "Друкарська помилка в підвалі сторінки «Про нас». Пріоритет?"
+          },
+          "options": [
+            {
+              "en": "P1",
+              "ru": "P1",
+              "uk": "P1"
+            },
+            {
+              "en": "P2",
+              "ru": "P2",
+              "uk": "P2"
+            },
+            {
+              "en": "P3",
+              "ru": "P3",
+              "uk": "P3"
+            },
+            {
+              "en": "P4",
+              "ru": "P4",
+              "uk": "P4"
+            }
+          ],
+          "answer": 3
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "The site went down 2 minutes after a new release. The fastest mitigation?",
+            "ru": "Сайт упал через 2 минуты после нового релиза. Самая быстрая митигация?",
+            "uk": "Сайт упав через 2 хвилини після нового релізу. Найшвидша мітигація?"
+          },
+          "options": [
+            {
+              "en": "Roll back to the previous release",
+              "ru": "Откатиться на предыдущий релиз",
+              "uk": "Відкотитися на попередній реліз"
+            },
+            {
+              "en": "Start debugging the new code line by line",
+              "ru": "Начать отлаживать новый код построчно",
+              "uk": "Почати налагоджувати новий код рядок за рядком"
+            },
+            {
+              "en": "Wait, maybe it fixes itself",
+              "ru": "Подождать, может, само пройдёт",
+              "uk": "Зачекати, може, саме минеться"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "Restore the service first, look for the root cause afterwards.",
+            "ru": "Сначала восстановить сервис, корневую причину искать потом.",
+            "uk": "Спочатку відновити сервіс, кореневу причину шукати потім."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Why \"acknowledge\" an alert before working on it?",
+            "ru": "Зачем «подтверждать» алерт перед работой над ним?",
+            "uk": "Навіщо «підтверджувати» алерт перед роботою над ним?"
+          },
+          "options": [
+            {
+              "en": "So colleagues know someone is on it and do not duplicate work",
+              "ru": "Чтобы коллеги знали, что им занимаются, и не дублировали работу",
+              "uk": "Щоб колеги знали, що ним займаються, і не дублювали роботу"
+            },
+            {
+              "en": "It closes the incident automatically",
+              "ru": "Это автоматически закрывает инцидент",
+              "uk": "Це автоматично закриває інцидент"
+            },
+            {
+              "en": "It restarts the server",
+              "ru": "Это перезагружает сервер",
+              "uk": "Це перезавантажує сервер"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "noc-sla",
+      "title": {
+        "en": "SLA, SLO and downtime math",
+        "ru": "SLA, SLO и математика простоя",
+        "uk": "SLA, SLO і математика простою"
+      },
+      "commands": [
+        "awk"
+      ],
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Three letters you will hear every day\n- **SLI** — a measured indicator: share of successful requests, p95 latency\n- **SLO** — the internal target for an SLI: \"99.95% of requests succeed\"\n- **SLA** — the promise to customers in a contract, with penalties: \"99.9% per month\"\n\n## How much downtime is allowed\n| Availability | Downtime per month | per year |\n|---|---|---|\n| 99% | 7 h 18 min | 3.65 days |\n| 99.9% | 43 min | 8.8 h |\n| 99.95% | 22 min | 4.4 h |\n| 99.99% | 4.3 min | 53 min |\n\nThe allowed downtime is the **error budget**. Spent it? No risky releases until the next month.\n\n## Speed metrics of a NOC\n- **MTTA** — mean time to acknowledge an alert\n- **MTTR** — mean time to restore the service\n\n> Every minute counts: at 99.99% you have only about 4 minutes per month.",
+            "ru": "## Три буквы, которые вы будете слышать каждый день\n- **SLI** — измеряемый показатель: доля успешных запросов, задержка p95\n- **SLO** — внутренняя цель для SLI: «99,95% запросов успешны»\n- **SLA** — обещание клиентам в договоре, со штрафами: «99,9% в месяц»\n\n## Сколько простоя допустимо\n| Доступность | Простой в месяц | в год |\n|---|---|---|\n| 99% | 7 ч 18 мин | 3,65 дня |\n| 99,9% | 43 мин | 8,8 ч |\n| 99,95% | 22 мин | 4,4 ч |\n| 99,99% | 4,3 мин | 53 мин |\n\nДопустимый простой — это **бюджет ошибок** (error budget). Потратили его? Никаких рискованных релизов до следующего месяца.\n\n## Метрики скорости NOC\n- **MTTA** — среднее время до подтверждения алерта\n- **MTTR** — среднее время до восстановления сервиса\n\n> Каждая минута на счету: при 99,99% у вас всего около 4 минут в месяц.",
+            "uk": "## Три літери, які ви чутимете щодня\n- **SLI** — вимірюваний показник: частка успішних запитів, затримка p95\n- **SLO** — внутрішня ціль для SLI: «99,95% запитів успішні»\n- **SLA** — обіцянка клієнтам у договорі, зі штрафами: «99,9% на місяць»\n\n## Скільки простою допустимо\n| Доступність | Простій на місяць | на рік |\n|---|---|---|\n| 99% | 7 год 18 хв | 3,65 дня |\n| 99,9% | 43 хв | 8,8 год |\n| 99,95% | 22 хв | 4,4 год |\n| 99,99% | 4,3 хв | 53 хв |\n\nДопустимий простій — це **бюджет помилок** (error budget). Витратили його? Жодних ризикованих релізів до наступного місяця.\n\n## Метрики швидкості NOC\n- **MTTA** — середній час до підтвердження алерту\n- **MTTR** — середній час до відновлення сервісу\n\n> Кожна хвилина на рахунку: за 99,99% у вас лише близько 4 хвилин на місяць."
+          },
+          "title": {
+            "en": "Promises in numbers",
+            "ru": "Обещания в цифрах",
+            "uk": "Обіцянки в цифрах"
+          },
+          "terminal": false
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "The SLA is 99.9% per month. The site was down 50 minutes this month. Is the SLA kept?",
+            "ru": "SLA — 99,9% в месяц. В этом месяце сайт лежал 50 минут. SLA выполнен?",
+            "uk": "SLA — 99,9% на місяць. Цього місяця сайт лежав 50 хвилин. SLA виконано?"
+          },
+          "options": [
+            {
+              "en": "No, the budget is about 43 minutes",
+              "ru": "Нет, бюджет — около 43 минут",
+              "uk": "Ні, бюджет — близько 43 хвилин"
+            },
+            {
+              "en": "Yes, up to 7 hours are allowed",
+              "ru": "Да, допустимо до 7 часов",
+              "uk": "Так, допустимо до 7 годин"
+            },
+            {
+              "en": "Yes, SLA only counts nights",
+              "ru": "Да, SLA считает только ночи",
+              "uk": "Так, SLA рахує лише ночі"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "What is the difference between an SLO and an SLA?",
+            "ru": "Чем SLO отличается от SLA?",
+            "uk": "Чим SLO відрізняється від SLA?"
+          },
+          "options": [
+            {
+              "en": "SLO is an internal target, SLA is a contract with customers",
+              "ru": "SLO — внутренняя цель, SLA — договор с клиентами",
+              "uk": "SLO — внутрішня ціль, SLA — договір із клієнтами"
+            },
+            {
+              "en": "They are synonyms",
+              "ru": "Это синонимы",
+              "uk": "Це синоніми"
+            },
+            {
+              "en": "SLA is measured in CPU %, SLO in megabytes",
+              "ru": "SLA меряется в % CPU, SLO — в мегабайтах",
+              "uk": "SLA вимірюється у % CPU, SLO — у мегабайтах"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "Teams set the SLO stricter than the SLA to have a safety margin.",
+            "ru": "Команды делают SLO строже SLA, чтобы был запас.",
+            "uk": "Команди роблять SLO суворішим за SLA, щоб мати запас."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "MTTA went from 2 to 20 minutes this month. What does it tell you?",
+            "ru": "MTTA в этом месяце вырос с 2 до 20 минут. О чём это говорит?",
+            "uk": "MTTA цього місяця зріс із 2 до 20 хвилин. Про що це свідчить?"
+          },
+          "options": [
+            {
+              "en": "Alerts are acknowledged much later — check on-call routing and alert fatigue",
+              "ru": "Алерты подтверждают намного позже — проверьте маршрутизацию дежурств и шум алертов",
+              "uk": "Алерти підтверджують значно пізніше — перевірте маршрутизацію чергувань і шум алертів"
+            },
+            {
+              "en": "Servers became 10 times faster",
+              "ru": "Серверы стали в 10 раз быстрее",
+              "uk": "Сервери стали в 10 разів швидшими"
+            },
+            {
+              "en": "Fewer incidents happened",
+              "ru": "Инцидентов стало меньше",
+              "uk": "Інцидентів стало менше"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Practise the math in the shell: calculate 30 days × 24 h × 60 min × 0.001 (the 0.1% budget) with awk and print the result.",
+            "ru": "Потренируйте математику в оболочке: посчитайте 30 дней × 24 ч × 60 мин × 0,001 (бюджет 0,1%) через awk и выведите результат.",
+            "uk": "Потренуйте математику в оболонці: порахуйте 30 днів × 24 год × 60 хв × 0,001 (бюджет 0,1%) через awk і виведіть результат."
+          },
+          "instructions": {
+            "en": "1. Type `awk 'BEGIN { print 30*24*60*0.001 }'`\n2. The answer is the monthly budget in minutes",
+            "ru": "1. Наберите `awk 'BEGIN { print 30*24*60*0.001 }'`\n2. Ответ — месячный бюджет в минутах",
+            "uk": "1. Наберіть `awk 'BEGIN { print 30*24*60*0.001 }'`\n2. Відповідь — місячний бюджет у хвилинах"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "awk",
+              "label": {
+                "en": "Calculate with awk",
+                "ru": "Посчитайте через awk",
+                "uk": "Порахуйте через awk"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "43.2",
+              "label": {
+                "en": "43.2 minutes",
+                "ru": "43,2 минуты",
+                "uk": "43,2 хвилини"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "awk 'BEGIN { print ... }' calculates without input.",
+              "ru": "awk 'BEGIN { print ... }' считает без входных данных.",
+              "uk": "awk 'BEGIN { print ... }' рахує без вхідних даних."
+            },
+            "command": "awk"
+          },
+          "solution": [
+            "awk 'BEGIN { print 30*24*60*0.001 }'"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "noc-first-look",
+      "title": {
+        "en": "First look at a server",
+        "ru": "Первый взгляд на сервер",
+        "uk": "Перший погляд на сервер"
+      },
+      "commands": [
+        "hostname",
+        "uptime",
+        "w",
+        "date"
+      ],
+      "setup": "noc-web01",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Before you touch anything\nYou logged in after an alert. Four quick questions first:\n1. **Am I on the right machine?** `hostname`\n2. **Who am I?** `whoami` — you will need `sudo` for repairs\n3. **Did it reboot recently?** `uptime` — \"up 3 min\" after an incident is a clue\n4. **Who else is here?** `w` — maybe a colleague is already fixing it\n\n> Write down the time with `date` — the ticket timeline starts now.\n\n!> Restarting the wrong server is a classic incident of its own. Always check the hostname.",
+            "ru": "## Прежде чем что-то трогать\nВы зашли на сервер после алерта. Сначала четыре быстрых вопроса:\n1. **Я на той машине?** `hostname`\n2. **Кто я?** `whoami` — для ремонта понадобится `sudo`\n3. **Не перезагружалась ли она?** `uptime` — «up 3 min» после инцидента — это зацепка\n4. **Кто ещё здесь?** `w` — возможно, коллега уже чинит\n\n> Запишите время командой `date` — хронология тикета начинается сейчас.\n\n!> Перезапустить не тот сервер — классический инцидент сам по себе. Всегда проверяйте hostname.",
+            "uk": "## Перш ніж щось чіпати\nВи зайшли на сервер після алерту. Спершу чотири швидкі питання:\n1. **Я на тій машині?** `hostname`\n2. **Хто я?** `whoami` — для ремонту знадобиться `sudo`\n3. **Чи не перезавантажувалася вона?** `uptime` — «up 3 min» після інциденту — це зачіпка\n4. **Хто ще тут?** `w` — можливо, колега вже лагодить\n\n> Запишіть час командою `date` — хронологія тікета починається зараз.\n\n!> Перезапустити не той сервер — класичний інцидент сам собою. Завжди перевіряйте hostname."
+          },
+          "title": {
+            "en": "The 30-second check",
+            "ru": "Проверка за 30 секунд",
+            "uk": "Перевірка за 30 секунд"
+          },
+          "demo": {
+            "commands": [
+              "hostname",
+              "uptime",
+              "w"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Make sure you are on the right machine: print its host name.",
+            "ru": "Убедитесь, что вы на нужной машине: выведите её имя.",
+            "uk": "Переконайтеся, що ви на потрібній машині: виведіть її ім’я."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "hostname",
+              "label": {
+                "en": "Run hostname",
+                "ru": "Выполните hostname",
+                "uk": "Виконайте hostname"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "web01",
+              "label": {
+                "en": "It is web01",
+                "ru": "Это web01",
+                "uk": "Це web01"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "The command has the same name as what you need.",
+              "ru": "Команда называется так же, как то, что нужно узнать.",
+              "uk": "Команда називається так само, як те, що треба дізнатися."
+            },
+            "command": "hostname"
+          },
+          "solution": [
+            "hostname"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "How long has the server been running, and what is the load average?",
+            "ru": "Сколько сервер уже работает и какая у него средняя нагрузка?",
+            "uk": "Скільки сервер уже працює і яке в нього середнє навантаження?"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "uptime",
+              "label": {
+                "en": "Use uptime",
+                "ru": "Используйте uptime",
+                "uk": "Використайте uptime"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "load average",
+              "label": {
+                "en": "Load average is visible",
+                "ru": "Видна средняя нагрузка",
+                "uk": "Видно середнє навантаження"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "One word: up + time.",
+              "ru": "Одно слово: up + time.",
+              "uk": "Одне слово: up + time."
+            },
+            "command": "uptime"
+          },
+          "solution": [
+            "uptime"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Check who else is logged in to the server right now.",
+            "ru": "Проверьте, кто ещё сейчас залогинен на сервере.",
+            "uk": "Перевірте, хто ще зараз залогінений на сервері."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "w",
+              "label": {
+                "en": "Use w (or who)",
+                "ru": "Используйте w (или who)",
+                "uk": "Використайте w (або who)"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "pts/0",
+              "label": {
+                "en": "The user list is visible",
+                "ru": "Виден список пользователей",
+                "uk": "Видно список користувачів"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "The shortest command in Linux: a single letter.",
+              "ru": "Самая короткая команда Linux — одна буква.",
+              "uk": "Найкоротша команда Linux — одна літера."
+            },
+            "command": "w"
+          },
+          "solution": [
+            "w"
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "uptime -p",
+          "options": [
+            "up 3 days, 2 hours, 14 minutes",
+            "up 3 min",
+            "up 14 days"
+          ],
+          "answer": 0,
+          "setup": "noc-web01",
+          "context": [
+            "uptime"
+          ],
+          "explanation": {
+            "en": "-p (pretty) prints only how long the system is up.",
+            "ru": "-p (pretty) выводит только время работы системы.",
+            "uk": "-p (pretty) виводить лише час роботи системи."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "After a \"server unreachable\" alert uptime shows \"up 2 min\". What does it most likely mean?",
+            "ru": "После алерта «сервер недоступен» uptime показывает «up 2 min». Что это скорее всего значит?",
+            "uk": "Після алерту «сервер недоступний» uptime показує «up 2 min». Що це найімовірніше означає?"
+          },
+          "options": [
+            {
+              "en": "The server rebooted — find out why (logs, power, OOM)",
+              "ru": "Сервер перезагрузился — нужно выяснить почему (логи, питание, OOM)",
+              "uk": "Сервер перезавантажився — треба з’ясувати чому (логи, живлення, OOM)"
+            },
+            {
+              "en": "The server is 2 minutes old and brand new",
+              "ru": "Серверу 2 минуты, он новенький",
+              "uk": "Серверу 2 хвилини, він новенький"
+            },
+            {
+              "en": "Nothing interesting",
+              "ru": "Ничего интересного",
+              "uk": "Нічого цікавого"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

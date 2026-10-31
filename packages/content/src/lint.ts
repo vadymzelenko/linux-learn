@@ -8,16 +8,20 @@ import { z } from 'zod';
 import {
   AchievementSchema,
   ChallengeSchema,
+  CourseSchema,
+  GlossarySchema,
   LANGS,
   MissionSchema,
   ModuleSchema,
   type ContentCheck,
   type L10n,
 } from './schema';
-import { achievements, challenges, evaluateTask, fixtures, missions, modules, prepareSession } from './index';
+import { achievements, allLessons, challenges, courses, evaluateTask, fixtures, glossary, missions, modules, prepareSession } from './index';
+
+export const REQUIRED_LANGS = ['en', 'ru', 'uk'] as const;
 
 export interface LintIssue {
-  level: 'error' | 'warning';
+  level: 'error' | 'warning' | 'info';
   where: string;
   message: string;
 }
@@ -84,6 +88,15 @@ export function lintContent(): LintIssue[] {
   };
 
   modules.forEach((m, i) => validate(ModuleSchema, m, `module[${i}:${m.id}]`));
+  courses.forEach((c, i) => {
+    validate(CourseSchema, c, `course[${i}:${c.id}]`);
+    for (const id of c.modules) if (!modules.some((m) => m.id === id)) err(`course ${c.id}`, `unknown module "${id}"`);
+  });
+  glossary.forEach((g, i) => validate(GlossarySchema, g, `glossary[${i}:${g.id}]`));
+  for (const m of modules) if (!courses.some((c) => c.modules.includes(m.id))) warn(`module ${m.id}`, 'module is not part of any course');
+  for (const ms of missions) for (const tp of ms.topics ?? []) if (!allLessons.some((l) => l.lesson.id === tp)) err(`mission ${ms.id}`, `unknown topic lesson "${tp}"`);
+  for (const ch of challenges) for (const tp of ch.topics ?? []) if (!allLessons.some((l) => l.lesson.id === tp)) err(`challenge ${ch.id}`, `unknown topic lesson "${tp}"`);
+  for (const g of glossary) if (g.command && !COMMANDS.has(g.command)) err(`glossary ${g.id}`, `unknown command "${g.command}"`);
   missions.forEach((m, i) => validate(MissionSchema, m, `mission[${i}:${m.id}]`));
   challenges.forEach((c, i) => validate(ChallengeSchema, c, `challenge[${i}:${c.id}]`));
   achievements.forEach((a, i) => validate(AchievementSchema, a, `achievement[${i}:${a.id}]`));
@@ -108,10 +121,16 @@ export function lintContent(): LintIssue[] {
   collectL10n(missions, 'missions', texts);
   collectL10n(challenges, 'challenges', texts);
   collectL10n(achievements, 'achievements', texts);
+  collectL10n(courses, 'courses', texts);
+  collectL10n(glossary, 'glossary', texts);
+  // en, ru and uk are required; Polish falls back to English and is reported as a summary
+  let plMissing = 0;
   for (const { path, text } of texts) {
-    const missing = LANGS.filter((l) => !(text as Record<string, string | undefined>)[l]);
+    const missing = REQUIRED_LANGS.filter((l) => !(text as Record<string, string | undefined>)[l]);
     if (missing.length) warn(path, `missing translation: ${missing.join(', ')}`);
+    if (!(text as Record<string, string | undefined>)['pl']) plMissing++;
   }
+  if (plMissing) issues.push({ level: 'info', where: 'translations', message: `Polish: ${texts.length - plMissing}/${texts.length} texts translated (the rest falls back to English)` });
 
   const checkSetup = (setup: unknown, where: string) => {
     if (typeof setup === 'string' && !fixtures[setup]) err(where, `unknown fixture "${setup}"`);
@@ -201,5 +220,5 @@ export function contentStats() {
   const lessons = modules.reduce((n, m) => n + m.lessons.length, 0);
   const steps = modules.reduce((n, m) => n + m.lessons.reduce((k, l) => k + l.steps.length, 0), 0);
   const tasks = modules.reduce((n, m) => n + m.lessons.reduce((k, l) => k + l.steps.filter((s) => s.type === 'task' || s.type === 'fix').length, 0), 0);
-  return { modules: modules.length, lessons, steps, tasks, missions: missions.length, challenges: challenges.length, achievements: achievements.length };
+  return { modules: modules.length, lessons, steps, tasks, missions: missions.length, challenges: challenges.length, achievements: achievements.length, glossary: glossary.length, courses: courses.length };
 }

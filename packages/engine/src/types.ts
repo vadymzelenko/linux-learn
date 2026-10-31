@@ -62,12 +62,93 @@ export interface DiskInfo {
   type?: string;
 }
 
+export interface HttpResponse {
+  status: number;
+  body?: string;
+  headers?: Record<string, string>;
+  /** Reverse proxy: when this local service is not active, the answer is 502 Bad Gateway. */
+  upstream?: string;
+}
+
+/** A remote host reachable from the simulated machine. */
+export interface NetHost {
+  name: string;
+  ip: string;
+  /** Host answers ping/TCP (default true). */
+  up?: boolean;
+  /** Present in DNS (default true). Hosts only in /etc/hosts set this to false. */
+  dns?: boolean;
+  /** Round-trip time in ms (default 20). */
+  latency?: number;
+  /** Packet loss in percent (0-100). */
+  loss?: number;
+  /** traceroute hops before the host ("name ip", "ip" or "*"). */
+  hops?: string[];
+  /** Open TCP ports, e.g. { "80": "http", "443": "https" }. */
+  ports?: Record<string, string>;
+  /** HTTP responses by path. */
+  http?: Record<string, HttpResponse>;
+  aliases?: string[];
+}
+
+export interface NetInterface {
+  name: string;
+  /** e.g. "10.0.2.15/24" */
+  cidr: string;
+  mac: string;
+  up: boolean;
+}
+
+export interface Network {
+  interfaces: NetInterface[];
+  gateway: string;
+  dnsServer: string;
+  hosts: NetHost[];
+}
+
+export interface Service {
+  name: string;
+  description: string;
+  state: 'active' | 'inactive' | 'failed';
+  enabled: boolean;
+  /** When the current state began (ms); defaults to boot time. */
+  since?: number;
+  /** User the daemon runs as (ps, ss -p). */
+  user?: string;
+  pid?: number;
+  /** Listening port (TCP unless proto is udp). */
+  port?: number;
+  proto?: 'tcp' | 'udp';
+  bind?: string;
+  http?: Record<string, HttpResponse>;
+  /** Journal lines (already formatted, oldest first). */
+  logs: string[];
+  /** A (re)start only succeeds when this file check passes. */
+  config?: { path: string; mustContain?: string; mustNotContain?: string; error: string };
+}
+
+export interface SystemInfo {
+  uptimeSec: number;
+  load: [number, number, number];
+  cpus: number;
+  /** KiB */
+  memTotal: number;
+  memUsed: number;
+  memCache: number;
+  swapTotal: number;
+  swapUsed: number;
+  logins: { user: string; tty: string; from: string; at: string }[];
+}
+
 export interface Machine {
   hostname: string;
   fs: DirNode;
   users: UserInfo[];
   processes: ProcessInfo[];
   disks: DiskInfo[];
+  network?: Network;
+  services?: Service[];
+  system?: SystemInfo;
 }
 
 export interface Session {

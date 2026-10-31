@@ -1,7 +1,8 @@
 import { memo } from 'react';
-import { Text, type TextStyle } from 'react-native';
+import { type TextStyle } from 'react-native';
 import { parseAnsi } from '@linux-learn/engine';
 import { useTheme, MONO, MONO_BOLD } from '../../theme';
+import { Text } from '../../theme/Text';
 
 interface Props {
   text: string;

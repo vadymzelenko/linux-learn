@@ -1,0 +1,62 @@
+[
+  {
+    "id": "linux",
+    "icon": "terminal",
+    "color": "#3DDC84",
+    "title": {
+      "en": "Linux from zero",
+      "ru": "Linux с нуля",
+      "uk": "Linux з нуля",
+      "pl": "Linux od zera"
+    },
+    "subtitle": {
+      "en": "Terminal, files, text, permissions, processes, scripts",
+      "ru": "Терминал, файлы, текст, права, процессы, скрипты",
+      "uk": "Термінал, файли, текст, права, процеси, скрипти",
+      "pl": "Terminal, pliki, tekst, uprawnienia, procesy, skrypty"
+    },
+    "description": {
+      "en": "From the very first command to confident everyday work in the Linux terminal.",
+      "ru": "От самой первой команды до уверенной ежедневной работы в терминале Linux.",
+      "uk": "Від найпершої команди до впевненої щоденної роботи в терміналі Linux.",
+      "pl": "Od pierwszego polecenia do pewnej codziennej pracy w terminalu Linuksa."
+    },
+    "modules": [
+      "navigation",
+      "files",
+      "text",
+      "search",
+      "permissions",
+      "power"
+    ]
+  },
+  {
+    "id": "noc",
+    "icon": "headset",
+    "color": "#5EA9FF",
+    "title": {
+      "en": "NOC engineer",
+      "ru": "NOC-инженер",
+      "uk": "NOC-інженер",
+      "pl": "Inżynier NOC"
+    },
+    "subtitle": {
+      "en": "Monitoring, networks, services, logs and incidents",
+      "ru": "Мониторинг, сети, сервисы, логи и инциденты",
+      "uk": "Моніторинг, мережі, сервіси, логи та інциденти",
+      "pl": "Monitoring, sieci, usługi, logi i incydenty"
+    },
+    "description": {
+      "en": "Everything a NOC / L1 support engineer does on a shift: diagnose a server, a network and a web service and handle an incident.",
+      "ru": "Всё, что делает NOC-инженер / L1 на смене: диагностика сервера, сети и веб-сервиса, работа с инцидентом.",
+      "uk": "Усе, що робить NOC-інженер / L1 на зміні: діагностика сервера, мережі та веб-сервісу, робота з інцидентом.",
+      "pl": "Wszystko, co robi inżynier NOC / L1 na zmianie."
+    },
+    "modules": [
+      "noc-intro",
+      "noc-health",
+      "noc-network",
+      "noc-web"
+    ]
+  }
+]

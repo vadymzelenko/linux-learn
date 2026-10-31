@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { examTasks } from '@linux-learn/content';
@@ -8,6 +8,7 @@ import { useTheme, space } from '../theme';
 import { Body, Button, H1, Icon, IconButton, ProgressBar, Row, Screen } from '../components/ui';
 import { TaskRunner } from '../components/steps/TaskRunner';
 import { Certificate } from '../components/Certificate';
+import { Text } from '../theme/Text';
 
 export const PASS_PERCENT = 70;
 
@@ -101,6 +102,7 @@ export default function ExamScreen() {
               checks: item.step.checks,
               solution: item.step.solution,
             }}
+            onTheory={() => router.push({ pathname: '/read/[id]', params: { id: item.lesson.id } })}
             onSolved={() => {
               solved.current++;
               setSolvedNow(true);

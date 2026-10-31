@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { dailyChallenge, tr } from '@linux-learn/content';
@@ -8,6 +8,7 @@ import { useTheme, space } from '../theme';
 import { Button, IconButton, Screen } from '../components/ui';
 import { TaskRunner } from '../components/steps/TaskRunner';
 import { dayKey, rewardAfterHints } from '../lib/progress';
+import { Text } from '../theme/Text';
 
 export default function ChallengeScreen() {
   const theme = useTheme();
@@ -34,7 +35,9 @@ export default function ChallengeScreen() {
               checks: challenge.checks,
               hints: challenge.hints,
               solution: challenge.solution,
+              ...(challenge.instructions ? { instructions: challenge.instructions } : {}),
             }}
+            {...(challenge.topics?.length ? { onTheory: () => router.push({ pathname: '/read/[id]', params: { id: challenge.topics!.join(',') } }) } : {})}
             onSolved={({ hints }) => {
               const xp = doneToday ? 0 : rewardAfterHints(challenge.xp ?? 30, hints);
               if (!doneToday) useStore.getState().completeDaily(xp);

@@ -1,6 +1,7 @@
-import { Text } from 'react-native';
+
 import type { PromptParts } from '@linux-learn/engine';
 import { useTheme, MONO_BOLD } from '../../theme';
+import { Text } from '../../theme/Text';
 
 export function PromptText({ prompt, fontSize }: { prompt: PromptParts; fontSize: number }) {
   const t = useTheme();

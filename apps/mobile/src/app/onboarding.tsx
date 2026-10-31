@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { createShell } from '@linux-learn/engine';
@@ -11,6 +11,7 @@ import { Terminal, useColumns } from '../components/terminal/Terminal';
 import { useShell } from '../components/terminal/useShell';
 import { LANGUAGE_NAMES, resolveLang } from '../i18n';
 import { haptic } from '../lib/haptics';
+import { Text } from '../theme/Text';
 
 const SLIDES = [
   { icon: 'terminal', title: 'onboarding.s1Title', text: 'onboarding.s1Text', art: '$ ls -la ~\ndrwxr-x--- student student .\n-rw-r--r-- student notes.txt' },

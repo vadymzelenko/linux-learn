@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { findMission, tr } from '@linux-learn/content';
@@ -8,6 +8,7 @@ import { useTheme, space } from '../../theme';
 import { Button, IconButton, Screen } from '../../components/ui';
 import { TaskRunner } from '../../components/steps/TaskRunner';
 import { rewardAfterHints } from '../../lib/progress';
+import { Text } from '../../theme/Text';
 
 export default function MissionScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -37,7 +38,9 @@ export default function MissionScreen() {
               checks: mission.checks,
               hints: mission.hints,
               solution: mission.solution,
+              ...(mission.instructions ? { instructions: mission.instructions } : {}),
             }}
+            {...(mission.topics?.length ? { onTheory: () => router.push({ pathname: '/read/[id]', params: { id: mission.topics!.join(',') } }) } : {})}
             onSolved={({ hints }) => {
               const xp = rewardAfterHints(mission.xp, hints);
               useStore.getState().completeMission(mission.id, xp, hints);

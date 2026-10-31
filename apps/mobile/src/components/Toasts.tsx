@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { achievements, tr } from '@linux-learn/content';
@@ -7,6 +7,7 @@ import { useStore, type Toast } from '../state/store';
 import { useTheme } from '../theme';
 import { haptic } from '../lib/haptics';
 import { Icon } from './ui/Icon';
+import { Text } from '../theme/Text';
 
 function ToastView({ toast }: { toast: Toast }) {
   const theme = useTheme();

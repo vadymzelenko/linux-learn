@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { achievements, allLessons, LEVELS, levelFor, missions, tr } from '@linux-learn/content';
@@ -6,6 +6,7 @@ import { useStore } from '../../state/store';
 import { useTheme, MONO, space } from '../../theme';
 import { Body, Button, Card, H1, H2, Icon, IconButton, ProgressBar, Row, Screen } from '../../components/ui';
 import { dayKey, liveStreak } from '../../lib/progress';
+import { Text } from '../../theme/Text';
 
 function Stat({ value, label }: { value: string | number; label: string }) {
   const theme = useTheme();

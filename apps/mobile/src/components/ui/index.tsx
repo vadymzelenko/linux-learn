@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
 import { useTheme, radius, space, MONO } from '../../theme';
 import { haptic } from '../../lib/haptics';
 import { Icon } from './Icon';
+import { Text } from '../../theme/Text';
 
 export { Icon };
 

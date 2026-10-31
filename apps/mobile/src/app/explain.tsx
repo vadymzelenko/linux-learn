@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { explain, type ExplainKind } from '@linux-learn/engine';
 import { useTheme, MONO, space } from '../theme';
 import { Body, H1, IconButton, Row, Screen } from '../components/ui';
+import { Text } from '../theme/Text';
 
 const EXAMPLES = ['ls -lah /var/log', 'grep -rn TODO src/ | wc -l', 'find . -name "*.tmp" -mtime +7 -delete', 'sort access.log | uniq -c | sort -rn | head -5', 'sudo chown -R www-data:www-data /var/www', 'tar -czf backup.tar.gz ~/project 2>/dev/null'];
 

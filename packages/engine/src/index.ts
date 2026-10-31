@@ -15,6 +15,7 @@ import { FsError } from './vfs/fs';
 export * from './types';
 export type { MachineSpec, FileSpec } from './machine';
 export { SYSTEM_EPOCH, DEFAULT_USER, DEFAULT_HOST } from './machine';
+import { DEFAULT_NETWORK, DEFAULT_SERVICES, DEFAULT_SYSTEM } from './machine';
 export type { Check, CheckContext, CheckResult, CheckStatus, TaskEvaluation } from './checks';
 export { evaluateCheck, evaluateChecks } from './checks';
 export type { Completion } from './complete';
@@ -147,6 +148,13 @@ export function migrateSession(s: Session): Session {
     aliases: s.aliases ?? {},
     userStack: s.userStack ?? [],
     lastExitCode: s.lastExitCode ?? 0,
-    machine: { ...s.machine, processes: s.machine.processes ?? [], disks: s.machine.disks ?? [] },
+    machine: {
+      ...s.machine,
+      processes: s.machine.processes ?? [],
+      disks: s.machine.disks ?? [],
+      network: s.machine.network ?? DEFAULT_NETWORK,
+      services: s.machine.services ?? DEFAULT_SERVICES(s.machine.hostname),
+      system: s.machine.system ?? DEFAULT_SYSTEM(s.user),
+    },
   };
 }

@@ -1,7 +1,9 @@
 import type { CommandDef } from '../shell/context';
+import * as admin from './admin';
 import * as builtins from './builtins';
 import * as files from './files';
 import * as nav from './nav';
+import * as network from './network';
 import * as search from './search';
 import * as system from './system';
 import * as text from './text';
@@ -12,7 +14,7 @@ function isCommand(v: unknown): v is CommandDef {
 }
 
 const all: CommandDef[] = [];
-for (const mod of [nav, files, text, textproc, search, system, builtins]) {
+for (const mod of [nav, files, text, textproc, search, system, network, admin, builtins]) {
   for (const v of Object.values(mod)) if (isCommand(v)) all.push(v);
 }
 

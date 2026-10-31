@@ -1,0 +1,285 @@
+{
+  "hostname": "web01",
+  "files": {
+    "/var/log/syslog": {
+      "content": "Oct 31 09:00:01 web01 systemd[1]: Started cron.service - Regular background program processing daemon.\nOct 31 09:00:02 web01 systemd[1]: Started nginx.service - A high performance web server and a reverse proxy server.\nOct 31 09:00:03 web01 systemd[1]: Started postgresql.service - PostgreSQL RDBMS.\nOct 31 09:00:04 web01 systemd[1]: Started api.service - Shop API (node).\nOct 31 09:30:01 web01 CRON[2201]: (root) CMD (/usr/local/bin/backup.sh)\nOct 31 10:00:01 web01 CRON[2412]: (root) CMD (/usr/local/bin/backup.sh)\nOct 31 10:15:22 web01 kernel: [ 9213.442] eth0: link up, 1000 Mbps, full duplex\n",
+      "owner": "root",
+      "mode": "644"
+    },
+    "/var/log/auth.log": {
+      "content": "Oct 31 09:05:12 web01 sshd[1190]: Accepted publickey for student from 192.168.1.10 port 52344 ssh2\nOct 31 10:02:11 web01 sshd[3002]: Failed password for invalid user admin from 45.155.205.2 port 40002 ssh2\nOct 31 10:02:14 web01 sshd[3002]: Failed password for invalid user admin from 45.155.205.2 port 40002 ssh2\nOct 31 10:03:01 web01 sshd[3003]: Failed password for invalid user admin from 45.155.205.3 port 40003 ssh2\nOct 31 10:03:09 web01 sshd[3003]: Failed password for invalid user admin from 45.155.205.3 port 40003 ssh2\nOct 31 10:04:30 web01 sshd[3004]: Failed password for invalid user admin from 45.155.205.4 port 40004 ssh2\nOct 31 10:05:02 web01 sshd[3005]: Failed password for invalid user admin from 45.155.205.5 port 40005 ssh2\nOct 31 10:07:45 web01 sshd[3007]: Failed password for invalid user admin from 45.155.205.7 port 40007 ssh2\nOct 31 10:09:13 web01 sshd[3009]: Failed password for invalid user admin from 45.155.205.9 port 40009 ssh2\nOct 31 10:12:40 web01 sudo:  student : TTY=pts/0 ; PWD=/home/student ; USER=root ; COMMAND=/usr/bin/systemctl restart nginx\n",
+      "owner": "root",
+      "mode": "640",
+      "group": "adm"
+    },
+    "/var/log/nginx/access.log": {
+      "content": "203.0.113.10 - - [31/Oct/2026:10:00:00 +0000] \"GET /api/items HTTP/1.1\" 200 8535 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:00:07 +0000] \"GET /health HTTP/1.1\" 200 3808 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:00:14 +0000] \"GET /static/app.js HTTP/1.1\" 200 8192 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:00:21 +0000] \"GET /api/cart HTTP/1.1\" 200 1472 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:00:28 +0000] \"GET /api/items HTTP/1.1\" 200 7517 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:00:35 +0000] \"GET /health HTTP/1.1\" 200 8182 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:01:42 +0000] \"GET /api/items HTTP/1.1\" 200 4270 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:01:49 +0000] \"GET /api/items HTTP/1.1\" 200 8564 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:01:56 +0000] \"GET / HTTP/1.1\" 200 1619 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:01:03 +0000] \"GET /static/app.js HTTP/1.1\" 200 7644 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:01:10 +0000] \"GET /static/style.css HTTP/1.1\" 200 5212 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:01:17 +0000] \"GET /health HTTP/1.1\" 200 6106 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:02:24 +0000] \"GET /api/cart HTTP/1.1\" 200 8316 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:02:31 +0000] \"GET /api/cart HTTP/1.1\" 200 8195 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:02:38 +0000] \"GET /static/app.js HTTP/1.1\" 200 7030 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:02:45 +0000] \"GET /api/cart HTTP/1.1\" 200 565 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:02:52 +0000] \"GET /login HTTP/1.1\" 200 950 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:02:59 +0000] \"GET /static/app.js HTTP/1.1\" 200 1830 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:03:06 +0000] \"GET /static/app.js HTTP/1.1\" 200 2483 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:03:13 +0000] \"GET /login HTTP/1.1\" 200 2149 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:03:20 +0000] \"GET /static/style.css HTTP/1.1\" 200 7840 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:03:27 +0000] \"GET /static/app.js HTTP/1.1\" 200 6737 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:03:34 +0000] \"GET /api/items HTTP/1.1\" 200 8373 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:03:41 +0000] \"GET /api/cart HTTP/1.1\" 200 6735 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:04:48 +0000] \"GET /login HTTP/1.1\" 200 4557 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:04:55 +0000] \"GET / HTTP/1.1\" 200 7657 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:04:02 +0000] \"GET /api/cart HTTP/1.1\" 200 3424 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:04:09 +0000] \"GET /static/style.css HTTP/1.1\" 200 8526 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:04:16 +0000] \"GET /health HTTP/1.1\" 200 700 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:04:23 +0000] \"GET /api/items HTTP/1.1\" 200 1761 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:05:30 +0000] \"GET /static/style.css HTTP/1.1\" 200 8590 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:05:37 +0000] \"GET /api/cart HTTP/1.1\" 200 3149 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:05:44 +0000] \"GET /health HTTP/1.1\" 200 1203 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:05:51 +0000] \"GET /api/items HTTP/1.1\" 200 6214 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:05:58 +0000] \"GET /login HTTP/1.1\" 200 6888 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:05:05 +0000] \"GET /api/cart HTTP/1.1\" 200 1660 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:06:12 +0000] \"GET /api/cart HTTP/1.1\" 200 1510 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:06:19 +0000] \"GET /health HTTP/1.1\" 200 2129 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:06:26 +0000] \"GET / HTTP/1.1\" 200 4549 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:06:33 +0000] \"GET /health HTTP/1.1\" 200 2685 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:06:40 +0000] \"GET /api/items HTTP/1.1\" 200 8210 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:06:47 +0000] \"GET /static/style.css HTTP/1.1\" 200 3802 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:07:54 +0000] \"GET /static/app.js HTTP/1.1\" 200 8419 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:07:01 +0000] \"GET / HTTP/1.1\" 200 2773 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:07:08 +0000] \"GET /health HTTP/1.1\" 200 5163 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:07:15 +0000] \"GET /api/cart HTTP/1.1\" 200 2583 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:07:22 +0000] \"GET /health HTTP/1.1\" 200 381 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:07:29 +0000] \"GET /api/cart HTTP/1.1\" 200 991 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:08:36 +0000] \"GET /static/style.css HTTP/1.1\" 200 572 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:08:43 +0000] \"GET /static/app.js HTTP/1.1\" 200 5125 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:08:50 +0000] \"GET /api/items HTTP/1.1\" 200 8302 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:08:57 +0000] \"GET /static/app.js HTTP/1.1\" 200 2947 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:08:04 +0000] \"GET /static/app.js HTTP/1.1\" 200 7254 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:08:11 +0000] \"GET /api/items HTTP/1.1\" 200 3972 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:09:18 +0000] \"GET /static/style.css HTTP/1.1\" 301 6689 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:09:25 +0000] \"GET /login HTTP/1.1\" 200 2990 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:09:32 +0000] \"GET /static/style.css HTTP/1.1\" 200 939 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:09:39 +0000] \"GET /health HTTP/1.1\" 200 3238 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:09:46 +0000] \"GET /static/style.css HTTP/1.1\" 200 485 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:09:53 +0000] \"GET /static/style.css HTTP/1.1\" 200 8618 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:10:00 +0000] \"GET /login HTTP/1.1\" 200 3197 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:10:07 +0000] \"GET /api/items HTTP/1.1\" 200 6934 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:10:14 +0000] \"GET /api/cart HTTP/1.1\" 200 5787 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:10:21 +0000] \"GET /api/items HTTP/1.1\" 200 6961 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:10:28 +0000] \"GET /api/cart HTTP/1.1\" 200 8658 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:10:35 +0000] \"GET /api/cart HTTP/1.1\" 200 8746 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:11:42 +0000] \"GET /health HTTP/1.1\" 200 3661 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:11:49 +0000] \"GET / HTTP/1.1\" 200 7590 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:11:56 +0000] \"GET /api/items HTTP/1.1\" 200 3139 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:11:03 +0000] \"GET /api/items HTTP/1.1\" 200 5912 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:11:10 +0000] \"GET /static/style.css HTTP/1.1\" 200 8970 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:11:17 +0000] \"GET / HTTP/1.1\" 200 4745 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:12:24 +0000] \"GET /health HTTP/1.1\" 200 3663 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:12:31 +0000] \"GET /api/items HTTP/1.1\" 200 2322 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:12:38 +0000] \"GET /health HTTP/1.1\" 200 7294 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:12:45 +0000] \"GET / HTTP/1.1\" 200 5986 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:12:52 +0000] \"GET /health HTTP/1.1\" 200 1891 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:12:59 +0000] \"GET /api/items HTTP/1.1\" 200 1197 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:13:06 +0000] \"GET /api/items HTTP/1.1\" 200 4346 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:13:13 +0000] \"GET / HTTP/1.1\" 200 4361 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:13:20 +0000] \"GET / HTTP/1.1\" 301 4003 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:13:27 +0000] \"GET /api/items HTTP/1.1\" 200 5889 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:13:34 +0000] \"GET /health HTTP/1.1\" 200 772 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:13:41 +0000] \"GET /api/items HTTP/1.1\" 200 7730 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:14:48 +0000] \"GET /static/style.css HTTP/1.1\" 200 6280 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:14:55 +0000] \"GET /static/style.css HTTP/1.1\" 200 4271 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:14:02 +0000] \"GET /api/items HTTP/1.1\" 200 5987 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:14:09 +0000] \"GET /static/style.css HTTP/1.1\" 200 537 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:14:16 +0000] \"GET /static/style.css HTTP/1.1\" 200 2154 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:14:23 +0000] \"GET /health HTTP/1.1\" 200 482 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:15:30 +0000] \"GET /api/items HTTP/1.1\" 200 1069 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:15:37 +0000] \"GET / HTTP/1.1\" 200 2160 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:15:44 +0000] \"GET / HTTP/1.1\" 200 5950 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:15:51 +0000] \"GET /static/style.css HTTP/1.1\" 200 5101 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:15:58 +0000] \"GET /api/cart HTTP/1.1\" 200 5982 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:15:05 +0000] \"GET /api/cart HTTP/1.1\" 200 7047 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:16:12 +0000] \"GET /login HTTP/1.1\" 200 3155 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:16:19 +0000] \"GET / HTTP/1.1\" 200 6652 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:16:26 +0000] \"GET /health HTTP/1.1\" 200 532 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:16:33 +0000] \"GET /api/items HTTP/1.1\" 200 6996 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:16:40 +0000] \"GET /api/items HTTP/1.1\" 200 1615 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:16:47 +0000] \"GET /static/app.js HTTP/1.1\" 404 8572 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:17:54 +0000] \"GET /api/items HTTP/1.1\" 200 5351 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:17:01 +0000] \"GET /static/style.css HTTP/1.1\" 200 4128 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:17:08 +0000] \"GET / HTTP/1.1\" 200 8483 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:17:15 +0000] \"GET /static/style.css HTTP/1.1\" 200 6688 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:17:22 +0000] \"GET /api/items HTTP/1.1\" 200 3959 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:17:29 +0000] \"GET /health HTTP/1.1\" 200 3442 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:18:36 +0000] \"GET /api/items HTTP/1.1\" 200 7646 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:18:43 +0000] \"GET /health HTTP/1.1\" 200 5264 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:18:50 +0000] \"GET /login HTTP/1.1\" 200 2669 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:18:57 +0000] \"GET / HTTP/1.1\" 200 8722 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:18:04 +0000] \"GET /api/cart HTTP/1.1\" 200 2977 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:18:11 +0000] \"GET /api/items HTTP/1.1\" 200 4492 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:19:18 +0000] \"GET /static/style.css HTTP/1.1\" 200 450 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:19:25 +0000] \"GET /login HTTP/1.1\" 200 5175 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:19:32 +0000] \"GET / HTTP/1.1\" 200 6385 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:19:39 +0000] \"GET /static/app.js HTTP/1.1\" 200 2739 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:19:46 +0000] \"GET / HTTP/1.1\" 200 6526 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:19:53 +0000] \"GET /static/app.js HTTP/1.1\" 200 831 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:20:00 +0000] \"GET /static/app.js HTTP/1.1\" 200 3259 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:20:07 +0000] \"GET /api/items HTTP/1.1\" 200 4828 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:20:14 +0000] \"GET /login HTTP/1.1\" 200 3241 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:20:21 +0000] \"GET /static/style.css HTTP/1.1\" 404 8014 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:20:28 +0000] \"GET /api/items HTTP/1.1\" 200 8954 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:20:35 +0000] \"GET /static/style.css HTTP/1.1\" 200 3092 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:21:42 +0000] \"GET /static/app.js HTTP/1.1\" 200 615 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:21:49 +0000] \"GET /static/app.js HTTP/1.1\" 200 182 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:21:56 +0000] \"GET / HTTP/1.1\" 200 3692 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:21:03 +0000] \"GET /login HTTP/1.1\" 200 4215 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:21:10 +0000] \"GET / HTTP/1.1\" 200 8089 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:21:17 +0000] \"GET /health HTTP/1.1\" 200 1348 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:22:24 +0000] \"GET /api/items HTTP/1.1\" 200 2075 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:22:31 +0000] \"GET /api/cart HTTP/1.1\" 200 2131 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:22:38 +0000] \"GET /static/app.js HTTP/1.1\" 200 6026 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:22:45 +0000] \"GET /health HTTP/1.1\" 200 5804 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:22:52 +0000] \"GET / HTTP/1.1\" 200 1589 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:22:59 +0000] \"GET /health HTTP/1.1\" 200 3853 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:23:06 +0000] \"GET /api/items HTTP/1.1\" 200 5584 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:23:13 +0000] \"GET /static/style.css HTTP/1.1\" 200 8230 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:23:20 +0000] \"GET /api/items HTTP/1.1\" 200 7735 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:23:27 +0000] \"GET /health HTTP/1.1\" 200 5860 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:23:34 +0000] \"GET /api/cart HTTP/1.1\" 200 6402 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:23:41 +0000] \"GET /login HTTP/1.1\" 200 2240 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:24:48 +0000] \"GET /api/items HTTP/1.1\" 200 2080 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:24:55 +0000] \"GET /api/items HTTP/1.1\" 200 7431 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:24:02 +0000] \"GET /login HTTP/1.1\" 200 4543 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:24:09 +0000] \"GET /api/items HTTP/1.1\" 200 2169 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:24:16 +0000] \"GET /api/items HTTP/1.1\" 200 6723 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:24:23 +0000] \"GET / HTTP/1.1\" 200 5543 \"-\" \"Mozilla/5.0\"\n",
+      "owner": "www-data",
+      "mode": "644"
+    },
+    "/var/log/nginx/access.log.1": {
+      "content": "192.0.2.150 - - [31/Oct/2026:10:00:00 +0000] \"GET /api/cart HTTP/1.1\" 200 8254 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:00:07 +0000] \"GET /health HTTP/1.1\" 200 8615 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:00:14 +0000] \"GET /api/cart HTTP/1.1\" 200 5564 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:00:21 +0000] \"GET /api/cart HTTP/1.1\" 200 322 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:00:28 +0000] \"GET /static/app.js HTTP/1.1\" 200 2289 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:00:35 +0000] \"GET /static/app.js HTTP/1.1\" 200 6943 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:01:42 +0000] \"GET /health HTTP/1.1\" 200 5700 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:01:49 +0000] \"GET / HTTP/1.1\" 200 2129 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:01:56 +0000] \"GET /health HTTP/1.1\" 200 5501 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:01:03 +0000] \"GET /health HTTP/1.1\" 200 7639 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:01:10 +0000] \"GET /api/items HTTP/1.1\" 200 6202 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:01:17 +0000] \"GET /static/app.js HTTP/1.1\" 200 8980 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:02:24 +0000] \"GET / HTTP/1.1\" 200 3744 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:02:31 +0000] \"GET /login HTTP/1.1\" 200 2948 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:02:38 +0000] \"GET /api/items HTTP/1.1\" 200 6982 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:02:45 +0000] \"GET /static/app.js HTTP/1.1\" 200 2333 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:02:52 +0000] \"GET / HTTP/1.1\" 200 7023 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:02:59 +0000] \"GET /login HTTP/1.1\" 200 8561 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:03:06 +0000] \"GET /api/cart HTTP/1.1\" 200 5741 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:03:13 +0000] \"GET /api/items HTTP/1.1\" 200 8009 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:03:20 +0000] \"GET /api/cart HTTP/1.1\" 200 4247 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:03:27 +0000] \"GET /static/style.css HTTP/1.1\" 200 506 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:03:34 +0000] \"GET /health HTTP/1.1\" 200 7786 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:03:41 +0000] \"GET /api/items HTTP/1.1\" 200 6702 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:04:48 +0000] \"GET /login HTTP/1.1\" 200 6881 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:04:55 +0000] \"GET /static/style.css HTTP/1.1\" 200 8488 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:04:02 +0000] \"GET /static/app.js HTTP/1.1\" 200 5042 \"-\" \"Mozilla/5.0\"\n203.0.113.77 - - [31/Oct/2026:10:04:09 +0000] \"GET /static/app.js HTTP/1.1\" 200 8499 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:04:16 +0000] \"GET /static/app.js HTTP/1.1\" 200 5359 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:04:23 +0000] \"GET /api/items HTTP/1.1\" 200 1429 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:05:30 +0000] \"GET /health HTTP/1.1\" 200 4368 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:05:37 +0000] \"GET /static/app.js HTTP/1.1\" 200 1892 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:05:44 +0000] \"GET /login HTTP/1.1\" 404 4096 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:05:51 +0000] \"GET /api/cart HTTP/1.1\" 200 8777 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:05:58 +0000] \"GET /static/app.js HTTP/1.1\" 200 4584 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:05:05 +0000] \"GET /api/cart HTTP/1.1\" 200 5487 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:06:12 +0000] \"GET /static/style.css HTTP/1.1\" 200 8982 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:06:19 +0000] \"GET /login HTTP/1.1\" 200 2658 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:06:26 +0000] \"GET /login HTTP/1.1\" 200 1150 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:06:33 +0000] \"GET /health HTTP/1.1\" 404 5054 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:06:40 +0000] \"GET /login HTTP/1.1\" 200 5993 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:06:47 +0000] \"GET /api/cart HTTP/1.1\" 200 1028 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:07:54 +0000] \"GET /static/style.css HTTP/1.1\" 200 8173 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:07:01 +0000] \"GET / HTTP/1.1\" 200 8580 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:07:08 +0000] \"GET /static/app.js HTTP/1.1\" 200 6814 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:07:15 +0000] \"GET /api/items HTTP/1.1\" 200 8476 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:07:22 +0000] \"GET /api/cart HTTP/1.1\" 404 1700 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:07:29 +0000] \"GET /static/app.js HTTP/1.1\" 200 4364 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:08:36 +0000] \"GET /health HTTP/1.1\" 404 8395 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:08:43 +0000] \"GET /health HTTP/1.1\" 200 7077 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:08:50 +0000] \"GET /api/cart HTTP/1.1\" 200 2946 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:08:57 +0000] \"GET /login HTTP/1.1\" 200 8252 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:08:04 +0000] \"GET /api/items HTTP/1.1\" 200 7063 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:08:11 +0000] \"GET /api/cart HTTP/1.1\" 200 6100 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:09:18 +0000] \"GET /login HTTP/1.1\" 200 7366 \"-\" \"Mozilla/5.0\"\n198.51.100.5 - - [31/Oct/2026:10:09:25 +0000] \"GET /static/app.js HTTP/1.1\" 200 3607 \"-\" \"Mozilla/5.0\"\n192.0.2.150 - - [31/Oct/2026:10:09:32 +0000] \"GET /login HTTP/1.1\" 200 1441 \"-\" \"Mozilla/5.0\"\n192.0.2.44 - - [31/Oct/2026:10:09:39 +0000] \"GET /static/style.css HTTP/1.1\" 200 2739 \"-\" \"Mozilla/5.0\"\n203.0.113.10 - - [31/Oct/2026:10:09:46 +0000] \"GET /login HTTP/1.1\" 200 7253 \"-\" \"Mozilla/5.0\"\n198.51.100.23 - - [31/Oct/2026:10:09:53 +0000] \"GET /api/cart HTTP/1.1\" 404 2523 \"-\" \"Mozilla/5.0\"\n",
+      "owner": "www-data",
+      "mode": "644"
+    },
+    "/var/log/nginx/error.log": {
+      "content": "2026/10/31 10:11:03 [error] 912#912: *311 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 203.0.113.10, server: shop.example.com, request: \"GET /api/cart HTTP/1.1\"\n",
+      "owner": "www-data",
+      "mode": "644"
+    },
+    "/etc/nginx/nginx.conf": {
+      "content": "user www-data;\nworker_processes auto;\n\nevents { worker_connections 768; }\n\nhttp {\n    server {\n        listen 80;\n        server_name shop.example.com;\n        location / { proxy_pass http://127.0.0.1:3000; }\n    }\n}\n",
+      "owner": "root",
+      "mode": "644"
+    },
+    "/etc/hosts": {
+      "content": "127.0.0.1\tlocalhost\n127.0.1.1\tweb01\n10.0.2.30\tdb01\n10.0.2.31\tcache01\n",
+      "owner": "root",
+      "mode": "644"
+    },
+    "~/runbooks/website-down.md": "# Runbook: website down (HTTP 5xx / no answer)\n\n1. Confirm: curl -I http://localhost   (expect HTTP 200)\n2. Is nginx running?  systemctl status nginx\n3. Is the backend running?  systemctl status api ; curl localhost:3000/health\n4. Read the errors:  journalctl -u nginx -n 20 ; tail -n 20 /var/log/nginx/error.log\n5. Fix the cause, then: sudo systemctl restart nginx\n6. Verify again with curl and write the timeline in the ticket.\nEscalate to L2 (#web-oncall) if not fixed in 15 minutes.\n",
+    "~/runbooks/disk-full.md": "# Runbook: disk almost full (> 90%)\n\n1. Which filesystem?  df -h\n2. What is big?  sudo du -sh /var/log/* | sort -h\n3. Old rotated logs (*.gz, *.1) may be deleted; NEVER delete the live log of a running service.\n4. Large core dumps in /var/crash can be removed after informing L2.\n5. Check again with df -h and note the freed space in the ticket.\n",
+    "~/notes/oncall.txt": "On-call this week: L2 web = Olena (#web-oncall), L2 db = Marek (#db-oncall)\nSeverity P1: page immediately. P2: within 15 min. P3/P4: ticket.\n"
+  },
+  "services": [
+    {
+      "name": "nginx",
+      "description": "A high performance web server and a reverse proxy server",
+      "state": "active",
+      "enabled": true,
+      "pid": 901,
+      "port": 80,
+      "user": "www-data",
+      "logs": [
+        "Oct 31 09:00:02 web01 systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...",
+        "Oct 31 09:00:02 web01 systemd[1]: Started nginx.service - A high performance web server and a reverse proxy server."
+      ],
+      "config": {
+        "path": "/etc/nginx/nginx.conf",
+        "mustContain": "listen 80;",
+        "error": "nginx: [emerg] no \"listen\" directive in /etc/nginx/nginx.conf"
+      },
+      "http": {
+        "/": {
+          "status": 200,
+          "body": "<!doctype html><title>Shop</title><h1>Welcome to the shop</h1>\n",
+          "headers": {
+            "Server": "nginx/1.24.0 (Ubuntu)",
+            "Content-Type": "text/html"
+          }
+        },
+        "/health": {
+          "status": 200,
+          "body": "OK\n",
+          "headers": {
+            "Server": "nginx/1.24.0 (Ubuntu)"
+          }
+        }
+      }
+    },
+    {
+      "name": "api",
+      "description": "Shop API (node)",
+      "state": "active",
+      "enabled": true,
+      "pid": 1001,
+      "port": 3000,
+      "bind": "127.0.0.1",
+      "user": "www-data",
+      "logs": [
+        "Oct 31 09:00:04 web01 systemd[1]: Started api.service - Shop API (node).",
+        "Oct 31 09:00:05 web01 node[1001]: listening on 127.0.0.1:3000"
+      ],
+      "http": {
+        "/health": {
+          "status": 200,
+          "body": "{\"status\":\"ok\",\"db\":\"up\"}\n",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        },
+        "/": {
+          "status": 200,
+          "body": "{\"items\":42}\n"
+        }
+      }
+    },
+    {
+      "name": "postgresql",
+      "description": "PostgreSQL RDBMS",
+      "state": "active",
+      "enabled": true,
+      "pid": 700,
+      "port": 5432,
+      "bind": "127.0.0.1",
+      "user": "postgres",
+      "logs": [
+        "Oct 31 09:00:03 web01 systemd[1]: Started postgresql.service - PostgreSQL RDBMS."
+      ]
+    }
+  ],
+  "processes": [
+    {
+      "pid": 1,
+      "user": "root",
+      "command": "/sbin/init",
+      "cpu": 0.0,
+      "mem": 0.3,
+      "rss": 12400,
+      "stat": "Ss",
+      "start": "09:00"
+    },
+    {
+      "pid": 412,
+      "user": "root",
+      "command": "/usr/sbin/cron -f",
+      "cpu": 0.0,
+      "mem": 0.1,
+      "rss": 2800,
+      "stat": "Ss",
+      "start": "09:00"
+    },
+    {
+      "pid": 538,
+      "user": "root",
+      "command": "sshd: /usr/sbin/sshd -D",
+      "cpu": 0.0,
+      "mem": 0.2,
+      "rss": 8100,
+      "stat": "Ss",
+      "start": "09:00"
+    },
+    {
+      "pid": 700,
+      "user": "postgres",
+      "command": "/usr/lib/postgresql/16/bin/postgres -D /var/lib/postgresql/16/main",
+      "cpu": 1.2,
+      "mem": 3.1,
+      "rss": 126000,
+      "stat": "Ss",
+      "start": "09:00"
+    },
+    {
+      "pid": 901,
+      "user": "www-data",
+      "command": "nginx: master process /usr/sbin/nginx",
+      "cpu": 0.1,
+      "mem": 0.4,
+      "rss": 9800,
+      "stat": "Ss",
+      "start": "09:00"
+    },
+    {
+      "pid": 1001,
+      "user": "www-data",
+      "command": "node /srv/api/server.js",
+      "cpu": 3.4,
+      "mem": 6.2,
+      "rss": 251000,
+      "stat": "Sl",
+      "start": "09:00"
+    },
+    {
+      "pid": 1200,
+      "user": "student",
+      "command": "-bash",
+      "cpu": 0.0,
+      "mem": 0.1,
+      "rss": 5200,
+      "stat": "Ss",
+      "start": "09:05"
+    }
+  ],
+  "network": {
+    "hosts": [
+      {
+        "name": "db01",
+        "ip": "10.0.2.30",
+        "latency": 0.6,
+        "ports": {
+          "5432": "postgresql",
+          "22": "ssh"
+        },
+        "hops": []
+      },
+      {
+        "name": "cache01",
+        "ip": "10.0.2.31",
+        "latency": 0.5,
+        "ports": {
+          "6379": "redis",
+          "22": "ssh"
+        }
+      },
+      {
+        "name": "monitoring",
+        "ip": "10.0.2.5",
+        "latency": 0.4,
+        "ports": {
+          "9090": "websm",
+          "3000": "grafana"
+        },
+        "http": {
+          "/": {
+            "status": 200,
+            "body": "Grafana\n"
+          }
+        }
+      },
+      {
+        "name": "payments.partner.net",
+        "ip": "198.51.100.200",
+        "latency": 48,
+        "ports": {
+          "443": "https"
+        },
+        "hops": [
+          "_gateway 10.0.2.2",
+          "100.64.0.1",
+          "core1.isp.net 203.0.113.1",
+          "edge.partner.net 198.51.100.1"
+        ],
+        "http": {
+          "/status": {
+            "status": 200,
+            "body": "{\"payments\":\"ok\"}\n"
+          }
+        }
+      }
+    ]
+  },
+  "system": {
+    "load": [
+      0.42,
+      0.38,
+      0.3
+    ],
+    "cpus": 2,
+    "memTotal": 4015000,
+    "memUsed": 1630000,
+    "memCache": 1120000
+  },
+  "disks": [
+    {
+      "filesystem": "/dev/sda1",
+      "size": 30830588,
+      "used": 18930000,
+      "mount": "/",
+      "type": "ext4"
+    },
+    {
+      "filesystem": "/dev/sdb1",
+      "size": 10255636,
+      "used": 4100000,
+      "mount": "/var/lib/postgresql",
+      "type": "ext4"
+    },
+    {
+      "filesystem": "tmpfs",
+      "size": 1015404,
+      "used": 0,
+      "mount": "/dev/shm",
+      "type": "tmpfs"
+    }
+  ]
+}

@@ -2,7 +2,12 @@
   "id": "search",
   "path": "/learn/search",
   "icon": "search",
-  "title": { "en": "Search", "uk": "Пошук", "ru": "Поиск", "pl": "Wyszukiwanie" },
+  "title": {
+    "en": "Search",
+    "uk": "Пошук",
+    "ru": "Поиск",
+    "pl": "Wyszukiwanie"
+  },
   "description": {
     "en": "Find files by name, type, size and age; search inside files; find help.",
     "uk": "Шукайте файли за назвою, типом, розміром і віком; шукайте всередині файлів; знаходьте довідку.",
@@ -12,8 +17,15 @@
   "lessons": [
     {
       "id": "search-find-name",
-      "title": { "en": "Find by name", "uk": "Пошук за назвою", "ru": "Поиск по имени", "pl": "Szukanie po nazwie" },
-      "commands": ["find"],
+      "title": {
+        "en": "Find by name",
+        "uk": "Пошук за назвою",
+        "ru": "Поиск по имени",
+        "pl": "Szukanie po nazwie"
+      },
+      "commands": [
+        "find"
+      ],
       "setup": "search",
       "steps": [
         {
@@ -24,41 +36,125 @@
             "ru": "`find где -name шаблон` обходит директорию и все её поддиректории.\n\n`find . -name \"*.js\"` — все .js файлы ниже текущей директории. **Берите шаблон в кавычки**, иначе оболочка раскроет `*` раньше, чем его увидит find. `-iname` игнорирует регистр.",
             "pl": "`find gdzie -name wzorzec` przechodzi przez katalog i wszystkie jego podkatalogi.\n\n`find . -name \"*.js\"` — wszystkie pliki .js poniżej bieżącego katalogu. **Bierz wzorzec w cudzysłów**, inaczej powłoka rozwinie `*`, zanim zobaczy go find. `-iname` ignoruje wielkość liter."
           },
-          "demo": { "commands": ["find projects -name \"*.html\""] }
+          "demo": {
+            "commands": [
+              "find projects -name \"*.html\""
+            ]
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "Find all JavaScript files (.js) in the projects directory.", "uk": "Знайдіть усі JavaScript-файли (.js) у директорії projects.", "ru": "Найдите все JavaScript-файлы (.js) в директории projects.", "pl": "Znajdź wszystkie pliki JavaScript (.js) w katalogu projects." },
+          "goal": {
+            "en": "Find all JavaScript files (.js) in the projects directory.",
+            "uk": "Знайдіть усі JavaScript-файли (.js) у директорії projects.",
+            "ru": "Найдите все JavaScript-файлы (.js) в директории projects.",
+            "pl": "Znajdź wszystkie pliki JavaScript (.js) w katalogu projects."
+          },
           "checks": [
-            { "type": "outputContains", "text": "projects/api/server.js", "label": { "en": "server.js found", "uk": "Знайдено server.js", "ru": "Найден server.js", "pl": "Znaleziono server.js" } },
-            { "type": "outputContains", "text": "projects/web/app.js", "label": { "en": "app.js found", "uk": "Знайдено app.js", "ru": "Найден app.js", "pl": "Znaleziono app.js" } },
-            { "type": "usedCommand", "command": "find", "label": { "en": "Use find", "uk": "Використайте find", "ru": "Используйте find", "pl": "Użyj find" } }
+            {
+              "type": "usedCommand",
+              "command": "find",
+              "label": {
+                "en": "Use find",
+                "uk": "Використайте find",
+                "ru": "Используйте find",
+                "pl": "Użyj find"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "projects/api/server.js",
+              "label": {
+                "en": "server.js found",
+                "uk": "Знайдено server.js",
+                "ru": "Найден server.js",
+                "pl": "Znaleziono server.js"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "projects/web/app.js",
+              "label": {
+                "en": "app.js found",
+                "uk": "Знайдено app.js",
+                "ru": "Найден app.js",
+                "pl": "Znaleziono app.js"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "find projects -name and a quoted pattern with *.", "uk": "find projects -name і шаблон із * у лапках.", "ru": "find projects -name и шаблон с * в кавычках.", "pl": "find projects -name i wzorzec z * w cudzysłowie." },
+            "direction": {
+              "en": "find projects -name and a quoted pattern with *.",
+              "uk": "find projects -name і шаблон із * у лапках.",
+              "ru": "find projects -name и шаблон с * в кавычках.",
+              "pl": "find projects -name i wzorzec z * w cudzysłowie."
+            },
             "command": "find"
           },
-          "solution": ["find projects -name \"*.js\""]
+          "solution": [
+            "find projects -name \"*.js\""
+          ]
         },
         {
           "type": "task",
-          "goal": { "en": "Find the file readme.md anywhere in your home — it may be written in capital letters.", "uk": "Знайдіть файл readme.md будь-де вдома — він може бути написаний великими літерами.", "ru": "Найдите файл readme.md где угодно дома — он может быть написан большими буквами.", "pl": "Znajdź plik readme.md gdziekolwiek w domu — może być napisany wielkimi literami." },
+          "goal": {
+            "en": "Find the file readme.md anywhere in your home — it may be written in capital letters.",
+            "uk": "Знайдіть файл readme.md будь-де вдома — він може бути написаний великими літерами.",
+            "ru": "Найдите файл readme.md где угодно дома — он может быть написан большими буквами.",
+            "pl": "Znajdź plik readme.md gdziekolwiek w domu — może być napisany wielkimi literami."
+          },
           "checks": [
-            { "type": "outputContains", "text": "README.md", "label": { "en": "README.md found", "uk": "Знайдено README.md", "ru": "Найден README.md", "pl": "Znaleziono README.md" } }
+            {
+              "type": "outputContains",
+              "text": "README.md",
+              "label": {
+                "en": "README.md found",
+                "uk": "Знайдено README.md",
+                "ru": "Найден README.md",
+                "pl": "Znaleziono README.md"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "-iname is -name that ignores case.", "uk": "-iname — це -name, що ігнорує регістр.", "ru": "-iname — это -name, игнорирующий регистр.", "pl": "-iname to -name ignorujące wielkość liter." },
+            "direction": {
+              "en": "-iname is -name that ignores case.",
+              "uk": "-iname — це -name, що ігнорує регістр.",
+              "ru": "-iname — это -name, игнорирующий регистр.",
+              "pl": "-iname to -name ignorujące wielkość liter."
+            },
             "command": "find"
           },
-          "solution": ["find ~ -iname readme.md"]
+          "solution": [
+            "find ~ -iname readme.md"
+          ]
         },
         {
           "type": "quiz",
-          "question": { "en": "Why should you write find . -name \"*.txt\" with quotes?", "uk": "Чому find . -name \"*.txt\" треба писати з лапками?", "ru": "Почему find . -name \"*.txt\" нужно писать с кавычками?", "pl": "Dlaczego find . -name \"*.txt\" trzeba pisać w cudzysłowie?" },
+          "question": {
+            "en": "Why should you write find . -name \"*.txt\" with quotes?",
+            "uk": "Чому find . -name \"*.txt\" треба писати з лапками?",
+            "ru": "Почему find . -name \"*.txt\" нужно писать с кавычками?",
+            "pl": "Dlaczego find . -name \"*.txt\" trzeba pisać w cudzysłowie?"
+          },
           "options": [
-            { "en": "So that the shell does not expand * itself", "uk": "Щоб оболонка не розгорнула * сама", "ru": "Чтобы оболочка не раскрыла * сама", "pl": "Aby powłoka sama nie rozwinęła *" },
-            { "en": "Quotes make find faster", "uk": "Лапки прискорюють find", "ru": "Кавычки ускоряют find", "pl": "Cudzysłów przyspiesza find" },
-            { "en": "Without quotes find searches only hidden files", "uk": "Без лапок find шукає лише приховані файли", "ru": "Без кавычек find ищет только скрытые файлы", "pl": "Bez cudzysłowu find szuka tylko ukrytych plików" }
+            {
+              "en": "So that the shell does not expand * itself",
+              "uk": "Щоб оболонка не розгорнула * сама",
+              "ru": "Чтобы оболочка не раскрыла * сама",
+              "pl": "Aby powłoka sama nie rozwinęła *"
+            },
+            {
+              "en": "Quotes make find faster",
+              "uk": "Лапки прискорюють find",
+              "ru": "Кавычки ускоряют find",
+              "pl": "Cudzysłów przyspiesza find"
+            },
+            {
+              "en": "Without quotes find searches only hidden files",
+              "uk": "Без лапок find шукає лише приховані файли",
+              "ru": "Без кавычек find ищет только скрытые файлы",
+              "pl": "Bez cudzysłowu find szuka tylko ukrytych plików"
+            }
           ],
           "answer": 0
         }
@@ -66,8 +162,16 @@
     },
     {
       "id": "search-find-type-size",
-      "title": { "en": "Find by type, size and age", "uk": "Пошук за типом, розміром і віком", "ru": "Поиск по типу, размеру и возрасту", "pl": "Szukanie po typie, rozmiarze i wieku" },
-      "commands": ["find", "du"],
+      "title": {
+        "en": "Find by type, size and age",
+        "uk": "Пошук за типом, розміром і віком",
+        "ru": "Поиск по типу, размеру и возрасту",
+        "pl": "Szukanie po typie, rozmiarze i wieku"
+      },
+      "commands": [
+        "find",
+        "du"
+      ],
       "setup": "search",
       "steps": [
         {
@@ -78,53 +182,168 @@
             "ru": "`-type f` — только файлы, `-type d` — только директории.\n\n`-size +100M` — больше 100 МиБ (единицы `k`, `M`, `G`), `-size -1k` — меньше.\n\n`-mtime +30` — изменён более 30 дней назад. Условия сочетаются: `find . -type f -size +10M`.",
             "pl": "`-type f` — tylko pliki, `-type d` — tylko katalogi.\n\n`-size +100M` — większe niż 100 MiB (jednostki `k`, `M`, `G`), `-size -1k` — mniejsze.\n\n`-mtime +30` — zmienione ponad 30 dni temu. Warunki można łączyć: `find . -type f -size +10M`."
           },
-          "demo": { "commands": ["find projects -type d"] }
+          "demo": {
+            "commands": [
+              "find projects -type d"
+            ]
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "The disk is filling up. Find files bigger than 100 MB in your home.", "uk": "Диск заповнюється. Знайдіть файли, більші за 100 МБ, у домашній директорії.", "ru": "Диск заполняется. Найдите файлы больше 100 МБ в домашней директории.", "pl": "Dysk się zapełnia. Znajdź pliki większe niż 100 MB w katalogu domowym." },
+          "goal": {
+            "en": "The disk is filling up. Find files bigger than 100 MB in your home.",
+            "uk": "Диск заповнюється. Знайдіть файли, більші за 100 МБ, у домашній директорії.",
+            "ru": "Диск заполняется. Найдите файлы больше 100 МБ в домашней директории.",
+            "pl": "Dysk się zapełnia. Znajdź pliki większe niż 100 MB w katalogu domowym."
+          },
           "checks": [
-            { "type": "outputContains", "text": "holiday.mp4", "label": { "en": "The huge video is found", "uk": "Знайдено величезне відео", "ru": "Найдено огромное видео", "pl": "Znaleziono ogromne wideo" } },
-            { "type": "usedCommand", "command": "find", "args": ["+100M"], "label": { "en": "Filter by size", "uk": "Фільтр за розміром", "ru": "Фильтр по размеру", "pl": "Filtr po rozmiarze" } }
+            {
+              "type": "usedCommand",
+              "command": "find",
+              "args": [
+                "+100M"
+              ],
+              "label": {
+                "en": "Filter by size",
+                "uk": "Фільтр за розміром",
+                "ru": "Фильтр по размеру",
+                "pl": "Filtr po rozmiarze"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "holiday.mp4",
+              "label": {
+                "en": "The huge video is found",
+                "uk": "Знайдено величезне відео",
+                "ru": "Найдено огромное видео",
+                "pl": "Znaleziono ogromne wideo"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "-size with a plus sign means “more than”.", "uk": "-size зі знаком плюс означає «більше ніж».", "ru": "-size со знаком плюс означает «больше чем».", "pl": "-size ze znakiem plus oznacza „więcej niż”." },
+            "direction": {
+              "en": "-size with a plus sign means “more than”.",
+              "uk": "-size зі знаком плюс означає «більше ніж».",
+              "ru": "-size со знаком плюс означает «больше чем».",
+              "pl": "-size ze znakiem plus oznacza „więcej niż”."
+            },
             "command": "find"
           },
-          "solution": ["find ~ -size +100M"]
+          "solution": [
+            "find ~ -size +100M"
+          ],
+          "instructions": {
+            "en": "1. Search from your home: `find ~`\n2. Add the size filter -size +100M",
+            "ru": "1. Ищите от домашней папки: `find ~`\n2. Добавьте фильтр размера -size +100M",
+            "uk": "1. Шукайте від домашньої теки: `find ~`\n2. Додайте фільтр розміру -size +100M"
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "Show only the directories inside projects.", "uk": "Покажіть лише директорії всередині projects.", "ru": "Покажите только директории внутри projects.", "pl": "Pokaż tylko katalogi wewnątrz projects." },
+          "goal": {
+            "en": "Show only the directories inside projects.",
+            "uk": "Покажіть лише директорії всередині projects.",
+            "ru": "Покажите только директории внутри projects.",
+            "pl": "Pokaż tylko katalogi wewnątrz projects."
+          },
           "checks": [
-            { "type": "outputContains", "text": "projects/api", "label": { "en": "projects/api listed", "uk": "Виведено projects/api", "ru": "Выведено projects/api", "pl": "Wyświetlono projects/api" } },
-            { "type": "usedCommand", "command": "find", "args": ["d"], "label": { "en": "Filter by type d", "uk": "Фільтр за типом d", "ru": "Фильтр по типу d", "pl": "Filtr po typie d" } }
+            {
+              "type": "usedCommand",
+              "command": "find",
+              "args": [
+                "d"
+              ],
+              "label": {
+                "en": "Filter by type d",
+                "uk": "Фільтр за типом d",
+                "ru": "Фильтр по типу d",
+                "pl": "Filtr po typie d"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "projects/api",
+              "label": {
+                "en": "projects/api listed",
+                "uk": "Виведено projects/api",
+                "ru": "Выведено projects/api",
+                "pl": "Wyświetlono projects/api"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "-type takes one letter: f for files, d for directories.", "uk": "-type приймає одну літеру: f — файли, d — директорії.", "ru": "-type принимает одну букву: f — файлы, d — директории.", "pl": "-type przyjmuje jedną literę: f dla plików, d dla katalogów." },
+            "direction": {
+              "en": "-type takes one letter: f for files, d for directories.",
+              "uk": "-type приймає одну літеру: f — файли, d — директорії.",
+              "ru": "-type принимает одну букву: f — файлы, d — директории.",
+              "pl": "-type przyjmuje jedną literę: f dla plików, d dla katalogów."
+            },
             "command": "find"
           },
-          "solution": ["find projects -type d"]
+          "solution": [
+            "find projects -type d"
+          ]
         },
         {
           "type": "task",
-          "goal": { "en": "Find files in projects that have not been modified for more than 30 days.", "uk": "Знайдіть файли в projects, які не змінювалися понад 30 днів.", "ru": "Найдите файлы в projects, которые не менялись больше 30 дней.", "pl": "Znajdź pliki w projects, które nie były zmieniane ponad 30 dni." },
+          "goal": {
+            "en": "Find files in projects that have not been modified for more than 30 days.",
+            "uk": "Знайдіть файли в projects, які не змінювалися понад 30 днів.",
+            "ru": "Найдите файлы в projects, которые не менялись больше 30 дней.",
+            "pl": "Znajdź pliki w projects, które nie były zmieniane ponad 30 dni."
+          },
           "checks": [
-            { "type": "outputContains", "text": "legacy.txt", "label": { "en": "The old file is found", "uk": "Знайдено старий файл", "ru": "Найден старый файл", "pl": "Znaleziono stary plik" } },
-            { "type": "usedCommand", "command": "find", "args": ["+30"], "label": { "en": "Filter by age", "uk": "Фільтр за віком", "ru": "Фильтр по возрасту", "pl": "Filtr po wieku" } }
+            {
+              "type": "usedCommand",
+              "command": "find",
+              "args": [
+                "+30"
+              ],
+              "label": {
+                "en": "Filter by age",
+                "uk": "Фільтр за віком",
+                "ru": "Фильтр по возрасту",
+                "pl": "Filtr po wieku"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "legacy.txt",
+              "label": {
+                "en": "The old file is found",
+                "uk": "Знайдено старий файл",
+                "ru": "Найден старый файл",
+                "pl": "Znaleziono stary plik"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "-mtime counts days since the last modification.", "uk": "-mtime рахує дні від останньої зміни.", "ru": "-mtime считает дни с последнего изменения.", "pl": "-mtime liczy dni od ostatniej modyfikacji." },
+            "direction": {
+              "en": "-mtime counts days since the last modification.",
+              "uk": "-mtime рахує дні від останньої зміни.",
+              "ru": "-mtime считает дни с последнего изменения.",
+              "pl": "-mtime liczy dni od ostatniej modyfikacji."
+            },
             "command": "find"
           },
-          "solution": ["find projects -mtime +30"]
+          "solution": [
+            "find projects -mtime +30"
+          ]
         }
       ]
     },
     {
       "id": "search-grep-r",
-      "title": { "en": "Search inside files", "uk": "Пошук усередині файлів", "ru": "Поиск внутри файлов", "pl": "Szukanie wewnątrz plików" },
-      "commands": ["grep"],
+      "title": {
+        "en": "Search inside files",
+        "uk": "Пошук усередині файлів",
+        "ru": "Поиск внутри файлов",
+        "pl": "Szukanie wewnątrz plików"
+      },
+      "commands": [
+        "grep"
+      ],
       "setup": "search",
       "steps": [
         {
@@ -135,39 +354,103 @@
             "ru": "`grep -r текст dir` ищет текст в каждом файле ниже директории. Перед каждым совпадением стоит имя файла.\n\n`-l` выводит только имена файлов, `-n` добавляет номера строк. Программисты пользуются этим постоянно: `grep -rn TODO src/`.",
             "pl": "`grep -r tekst dir` szuka tekstu w każdym pliku poniżej katalogu. Przed każdym dopasowaniem jest nazwa pliku.\n\n`-l` wypisuje tylko nazwy plików, `-n` dodaje numery linii. Programiści używają tego ciągle: `grep -rn TODO src/`."
           },
-          "demo": { "commands": ["grep -rn TODO projects"] }
+          "demo": {
+            "commands": [
+              "grep -rn TODO projects"
+            ]
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "Find every TODO comment in the projects directory.", "uk": "Знайдіть усі коментарі TODO в директорії projects.", "ru": "Найдите все комментарии TODO в директории projects.", "pl": "Znajdź wszystkie komentarze TODO w katalogu projects." },
+          "goal": {
+            "en": "Find every TODO comment in the projects directory.",
+            "uk": "Знайдіть усі коментарі TODO в директорії projects.",
+            "ru": "Найдите все комментарии TODO в директории projects.",
+            "pl": "Znajdź wszystkie komentarze TODO w katalogu projects."
+          },
           "checks": [
-            { "type": "outputContains", "text": "add auth", "label": { "en": "TODO in the API found", "uk": "Знайдено TODO в API", "ru": "Найден TODO в API", "pl": "Znaleziono TODO w API" } },
-            { "type": "outputContains", "text": "dark mode", "label": { "en": "TODO in the web app found", "uk": "Знайдено TODO у веб-застосунку", "ru": "Найден TODO в веб-приложении", "pl": "Znaleziono TODO w aplikacji web" } }
+            {
+              "type": "outputContains",
+              "text": "add auth",
+              "label": {
+                "en": "TODO in the API found",
+                "uk": "Знайдено TODO в API",
+                "ru": "Найден TODO в API",
+                "pl": "Znaleziono TODO w API"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "dark mode",
+              "label": {
+                "en": "TODO in the web app found",
+                "uk": "Знайдено TODO у веб-застосунку",
+                "ru": "Найден TODO в веб-приложении",
+                "pl": "Znaleziono TODO w aplikacji web"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "grep searches recursively with -r.", "uk": "grep шукає рекурсивно з -r.", "ru": "grep ищет рекурсивно с -r.", "pl": "grep szuka rekurencyjnie z -r." },
+            "direction": {
+              "en": "grep searches recursively with -r.",
+              "uk": "grep шукає рекурсивно з -r.",
+              "ru": "grep ищет рекурсивно с -r.",
+              "pl": "grep szuka rekurencyjnie z -r."
+            },
             "command": "grep"
           },
-          "solution": ["grep -r TODO projects"]
+          "solution": [
+            "grep -r TODO projects"
+          ]
         },
         {
           "type": "task",
-          "goal": { "en": "Which files mention the word deadline? Print only file names.", "uk": "Які файли згадують слово deadline? Виведіть лише назви файлів.", "ru": "Какие файлы упоминают слово deadline? Выведите только имена файлов.", "pl": "Które pliki wspominają słowo deadline? Wypisz tylko nazwy plików." },
+          "goal": {
+            "en": "Which files mention the word deadline? Print only file names.",
+            "uk": "Які файли згадують слово deadline? Виведіть лише назви файлів.",
+            "ru": "Какие файлы упоминают слово deadline? Выведите только имена файлов.",
+            "pl": "Które pliki wspominają słowo deadline? Wypisz tylko nazwy plików."
+          },
           "checks": [
-            { "type": "outputContains", "regex": "^\\S*projects/web/notes\\.txt$", "label": { "en": "Only the file name is printed", "uk": "Виведено лише назву файлу", "ru": "Выведено только имя файла", "pl": "Wypisano tylko nazwę pliku" } }
+            {
+              "type": "outputContains",
+              "regex": "^\\S*projects/web/notes\\.txt$",
+              "label": {
+                "en": "Only the file name is printed",
+                "uk": "Виведено лише назву файлу",
+                "ru": "Выведено только имя файла",
+                "pl": "Wypisano tylko nazwę pliku"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "Combine -r with -l (list file names).", "uk": "Поєднайте -r з -l (список назв файлів).", "ru": "Совместите -r с -l (список имён файлов).", "pl": "Połącz -r z -l (lista nazw plików)." },
+            "direction": {
+              "en": "Combine -r with -l (list file names).",
+              "uk": "Поєднайте -r з -l (список назв файлів).",
+              "ru": "Совместите -r с -l (список имён файлов).",
+              "pl": "Połącz -r z -l (lista nazw plików)."
+            },
             "command": "grep"
           },
-          "solution": ["grep -rl deadline ~"]
+          "solution": [
+            "grep -rl deadline ~"
+          ]
         }
       ]
     },
     {
       "id": "search-help",
-      "title": { "en": "Find commands and help", "uk": "Пошук команд і довідки", "ru": "Поиск команд и справки", "pl": "Szukanie poleceń i pomocy" },
-      "commands": ["which", "man", "type"],
+      "title": {
+        "en": "Find commands and help",
+        "uk": "Пошук команд і довідки",
+        "ru": "Поиск команд и справки",
+        "pl": "Szukanie poleceń i pomocy"
+      },
+      "commands": [
+        "which",
+        "man",
+        "type"
+      ],
       "setup": "search",
       "steps": [
         {
@@ -178,39 +461,110 @@
             "ru": "Программы — тоже файлы. `which ls` показывает, где лежит программа. `type cd` объясняет, алиас это, встроенная команда оболочки или программа.\n\nНе помните команду? `man -k copy` ищет по описаниям руководств.",
             "pl": "Programy to też pliki. `which ls` pokazuje, gdzie leży program. `type cd` mówi, czy to alias, wbudowane polecenie powłoki, czy program.\n\nNie pamiętasz polecenia? `man -k copy` przeszukuje opisy podręczników."
           },
-          "demo": { "commands": ["which ls", "type cd"] }
+          "demo": {
+            "commands": [
+              "which ls",
+              "type cd"
+            ]
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "Where on disk is the grep program?", "uk": "Де на диску лежить програма grep?", "ru": "Где на диске лежит программа grep?", "pl": "Gdzie na dysku leży program grep?" },
+          "goal": {
+            "en": "Where on disk is the grep program?",
+            "uk": "Де на диску лежить програма grep?",
+            "ru": "Где на диске лежит программа grep?",
+            "pl": "Gdzie na dysku leży program grep?"
+          },
           "checks": [
-            { "type": "outputContains", "text": "/usr/bin/grep", "label": { "en": "The path is printed", "uk": "Шлях виведено", "ru": "Путь выведен", "pl": "Ścieżka wypisana" } }
+            {
+              "type": "outputContains",
+              "text": "/usr/bin/grep",
+              "label": {
+                "en": "The path is printed",
+                "uk": "Шлях виведено",
+                "ru": "Путь выведен",
+                "pl": "Ścieżka wypisana"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "Ask the shell “which grep?”.", "uk": "Запитайте оболонку «which grep?».", "ru": "Спросите оболочку «which grep?».", "pl": "Zapytaj powłokę „which grep?”." },
+            "direction": {
+              "en": "Ask the shell “which grep?”.",
+              "uk": "Запитайте оболонку «which grep?».",
+              "ru": "Спросите оболочку «which grep?».",
+              "pl": "Zapytaj powłokę „which grep?”."
+            },
             "command": "which"
           },
-          "solution": ["which grep"]
+          "solution": [
+            "which grep"
+          ]
         },
         {
           "type": "task",
-          "goal": { "en": "You forgot which command copies files. Search the manual descriptions for the word copy.", "uk": "Ви забули, яка команда копіює файли. Пошукайте слово copy в описах посібників.", "ru": "Вы забыли, какая команда копирует файлы. Поищите слово copy в описаниях руководств.", "pl": "Zapomniałeś, które polecenie kopiuje pliki. Przeszukaj opisy podręczników słowem copy." },
+          "goal": {
+            "en": "You forgot which command copies files. Search the manual descriptions for the word copy.",
+            "uk": "Ви забули, яка команда копіює файли. Пошукайте слово copy в описах посібників.",
+            "ru": "Вы забыли, какая команда копирует файлы. Поищите слово copy в описаниях руководств.",
+            "pl": "Zapomniałeś, które polecenie kopiuje pliki. Przeszukaj opisy podręczników słowem copy."
+          },
           "checks": [
-            { "type": "usedCommand", "command": "man", "flags": ["-k"], "args": ["copy"], "label": { "en": "Search with man -k", "uk": "Шукайте через man -k", "ru": "Ищите через man -k", "pl": "Szukaj przez man -k" } },
-            { "type": "outputContains", "text": "cp (1)", "label": { "en": "cp is in the results", "uk": "cp серед результатів", "ru": "cp среди результатов", "pl": "cp jest w wynikach" } }
+            {
+              "type": "usedCommand",
+              "command": "man",
+              "flags": [
+                "-k"
+              ],
+              "args": [
+                "copy"
+              ],
+              "label": {
+                "en": "Search with man -k",
+                "uk": "Шукайте через man -k",
+                "ru": "Ищите через man -k",
+                "pl": "Szukaj przez man -k"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "cp (1)",
+              "label": {
+                "en": "cp is in the results",
+                "uk": "cp серед результатів",
+                "ru": "cp среди результатов",
+                "pl": "cp jest w wynikach"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "man has a keyword search flag: -k.", "uk": "У man є прапорець пошуку за ключовим словом: -k.", "ru": "У man есть флаг поиска по ключевому слову: -k.", "pl": "man ma flagę wyszukiwania słowa kluczowego: -k." },
+            "direction": {
+              "en": "man has a keyword search flag: -k.",
+              "uk": "У man є прапорець пошуку за ключовим словом: -k.",
+              "ru": "У man есть флаг поиска по ключевому слову: -k.",
+              "pl": "man ma flagę wyszukiwania słowa kluczowego: -k."
+            },
             "command": "man"
           },
-          "solution": ["man -k copy"]
+          "solution": [
+            "man -k copy"
+          ]
         },
         {
           "type": "predict",
           "command": "type cd",
-          "options": ["cd is a shell builtin", "cd is /usr/bin/cd", "bash: type: cd: not found"],
+          "options": [
+            "cd is a shell builtin",
+            "cd is /usr/bin/cd",
+            "bash: type: cd: not found"
+          ],
           "answer": 0,
-          "explanation": { "en": "cd changes the shell's own directory, so it must live inside the shell. That is also why `which cd` prints nothing.", "uk": "cd змінює директорію самої оболонки, тому має жити всередині неї. Тому `which cd` нічого не виводить.", "ru": "cd меняет директорию самой оболочки, поэтому должна жить внутри неё. Поэтому `which cd` ничего не выводит.", "pl": "cd zmienia katalog samej powłoki, więc musi być w nią wbudowane. Dlatego `which cd` nic nie wypisuje." }
+          "explanation": {
+            "en": "cd changes the shell's own directory, so it must live inside the shell. That is also why `which cd` prints nothing.",
+            "uk": "cd змінює директорію самої оболонки, тому має жити всередині неї. Тому `which cd` нічого не виводить.",
+            "ru": "cd меняет директорию самой оболочки, поэтому должна жить внутри неё. Поэтому `which cd` ничего не выводит.",
+            "pl": "cd zmienia katalog samej powłoki, więc musi być w nią wbudowane. Dlatego `which cd` nic nie wypisuje."
+          }
         }
       ]
     }

@@ -1,4 +1,4 @@
-import type { DirNode, DiskInfo, FsNode, Machine, ProcessInfo, Session, UserInfo } from './types';
+import type { DirNode, DiskInfo, FsNode, Machine, Network, ProcessInfo, Service, Session, SystemInfo, UserInfo } from './types';
 import { makeDir, makeFile, makeSymlink, type NodeDefaults } from './vfs/fs';
 import { expandTilde, splitPath } from './vfs/path';
 
@@ -37,6 +37,10 @@ export interface MachineSpec {
   files?: Record<string, FileSpec>;
   processes?: ProcessInfo[];
   disks?: DiskInfo[];
+  /** Network: extra hosts are merged with the default internet hosts. */
+  network?: Partial<Network> & { hosts?: Network['hosts'] };
+  services?: Service[];
+  system?: Partial<SystemInfo>;
   env?: Record<string, string>;
   /** Base time for created files (ms). */
   now?: number;
@@ -183,7 +187,7 @@ export function buildMachine(spec: MachineSpec = {}, opts: CreateMachineOptions 
   for (const u of users) for (const g of u.groups) groups.set(g, [...(groups.get(g) ?? []), ...(g === u.name ? [] : [u.name])]);
   etc.children['group'] = makeFile(
     'group',
-    [...groups.entries()].map(([g, m], i) => `${g}:x:${g === 'root' ? 0 : g === 'sudo' ? 27 : 1000 + i}:${m.join(',')}`).join('\n') + '\n',
+    [...groups.entries()].map(([g, m], i) => `${g}:x:${g === 'root' ? 0 : g === 'sudo' ? 27 : (users.find((u) => u.name === g)?.gid ?? 2000 + i)}:${m.join(',')}`).join('\n') + '\n',
     sys,
   );
   etc.children['shadow'] = makeFile('shadow', 'root:*:20000:0:99999:7:::\n', { ...sys, group: 'shadow' }, 0o640);
@@ -241,8 +245,97 @@ export function buildMachine(spec: MachineSpec = {}, opts: CreateMachineOptions 
     { filesystem: '/dev/sda15', size: 106_858, used: 6_186, mount: '/boot/efi', type: 'vfat' },
   ];
 
-  return { hostname, fs: root, users, processes, disks };
+  const network: Network = {
+    interfaces: spec.network?.interfaces ?? DEFAULT_NETWORK.interfaces,
+    gateway: spec.network?.gateway ?? DEFAULT_NETWORK.gateway,
+    dnsServer: spec.network?.dnsServer ?? DEFAULT_NETWORK.dnsServer,
+    hosts: [
+      ...(spec.network?.hosts ?? []),
+      ...DEFAULT_NETWORK.hosts.filter((h) => !(spec.network?.hosts ?? []).some((x) => x.name === h.name)),
+    ],
+  };
+  // services from the spec override the defaults (cron, ssh) with the same name
+  const services: Service[] = [
+    ...DEFAULT_SERVICES(hostname).filter((d) => !(spec.services ?? []).some((x) => x.name === d.name)),
+    ...(spec.services ?? []),
+  ];
+  const system: SystemInfo = { ...DEFAULT_SYSTEM(user), ...(spec.system ?? {}) };
+
+  return { hostname, fs: root, users, processes, disks, network, services, system };
 }
+
+export const DEFAULT_NETWORK: Network = {
+  interfaces: [{ name: 'eth0', cidr: '10.0.2.15/24', mac: '52:54:00:12:34:56', up: true }],
+  gateway: '10.0.2.2',
+  dnsServer: '127.0.0.53',
+  hosts: [
+    {
+      name: 'example.com',
+      ip: '93.184.215.14',
+      latency: 92,
+      hops: ['_gateway 10.0.2.2', '100.64.0.1', 'ae-1.r20.frnkge13.de.bb.gin.ntt.net 129.250.6.112', '*', 'ae-2.r21.lsanca07.us.bb.gin.ntt.net 129.250.4.107'],
+      ports: { '80': 'http', '443': 'https' },
+      http: {
+        '/': { status: 200, body: '<!doctype html>\n<html>\n<head><title>Example Domain</title></head>\n<body><h1>Example Domain</h1></body>\n</html>\n', headers: { 'Content-Type': 'text/html; charset=UTF-8', Server: 'ECS (dce/2694)' } },
+      },
+    },
+    {
+      name: 'google.com',
+      ip: '142.250.74.14',
+      latency: 12,
+      aliases: ['www.google.com'],
+      hops: ['_gateway 10.0.2.2', '100.64.0.1', '72.14.215.85', '142.251.65.93'],
+      ports: { '80': 'http', '443': 'https' },
+      http: { '/': { status: 200, body: '<!doctype html><html><head><title>Google</title></head><body>Search</body></html>\n', headers: { 'Content-Type': 'text/html; charset=ISO-8859-1', Server: 'gws' } } },
+    },
+    {
+      name: 'github.com',
+      ip: '140.82.121.4',
+      latency: 31,
+      hops: ['_gateway 10.0.2.2', '100.64.0.1', 'ae0.cr1.fra.github.net 140.82.112.1'],
+      ports: { '22': 'ssh', '443': 'https', '80': 'http' },
+      http: { '/': { status: 200, body: '<!DOCTYPE html><title>GitHub</title>\n', headers: { Server: 'github.com' } } },
+    },
+    { name: '1.1.1.1', ip: '1.1.1.1', latency: 9, ports: { '53': 'domain', '443': 'https' }, dns: false },
+    { name: '8.8.8.8', ip: '8.8.8.8', latency: 14, ports: { '53': 'domain' }, dns: false },
+  ],
+};
+
+export const DEFAULT_SERVICES = (host: string): Service[] => [
+  {
+    name: 'cron',
+    description: 'Regular background program processing daemon',
+    state: 'active',
+    enabled: true,
+    pid: 412,
+    logs: [`Oct 31 09:00:01 ${host} systemd[1]: Started cron.service - Regular background program processing daemon.`],
+  },
+  {
+    name: 'ssh',
+    description: 'OpenBSD Secure Shell server',
+    state: 'active',
+    enabled: true,
+    pid: 538,
+    port: 22,
+    logs: [
+      `Oct 31 09:00:01 ${host} systemd[1]: Starting ssh.service - OpenBSD Secure Shell server...`,
+      `Oct 31 09:00:01 ${host} sshd[538]: Server listening on 0.0.0.0 port 22.`,
+      `Oct 31 09:00:01 ${host} systemd[1]: Started ssh.service - OpenBSD Secure Shell server.`,
+    ],
+  },
+];
+
+export const DEFAULT_SYSTEM = (user: string): SystemInfo => ({
+  uptimeSec: 3 * 86400 + 2 * 3600 + 14 * 60,
+  load: [0.15, 0.1, 0.05],
+  cpus: 2,
+  memTotal: 4_015_000,
+  memUsed: 1_256_000,
+  memCache: 948_000,
+  swapTotal: 2_097_148,
+  swapUsed: 0,
+  logins: [{ user, tty: 'pts/0', from: '192.168.1.10', at: '2026-10-31 09:05' }],
+});
 
 export function createSession(machine: Machine, spec: Pick<MachineSpec, 'user' | 'cwd' | 'env'> = {}): Session {
   const user = spec.user ?? (machine.users.find((u) => u.uid === 1000)?.name ?? 'root');

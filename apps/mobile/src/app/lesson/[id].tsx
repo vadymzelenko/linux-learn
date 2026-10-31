@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { allLessons, findLesson, isTaskStep, stepXp, tr } from '@linux-learn/content';
@@ -10,6 +10,7 @@ import { BuildStep, PredictStep, QuizStep, TheoryStep } from '../../components/s
 import { TaskRunner } from '../../components/steps/TaskRunner';
 import { rewardAfterHints } from '../../lib/progress';
 import { ads } from '../../lib/ads';
+import { Text } from '../../theme/Text';
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -118,6 +119,9 @@ export default function LessonScreen() {
             </Row>
             <ProgressBar value={index / lesson.steps.length} height={6} />
           </View>
+          {step.type !== 'theory' && lesson.steps.some((s) => s.type === 'theory') ? (
+            <IconButton icon="book-open" label={t('topic.readTopic')} color={theme.accent} onPress={() => router.push({ pathname: '/read/[id]', params: { id: lesson.id } })} />
+          ) : null}
         </View>
         <View style={styles.body}>
           <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 12, letterSpacing: 1, marginBottom: space.sm }}>{kindLabel.toUpperCase()}</Text>
@@ -141,7 +145,9 @@ export default function LessonScreen() {
                 solution: step.solution,
                 ...(step.prepare ? { prepare: step.prepare } : {}),
                 ...(step.prefill ? { prefill: step.prefill } : {}),
+                ...(step.instructions ? { instructions: step.instructions } : {}),
               }}
+              onTheory={() => router.push({ pathname: '/read/[id]', params: { id: lesson.id } })}
               onSolved={({ hints, mistakes }) => {
                 hintsTotal.current += hints;
                 mistakesTotal.current += mistakes;

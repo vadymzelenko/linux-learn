@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { commandList } from '@linux-learn/engine';
@@ -7,6 +7,7 @@ import { useStore } from '../../state/store';
 import { useTheme, space } from '../../theme';
 import { Body, Card, H1, H2, Icon, Pill, Row, Screen } from '../../components/ui';
 import { dayKey, dueCards } from '../../lib/progress';
+import { Text } from '../../theme/Text';
 
 function Tile({ icon, title, text, onPress, accent, badge }: { icon: string; title: string; text: string; onPress: () => void; accent?: string; badge?: string }) {
   const theme = useTheme();

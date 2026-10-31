@@ -1,0 +1,1322 @@
+{
+  "id": "noc-network",
+  "path": "/noc/network",
+  "icon": "network",
+  "title": {
+    "en": "Networking for NOC",
+    "ru": "Сеть для NOC",
+    "uk": "Мережа для NOC"
+  },
+  "description": {
+    "en": "IP, subnets, gateway, ping, traceroute, DNS and ports: find where the network breaks.",
+    "ru": "IP, подсети, шлюз, ping, traceroute, DNS и порты: найти, где рвётся сеть.",
+    "uk": "IP, підмережі, шлюз, ping, traceroute, DNS і порти: знайти, де рветься мережа."
+  },
+  "lessons": [
+    {
+      "id": "net-ip",
+      "title": {
+        "en": "IP addresses, subnets and the gateway",
+        "ru": "IP-адреса, подсети и шлюз",
+        "uk": "IP-адреси, підмережі та шлюз"
+      },
+      "commands": [
+        "ip"
+      ],
+      "setup": "noc-web01",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## An address for every machine\nAn **IPv4 address** is four numbers 0–255: `10.0.2.15`. Every network card (interface) has its own.\n\n## Subnet and CIDR\n`10.0.2.15/24` — the `/24` says that the first 24 bits (three numbers) are the **network**, the last number is the **host**. So all `10.0.2.x` machines are neighbours and talk directly.\n\n| CIDR | mask | addresses |\n|---|---|---|\n| /24 | 255.255.255.0 | 256 |\n| /16 | 255.255.0.0 | 65 536 |\n| /32 | 255.255.255.255 | 1 (a single host) |\n\n## Private ranges\n`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16` — used inside companies and homes, not reachable from the internet directly.\n\n## The gateway\nTo reach anything outside your subnet, packets go to the **gateway** (router). No gateway or a wrong one — no internet.\n\n> 127.0.0.1 (**localhost**) is always the machine itself.",
+            "ru": "## У каждой машины — адрес\n**IPv4-адрес** — четыре числа от 0 до 255: `10.0.2.15`. У каждой сетевой карты (интерфейса) он свой.\n\n## Подсеть и CIDR\n`10.0.2.15/24` — `/24` говорит, что первые 24 бита (три числа) — это **сеть**, последнее число — **хост**. Все машины `10.0.2.x` — соседи и общаются напрямую.\n\n| CIDR | маска | адресов |\n|---|---|---|\n| /24 | 255.255.255.0 | 256 |\n| /16 | 255.255.0.0 | 65 536 |\n| /32 | 255.255.255.255 | 1 (один хост) |\n\n## Частные диапазоны\n`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16` — используются внутри компаний и домов, напрямую из интернета недоступны.\n\n## Шлюз\nЧтобы попасть за пределы своей подсети, пакеты идут на **шлюз** (маршрутизатор). Нет шлюза или он неверный — нет интернета.\n\n> 127.0.0.1 (**localhost**) — это всегда сама машина.",
+            "uk": "## У кожної машини — адреса\n**IPv4-адреса** — чотири числа від 0 до 255: `10.0.2.15`. У кожної мережевої карти (інтерфейсу) вона своя.\n\n## Підмережа та CIDR\n`10.0.2.15/24` — `/24` каже, що перші 24 біти (три числа) — це **мережа**, останнє число — **хост**. Усі машини `10.0.2.x` — сусіди й спілкуються напряму.\n\n| CIDR | маска | адрес |\n|---|---|---|\n| /24 | 255.255.255.0 | 256 |\n| /16 | 255.255.0.0 | 65 536 |\n| /32 | 255.255.255.255 | 1 (один хост) |\n\n## Приватні діапазони\n`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16` — використовуються всередині компаній і домівок, напряму з інтернету недоступні.\n\n## Шлюз\nЩоб потрапити за межі своєї підмережі, пакети йдуть на **шлюз** (маршрутизатор). Немає шлюзу або він хибний — немає інтернету.\n\n> 127.0.0.1 (**localhost**) — це завжди сама машина."
+          },
+          "title": {
+            "en": "Network basics",
+            "ru": "Основы сети",
+            "uk": "Основи мережі"
+          },
+          "terminal": false
+        },
+        {
+          "type": "theory",
+          "text": {
+            "en": "## See it on the server\n```\n$ ip a\n$ ip r\n```\n`ip a` lists interfaces: look for `state UP` and the `inet` line. `ip r` shows routes: the **default via** line is the gateway.",
+            "ru": "## Посмотрим на сервере\n```\n$ ip a\n$ ip r\n```\n`ip a` показывает интерфейсы: ищите `state UP` и строку `inet`. `ip r` показывает маршруты: строка **default via** — это шлюз.",
+            "uk": "## Подивімося на сервері\n```\n$ ip a\n$ ip r\n```\n`ip a` показує інтерфейси: шукайте `state UP` і рядок `inet`. `ip r` показує маршрути: рядок **default via** — це шлюз."
+          },
+          "demo": {
+            "commands": [
+              "ip a",
+              "ip r"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "What IP address does web01 have on eth0?",
+            "ru": "Какой IP-адрес у web01 на eth0?",
+            "uk": "Яка IP-адреса у web01 на eth0?"
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ip",
+              "label": {
+                "en": "Use ip a",
+                "ru": "Используйте ip a",
+                "uk": "Використайте ip a"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "inet 10.0.2.15/24",
+              "label": {
+                "en": "The inet line is visible",
+                "ru": "Видна строка inet",
+                "uk": "Видно рядок inet"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ip + a (address).",
+              "ru": "ip + a (address).",
+              "uk": "ip + a (address)."
+            },
+            "command": "ip"
+          },
+          "solution": [
+            "ip a"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Find the default gateway of web01.",
+            "ru": "Найдите шлюз по умолчанию у web01.",
+            "uk": "Знайдіть шлюз за замовчуванням у web01."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ip",
+              "args": [
+                "r"
+              ],
+              "label": {
+                "en": "Use ip r",
+                "ru": "Используйте ip r",
+                "uk": "Використайте ip r"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "default via 10.0.2.2",
+              "label": {
+                "en": "default via is visible",
+                "ru": "Видно default via",
+                "uk": "Видно default via"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ip + r (route).",
+              "ru": "ip + r (route).",
+              "uk": "ip + r (route)."
+            },
+            "command": "ip"
+          },
+          "solution": [
+            "ip r"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Are 10.0.2.15/24 and 10.0.3.20/24 in the same subnet?",
+            "ru": "10.0.2.15/24 и 10.0.3.20/24 в одной подсети?",
+            "uk": "10.0.2.15/24 і 10.0.3.20/24 в одній підмережі?"
+          },
+          "options": [
+            {
+              "en": "No: the third numbers differ (2 vs 3)",
+              "ru": "Нет: третьи числа разные (2 и 3)",
+              "uk": "Ні: треті числа різні (2 і 3)"
+            },
+            {
+              "en": "Yes, both start with 10",
+              "ru": "Да, оба начинаются с 10",
+              "uk": "Так, обидві починаються з 10"
+            },
+            {
+              "en": "Yes, /24 is the same",
+              "ru": "Да, /24 одинаковый",
+              "uk": "Так, /24 однаковий"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Which address is private (not reachable from the internet)?",
+            "ru": "Какой адрес частный (недоступен из интернета)?",
+            "uk": "Яка адреса приватна (недоступна з інтернету)?"
+          },
+          "options": [
+            {
+              "en": "192.168.1.10",
+              "ru": "192.168.1.10",
+              "uk": "192.168.1.10"
+            },
+            {
+              "en": "8.8.8.8",
+              "ru": "8.8.8.8",
+              "uk": "8.8.8.8"
+            },
+            {
+              "en": "93.184.215.14",
+              "ru": "93.184.215.14",
+              "uk": "93.184.215.14"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "net-ping",
+      "title": {
+        "en": "ping: is the host alive?",
+        "ru": "ping: жив ли хост?",
+        "uk": "ping: чи живий хост?"
+      },
+      "commands": [
+        "ping"
+      ],
+      "setup": {
+        "hostname": "web01",
+        "network": {
+          "hosts": [
+            {
+              "name": "db01",
+              "ip": "10.0.2.30",
+              "latency": 0.6,
+              "ports": {
+                "5432": "postgresql",
+                "22": "ssh"
+              }
+            },
+            {
+              "name": "cache01",
+              "ip": "10.0.2.31",
+              "latency": 0.5,
+              "ports": {
+                "22": "ssh"
+              }
+            },
+            {
+              "name": "backup01",
+              "ip": "10.0.2.40",
+              "up": false
+            },
+            {
+              "name": "vpn.partner.net",
+              "ip": "198.51.100.77",
+              "latency": 85,
+              "loss": 40,
+              "ports": {
+                "443": "https"
+              },
+              "hops": [
+                "_gateway 10.0.2.2",
+                "100.64.0.1",
+                "core1.isp.net 203.0.113.1",
+                "*",
+                "edge.partner.net 198.51.100.1"
+              ]
+            },
+            {
+              "name": "legacy.shop.local",
+              "ip": "10.0.9.15",
+              "dns": false,
+              "ports": {
+                "80": "http"
+              }
+            }
+          ]
+        },
+        "files": {
+          "/etc/hosts": {
+            "content": "127.0.0.1\tlocalhost\n127.0.1.1\tweb01\n10.0.9.15\tlegacy.shop.local\n",
+            "owner": "root"
+          }
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## ICMP echo\n`ping HOST` sends small packets and waits for the echo. It answers three questions:\n- **Is the host reachable?** replies come back or not\n- **How far?** `time=0.6 ms` in a LAN, 20–100 ms across continents\n- **Is the link clean?** `packet loss` in the summary\n\n```\n$ ping -c 4 db01\n```\nA real ping runs until Ctrl+C; `-c 4` sends four packets and stops.\n\n## Reading the result\n| result | meaning |\n|---|---|\n| 0% loss, low time | all good |\n| 100% loss | host down, unreachable or blocks ICMP |\n| 10–50% loss | a bad link — calls drop, pages hang |\n| Name or service not known | DNS problem, not the network |\n\n!> Some hosts block ping on purpose. 100% loss is a clue, not a proof — check the service port too.",
+            "ru": "## ICMP echo\n`ping ХОСТ` отправляет маленькие пакеты и ждёт эхо. Он отвечает на три вопроса:\n- **Доступен ли хост?** ответы приходят или нет\n- **Как далеко?** `time=0.6 ms` в локалке, 20–100 мс между континентами\n- **Чистый ли канал?** `packet loss` в итогах\n\n```\n$ ping -c 4 db01\n```\nНастоящий ping работает до Ctrl+C; `-c 4` отправит четыре пакета и остановится.\n\n## Читаем результат\n| результат | значение |\n|---|---|\n| 0% loss, малое время | всё хорошо |\n| 100% loss | хост выключен, недоступен или блокирует ICMP |\n| 10–50% loss | плохой канал — звонки рвутся, страницы виснут |\n| Name or service not known | проблема с DNS, а не с сетью |\n\n!> Некоторые хосты специально блокируют ping. 100% loss — зацепка, а не доказательство: проверьте ещё и порт сервиса.",
+            "uk": "## ICMP echo\n`ping ХОСТ` надсилає маленькі пакети й чекає на відлуння. Він відповідає на три питання:\n- **Чи доступний хост?** відповіді приходять чи ні\n- **Як далеко?** `time=0.6 ms` у локалці, 20–100 мс між континентами\n- **Чи чистий канал?** `packet loss` у підсумках\n\n```\n$ ping -c 4 db01\n```\nСправжній ping працює до Ctrl+C; `-c 4` надішле чотири пакети й зупиниться.\n\n## Читаємо результат\n| результат | значення |\n|---|---|\n| 0% loss, малий час | усе добре |\n| 100% loss | хост вимкнений, недоступний або блокує ICMP |\n| 10–50% loss | поганий канал — дзвінки рвуться, сторінки зависають |\n| Name or service not known | проблема з DNS, а не з мережею |\n\n!> Деякі хости навмисно блокують ping. 100% loss — зачіпка, а не доказ: перевірте ще й порт сервісу."
+          },
+          "title": {
+            "en": "Reachability",
+            "ru": "Доступность",
+            "uk": "Доступність"
+          },
+          "demo": {
+            "commands": [
+              "ping -c 3 db01"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The API complains about the database. Check that db01 answers: send exactly 4 pings.",
+            "ru": "API жалуется на базу. Проверьте, что db01 отвечает: отправьте ровно 4 пинга.",
+            "uk": "API скаржиться на базу. Перевірте, що db01 відповідає: надішліть рівно 4 пінги."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ping",
+              "flags": [
+                "-c"
+              ],
+              "args": [
+                "4"
+              ],
+              "label": {
+                "en": "Use ping with -c 4",
+                "ru": "Используйте ping с -c 4",
+                "uk": "Використайте ping з -c 4"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": " 0% packet loss",
+              "label": {
+                "en": "0% packet loss",
+                "ru": "0% packet loss",
+                "uk": "0% packet loss"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ping -c COUNT HOST",
+              "ru": "ping -c КОЛИЧЕСТВО ХОСТ",
+              "uk": "ping -c КІЛЬКІСТЬ ХОСТ"
+            },
+            "command": "ping"
+          },
+          "solution": [
+            "ping -c 4 db01"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Monitoring says backup01 is unreachable. Confirm it with 3 pings.",
+            "ru": "Мониторинг пишет, что backup01 недоступен. Подтвердите тремя пингами.",
+            "uk": "Моніторинг пише, що backup01 недоступний. Підтвердьте трьома пінгами."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ping",
+              "args": [
+                "backup01"
+              ],
+              "label": {
+                "en": "Ping backup01",
+                "ru": "Пингуйте backup01",
+                "uk": "Пінгуйте backup01"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "100% packet loss",
+              "label": {
+                "en": "100% packet loss",
+                "ru": "100% packet loss",
+                "uk": "100% packet loss"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Same command, another host and -c 3.",
+              "ru": "Та же команда, другой хост и -c 3.",
+              "uk": "Та сама команда, інший хост і -c 3."
+            },
+            "command": "ping"
+          },
+          "solution": [
+            "ping -c 3 backup01"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Users of the partner VPN complain about freezes. Measure the packet loss to vpn.partner.net with 10 pings.",
+            "ru": "Пользователи VPN партнёра жалуются на зависания. Измерьте потерю пакетов до vpn.partner.net десятью пингами.",
+            "uk": "Користувачі VPN партнера скаржаться на зависання. Виміряйте втрату пакетів до vpn.partner.net десятьма пінгами."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ping",
+              "args": [
+                "vpn.partner.net",
+                "10"
+              ],
+              "label": {
+                "en": "10 pings to vpn.partner.net",
+                "ru": "10 пингов до vpn.partner.net",
+                "uk": "10 пінгів до vpn.partner.net"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "[1-9]\\d?% packet loss",
+              "label": {
+                "en": "There is packet loss",
+                "ru": "Есть потеря пакетов",
+                "uk": "Є втрата пакетів"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "-c 10",
+              "ru": "-c 10",
+              "uk": "-c 10"
+            },
+            "command": "ping"
+          },
+          "solution": [
+            "ping -c 10 vpn.partner.net"
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "ping -c 2 nosuchhost.local",
+          "options": [
+            "ping: nosuchhost.local: Name or service not known",
+            "2 packets transmitted, 0 received, 100% packet loss",
+            "PING nosuchhost.local"
+          ],
+          "answer": 0,
+          "setup": {
+            "hostname": "web01",
+            "network": {
+              "hosts": [
+                {
+                  "name": "db01",
+                  "ip": "10.0.2.30",
+                  "latency": 0.6,
+                  "ports": {
+                    "5432": "postgresql",
+                    "22": "ssh"
+                  }
+                },
+                {
+                  "name": "cache01",
+                  "ip": "10.0.2.31",
+                  "latency": 0.5,
+                  "ports": {
+                    "22": "ssh"
+                  }
+                },
+                {
+                  "name": "backup01",
+                  "ip": "10.0.2.40",
+                  "up": false
+                },
+                {
+                  "name": "vpn.partner.net",
+                  "ip": "198.51.100.77",
+                  "latency": 85,
+                  "loss": 40,
+                  "ports": {
+                    "443": "https"
+                  },
+                  "hops": [
+                    "_gateway 10.0.2.2",
+                    "100.64.0.1",
+                    "core1.isp.net 203.0.113.1",
+                    "*",
+                    "edge.partner.net 198.51.100.1"
+                  ]
+                },
+                {
+                  "name": "legacy.shop.local",
+                  "ip": "10.0.9.15",
+                  "dns": false,
+                  "ports": {
+                    "80": "http"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "/etc/hosts": {
+                "content": "127.0.0.1\tlocalhost\n127.0.1.1\tweb01\n10.0.9.15\tlegacy.shop.local\n",
+                "owner": "root"
+              }
+            }
+          },
+          "context": [
+            "cat /etc/hosts"
+          ],
+          "explanation": {
+            "en": "The name could not be resolved at all — this is a DNS/name problem, no packet was sent.",
+            "ru": "Имя вообще не удалось разрешить — это проблема DNS/имени, ни один пакет не отправлен.",
+            "uk": "Ім’я взагалі не вдалося розв’язати — це проблема DNS/імені, жоден пакет не надіслано."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "ping shows time=180 ms to a server in the same data center. What is suspicious?",
+            "ru": "ping показывает time=180 ms до сервера в том же дата-центре. Что подозрительно?",
+            "uk": "ping показує time=180 ms до сервера в тому самому дата-центрі. Що підозріло?"
+          },
+          "options": [
+            {
+              "en": "Inside one data center it should be < 1 ms: congestion or a wrong route",
+              "ru": "Внутри одного ДЦ должно быть < 1 мс: перегрузка или неверный маршрут",
+              "uk": "Усередині одного ДЦ має бути < 1 мс: перевантаження або хибний маршрут"
+            },
+            {
+              "en": "Nothing, 180 ms is normal everywhere",
+              "ru": "Ничего, 180 мс — норма везде",
+              "uk": "Нічого, 180 мс — норма скрізь"
+            },
+            {
+              "en": "The server has too much RAM",
+              "ru": "У сервера слишком много памяти",
+              "uk": "У сервера забагато пам’яті"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "net-trace",
+      "title": {
+        "en": "traceroute: where does the path break?",
+        "ru": "traceroute: где рвётся путь?",
+        "uk": "traceroute: де рветься шлях?"
+      },
+      "commands": [
+        "traceroute"
+      ],
+      "setup": {
+        "hostname": "web01",
+        "network": {
+          "hosts": [
+            {
+              "name": "db01",
+              "ip": "10.0.2.30",
+              "latency": 0.6,
+              "ports": {
+                "5432": "postgresql",
+                "22": "ssh"
+              }
+            },
+            {
+              "name": "cache01",
+              "ip": "10.0.2.31",
+              "latency": 0.5,
+              "ports": {
+                "22": "ssh"
+              }
+            },
+            {
+              "name": "backup01",
+              "ip": "10.0.2.40",
+              "up": false
+            },
+            {
+              "name": "vpn.partner.net",
+              "ip": "198.51.100.77",
+              "latency": 85,
+              "loss": 40,
+              "ports": {
+                "443": "https"
+              },
+              "hops": [
+                "_gateway 10.0.2.2",
+                "100.64.0.1",
+                "core1.isp.net 203.0.113.1",
+                "*",
+                "edge.partner.net 198.51.100.1"
+              ]
+            },
+            {
+              "name": "legacy.shop.local",
+              "ip": "10.0.9.15",
+              "dns": false,
+              "ports": {
+                "80": "http"
+              }
+            }
+          ]
+        },
+        "files": {
+          "/etc/hosts": {
+            "content": "127.0.0.1\tlocalhost\n127.0.1.1\tweb01\n10.0.9.15\tlegacy.shop.local\n",
+            "owner": "root"
+          }
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Hop by hop\n`traceroute HOST` shows every router (**hop**) between you and the host with three timing samples.\n```\n$ traceroute vpn.partner.net\n```\n- The first hop is usually your gateway\n- `* * *` — that hop did not answer (often normal for one hop in the middle)\n- Stars **until the end** — the path breaks after the last answering hop\n- Time jumping from 5 ms to 150 ms — a long or congested link at that point\n\n> traceroute is your evidence when you call the provider or the partner: \"the path breaks after edge.partner.net\".",
+            "ru": "## Хоп за хопом\n`traceroute ХОСТ` показывает каждый маршрутизатор (**хоп**) между вами и хостом с тремя замерами времени.\n```\n$ traceroute vpn.partner.net\n```\n- Первый хоп — обычно ваш шлюз\n- `* * *` — хоп не ответил (для одного хопа посередине это часто нормально)\n- Звёздочки **до самого конца** — путь рвётся после последнего ответившего хопа\n- Время скачет с 5 мс до 150 мс — длинный или перегруженный участок в этом месте\n\n> traceroute — ваше доказательство, когда звоните провайдеру или партнёру: «путь обрывается после edge.partner.net».",
+            "uk": "## Хоп за хопом\n`traceroute ХОСТ` показує кожен маршрутизатор (**хоп**) між вами й хостом із трьома вимірами часу.\n```\n$ traceroute vpn.partner.net\n```\n- Перший хоп — зазвичай ваш шлюз\n- `* * *` — хоп не відповів (для одного хопа посередині це часто нормально)\n- Зірочки **до самого кінця** — шлях рветься після останнього хопа, що відповів\n- Час стрибає з 5 мс до 150 мс — довгий або перевантажений відрізок у цьому місці\n\n> traceroute — ваш доказ, коли телефонуєте провайдеру чи партнеру: «шлях обривається після edge.partner.net»."
+          },
+          "title": {
+            "en": "The route",
+            "ru": "Маршрут",
+            "uk": "Маршрут"
+          },
+          "demo": {
+            "commands": [
+              "traceroute example.com"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Trace the route from web01 to vpn.partner.net.",
+            "ru": "Проследите маршрут от web01 до vpn.partner.net.",
+            "uk": "Простежте маршрут від web01 до vpn.partner.net."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "traceroute",
+              "label": {
+                "en": "Use traceroute",
+                "ru": "Используйте traceroute",
+                "uk": "Використайте traceroute"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "edge.partner.net",
+              "label": {
+                "en": "The partner edge router is visible",
+                "ru": "Виден пограничный маршрутизатор партнёра",
+                "uk": "Видно прикордонний маршрутизатор партнера"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "trace + route.",
+              "ru": "trace + route.",
+              "uk": "trace + route."
+            },
+            "command": "traceroute"
+          },
+          "solution": [
+            "traceroute vpn.partner.net"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Where does the path to backup01 stop? Run traceroute with numeric output (-n).",
+            "ru": "Где обрывается путь к backup01? Запустите traceroute с числовым выводом (-n).",
+            "uk": "Де обривається шлях до backup01? Запустіть traceroute із числовим виводом (-n)."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "traceroute",
+              "flags": [
+                "-n"
+              ],
+              "label": {
+                "en": "traceroute -n backup01",
+                "ru": "traceroute -n backup01",
+                "uk": "traceroute -n backup01"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "* * *",
+              "label": {
+                "en": "Only stars after the gateway",
+                "ru": "После шлюза одни звёздочки",
+                "uk": "Після шлюзу самі зірочки"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "-n = do not resolve names.",
+              "ru": "-n = не разрешать имена.",
+              "uk": "-n = не розв’язувати імена."
+            },
+            "command": "traceroute"
+          },
+          "solution": [
+            "traceroute -n backup01"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Hops 1–4 answer, hop 5 shows * * *, hop 6 (the destination) answers. Is the path broken?",
+            "ru": "Хопы 1–4 отвечают, хоп 5 — * * *, хоп 6 (цель) отвечает. Путь сломан?",
+            "uk": "Хопи 1–4 відповідають, хоп 5 — * * *, хоп 6 (ціль) відповідає. Шлях зламано?"
+          },
+          "options": [
+            {
+              "en": "No: one silent router in the middle is normal if the destination answers",
+              "ru": "Нет: один молчащий маршрутизатор посередине — норма, если цель отвечает",
+              "uk": "Ні: один мовчазний маршрутизатор посередині — норма, якщо ціль відповідає"
+            },
+            {
+              "en": "Yes, hop 5 is down",
+              "ru": "Да, хоп 5 упал",
+              "uk": "Так, хоп 5 упав"
+            },
+            {
+              "en": "Yes, the destination is lying",
+              "ru": "Да, цель врёт",
+              "uk": "Так, ціль бреше"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "net-dns",
+      "title": {
+        "en": "DNS: names and addresses",
+        "ru": "DNS: имена и адреса",
+        "uk": "DNS: імена та адреси"
+      },
+      "commands": [
+        "dig",
+        "nslookup",
+        "host"
+      ],
+      "setup": {
+        "hostname": "web01",
+        "network": {
+          "hosts": [
+            {
+              "name": "db01",
+              "ip": "10.0.2.30",
+              "latency": 0.6,
+              "ports": {
+                "5432": "postgresql",
+                "22": "ssh"
+              }
+            },
+            {
+              "name": "cache01",
+              "ip": "10.0.2.31",
+              "latency": 0.5,
+              "ports": {
+                "22": "ssh"
+              }
+            },
+            {
+              "name": "backup01",
+              "ip": "10.0.2.40",
+              "up": false
+            },
+            {
+              "name": "vpn.partner.net",
+              "ip": "198.51.100.77",
+              "latency": 85,
+              "loss": 40,
+              "ports": {
+                "443": "https"
+              },
+              "hops": [
+                "_gateway 10.0.2.2",
+                "100.64.0.1",
+                "core1.isp.net 203.0.113.1",
+                "*",
+                "edge.partner.net 198.51.100.1"
+              ]
+            },
+            {
+              "name": "legacy.shop.local",
+              "ip": "10.0.9.15",
+              "dns": false,
+              "ports": {
+                "80": "http"
+              }
+            }
+          ]
+        },
+        "files": {
+          "/etc/hosts": {
+            "content": "127.0.0.1\tlocalhost\n127.0.1.1\tweb01\n10.0.9.15\tlegacy.shop.local\n",
+            "owner": "root"
+          }
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## The phone book of the internet\nPeople remember names, computers need IP addresses. **DNS** translates `example.com` → `93.184.215.14` (an **A record**).\n\n## Who answers first\nMost programs (ping, curl, browsers) ask in this order:\n1. the local file **/etc/hosts**\n2. the DNS server (on Ubuntu the local resolver 127.0.0.53)\n\n`dig` and `nslookup` ask **only DNS** and ignore /etc/hosts.\n\n## Typical failures\n| symptom | meaning |\n|---|---|\n| NXDOMAIN | the name does not exist (or a typo) |\n| works in ping, fails in dig | the name exists only in /etc/hosts |\n| SERVFAIL / timeout | the DNS server itself is broken |\n| old IP returned | a stale entry in /etc/hosts or a cache |\n\n> \"It's always DNS\" is a running joke among admins — and often true.",
+            "ru": "## Телефонная книга интернета\nЛюди помнят имена, компьютерам нужны IP-адреса. **DNS** переводит `example.com` → `93.184.215.14` (это **A-запись**).\n\n## Кто отвечает первым\nБольшинство программ (ping, curl, браузеры) спрашивают в таком порядке:\n1. локальный файл **/etc/hosts**\n2. DNS-сервер (в Ubuntu локальный резолвер 127.0.0.53)\n\n`dig` и `nslookup` спрашивают **только DNS** и /etc/hosts игнорируют.\n\n## Типичные поломки\n| симптом | значение |\n|---|---|\n| NXDOMAIN | такого имени нет (или опечатка) |\n| ping работает, dig — нет | имя есть только в /etc/hosts |\n| SERVFAIL / таймаут | сломан сам DNS-сервер |\n| возвращается старый IP | устаревшая запись в /etc/hosts или кэш |\n\n> «Это всегда DNS» — вечная шутка админов, и часто правдивая.",
+            "uk": "## Телефонна книга інтернету\nЛюди пам’ятають імена, комп’ютерам потрібні IP-адреси. **DNS** перекладає `example.com` → `93.184.215.14` (це **A-запис**).\n\n## Хто відповідає першим\nБільшість програм (ping, curl, браузери) питають у такому порядку:\n1. локальний файл **/etc/hosts**\n2. DNS-сервер (в Ubuntu локальний резолвер 127.0.0.53)\n\n`dig` і `nslookup` питають **лише DNS** і /etc/hosts ігнорують.\n\n## Типові поломки\n| симптом | значення |\n|---|---|\n| NXDOMAIN | такого імені немає (або друкарська помилка) |\n| ping працює, dig — ні | ім’я є лише в /etc/hosts |\n| SERVFAIL / таймаут | зламаний сам DNS-сервер |\n| повертається стара IP | застарілий запис у /etc/hosts або кеш |\n\n> «Це завжди DNS» — вічний жарт адмінів, і часто правдивий."
+          },
+          "title": {
+            "en": "Names → addresses",
+            "ru": "Имена → адреса",
+            "uk": "Імена → адреси"
+          },
+          "terminal": false
+        },
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Three tools\n```\n$ dig example.com\n$ dig +short github.com\n$ nslookup example.com\n$ host github.com\n```\nIn `dig` look at `status:` (NOERROR / NXDOMAIN) and the **ANSWER SECTION**.",
+            "ru": "## Три инструмента\n```\n$ dig example.com\n$ dig +short github.com\n$ nslookup example.com\n$ host github.com\n```\nВ выводе `dig` смотрите на `status:` (NOERROR / NXDOMAIN) и **ANSWER SECTION**.",
+            "uk": "## Три інструменти\n```\n$ dig example.com\n$ dig +short github.com\n$ nslookup example.com\n$ host github.com\n```\nУ виводі `dig` дивіться на `status:` (NOERROR / NXDOMAIN) і **ANSWER SECTION**."
+          },
+          "demo": {
+            "commands": [
+              "dig +short example.com",
+              "host github.com"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Find the IP address of github.com, print only the address.",
+            "ru": "Найдите IP-адрес github.com, выведите только адрес.",
+            "uk": "Знайдіть IP-адресу github.com, виведіть лише адресу."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "dig",
+              "label": {
+                "en": "Use dig +short",
+                "ru": "Используйте dig +short",
+                "uk": "Використайте dig +short"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^140\\.82\\.121\\.4$",
+              "label": {
+                "en": "Only the IP is printed",
+                "ru": "Выведен только IP",
+                "uk": "Виведено лише IP"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "dig with +short.",
+              "ru": "dig с +short.",
+              "uk": "dig із +short."
+            },
+            "command": "dig"
+          },
+          "solution": [
+            "dig +short github.com"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Users cannot open nosuch-shop.com. Ask DNS with nslookup and see what it says.",
+            "ru": "Пользователи не могут открыть nosuch-shop.com. Спросите DNS через nslookup и посмотрите, что он ответит.",
+            "uk": "Користувачі не можуть відкрити nosuch-shop.com. Запитайте DNS через nslookup і подивіться, що він відповість."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "nslookup",
+              "label": {
+                "en": "Use nslookup",
+                "ru": "Используйте nslookup",
+                "uk": "Використайте nslookup"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "NXDOMAIN",
+              "label": {
+                "en": "NXDOMAIN",
+                "ru": "NXDOMAIN",
+                "uk": "NXDOMAIN"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "nslookup NAME",
+              "ru": "nslookup ИМЯ",
+              "uk": "nslookup ІМ’Я"
+            },
+            "command": "nslookup"
+          },
+          "solution": [
+            "nslookup nosuch-shop.com"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "legacy.shop.local answers to ping, but dig says nothing. Prove where the name comes from: show the line in /etc/hosts.",
+            "ru": "legacy.shop.local отвечает на ping, а dig молчит. Докажите, откуда берётся имя: покажите строку в /etc/hosts.",
+            "uk": "legacy.shop.local відповідає на ping, а dig мовчить. Доведіть, звідки береться ім’я: покажіть рядок в /etc/hosts."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "grep",
+              "args": [
+                "/etc/hosts"
+              ],
+              "label": {
+                "en": "Search /etc/hosts with grep",
+                "ru": "Найдите в /etc/hosts через grep",
+                "uk": "Знайдіть в /etc/hosts через grep"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "10.0.9.15",
+              "label": {
+                "en": "The hosts entry is visible",
+                "ru": "Видна запись hosts",
+                "uk": "Видно запис hosts"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "grep NAME /etc/hosts",
+              "ru": "grep ИМЯ /etc/hosts",
+              "uk": "grep ІМ’Я /etc/hosts"
+            },
+            "command": "grep"
+          },
+          "solution": [
+            "grep legacy /etc/hosts"
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "dig +short legacy.shop.local",
+          "options": [
+            "",
+            "10.0.9.15",
+            "NXDOMAIN"
+          ],
+          "answer": 0,
+          "setup": {
+            "hostname": "web01",
+            "network": {
+              "hosts": [
+                {
+                  "name": "db01",
+                  "ip": "10.0.2.30",
+                  "latency": 0.6,
+                  "ports": {
+                    "5432": "postgresql",
+                    "22": "ssh"
+                  }
+                },
+                {
+                  "name": "cache01",
+                  "ip": "10.0.2.31",
+                  "latency": 0.5,
+                  "ports": {
+                    "22": "ssh"
+                  }
+                },
+                {
+                  "name": "backup01",
+                  "ip": "10.0.2.40",
+                  "up": false
+                },
+                {
+                  "name": "vpn.partner.net",
+                  "ip": "198.51.100.77",
+                  "latency": 85,
+                  "loss": 40,
+                  "ports": {
+                    "443": "https"
+                  },
+                  "hops": [
+                    "_gateway 10.0.2.2",
+                    "100.64.0.1",
+                    "core1.isp.net 203.0.113.1",
+                    "*",
+                    "edge.partner.net 198.51.100.1"
+                  ]
+                },
+                {
+                  "name": "legacy.shop.local",
+                  "ip": "10.0.9.15",
+                  "dns": false,
+                  "ports": {
+                    "80": "http"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "/etc/hosts": {
+                "content": "127.0.0.1\tlocalhost\n127.0.1.1\tweb01\n10.0.9.15\tlegacy.shop.local\n",
+                "owner": "root"
+              }
+            }
+          },
+          "context": [
+            "cat /etc/hosts"
+          ],
+          "explanation": {
+            "en": "dig asks only DNS; the name lives only in /etc/hosts, so the answer is empty.",
+            "ru": "dig спрашивает только DNS; имя есть только в /etc/hosts, поэтому ответ пустой.",
+            "uk": "dig питає лише DNS; ім’я є лише в /etc/hosts, тому відповідь порожня."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "After moving the site to a new server, only YOUR laptop still opens the old one. Most likely cause?",
+            "ru": "После переезда сайта на новый сервер только ВАШ ноутбук открывает старый. Вероятная причина?",
+            "uk": "Після переїзду сайту на новий сервер лише ВАШ ноутбук відкриває старий. Імовірна причина?"
+          },
+          "options": [
+            {
+              "en": "An old entry in your /etc/hosts or a DNS cache",
+              "ru": "Старая запись в вашем /etc/hosts или кэш DNS",
+              "uk": "Старий запис у вашому /etc/hosts або кеш DNS"
+            },
+            {
+              "en": "The new server is down",
+              "ru": "Новый сервер упал",
+              "uk": "Новий сервер упав"
+            },
+            {
+              "en": "The internet is broken",
+              "ru": "Сломался интернет",
+              "uk": "Зламався інтернет"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "net-ports",
+      "title": {
+        "en": "Ports and listening services",
+        "ru": "Порты и слушающие сервисы",
+        "uk": "Порти та сервіси, що слухають"
+      },
+      "commands": [
+        "ss",
+        "nc"
+      ],
+      "setup": "noc-web01",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## One address, many services\nA port number picks a service on a machine. A server **listens** on a port; a client **connects** to it.\n\n| port | service |\n|---|---|\n| 22 | SSH |\n| 53 | DNS (UDP) |\n| 80 / 443 | HTTP / HTTPS |\n| 3306 | MySQL |\n| 5432 | PostgreSQL |\n| 6379 | Redis |\n\n## TCP or UDP\n**TCP** builds a connection and guarantees delivery (web, ssh, databases). **UDP** just sends datagrams (DNS, video, VoIP).\n\n## Bind address matters\n- `0.0.0.0:80` — listens on all interfaces, reachable from the network\n- `127.0.0.1:5432` — only from the same machine\n\n## Three answers of a port check\n| result | meaning |\n|---|---|\n| succeeded | something listens |\n| Connection refused | host up, nothing listens on that port |\n| timed out | host down or a firewall drops packets |",
+            "ru": "## Один адрес — много сервисов\nНомер порта выбирает сервис на машине. Сервер **слушает** порт, клиент **подключается** к нему.\n\n| порт | сервис |\n|---|---|\n| 22 | SSH |\n| 53 | DNS (UDP) |\n| 80 / 443 | HTTP / HTTPS |\n| 3306 | MySQL |\n| 5432 | PostgreSQL |\n| 6379 | Redis |\n\n## TCP или UDP\n**TCP** устанавливает соединение и гарантирует доставку (веб, ssh, базы). **UDP** просто отправляет датаграммы (DNS, видео, VoIP).\n\n## Адрес привязки важен\n- `0.0.0.0:80` — слушает на всех интерфейсах, доступен из сети\n- `127.0.0.1:5432` — только с этой же машины\n\n## Три ответа проверки порта\n| результат | значение |\n|---|---|\n| succeeded | кто-то слушает |\n| Connection refused | хост жив, на порту никто не слушает |\n| timed out | хост выключен или пакеты режет файрвол |",
+            "uk": "## Одна адреса — багато сервісів\nНомер порту вибирає сервіс на машині. Сервер **слухає** порт, клієнт **підключається** до нього.\n\n| порт | сервіс |\n|---|---|\n| 22 | SSH |\n| 53 | DNS (UDP) |\n| 80 / 443 | HTTP / HTTPS |\n| 3306 | MySQL |\n| 5432 | PostgreSQL |\n| 6379 | Redis |\n\n## TCP чи UDP\n**TCP** встановлює з’єднання й гарантує доставку (веб, ssh, бази). **UDP** просто надсилає датаграми (DNS, відео, VoIP).\n\n## Адреса прив’язки важлива\n- `0.0.0.0:80` — слухає на всіх інтерфейсах, доступний із мережі\n- `127.0.0.1:5432` — лише з цієї ж машини\n\n## Три відповіді перевірки порту\n| результат | значення |\n|---|---|\n| succeeded | хтось слухає |\n| Connection refused | хост живий, на порту ніхто не слухає |\n| timed out | хост вимкнено або пакети ріже файрвол |"
+          },
+          "title": {
+            "en": "Ports",
+            "ru": "Порты",
+            "uk": "Порти"
+          },
+          "terminal": false
+        },
+        {
+          "type": "theory",
+          "text": {
+            "en": "## The commands\n```\n$ sudo ss -tulpn\n$ nc -zv db01 5432\n```\n`ss -tulpn`: **t**cp, **u**dp, **l**istening, **p**rocesses, **n**umeric. Without sudo the process names of other users are hidden.",
+            "ru": "## Команды\n```\n$ sudo ss -tulpn\n$ nc -zv db01 5432\n```\n`ss -tulpn`: **t**cp, **u**dp, **l**istening (слушающие), **p**rocesses (процессы), **n**umeric (числа). Без sudo имена процессов других пользователей скрыты.",
+            "uk": "## Команди\n```\n$ sudo ss -tulpn\n$ nc -zv db01 5432\n```\n`ss -tulpn`: **t**cp, **u**dp, **l**istening (що слухають), **p**rocesses (процеси), **n**umeric (числа). Без sudo імена процесів інших користувачів приховано."
+          },
+          "demo": {
+            "commands": [
+              "ss -tln"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Which programs listen on which ports on web01? Show TCP+UDP listening sockets with process names.",
+            "ru": "Какие программы на каких портах слушают на web01? Покажите слушающие TCP+UDP-сокеты с именами процессов.",
+            "uk": "Які програми на яких портах слухають на web01? Покажіть TCP+UDP-сокети, що слухають, з іменами процесів."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "ss",
+              "flags": [
+                "-t",
+                "-u",
+                "-l",
+                "-p",
+                "-n"
+              ],
+              "label": {
+                "en": "ss -tulpn",
+                "ru": "ss -tulpn",
+                "uk": "ss -tulpn"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "\"nginx\"",
+              "label": {
+                "en": "nginx is visible on port 80",
+                "ru": "Виден nginx на порту 80",
+                "uk": "Видно nginx на порту 80"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Process names of other users need sudo.",
+              "ru": "Имена процессов других пользователей требуют sudo.",
+              "uk": "Імена процесів інших користувачів потребують sudo."
+            },
+            "command": "ss"
+          },
+          "solution": [
+            "sudo ss -tulpn"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Is PostgreSQL on db01 reachable from web01? Check port 5432 with nc.",
+            "ru": "Доступен ли PostgreSQL на db01 с web01? Проверьте порт 5432 через nc.",
+            "uk": "Чи доступний PostgreSQL на db01 з web01? Перевірте порт 5432 через nc."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "nc",
+              "flags": [
+                "-z",
+                "-v"
+              ],
+              "label": {
+                "en": "nc -zv",
+                "ru": "nc -zv",
+                "uk": "nc -zv"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "succeeded",
+              "label": {
+                "en": "succeeded",
+                "ru": "succeeded",
+                "uk": "succeeded"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "nc -zv HOST PORT",
+              "ru": "nc -zv ХОСТ ПОРТ",
+              "uk": "nc -zv ХОСТ ПОРТ"
+            },
+            "command": "nc"
+          },
+          "solution": [
+            "nc -zv db01 5432"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Redis on cache01 (port 6379) does not answer the API. Check the port and read the message.",
+            "ru": "Redis на cache01 (порт 6379) не отвечает API. Проверьте порт и прочитайте сообщение.",
+            "uk": "Redis на cache01 (порт 6379) не відповідає API. Перевірте порт і прочитайте повідомлення."
+          },
+          "setup": {
+            "hostname": "web01",
+            "network": {
+              "hosts": [
+                {
+                  "name": "db01",
+                  "ip": "10.0.2.30",
+                  "latency": 0.6,
+                  "ports": {
+                    "5432": "postgresql",
+                    "22": "ssh"
+                  }
+                },
+                {
+                  "name": "cache01",
+                  "ip": "10.0.2.31",
+                  "latency": 0.5,
+                  "ports": {
+                    "22": "ssh"
+                  }
+                },
+                {
+                  "name": "backup01",
+                  "ip": "10.0.2.40",
+                  "up": false
+                },
+                {
+                  "name": "vpn.partner.net",
+                  "ip": "198.51.100.77",
+                  "latency": 85,
+                  "loss": 40,
+                  "ports": {
+                    "443": "https"
+                  },
+                  "hops": [
+                    "_gateway 10.0.2.2",
+                    "100.64.0.1",
+                    "core1.isp.net 203.0.113.1",
+                    "*",
+                    "edge.partner.net 198.51.100.1"
+                  ]
+                },
+                {
+                  "name": "legacy.shop.local",
+                  "ip": "10.0.9.15",
+                  "dns": false,
+                  "ports": {
+                    "80": "http"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "/etc/hosts": {
+                "content": "127.0.0.1\tlocalhost\n127.0.1.1\tweb01\n10.0.9.15\tlegacy.shop.local\n",
+                "owner": "root"
+              }
+            }
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "nc",
+              "args": [
+                "cache01",
+                "6379"
+              ],
+              "label": {
+                "en": "Check cache01 6379",
+                "ru": "Проверьте cache01 6379",
+                "uk": "Перевірте cache01 6379"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Connection refused",
+              "label": {
+                "en": "Connection refused",
+                "ru": "Connection refused",
+                "uk": "Connection refused"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Same as before, other host and port.",
+              "ru": "Как раньше, другой хост и порт.",
+              "uk": "Як раніше, інший хост і порт."
+            },
+            "command": "nc"
+          },
+          "solution": [
+            "nc -zv cache01 6379"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "nc to cache01:6379 says \"Connection refused\", ping to cache01 works. Conclusion?",
+            "ru": "nc на cache01:6379 — «Connection refused», ping до cache01 работает. Вывод?",
+            "uk": "nc на cache01:6379 — «Connection refused», ping до cache01 працює. Висновок?"
+          },
+          "options": [
+            {
+              "en": "The host is up, but Redis is not listening — check the service on cache01",
+              "ru": "Хост жив, но Redis не слушает — проверить сервис на cache01",
+              "uk": "Хост живий, але Redis не слухає — перевірити сервіс на cache01"
+            },
+            {
+              "en": "The network cable is cut",
+              "ru": "Перерезан сетевой кабель",
+              "uk": "Перерізано мережевий кабель"
+            },
+            {
+              "en": "DNS is broken",
+              "ru": "Сломан DNS",
+              "uk": "Зламано DNS"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "ss shows 127.0.0.1:5432. Can db clients from other servers connect?",
+            "ru": "ss показывает 127.0.0.1:5432. Могут ли подключиться клиенты с других серверов?",
+            "uk": "ss показує 127.0.0.1:5432. Чи можуть підключитися клієнти з інших серверів?"
+          },
+          "options": [
+            {
+              "en": "No, it listens only on localhost",
+              "ru": "Нет, он слушает только localhost",
+              "uk": "Ні, він слухає лише localhost"
+            },
+            {
+              "en": "Yes, any address works",
+              "ru": "Да, подходит любой адрес",
+              "uk": "Так, підходить будь-яка адреса"
+            },
+            {
+              "en": "Only over UDP",
+              "ru": "Только по UDP",
+              "uk": "Лише через UDP"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

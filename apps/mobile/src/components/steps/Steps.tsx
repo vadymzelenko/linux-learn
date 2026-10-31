@@ -1,13 +1,15 @@
 import { useMemo, useRef, useState } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { prepareSession, tr, type L10n, type Step } from '@linux-learn/content';
 import { useTheme, MONO, space } from '../../theme';
 import { Body, Button, Icon, Row } from '../ui';
-import { RichText } from '../ui/RichText';
+import { RichText, TheoryCards } from '../ui/RichText';
+import { run, stripAnsi } from '@linux-learn/engine';
 import { Terminal, useColumns, type TerminalHandle } from '../terminal/Terminal';
 import { useShell } from '../terminal/useShell';
 import { haptic } from '../../lib/haptics';
+import { Text } from '../../theme/Text';
 
 type StepOf<T extends Step['type']> = Extract<Step, { type: T }>;
 export interface StepProps<T extends Step['type']> {
@@ -18,21 +20,33 @@ export interface StepProps<T extends Step['type']> {
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-/** Theory text + a live terminal: tap `code` to paste it, or watch the demo type itself. */
+/** Theory as cards + an optional live terminal: tap `code` to paste it, or watch the demo type itself. */
 export function TheoryStep({ step, lessonSetup, onDone }: StepProps<'theory'>) {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const columns = useColumns();
+  const { width, height } = useWindowDimensions();
+  const wide = width >= 820 && width > height;
+  const hasTerminal = step.terminal !== false;
   const setup = step.demo?.setup ?? lessonSetup;
   const initial = useMemo(() => prepareSession(setup), [setup]);
   const shell = useShell(initial, { columns, track: true });
   const termRef = useRef<TerminalHandle>(null);
   const [playing, setPlaying] = useState(false);
+  const [termOpen, setTermOpen] = useState(wide);
+
+  const insert = (c: string) => {
+    if (!hasTerminal) return;
+    setTermOpen(true);
+    setTimeout(() => termRef.current?.insert(c), 50);
+  };
 
   const play = async () => {
     if (!step.demo || playing) return;
+    setTermOpen(true);
     setPlaying(true);
     shell.replaceSession(prepareSession(setup));
+    await wait(80);
     for (const cmd of step.demo.commands) {
       for (let i = 1; i <= cmd.length; i++) {
         termRef.current?.setInput(cmd.slice(0, i));
@@ -47,16 +61,30 @@ export function TheoryStep({ step, lessonSetup, onDone }: StepProps<'theory'>) {
   };
 
   return (
-    <View style={{ flex: 1, gap: space.md }}>
-      <ScrollView style={{ flexGrow: 0, maxHeight: '55%' }} contentContainerStyle={{ paddingBottom: 4 }}>
-        <RichText text={tr(step.text, i18n.language)} onCode={(c) => termRef.current?.insert(c)} />
-        <Text style={{ color: theme.textDim, fontSize: 13 }}>{t('lesson.tapToInsert')}</Text>
+    <View style={{ flex: 1, gap: space.md, flexDirection: wide ? 'row' : 'column' }}>
+      <ScrollView style={{ flex: wide ? 1.1 : termOpen ? 1.2 : 1 }} contentContainerStyle={{ paddingBottom: space.md }}>
+        <TheoryCards text={tr(step.text, i18n.language)} {...(step.title ? { title: tr(step.title, i18n.language) } : {})} onCode={hasTerminal ? insert : undefined} />
+        {hasTerminal ? <Text style={{ color: theme.textDim, fontSize: 13, marginTop: space.sm }}>{t('lesson.tapToInsert')}</Text> : null}
       </ScrollView>
-      <Terminal ref={termRef} shell={shell} style={{ flex: 1, minHeight: 160 }} />
-      <Row>
-        {step.demo ? <Button variant="secondary" icon="play" title={t('lesson.watchDemo')} onPress={() => void play()} disabled={playing} style={{ flex: 1 }} /> : null}
-        <Button title={t('common.continue')} onPress={() => onDone({ mistakes: 0 })} style={{ flex: 1 }} />
-      </Row>
+      <View style={[{ gap: space.sm, flexShrink: 0 }, (wide || termOpen) && { flex: 1 }]}>
+        {hasTerminal && !wide ? (
+          <Pressable
+            onPress={() => setTermOpen(!termOpen)}
+            accessibilityRole="button"
+            accessibilityState={{ expanded: termOpen }}
+            style={[styles.termToggle, { backgroundColor: theme.surface2 }]}
+          >
+            <Icon name="terminal" size={18} color={theme.accent} />
+            <Text style={{ color: theme.text, fontWeight: '700', flex: 1 }}>{t('lesson.terminal')}</Text>
+            <Icon name={termOpen ? 'chevron-down' : 'chevron-up'} size={18} color={theme.textDim} />
+          </Pressable>
+        ) : null}
+        {hasTerminal && termOpen ? <Terminal ref={termRef} shell={shell} style={{ flex: 1, minHeight: 150 }} /> : null}
+        <Row>
+          {step.demo ? <Button variant="secondary" icon="play" title={t('lesson.watchDemo')} onPress={() => void play()} disabled={playing} style={{ flex: 1 }} /> : null}
+          <Button title={t('common.continue')} onPress={() => onDone({ mistakes: 0 })} style={{ flex: 1 }} />
+        </Row>
+      </View>
     </View>
   );
 }
@@ -86,9 +114,7 @@ function Choice({ text, mono, state, onPress, index }: { text: string; mono?: bo
       accessibilityLabel={text || `(${index + 1}) empty`}
       style={({ pressed }) => [styles.choice, { borderColor: border, backgroundColor: mono ? theme.term.bg : theme.surface, opacity: pressed ? 0.85 : 1 }]}
     >
-      <Text style={{ color: mono ? theme.term.fg : theme.text, fontFamily: mono ? MONO : undefined, fontSize: mono ? 14 : 16 }}>
-        {text === '' ? '∅' : text}
-      </Text>
+      <Text style={{ color: mono ? theme.term.fg : theme.text, fontFamily: mono ? MONO : undefined, fontSize: mono ? 14 : 16 }}>{text}</Text>
     </Pressable>
   );
 }
@@ -126,17 +152,46 @@ export function PredictStep({ step, lessonSetup, onDone }: StepProps<'predict'>)
   const { t } = useTranslation();
   const c = useChoice(step.answer, onDone);
   const session = useMemo(() => prepareSession(step.setup ?? lessonSetup, step.prepare ?? []), [step, lessonSetup]);
-  const p = `${session.user}@${session.machine.hostname}:${session.cwd.replace(/^\/home\/student/, '~')}$ `;
+  const where = session.cwd.replace(/^\/home\/student/, '~');
+  const p = `${session.user}@${session.machine.hostname}:${where}$ `;
+  // show the machine: what the user would see with a quick look around
+  const context = useMemo(() => {
+    const cmds = step.context ?? ['tree -a -L 2 --noreport'];
+    let s = session;
+    return cmds.map((cmd) => {
+      const r = run(s, cmd, { isTTY: false });
+      s = r.session;
+      return { cmd, out: stripAnsi(r.output.map((o) => o.text).join('')).trimEnd() };
+    });
+  }, [session, step.context]);
+
   return (
     <ScrollView contentContainerStyle={{ gap: space.md }}>
-      <View style={[styles.cmdBox, { backgroundColor: theme.term.bg, borderColor: theme.border }]}>
+      <View style={[styles.cmdBox, { backgroundColor: theme.surface, borderColor: theme.border, gap: 8 }]}>
+        <Row>
+          <Icon name="server" size={18} color={theme.term.path} />
+          <Text style={{ color: theme.textDim, fontWeight: '700', fontSize: 12, letterSpacing: 1 }}>{t('lesson.context').toUpperCase()}</Text>
+        </Row>
+        <Text style={{ color: theme.text }}>{t('lesson.whereYouAre', { path: where })}</Text>
+        {context.map((x) => (
+          <View key={x.cmd} style={[styles.ctxTerm, { backgroundColor: theme.term.bg }]}>
+            <Text style={{ fontFamily: MONO, fontSize: 13, color: theme.term.fg, lineHeight: 19 }}>
+              <Text style={{ color: theme.term.user }}>$ </Text>
+              {x.cmd}
+              {'\n'}
+              {x.out}
+            </Text>
+          </View>
+        ))}
+      </View>
+      <View style={[styles.cmdBox, { backgroundColor: theme.term.bg, borderColor: theme.accent }]}>
         <Text style={{ fontFamily: MONO, fontSize: 15, color: theme.term.fg }}>
           <Text style={{ color: theme.term.user }}>{p}</Text>
           {step.command}
         </Text>
       </View>
       {step.options.map((o, i) => (
-        <Choice key={i} index={i} mono text={o} state={c.state(i)} onPress={() => c.pick(i)} />
+        <Choice key={i} index={i} mono text={o === '' ? t('lesson.emptyOutput') : o} state={c.state(i)} onPress={() => c.pick(i)} />
       ))}
       {c.picked.length ? <Feedback ok={c.solved} {...(step.explanation ? { explanation: step.explanation } : {})} /> : null}
       {c.solved ? <Button title={t('common.continue')} onPress={c.finish} /> : null}
@@ -229,6 +284,8 @@ export function BuildStep({ step, onDone }: StepProps<'build'>) {
 }
 
 const styles = StyleSheet.create({
+  termToggle: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingVertical: 12, borderRadius: 12 },
+  ctxTerm: { borderRadius: 10, padding: 10 },
   feedback: { borderWidth: 1, borderRadius: 14, padding: space.md, gap: 6 },
   choice: { borderWidth: 1.5, borderRadius: 14, padding: space.md, minHeight: 52, justifyContent: 'center' },
   cmdBox: { borderWidth: 1, borderRadius: 14, padding: space.md },

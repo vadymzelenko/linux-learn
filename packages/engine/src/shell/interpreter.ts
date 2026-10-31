@@ -1,4 +1,4 @@
-import type { DirNode, ExecOptions, ExecResult, ExecutedCommand, OutputChunk, ProcessInfo, Session, ShellEvent } from '../types';
+import type { DirNode, ExecOptions, ExecResult, ExecutedCommand, OutputChunk, ProcessInfo, Service, Session, ShellEvent, UserInfo } from '../types';
 import { can, collate, FsError, resolve, R, X, type Cred } from '../vfs/fs';
 import { basename, normalize } from '../vfs/path';
 import { suggest } from '../util/levenshtein';
@@ -51,6 +51,8 @@ class Runner implements ShellApi {
   ) {
     this.fs = session.machine.fs;
     this.procs = session.machine.processes;
+    this.svcs = session.machine.services ?? [];
+    this.usrs = session.machine.users;
     this.cwdPath = session.cwd;
     this.env = { ...session.env };
     this.locals = { ...session.locals };
@@ -65,6 +67,20 @@ class Runner implements ShellApi {
   }
 
   procs: ProcessInfo[];
+  svcs: Service[];
+  usrs: UserInfo[];
+  users() {
+    return this.usrs;
+  }
+  setUsers(u: UserInfo[]) {
+    this.usrs = u;
+  }
+  services() {
+    return this.svcs;
+  }
+  setServices(s: Service[]) {
+    this.svcs = s;
+  }
 
   // ---------- ShellApi ----------
   processes() {
@@ -233,10 +249,10 @@ class Runner implements ShellApi {
 
   // ---------- helpers ----------
   home(): string {
-    return this.session.machine.users.find((u) => u.name === this.user)?.home ?? '/';
+    return this.usrs.find((u) => u.name === this.user)?.home ?? '/';
   }
   cred(): Cred {
-    const u = this.session.machine.users.find((x) => x.name === this.user);
+    const u = this.usrs.find((x) => x.name === this.user);
     return { name: this.user, groups: u?.groups ?? [this.user], root: u?.uid === 0 };
   }
 
@@ -481,7 +497,7 @@ class Runner implements ShellApi {
   pendingSubCode: number | null = null;
 
   private makeCtx(name: string, args: string[], stdin: string | null, tty: boolean): Ctx {
-    return new Ctx(name, args, stdin, this.session.machine, this.user, this.cred(), this.env['HOME'] ?? this.home(), this.now, tty, this.columns, this);
+    return new Ctx(name, args, stdin, this.usrs === this.session.machine.users ? this.session.machine : { ...this.session.machine, users: this.usrs }, this.user, this.cred(), this.env['HOME'] ?? this.home(), this.now, tty, this.columns, this);
   }
 
   /** Truncate/create a redirect target before the command runs, like bash. */
@@ -690,9 +706,9 @@ export function executeLine(session: Session, input: string, opts: InterpreterOp
     }
     const newSession: Session = {
       machine:
-        runner.fs === session.machine.fs && runner.procs === session.machine.processes
+        runner.fs === session.machine.fs && runner.procs === session.machine.processes && runner.svcs === (session.machine.services ?? []) && runner.usrs === session.machine.users
           ? session.machine
-          : { ...session.machine, fs: runner.fs, processes: runner.procs },
+          : { ...session.machine, fs: runner.fs, processes: runner.procs, users: runner.usrs, ...(session.machine.services || runner.svcs.length ? { services: runner.svcs } : {}) },
       user: runner.user,
       cwd: runner.cwdPath,
       env: runner.env,

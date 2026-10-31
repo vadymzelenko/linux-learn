@@ -55,6 +55,17 @@ const MAP: Record<string, MciName> = {
   explain: 'text-search',
   reference: 'book-alphabet',
   repeat: 'repeat',
+  home: 'home-variant-outline',
+  network: 'lan',
+  server: 'server-network',
+  activity: 'pulse',
+  'alert-octagon': 'alert-octagon-outline',
+  users: 'account-group-outline',
+  code: 'code-braces',
+  scroll: 'script-text-outline',
+  map2: 'sitemap-outline',
+  headset: 'headset',
+  'file-search': 'file-search-outline',
 };
 
 export function Icon({ name, size = 22, color }: { name: string; size?: number; color: string }) {

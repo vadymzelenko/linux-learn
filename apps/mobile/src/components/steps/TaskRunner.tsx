@@ -1,14 +1,15 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Alert, Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { evaluateTask, prepareSession, tr, type ContentCheck, type L10n } from '@linux-learn/content';
-import { stripAnsi, type ExecutedCommand, type ExecResult, type TaskEvaluation } from '@linux-learn/engine';
+import { run, stripAnsi, type ExecutedCommand, type ExecResult, type Session, type TaskEvaluation } from '@linux-learn/engine';
 import { useTheme, MONO, space } from '../../theme';
 import { Body, Button, Icon, Row } from '../ui';
 import { RichText } from '../ui/RichText';
 import { Terminal, useColumns, type TerminalHandle } from '../terminal/Terminal';
 import { useShell } from '../terminal/useShell';
 import { haptic } from '../../lib/haptics';
+import { Text } from '../../theme/Text';
 
 export interface TaskSpec {
   /** Unique key: changing it restarts the task. */
@@ -23,18 +24,21 @@ export interface TaskSpec {
   /** Extra text above the goal (mission briefing). */
   story?: L10n;
   title?: string;
+  instructions?: L10n;
 }
 
 interface Props {
   task: TaskSpec;
   allowHints?: boolean;
+  /** Opens the theory of this topic. */
+  onTheory?: () => void;
   onSolved: (info: { hints: number; mistakes: number }) => void;
   /** Rendered under the checklist once solved (Continue button). */
   solvedFooter?: React.ReactNode;
 }
 
 /** A goal card with a live checklist + a terminal on the task's machine. */
-export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter }: Props) {
+export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, onTheory }: Props) {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
@@ -73,6 +77,8 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter }: 
 
   const shell = useShell(initial, { onExec, columns, track: true });
 
+  const [showFiles, setShowFiles] = useState(false);
+
   const reset = () => {
     const doIt = () => {
       executed.current = [];
@@ -94,6 +100,15 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter }: 
       <Row style={{ justifyContent: 'space-between' }}>
         <Text style={{ color: theme.textDim, fontWeight: '800', fontSize: 12, letterSpacing: 1 }}>{(task.title ?? t('lesson.goal')).toUpperCase()}</Text>
         <Row gap={2}>
+          {onTheory ? (
+            <Pressable onPress={onTheory} hitSlop={8} accessibilityRole="button" accessibilityLabel={t('topic.readTopic')} style={[styles.pill, { backgroundColor: theme.surface2 }]}>
+              <Icon name="book-open" size={16} color={theme.accent} />
+              <Text style={{ color: theme.accent, fontWeight: '700', fontSize: 13 }}>{t('topic.theory')}</Text>
+            </Pressable>
+          ) : null}
+          <Pressable onPress={() => setShowFiles(!showFiles)} hitSlop={8} accessibilityRole="button" accessibilityLabel={t('lesson.files')} style={styles.iconBtn}>
+            <Icon name="folder" size={20} color={showFiles ? theme.accent : theme.textDim} />
+          </Pressable>
           <Pressable onPress={reset} hitSlop={8} accessibilityRole="button" accessibilityLabel={t('lesson.resetMachine')} style={styles.iconBtn}>
             <Icon name="refresh" size={20} color={theme.textDim} />
           </Pressable>
@@ -112,6 +127,21 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter }: 
         <ScrollView style={{ maxHeight: wide ? undefined : height * 0.36 }} contentContainerStyle={{ gap: space.sm }}>
           {task.story ? <RichText text={tr(task.story, lang)} style={{ fontSize: 15, color: theme.textDim, marginBottom: 4 }} /> : null}
           {task.goal ? <RichText text={tr(task.goal, lang)} style={{ fontSize: 17, fontWeight: '600', marginBottom: 4 }} /> : null}
+          {task.instructions ? (
+            <View style={[styles.instr, { backgroundColor: theme.surface2 }]}>
+              <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 12, letterSpacing: 1 }}>{t('lesson.instructions').toUpperCase()}</Text>
+              {tr(task.instructions, lang)
+                .split('\n')
+                .filter(Boolean)
+                .map((line, k) => (
+                  <Row key={k} gap={8} style={{ alignItems: 'flex-start' }}>
+                    <Text style={{ color: theme.accent, fontWeight: '800', minWidth: 18 }}>{/^\d/.test(line) ? line.match(/^\d+/)![0] : '•'}</Text>
+                    <RichText text={line.replace(/^\d+[.)]\s*/, '').replace(/^[-•]\s*/, '')} onCode={(c) => termRef.current?.insert(c)} style={{ fontSize: 15, marginBottom: 0, flex: 1 }} />
+                  </Row>
+                ))}
+            </View>
+          ) : null}
+          {showFiles ? <FilesPanel session={shell.session} /> : null}
           <View style={{ gap: 6 }} accessibilityLabel={t('lesson.checklist')}>
             {task.checks.map((c, i) => {
               const st = evaluation?.results[i]?.status;
@@ -186,5 +216,22 @@ const styles = StyleSheet.create({
   wrap: { flex: 1, gap: space.md },
   card: { borderRadius: 16, borderWidth: 1, padding: space.md, gap: space.sm },
   iconBtn: { padding: 6, borderRadius: 999 },
+  pill: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999, marginRight: 4 },
+  instr: { borderRadius: 12, padding: 12, gap: 6 },
+  files: { borderRadius: 12, padding: 12 },
   hint: { borderRadius: 10, padding: 10, gap: 2 },
 });
+
+/** A quick look at the machine: where you are and the tree of your home. */
+function FilesPanel({ session }: { session: Session }) {
+  const theme = useTheme();
+  const { t } = useTranslation();
+  const where = session.cwd.replace(/^\/home\/student/, '~');
+  const tree = stripAnsi(run(session, 'tree -a -L 3 --noreport ~', { isTTY: false }).output.map((o) => o.text).join('')).trimEnd();
+  return (
+    <View style={[styles.files, { backgroundColor: theme.term.bg }]}>
+      <Text style={{ color: theme.textDim, fontSize: 13, marginBottom: 4 }}>{t('lesson.whereYouAre', { path: where })}</Text>
+      <Text style={{ fontFamily: MONO, color: theme.term.fg, fontSize: 13, lineHeight: 19 }}>{tree}</Text>
+    </View>
+  );
+}

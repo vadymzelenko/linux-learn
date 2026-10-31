@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { COMMANDS } from '@linux-learn/engine';
@@ -7,6 +7,7 @@ import { useStore } from '../state/store';
 import { useTheme, MONO, MONO_BOLD, space } from '../theme';
 import { Body, Button, H1, Icon, IconButton, ProgressBar, Row, Screen } from '../components/ui';
 import { dayKey, dueCards } from '../lib/progress';
+import { Text } from '../theme/Text';
 
 /** Spaced-repetition flashcards for commands the user struggled with (SM-2). */
 export default function ReviewScreen() {

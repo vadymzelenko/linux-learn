@@ -2,7 +2,12 @@
   "id": "text",
   "path": "/learn/text",
   "icon": "file-text",
-  "title": { "en": "Working with text", "uk": "Робота з текстом", "ru": "Работа с текстом", "pl": "Praca z tekstem" },
+  "title": {
+    "en": "Working with text",
+    "uk": "Робота з текстом",
+    "ru": "Работа с текстом",
+    "pl": "Praca z tekstem"
+  },
   "description": {
     "en": "Read logs, count, search, sort and connect commands with pipes.",
     "uk": "Читайте логи, рахуйте, шукайте, сортуйте та з'єднуйте команди конвеєрами.",
@@ -12,8 +17,16 @@
   "lessons": [
     {
       "id": "text-head-tail",
-      "title": { "en": "Beginning and end of a file", "uk": "Початок і кінець файлу", "ru": "Начало и конец файла", "pl": "Początek i koniec pliku" },
-      "commands": ["head", "tail"],
+      "title": {
+        "en": "Beginning and end of a file",
+        "uk": "Початок і кінець файлу",
+        "ru": "Начало и конец файла",
+        "pl": "Początek i koniec pliku"
+      },
+      "commands": [
+        "head",
+        "tail"
+      ],
       "setup": "text-files",
       "steps": [
         {
@@ -24,47 +37,138 @@
             "ru": "Логи бывают огромными. `head` показывает первые 10 строк, `tail` — последние 10. Количество задаёт `-n`: `tail -n 3 file`.\n\nСамые свежие записи — в конце лога, поэтому админы часто пишут `tail`.",
             "pl": "Logi bywają ogromne. `head` pokazuje pierwsze 10 linii, `tail` ostatnie 10. Liczbę ustawia `-n`: `tail -n 3 plik`.\n\nNajnowsze wpisy są na końcu logu, dlatego administratorzy często wpisują `tail`."
           },
-          "demo": { "commands": ["head -n 3 logs/app.log"] }
+          "demo": {
+            "commands": [
+              "head -n 3 logs/app.log"
+            ]
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "Show only the first 5 lines of logs/app.log.", "uk": "Покажіть лише перші 5 рядків logs/app.log.", "ru": "Покажите только первые 5 строк logs/app.log.", "pl": "Pokaż tylko pierwsze 5 linii logs/app.log." },
+          "goal": {
+            "en": "Show only the first 5 lines of the log ~/logs/app.log.",
+            "uk": "Покажіть лише перші 5 рядків логу ~/logs/app.log.",
+            "ru": "Покажите только первые 5 строк лога ~/logs/app.log.",
+            "pl": "Pokaż tylko pierwsze 5 linii logs/app.log."
+          },
           "checks": [
-            { "type": "usedCommand", "command": "head", "label": { "en": "Use head", "uk": "Використайте head", "ru": "Используйте head", "pl": "Użyj head" } },
-            { "type": "outputLines", "eq": 5, "label": { "en": "Exactly 5 lines are shown", "uk": "Показано рівно 5 рядків", "ru": "Показано ровно 5 строк", "pl": "Wyświetlono dokładnie 5 linii" } }
+            {
+              "type": "usedCommand",
+              "command": "head",
+              "label": {
+                "en": "Use head",
+                "uk": "Використайте head",
+                "ru": "Используйте head",
+                "pl": "Użyj head"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 5,
+              "label": {
+                "en": "Exactly 5 lines are shown",
+                "uk": "Показано рівно 5 рядків",
+                "ru": "Показано ровно 5 строк",
+                "pl": "Wyświetlono dokładnie 5 linii"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "head shows the beginning; -n sets how many lines.", "uk": "head показує початок; -n задає кількість рядків.", "ru": "head показывает начало; -n задаёт количество строк.", "pl": "head pokazuje początek; -n ustawia liczbę linii." },
+            "direction": {
+              "en": "head shows the beginning; -n sets how many lines.",
+              "uk": "head показує початок; -n задає кількість рядків.",
+              "ru": "head показывает начало; -n задаёт количество строк.",
+              "pl": "head pokazuje początek; -n ustawia liczbę linii."
+            },
             "command": "head"
           },
-          "solution": ["head -n 5 logs/app.log"]
+          "solution": [
+            "head -n 5 logs/app.log"
+          ],
+          "instructions": {
+            "en": "1. The log is the file logs/app.log in your home directory\n2. `head -n 5 FILE` shows the first 5 lines",
+            "ru": "1. Лог — это файл logs/app.log в домашней папке\n2. `head -n 5 ФАЙЛ` покажет первые 5 строк",
+            "uk": "1. Лог — це файл logs/app.log у домашній теці\n2. `head -n 5 ФАЙЛ` покаже перші 5 рядків"
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "Show the last 3 entries of logs/app.log.", "uk": "Покажіть останні 3 записи logs/app.log.", "ru": "Покажите последние 3 записи logs/app.log.", "pl": "Pokaż 3 ostatnie wpisy logs/app.log." },
+          "goal": {
+            "en": "Show the last 3 entries of logs/app.log.",
+            "uk": "Покажіть останні 3 записи logs/app.log.",
+            "ru": "Покажите последние 3 записи logs/app.log.",
+            "pl": "Pokaż 3 ostatnie wpisy logs/app.log."
+          },
           "checks": [
-            { "type": "outputContains", "text": "Cache refreshed", "label": { "en": "The last entry is visible", "uk": "Видно останній запис", "ru": "Видна последняя запись", "pl": "Widać ostatni wpis" } },
-            { "type": "outputLines", "eq": 3, "label": { "en": "Exactly 3 lines", "uk": "Рівно 3 рядки", "ru": "Ровно 3 строки", "pl": "Dokładnie 3 linie" } }
+            {
+              "type": "outputContains",
+              "text": "Cache refreshed",
+              "label": {
+                "en": "The last entry is visible",
+                "uk": "Видно останній запис",
+                "ru": "Видна последняя запись",
+                "pl": "Widać ostatni wpis"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 3,
+              "label": {
+                "en": "Exactly 3 lines",
+                "uk": "Рівно 3 рядки",
+                "ru": "Ровно 3 строки",
+                "pl": "Dokładnie 3 linie"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "tail is the opposite of head.", "uk": "tail — протилежність head.", "ru": "tail — противоположность head.", "pl": "tail to przeciwieństwo head." },
+            "direction": {
+              "en": "tail is the opposite of head.",
+              "uk": "tail — протилежність head.",
+              "ru": "tail — противоположность head.",
+              "pl": "tail to przeciwieństwo head."
+            },
             "command": "tail"
           },
-          "solution": ["tail -n 3 logs/app.log"]
+          "solution": [
+            "tail -n 3 logs/app.log"
+          ],
+          "instructions": {
+            "en": "1. The log is logs/app.log\n2. tail shows the end of a file; -n sets how many lines",
+            "ru": "1. Лог — logs/app.log\n2. tail показывает конец файла; -n задаёт число строк",
+            "uk": "1. Лог — logs/app.log\n2. tail показує кінець файлу; -n задає кількість рядків"
+          }
         },
         {
           "type": "predict",
           "command": "head -n 2 data/fruits.txt",
-          "options": ["banana\napple", "apple\nbanana", "banana\napple\ncherry"],
+          "options": [
+            "banana\napple",
+            "apple\nbanana",
+            "banana\napple\ncherry"
+          ],
           "answer": 0,
-          "explanation": { "en": "head does not sort anything: it takes the lines as they are in the file.", "uk": "head нічого не сортує: він бере рядки так, як вони є у файлі.", "ru": "head ничего не сортирует: он берёт строки так, как они идут в файле.", "pl": "head niczego nie sortuje: bierze linie tak, jak są w pliku." }
+          "explanation": {
+            "en": "head does not sort anything: it takes the lines as they are in the file.",
+            "uk": "head нічого не сортує: він бере рядки так, як вони є у файлі.",
+            "ru": "head ничего не сортирует: он берёт строки так, как они идут в файле.",
+            "pl": "head niczego nie sortuje: bierze linie tak, jak są w pliku."
+          }
         }
       ]
     },
     {
       "id": "text-wc-grep",
-      "title": { "en": "Count and search", "uk": "Рахуємо і шукаємо", "ru": "Считаем и ищем", "pl": "Liczenie i wyszukiwanie" },
-      "commands": ["wc", "grep"],
+      "title": {
+        "en": "Count and search",
+        "uk": "Рахуємо і шукаємо",
+        "ru": "Считаем и ищем",
+        "pl": "Liczenie i wyszukiwanie"
+      },
+      "commands": [
+        "wc",
+        "grep"
+      ],
       "setup": "text-files",
       "steps": [
         {
@@ -75,66 +179,211 @@
             "ru": "`wc -l file` считает строки (`-w` — слова, `-c` — байты).\n\n`grep слово file` выводит только строки со словом. Полезные флаги: `-i` — без учёта регистра, `-n` — номера строк, `-v` — строки БЕЗ слова, `-c` — только количество.",
             "pl": "`wc -l plik` liczy linie (`-w` słowa, `-c` bajty).\n\n`grep słowo plik` wypisuje tylko linie zawierające słowo. Przydatne flagi: `-i` bez rozróżniania wielkości liter, `-n` numery linii, `-v` linie BEZ słowa, `-c` tylko liczba."
           },
-          "demo": { "commands": ["wc -l logs/app.log", "grep -n ERROR logs/app.log"] }
+          "demo": {
+            "commands": [
+              "wc -l logs/app.log",
+              "grep -n ERROR logs/app.log"
+            ]
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "How many lines are in logs/app.log? Count them.", "uk": "Скільки рядків у logs/app.log? Порахуйте.", "ru": "Сколько строк в logs/app.log? Посчитайте.", "pl": "Ile linii ma logs/app.log? Policz je." },
+          "goal": {
+            "en": "How many lines are in logs/app.log? Count them.",
+            "uk": "Скільки рядків у logs/app.log? Порахуйте.",
+            "ru": "Сколько строк в logs/app.log? Посчитайте.",
+            "pl": "Ile linii ma logs/app.log? Policz je."
+          },
           "checks": [
-            { "type": "outputContains", "text": "40", "label": { "en": "The answer is on the screen", "uk": "Відповідь на екрані", "ru": "Ответ на экране", "pl": "Odpowiedź jest na ekranie" } },
-            { "type": "usedCommand", "command": "wc", "flags": ["-l"], "label": { "en": "Count lines with wc", "uk": "Порахуйте рядки через wc", "ru": "Посчитайте строки через wc", "pl": "Policz linie przez wc" } }
+            {
+              "type": "usedCommand",
+              "command": "wc",
+              "flags": [
+                "-l"
+              ],
+              "label": {
+                "en": "Count lines with wc",
+                "uk": "Порахуйте рядки через wc",
+                "ru": "Посчитайте строки через wc",
+                "pl": "Policz linie przez wc"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "40",
+              "label": {
+                "en": "The answer is on the screen",
+                "uk": "Відповідь на екрані",
+                "ru": "Ответ на экране",
+                "pl": "Odpowiedź jest na ekranie"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "wc = word count; the flag for lines is -l.", "uk": "wc = word count; прапорець для рядків — -l.", "ru": "wc = word count; флаг для строк — -l.", "pl": "wc = word count; flaga dla linii to -l." },
+            "direction": {
+              "en": "wc = word count; the flag for lines is -l.",
+              "uk": "wc = word count; прапорець для рядків — -l.",
+              "ru": "wc = word count; флаг для строк — -l.",
+              "pl": "wc = word count; flaga dla linii to -l."
+            },
             "command": "wc"
           },
-          "solution": ["wc -l logs/app.log"]
+          "solution": [
+            "wc -l logs/app.log"
+          ]
         },
         {
           "type": "task",
-          "goal": { "en": "Something broke. Show only the ERROR lines from logs/app.log.", "uk": "Щось зламалося. Покажіть лише рядки з ERROR у logs/app.log.", "ru": "Что-то сломалось. Покажите только строки с ERROR из logs/app.log.", "pl": "Coś się zepsuło. Pokaż tylko linie z ERROR z logs/app.log." },
+          "goal": {
+            "en": "Something broke. Show only the ERROR lines from logs/app.log.",
+            "uk": "Щось зламалося. Покажіть лише рядки з ERROR у logs/app.log.",
+            "ru": "Что-то сломалось. Покажите только строки с ERROR из logs/app.log.",
+            "pl": "Coś się zepsuło. Pokaż tylko linie z ERROR z logs/app.log."
+          },
           "checks": [
-            { "type": "outputContains", "text": "Database connection refused", "label": { "en": "First error found", "uk": "Знайдено першу помилку", "ru": "Найдена первая ошибка", "pl": "Znaleziono pierwszy błąd" } },
-            { "type": "outputContains", "text": "Disk quota exceeded", "label": { "en": "Second error found", "uk": "Знайдено другу помилку", "ru": "Найдена вторая ошибка", "pl": "Znaleziono drugi błąd" } },
-            { "type": "outputLines", "eq": 2, "label": { "en": "Nothing else is shown", "uk": "Нічого зайвого", "ru": "Ничего лишнего", "pl": "Nic więcej" } }
+            {
+              "type": "outputContains",
+              "text": "Database connection refused",
+              "label": {
+                "en": "First error found",
+                "uk": "Знайдено першу помилку",
+                "ru": "Найдена первая ошибка",
+                "pl": "Znaleziono pierwszy błąd"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Disk quota exceeded",
+              "label": {
+                "en": "Second error found",
+                "uk": "Знайдено другу помилку",
+                "ru": "Найдена вторая ошибка",
+                "pl": "Znaleziono drugi błąd"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 2,
+              "label": {
+                "en": "Nothing else is shown",
+                "uk": "Нічого зайвого",
+                "ru": "Ничего лишнего",
+                "pl": "Nic więcej"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "grep prints only the lines that match a word.", "uk": "grep виводить лише рядки, що містять слово.", "ru": "grep выводит только строки, содержащие слово.", "pl": "grep wypisuje tylko linie pasujące do słowa." },
+            "direction": {
+              "en": "grep prints only the lines that match a word.",
+              "uk": "grep виводить лише рядки, що містять слово.",
+              "ru": "grep выводит только строки, содержащие слово.",
+              "pl": "grep wypisuje tylko linie pasujące do słowa."
+            },
             "command": "grep"
           },
-          "solution": ["grep ERROR logs/app.log"]
+          "solution": [
+            "grep ERROR logs/app.log"
+          ],
+          "instructions": {
+            "en": "1. The log is logs/app.log\n2. `grep WORD FILE` prints only matching lines",
+            "ru": "1. Лог — logs/app.log\n2. `grep СЛОВО ФАЙЛ` выведет только подходящие строки",
+            "uk": "1. Лог — logs/app.log\n2. `grep СЛОВО ФАЙЛ` виведе лише відповідні рядки"
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "Find all lines with the word the in poem.txt, regardless of upper or lower case.", "uk": "Знайдіть усі рядки зі словом the у poem.txt без урахування регістру.", "ru": "Найдите все строки со словом the в poem.txt без учёта регистра.", "pl": "Znajdź wszystkie linie ze słowem the w poem.txt bez względu na wielkość liter." },
+          "goal": {
+            "en": "Find all lines with the word the in poem.txt, regardless of upper or lower case.",
+            "uk": "Знайдіть усі рядки зі словом the у poem.txt без урахування регістру.",
+            "ru": "Найдите все строки со словом the в poem.txt без учёта регистра.",
+            "pl": "Znajdź wszystkie linie ze słowem the w poem.txt bez względu na wielkość liter."
+          },
           "checks": [
-            { "type": "outputContains", "text": "The shell is calm", "label": { "en": "“The” with a capital letter found", "uk": "Знайдено «The» з великої літери", "ru": "Найдено «The» с большой буквы", "pl": "Znaleziono „The” z wielkiej litery" } },
-            { "type": "usedCommand", "command": "grep", "flags": ["-i"], "label": { "en": "Ignore case", "uk": "Ігноруйте регістр", "ru": "Игнорируйте регистр", "pl": "Ignoruj wielkość liter" } }
+            {
+              "type": "usedCommand",
+              "command": "grep",
+              "flags": [
+                "-i"
+              ],
+              "label": {
+                "en": "Ignore case",
+                "uk": "Ігноруйте регістр",
+                "ru": "Игнорируйте регистр",
+                "pl": "Ignoruj wielkość liter"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "The shell is calm",
+              "label": {
+                "en": "“The” with a capital letter found",
+                "uk": "Знайдено «The» з великої літери",
+                "ru": "Найдено «The» с большой буквы",
+                "pl": "Znaleziono „The” z wielkiej litery"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "-i stands for “ignore case”.", "uk": "-i означає «ignore case».", "ru": "-i означает «ignore case».", "pl": "-i oznacza „ignore case”." },
+            "direction": {
+              "en": "-i stands for “ignore case”.",
+              "uk": "-i означає «ignore case».",
+              "ru": "-i означает «ignore case».",
+              "pl": "-i oznacza „ignore case”."
+            },
             "command": "grep"
           },
-          "solution": ["grep -i the poem.txt"]
+          "solution": [
+            "grep -i the poem.txt"
+          ]
         },
         {
           "type": "task",
-          "goal": { "en": "How many warnings (WARN) are in the log? Print just the number.", "uk": "Скільки попереджень (WARN) у лозі? Виведіть лише число.", "ru": "Сколько предупреждений (WARN) в логе? Выведите только число.", "pl": "Ile ostrzeżeń (WARN) jest w logu? Wypisz tylko liczbę." },
+          "goal": {
+            "en": "How many warnings (WARN) are in the log? Print just the number.",
+            "uk": "Скільки попереджень (WARN) у лозі? Виведіть лише число.",
+            "ru": "Сколько предупреждений (WARN) в логе? Выведите только число.",
+            "pl": "Ile ostrzeżeń (WARN) jest w logu? Wypisz tylko liczbę."
+          },
           "checks": [
-            { "type": "outputContains", "regex": "^9$", "label": { "en": "The count is printed", "uk": "Виведено кількість", "ru": "Выведено количество", "pl": "Wypisano liczbę" } }
+            {
+              "type": "outputContains",
+              "regex": "^9$",
+              "label": {
+                "en": "The count is printed",
+                "uk": "Виведено кількість",
+                "ru": "Выведено количество",
+                "pl": "Wypisano liczbę"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "grep has a flag that counts matching lines instead of printing them.", "uk": "У grep є прапорець, що рахує рядки замість виводу.", "ru": "У grep есть флаг, который считает строки вместо вывода.", "pl": "grep ma flagę, która liczy linie zamiast je wypisywać." },
+            "direction": {
+              "en": "grep has a flag that counts matching lines instead of printing them.",
+              "uk": "У grep є прапорець, що рахує рядки замість виводу.",
+              "ru": "У grep есть флаг, который считает строки вместо вывода.",
+              "pl": "grep ma flagę, która liczy linie zamiast je wypisywać."
+            },
             "command": "grep"
           },
-          "solution": ["grep -c WARN logs/app.log"]
+          "solution": [
+            "grep -c WARN logs/app.log"
+          ]
         }
       ]
     },
     {
       "id": "text-pipes",
-      "title": { "en": "Pipes", "uk": "Конвеєри", "ru": "Конвейеры", "pl": "Potoki" },
-      "commands": ["grep", "wc", "sort"],
+      "title": {
+        "en": "Pipes",
+        "uk": "Конвеєри",
+        "ru": "Конвейеры",
+        "pl": "Potoki"
+      },
+      "commands": [
+        "grep",
+        "wc",
+        "sort"
+      ],
       "setup": "text-files",
       "steps": [
         {
@@ -145,48 +394,162 @@
             "ru": "Конвейер `|` передаёт вывод одной команды на вход следующей. Маленькие команды превращаются в производственную линию:\n\n`grep ERROR app.log | wc -l` — найти ошибки, потом посчитать.\n\nЭто сердце философии Unix: каждый инструмент делает одну вещь хорошо.",
             "pl": "Potok `|` przekazuje wynik jednego polecenia na wejście następnego. Małe polecenia stają się linią produkcyjną:\n\n`grep ERROR app.log | wc -l` — znajdź błędy, potem je policz.\n\nTo serce filozofii Uniksa: każde narzędzie robi jedną rzecz dobrze."
           },
-          "demo": { "commands": ["grep ERROR logs/app.log | wc -l", "ls /etc | head -n 3"] }
+          "demo": {
+            "commands": [
+              "grep ERROR logs/app.log | wc -l",
+              "ls /etc | head -n 3"
+            ]
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "Count the ERROR lines of logs/app.log using grep, a pipe and wc.", "uk": "Порахуйте рядки з ERROR у logs/app.log за допомогою grep, конвеєра і wc.", "ru": "Посчитайте строки с ERROR в logs/app.log с помощью grep, конвейера и wc.", "pl": "Policz linie z ERROR w logs/app.log za pomocą grep, potoku i wc." },
+          "goal": {
+            "en": "Count the ERROR lines of logs/app.log using grep, a pipe and wc.",
+            "uk": "Порахуйте рядки з ERROR у logs/app.log за допомогою grep, конвеєра і wc.",
+            "ru": "Посчитайте строки с ERROR в logs/app.log с помощью grep, конвейера и wc.",
+            "pl": "Policz linie z ERROR w logs/app.log za pomocą grep, potoku i wc."
+          },
           "checks": [
-            { "type": "usedCommand", "command": "grep", "label": { "en": "grep finds the errors", "uk": "grep знаходить помилки", "ru": "grep находит ошибки", "pl": "grep znajduje błędy" } },
-            { "type": "usedCommand", "command": "wc", "flags": ["-l"], "label": { "en": "wc -l counts them", "uk": "wc -l рахує їх", "ru": "wc -l считает их", "pl": "wc -l je liczy" } },
-            { "type": "outputContains", "regex": "^2$", "label": { "en": "The result is 2", "uk": "Результат — 2", "ru": "Результат — 2", "pl": "Wynik to 2" } }
+            {
+              "type": "usedCommand",
+              "command": "grep",
+              "label": {
+                "en": "grep finds the errors",
+                "uk": "grep знаходить помилки",
+                "ru": "grep находит ошибки",
+                "pl": "grep znajduje błędy"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "wc",
+              "flags": [
+                "-l"
+              ],
+              "label": {
+                "en": "wc -l counts them",
+                "uk": "wc -l рахує їх",
+                "ru": "wc -l считает их",
+                "pl": "wc -l je liczy"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^2$",
+              "label": {
+                "en": "The result is 2",
+                "uk": "Результат — 2",
+                "ru": "Результат — 2",
+                "pl": "Wynik to 2"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "Put | between the two commands; the second one gets no file name.", "uk": "Поставте | між двома командами; друга не отримує назви файлу.", "ru": "Поставьте | между двумя командами; вторая не получает имени файла.", "pl": "Wstaw | między dwa polecenia; drugie nie dostaje nazwy pliku." },
+            "direction": {
+              "en": "Put | between the two commands; the second one gets no file name.",
+              "uk": "Поставте | між двома командами; друга не отримує назви файлу.",
+              "ru": "Поставьте | между двумя командами; вторая не получает имени файла.",
+              "pl": "Wstaw | między dwa polecenia; drugie nie dostaje nazwy pliku."
+            },
             "command": "wc"
           },
-          "solution": ["grep ERROR logs/app.log | wc -l"]
+          "solution": [
+            "grep ERROR logs/app.log | wc -l"
+          ],
+          "instructions": {
+            "en": "1. First find: `grep ERROR logs/app.log`\n2. Press ↑ to recall it and add `| wc -l` at the end",
+            "ru": "1. Сначала найдите: `grep ERROR logs/app.log`\n2. Нажмите ↑, чтобы вернуть команду, и допишите в конце `| wc -l`",
+            "uk": "1. Спершу знайдіть: `grep ERROR logs/app.log`\n2. Натисніть ↑, щоб повернути команду, і допишіть у кінці `| wc -l`"
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "How many entries are in the /etc directory? Use ls, a pipe and wc.", "uk": "Скільки записів у директорії /etc? Використайте ls, конвеєр і wc.", "ru": "Сколько записей в директории /etc? Используйте ls, конвейер и wc.", "pl": "Ile wpisów jest w katalogu /etc? Użyj ls, potoku i wc." },
+          "goal": {
+            "en": "How many entries are in the /etc directory? Use ls, a pipe and wc.",
+            "uk": "Скільки записів у директорії /etc? Використайте ls, конвеєр і wc.",
+            "ru": "Сколько записей в директории /etc? Используйте ls, конвейер и wc.",
+            "pl": "Ile wpisów jest w katalogu /etc? Użyj ls, potoku i wc."
+          },
           "checks": [
-            { "type": "usedCommand", "command": "ls", "args": ["/etc"], "label": { "en": "List /etc", "uk": "Перелічіть /etc", "ru": "Выведите /etc", "pl": "Wyświetl /etc" } },
-            { "type": "usedCommand", "command": "wc", "flags": ["-l"], "label": { "en": "Count lines with wc -l", "uk": "Порахуйте рядки через wc -l", "ru": "Посчитайте строки через wc -l", "pl": "Policz linie przez wc -l" } }
+            {
+              "type": "usedCommand",
+              "command": "ls",
+              "args": [
+                "/etc"
+              ],
+              "label": {
+                "en": "List /etc",
+                "uk": "Перелічіть /etc",
+                "ru": "Выведите /etc",
+                "pl": "Wyświetl /etc"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "wc",
+              "flags": [
+                "-l"
+              ],
+              "label": {
+                "en": "Count lines with wc -l",
+                "uk": "Порахуйте рядки через wc -l",
+                "ru": "Посчитайте строки через wc -l",
+                "pl": "Policz linie przez wc -l"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "When ls writes into a pipe, it prints one name per line.", "uk": "Коли ls пише в конвеєр, вона виводить по одній назві в рядку.", "ru": "Когда ls пишет в конвейер, она выводит по одному имени в строке.", "pl": "Gdy ls pisze do potoku, wypisuje jedną nazwę na linię." },
+            "direction": {
+              "en": "When ls writes into a pipe, it prints one name per line.",
+              "uk": "Коли ls пише в конвеєр, вона виводить по одній назві в рядку.",
+              "ru": "Когда ls пишет в конвейер, она выводит по одному имени в строке.",
+              "pl": "Gdy ls pisze do potoku, wypisuje jedną nazwę na linię."
+            },
             "command": "wc"
           },
-          "solution": ["ls /etc | wc -l"]
+          "solution": [
+            "ls /etc | wc -l"
+          ]
         },
         {
           "type": "build",
-          "goal": { "en": "Build a pipeline that prints the names from data/names.txt sorted and without duplicates.", "uk": "Зберіть конвеєр, що виводить імена з data/names.txt відсортованими і без повторів.", "ru": "Соберите конвейер, который выводит имена из data/names.txt отсортированными и без повторов.", "pl": "Zbuduj potok, który wypisze imiona z data/names.txt posortowane i bez powtórzeń." },
-          "answer": ["sort", "data/names.txt", "|", "uniq"],
-          "distractors": ["head", ">"],
-          "explanation": { "en": "uniq removes only ADJACENT duplicates, that is why we sort first.", "uk": "uniq прибирає лише СУСІДНІ повтори, тому спочатку сортуємо.", "ru": "uniq убирает только СОСЕДНИЕ повторы, поэтому сначала сортируем.", "pl": "uniq usuwa tylko SĄSIEDNIE powtórzenia, dlatego najpierw sortujemy." }
+          "goal": {
+            "en": "Build a pipeline that prints the names from data/names.txt sorted and without duplicates.",
+            "uk": "Зберіть конвеєр, що виводить імена з data/names.txt відсортованими і без повторів.",
+            "ru": "Соберите конвейер, который выводит имена из data/names.txt отсортированными и без повторов.",
+            "pl": "Zbuduj potok, który wypisze imiona z data/names.txt posortowane i bez powtórzeń."
+          },
+          "answer": [
+            "sort",
+            "data/names.txt",
+            "|",
+            "uniq"
+          ],
+          "distractors": [
+            "head",
+            ">"
+          ],
+          "explanation": {
+            "en": "uniq removes only ADJACENT duplicates, that is why we sort first.",
+            "uk": "uniq прибирає лише СУСІДНІ повтори, тому спочатку сортуємо.",
+            "ru": "uniq убирает только СОСЕДНИЕ повторы, поэтому сначала сортируем.",
+            "pl": "uniq usuwa tylko SĄSIEDNIE powtórzenia, dlatego najpierw sortujemy."
+          }
         }
       ]
     },
     {
       "id": "text-sort-uniq",
-      "title": { "en": "Sort and deduplicate", "uk": "Сортування і унікальні значення", "ru": "Сортировка и уникальные значения", "pl": "Sortowanie i unikalne wartości" },
-      "commands": ["sort", "uniq"],
+      "title": {
+        "en": "Sort and deduplicate",
+        "uk": "Сортування і унікальні значення",
+        "ru": "Сортировка и уникальные значения",
+        "pl": "Sortowanie i unikalne wartości"
+      },
+      "commands": [
+        "sort",
+        "uniq"
+      ],
       "setup": "text-files",
       "steps": [
         {
@@ -197,46 +560,122 @@
             "ru": "`sort` сортирует строки по алфавиту. Для чисел нужен `-n` (иначе 100 окажется перед 2), обратный порядок — `-r`.\n\n`uniq` убирает соседние повторы, `uniq -c` ещё и считает их. Классика: `sort | uniq -c | sort -rn` — что встречается чаще всего.",
             "pl": "`sort` sortuje linie alfabetycznie. Dla liczb użyj `-n` (inaczej 100 będzie przed 2), odwrotnie — `-r`.\n\n`uniq` usuwa sąsiednie powtórzenia, `uniq -c` dodatkowo je liczy. Klasyka: `sort | uniq -c | sort -rn` — co występuje najczęściej."
           },
-          "demo": { "commands": ["sort data/fruits.txt", "sort data/names.txt | uniq -c | sort -rn"] }
+          "demo": {
+            "commands": [
+              "sort data/fruits.txt",
+              "sort data/names.txt | uniq -c | sort -rn"
+            ]
+          }
         },
         {
           "type": "predict",
           "command": "sort numbers.txt",
-          "options": ["10\n100\n2\n33\n4\n7", "2\n4\n7\n10\n33\n100", "100\n33\n10\n7\n4\n2"],
+          "options": [
+            "10\n100\n2\n33\n4\n7",
+            "2\n4\n7\n10\n33\n100",
+            "100\n33\n10\n7\n4\n2"
+          ],
           "answer": 0,
-          "explanation": { "en": "Without -n, sort compares text character by character: “1” comes before “2”, so 100 is before 2.", "uk": "Без -n sort порівнює текст посимвольно: «1» раніше за «2», тому 100 стоїть перед 2.", "ru": "Без -n sort сравнивает текст посимвольно: «1» раньше «2», поэтому 100 стоит перед 2.", "pl": "Bez -n sort porównuje tekst znak po znaku: „1” jest przed „2”, więc 100 jest przed 2." }
+          "explanation": {
+            "en": "Without -n, sort compares text character by character: “1” comes before “2”, so 100 is before 2.",
+            "uk": "Без -n sort порівнює текст посимвольно: «1» раніше за «2», тому 100 стоїть перед 2.",
+            "ru": "Без -n sort сравнивает текст посимвольно: «1» раньше «2», поэтому 100 стоит перед 2.",
+            "pl": "Bez -n sort porównuje tekst znak po znaku: „1” jest przed „2”, więc 100 jest przed 2."
+          }
         },
         {
           "type": "task",
-          "goal": { "en": "Sort numbers.txt as numbers, from the largest to the smallest.", "uk": "Відсортуйте numbers.txt як числа, від найбільшого до найменшого.", "ru": "Отсортируйте numbers.txt как числа, от большего к меньшему.", "pl": "Posortuj numbers.txt jako liczby, od największej do najmniejszej." },
+          "goal": {
+            "en": "Sort numbers.txt as numbers, from the largest to the smallest.",
+            "uk": "Відсортуйте numbers.txt як числа, від найбільшого до найменшого.",
+            "ru": "Отсортируйте numbers.txt как числа, от большего к меньшему.",
+            "pl": "Posortuj numbers.txt jako liczby, od największej do najmniejszej."
+          },
           "checks": [
-            { "type": "outputContains", "text": "100\n33\n10\n7\n4\n2", "label": { "en": "100 first, 2 last", "uk": "100 першим, 2 останнім", "ru": "100 первым, 2 последним", "pl": "100 pierwsze, 2 ostatnie" } }
+            {
+              "type": "outputContains",
+              "text": "100\n33\n10\n7\n4\n2",
+              "label": {
+                "en": "100 first, 2 last",
+                "uk": "100 першим, 2 останнім",
+                "ru": "100 первым, 2 последним",
+                "pl": "100 pierwsze, 2 ostatnie"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "Combine two flags: numeric and reverse.", "uk": "Поєднайте два прапорці: числовий і зворотний.", "ru": "Совместите два флага: числовой и обратный.", "pl": "Połącz dwie flagi: liczbową i odwrotną." },
+            "direction": {
+              "en": "Combine two flags: numeric and reverse.",
+              "uk": "Поєднайте два прапорці: числовий і зворотний.",
+              "ru": "Совместите два флага: числовой и обратный.",
+              "pl": "Połącz dwie flagi: liczbową i odwrotną."
+            },
             "command": "sort"
           },
-          "solution": ["sort -rn numbers.txt"]
+          "solution": [
+            "sort -rn numbers.txt"
+          ]
         },
         {
           "type": "task",
-          "goal": { "en": "Which name occurs most often in data/names.txt? Show every name with its count, most frequent first.", "uk": "Яке ім'я найчастіше трапляється в data/names.txt? Покажіть кожне ім'я з кількістю, найчастіші першими.", "ru": "Какое имя встречается чаще всего в data/names.txt? Покажите каждое имя с количеством, самые частые первыми.", "pl": "Które imię występuje najczęściej w data/names.txt? Pokaż każde imię z liczbą wystąpień, najczęstsze najpierw." },
+          "goal": {
+            "en": "Which name occurs most often in data/names.txt? Show every name with its count, most frequent first.",
+            "uk": "Яке ім'я найчастіше трапляється в data/names.txt? Покажіть кожне ім'я з кількістю, найчастіші першими.",
+            "ru": "Какое имя встречается чаще всего в data/names.txt? Покажите каждое имя с количеством, самые частые первыми.",
+            "pl": "Które imię występuje najczęściej w data/names.txt? Pokaż każde imię z liczbą wystąpień, najczęstsze najpierw."
+          },
           "checks": [
-            { "type": "outputContains", "regex": "^\\s*3 olena$", "label": { "en": "olena is on top with 3", "uk": "olena на першому місці з 3", "ru": "olena на первом месте с 3", "pl": "olena na górze z 3" } },
-            { "type": "usedCommand", "command": "uniq", "flags": ["-c"], "label": { "en": "Count with uniq -c", "uk": "Рахуйте через uniq -c", "ru": "Считайте через uniq -c", "pl": "Licz przez uniq -c" } }
+            {
+              "type": "usedCommand",
+              "command": "uniq",
+              "flags": [
+                "-c"
+              ],
+              "label": {
+                "en": "Count with uniq -c",
+                "uk": "Рахуйте через uniq -c",
+                "ru": "Считайте через uniq -c",
+                "pl": "Licz przez uniq -c"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^\\s*3 olena$",
+              "label": {
+                "en": "olena is on top with 3",
+                "uk": "olena на першому місці з 3",
+                "ru": "olena на первом месте с 3",
+                "pl": "olena na górze z 3"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "sort → uniq -c → sort numerically in reverse.", "uk": "sort → uniq -c → sort числами у зворотному порядку.", "ru": "sort → uniq -c → sort числами в обратном порядке.", "pl": "sort → uniq -c → sort liczbowo odwrotnie." },
+            "direction": {
+              "en": "sort → uniq -c → sort numerically in reverse.",
+              "uk": "sort → uniq -c → sort числами у зворотному порядку.",
+              "ru": "sort → uniq -c → sort числами в обратном порядке.",
+              "pl": "sort → uniq -c → sort liczbowo odwrotnie."
+            },
             "command": "uniq"
           },
-          "solution": ["sort data/names.txt | uniq -c | sort -rn"]
+          "solution": [
+            "sort data/names.txt | uniq -c | sort -rn"
+          ]
         }
       ]
     },
     {
       "id": "text-redirects",
-      "title": { "en": "Save results", "uk": "Збереження результатів", "ru": "Сохранение результатов", "pl": "Zapisywanie wyników" },
-      "commands": ["sort", "grep"],
+      "title": {
+        "en": "Save results",
+        "uk": "Збереження результатів",
+        "ru": "Сохранение результатов",
+        "pl": "Zapisywanie wyników"
+      },
+      "commands": [
+        "sort",
+        "grep"
+      ],
       "setup": "text-files",
       "steps": [
         {
@@ -250,41 +689,128 @@
         },
         {
           "type": "task",
-          "goal": { "en": "Save the ERROR lines of logs/app.log into errors.txt in your home.", "uk": "Збережіть рядки з ERROR з logs/app.log у файл errors.txt у домашній директорії.", "ru": "Сохраните строки с ERROR из logs/app.log в файл errors.txt в домашней директории.", "pl": "Zapisz linie z ERROR z logs/app.log do pliku errors.txt w katalogu domowym." },
+          "goal": {
+            "en": "Save the ERROR lines of logs/app.log into errors.txt in your home.",
+            "uk": "Збережіть рядки з ERROR з logs/app.log у файл errors.txt у домашній директорії.",
+            "ru": "Сохраните строки с ERROR из logs/app.log в файл errors.txt в домашней директории.",
+            "pl": "Zapisz linie z ERROR z logs/app.log do pliku errors.txt w katalogu domowym."
+          },
           "checks": [
-            { "type": "fileContains", "path": "~/errors.txt", "text": "Database connection refused", "label": { "en": "errors.txt contains the errors", "uk": "errors.txt містить помилки", "ru": "errors.txt содержит ошибки", "pl": "errors.txt zawiera błędy" } },
-            { "type": "fileNotContains", "path": "~/errors.txt", "text": "INFO", "label": { "en": "…and nothing else", "uk": "…і нічого більше", "ru": "…и ничего больше", "pl": "…i nic więcej" } }
+            {
+              "type": "fileContains",
+              "path": "~/errors.txt",
+              "text": "Database connection refused",
+              "label": {
+                "en": "errors.txt contains the errors",
+                "uk": "errors.txt містить помилки",
+                "ru": "errors.txt содержит ошибки",
+                "pl": "errors.txt zawiera błędy"
+              }
+            },
+            {
+              "type": "fileNotContains",
+              "path": "~/errors.txt",
+              "text": "INFO",
+              "label": {
+                "en": "…and nothing else",
+                "uk": "…і нічого більше",
+                "ru": "…и ничего больше",
+                "pl": "…i nic więcej"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "grep finds the lines, > sends them into a file.", "uk": "grep знаходить рядки, > відправляє їх у файл.", "ru": "grep находит строки, > отправляет их в файл.", "pl": "grep znajduje linie, > wysyła je do pliku." },
+            "direction": {
+              "en": "grep finds the lines, > sends them into a file.",
+              "uk": "grep знаходить рядки, > відправляє їх у файл.",
+              "ru": "grep находит строки, > отправляет их в файл.",
+              "pl": "grep znajduje linie, > wysyła je do pliku."
+            },
             "command": "grep"
           },
-          "solution": ["grep ERROR logs/app.log > errors.txt"]
+          "solution": [
+            "grep ERROR logs/app.log > errors.txt"
+          ]
         },
         {
           "type": "task",
-          "goal": { "en": "Save a sorted list of unique names from data/names.txt into data/unique.txt.", "uk": "Збережіть відсортований список унікальних імен з data/names.txt у data/unique.txt.", "ru": "Сохраните отсортированный список уникальных имён из data/names.txt в data/unique.txt.", "pl": "Zapisz posortowaną listę unikalnych imion z data/names.txt do data/unique.txt." },
+          "goal": {
+            "en": "Save a sorted list of unique names from data/names.txt into data/unique.txt.",
+            "uk": "Збережіть відсортований список унікальних імен з data/names.txt у data/unique.txt.",
+            "ru": "Сохраните отсортированный список уникальных имён из data/names.txt в data/unique.txt.",
+            "pl": "Zapisz posortowaną listę unikalnych imion z data/names.txt do data/unique.txt."
+          },
           "checks": [
-            { "type": "fileEquals", "path": "~/data/unique.txt", "text": "anna\nivan\nmarek\nolena\npiotr\nsofia\n", "label": { "en": "unique.txt has 6 sorted names", "uk": "У unique.txt 6 відсортованих імен", "ru": "В unique.txt 6 отсортированных имён", "pl": "unique.txt zawiera 6 posortowanych imion" } }
+            {
+              "type": "fileEquals",
+              "path": "~/data/unique.txt",
+              "text": "anna\nivan\nmarek\nolena\npiotr\nsofia\n",
+              "label": {
+                "en": "unique.txt has 6 sorted names",
+                "uk": "У unique.txt 6 відсортованих імен",
+                "ru": "В unique.txt 6 отсортированных имён",
+                "pl": "unique.txt zawiera 6 posortowanych imion"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "sort -u or sort | uniq, then redirect into the file.", "uk": "sort -u або sort | uniq, потім перенаправлення у файл.", "ru": "sort -u или sort | uniq, затем перенаправление в файл.", "pl": "sort -u albo sort | uniq, potem przekierowanie do pliku." },
+            "direction": {
+              "en": "sort -u or sort | uniq, then redirect into the file.",
+              "uk": "sort -u або sort | uniq, потім перенаправлення у файл.",
+              "ru": "sort -u или sort | uniq, затем перенаправление в файл.",
+              "pl": "sort -u albo sort | uniq, potem przekierowanie do pliku."
+            },
             "command": "sort"
           },
-          "solution": ["sort -u data/names.txt > data/unique.txt"]
+          "solution": [
+            "sort -u data/names.txt > data/unique.txt"
+          ]
         },
         {
           "type": "task",
-          "goal": { "en": "Run ls nope (that file does not exist) so that the error message is NOT shown.", "uk": "Виконайте ls nope (такого файлу немає) так, щоб повідомлення про помилку НЕ з'явилося.", "ru": "Выполните ls nope (такого файла нет) так, чтобы сообщение об ошибке НЕ появилось.", "pl": "Uruchom ls nope (takiego pliku nie ma) tak, aby komunikat o błędzie się NIE pojawił." },
+          "goal": {
+            "en": "Run ls nope (that file does not exist) so that the error message is NOT shown.",
+            "uk": "Виконайте ls nope (такого файлу немає) так, щоб повідомлення про помилку НЕ з'явилося.",
+            "ru": "Выполните ls nope (такого файла нет) так, чтобы сообщение об ошибке НЕ появилось.",
+            "pl": "Uruchom ls nope (takiego pliku nie ma) tak, aby komunikat o błędzie się NIE pojawił."
+          },
           "checks": [
-            { "type": "usedCommand", "command": "ls", "args": ["nope"], "label": { "en": "Run ls nope", "uk": "Виконайте ls nope", "ru": "Выполните ls nope", "pl": "Uruchom ls nope" } },
-            { "type": "outputLines", "eq": 0, "label": { "en": "The screen stays clean", "uk": "Екран лишається чистим", "ru": "Экран остаётся чистым", "pl": "Ekran pozostaje czysty" } }
+            {
+              "type": "usedCommand",
+              "command": "ls",
+              "args": [
+                "nope"
+              ],
+              "label": {
+                "en": "Run ls nope",
+                "uk": "Виконайте ls nope",
+                "ru": "Выполните ls nope",
+                "pl": "Uruchom ls nope"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 0,
+              "label": {
+                "en": "The screen stays clean",
+                "uk": "Екран лишається чистим",
+                "ru": "Экран остаётся чистым",
+                "pl": "Ekran pozostaje czysty"
+              }
+            }
           ],
           "hints": {
-            "direction": { "en": "Errors are stream number 2. /dev/null is a black hole.", "uk": "Помилки — це потік номер 2. /dev/null — чорна діра.", "ru": "Ошибки — это поток номер 2. /dev/null — чёрная дыра.", "pl": "Błędy to strumień numer 2. /dev/null to czarna dziura." },
+            "direction": {
+              "en": "Errors are stream number 2. /dev/null is a black hole.",
+              "uk": "Помилки — це потік номер 2. /dev/null — чорна діра.",
+              "ru": "Ошибки — это поток номер 2. /dev/null — чёрная дыра.",
+              "pl": "Błędy to strumień numer 2. /dev/null to czarna dziura."
+            },
             "command": "ls"
           },
-          "solution": ["ls nope 2>/dev/null"]
+          "solution": [
+            "ls nope 2>/dev/null"
+          ]
         }
       ]
     }

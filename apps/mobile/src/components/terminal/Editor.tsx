@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useTheme, MONO } from '../../theme';
 import type { EditorState } from './useShell';
+import { Text } from '../../theme/Text';
 
 /** Simplified nano: edit, save (^O), exit (^X). */
 export function Editor({ state, onSave, onClose }: { state: EditorState; onSave: (content: string) => string | null; onClose: () => void }) {

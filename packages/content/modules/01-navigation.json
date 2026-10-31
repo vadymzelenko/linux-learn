@@ -17,8 +17,16 @@
   "lessons": [
     {
       "id": "nav-where-am-i",
-      "title": { "en": "Where am I?", "uk": "Де я?", "ru": "Где я?", "pl": "Gdzie jestem?" },
-      "commands": ["pwd", "whoami"],
+      "title": {
+        "en": "Where am I?",
+        "uk": "Де я?",
+        "ru": "Где я?",
+        "pl": "Gdzie jestem?"
+      },
+      "commands": [
+        "pwd",
+        "whoami"
+      ],
       "setup": "home-basic",
       "steps": [
         {
@@ -29,7 +37,11 @@
             "ru": "Терминал — это текстовый разговор с компьютером: вы вводите **команду**, нажимаете Enter, и компьютер отвечает.\n\nВы всегда находитесь *где-то* в файловой системе. Команда `pwd` (print working directory) показывает, где вы сейчас.",
             "pl": "Terminal to tekstowa rozmowa z komputerem: wpisujesz **polecenie**, naciskasz Enter, a komputer odpowiada.\n\nZawsze jesteś *gdzieś* w systemie plików. Polecenie `pwd` (print working directory) pokazuje, gdzie jesteś teraz."
           },
-          "demo": { "commands": ["pwd"] }
+          "demo": {
+            "commands": [
+              "pwd"
+            ]
+          }
         },
         {
           "type": "task",
@@ -43,7 +55,12 @@
             {
               "type": "usedCommand",
               "command": "pwd",
-              "label": { "en": "Run pwd", "uk": "Виконайте pwd", "ru": "Выполните pwd", "pl": "Uruchom pwd" }
+              "label": {
+                "en": "Run pwd",
+                "uk": "Виконайте pwd",
+                "ru": "Выполните pwd",
+                "pl": "Uruchom pwd"
+              }
             }
           ],
           "hints": {
@@ -55,7 +72,14 @@
             },
             "command": "pwd"
           },
-          "solution": ["pwd"]
+          "solution": [
+            "pwd"
+          ],
+          "instructions": {
+            "en": "1. Type `pwd` in the terminal\n2. Press Enter (⏎)",
+            "ru": "1. Наберите в терминале `pwd`\n2. Нажмите Enter (⏎)",
+            "uk": "1. Наберіть у терміналі `pwd`\n2. Натисніть Enter (⏎)"
+          }
         },
         {
           "type": "task",
@@ -67,14 +91,14 @@
           },
           "checks": [
             {
-              "type": "outputContains",
-              "text": "student",
-              "label": { "en": "Print your user name", "uk": "Виведіть ім'я користувача", "ru": "Выведите имя пользователя", "pl": "Wyświetl nazwę użytkownika" }
-            },
-            {
               "type": "usedCommand",
               "command": "whoami",
-              "label": { "en": "Use whoami", "uk": "Використайте whoami", "ru": "Используйте whoami", "pl": "Użyj whoami" }
+              "label": {
+                "en": "Ask the system with whoami",
+                "ru": "Спросите систему командой whoami",
+                "uk": "Запитайте систему командою whoami",
+                "pl": "Zapytaj system poleceniem whoami"
+              }
             }
           ],
           "hints": {
@@ -86,7 +110,14 @@
             },
             "command": "whoami"
           },
-          "solution": ["whoami"]
+          "solution": [
+            "whoami"
+          ],
+          "instructions": {
+            "en": "1. Type the command `whoami` (who am I)\n2. Press Enter — the system prints your user name",
+            "ru": "1. Наберите команду `whoami` (who am I — «кто я»)\n2. Нажмите Enter — система сама напечатает имя пользователя",
+            "uk": "1. Наберіть команду `whoami` (who am I — «хто я»)\n2. Натисніть Enter — система сама надрукує ім'я користувача"
+          }
         },
         {
           "type": "quiz",
@@ -97,9 +128,24 @@
             "pl": "Uruchomiłeś `pwd` i zobaczyłeś `/home/student`. Co to znaczy?"
           },
           "options": [
-            { "en": "You are in the student directory inside /home", "uk": "Ви в директорії student всередині /home", "ru": "Вы в директории student внутри /home", "pl": "Jesteś w katalogu student wewnątrz /home" },
-            { "en": "The file student was created", "uk": "Створено файл student", "ru": "Создан файл student", "pl": "Utworzono plik student" },
-            { "en": "Your password is student", "uk": "Ваш пароль — student", "ru": "Ваш пароль — student", "pl": "Twoje hasło to student" }
+            {
+              "en": "You are in the student directory inside /home",
+              "uk": "Ви в директорії student всередині /home",
+              "ru": "Вы в директории student внутри /home",
+              "pl": "Jesteś w katalogu student wewnątrz /home"
+            },
+            {
+              "en": "The file student was created",
+              "uk": "Створено файл student",
+              "ru": "Создан файл student",
+              "pl": "Utworzono plik student"
+            },
+            {
+              "en": "Your password is student",
+              "uk": "Ваш пароль — student",
+              "ru": "Ваш пароль — student",
+              "pl": "Twoje hasło to student"
+            }
           ],
           "answer": 0,
           "explanation": {
@@ -113,8 +159,15 @@
     },
     {
       "id": "nav-look-around",
-      "title": { "en": "Look around", "uk": "Роззирніться", "ru": "Осмотритесь", "pl": "Rozejrzyj się" },
-      "commands": ["ls"],
+      "title": {
+        "en": "Look around",
+        "uk": "Роззирніться",
+        "ru": "Осмотритесь",
+        "pl": "Rozejrzyj się"
+      },
+      "commands": [
+        "ls"
+      ],
       "setup": "home-basic",
       "steps": [
         {
@@ -125,7 +178,12 @@
             "ru": "`ls` (list) показывает, что лежит в директории. Директории синие, обычные файлы — белые.\n\nПередайте `ls` путь, чтобы заглянуть в другую директорию, не переходя туда: `ls docs`.",
             "pl": "`ls` (list) pokazuje zawartość katalogu. Katalogi są niebieskie, zwykłe pliki białe.\n\nPodaj `ls` ścieżkę, aby zajrzeć do innego katalogu bez przechodzenia do niego: `ls docs`."
           },
-          "demo": { "commands": ["ls", "ls docs"] }
+          "demo": {
+            "commands": [
+              "ls",
+              "ls docs"
+            ]
+          }
         },
         {
           "type": "task",
@@ -139,12 +197,22 @@
             {
               "type": "usedCommand",
               "command": "ls",
-              "label": { "en": "List the directory", "uk": "Перегляньте вміст директорії", "ru": "Выведите содержимое директории", "pl": "Wyświetl zawartość katalogu" }
+              "label": {
+                "en": "List the directory",
+                "uk": "Перегляньте вміст директорії",
+                "ru": "Выведите содержимое директории",
+                "pl": "Wyświetl zawartość katalogu"
+              }
             },
             {
               "type": "outputContains",
               "text": "notes.txt",
-              "label": { "en": "notes.txt is visible", "uk": "Видно notes.txt", "ru": "Виден notes.txt", "pl": "Widać notes.txt" }
+              "label": {
+                "en": "notes.txt is visible",
+                "uk": "Видно notes.txt",
+                "ru": "Виден notes.txt",
+                "pl": "Widać notes.txt"
+              }
             }
           ],
           "hints": {
@@ -156,7 +224,14 @@
             },
             "command": "ls"
           },
-          "solution": ["ls"]
+          "solution": [
+            "ls"
+          ],
+          "instructions": {
+            "en": "1. Type `ls` and press Enter\n2. Look at the list: blue names are directories",
+            "ru": "1. Наберите `ls` и нажмите Enter\n2. Посмотрите на список: синие имена — это директории",
+            "uk": "1. Наберіть `ls` і натисніть Enter\n2. Подивіться на список: сині назви — це директорії"
+          }
         },
         {
           "type": "task",
@@ -170,12 +245,22 @@
             {
               "type": "outputContains",
               "text": "style.css",
-              "label": { "en": "The website files are listed", "uk": "Виведено файли сайту", "ru": "Выведены файлы сайта", "pl": "Wyświetlono pliki strony" }
+              "label": {
+                "en": "The website files are listed",
+                "uk": "Виведено файли сайту",
+                "ru": "Выведены файлы сайта",
+                "pl": "Wyświetlono pliki strony"
+              }
             },
             {
               "type": "cwdIs",
               "path": "~",
-              "label": { "en": "You are still at home", "uk": "Ви досі вдома", "ru": "Вы всё ещё дома", "pl": "Nadal jesteś w domu" }
+              "label": {
+                "en": "You are still at home",
+                "uk": "Ви досі вдома",
+                "ru": "Вы всё ещё дома",
+                "pl": "Nadal jesteś w domu"
+              }
             }
           ],
           "hints": {
@@ -187,13 +272,29 @@
             },
             "command": "ls"
           },
-          "solution": ["ls projects/website"]
+          "solution": [
+            "ls projects/website"
+          ],
+          "instructions": {
+            "en": "1. The directory is ~/projects/website (projects → website)\n2. Give the path to ls: `ls projects/website`\n3. Do not use cd",
+            "ru": "1. Директория лежит по пути ~/projects/website (projects → website)\n2. Передайте путь команде ls: `ls projects/website`\n3. cd использовать не нужно",
+            "uk": "1. Директорія лежить за шляхом ~/projects/website (projects → website)\n2. Передайте шлях команді ls: `ls projects/website`\n3. cd використовувати не потрібно"
+          }
         },
         {
           "type": "predict",
-          "setup": { "files": { "~/report.txt": "x", "~/data/": null } },
+          "setup": {
+            "files": {
+              "~/report.txt": "x",
+              "~/data/": null
+            }
+          },
           "command": "ls data",
-          "options": ["", "report.txt", "ls: cannot access 'data': No such file or directory"],
+          "options": [
+            "",
+            "report.txt",
+            "ls: cannot access 'data': No such file or directory"
+          ],
           "answer": 0,
           "explanation": {
             "en": "data is an empty directory, so ls prints nothing at all. Silence in Linux usually means “all good”.",
@@ -206,8 +307,15 @@
     },
     {
       "id": "nav-moving",
-      "title": { "en": "Moving around", "uk": "Пересування", "ru": "Перемещение", "pl": "Poruszanie się" },
-      "commands": ["cd"],
+      "title": {
+        "en": "Moving around",
+        "uk": "Пересування",
+        "ru": "Перемещение",
+        "pl": "Poruszanie się"
+      },
+      "commands": [
+        "cd"
+      ],
       "setup": "home-basic",
       "steps": [
         {
@@ -218,7 +326,14 @@
             "ru": "`cd` (change directory) переносит вас в другую директорию: `cd docs`.\n\n`cd ..` поднимает на уровень выше, в родительскую директорию. `cd` без аргументов всегда возвращает домой, а `cd -` — в предыдущую директорию.\n\nСледите за приглашением: оно показывает, где вы. `~` — это ваша домашняя директория.",
             "pl": "`cd` (change directory) przenosi cię do innego katalogu: `cd docs`.\n\n`cd ..` przechodzi poziom wyżej, do katalogu nadrzędnego. `cd` bez argumentów zawsze wraca do domu, a `cd -` do poprzedniego katalogu.\n\nObserwuj znak zachęty: pokazuje, gdzie jesteś. `~` to twój katalog domowy."
           },
-          "demo": { "commands": ["cd docs", "pwd", "cd ..", "pwd"] }
+          "demo": {
+            "commands": [
+              "cd docs",
+              "pwd",
+              "cd ..",
+              "pwd"
+            ]
+          }
         },
         {
           "type": "task",
@@ -232,7 +347,12 @@
             {
               "type": "cwdIs",
               "path": "~/projects/website",
-              "label": { "en": "You are in ~/projects/website", "uk": "Ви в ~/projects/website", "ru": "Вы в ~/projects/website", "pl": "Jesteś w ~/projects/website" }
+              "label": {
+                "en": "You are in ~/projects/website",
+                "uk": "Ви в ~/projects/website",
+                "ru": "Вы в ~/projects/website",
+                "pl": "Jesteś w ~/projects/website"
+              }
             }
           ],
           "hints": {
@@ -244,7 +364,14 @@
             },
             "command": "cd"
           },
-          "solution": ["cd projects/website"]
+          "solution": [
+            "cd projects/website"
+          ],
+          "instructions": {
+            "en": "1. Not sure what is here? Run `ls` or press the 📁 button\n2. Go there with cd and the path projects/website",
+            "ru": "1. Не помните, что здесь есть? Выполните `ls` или нажмите кнопку 📁\n2. Перейдите туда командой cd с путём projects/website",
+            "uk": "1. Не пам'ятаєте, що тут є? Виконайте `ls` або натисніть кнопку 📁\n2. Перейдіть туди командою cd зі шляхом projects/website"
+          }
         },
         {
           "type": "task",
@@ -254,12 +381,19 @@
             "ru": "Вы глубоко в projects/website. Поднимитесь на уровень выше, в projects.",
             "pl": "Jesteś głęboko w projects/website. Przejdź poziom wyżej, do projects."
           },
-          "prepare": ["cd projects/website"],
+          "prepare": [
+            "cd projects/website"
+          ],
           "checks": [
             {
               "type": "cwdIs",
               "path": "~/projects",
-              "label": { "en": "You are in ~/projects", "uk": "Ви в ~/projects", "ru": "Вы в ~/projects", "pl": "Jesteś w ~/projects" }
+              "label": {
+                "en": "You are in ~/projects",
+                "uk": "Ви в ~/projects",
+                "ru": "Вы в ~/projects",
+                "pl": "Jesteś w ~/projects"
+              }
             }
           ],
           "hints": {
@@ -271,7 +405,9 @@
             },
             "command": "cd"
           },
-          "solution": ["cd .."]
+          "solution": [
+            "cd .."
+          ]
         },
         {
           "type": "task",
@@ -281,12 +417,19 @@
             "ru": "Вы забрели в /var/log. Вернитесь домой самой короткой командой.",
             "pl": "Zawędrowałeś do /var/log. Wróć do domu najkrótszym poleceniem."
           },
-          "prepare": ["cd /var/log"],
+          "prepare": [
+            "cd /var/log"
+          ],
           "checks": [
             {
               "type": "cwdIs",
               "path": "~",
-              "label": { "en": "You are at home", "uk": "Ви вдома", "ru": "Вы дома", "pl": "Jesteś w domu" }
+              "label": {
+                "en": "You are at home",
+                "uk": "Ви вдома",
+                "ru": "Вы дома",
+                "pl": "Jesteś w domu"
+              }
             }
           ],
           "hints": {
@@ -298,7 +441,9 @@
             },
             "command": "cd"
           },
-          "solution": ["cd"]
+          "solution": [
+            "cd"
+          ]
         },
         {
           "type": "quiz",
@@ -309,9 +454,24 @@
             "pl": "Jesteś w /home/student/docs. Dokąd zabierze cię `cd ..`?"
           },
           "options": [
-            { "en": "/home/student", "uk": "/home/student", "ru": "/home/student", "pl": "/home/student" },
-            { "en": "/", "uk": "/", "ru": "/", "pl": "/" },
-            { "en": "/home/student/docs/..", "uk": "/home/student/docs/..", "ru": "/home/student/docs/..", "pl": "/home/student/docs/.." }
+            {
+              "en": "/home/student",
+              "uk": "/home/student",
+              "ru": "/home/student",
+              "pl": "/home/student"
+            },
+            {
+              "en": "/",
+              "uk": "/",
+              "ru": "/",
+              "pl": "/"
+            },
+            {
+              "en": "/home/student/docs/..",
+              "uk": "/home/student/docs/..",
+              "ru": "/home/student/docs/..",
+              "pl": "/home/student/docs/.."
+            }
           ],
           "answer": 0
         }
@@ -319,8 +479,15 @@
     },
     {
       "id": "nav-hidden-and-details",
-      "title": { "en": "Hidden files and details", "uk": "Приховані файли і деталі", "ru": "Скрытые файлы и детали", "pl": "Ukryte pliki i szczegóły" },
-      "commands": ["ls"],
+      "title": {
+        "en": "Hidden files and details",
+        "uk": "Приховані файли і деталі",
+        "ru": "Скрытые файлы и детали",
+        "pl": "Ukryte pliki i szczegóły"
+      },
+      "commands": [
+        "ls"
+      ],
       "setup": "home-basic",
       "steps": [
         {
@@ -331,7 +498,12 @@
             "ru": "Файлы, имена которых начинаются с точки (`.bashrc`, `.config`), **скрыты**: ls их не показывает. Добавьте флаг `-a` (all), чтобы увидеть всё.\n\nФлаг `-l` включает длинный формат: права, владелец, размер и дата. `-h` делает размеры удобными (4.0K, 1.2M).\n\nКороткие флаги можно склеивать: `ls -la` — то же самое, что `ls -l -a`.",
             "pl": "Pliki, których nazwy zaczynają się od kropki (`.bashrc`, `.config`), są **ukryte**: ls ich nie pokazuje. Dodaj flagę `-a` (all), aby zobaczyć wszystko.\n\nFlaga `-l` włącza format długi: uprawnienia, właściciel, rozmiar i data. `-h` sprawia, że rozmiary są czytelne (4.0K, 1.2M).\n\nKrótkie flagi można sklejać: `ls -la` to to samo co `ls -l -a`."
           },
-          "demo": { "commands": ["ls -a", "ls -lh photos"] }
+          "demo": {
+            "commands": [
+              "ls -a",
+              "ls -lh photos"
+            ]
+          }
         },
         {
           "type": "task",
@@ -345,13 +517,25 @@
             {
               "type": "usedCommand",
               "command": "ls",
-              "flags": ["-a"],
-              "label": { "en": "Use ls with the “all” flag", "uk": "Використайте ls з прапорцем «all»", "ru": "Используйте ls с флагом «all»", "pl": "Użyj ls z flagą „all”" }
+              "flags": [
+                "-a"
+              ],
+              "label": {
+                "en": "Use ls with the “all” flag",
+                "uk": "Використайте ls з прапорцем «all»",
+                "ru": "Используйте ls с флагом «all»",
+                "pl": "Użyj ls z flagą „all”"
+              }
             },
             {
               "type": "outputContains",
               "text": ".config",
-              "label": { "en": ".config is visible", "uk": "Видно .config", "ru": "Виден .config", "pl": "Widać .config" }
+              "label": {
+                "en": ".config is visible",
+                "uk": "Видно .config",
+                "ru": "Виден .config",
+                "pl": "Widać .config"
+              }
             }
           ],
           "hints": {
@@ -363,27 +547,42 @@
             },
             "command": "ls"
           },
-          "solution": ["ls -a"]
+          "solution": [
+            "ls -a"
+          ]
         },
         {
           "type": "task",
           "goal": {
-            "en": "How big are the photos? Show the photos directory in long format with human-readable sizes.",
-            "uk": "Скільки важать фото? Покажіть директорію photos у довгому форматі зі зручними розмірами.",
-            "ru": "Сколько весят фото? Покажите директорию photos в длинном формате с удобными размерами.",
+            "en": "How big are the photos? Show the ~/photos directory in long format with human-readable sizes.",
+            "uk": "Скільки важать фото? Покажіть директорію ~/photos у довгому форматі зі зручними розмірами.",
+            "ru": "Сколько весят фото? Покажите директорию ~/photos в длинном формате с удобными размерами.",
             "pl": "Ile ważą zdjęcia? Pokaż katalog photos w formacie długim z czytelnymi rozmiarami."
           },
           "checks": [
             {
               "type": "usedCommand",
               "command": "ls",
-              "flags": ["-l", "-h"],
-              "label": { "en": "Long format with human-readable sizes", "uk": "Довгий формат зі зручними розмірами", "ru": "Длинный формат с удобными размерами", "pl": "Format długi z czytelnymi rozmiarami" }
+              "flags": [
+                "-l",
+                "-h"
+              ],
+              "label": {
+                "en": "Long format with human-readable sizes",
+                "uk": "Довгий формат зі зручними розмірами",
+                "ru": "Длинный формат с удобными размерами",
+                "pl": "Format długi z czytelnymi rozmiarami"
+              }
             },
             {
               "type": "outputContains",
               "text": "beach.png",
-              "label": { "en": "The photos are listed", "uk": "Виведено фото", "ru": "Выведены фото", "pl": "Wyświetlono zdjęcia" }
+              "label": {
+                "en": "The photos are listed",
+                "uk": "Виведено фото",
+                "ru": "Выведены фото",
+                "pl": "Wyświetlono zdjęcia"
+              }
             }
           ],
           "hints": {
@@ -395,7 +594,14 @@
             },
             "command": "ls"
           },
-          "solution": ["ls -lh photos"]
+          "solution": [
+            "ls -lh photos"
+          ],
+          "instructions": {
+            "en": "1. The photos are in ~/photos (your home directory)\n2. Use ls with two flags: -l (long) and -h (human sizes)\n3. Example form: `ls -lh DIRECTORY`",
+            "ru": "1. Фото лежат в ~/photos (в вашей домашней папке)\n2. Используйте ls с двумя флагами: -l (длинный формат) и -h (удобные размеры)\n3. Форма команды: `ls -lh ДИРЕКТОРИЯ`",
+            "uk": "1. Фото лежать у ~/photos (у вашій домашній теці)\n2. Використайте ls з двома прапорцями: -l (довгий формат) і -h (зручні розміри)\n3. Форма команди: `ls -lh ДИРЕКТОРІЯ`"
+          }
         },
         {
           "type": "build",
@@ -405,15 +611,30 @@
             "ru": "Соберите команду, которая показывает ВСЕ файлы директории docs в длинном формате.",
             "pl": "Zbuduj polecenie, które pokazuje WSZYSTKIE pliki katalogu docs w formacie długim."
           },
-          "answer": ["ls", "-la", "docs"],
-          "distractors": ["cd", "-r"]
+          "answer": [
+            "ls",
+            "-la",
+            "docs"
+          ],
+          "distractors": [
+            "cd",
+            "-r"
+          ]
         }
       ]
     },
     {
       "id": "nav-paths",
-      "title": { "en": "Absolute and relative paths", "uk": "Абсолютні та відносні шляхи", "ru": "Абсолютные и относительные пути", "pl": "Ścieżki bezwzględne i względne" },
-      "commands": ["cd", "ls"],
+      "title": {
+        "en": "Absolute and relative paths",
+        "uk": "Абсолютні та відносні шляхи",
+        "ru": "Абсолютные и относительные пути",
+        "pl": "Ścieżki bezwzględne i względne"
+      },
+      "commands": [
+        "cd",
+        "ls"
+      ],
       "setup": "home-basic",
       "steps": [
         {
@@ -424,7 +645,14 @@
             "ru": "**Абсолютный** путь начинается с корня `/` и работает откуда угодно: `/home/student/docs`.\n\n**Относительный** путь начинается с того места, где вы находитесь: `docs`, `../music`.\n\nСокращения: `~` — ваш дом, `.` — текущая директория, `..` — родительская.",
             "pl": "Ścieżka **bezwzględna** zaczyna się od korzenia `/` i działa z każdego miejsca: `/home/student/docs`.\n\nŚcieżka **względna** zaczyna się tam, gdzie jesteś: `docs`, `../music`.\n\nSkróty: `~` to twój dom, `.` to bieżący katalog, `..` to katalog nadrzędny."
           },
-          "demo": { "commands": ["cd /tmp", "ls ~/docs", "cd ~/projects", "ls ../photos"] }
+          "demo": {
+            "commands": [
+              "cd /tmp",
+              "ls ~/docs",
+              "cd ~/projects",
+              "ls ../photos"
+            ]
+          }
         },
         {
           "type": "task",
@@ -434,17 +662,29 @@
             "ru": "Вы в /tmp. Не уходя оттуда, выведите содержимое своей директории docs.",
             "pl": "Jesteś w /tmp. Nie wychodząc stamtąd, wyświetl swój katalog docs."
           },
-          "prepare": ["cd /tmp"],
+          "prepare": [
+            "cd /tmp"
+          ],
           "checks": [
             {
               "type": "outputContains",
               "text": "report.txt",
-              "label": { "en": "The docs are listed", "uk": "Виведено docs", "ru": "Выведено содержимое docs", "pl": "Wyświetlono docs" }
+              "label": {
+                "en": "The docs are listed",
+                "uk": "Виведено docs",
+                "ru": "Выведено содержимое docs",
+                "pl": "Wyświetlono docs"
+              }
             },
             {
               "type": "cwdIs",
               "path": "/tmp",
-              "label": { "en": "You are still in /tmp", "uk": "Ви досі в /tmp", "ru": "Вы всё ещё в /tmp", "pl": "Nadal jesteś w /tmp" }
+              "label": {
+                "en": "You are still in /tmp",
+                "uk": "Ви досі в /tmp",
+                "ru": "Вы всё ещё в /tmp",
+                "pl": "Nadal jesteś w /tmp"
+              }
             }
           ],
           "hints": {
@@ -456,7 +696,14 @@
             },
             "command": "ls"
           },
-          "solution": ["ls ~/docs"]
+          "solution": [
+            "ls ~/docs"
+          ],
+          "instructions": {
+            "en": "1. You are in /tmp — check with `pwd`\n2. Your docs directory is ~/docs\n3. Run ls with that path, without cd",
+            "ru": "1. Вы в /tmp — проверьте командой `pwd`\n2. Ваша директория docs — это ~/docs\n3. Выполните ls с этим путём, без cd",
+            "uk": "1. Ви в /tmp — перевірте командою `pwd`\n2. Ваша директорія docs — це ~/docs\n3. Виконайте ls із цим шляхом, без cd"
+          }
         },
         {
           "type": "task",
@@ -466,12 +713,19 @@
             "ru": "Вы в ~/projects/website. Перейдите в ~/photos относительным путём.",
             "pl": "Jesteś w ~/projects/website. Przejdź do ~/photos ścieżką względną."
           },
-          "prepare": ["cd ~/projects/website"],
+          "prepare": [
+            "cd ~/projects/website"
+          ],
           "checks": [
             {
               "type": "cwdIs",
               "path": "~/photos",
-              "label": { "en": "You are in ~/photos", "uk": "Ви в ~/photos", "ru": "Вы в ~/photos", "pl": "Jesteś w ~/photos" }
+              "label": {
+                "en": "You are in ~/photos",
+                "uk": "Ви в ~/photos",
+                "ru": "Вы в ~/photos",
+                "pl": "Jesteś w ~/photos"
+              }
             }
           ],
           "hints": {
@@ -483,12 +737,23 @@
             },
             "command": "cd"
           },
-          "solution": ["cd ../../photos"]
+          "solution": [
+            "cd ../../photos"
+          ],
+          "instructions": {
+            "en": "1. From ~/projects/website go up two levels: ../..\n2. Then into photos: `cd ../../photos`",
+            "ru": "1. Из ~/projects/website нужно подняться на два уровня: ../..\n2. Затем в photos: `cd ../../photos`",
+            "uk": "1. З ~/projects/website треба піднятися на два рівні: ../..\n2. Потім у photos: `cd ../../photos`"
+          }
         },
         {
           "type": "predict",
           "command": "cd /var/log; cd ../..; pwd",
-          "options": ["/", "/var", "/var/log/../.."],
+          "options": [
+            "/",
+            "/var",
+            "/var/log/../.."
+          ],
           "answer": 0,
           "explanation": {
             "en": "From /var/log one level up is /var, two levels up is the root /.",
@@ -506,9 +771,24 @@
             "pl": "Która ścieżka jest bezwzględna?"
           },
           "options": [
-            { "en": "/etc/hostname", "uk": "/etc/hostname", "ru": "/etc/hostname", "pl": "/etc/hostname" },
-            { "en": "docs/report.txt", "uk": "docs/report.txt", "ru": "docs/report.txt", "pl": "docs/report.txt" },
-            { "en": "../music", "uk": "../music", "ru": "../music", "pl": "../music" }
+            {
+              "en": "/etc/hostname",
+              "uk": "/etc/hostname",
+              "ru": "/etc/hostname",
+              "pl": "/etc/hostname"
+            },
+            {
+              "en": "docs/report.txt",
+              "uk": "docs/report.txt",
+              "ru": "docs/report.txt",
+              "pl": "docs/report.txt"
+            },
+            {
+              "en": "../music",
+              "uk": "../music",
+              "ru": "../music",
+              "pl": "../music"
+            }
           ],
           "answer": 0
         }
@@ -516,8 +796,17 @@
     },
     {
       "id": "nav-superpowers",
-      "title": { "en": "Terminal superpowers", "uk": "Суперсили терміналу", "ru": "Суперсилы терминала", "pl": "Supermoce terminala" },
-      "commands": ["history", "man", "clear"],
+      "title": {
+        "en": "Terminal superpowers",
+        "uk": "Суперсили терміналу",
+        "ru": "Суперсилы терминала",
+        "pl": "Supermoce terminala"
+      },
+      "commands": [
+        "history",
+        "man",
+        "clear"
+      ],
       "setup": "home-basic",
       "steps": [
         {
@@ -528,7 +817,11 @@
             "ru": "Профи почти не печатают. **Tab** дополняет имена команд и файлов: наберите `ls pro` и нажмите Tab. **↑** и **↓** листают предыдущие команды, `history` показывает их все.\n\nЗабыли флаг? `man ls` открывает руководство, `ls --help` — краткую справку. `clear` (или Ctrl+L) очищает экран.",
             "pl": "Zawodowcy prawie nie piszą. **Tab** uzupełnia nazwy poleceń i plików: wpisz `ls pro` i naciśnij Tab. **↑** i **↓** przewijają poprzednie polecenia, `history` pokazuje je wszystkie.\n\nZapomniałeś flagi? `man ls` otwiera podręcznik, `ls --help` krótką pomoc. `clear` (lub Ctrl+L) czyści ekran."
           },
-          "demo": { "commands": ["ls --help"] }
+          "demo": {
+            "commands": [
+              "ls --help"
+            ]
+          }
         },
         {
           "type": "task",
@@ -542,8 +835,15 @@
             {
               "type": "usedCommand",
               "command": "man",
-              "args": ["ls"],
-              "label": { "en": "Read man ls", "uk": "Прочитайте man ls", "ru": "Прочитайте man ls", "pl": "Przeczytaj man ls" }
+              "args": [
+                "ls"
+              ],
+              "label": {
+                "en": "Read man ls",
+                "uk": "Прочитайте man ls",
+                "ru": "Прочитайте man ls",
+                "pl": "Przeczytaj man ls"
+              }
             }
           ],
           "hints": {
@@ -555,7 +855,9 @@
             },
             "command": "man"
           },
-          "solution": ["man ls"]
+          "solution": [
+            "man ls"
+          ]
         },
         {
           "type": "task",
@@ -569,7 +871,12 @@
             {
               "type": "usedCommand",
               "command": "history",
-              "label": { "en": "Show the command history", "uk": "Покажіть історію команд", "ru": "Покажите историю команд", "pl": "Pokaż historię poleceń" }
+              "label": {
+                "en": "Show the command history",
+                "uk": "Покажіть історію команд",
+                "ru": "Покажите историю команд",
+                "pl": "Pokaż historię poleceń"
+              }
             }
           ],
           "hints": {
@@ -581,7 +888,11 @@
             },
             "command": "history"
           },
-          "solution": ["pwd", "ls", "history"]
+          "solution": [
+            "pwd",
+            "ls",
+            "history"
+          ]
         },
         {
           "type": "quiz",
@@ -592,9 +903,24 @@
             "pl": "Który klawisz uzupełnia za ciebie nazwę pliku?"
           },
           "options": [
-            { "en": "Tab", "uk": "Tab", "ru": "Tab", "pl": "Tab" },
-            { "en": "Esc", "uk": "Esc", "ru": "Esc", "pl": "Esc" },
-            { "en": "Ctrl", "uk": "Ctrl", "ru": "Ctrl", "pl": "Ctrl" }
+            {
+              "en": "Tab",
+              "uk": "Tab",
+              "ru": "Tab",
+              "pl": "Tab"
+            },
+            {
+              "en": "Esc",
+              "uk": "Esc",
+              "ru": "Esc",
+              "pl": "Esc"
+            },
+            {
+              "en": "Ctrl",
+              "uk": "Ctrl",
+              "ru": "Ctrl",
+              "pl": "Ctrl"
+            }
           ],
           "answer": 0
         }

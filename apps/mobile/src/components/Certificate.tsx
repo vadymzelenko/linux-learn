@@ -1,11 +1,12 @@
 import { useRef } from 'react';
-import { Platform, StyleSheet, Text, View, type ViewInstance } from 'react-native';
+import { Platform, StyleSheet, View, type ViewInstance } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '../state/store';
 import { MONO, MONO_BOLD } from '../theme';
 import { Button } from './ui';
+import { Text } from '../theme/Text';
 
 /** A shareable certificate image (rendered view → PNG → share sheet). */
 export function Certificate({ name }: { name: string }) {

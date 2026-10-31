@@ -1,4 +1,4 @@
-import { Alert, Platform, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { Alert, Platform, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { router } from 'expo-router';
 import Constants from 'expo-constants';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import { themes, THEME_IDS } from '../theme/themes';
 import { Body, Button, Card, H1, H2, IconButton, Row, Screen } from '../components/ui';
 import { LANGUAGE_NAMES } from '../i18n';
 import { syncReminder } from '../lib/reminders';
+import { Text } from '../theme/Text';
 
 function Chip({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
   const theme = useTheme();

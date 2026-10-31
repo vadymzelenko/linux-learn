@@ -1,17 +1,5 @@
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState, type Ref } from 'react';
-import {
-  FlatList,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  useWindowDimensions,
-  View,
-  type TextInputInstance,
-  type TextInputKeyPressEvent,
-  type ViewStyle,
-} from 'react-native';
+import { FlatList, Platform, Pressable, StyleSheet, TextInput, useWindowDimensions, View, type TextInputInstance, type TextInputKeyPressEvent, type ViewStyle } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { stripAnsi } from '@linux-learn/engine';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +11,7 @@ import { PromptText } from './Prompt';
 import { KeyBar, type SpecialKey } from './KeyBar';
 import { Editor } from './Editor';
 import type { Block, ShellController } from './useShell';
+import { Text } from '../../theme/Text';
 
 export interface TerminalHandle {
   insert(text: string): void;

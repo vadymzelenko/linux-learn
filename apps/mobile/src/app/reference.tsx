@@ -1,19 +1,21 @@
 import { useMemo, useState } from 'react';
-import { Modal, Pressable, ScrollView, SectionList, StyleSheet, Text, TextInput, View } from 'react-native';
-import { router } from 'expo-router';
+import { Modal, Pressable, ScrollView, SectionList, StyleSheet, TextInput, View } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { commandList, formatMan, type CommandDef } from '@linux-learn/engine';
 import { useTheme, MONO, MONO_BOLD, space } from '../theme';
 import { H1, IconButton, Row, Screen } from '../components/ui';
 import { AnsiText } from '../components/terminal/AnsiText';
+import { Text } from '../theme/Text';
 
-const ORDER = ['navigation', 'files', 'text', 'search', 'permissions', 'system', 'shell', 'help'] as const;
+const ORDER = ['navigation', 'files', 'text', 'search', 'permissions', 'system', 'network', 'shell', 'help'] as const;
 
 export default function ReferenceScreen() {
   const theme = useTheme();
   const { t } = useTranslation();
   const [q, setQ] = useState('');
-  const [open, setOpen] = useState<CommandDef | null>(null);
+  const params = useLocalSearchParams<{ cmd?: string }>();
+  const [open, setOpen] = useState<CommandDef | null>(() => (params.cmd ? (commandList().find((c) => c.name === params.cmd) ?? null) : null));
   const sections = useMemo(() => {
     const list = commandList().filter((c) => !q || c.name.includes(q.toLowerCase()) || c.doc.summary.toLowerCase().includes(q.toLowerCase()));
     return ORDER.map((cat) => ({ title: t(`reference.categories.${cat}`), data: list.filter((c) => (c.category ?? 'shell') === cat) })).filter((s) => s.data.length);

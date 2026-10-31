@@ -1,38 +1,24 @@
 import { createShell, evaluateChecks, run, type Check, type ExecutedCommand, type MachineSpec, type Session, type TaskEvaluation } from '@linux-learn/engine';
-import type { Achievement, Challenge, ContentCheck, L10n, Lang, Lesson, Mission, Module, Step } from './schema';
+import type { Achievement, Challenge, ContentCheck, Course, GlossaryTerm, L10n, Lang, Lesson, Mission, Module, Step } from './schema';
+import coursesJson from '../courses.json';
+import glossaryJson from '../glossary.json';
 
-import m1 from '../modules/01-navigation.json';
-import m2 from '../modules/02-files.json';
-import m3 from '../modules/03-text.json';
-import m4 from '../modules/04-search.json';
-import m5 from '../modules/05-permissions.json';
-import m6 from '../modules/06-power.json';
 import missionsJson from '../missions/missions.json';
 import challengesJson from '../challenges/challenges.json';
 import achievementsJson from '../achievements.json';
+import { fixtureMap, moduleList } from './registry';
 
-import fEmpty from '../fixtures/empty-home.json';
-import fHome from '../fixtures/home-basic.json';
-import fText from '../fixtures/text-files.json';
-import fSearch from '../fixtures/search.json';
-import fPerm from '../fixtures/permissions.json';
-import fSystem from '../fixtures/system.json';
 
 export * from './schema';
 
-export const modules: Module[] = [m1, m2, m3, m4, m5, m6] as unknown as Module[];
+export const modules: Module[] = moduleList;
+export const courses: Course[] = coursesJson as unknown as Course[];
+export const glossary: GlossaryTerm[] = glossaryJson as unknown as GlossaryTerm[];
 export const missions: Mission[] = missionsJson as unknown as Mission[];
 export const challenges: Challenge[] = challengesJson as unknown as Challenge[];
 export const achievements: Achievement[] = achievementsJson as unknown as Achievement[];
 
-export const fixtures: Record<string, MachineSpec> = {
-  'empty-home': fEmpty as MachineSpec,
-  'home-basic': fHome as MachineSpec,
-  'text-files': fText as MachineSpec,
-  search: fSearch as MachineSpec,
-  permissions: fPerm as MachineSpec,
-  system: fSystem as MachineSpec,
-};
+export const fixtures: Record<string, MachineSpec> = fixtureMap;
 
 /** Pick the text for a language, falling back to English. */
 export function tr(text: L10n | undefined, lang: Lang | string): string {
@@ -153,4 +139,50 @@ export function examTasks(): { step: Extract<Step, { type: 'task' | 'fix' }>; le
     out.push(...pick);
   }
   return out;
+}
+
+// ---------- courses ----------
+
+export function courseOfModule(moduleId: string): Course | undefined {
+  return courses.find((c) => c.modules.includes(moduleId));
+}
+
+export function courseModules(course: Course): Module[] {
+  return course.modules.map((id) => modules.find((m) => m.id === id)).filter((m): m is Module => !!m);
+}
+
+export function courseLessons(course: Course): LessonRef[] {
+  return allLessons.filter((l) => course.modules.includes(l.module.id));
+}
+
+function words(text: L10n | undefined): number {
+  return text ? text.en.split(/\s+/).length : 0;
+}
+
+/** Rough study time of a lesson in minutes (reading at ~120 wpm, tasks ~3 min). */
+export function lessonMinutes(lesson: Lesson): number {
+  let min = 0;
+  for (const s of lesson.steps) {
+    if (s.type === 'theory') min += words(s.text) / 120 + (s.demo ? 1 : 0) + (s.terminal === false ? 0 : 1);
+    else if (s.type === 'task' || s.type === 'fix') min += 3.5;
+    else if (s.type === 'predict' || s.type === 'build') min += 1.5;
+    else min += 1;
+  }
+  return Math.max(3, Math.round(min));
+}
+
+export function courseHours(course: Course): number {
+  const lessonsMin = courseLessons(course).reduce((t, l) => t + lessonMinutes(l.lesson), 0);
+  const missionMin = missions.filter((m) => (m.course ?? 'linux') === course.id).reduce((t, m) => t + 6 + m.difficulty * 4, 0);
+  return Math.round(((lessonsMin + missionMin) / 60) * 10) / 10;
+}
+
+/** Lessons whose theory explains a task's commands (for "read the theory" links). */
+export function lessonsForCommands(commands: string[]): LessonRef[] {
+  const wanted = new Set(commands);
+  return allLessons.filter((l) => l.lesson.commands.some((c) => wanted.has(c))).slice(0, 4);
+}
+
+export function findTerm(id: string): GlossaryTerm | undefined {
+  return glossary.find((g) => g.id === id);
 }

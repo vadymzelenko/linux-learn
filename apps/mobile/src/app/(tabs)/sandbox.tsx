@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { createShell } from '@linux-learn/engine';
 import { fixtures } from '@linux-learn/content';
@@ -8,6 +8,7 @@ import { useTheme, MONO, space } from '../../theme';
 import { Body, Button, Card, H1, Icon, IconButton, Row, Screen } from '../../components/ui';
 import { Terminal, useColumns } from '../../components/terminal/Terminal';
 import { useShell } from '../../components/terminal/useShell';
+import { Text } from '../../theme/Text';
 
 const TEMPLATES = Object.keys(fixtures);
 

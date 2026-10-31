@@ -5,6 +5,7 @@ import { formatHelp, formatMan } from '../shell/help';
 import { can, FsError, updateAt, R, W } from '../vfs/fs';
 import { basename as pathBasename, dirname as pathDirname } from '../vfs/path';
 import { dateString, q, strftime } from './util';
+import { systemGroups } from './admin';
 
 // ---------------------------------------------------------------- chmod / chown
 
@@ -175,7 +176,7 @@ export const chown: CommandDef = {
     }
     let group: string | undefined = groupPart;
     if (spec.includes(':') && groupPart === '' && owner) group = users.find((u) => u.name === owner)?.groups[0];
-    const allGroups = new Set(users.flatMap((u) => u.groups));
+    const allGroups = new Set([...users.flatMap((u) => u.groups), ...systemGroups(ctx).map((g) => g.name)]);
     if (group && !allGroups.has(group)) {
       ctx.fail(`invalid group: ${q(spec)}`);
       return 1;
@@ -373,14 +374,21 @@ export const ps: CommandDef = {
     seeAlso: ['top', 'kill'],
   },
   run(ctx) {
-    const unix = ctx.args.filter((x) => x.startsWith('-')).join('').replace(/-/g, '');
-    const bsdArgs = ctx.args.filter((x) => !x.startsWith('-')).join('');
+    const unix = ctx.args.filter((x) => x.startsWith('-') && !x.startsWith('--')).join('').replace(/-/g, '');
+    const bsdArgs = ctx.args.filter((x, i) => !x.startsWith('-') && ctx.args[i - 1] !== '--sort').join('');
     const all = /[ax]/.test(bsdArgs) || /[eA]/.test(unix);
     const bsd = bsdArgs.includes('u');
     const full = unix.includes('f');
     const shellPid = 1200;
     const procs = [...ctx.shell.processes(), { pid: 4242, user: ctx.user, command: `ps ${ctx.args.join(' ')}`.trim(), cpu: 0, mem: 0.1, rss: 4_100, stat: 'R+', start: '12:00' }];
     const visible = all ? procs : procs.filter((p) => p.pid === shellPid || p.pid === 4242);
+    const sortArg = ctx.args.find((x) => x.startsWith('--sort='))?.slice(7) ?? (ctx.args.includes('--sort') ? ctx.args[ctx.args.indexOf('--sort') + 1] : undefined);
+    if (sortArg) {
+      const desc = sortArg.startsWith('-');
+      const key = sortArg.replace(/^[-+]/, '');
+      const val = (p: (typeof procs)[number]) => (key === '%cpu' || key === 'pcpu' ? p.cpu : key === '%mem' || key === 'pmem' ? p.mem : key === 'rss' ? (p.rss ?? 0) : p.pid);
+      visible.sort((x, y) => (desc ? val(y) - val(x) : val(x) - val(y)));
+    }
     let out = '';
     if (bsd) {
       out += 'USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\n';
@@ -480,7 +488,7 @@ export const hostname: CommandDef = {
   doc: { summary: 'show the system\'s host name', usage: ['hostname'], seeAlso: ['uname'] },
   run(ctx) {
     if (ctx.args.includes('-I') || ctx.args.includes('-i')) {
-      ctx.out(ctx.args.includes('-I') ? '10.0.2.15 \n' : '127.0.1.1\n');
+      ctx.out(ctx.args.includes('-I') ? `${(ctx.machine.network?.interfaces ?? []).filter((i) => i.up).map((i) => i.cidr.split('/')[0]).join(' ') || '10.0.2.15'} \n` : '127.0.1.1\n');
       return 0;
     }
     if (ctx.args.length && !ctx.args[0]!.startsWith('-')) {

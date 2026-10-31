@@ -1,6 +1,7 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme, MONO } from '../../theme';
+import { Text } from '../../theme/Text';
 
 export type SpecialKey = 'tab' | 'up' | 'down' | 'ctrl' | 'esc' | string;
 

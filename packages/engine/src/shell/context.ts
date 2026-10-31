@@ -1,4 +1,4 @@
-import type { DirNode, Machine, OutputChunk, ProcessInfo, ShellEvent } from '../types';
+import type { DirNode, Machine, OutputChunk, ProcessInfo, Service, ShellEvent, UserInfo } from '../types';
 import {
   can,
   FsError,
@@ -44,6 +44,10 @@ export interface ShellApi {
   setFs(fs: DirNode): void;
   processes(): ProcessInfo[];
   setProcesses(p: ProcessInfo[]): void;
+  services(): Service[];
+  users(): UserInfo[];
+  setUsers(u: UserInfo[]): void;
+  setServices(s: Service[]): void;
   cwd(): string;
   setCwd(path: string): void;
   getVar(name: string): string | undefined;
@@ -204,6 +208,6 @@ export interface CommandDef {
   /** Don't treat `--help` specially (echo). */
   noHelp?: boolean;
   /** Category for the in-app command reference. */
-  category?: 'navigation' | 'files' | 'text' | 'search' | 'permissions' | 'system' | 'shell' | 'help';
+  category?: 'navigation' | 'files' | 'text' | 'search' | 'permissions' | 'system' | 'network' | 'shell' | 'help';
   run(ctx: Ctx): number;
 }

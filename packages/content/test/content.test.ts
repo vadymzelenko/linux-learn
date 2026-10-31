@@ -8,7 +8,7 @@ describe('content', () => {
     expect(issues.filter((i) => i.level === 'error')).toEqual([]);
   });
 
-  it('is fully translated into en, uk, ru, pl', () => {
+  it('is fully translated into en, ru and uk', () => {
     expect(lintContent().filter((i) => i.message.startsWith('missing translation'))).toEqual([]);
   });
 

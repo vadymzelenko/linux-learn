@@ -29,6 +29,8 @@ export type Check =
   | { type: 'aliasExists'; name: string; value?: string }
   | { type: 'userIs'; user: string }
   | { type: 'processGone'; pid?: number; name?: string }
+  | { type: 'serviceState'; name: string; state: 'active' | 'inactive' | 'failed' }
+  | { type: 'serviceEnabled'; name: string; enabled: boolean }
   | { type: 'exitCode'; code: number };
 
 export interface CheckContext {
@@ -159,6 +161,10 @@ export function evaluateCheck(check: Check, ctx: CheckContext): CheckResult {
       return ok(s.user === check.user);
     case 'processGone':
       return ok(!s.machine.processes.some((pr) => (check.pid !== undefined && pr.pid === check.pid) || (check.name !== undefined && pr.command.includes(check.name))));
+    case 'serviceState':
+      return ok((s.machine.services ?? []).find((x) => x.name === check.name)?.state === check.state);
+    case 'serviceEnabled':
+      return ok((s.machine.services ?? []).find((x) => x.name === check.name)?.enabled === check.enabled);
     case 'exitCode':
       return ok(ctx.lastExitCode === check.code);
   }
