@@ -56,6 +56,8 @@ export interface Progress {
   achievements: Record<string, number>;
   streak: Streak;
   daily: { last: DayKey | null; count: number };
+  /** Solved practice tasks: id -> completedAt. */
+  practice: Record<string, number>;
   srs: Record<string, SrsCard>;
   stats: { commands: number; grep: number; pipes: number; sudo: number; dirs: string[] };
   exam: { passedAt?: number; best: number };
@@ -69,6 +71,7 @@ export const initialProgress = (): Progress => ({
   achievements: {},
   streak: { current: 0, best: 0, last: null, freezes: 0 },
   daily: { last: null, count: 0 },
+  practice: {},
   srs: {},
   stats: { commands: 0, grep: 0, pipes: 0, sudo: 0, dirs: [] },
   exam: { best: 0 },
@@ -207,7 +210,7 @@ export function newAchievements(p: Progress, ctx: AchievementContext): string[] 
   add('all-missions', missionsDone >= missions.length);
   add('streak-3', p.streak.best >= 3);
   add('streak-7', p.streak.best >= 7);
-  add('daily-challenge', p.daily.count > 0);
+  add('daily-challenge', p.daily.count > 0 || Object.keys(p.practice ?? {}).length > 0);
   add('level-root', levelFor(p.xp).id === 'root');
   add('exam-passed', !!p.exam.passedAt);
   for (const e of ctx.events ?? []) {

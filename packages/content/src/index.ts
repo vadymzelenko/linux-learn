@@ -117,14 +117,9 @@ export function stepXp(step: Step): number {
   }
 }
 
-/** The same challenge for everybody on a given day (no server needed). */
-export function dailyChallenge(date: Date): Challenge {
-  const day = Math.floor(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86_400_000);
-  // walk the pool with a step coprime to its size: no repeats until every challenge was used
-  const n = challenges.length;
-  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
-  const step = [5, 7, 11, 13, 3, 1].find((k) => gcd(k, n) === 1) ?? 1;
-  return challenges[(((day * step) % n) + n) % n]!;
+/** Practice tasks (a fixed set; each one can be solved once for XP). */
+export function findChallenge(id: string): Challenge | undefined {
+  return challenges.find((c) => c.id === id);
 }
 
 /** Levels from newbie to root. */

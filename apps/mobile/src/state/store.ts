@@ -62,7 +62,7 @@ interface State {
   gainXp(xp: number): void;
   completeLesson(lessonId: string, xp: number): void;
   completeMission(missionId: string, xp: number, hints: number): void;
-  completeDaily(xp: number): void;
+  completePractice(id: string, xp: number): void;
   completeExam(score: number, passed: boolean): void;
   scheduleReview(commands: string[], hints: number, mistakes: number): void;
   review(command: string, quality: number): void;
@@ -188,11 +188,11 @@ export const useStore = create<State>()(
             activity(p);
           }),
 
-        completeDaily: (xp) =>
+        completePractice: (id, xp) =>
           update((p) => {
-            const today = dayKey(new Date());
-            if (p.daily.last === today) return;
-            p.daily = { last: today, count: p.daily.count + 1 };
+            p.practice ??= {};
+            if (p.practice[id]) return;
+            p.practice[id] = Date.now();
             p.xp += xp;
             activity(p);
           }),

@@ -2,7 +2,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { commandList } from '@linux-learn/engine';
-import { dailyChallenge, tr } from '@linux-learn/content';
+import { challenges } from '@linux-learn/content';
 import { useStore } from '../../state/store';
 import { useTheme, space } from '../../theme';
 import { Body, Card, H1, H2, Icon, Pill, Row, Screen } from '../../components/ui';
@@ -32,12 +32,12 @@ function Tile({ icon, title, text, onPress, accent, badge }: { icon: string; tit
 
 export default function PracticeScreen() {
   const theme = useTheme();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const progress = useStore((s) => s.progress);
   const today = dayKey(new Date());
-  const challenge = dailyChallenge(new Date());
   const due = dueCards(progress.srs, today);
-  const doneToday = progress.daily.last === today;
+  const solved = challenges.filter((c) => progress.practice?.[c.id]).length;
+  const left = challenges.length - solved;
 
   return (
     <Screen>
@@ -45,12 +45,12 @@ export default function PracticeScreen() {
         <H1 style={{ marginBottom: space.lg }}>{t('practice.title')}</H1>
         <View style={{ gap: space.md }}>
           <Tile
-            icon={doneToday ? 'check-circle' : 'target'}
-            accent={doneToday ? theme.success : theme.warning}
-            title={`${t('practice.daily')}: ${tr(challenge.title, i18n.language)}`}
-            text={doneToday ? t('practice.dailyDone') : t('practice.dailyHint')}
-            badge={doneToday ? undefined : t('common.xp', { count: challenge.xp ?? 30 })}
-            onPress={() => router.push('/challenge')}
+            icon={left ? 'target' : 'check-circle'}
+            accent={left ? theme.warning : theme.success}
+            title={t('practice.tasks')}
+            text={t('practice.tasksDone', { done: solved, total: challenges.length })}
+            badge={left ? String(left) : undefined}
+            onPress={() => router.push('/tasks')}
           />
           <Tile
             icon="repeat"

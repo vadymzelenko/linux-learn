@@ -1,20 +1,22 @@
 import { useMemo, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { dailyChallenge, tr } from '@linux-learn/content';
+import { challenges, findChallenge, tr } from '@linux-learn/content';
 import { useStore } from '../state/store';
 import { useTheme, space } from '../theme';
 import { Button, IconButton, Screen } from '../components/ui';
 import { TaskRunner } from '../components/steps/TaskRunner';
-import { dayKey, rewardAfterHints } from '../lib/progress';
+import { rewardAfterHints } from '../lib/progress';
 import { Text } from '../theme/Text';
 
 export default function ChallengeScreen() {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
-  const challenge = useMemo(() => dailyChallenge(new Date()), []);
-  const doneToday = useStore((s) => s.progress.daily.last === dayKey(new Date()));
+  const { id } = useLocalSearchParams<{ id?: string }>();
+  const challenge = useMemo(() => findChallenge(id ?? '') ?? challenges[0]!, [id]);
+  const done = useStore((s) => !!s.progress.practice?.[challenge.id]);
+  const nextOpen = useStore((s) => challenges.find((c) => c.id !== challenge.id && !s.progress.practice?.[c.id]));
   const [reward, setReward] = useState<number | null>(null);
   return (
     <Screen edges={['top', 'bottom']}>
@@ -22,7 +24,7 @@ export default function ChallengeScreen() {
         <View style={styles.header}>
           <IconButton icon="x" label={t('common.close')} onPress={() => router.back()} />
           <Text style={{ color: theme.text, fontWeight: '800', fontSize: 17, flex: 1 }} numberOfLines={1}>
-            {t('practice.daily')} · {tr(challenge.title, i18n.language)}
+            {t('practice.tasks')} · {tr(challenge.title, i18n.language)}
           </Text>
         </View>
         <View style={styles.body}>
@@ -39,13 +41,16 @@ export default function ChallengeScreen() {
             }}
             {...(challenge.topics?.length ? { onTheory: () => router.push({ pathname: '/read/[id]', params: { id: challenge.topics!.join(',') } }) } : {})}
             onSolved={({ hints }) => {
-              const xp = doneToday ? 0 : rewardAfterHints(challenge.xp ?? 30, hints);
-              if (!doneToday) useStore.getState().completeDaily(xp);
+              const xp = done ? 0 : rewardAfterHints(challenge.xp ?? 30, hints);
+              if (!done) useStore.getState().completePractice(challenge.id, xp);
               setReward(xp);
             }}
             solvedFooter={
               reward !== null ? (
-                <Button title={`${t('common.done')}${reward ? ` · ${t('lesson.earned', { xp: reward })}` : ''}`} onPress={() => router.back()} />
+                <View style={{ gap: space.sm }}>
+                  {nextOpen ? <Button title={t('practice.nextTask')} icon="play" onPress={() => router.replace({ pathname: '/challenge', params: { id: nextOpen.id } })} /> : null}
+                  <Button variant={nextOpen ? 'secondary' : 'primary'} title={`${t('common.done')}${reward ? ` · ${t('lesson.earned', { xp: reward })}` : ''}`} onPress={() => router.back()} />
+                </View>
               ) : null
             }
           />

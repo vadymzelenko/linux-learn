@@ -1,7 +1,7 @@
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { courseHours, courseLessons, courses, dailyChallenge, glossary, levelFor, tr } from '@linux-learn/content';
+import { challenges, courseHours, courseLessons, courses, glossary, levelFor, tr } from '@linux-learn/content';
 import { Text } from '../../theme/Text';
 import { useStore } from '../../state/store';
 import { useTheme, MONO, space } from '../../theme';
@@ -37,7 +37,7 @@ export default function HomeScreen() {
   const today = new Date();
   const dayIndex = Math.floor(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 86_400_000);
   const term = glossary.length ? glossary[dayIndex % glossary.length] : undefined;
-  const challenge = dailyChallenge(today);
+  const nextTask = challenges.find((c) => !progress.practice?.[c.id]);
 
   // the most recently touched unfinished lesson, else the first unfinished lesson of the first course
   const all = courses.flatMap((c) => courseLessons(c).map((l) => ({ ...l, course: c })));
@@ -109,7 +109,7 @@ export default function HomeScreen() {
 
         <H2 style={styles.section}>{t('home.quick')}</H2>
         <View style={styles.grid}>
-          <Quick icon="target" color={theme.warning} label={t('practice.daily')} onPress={() => router.push('/challenge')} />
+          <Quick icon="target" color={theme.warning} label={t('practice.tasks')} onPress={() => router.push('/tasks')} />
           <Quick icon="book-open" color={theme.accent} label={t('glossary.title')} onPress={() => router.push('/glossary')} />
           <Quick icon="reference" color={theme.term.path} label={t('library.title')} onPress={() => router.push('/library')} />
           <Quick icon="sandbox" color={theme.accent} label={t('sandbox.title')} onPress={() => router.push('/sandbox')} />
@@ -117,16 +117,18 @@ export default function HomeScreen() {
           <Quick icon="terminal" color={theme.term.ansi[6]!} label={t('practice.reference')} onPress={() => router.push('/reference')} />
         </View>
 
-        <Card style={{ marginTop: space.lg, gap: 6 }} onPress={() => router.push('/challenge')}>
-          <Row>
-            <Icon name="target" color={theme.warning} />
-            <Text style={{ color: theme.textDim, fontWeight: '700', fontSize: 12, letterSpacing: 1 }}>{t('practice.daily').toUpperCase()}</Text>
-          </Row>
-          <Text style={{ color: theme.text, fontWeight: '800', fontSize: 17 }}>{tr(challenge.title, i18n.language)}</Text>
-          <Body dim numberOfLines={2}>
-            {tr(challenge.goal, i18n.language)}
-          </Body>
-        </Card>
+        {nextTask ? (
+          <Card style={{ marginTop: space.lg, gap: 6 }} onPress={() => router.push({ pathname: '/challenge', params: { id: nextTask.id } })}>
+            <Row>
+              <Icon name="target" color={theme.warning} />
+              <Text style={{ color: theme.textDim, fontWeight: '700', fontSize: 12, letterSpacing: 1 }}>{t('practice.nextTask').toUpperCase()}</Text>
+            </Row>
+            <Text style={{ color: theme.text, fontWeight: '800', fontSize: 17 }}>{tr(nextTask.title, i18n.language)}</Text>
+            <Body dim numberOfLines={2}>
+              {tr(nextTask.goal, i18n.language)}
+            </Body>
+          </Card>
+        ) : null}
 
         {term ? (
           <Card style={{ marginTop: space.md, marginBottom: space.xxl, gap: 6 }} onPress={() => router.push({ pathname: '/glossary', params: { q: tr(term.term, i18n.language) } })}>
