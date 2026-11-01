@@ -34,7 +34,8 @@
           "title": {
             "en": "From alert to postmortem",
             "ru": "От алерта до постмортема",
-            "uk": "Від алерту до постмортему"
+            "uk": "Від алерту до постмортему",
+            "pl": "Od alertu do postmortemu"
           },
           "terminal": false
         },
@@ -837,7 +838,8 @@
             {
               "en": "Close the ticket",
               "ru": "Закрыть тикет",
-              "uk": "Закрити тікет"
+              "uk": "Закрити тікет",
+              "pl": "Zamknąć zgłoszenie"
             }
           ],
           "answer": 0

@@ -5,12 +5,14 @@
   "title": {
     "en": "Server health",
     "ru": "Здоровье сервера",
-    "uk": "Здоров’я сервера"
+    "uk": "Здоров’я сервера",
+    "pl": "Zdrowie serwera"
   },
   "description": {
     "en": "Load average, memory, disk and CPU: find out in a minute what is wrong with a host.",
     "ru": "Load average, память, диск и процессор: за минуту понять, что с хостом не так.",
-    "uk": "Load average, пам’ять, диск і процесор: за хвилину зрозуміти, що з хостом не так."
+    "uk": "Load average, пам’ять, диск і процесор: за хвилину зрозуміти, що з хостом не так.",
+    "pl": "Load average, pamięć, dysk i CPU: w minutę ustal, co dolega hostowi."
   },
   "lessons": [
     {
@@ -18,7 +20,8 @@
       "title": {
         "en": "Load average and CPU cores",
         "ru": "Load average и ядра процессора",
-        "uk": "Load average і ядра процесора"
+        "uk": "Load average і ядра процесора",
+        "pl": "Load average i rdzenie CPU"
       },
       "commands": [
         "uptime",
@@ -31,12 +34,14 @@
           "text": {
             "en": "## Three numbers in uptime\n`load average: 7.82, 6.95, 4.10` — the average number of processes that were **running or waiting** for a CPU over the last **1, 5 and 15 minutes**.\n\n## How to read them\n- Compare with the number of cores: `nproc`\n- load ≈ cores — the CPU is fully busy, but coping\n- load **much higher** than cores — processes wait in line, everything becomes slow\n- 1-minute value > 15-minute value — the load is **growing** right now\n\n| cores | load 1.0 | load 4.0 | load 8.0 |\n|---|---|---|---|\n| 2 | fine | overloaded ×2 | overloaded ×4 |\n| 8 | idle | half busy | fully busy |\n\n> Load also grows when processes wait for a slow **disk**, not only for the CPU.",
             "ru": "## Три числа в uptime\n`load average: 7.82, 6.95, 4.10` — среднее число процессов, которые **работали или ждали** процессор за последние **1, 5 и 15 минут**.\n\n## Как их читать\n- Сравнивайте с числом ядер: `nproc`\n- load ≈ числу ядер — процессор занят полностью, но справляется\n- load **намного больше** ядер — процессы стоят в очереди, всё тормозит\n- значение за 1 минуту больше, чем за 15 — нагрузка **растёт** прямо сейчас\n\n| ядер | load 1.0 | load 4.0 | load 8.0 |\n|---|---|---|---|\n| 2 | нормально | перегрузка ×2 | перегрузка ×4 |\n| 8 | простаивает | загружен наполовину | загружен полностью |\n\n> Load растёт и когда процессы ждут медленный **диск**, а не только процессор.",
-            "uk": "## Три числа в uptime\n`load average: 7.82, 6.95, 4.10` — середня кількість процесів, які **працювали або чекали** процесор за останні **1, 5 і 15 хвилин**.\n\n## Як їх читати\n- Порівнюйте з кількістю ядер: `nproc`\n- load ≈ кількості ядер — процесор зайнятий повністю, але дає раду\n- load **значно більший** за ядра — процеси стоять у черзі, усе гальмує\n- значення за 1 хвилину більше, ніж за 15 — навантаження **зростає** просто зараз\n\n| ядер | load 1.0 | load 4.0 | load 8.0 |\n|---|---|---|---|\n| 2 | нормально | перевантаження ×2 | перевантаження ×4 |\n| 8 | простоює | завантажений наполовину | завантажений повністю |\n\n> Load зростає й тоді, коли процеси чекають повільний **диск**, а не лише процесор."
+            "uk": "## Три числа в uptime\n`load average: 7.82, 6.95, 4.10` — середня кількість процесів, які **працювали або чекали** процесор за останні **1, 5 і 15 хвилин**.\n\n## Як їх читати\n- Порівнюйте з кількістю ядер: `nproc`\n- load ≈ кількості ядер — процесор зайнятий повністю, але дає раду\n- load **значно більший** за ядра — процеси стоять у черзі, усе гальмує\n- значення за 1 хвилину більше, ніж за 15 — навантаження **зростає** просто зараз\n\n| ядер | load 1.0 | load 4.0 | load 8.0 |\n|---|---|---|---|\n| 2 | нормально | перевантаження ×2 | перевантаження ×4 |\n| 8 | простоює | завантажений наполовину | завантажений повністю |\n\n> Load зростає й тоді, коли процеси чекають повільний **диск**, а не лише процесор.",
+            "pl": "## Trzy liczby w uptime\n`load average: 7.82, 6.95, 4.10` — średnia liczba procesów, które **działały lub czekały** na CPU w ciągu ostatnich **1, 5 i 15 minut**.\n\n## Jak je czytać\n- Porównaj z liczbą rdzeni: `nproc`\n- load ≈ rdzenie — CPU jest w pełni zajęty, ale daje radę\n- load **dużo wyższy** niż rdzenie — procesy stoją w kolejce, wszystko zwalnia\n- wartość 1-minutowa > 15-minutowej — obciążenie właśnie **rośnie**\n\n| rdzenie | load 1.0 | load 4.0 | load 8.0 |\n|---|---|---|---|\n| 2 | w porządku | przeciążenie ×2 | przeciążenie ×4 |\n| 8 | bezczynność | w połowie zajęty | w pełni zajęty |\n\n> Load rośnie też wtedy, gdy procesy czekają na wolny **dysk**, nie tylko na CPU."
           },
           "title": {
             "en": "Is the server overloaded?",
             "ru": "Перегружен ли сервер?",
-            "uk": "Чи перевантажений сервер?"
+            "uk": "Чи перевантажений сервер?",
+            "pl": "Czy serwer jest przeciążony?"
           },
           "demo": {
             "commands": [
@@ -50,7 +55,8 @@
           "goal": {
             "en": "An alert says \"web01 slow\". Look at the load average.",
             "ru": "Алерт: «web01 тормозит». Посмотрите на load average.",
-            "uk": "Алерт: «web01 гальмує». Подивіться на load average."
+            "uk": "Алерт: «web01 гальмує». Подивіться на load average.",
+            "pl": "Alert mówi „web01 zwalnia”. Spójrz na load average."
           },
           "checks": [
             {
@@ -59,7 +65,8 @@
               "label": {
                 "en": "Check with uptime",
                 "ru": "Проверьте через uptime",
-                "uk": "Перевірте через uptime"
+                "uk": "Перевірте через uptime",
+                "pl": "Sprawdź przez uptime"
               }
             },
             {
@@ -68,7 +75,8 @@
               "label": {
                 "en": "Load average is on the screen",
                 "ru": "Load average на экране",
-                "uk": "Load average на екрані"
+                "uk": "Load average на екрані",
+                "pl": "Load average jest na ekranie"
               }
             }
           ],
@@ -76,7 +84,8 @@
             "direction": {
               "en": "The command prints time, uptime and load.",
               "ru": "Команда печатает время, аптайм и нагрузку.",
-              "uk": "Команда друкує час, аптайм і навантаження."
+              "uk": "Команда друкує час, аптайм і навантаження.",
+              "pl": "Polecenie wypisuje czas, czas działania i obciążenie."
             },
             "command": "uptime"
           },
@@ -89,7 +98,8 @@
           "goal": {
             "en": "How many CPU cores does web01 have? Print the number.",
             "ru": "Сколько ядер процессора у web01? Выведите число.",
-            "uk": "Скільки ядер процесора у web01? Виведіть число."
+            "uk": "Скільки ядер процесора у web01? Виведіть число.",
+            "pl": "Ile rdzeni procesora ma web01? Wypisz liczbę."
           },
           "checks": [
             {
@@ -98,7 +108,8 @@
               "label": {
                 "en": "Use nproc",
                 "ru": "Используйте nproc",
-                "uk": "Використайте nproc"
+                "uk": "Використайте nproc",
+                "pl": "Użyj nproc"
               }
             },
             {
@@ -107,7 +118,8 @@
               "label": {
                 "en": "The answer is 2",
                 "ru": "Ответ — 2",
-                "uk": "Відповідь — 2"
+                "uk": "Відповідь — 2",
+                "pl": "Odpowiedź to 2"
               }
             }
           ],
@@ -115,7 +127,8 @@
             "direction": {
               "en": "n + proc = number of processors.",
               "ru": "n + proc = число процессоров.",
-              "uk": "n + proc = кількість процесорів."
+              "uk": "n + proc = кількість процесорів.",
+              "pl": "n + proc = liczba procesorów."
             },
             "command": "nproc"
           },
@@ -128,30 +141,35 @@
           "question": {
             "en": "load average: 7.82, 6.95, 4.10 on 2 cores. What is going on?",
             "ru": "load average: 7.82, 6.95, 4.10 при 2 ядрах. Что происходит?",
-            "uk": "load average: 7.82, 6.95, 4.10 на 2 ядрах. Що відбувається?"
+            "uk": "load average: 7.82, 6.95, 4.10 на 2 ядрах. Що відбувається?",
+            "pl": "load average: 7.82, 6.95, 4.10 przy 2 rdzeniach. Co się dzieje?"
           },
           "options": [
             {
               "en": "Heavy overload, and it has been growing for the last 15 minutes",
               "ru": "Сильная перегрузка, и она растёт последние 15 минут",
-              "uk": "Сильне перевантаження, і воно зростає останні 15 хвилин"
+              "uk": "Сильне перевантаження, і воно зростає останні 15 хвилин",
+              "pl": "Silne przeciążenie, rosnące od ostatnich 15 minut"
             },
             {
               "en": "The server is idle",
               "ru": "Сервер простаивает",
-              "uk": "Сервер простоює"
+              "uk": "Сервер простоює",
+              "pl": "Serwer się nudzi"
             },
             {
               "en": "The load is falling",
               "ru": "Нагрузка падает",
-              "uk": "Навантаження падає"
+              "uk": "Навантаження падає",
+              "pl": "Obciążenie spada"
             }
           ],
           "answer": 0,
           "explanation": {
             "en": "7.8 / 2 ≈ 4 processes per core. 1 min > 15 min means the load is rising.",
             "ru": "7,8 / 2 ≈ 4 процесса на ядро. 1 мин > 15 мин — нагрузка растёт.",
-            "uk": "7,8 / 2 ≈ 4 процеси на ядро. 1 хв > 15 хв — навантаження зростає."
+            "uk": "7,8 / 2 ≈ 4 процеси на ядро. 1 хв > 15 хв — навантаження зростає.",
+            "pl": "7,8 / 2 ≈ 4 procesy na rdzeń. 1 min > 15 min oznacza, że obciążenie rośnie."
           }
         },
         {
@@ -159,23 +177,27 @@
           "question": {
             "en": "Load 3.0 on a server with 16 cores is…",
             "ru": "Load 3.0 на сервере с 16 ядрами — это…",
-            "uk": "Load 3.0 на сервері з 16 ядрами — це…"
+            "uk": "Load 3.0 на сервері з 16 ядрами — це…",
+            "pl": "Load 3.0 na serwerze z 16 rdzeniami to…"
           },
           "options": [
             {
               "en": "Light load, nothing to worry about",
               "ru": "Лёгкая нагрузка, повода для тревоги нет",
-              "uk": "Легке навантаження, приводу хвилюватися немає"
+              "uk": "Легке навантаження, приводу хвилюватися немає",
+              "pl": "Lekkie obciążenie, nie ma powodu do obaw"
             },
             {
               "en": "Critical overload",
               "ru": "Критическая перегрузка",
-              "uk": "Критичне перевантаження"
+              "uk": "Критичне перевантаження",
+              "pl": "Krytyczne przeciążenie"
             },
             {
               "en": "A broken disk",
               "ru": "Сломанный диск",
-              "uk": "Зламаний диск"
+              "uk": "Зламаний диск",
+              "pl": "Zepsuty dysk"
             }
           ],
           "answer": 0
@@ -187,7 +209,8 @@
       "title": {
         "en": "Memory and swap",
         "ru": "Память и своп",
-        "uk": "Пам’ять і своп"
+        "uk": "Пам’ять і своп",
+        "pl": "Pamięć i swap"
       },
       "commands": [
         "free"
@@ -199,12 +222,14 @@
           "text": {
             "en": "## free -h\n```\n$ free -h\n```\n| column | meaning |\n|---|---|\n| total | all RAM |\n| used | taken by programs |\n| buff/cache | disk cache — Linux gives it back on demand |\n| **available** | what programs can still get — **look here** |\n\n## Swap\nWhen RAM is not enough, Linux moves memory pages to the disk (**swap**). Disk is ~1000× slower than RAM, so heavy swap usage = everything crawls.\n\n## The OOM killer\nIf memory runs out completely, the kernel kills a big process and writes \"Out of memory: Killed process ...\" to the log.\n\n> \"free\" being small is normal. \"available\" being small and swap being used is a problem.",
             "ru": "## free -h\n```\n$ free -h\n```\n| колонка | значение |\n|---|---|\n| total | вся оперативная память |\n| used | занято программами |\n| buff/cache | дисковый кэш — Linux отдаёт его по требованию |\n| **available** | сколько ещё могут получить программы — **смотрите сюда** |\n\n## Своп\nКогда оперативной памяти не хватает, Linux переносит страницы памяти на диск (**своп**). Диск примерно в 1000 раз медленнее памяти, поэтому активный своп = всё ползёт.\n\n## OOM killer\nЕсли память кончилась совсем, ядро убивает крупный процесс и пишет в лог «Out of memory: Killed process ...».\n\n> Маленький «free» — это нормально. Маленький «available» и занятый своп — проблема.",
-            "uk": "## free -h\n```\n$ free -h\n```\n| колонка | значення |\n|---|---|\n| total | уся оперативна пам’ять |\n| used | зайнято програмами |\n| buff/cache | дисковий кеш — Linux віддає його на вимогу |\n| **available** | скільки ще можуть отримати програми — **дивіться сюди** |\n\n## Своп\nКоли оперативної пам’яті бракує, Linux переносить сторінки пам’яті на диск (**своп**). Диск приблизно в 1000 разів повільніший за пам’ять, тому активний своп = усе повзе.\n\n## OOM killer\nЯкщо пам’ять закінчилася зовсім, ядро вбиває великий процес і пише в лог «Out of memory: Killed process ...».\n\n> Малий «free» — це нормально. Малий «available» і зайнятий своп — проблема."
+            "uk": "## free -h\n```\n$ free -h\n```\n| колонка | значення |\n|---|---|\n| total | уся оперативна пам’ять |\n| used | зайнято програмами |\n| buff/cache | дисковий кеш — Linux віддає його на вимогу |\n| **available** | скільки ще можуть отримати програми — **дивіться сюди** |\n\n## Своп\nКоли оперативної пам’яті бракує, Linux переносить сторінки пам’яті на диск (**своп**). Диск приблизно в 1000 разів повільніший за пам’ять, тому активний своп = усе повзе.\n\n## OOM killer\nЯкщо пам’ять закінчилася зовсім, ядро вбиває великий процес і пише в лог «Out of memory: Killed process ...».\n\n> Малий «free» — це нормально. Малий «available» і зайнятий своп — проблема.",
+            "pl": "## free -h\n```\n$ free -h\n```\n| kolumna | znaczenie |\n|---|---|\n| total | cała pamięć RAM |\n| used | zajęta przez programy |\n| buff/cache | cache dysku — Linux oddaje go na żądanie |\n| **available** | ile programy mogą jeszcze dostać — **patrz tutaj** |\n\n## Swap\nGdy RAM nie wystarcza, Linux przenosi strony pamięci na dysk (**swap**). Dysk jest ~1000× wolniejszy niż RAM, więc intensywny swap = wszystko się czołga.\n\n## OOM killer\nGdy pamięć skończy się całkowicie, jądro zabija duży proces i zapisuje w logu „Out of memory: Killed process ...”.\n\n> Małe „free” to normalne. Małe „available” i używany swap — to problem."
           },
           "title": {
             "en": "Where did the memory go?",
             "ru": "Куда делась память?",
-            "uk": "Куди поділася пам’ять?"
+            "uk": "Куди поділася пам’ять?",
+            "pl": "Gdzie podziała się pamięć?"
           },
           "demo": {
             "commands": [
@@ -217,7 +242,8 @@
           "goal": {
             "en": "Check memory on web01 in human-readable units.",
             "ru": "Проверьте память на web01 в удобных единицах.",
-            "uk": "Перевірте пам’ять на web01 у зручних одиницях."
+            "uk": "Перевірте пам’ять на web01 у зручних одиницях.",
+            "pl": "Sprawdź pamięć na web01 w czytelnych jednostkach."
           },
           "checks": [
             {
@@ -229,7 +255,8 @@
               "label": {
                 "en": "Use free with -h",
                 "ru": "Используйте free с -h",
-                "uk": "Використайте free з -h"
+                "uk": "Використайте free з -h",
+                "pl": "Użyj free z -h"
               }
             },
             {
@@ -238,7 +265,8 @@
               "label": {
                 "en": "Swap row is visible",
                 "ru": "Видна строка Swap",
-                "uk": "Видно рядок Swap"
+                "uk": "Видно рядок Swap",
+                "pl": "Widać wiersz Swap"
               }
             }
           ],
@@ -246,7 +274,8 @@
             "direction": {
               "en": "free + human readable flag.",
               "ru": "free + флаг удобных единиц.",
-              "uk": "free + прапорець зручних одиниць."
+              "uk": "free + прапорець зручних одиниць.",
+              "pl": "free + flaga czytelnych jednostek."
             },
             "command": "free"
           },
@@ -270,7 +299,8 @@
           "explanation": {
             "en": "1.4 GiB of swap is used: the server ran out of RAM and is swapping.",
             "ru": "Занято 1,4 ГиБ свопа: оперативной памяти не хватило, сервер свопится.",
-            "uk": "Зайнято 1,4 ГіБ свопу: оперативної пам’яті забракло, сервер свопиться."
+            "uk": "Зайнято 1,4 ГіБ свопу: оперативної пам’яті забракло, сервер свопиться.",
+            "pl": "Zajęte jest 1,4 GiB swapu: serwerowi zabrakło RAM i swapuje."
           }
         },
         {
@@ -278,23 +308,27 @@
           "question": {
             "en": "free -h: total 3.8Gi, used 1.6Gi, free 200Mi, buff/cache 2.0Gi, available 2.1Gi. Is the server short of memory?",
             "ru": "free -h: total 3.8Gi, used 1.6Gi, free 200Mi, buff/cache 2.0Gi, available 2.1Gi. Серверу не хватает памяти?",
-            "uk": "free -h: total 3.8Gi, used 1.6Gi, free 200Mi, buff/cache 2.0Gi, available 2.1Gi. Серверу бракує пам’яті?"
+            "uk": "free -h: total 3.8Gi, used 1.6Gi, free 200Mi, buff/cache 2.0Gi, available 2.1Gi. Серверу бракує пам’яті?",
+            "pl": "free -h: total 3.8Gi, used 1.6Gi, free 200Mi, buff/cache 2.0Gi, available 2.1Gi. Czy serwerowi brakuje pamięci?"
           },
           "options": [
             {
               "en": "No: 2.1 GiB is available, the cache will be released",
               "ru": "Нет: доступно 2,1 ГиБ, кэш освободится",
-              "uk": "Ні: доступно 2,1 ГіБ, кеш звільниться"
+              "uk": "Ні: доступно 2,1 ГіБ, кеш звільниться",
+              "pl": "Nie: dostępne jest 2,1 GiB, cache zostanie zwolniony"
             },
             {
               "en": "Yes: only 200 MiB free",
               "ru": "Да: свободно всего 200 МиБ",
-              "uk": "Так: вільно лише 200 МіБ"
+              "uk": "Так: вільно лише 200 МіБ",
+              "pl": "Tak: wolne jest tylko 200 MiB"
             },
             {
               "en": "Impossible to say",
               "ru": "Невозможно сказать",
-              "uk": "Неможливо сказати"
+              "uk": "Неможливо сказати",
+              "pl": "Nie da się powiedzieć"
             }
           ],
           "answer": 0
@@ -304,7 +338,8 @@
           "question": {
             "en": "Which log line proves that the kernel killed a process because of memory?",
             "ru": "Какая строка лога доказывает, что ядро убило процесс из-за памяти?",
-            "uk": "Який рядок логу доводить, що ядро вбило процес через пам’ять?"
+            "uk": "Який рядок логу доводить, що ядро вбило процес через пам’ять?",
+            "pl": "Który wiersz logu dowodzi, że jądro zabiło proces z powodu pamięci?"
           },
           "options": [
             {
@@ -335,7 +370,8 @@
       "title": {
         "en": "Disk space",
         "ru": "Место на диске",
-        "uk": "Місце на диску"
+        "uk": "Місце на диску",
+        "pl": "Miejsce na dysku"
       },
       "commands": [
         "df",
@@ -350,12 +386,14 @@
           "text": {
             "en": "## Two tools\n- `df -h` — how full each **file system** is (Use%)\n- `du -sh PATH` — how much a **directory** takes\n\n## Finding the culprit\n```\n$ df -h\n$ sudo du -sh /var/log/* | sort -h\n```\n`sort -h` understands sizes like 2.0G and 512M, the biggest ends up at the bottom.\n\n## What can be deleted\n- old **rotated** logs: `*.1`, `*.gz`\n- core dumps in /var/crash (after telling L2)\n- temporary files in /tmp\n\n!> Never delete the **live** log of a running service: the process keeps writing to the deleted file and the space is not freed until a restart.\n\n> At 100% disk databases stop writing, logins fail and services crash. Act at 90%.",
             "ru": "## Два инструмента\n- `df -h` — насколько заполнена каждая **файловая система** (Use%)\n- `du -sh ПУТЬ` — сколько занимает **директория**\n\n## Ищем виновника\n```\n$ df -h\n$ sudo du -sh /var/log/* | sort -h\n```\n`sort -h` понимает размеры вида 2.0G и 512M, самое большое окажется внизу.\n\n## Что можно удалять\n- старые **ротированные** логи: `*.1`, `*.gz`\n- дампы памяти в /var/crash (предупредив L2)\n- временные файлы в /tmp\n\n!> Никогда не удаляйте **живой** лог работающего сервиса: процесс продолжит писать в удалённый файл, и место не освободится до рестарта.\n\n> При 100% диска базы перестают писать, вход в систему ломается, сервисы падают. Действуйте на 90%.",
-            "uk": "## Два інструменти\n- `df -h` — наскільки заповнена кожна **файлова система** (Use%)\n- `du -sh ШЛЯХ` — скільки займає **директорія**\n\n## Шукаємо винуватця\n```\n$ df -h\n$ sudo du -sh /var/log/* | sort -h\n```\n`sort -h` розуміє розміри на кшталт 2.0G і 512M, найбільше опиниться внизу.\n\n## Що можна видаляти\n- старі **ротовані** логи: `*.1`, `*.gz`\n- дампи пам’яті в /var/crash (попередивши L2)\n- тимчасові файли в /tmp\n\n!> Ніколи не видаляйте **живий** лог працюючого сервісу: процес і далі писатиме у видалений файл, і місце не звільниться до рестарту.\n\n> За 100% диска бази перестають писати, вхід до системи ламається, сервіси падають. Дійте на 90%."
+            "uk": "## Два інструменти\n- `df -h` — наскільки заповнена кожна **файлова система** (Use%)\n- `du -sh ШЛЯХ` — скільки займає **директорія**\n\n## Шукаємо винуватця\n```\n$ df -h\n$ sudo du -sh /var/log/* | sort -h\n```\n`sort -h` розуміє розміри на кшталт 2.0G і 512M, найбільше опиниться внизу.\n\n## Що можна видаляти\n- старі **ротовані** логи: `*.1`, `*.gz`\n- дампи пам’яті в /var/crash (попередивши L2)\n- тимчасові файли в /tmp\n\n!> Ніколи не видаляйте **живий** лог працюючого сервісу: процес і далі писатиме у видалений файл, і місце не звільниться до рестарту.\n\n> За 100% диска бази перестають писати, вхід до системи ламається, сервіси падають. Дійте на 90%.",
+            "pl": "## Dwa narzędzia\n- `df -h` — jak pełny jest każdy **system plików** (Use%)\n- `du -sh ŚCIEŻKA` — ile zajmuje **katalog**\n\n## Szukanie winowajcy\n```\n$ df -h\n$ sudo du -sh /var/log/* | sort -h\n```\n`sort -h` rozumie rozmiary jak 2.0G i 512M, największy trafia na dół.\n\n## Co można usunąć\n- stare **zrotowane** logi: `*.1`, `*.gz`\n- zrzuty pamięci w /var/crash (po poinformowaniu L2)\n- pliki tymczasowe w /tmp\n\n!> Nigdy nie usuwaj **żywego** logu działającej usługi: proces dalej pisze do usuniętego pliku, a miejsce nie zostanie zwolnione aż do restartu.\n\n> Przy 100% dysku bazy danych przestają zapisywać, logowanie zawodzi, a usługi padają. Działaj przy 90%."
           },
           "title": {
             "en": "Disk full alert",
             "ru": "Алерт «диск заполнен»",
-            "uk": "Алерт «диск заповнено»"
+            "uk": "Алерт «диск заповнено»",
+            "pl": "Alert: pełny dysk"
           },
           "demo": {
             "commands": [
@@ -368,7 +406,8 @@
           "goal": {
             "en": "Alert: \"web01 disk / > 90%\". Confirm it: show how full the file systems are.",
             "ru": "Алерт: «web01 disk / > 90%». Подтвердите: покажите, насколько заполнены файловые системы.",
-            "uk": "Алерт: «web01 disk / > 90%». Підтвердіть: покажіть, наскільки заповнені файлові системи."
+            "uk": "Алерт: «web01 disk / > 90%». Підтвердіть: покажіть, наскільки заповнені файлові системи.",
+            "pl": "Alert: „web01 disk / > 90%”. Potwierdź go: pokaż, jak pełne są systemy plików."
           },
           "checks": [
             {
@@ -380,7 +419,8 @@
               "label": {
                 "en": "Use df -h",
                 "ru": "Используйте df -h",
-                "uk": "Використайте df -h"
+                "uk": "Використайте df -h",
+                "pl": "Użyj df -h"
               }
             },
             {
@@ -389,7 +429,8 @@
               "label": {
                 "en": "/ is at 95%",
                 "ru": "/ заполнен на 95%",
-                "uk": "/ заповнено на 95%"
+                "uk": "/ заповнено на 95%",
+                "pl": "/ jest zapełniony w 95%"
               }
             }
           ],
@@ -411,12 +452,14 @@
           "goal": {
             "en": "Which directory in /var/log takes the most space? Show the sizes sorted.",
             "ru": "Какая директория в /var/log занимает больше всего? Покажите размеры по возрастанию.",
-            "uk": "Яка директорія в /var/log займає найбільше? Покажіть розміри за зростанням."
+            "uk": "Яка директорія в /var/log займає найбільше? Покажіть розміри за зростанням.",
+            "pl": "Który katalog w /var/log zajmuje najwięcej? Pokaż rozmiary posortowane."
           },
           "instructions": {
             "en": "1. `sudo du -sh /var/log/*` — size of every item\n2. Add `| sort -h` to sort by size",
             "ru": "1. `sudo du -sh /var/log/*` — размер каждого элемента\n2. Добавьте `| sort -h`, чтобы отсортировать по размеру",
-            "uk": "1. `sudo du -sh /var/log/*` — розмір кожного елемента\n2. Додайте `| sort -h`, щоб відсортувати за розміром"
+            "uk": "1. `sudo du -sh /var/log/*` — розмір кожного елемента\n2. Додайте `| sort -h`, щоб відсортувати за розміром",
+            "pl": "1. `sudo du -sh /var/log/*` — rozmiar każdego elementu\n2. Dodaj `| sort -h`, by posortować po rozmiarze"
           },
           "checks": [
             {
@@ -429,7 +472,8 @@
               "label": {
                 "en": "Measure with du -sh",
                 "ru": "Измерьте через du -sh",
-                "uk": "Виміряйте через du -sh"
+                "uk": "Виміряйте через du -sh",
+                "pl": "Zmierz przez du -sh"
               }
             },
             {
@@ -441,7 +485,8 @@
               "label": {
                 "en": "Sort with sort -h",
                 "ru": "Отсортируйте через sort -h",
-                "uk": "Відсортуйте через sort -h"
+                "uk": "Відсортуйте через sort -h",
+                "pl": "Posortuj przez sort -h"
               }
             },
             {
@@ -450,7 +495,8 @@
               "label": {
                 "en": "/var/log/app is the biggest",
                 "ru": "/var/log/app — самая большая",
-                "uk": "/var/log/app — найбільша"
+                "uk": "/var/log/app — найбільша",
+                "pl": "/var/log/app jest największy"
               }
             }
           ],
@@ -472,7 +518,8 @@
           "goal": {
             "en": "Free space safely: delete the old rotated log /var/log/app/debug.log.1.gz and the core dump /var/crash/api.core. Do NOT touch the live debug.log.",
             "ru": "Освободите место безопасно: удалите старый ротированный лог /var/log/app/debug.log.1.gz и дамп /var/crash/api.core. Живой debug.log НЕ трогайте.",
-            "uk": "Звільніть місце безпечно: видаліть старий ротований лог /var/log/app/debug.log.1.gz і дамп /var/crash/api.core. Живий debug.log НЕ чіпайте."
+            "uk": "Звільніть місце безпечно: видаліть старий ротований лог /var/log/app/debug.log.1.gz і дамп /var/crash/api.core. Живий debug.log НЕ чіпайте.",
+            "pl": "Zwolnij miejsce bezpiecznie: usuń stary zrotowany log /var/log/app/debug.log.1.gz i zrzut pamięci /var/crash/api.core. NIE ruszaj żywego debug.log."
           },
           "checks": [
             {
@@ -481,7 +528,8 @@
               "label": {
                 "en": "The rotated log is gone",
                 "ru": "Ротированный лог удалён",
-                "uk": "Ротований лог видалено"
+                "uk": "Ротований лог видалено",
+                "pl": "Zrotowanego logu już nie ma"
               }
             },
             {
@@ -490,7 +538,8 @@
               "label": {
                 "en": "The core dump is gone",
                 "ru": "Дамп удалён",
-                "uk": "Дамп видалено"
+                "uk": "Дамп видалено",
+                "pl": "Zrzutu pamięci już nie ma"
               }
             },
             {
@@ -499,7 +548,8 @@
               "label": {
                 "en": "The live log is untouched",
                 "ru": "Живой лог не тронут",
-                "uk": "Живий лог не зачеплено"
+                "uk": "Живий лог не зачеплено",
+                "pl": "Żywy log nietknięty"
               }
             }
           ],
@@ -507,7 +557,8 @@
             "direction": {
               "en": "The files belong to root: sudo rm FILE FILE.",
               "ru": "Файлы принадлежат root: sudo rm ФАЙЛ ФАЙЛ.",
-              "uk": "Файли належать root: sudo rm ФАЙЛ ФАЙЛ."
+              "uk": "Файли належать root: sudo rm ФАЙЛ ФАЙЛ.",
+              "pl": "Pliki należą do roota: sudo rm PLIK PLIK."
             },
             "command": "rm"
           },
@@ -520,7 +571,8 @@
           "goal": {
             "en": "Check the result: how full is / now?",
             "ru": "Проверьте результат: насколько заполнен / теперь?",
-            "uk": "Перевірте результат: наскільки заповнено / тепер?"
+            "uk": "Перевірте результат: наскільки заповнено / тепер?",
+            "pl": "Sprawdź wynik: jak pełny jest teraz /?"
           },
           "prepare": [
             "sudo rm /var/log/app/debug.log.1.gz /var/crash/api.core"
@@ -535,7 +587,8 @@
               "label": {
                 "en": "Run df -h again",
                 "ru": "Снова выполните df -h",
-                "uk": "Знову виконайте df -h"
+                "uk": "Знову виконайте df -h",
+                "pl": "Uruchom ponownie df -h"
               }
             }
           ],
@@ -543,7 +596,8 @@
             "direction": {
               "en": "Same command as before.",
               "ru": "Та же команда, что и раньше.",
-              "uk": "Та сама команда, що й раніше."
+              "uk": "Та сама команда, що й раніше.",
+              "pl": "To samo polecenie co wcześniej."
             },
             "command": "df"
           },
@@ -556,23 +610,27 @@
           "question": {
             "en": "Why is deleting the live log of a running service a bad idea?",
             "ru": "Почему удалять живой лог работающего сервиса — плохая идея?",
-            "uk": "Чому видаляти живий лог працюючого сервісу — погана ідея?"
+            "uk": "Чому видаляти живий лог працюючого сервісу — погана ідея?",
+            "pl": "Dlaczego usuwanie żywego logu działającej usługi to zły pomysł?"
           },
           "options": [
             {
               "en": "The process keeps the file open, the space is not freed and the logs are lost",
               "ru": "Процесс держит файл открытым, место не освобождается, а логи теряются",
-              "uk": "Процес тримає файл відкритим, місце не звільняється, а логи губляться"
+              "uk": "Процес тримає файл відкритим, місце не звільняється, а логи губляться",
+              "pl": "Proces trzyma plik otwarty, miejsce się nie zwalnia, a logi przepadają"
             },
             {
               "en": "Linux forbids deleting logs",
               "ru": "Linux запрещает удалять логи",
-              "uk": "Linux забороняє видаляти логи"
+              "uk": "Linux забороняє видаляти логи",
+              "pl": "Linux zabrania usuwania logów"
             },
             {
               "en": "It is fine, nothing happens",
               "ru": "Ничего страшного не будет",
-              "uk": "Нічого страшного не буде"
+              "uk": "Нічого страшного не буде",
+              "pl": "Nic się nie stanie"
             }
           ],
           "answer": 0
@@ -584,7 +642,8 @@
       "title": {
         "en": "Who eats the CPU",
         "ru": "Кто съедает процессор",
-        "uk": "Хто з’їдає процесор"
+        "uk": "Хто з’їдає процесор",
+        "pl": "Kto zjada CPU"
       },
       "commands": [
         "top",
@@ -598,12 +657,14 @@
           "text": {
             "en": "## Find the hog\n```\n$ top\n$ ps aux --sort=-%cpu | head -5\n```\n- `top` — a live view sorted by %CPU (real top refreshes, `q` quits)\n- `ps aux --sort=-%cpu` — a snapshot sorted by CPU, the heaviest first\n- 100% = one full core; 190% = almost two cores\n\n## Before you kill\n1. **Whose** process is it? (USER column)\n2. **What** is it? (COMMAND) — never kill databases or system daemons blindly\n3. Is it **expected**? A nightly backup at 03:00 is fine; a \"report\" at peak time is not\n\n## Stopping\n`kill PID` sends SIGTERM — a polite request. `kill -9 PID` (SIGKILL) only if it does not react.",
             "ru": "## Найти обжору\n```\n$ top\n$ ps aux --sort=-%cpu | head -5\n```\n- `top` — живой вид, отсортированный по %CPU (настоящий top обновляется, `q` — выход)\n- `ps aux --sort=-%cpu` — снимок по CPU, самые тяжёлые сверху\n- 100% = одно ядро целиком; 190% = почти два ядра\n\n## Прежде чем убивать\n1. **Чей** это процесс? (колонка USER)\n2. **Что** это? (COMMAND) — никогда не убивайте вслепую базы данных и системные демоны\n3. Это **ожидаемо**? Ночной бэкап в 03:00 — нормально; «отчёт» в час пик — нет\n\n## Остановка\n`kill PID` посылает SIGTERM — вежливую просьбу. `kill -9 PID` (SIGKILL) — только если не реагирует.",
-            "uk": "## Знайти ненажеру\n```\n$ top\n$ ps aux --sort=-%cpu | head -5\n```\n- `top` — живий вигляд, відсортований за %CPU (справжній top оновлюється, `q` — вихід)\n- `ps aux --sort=-%cpu` — знімок за CPU, найважчі зверху\n- 100% = одне ядро повністю; 190% = майже два ядра\n\n## Перш ніж вбивати\n1. **Чий** це процес? (колонка USER)\n2. **Що** це? (COMMAND) — ніколи не вбивайте наосліп бази даних і системні демони\n3. Це **очікувано**? Нічний бекап о 03:00 — нормально; «звіт» у пікову годину — ні\n\n## Зупинка\n`kill PID` надсилає SIGTERM — ввічливе прохання. `kill -9 PID` (SIGKILL) — лише якщо не реагує."
+            "uk": "## Знайти ненажеру\n```\n$ top\n$ ps aux --sort=-%cpu | head -5\n```\n- `top` — живий вигляд, відсортований за %CPU (справжній top оновлюється, `q` — вихід)\n- `ps aux --sort=-%cpu` — знімок за CPU, найважчі зверху\n- 100% = одне ядро повністю; 190% = майже два ядра\n\n## Перш ніж вбивати\n1. **Чий** це процес? (колонка USER)\n2. **Що** це? (COMMAND) — ніколи не вбивайте наосліп бази даних і системні демони\n3. Це **очікувано**? Нічний бекап о 03:00 — нормально; «звіт» у пікову годину — ні\n\n## Зупинка\n`kill PID` надсилає SIGTERM — ввічливе прохання. `kill -9 PID` (SIGKILL) — лише якщо не реагує.",
+            "pl": "## Znajdź pożeracza\n```\n$ top\n$ ps aux --sort=-%cpu | head -5\n```\n- `top` — widok na żywo posortowany po %CPU (prawdziwy top się odświeża, `q` wychodzi)\n- `ps aux --sort=-%cpu` — migawka posortowana po CPU, najcięższe najpierw\n- 100% = jeden pełny rdzeń; 190% = prawie dwa rdzenie\n\n## Zanim zabijesz\n1. **Czyj** to proces? (kolumna USER)\n2. **Co** to jest? (COMMAND) — nigdy nie zabijaj na ślepo baz danych ani demonów systemowych\n3. Czy jest **oczekiwany**? Nocna kopia zapasowa o 03:00 jest w porządku; „raport” w godzinach szczytu — nie\n\n## Zatrzymywanie\n`kill PID` wysyła SIGTERM — grzeczną prośbę. `kill -9 PID` (SIGKILL) tylko wtedy, gdy nie reaguje."
           },
           "title": {
             "en": "High CPU",
             "ru": "Высокая загрузка CPU",
-            "uk": "Високе навантаження CPU"
+            "uk": "Високе навантаження CPU",
+            "pl": "Wysokie CPU"
           },
           "demo": {
             "commands": [
@@ -616,7 +677,8 @@
           "goal": {
             "en": "Open top and find the process with the highest %CPU.",
             "ru": "Откройте top и найдите процесс с самым высоким %CPU.",
-            "uk": "Відкрийте top і знайдіть процес із найвищим %CPU."
+            "uk": "Відкрийте top і знайдіть процес із найвищим %CPU.",
+            "pl": "Otwórz top i znajdź proces z najwyższym %CPU."
           },
           "checks": [
             {
@@ -625,7 +687,8 @@
               "label": {
                 "en": "Use top",
                 "ru": "Используйте top",
-                "uk": "Використайте top"
+                "uk": "Використайте top",
+                "pl": "Użyj top"
               }
             },
             {
@@ -634,7 +697,8 @@
               "label": {
                 "en": "The heavy process is visible",
                 "ru": "Виден тяжёлый процесс",
-                "uk": "Видно важкий процес"
+                "uk": "Видно важкий процес",
+                "pl": "Widać ciężki proces"
               }
             }
           ],
@@ -642,7 +706,8 @@
             "direction": {
               "en": "Three letters.",
               "ru": "Три буквы.",
-              "uk": "Три літери."
+              "uk": "Три літери.",
+              "pl": "Trzy litery."
             },
             "command": "top"
           },
@@ -655,7 +720,8 @@
           "goal": {
             "en": "Show the 3 heaviest processes by CPU with ps (plus the header line).",
             "ru": "Покажите через ps 3 самых тяжёлых процесса по CPU (плюс строка заголовка).",
-            "uk": "Покажіть через ps 3 найважчі процеси за CPU (плюс рядок заголовка)."
+            "uk": "Покажіть через ps 3 найважчі процеси за CPU (плюс рядок заголовка).",
+            "pl": "Pokaż przez ps 3 najcięższe procesy według CPU (plus wiersz nagłówka)."
           },
           "checks": [
             {
@@ -664,7 +730,8 @@
               "label": {
                 "en": "Use ps aux sorted by CPU",
                 "ru": "Используйте ps aux с сортировкой по CPU",
-                "uk": "Використайте ps aux із сортуванням за CPU"
+                "uk": "Використайте ps aux із сортуванням за CPU",
+                "pl": "Użyj ps aux posortowanego po CPU"
               }
             },
             {
@@ -673,7 +740,8 @@
               "label": {
                 "en": "Cut with head -4",
                 "ru": "Обрежьте через head -4",
-                "uk": "Обріжте через head -4"
+                "uk": "Обріжте через head -4",
+                "pl": "Przytnij przez head -4"
               }
             },
             {
@@ -682,7 +750,8 @@
               "label": {
                 "en": "report_generator.py is at the top",
                 "ru": "report_generator.py наверху",
-                "uk": "report_generator.py нагорі"
+                "uk": "report_generator.py нагорі",
+                "pl": "report_generator.py jest na górze"
               }
             }
           ],
@@ -704,12 +773,14 @@
           "goal": {
             "en": "The heavy python3 report_generator.py was started by you (student) at peak time. Stop it.",
             "ru": "Тяжёлый python3 report_generator.py запустили вы (student) в час пик. Остановите его.",
-            "uk": "Важкий python3 report_generator.py запустили ви (student) у пікову годину. Зупиніть його."
+            "uk": "Важкий python3 report_generator.py запустили ви (student) у пікову годину. Зупиніть його.",
+            "pl": "Ciężki python3 report_generator.py uruchomiłeś Ty (student) w godzinach szczytu. Zatrzymaj go."
           },
           "instructions": {
             "en": "1. Find the PID: `ps aux --sort=-%cpu | head -3`\n2. Run `kill PID`\n3. Check with `top` that it is gone",
             "ru": "1. Найдите PID: `ps aux --sort=-%cpu | head -3`\n2. Выполните `kill PID`\n3. Проверьте через `top`, что его нет",
-            "uk": "1. Знайдіть PID: `ps aux --sort=-%cpu | head -3`\n2. Виконайте `kill PID`\n3. Перевірте через `top`, що його немає"
+            "uk": "1. Знайдіть PID: `ps aux --sort=-%cpu | head -3`\n2. Виконайте `kill PID`\n3. Перевірте через `top`, що його немає",
+            "pl": "1. Znajdź PID: `ps aux --sort=-%cpu | head -3`\n2. Uruchom `kill PID`\n3. Sprawdź w `top`, że go nie ma"
           },
           "checks": [
             {
@@ -718,7 +789,8 @@
               "label": {
                 "en": "The report generator is stopped",
                 "ru": "Генератор отчётов остановлен",
-                "uk": "Генератор звітів зупинено"
+                "uk": "Генератор звітів зупинено",
+                "pl": "Generator raportów zatrzymany"
               }
             }
           ],
@@ -726,7 +798,8 @@
             "direction": {
               "en": "Find its PID in ps / top, then kill PID.",
               "ru": "Найдите его PID в ps / top, затем kill PID.",
-              "uk": "Знайдіть його PID у ps / top, потім kill PID."
+              "uk": "Знайдіть його PID у ps / top, потім kill PID.",
+              "pl": "Znajdź jego PID w ps / top, potem kill PID."
             },
             "command": "kill"
           },
@@ -739,23 +812,27 @@
           "question": {
             "en": "The top process is postgres at 95% CPU during a sale. What should L1 do?",
             "ru": "Сверху postgres с 95% CPU во время распродажи. Что делать L1?",
-            "uk": "Нагорі postgres із 95% CPU під час розпродажу. Що робити L1?"
+            "uk": "Нагорі postgres із 95% CPU під час розпродажу. Що робити L1?",
+            "pl": "Na górze jest postgres z 95% CPU w czasie wyprzedaży. Co powinien zrobić L1?"
           },
           "options": [
             {
               "en": "Do not kill the database; check the dashboards and escalate to L2 db",
               "ru": "Не убивать базу; посмотреть дашборды и эскалировать на L2 по БД",
-              "uk": "Не вбивати базу; подивитися дашборди й ескалювати на L2 по БД"
+              "uk": "Не вбивати базу; подивитися дашборди й ескалювати на L2 по БД",
+              "pl": "Nie zabijać bazy; sprawdzić dashboardy i eskalować do L2 od baz danych"
             },
             {
               "en": "kill -9 postgres immediately",
               "ru": "Сразу kill -9 postgres",
-              "uk": "Одразу kill -9 postgres"
+              "uk": "Одразу kill -9 postgres",
+              "pl": "Natychmiast kill -9 postgres"
             },
             {
               "en": "Reboot the server",
               "ru": "Перезагрузить сервер",
-              "uk": "Перезавантажити сервер"
+              "uk": "Перезавантажити сервер",
+              "pl": "Zrestartować serwer"
             }
           ],
           "answer": 0
@@ -767,7 +844,8 @@
       "title": {
         "en": "The 60-second server check",
         "ru": "Проверка сервера за 60 секунд",
-        "uk": "Перевірка сервера за 60 секунд"
+        "uk": "Перевірка сервера за 60 секунд",
+        "pl": "Sprawdzenie serwera w 60 sekund"
       },
       "commands": [
         "uptime",
@@ -783,12 +861,14 @@
           "text": {
             "en": "## Run it on every alert\n1. `uptime` — load and recent reboots\n2. `free -h` — memory and swap\n3. `df -h` — disk space\n4. `top` or `ps aux --sort=-%cpu | head` — who eats resources\n5. `systemctl --failed` — broken services\n6. `journalctl -p err -n 20` — the latest errors\n\n## Write down what you saw\nA short ticket note is worth gold for the next engineer:\n```\n10:42 web01: load 0.4/2 cores, mem avail 2.3G, / 62%,\nno failed units, no new errors -> host healthy, looking at app\n```\n> A healthy host helps too: it tells you to look elsewhere — network, database, the application.",
             "ru": "## Выполняйте при каждом алерте\n1. `uptime` — нагрузка и недавние перезагрузки\n2. `free -h` — память и своп\n3. `df -h` — место на диске\n4. `top` или `ps aux --sort=-%cpu | head` — кто ест ресурсы\n5. `systemctl --failed` — сломанные сервисы\n6. `journalctl -p err -n 20` — последние ошибки\n\n## Запишите увиденное\nКороткая заметка в тикете — золото для следующего инженера:\n```\n10:42 web01: load 0.4/2 ядра, mem avail 2.3G, / 62%,\nfailed units нет, новых ошибок нет -> хост здоров, смотрю приложение\n```\n> Здоровый хост тоже помогает: он подсказывает искать в другом месте — сеть, база, приложение.",
-            "uk": "## Виконуйте на кожен алерт\n1. `uptime` — навантаження та нещодавні перезавантаження\n2. `free -h` — пам’ять і своп\n3. `df -h` — місце на диску\n4. `top` або `ps aux --sort=-%cpu | head` — хто їсть ресурси\n5. `systemctl --failed` — зламані сервіси\n6. `journalctl -p err -n 20` — останні помилки\n\n## Запишіть побачене\nКоротка нотатка в тікеті — золото для наступного інженера:\n```\n10:42 web01: load 0.4/2 ядра, mem avail 2.3G, / 62%,\nfailed units немає, нових помилок немає -> хост здоровий, дивлюся застосунок\n```\n> Здоровий хост теж допомагає: він підказує шукати деінде — мережа, база, застосунок."
+            "uk": "## Виконуйте на кожен алерт\n1. `uptime` — навантаження та нещодавні перезавантаження\n2. `free -h` — пам’ять і своп\n3. `df -h` — місце на диску\n4. `top` або `ps aux --sort=-%cpu | head` — хто їсть ресурси\n5. `systemctl --failed` — зламані сервіси\n6. `journalctl -p err -n 20` — останні помилки\n\n## Запишіть побачене\nКоротка нотатка в тікеті — золото для наступного інженера:\n```\n10:42 web01: load 0.4/2 ядра, mem avail 2.3G, / 62%,\nfailed units немає, нових помилок немає -> хост здоровий, дивлюся застосунок\n```\n> Здоровий хост теж допомагає: він підказує шукати деінде — мережа, база, застосунок.",
+            "pl": "## Wykonuj przy każdym alercie\n1. `uptime` — obciążenie i niedawne restarty\n2. `free -h` — pamięć i swap\n3. `df -h` — miejsce na dysku\n4. `top` albo `ps aux --sort=-%cpu | head` — kto zjada zasoby\n5. `systemctl --failed` — zepsute usługi\n6. `journalctl -p err -n 20` — najnowsze błędy\n\n## Zapisz, co zobaczyłeś\nKrótka notatka w zgłoszeniu jest na wagę złota dla następnego inżyniera:\n```\n10:42 web01: load 0.4/2 cores, mem avail 2.3G, / 62%,\nno failed units, no new errors -> host healthy, looking at app\n```\n> Zdrowy host też pomaga: mówi, żeby szukać gdzie indziej — w sieci, bazie danych, aplikacji."
           },
           "title": {
             "en": "The checklist",
             "ru": "Чек-лист",
-            "uk": "Чек-лист"
+            "uk": "Чек-лист",
+            "pl": "Lista kontrolna"
           },
           "terminal": false
         },
@@ -797,7 +877,8 @@
           "goal": {
             "en": "Run the full 60-second check on web01: load, memory, disk, failed services and recent errors.",
             "ru": "Выполните полную проверку за 60 секунд на web01: нагрузка, память, диск, сломанные сервисы и последние ошибки.",
-            "uk": "Виконайте повну перевірку за 60 секунд на web01: навантаження, пам’ять, диск, зламані сервіси й останні помилки."
+            "uk": "Виконайте повну перевірку за 60 секунд на web01: навантаження, пам’ять, диск, зламані сервіси й останні помилки.",
+            "pl": "Wykonaj na web01 pełne sprawdzenie w 60 sekund: obciążenie, pamięć, dysk, zepsute usługi i najnowsze błędy."
           },
           "instructions": {
             "en": "1. `uptime`\n2. `free -h`\n3. `df -h`\n4. `systemctl --failed`\n5. `journalctl -p err -n 20`",
@@ -867,7 +948,8 @@
             "direction": {
               "en": "Run the five commands from the checklist one by one.",
               "ru": "Выполните пять команд из чек-листа по очереди.",
-              "uk": "Виконайте п’ять команд із чек-листа по черзі."
+              "uk": "Виконайте п’ять команд із чек-листа по черзі.",
+              "pl": "Uruchom pięć poleceń z listy kontrolnej jedno po drugim."
             },
             "command": "uptime"
           },
@@ -885,7 +967,8 @@
           "goal": {
             "en": "Save a short host status into ~/status.txt: append the output of uptime and df -h / to the file.",
             "ru": "Сохраните короткий статус хоста в ~/status.txt: допишите в файл вывод uptime и df -h /.",
-            "uk": "Збережіть короткий статус хоста в ~/status.txt: допишіть у файл вивід uptime і df -h /."
+            "uk": "Збережіть короткий статус хоста в ~/status.txt: допишіть у файл вивід uptime і df -h /.",
+            "pl": "Zapisz krótki stan hosta w ~/status.txt: dopisz do pliku wyjście uptime i df -h /."
           },
           "checks": [
             {
@@ -895,7 +978,8 @@
               "label": {
                 "en": "uptime is in the file",
                 "ru": "uptime в файле",
-                "uk": "uptime у файлі"
+                "uk": "uptime у файлі",
+                "pl": "uptime jest w pliku"
               }
             },
             {
@@ -905,7 +989,8 @@
               "label": {
                 "en": "disk usage is in the file",
                 "ru": "место на диске в файле",
-                "uk": "місце на диску у файлі"
+                "uk": "місце на диску у файлі",
+                "pl": "zajętość dysku jest w pliku"
               }
             }
           ],
@@ -913,7 +998,8 @@
             "direction": {
               "en": "Use >> to append both outputs.",
               "ru": "Используйте >>, чтобы дописать оба вывода.",
-              "uk": "Використайте >>, щоб дописати обидва виводи."
+              "uk": "Використайте >>, щоб дописати обидва виводи.",
+              "pl": "Użyj >>, by dopisać oba wyjścia."
             },
             "command": "df"
           },
@@ -927,23 +1013,27 @@
           "question": {
             "en": "All six checks look healthy, but users still see errors. What next?",
             "ru": "Все шесть проверок в норме, а пользователи всё равно видят ошибки. Что дальше?",
-            "uk": "Усі шість перевірок у нормі, а користувачі досі бачать помилки. Що далі?"
+            "uk": "Усі шість перевірок у нормі, а користувачі досі бачать помилки. Що далі?",
+            "pl": "Wszystkie sześć sprawdzeń wygląda zdrowo, a użytkownicy dalej widzą błędy. Co dalej?"
           },
           "options": [
             {
               "en": "Look beyond the host: the network, the database, the application logs",
               "ru": "Смотреть за пределами хоста: сеть, база, логи приложения",
-              "uk": "Дивитися за межами хоста: мережа, база, логи застосунку"
+              "uk": "Дивитися за межами хоста: мережа, база, логи застосунку",
+              "pl": "Szukać poza hostem: sieć, baza danych, logi aplikacji"
             },
             {
               "en": "Reboot the healthy server just in case",
               "ru": "Перезагрузить здоровый сервер на всякий случай",
-              "uk": "Перезавантажити здоровий сервер про всяк випадок"
+              "uk": "Перезавантажити здоровий сервер про всяк випадок",
+              "pl": "Na wszelki wypadek zrestartować zdrowy serwer"
             },
             {
               "en": "Close the ticket",
               "ru": "Закрыть тикет",
-              "uk": "Закрити тікет"
+              "uk": "Закрити тікет",
+              "pl": "Zamknąć zgłoszenie"
             }
           ],
           "answer": 0

@@ -136,7 +136,8 @@
             "direction": {
               "en": "-I = headers only.",
               "ru": "-I = только заголовки.",
-              "uk": "-I = лише заголовки."
+              "uk": "-I = лише заголовки.",
+              "pl": "-I = tylko nagłówki."
             },
             "command": "curl"
           },
