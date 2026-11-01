@@ -12,8 +12,10 @@ import os
 ROOT = os.path.join(os.path.dirname(__file__), '..')
 
 
-def L(en, ru, uk):
-    return {"en": en, "ru": ru, "uk": uk}
+def L(en, ru, uk, pl=None):
+    d = {"en": en, "ru": ru, "uk": uk}
+    if pl is not None: d["pl"] = pl
+    return d
 
 
 # ---------------------------------------------------------------- checks
@@ -57,6 +59,21 @@ def uexists(name, label, group=None, exists=True):
     d = {"type": "userExists", "name": name}
     if group: d["group"] = group
     if not exists: d["exists"] = False
+    return _c(d, label)
+def container(name, state, label, image=None, port=None):
+    d = {"type": "containerState", "name": name, "state": state}
+    if image: d["image"] = image
+    if port is not None: d["hostPort"] = port
+    return _c(d, label)
+def image(name, label, exists=True):
+    d = {"type": "imageExists", "name": name}
+    if not exists: d["exists"] = False
+    return _c(d, label)
+def ccount(label, eq=None, running=None, mx=None):
+    d = {"type": "containerCount"}
+    if eq is not None: d["eq"] = eq
+    if mx is not None: d["max"] = mx
+    if running: d["running"] = True
     return _c(d, label)
 def proc_gone(name, label): return _c({"type": "processGone", "name": name}, label)
 def var(name, value, label): return _c({"type": "varEquals", "name": name, "value": value}, label)

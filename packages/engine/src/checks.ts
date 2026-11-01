@@ -32,7 +32,13 @@ export type Check =
   | { type: 'processGone'; pid?: number; name?: string }
   | { type: 'serviceState'; name: string; state: 'active' | 'inactive' | 'failed' }
   | { type: 'serviceEnabled'; name: string; enabled: boolean }
-  | { type: 'exitCode'; code: number };
+  | { type: 'exitCode'; code: number }
+  /** A docker container by name: running / exited / absent; optionally its image and a published host port. */
+  | { type: 'containerState'; name: string; state: 'running' | 'exited' | 'absent'; image?: string; hostPort?: number }
+  /** A local docker image (repo or repo:tag) exists (or not). */
+  | { type: 'imageExists'; name: string; exists?: boolean }
+  /** Number of docker containers (all or only running). */
+  | { type: 'containerCount'; eq?: number; max?: number; min?: number; running?: boolean };
 
 export interface CheckContext {
   session: Session;
@@ -173,6 +179,22 @@ export function evaluateCheck(check: Check, ctx: CheckContext): CheckResult {
       return ok((s.machine.services ?? []).find((x) => x.name === check.name)?.enabled === check.enabled);
     case 'exitCode':
       return ok(ctx.lastExitCode === check.code);
+    case 'containerState': {
+      const c = s.machine.docker?.containers.find((x) => x.name === check.name);
+      if (check.state === 'absent') return ok(!c);
+      if (!c) return ok(false);
+      const img = check.image ? (check.image.includes(':') ? check.image : `${check.image}:latest`) : null;
+      return ok((c.state === check.state || (check.state === 'exited' && c.state === 'created')) && (!img || c.image === img) && (check.hostPort === undefined || c.ports.some((p) => p.host === check.hostPort)));
+    }
+    case 'imageExists': {
+      const [repo, tag] = check.name.includes(':') ? check.name.split(':') : [check.name, undefined];
+      const found = !!s.machine.docker?.images.some((i) => i.repo === repo && (tag === undefined || i.tag === tag));
+      return ok(check.exists === false ? !found : found);
+    }
+    case 'containerCount': {
+      const n = (s.machine.docker?.containers ?? []).filter((c) => !check.running || c.state === 'running').length;
+      return ok((check.eq === undefined || n === check.eq) && (check.min === undefined || n >= check.min) && (check.max === undefined || n <= check.max));
+    }
   }
 }
 

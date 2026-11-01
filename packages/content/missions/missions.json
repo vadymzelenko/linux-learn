@@ -2167,5 +2167,114 @@
       "curl -I http://localhost",
       "echo \"12:20 rolled back to nginx.conf.bak, nginx active, HTTP 200\" >> ~/tickets/CHG-118.txt"
     ]
+  },
+  {
+    "id": "docker-shop-down",
+    "course": "docker",
+    "topics": [
+      "dk-logs",
+      "dk-env-volumes"
+    ],
+    "title": {
+      "en": "Containers down",
+      "ru": "Контейнеры легли",
+      "uk": "Контейнери лягли",
+      "pl": "Kontenery padły"
+    },
+    "story": {
+      "en": "11:58 UTC, P1. After a memory spike on dock01 the shop is down. Read ~/tickets/INC-4102.txt, find out why each container stopped, bring web back on http://localhost:8080 and get the db container running.",
+      "ru": "11:58 UTC, P1. После скачка памяти на dock01 магазин лежит. Прочитайте ~/tickets/INC-4102.txt, выясните, почему остановился каждый контейнер, верните web на http://localhost:8080 и запустите контейнер db.",
+      "uk": "11:58 UTC, P1. Після стрибка пам’яті на dock01 магазин лежить. Прочитайте ~/tickets/INC-4102.txt, з’ясуйте, чому зупинився кожен контейнер, поверніть web на http://localhost:8080 і запустіть контейнер db.",
+      "pl": "11:58 UTC, P1. Po skoku pamięci na dock01 sklep leży. Przeczytaj ~/tickets/INC-4102.txt, ustal, dlaczego zatrzymał się każdy kontener, przywróć web pod http://localhost:8080 i uruchom kontener db."
+    },
+    "difficulty": 2,
+    "requires": "docker-ops",
+    "xp": 120,
+    "setup": {
+      "hostname": "dock01",
+      "docker": {
+        "images": [
+          "nginx:latest",
+          "postgres:16"
+        ],
+        "containers": [
+          {
+            "name": "web",
+            "image": "nginx",
+            "ports": [
+              "8080:80"
+            ],
+            "state": "exited",
+            "exitCode": 137,
+            "age": 25,
+            "logs": [
+              "2026/10/31 11:58:02 [notice] 1#1: signal 9 (SIGKILL) received from kernel: Out of memory"
+            ]
+          },
+          {
+            "name": "db",
+            "image": "postgres:16",
+            "state": "exited",
+            "exitCode": 1,
+            "age": 25
+          }
+        ]
+      },
+      "files": {
+        "~/tickets/INC-4102.txt": "INC-4102  P1  Shop on dock01 is down: http://localhost:8080 refuses connections (11:58 UTC)\nThe database container must run too (any password, the app is not connected yet).\n"
+      }
+    },
+    "checks": [
+      {
+        "type": "containerState",
+        "name": "web",
+        "state": "running",
+        "hostPort": 8080,
+        "label": {
+          "en": "web is running again",
+          "ru": "web снова работает",
+          "uk": "web знову працює",
+          "pl": "web znów działa"
+        }
+      },
+      {
+        "type": "usedCommand",
+        "command": "curl",
+        "success": true,
+        "label": {
+          "en": "Checked the site with curl",
+          "ru": "Сайт проверен curl",
+          "uk": "Сайт перевірено curl",
+          "pl": "Strona sprawdzona curl"
+        }
+      },
+      {
+        "type": "containerState",
+        "name": "db",
+        "state": "running",
+        "image": "postgres:16",
+        "label": {
+          "en": "A working db container",
+          "ru": "Рабочий контейнер db",
+          "uk": "Робочий контейнер db",
+          "pl": "Działający kontener db"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "docker ps -a and docker logs for both. web just needs a start; db needs to be recreated with POSTGRES_PASSWORD.",
+        "ru": "docker ps -a и docker logs для обоих. web достаточно запустить; db нужно пересоздать с POSTGRES_PASSWORD.",
+        "uk": "docker ps -a і docker logs для обох. web достатньо запустити; db треба перестворити з POSTGRES_PASSWORD.",
+        "pl": "docker ps -a i docker logs dla obu. web wystarczy uruchomić; db trzeba utworzyć ponownie z POSTGRES_PASSWORD."
+      },
+      "command": "docker logs"
+    },
+    "solution": [
+      "docker start web",
+      "curl localhost:8080",
+      "docker rm db",
+      "docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:16"
+    ]
   }
 ]

@@ -103,7 +103,8 @@ const uk: Dict = {
     tools: 'Інструменти',
   },
   courses: { title: 'Курси', recommended: 'Рекомендуємо далі', open: 'Відкрити курс', minutes: '{{n}} хв' },
-  glossary: { title: 'Словник', search: 'Пошук термінів', open: 'Відкрити словник', count: '{{n}} термінів', categories: { basics: 'Основи', files: 'Файли', text: 'Текст', permissions: 'Права', processes: 'Процеси', network: 'Мережа', noc: 'NOC та інциденти', shell: 'Оболонка' } },
+  glossary: {
+    title: 'Словник', search: 'Пошук термінів', open: 'Відкрити словник', count: '{{n}} термінів', categories: { docker: 'Docker', basics: 'Основи', files: 'Файли', text: 'Текст', permissions: 'Права', processes: 'Процеси', network: 'Мережа', noc: 'NOC та інциденти', shell: 'Оболонка' } },
   library: { title: 'Бібліотека', subtitle: 'Уся теорія для читання', read: 'Читати', practice: 'Пройти урок' },
   topic: { theory: 'Теорія', readTopic: 'Прочитати теорію за темою', commands: 'Команди уроку', related: 'Пов’язані уроки' },
   terminal: {
@@ -131,6 +132,9 @@ const uk: Dict = {
     machines: 'Машини',
     template: 'Шаблон',
     templates: {
+      'docker-lab': 'Docker-хост із контейнерами',
+      'noc-web01': 'Вебсервер із сервісами (NOC)',
+      'noc-busy': 'Перевантажений сервер (NOC)',
       'empty-home': 'Чиста система',
       'home-basic': 'Дім із файлами',
       'text-files': 'Логи та дані',

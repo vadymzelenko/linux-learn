@@ -768,7 +768,8 @@ function doBuild(ctx: Ctx, args: string[]): number {
           }
           const destAbs = normalize(dest, workdir);
           if (node.type === 'file') {
-            const target = dest.endsWith('/') || parts.length > 1 || src === '.' ? `${destAbs}/${hostPath.split('/').pop()}` : destAbs;
+            const intoDir = dest.endsWith('/') || dest === '.' || dest === './' || parts.length > 1;
+            const target = intoDir ? `${destAbs.replace(/\/$/, '')}/${hostPath.split('/').pop()}` : destAbs;
             files[target] = node.content;
           } else if (node.type === 'dir') {
             const walk = (dirNode: typeof node, rel: string) => {

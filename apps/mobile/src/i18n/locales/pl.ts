@@ -103,7 +103,8 @@ const pl: Dict = {
     tools: 'Narzędzia',
   },
   courses: { title: 'Kursy', recommended: 'Polecamy dalej', open: 'Otwórz kurs', minutes: '{{n}} min' },
-  glossary: { title: 'Słownik', search: 'Szukaj terminów', open: 'Otwórz słownik', count: '{{n}} terminów', categories: { basics: 'Podstawy', files: 'Pliki', text: 'Tekst', permissions: 'Uprawnienia', processes: 'Procesy', network: 'Sieć', noc: 'NOC i incydenty', shell: 'Powłoka' } },
+  glossary: {
+    title: 'Słownik', search: 'Szukaj terminów', open: 'Otwórz słownik', count: '{{n}} terminów', categories: { docker: 'Docker', basics: 'Podstawy', files: 'Pliki', text: 'Tekst', permissions: 'Uprawnienia', processes: 'Procesy', network: 'Sieć', noc: 'NOC i incydenty', shell: 'Powłoka' } },
   library: { title: 'Biblioteka', subtitle: 'Cała teoria do czytania', read: 'Czytaj', practice: 'Przejdź lekcję' },
   topic: { theory: 'Teoria', readTopic: 'Przeczytaj teorię na ten temat', commands: 'Polecenia lekcji', related: 'Powiązane lekcje' },
   terminal: {
@@ -131,6 +132,9 @@ const pl: Dict = {
     machines: 'Maszyny',
     template: 'Szablon',
     templates: {
+      'docker-lab': 'Host Dockera z kontenerami',
+      'noc-web01': 'Serwer WWW z usługami (NOC)',
+      'noc-busy': 'Przeciążony serwer (NOC)',
       'empty-home': 'Czysty system',
       'home-basic': 'Dom z plikami',
       'text-files': 'Logi i dane',

@@ -7,7 +7,7 @@ import { Text } from '../theme/Text';
 import { useTheme, MONO, space } from '../theme';
 import { H1, IconButton, Row, Screen } from '../components/ui';
 
-const ORDER = ['basics', 'files', 'text', 'permissions', 'processes', 'shell', 'network', 'noc'];
+const ORDER = ['basics', 'files', 'text', 'permissions', 'processes', 'shell', 'network', 'noc', 'docker'];
 
 export default function GlossaryScreen() {
   const theme = useTheme();

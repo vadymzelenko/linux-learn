@@ -213,6 +213,8 @@ export function buildMachine(spec: MachineSpec = {}, opts: CreateMachineOptions 
   );
   const groups = new Map<string, string[]>();
   for (const u of users) for (const g of u.groups) groups.set(g, [...(groups.get(g) ?? []), ...(g === u.name ? [] : [u.name])]);
+  // installing docker creates the docker group even when nobody is in it yet
+  if (spec.docker && !groups.has('docker')) groups.set('docker', []);
   etc.children['group'] = makeFile(
     'group',
     [...groups.entries()].map(([g, m], i) => `${g}:x:${g === 'root' ? 0 : g === 'sudo' ? 27 : (users.find((u) => u.name === g)?.gid ?? 2000 + i)}:${m.join(',')}`).join('\n') + '\n',

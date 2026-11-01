@@ -3287,5 +3287,238 @@
         "п'ять чому"
       ]
     }
+  },
+  {
+    "id": "container",
+    "category": "docker",
+    "term": {
+      "en": "Container",
+      "ru": "Контейнер",
+      "uk": "Контейнер",
+      "pl": "Kontener"
+    },
+    "definition": {
+      "en": "An isolated process started from an image, with its own file system, network and process list, sharing the host kernel.",
+      "ru": "Изолированный процесс, запущенный из образа, со своей файловой системой, сетью и списком процессов, на общем ядре хоста.",
+      "uk": "Ізольований процес, запущений з образу, зі своєю файловою системою, мережею й списком процесів, на спільному ядрі хоста.",
+      "pl": "Odizolowany proces uruchomiony z obrazu, z własnym systemem plików, siecią i listą procesów, na wspólnym jądrze hosta."
+    },
+    "match": {
+      "en": [
+        "container"
+      ],
+      "ru": [
+        "контейнер"
+      ],
+      "uk": [
+        "контейнер"
+      ]
+    },
+    "command": "docker"
+  },
+  {
+    "id": "image",
+    "category": "docker",
+    "term": {
+      "en": "Image",
+      "ru": "Образ (image)",
+      "uk": "Образ (image)",
+      "pl": "Obraz (image)"
+    },
+    "definition": {
+      "en": "A read-only template for containers: the files of an application and the command to start it, stored in layers.",
+      "ru": "Шаблон для контейнеров только для чтения: файлы приложения и команда запуска, хранится слоями.",
+      "uk": "Шаблон для контейнерів лише для читання: файли застосунку й команда запуску, зберігається шарами.",
+      "pl": "Szablon kontenerów tylko do odczytu: pliki aplikacji i polecenie startowe, przechowywany w warstwach."
+    },
+    "match": {
+      "en": [
+        "image"
+      ],
+      "ru": [
+        "образы",
+        "образов",
+        "образа",
+        "образе",
+        "образами"
+      ],
+      "uk": [
+        "образи",
+        "образів",
+        "образу",
+        "образами"
+      ]
+    },
+    "command": "docker"
+  },
+  {
+    "id": "dockerfile",
+    "category": "docker",
+    "term": {
+      "en": "Dockerfile",
+      "ru": "Dockerfile",
+      "uk": "Dockerfile",
+      "pl": "Dockerfile"
+    },
+    "definition": {
+      "en": "A text recipe for building an image: FROM a base image, COPY files, RUN commands, set the CMD.",
+      "ru": "Текстовый рецепт сборки образа: FROM базовый образ, COPY файлов, RUN команд, CMD запуска.",
+      "uk": "Текстовий рецепт збирання образу: FROM базовий образ, COPY файлів, RUN команд, CMD запуску.",
+      "pl": "Tekstowy przepis budowania obrazu: FROM obraz bazowy, COPY plików, RUN poleceń, CMD startu."
+    },
+    "match": {
+      "en": [
+        "dockerfile"
+      ],
+      "ru": [
+        "dockerfile"
+      ],
+      "uk": [
+        "dockerfile"
+      ]
+    }
+  },
+  {
+    "id": "registry",
+    "category": "docker",
+    "term": {
+      "en": "Registry",
+      "ru": "Реестр образов",
+      "uk": "Реєстр образів",
+      "pl": "Rejestr obrazów"
+    },
+    "definition": {
+      "en": "A server that stores images, e.g. Docker Hub; docker pull downloads from it, docker push uploads.",
+      "ru": "Сервер, где хранятся образы, например Docker Hub; docker pull скачивает оттуда, docker push загружает.",
+      "uk": "Сервер, де зберігаються образи, наприклад Docker Hub; docker pull завантажує звідти, docker push вивантажує.",
+      "pl": "Serwer przechowujący obrazy, np. Docker Hub; docker pull pobiera z niego, docker push wysyła."
+    },
+    "match": {
+      "en": [
+        "registry",
+        "docker hub"
+      ],
+      "ru": [
+        "реестр",
+        "docker hub"
+      ],
+      "uk": [
+        "реєстр",
+        "docker hub"
+      ]
+    }
+  },
+  {
+    "id": "tag",
+    "category": "docker",
+    "term": {
+      "en": "Tag",
+      "ru": "Тег образа",
+      "uk": "Тег образу",
+      "pl": "Tag obrazu"
+    },
+    "definition": {
+      "en": "The version part of an image name after the colon: nginx:1.27. No tag means latest.",
+      "ru": "Часть имени образа после двоеточия — версия: nginx:1.27. Без тега — latest.",
+      "uk": "Частина імені образу після двокрапки — версія: nginx:1.27. Без тегу — latest.",
+      "pl": "Część nazwy obrazu po dwukropku — wersja: nginx:1.27. Bez tagu — latest."
+    },
+    "match": {
+      "en": [
+        "tag"
+      ],
+      "ru": [
+        "тег"
+      ],
+      "uk": [
+        "тег"
+      ]
+    }
+  },
+  {
+    "id": "volume",
+    "category": "docker",
+    "term": {
+      "en": "Volume",
+      "ru": "Том (volume)",
+      "uk": "Том (volume)",
+      "pl": "Wolumen"
+    },
+    "definition": {
+      "en": "Storage that lives outside a container and survives its removal: a named volume or a bind-mounted host folder (-v).",
+      "ru": "Хранилище вне контейнера, переживающее его удаление: именованный том или примонтированная папка хоста (-v).",
+      "uk": "Сховище поза контейнером, що переживає його видалення: іменований том або примонтована тека хоста (-v).",
+      "pl": "Magazyn poza kontenerem, który przetrwa jego usunięcie: nazwany wolumen lub zamontowany katalog hosta (-v)."
+    },
+    "match": {
+      "en": [
+        "volume"
+      ],
+      "ru": [
+        "томов",
+        "томами",
+        "именованный том"
+      ],
+      "uk": [
+        "томів",
+        "томами",
+        "іменований том"
+      ]
+    }
+  },
+  {
+    "id": "port-publish",
+    "category": "docker",
+    "term": {
+      "en": "Port publishing",
+      "ru": "Проброс порта",
+      "uk": "Прокидання порту",
+      "pl": "Publikowanie portu"
+    },
+    "definition": {
+      "en": "-p HOST:CONTAINER connects a port on the host to a port inside the container, e.g. -p 8080:80.",
+      "ru": "-p ХОСТ:КОНТЕЙНЕР связывает порт хоста с портом внутри контейнера, например -p 8080:80.",
+      "uk": "-p ХОСТ:КОНТЕЙНЕР пов’язує порт хоста з портом усередині контейнера, наприклад -p 8080:80.",
+      "pl": "-p HOST:KONTENER łączy port hosta z portem w kontenerze, np. -p 8080:80."
+    },
+    "match": {
+      "en": [
+        "publish"
+      ],
+      "ru": [
+        "проброс"
+      ],
+      "uk": [
+        "прокидання"
+      ]
+    }
+  },
+  {
+    "id": "compose",
+    "category": "docker",
+    "term": {
+      "en": "Docker Compose",
+      "ru": "Docker Compose",
+      "uk": "Docker Compose",
+      "pl": "Docker Compose"
+    },
+    "definition": {
+      "en": "A tool that starts several containers described in compose.yaml with one command: docker compose up -d.",
+      "ru": "Инструмент, который поднимает несколько контейнеров из compose.yaml одной командой: docker compose up -d.",
+      "uk": "Інструмент, що піднімає кілька контейнерів із compose.yaml однією командою: docker compose up -d.",
+      "pl": "Narzędzie uruchamiające kilka kontenerów z compose.yaml jednym poleceniem: docker compose up -d."
+    },
+    "match": {
+      "en": [
+        "compose"
+      ],
+      "ru": [
+        "compose"
+      ],
+      "uk": [
+        "compose"
+      ]
+    },
+    "command": "docker"
   }
 ]

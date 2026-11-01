@@ -101,7 +101,8 @@ const en = {
     tools: 'Tools',
   },
   courses: { title: 'Courses', recommended: 'Recommended next', open: 'Open course', minutes: '{{n}} min' },
-  glossary: { title: 'Glossary', search: 'Search terms', open: 'Open glossary', count: '{{n}} terms', categories: { basics: 'Basics', files: 'Files', text: 'Text', permissions: 'Permissions', processes: 'Processes', network: 'Network', noc: 'NOC & incidents', shell: 'Shell' } },
+  glossary: {
+    title: 'Glossary', search: 'Search terms', open: 'Open glossary', count: '{{n}} terms', categories: { docker: 'Docker', basics: 'Basics', files: 'Files', text: 'Text', permissions: 'Permissions', processes: 'Processes', network: 'Network', noc: 'NOC & incidents', shell: 'Shell' } },
   library: { title: 'Library', subtitle: 'All theory for reading', read: 'Read', practice: 'Practise this lesson' },
   topic: { theory: 'Theory', readTopic: 'Read the theory on this topic', commands: 'Commands in this lesson', related: 'Related lessons' },
   terminal: {
@@ -129,6 +130,9 @@ const en = {
     machines: 'Machines',
     template: 'Template',
     templates: {
+      'docker-lab': 'Docker host with containers',
+      'noc-web01': 'Web server with services (NOC)',
+      'noc-busy': 'Overloaded server (NOC)',
       'empty-home': 'Clean system',
       'home-basic': 'Home with files',
       'text-files': 'Logs and data',

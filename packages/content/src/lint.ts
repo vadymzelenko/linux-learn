@@ -178,7 +178,7 @@ export function lintContent(): LintIssue[] {
             if (e) err(sw, e);
             const used = step.solution.flatMap((l) => l.split(/\s*(?:\|\||&&|[|;])\s*/).map((p) => p.trim().split(/\s+/)));
             const names = used.flatMap((w) => (w[0] === 'sudo' ? [w[0], w[1] ?? ''] : [w[0] ?? '']));
-            if (!names.includes(step.hints.command)) warn(sw, `hint command "${step.hints.command}" is not used in the solution`);
+            if (!names.includes(step.hints.command) && !step.solution.some((l) => l.trim().startsWith(step.hints.command + ' '))) warn(sw, `hint command "${step.hints.command}" is not used in the solution`);
             if (step.type === 'fix') {
               const r = run(prepareSession(step.setup ?? lesson.setup, step.prepare, NOW), step.prefill, { now: NOW });
               const ev = evaluateTask(step.checks, r.session, r.executed, r.output.map((o) => o.text).join(''), r.exitCode);
