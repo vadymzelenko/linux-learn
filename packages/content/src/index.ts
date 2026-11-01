@@ -6,6 +6,7 @@ import glossaryJson from '../glossary.json';
 import missionsJson from '../missions/missions.json';
 import challengesJson from '../challenges/challenges.json';
 import achievementsJson from '../achievements.json';
+import commandsL10nJson from '../commands-l10n.json';
 import { fixtureMap, moduleList } from './registry';
 
 
@@ -19,6 +20,21 @@ export const challenges: Challenge[] = challengesJson as unknown as Challenge[];
 export const achievements: Achievement[] = achievementsJson as unknown as Achievement[];
 
 export const fixtures: Record<string, MachineSpec> = fixtureMap;
+
+type CommandL10n = Record<string, { summary: Partial<Record<Lang, string>>; options?: Record<string, Partial<Record<Lang, string>>> }>;
+/** Translated summaries and option texts of the simulator's commands (English lives in the engine). */
+export const commandL10n: CommandL10n = commandsL10nJson as unknown as CommandL10n;
+
+/** Summary of a command in a language; `fallback` is the English text from the manual. */
+export function commandSummary(name: string, lang: string, fallback: string): string {
+  return commandL10n[name]?.summary[lang as Lang] ?? fallback;
+}
+
+/** Text of an option (by its manual spec, e.g. "-n, --lines=NUM") in a language. */
+export function optionText(name: string | undefined, spec: string | undefined, lang: string, fallback: string): string {
+  if (!name || !spec) return fallback;
+  return commandL10n[name]?.options?.[spec]?.[lang as Lang] ?? fallback;
+}
 
 /** Pick the text for a language, falling back to English. */
 export function tr(text: L10n | undefined, lang: Lang | string): string {

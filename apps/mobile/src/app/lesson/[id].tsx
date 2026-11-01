@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, Easing, KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { allLessons, findLesson, isTaskStep, stepXp, tr } from '@linux-learn/content';
@@ -11,6 +11,28 @@ import { TaskRunner } from '../../components/steps/TaskRunner';
 import { rewardAfterHints } from '../../lib/progress';
 import { ads } from '../../lib/ads';
 import { Text } from '../../theme/Text';
+import { feedback } from '../../lib/haptics';
+
+/** The finish badge pops in with a spring and the "lesson complete" cue. */
+function FinishBadge({ color, iconColor }: { color: string; iconColor: string }) {
+  const scale = useRef(new Animated.Value(0.3)).current;
+  const glow = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    feedback.complete();
+    Animated.parallel([
+      Animated.spring(scale, { toValue: 1, friction: 4, tension: 120, useNativeDriver: Platform.OS !== 'web' }),
+      Animated.loop(Animated.sequence([Animated.timing(glow, { toValue: 1, duration: 1200, easing: Easing.inOut(Easing.quad), useNativeDriver: Platform.OS !== 'web' }), Animated.timing(glow, { toValue: 0, duration: 1200, easing: Easing.inOut(Easing.quad), useNativeDriver: Platform.OS !== 'web' })])),
+    ]).start();
+  }, [glow, scale]);
+  return (
+    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Animated.View style={[styles.halo, { backgroundColor: color, opacity: glow.interpolate({ inputRange: [0, 1], outputRange: [0.12, 0.28] }), transform: [{ scale: glow.interpolate({ inputRange: [0, 1], outputRange: [1, 1.15] }) }] }]} />
+      <Animated.View style={[styles.badge, { backgroundColor: color, transform: [{ scale }] }]}>
+        <Icon name="check" size={56} color={iconColor} />
+      </Animated.View>
+    </View>
+  );
+}
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -65,9 +87,7 @@ export default function LessonScreen() {
     return (
       <Screen edges={['top', 'bottom']}>
         <View style={styles.finish}>
-          <View style={[styles.badge, { backgroundColor: theme.accent }]}>
-            <Icon name="check" size={56} color={theme.onAccent} />
-          </View>
+          <FinishBadge color={theme.accent} iconColor={theme.onAccent} />
           <H1 style={{ textAlign: 'center' }}>{t('lesson.finished')}</H1>
           <Body style={{ textAlign: 'center', fontSize: 18 }}>{tr(lesson.title, i18n.language)}</Body>
           <Text style={{ color: theme.accent, fontSize: 32, fontWeight: '900' }}>{t('lesson.earned', { xp: earned.current })}</Text>
@@ -170,4 +190,5 @@ const styles = StyleSheet.create({
   body: { flex: 1, paddingHorizontal: space.md, paddingBottom: space.sm, maxWidth: 1200, width: '100%', alignSelf: 'center' },
   finish: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.md },
   badge: { width: 104, height: 104, borderRadius: 52, alignItems: 'center', justifyContent: 'center', marginBottom: space.md },
+  halo: { position: 'absolute', width: 150, height: 150, borderRadius: 75, top: -23 },
 });

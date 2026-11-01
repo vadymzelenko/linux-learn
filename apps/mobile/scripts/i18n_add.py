@@ -13,6 +13,8 @@ def add(lang, path, value):
     f = os.path.join(ROOT, lang + '.ts')
     s = open(f).read()
     parts = path.split('.')
+    if parts[0] == 'explainKeys':
+        parts = [parts[0], '.'.join(parts[1:])]
     section, key = parts[0], parts[-1]
     keyq = key if re.match(r'^[A-Za-z_]\w*$', key) else q(key)
     m = re.search(r'\n  ' + re.escape(section) + r': \{', s)

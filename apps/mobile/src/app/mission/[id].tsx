@@ -9,6 +9,7 @@ import { Button, IconButton, Screen } from '../../components/ui';
 import { TaskRunner } from '../../components/steps/TaskRunner';
 import { rewardAfterHints } from '../../lib/progress';
 import { Text } from '../../theme/Text';
+import { feedback } from '../../lib/haptics';
 
 export default function MissionScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -45,6 +46,7 @@ export default function MissionScreen() {
               const xp = rewardAfterHints(mission.xp, hints);
               useStore.getState().completeMission(mission.id, xp, hints);
               setReward(xp);
+              setTimeout(() => feedback.complete(), 350);
             }}
             solvedFooter={
               reward !== null ? (
