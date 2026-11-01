@@ -109,7 +109,7 @@ export function DialogHost() {
   }, [current]);
 
   useEffect(() => {
-    if (!current) return;
+    if (!current || Platform.OS === 'web') return;
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       finish(current.actions.find((a) => a.style === 'cancel'));
       return true;

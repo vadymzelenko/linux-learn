@@ -68,6 +68,7 @@ export default function LessonScreen() {
   }, [finished, index, lesson, t]);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       askExit();
       return true;

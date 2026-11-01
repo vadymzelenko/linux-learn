@@ -64,7 +64,7 @@ export function Toasts() {
   const toasts = useStore((s) => s.toasts);
   const insets = useSafeAreaInsets();
   return (
-    <View pointerEvents="none" style={[styles.host, { top: insets.top + 8 }]}>
+    <View pointerEvents="none" style={[styles.host, { top: insets.top + 60 }]}>
       {toasts.slice(-3).map((t) => (
         <ToastView key={t.id} toast={t} />
       ))}
