@@ -110,7 +110,8 @@ jobs:
           script: |
             adb install -r apk/*.apk
             mkdir -p maestro-out
-            maestro test apps/mobile/.maestro/smoke.yaml --format junit --output maestro-out/report.xml --test-output-dir maestro-out || (adb logcat -d -s ReactNativeJS:V AndroidRuntime:E > maestro-out/logcat.txt; exit 1)
+            adb logcat -c
+            maestro test apps/mobile/.maestro/smoke.yaml --format junit --output maestro-out/report.xml --test-output-dir maestro-out || (echo "::group::What is on screen"; maestro hierarchy | grep -oE '"(text|accessibilityText|resource-id)" *: *"[^"]+"' | head -80; echo "::endgroup::"; echo "::group::Crash / JS errors"; adb logcat -d -s ReactNativeJS:V AndroidRuntime:E ReactNative:E | tail -150; echo "::endgroup::"; adb shell dumpsys activity activities | grep -E "mResumedActivity|topResumedActivity" ; adb logcat -d > maestro-out/logcat.txt; exit 1)
             adb logcat -d -s ReactNativeJS:V AndroidRuntime:E > maestro-out/logcat.txt || true
       - uses: actions/upload-artifact@v4
         if: always()
