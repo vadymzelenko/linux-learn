@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { LayoutAnimation, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { courseLessons, courseModules, courses, levelFor, lessonMinutes, missions, modules, tr, type Module } from '@linux-learn/content';
 import { useStore } from '../../state/store';
 import { useTheme, MONO, MONO_BOLD, space } from '../../theme';
-import { Body, Button, Card, H1, H2, Icon, Pill, ProgressBar, Row, Screen } from '../../components/ui';
+import { Body, Button, Card, FadeIn, H1, H2, Icon, Pill, ProgressBar, Row, Screen } from '../../components/ui';
 import { dayKey, liveStreak } from '../../lib/progress';
 import { useLocalSearchParams } from 'expo-router';
 import { haptic } from '../../lib/haptics';
@@ -53,6 +53,7 @@ function ModuleBranch({ module, last, open, onToggle, nextId, color }: { module:
       <Pressable
         onPress={() => {
           haptic.tap();
+          LayoutAnimation.configureNext(LayoutAnimation.create(220, 'easeInEaseOut', 'opacity'));
           onToggle();
         }}
         accessibilityRole="button"
@@ -212,7 +213,7 @@ export default function CoursesScreen() {
             <Text style={[styles.dirName, { color: theme.term.path }]}>/{course.id}</Text>
           </Row>
           {mods.map((m, i) => (
-            <ModuleBranch key={m.id} color={course.color} module={m} last={i === mods.length - 1} open={open === m.id} onToggle={() => setOpen(open === m.id ? null : m.id)} {...(next ? { nextId: next.lesson.id } : {})} />
+            <FadeIn key={m.id} index={i} from={8}><ModuleBranch color={course.color} module={m} last={i === mods.length - 1} open={open === m.id} onToggle={() => setOpen(open === m.id ? null : m.id)} {...(next ? { nextId: next.lesson.id } : {})} /></FadeIn>
           ))}
         </Card>
 

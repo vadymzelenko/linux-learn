@@ -1,10 +1,13 @@
-import type { ReactNode } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { useEffect, useRef, type ReactNode } from 'react';
+import { ActivityIndicator, Animated, Easing, Pressable, StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
 import { useTheme, radius, space, MONO } from '../../theme';
 import { haptic } from '../../lib/haptics';
 import { Icon } from './Icon';
 import { Text } from '../../theme/Text';
+import { ND, usePressScale } from './Motion';
+
+export { FadeIn, SlideIn } from './Motion';
 
 export { Icon };
 
@@ -35,21 +38,32 @@ export function Mono({ children, style }: { children: ReactNode; style?: StylePr
 
 export function Card({ children, style, onPress, accessibilityLabel }: { children: ReactNode; style?: StyleProp<ViewStyle>; onPress?: () => void; accessibilityLabel?: string }) {
   const t = useTheme();
+  const press = usePressScale(0.98);
   const base = [styles.card, { backgroundColor: t.surface, borderColor: t.border }, style];
   if (!onPress) return <View style={base}>{children}</View>;
   return (
-    <Pressable
-      onPress={() => {
-        haptic.tap();
-        onPress();
-      }}
-      accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel}
-      style={({ pressed }) => [...base, pressed && { opacity: 0.85, transform: [{ scale: 0.99 }] }]}
-    >
-      {children}
-    </Pressable>
+    <Animated.View style={press.style}>
+      <Pressable
+        onPress={() => {
+          haptic.tap();
+          onPress();
+        }}
+        onPressIn={press.onPressIn}
+        onPressOut={press.onPressOut}
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel}
+        style={({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => [...base, (pressed || hovered) && { borderColor: t.accent }]}
+      >
+        {children}
+      </Pressable>
+    </Animated.View>
   );
+}
+
+/** Layout props of a button that must apply to its animated wrapper. */
+function outer(style: StyleProp<ViewStyle>): ViewStyle {
+  const f = (StyleSheet.flatten(style) ?? {}) as ViewStyle;
+  return { ...(f.flex !== undefined ? { flex: f.flex } : {}), ...(f.alignSelf !== undefined ? { alignSelf: f.alignSelf } : {}), ...(f.width !== undefined ? { width: f.width } : {}) };
 }
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
@@ -63,7 +77,10 @@ export function Button({
   loading,
   style,
   small,
+  hint,
 }: {
+  /** Keyboard shortcut shown on the button, e.g. "Enter". */
+  hint?: string;
   title: string;
   onPress: () => void;
   variant?: Variant;
@@ -74,14 +91,18 @@ export function Button({
   small?: boolean;
 }) {
   const t = useTheme();
+  const press = usePressScale(0.96);
   const bg = { primary: t.accent, secondary: t.surface2, ghost: 'transparent', danger: t.danger }[variant];
   const fg = { primary: t.onAccent, secondary: t.text, ghost: t.accent, danger: '#FFFFFF' }[variant];
   return (
+    <Animated.View style={[press.style, outer(style)]}>
     <Pressable
       onPress={() => {
         haptic.tap();
         onPress();
       }}
+      onPressIn={press.onPressIn}
+      onPressOut={press.onPressOut}
       disabled={disabled || loading}
       accessibilityRole="button"
       accessibilityLabel={title}
@@ -96,20 +117,31 @@ export function Button({
     >
       {loading ? <ActivityIndicator color={fg} /> : icon ? <Icon name={icon} size={small ? 16 : 20} color={fg} /> : null}
       <Text style={{ color: fg, fontSize: small ? 14 : 16, fontWeight: '700' }}>{title}</Text>
+      {hint ? (
+        <View style={[styles.kbd, { borderColor: variant === 'primary' ? fg : t.border }]}>
+          <Text style={{ color: fg, fontSize: 11, fontFamily: MONO, opacity: 0.8 }}>{hint}</Text>
+        </View>
+      ) : null}
     </Pressable>
+    </Animated.View>
   );
 }
 
 export function ProgressBar({ value, color, height = 8, style, track }: { value: number; color?: string; height?: number; style?: StyleProp<ViewStyle>; track?: string }) {
   const t = useTheme();
   const v = Math.max(0, Math.min(1, value));
+  const anim = useRef(new Animated.Value(v)).current;
+  useEffect(() => {
+    // width cannot use the native driver
+    Animated.timing(anim, { toValue: v, duration: 500, easing: Easing.out(Easing.cubic), useNativeDriver: false }).start();
+  }, [anim, v]);
   return (
     <View
       accessibilityRole="progressbar"
       accessibilityValue={{ min: 0, max: 100, now: Math.round(v * 100) }}
       style={[{ height, borderRadius: height, backgroundColor: track ?? t.surface2, overflow: 'hidden' }, style]}
     >
-      <View style={{ width: `${v * 100}%`, height, borderRadius: height, backgroundColor: color ?? t.accent }} />
+      <Animated.View style={{ width: anim.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }), height, borderRadius: height, backgroundColor: color ?? t.accent }} />
     </View>
   );
 }
@@ -148,5 +180,6 @@ export function IconButton({ icon, onPress, label, color }: { icon: string; onPr
 const styles = StyleSheet.create({
   card: { borderRadius: radius.lg, padding: space.lg, borderWidth: StyleSheet.hairlineWidth },
   btn: { flexDirection: 'row', gap: 8, alignItems: 'center', justifyContent: 'center', paddingVertical: 14, paddingHorizontal: 20, borderRadius: radius.md, minHeight: 48 },
+  kbd: { borderWidth: 1, borderRadius: 6, paddingHorizontal: 5, paddingVertical: 1, marginLeft: 2 },
   btnSmall: { paddingVertical: 8, paddingHorizontal: 14, minHeight: 36 },
 });

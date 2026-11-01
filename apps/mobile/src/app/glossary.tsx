@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { glossary, tr } from '@linux-learn/content';
 import { Text } from '../theme/Text';
+import { BackButton } from '../components/BackButton';
 import { useTheme, MONO, space } from '../theme';
 import { H1, IconButton, Row, Screen } from '../components/ui';
 
@@ -26,7 +27,7 @@ export default function GlossaryScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
-        <IconButton icon="chevron-left" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />
+        <BackButton />
         <H1 style={{ fontSize: 24 }}>{t('glossary.title')}</H1>
         <Text style={{ color: theme.textDim, marginLeft: 'auto', marginRight: space.md }}>{t('glossary.count', { n: glossary.length })}</Text>
       </Row>

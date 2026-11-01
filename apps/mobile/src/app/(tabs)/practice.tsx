@@ -5,7 +5,7 @@ import { commandList } from '@linux-learn/engine';
 import { challenges } from '@linux-learn/content';
 import { useStore } from '../../state/store';
 import { useTheme, space } from '../../theme';
-import { Body, Card, H1, H2, Icon, Pill, Row, Screen } from '../../components/ui';
+import { Body, Card, FadeIn, H1, H2, Icon, Pill, Row, Screen } from '../../components/ui';
 import { dayKey, dueCards } from '../../lib/progress';
 import { Text } from '../../theme/Text';
 
@@ -44,6 +44,7 @@ export default function PracticeScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         <H1 style={{ marginBottom: space.lg }}>{t('practice.title')}</H1>
         <View style={{ gap: space.md }}>
+          <FadeIn index={1}>
           <Tile
             icon={left ? 'target' : 'check-circle'}
             accent={left ? theme.warning : theme.success}
@@ -52,6 +53,8 @@ export default function PracticeScreen() {
             badge={left ? String(left) : undefined}
             onPress={() => router.push('/tasks')}
           />
+          </FadeIn>
+          <FadeIn index={2}>
           <Tile
             icon="repeat"
             title={t('practice.review')}
@@ -59,8 +62,13 @@ export default function PracticeScreen() {
             badge={due.length ? String(due.length) : undefined}
             onPress={() => router.push('/review')}
           />
+          </FadeIn>
+          <FadeIn index={3}>
           <Tile icon="explain" title={t('practice.explain')} text={t('practice.explainHint')} onPress={() => router.push('/explain')} />
+          </FadeIn>
+          <FadeIn index={4}>
           <Tile icon="reference" title={t('practice.reference')} text={t('practice.referenceHint', { count: commandList().length })} onPress={() => router.push('/reference')} />
+          </FadeIn>
         </View>
         <Text style={{ color: theme.textDim, textAlign: 'center', marginTop: space.xl, fontSize: 13 }}>{t('streak.kept', { n: progress.streak.current })}</Text>
       </ScrollView>

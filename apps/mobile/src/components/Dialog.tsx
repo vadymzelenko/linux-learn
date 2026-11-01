@@ -92,6 +92,23 @@ export function DialogHost() {
   };
 
   useEffect(() => {
+    if (!current || Platform.OS !== 'web' || typeof document === 'undefined') return;
+    const h = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === 'Enter') e.stopPropagation();
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        finish(current.actions.find((a) => a.style === 'cancel'));
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        finish(current.actions.find((a) => a.style === 'primary' || a.style === 'destructive') ?? current.actions[current.actions.length - 1]);
+      }
+    };
+    document.addEventListener('keydown', h, true);
+    return () => document.removeEventListener('keydown', h, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current]);
+
+  useEffect(() => {
     if (!current) return;
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       finish(current.actions.find((a) => a.style === 'cancel'));

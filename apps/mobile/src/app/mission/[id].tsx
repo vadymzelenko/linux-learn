@@ -9,6 +9,8 @@ import { Button, IconButton, Screen } from '../../components/ui';
 import { TaskRunner } from '../../components/steps/TaskRunner';
 import { rewardAfterHints } from '../../lib/progress';
 import { Text } from '../../theme/Text';
+import { goBack } from '../../lib/nav';
+import { BackButton } from '../../components/BackButton';
 import { feedback } from '../../lib/haptics';
 
 export default function MissionScreen() {
@@ -22,7 +24,7 @@ export default function MissionScreen() {
     <Screen edges={['top', 'bottom']}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <View style={styles.header}>
-          <IconButton icon="x" label={t('common.close')} onPress={() => router.back()} />
+          <BackButton />
           <Text style={{ color: theme.text, fontWeight: '800', fontSize: 17, flex: 1 }} numberOfLines={1}>
             {tr(mission.title, i18n.language)}
           </Text>
@@ -48,13 +50,15 @@ export default function MissionScreen() {
               setReward(xp);
               setTimeout(() => feedback.complete(), 350);
             }}
+            onContinue={reward !== null ? () => goBack('/courses') : undefined}
+            continueLabel={t('lesson.backToMap')}
             solvedFooter={
               reward !== null ? (
                 <View style={{ gap: space.sm }}>
                   <Text style={{ color: theme.accent, fontWeight: '900', fontSize: 20 }}>
                     {t('mission.accomplished')} {t('lesson.earned', { xp: reward })}
                   </Text>
-                  <Button title={t('lesson.backToMap')} onPress={() => router.back()} />
+                  <Button title={t('lesson.backToMap')} onPress={() => goBack()} />
                 </View>
               ) : null
             }

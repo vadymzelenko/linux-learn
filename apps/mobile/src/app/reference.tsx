@@ -7,6 +7,7 @@ import { useTheme, MONO, MONO_BOLD, space } from '../theme';
 import { H1, IconButton, Row, Screen } from '../components/ui';
 import { AnsiText } from '../components/terminal/AnsiText';
 import { Text } from '../theme/Text';
+import { BackButton } from '../components/BackButton';
 import { commandSummary, optionText } from '@linux-learn/content';
 
 const ORDER = ['navigation', 'files', 'text', 'search', 'permissions', 'system', 'network', 'shell', 'help'] as const;
@@ -27,7 +28,7 @@ export default function ReferenceScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
-        <IconButton icon="x" label={t('common.close')} onPress={() => router.back()} />
+        <BackButton />
         <H1 style={{ fontSize: 22 }}>{t('reference.title')}</H1>
       </Row>
       <TextInput

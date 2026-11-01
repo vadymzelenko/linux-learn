@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { Animated, BackHandler, Easing, KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { allLessons, findLesson, isTaskStep, stepXp, tr } from '@linux-learn/content';
@@ -12,6 +12,10 @@ import { rewardAfterHints } from '../../lib/progress';
 import { ads } from '../../lib/ads';
 import { Text } from '../../theme/Text';
 import { feedback } from '../../lib/haptics';
+import { goBack } from '../../lib/nav';
+import { confirmDialog } from '../../components/Dialog';
+import { KeyCatcher } from '../../components/KeyCatcher';
+import { SlideIn } from '../../components/ui';
 
 /** The finish badge pops in with a spring and the "lesson complete" cue. */
 function FinishBadge({ color, iconColor }: { color: string; iconColor: string }) {
@@ -49,6 +53,27 @@ export default function LessonScreen() {
 
   const lesson = ref?.lesson;
   const step = lesson?.steps[index];
+
+  /** Leaving mid-lesson asks first (progress is kept); a finished lesson just closes. */
+  const askExit = useCallback(() => {
+    if (finished || !lesson) return goBack('/courses');
+    confirmDialog({
+      title: t('lesson.exitTitle'),
+      message: t('lesson.exitText', { n: index + 1, total: lesson.steps.length }),
+      confirm: t('lesson.exitConfirm'),
+      cancel: t('lesson.exitStay'),
+      icon: 'exit-to-app',
+      onConfirm: () => goBack('/courses'),
+    });
+  }, [finished, index, lesson, t]);
+
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      askExit();
+      return true;
+    });
+    return () => sub.remove();
+  }, [askExit]);
   const next = useMemo(() => (ref ? allLessons[ref.globalIndex + 1] : undefined), [ref]);
 
   const advance = useCallback(
@@ -77,7 +102,7 @@ export default function LessonScreen() {
       <Screen>
         <View style={{ padding: space.lg, gap: space.md }}>
           <H1>404</H1>
-          <Button title={t('lesson.backToMap')} onPress={() => router.replace('/')} />
+          <Button title={t('lesson.backToMap')} onPress={() => goBack('/courses')} />
         </View>
       </Screen>
     );
@@ -87,6 +112,18 @@ export default function LessonScreen() {
     return (
       <Screen edges={['top', 'bottom']}>
         <View style={styles.finish}>
+          <KeyCatcher
+            onKey={(e) => {
+              if (e.key === 'Enter' && next) {
+                router.replace({ pathname: '/lesson/[id]', params: { id: next.lesson.id } });
+                return true;
+              }
+              if (e.key === 'Escape' || (e.key === 'Enter' && !next)) {
+                goBack('/courses');
+                return true;
+              }
+            }}
+          />
           <FinishBadge color={theme.accent} iconColor={theme.onAccent} />
           <H1 style={{ textAlign: 'center' }}>{t('lesson.finished')}</H1>
           <Body style={{ textAlign: 'center', fontSize: 18 }}>{tr(lesson.title, i18n.language)}</Body>
@@ -95,6 +132,7 @@ export default function LessonScreen() {
             {next ? (
               <Button
                 title={t('lesson.nextLesson')}
+                hint={Platform.OS === 'web' ? 'Enter' : undefined}
                 icon="play"
                 onPress={() => {
                   if (ads.shouldShowInterstitial()) ads.showInterstitial();
@@ -102,7 +140,7 @@ export default function LessonScreen() {
                 }}
               />
             ) : null}
-            <Button variant="secondary" title={t('lesson.backToMap')} onPress={() => router.back()} />
+            <Button variant="secondary" icon="map-outline" title={t('lesson.backToMap')} hint={Platform.OS === 'web' ? 'Esc' : undefined} onPress={() => goBack('/courses')} />
           </View>
         </View>
       </Screen>
@@ -129,7 +167,7 @@ export default function LessonScreen() {
     <Screen edges={['top', 'bottom']}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <View style={styles.header}>
-          <IconButton icon="x" label={t('common.close')} onPress={() => router.back()} />
+          <IconButton icon="x" label={t('lesson.exitTitle')} onPress={askExit} />
           <View style={{ flex: 1, gap: 4 }}>
             <Row style={{ justifyContent: 'space-between' }}>
               <Text style={{ color: theme.text, fontWeight: '800', fontSize: 15, flexShrink: 1 }} numberOfLines={1}>
@@ -143,7 +181,16 @@ export default function LessonScreen() {
             <IconButton icon="book-open" label={t('topic.readTopic')} color={theme.accent} onPress={() => router.push({ pathname: '/read/[id]', params: { id: lesson.id } })} />
           ) : null}
         </View>
-        <View style={styles.body}>
+        <KeyCatcher
+          webOnly
+          onKey={(e) => {
+            if (e.key === 'Escape') {
+              askExit();
+              return true;
+            }
+          }}
+        />
+        <SlideIn key={index} style={styles.body}>
           <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 12, letterSpacing: 1, marginBottom: space.sm }}>{kindLabel.toUpperCase()}</Text>
           {step.type === 'theory' ? (
             <TheoryStep key={index} step={step} lessonSetup={lesson.setup} onDone={onSimpleDone(stepXp(step))} />
@@ -174,12 +221,14 @@ export default function LessonScreen() {
                 if (hints) useStore.getState().addHints(lesson.id, hints);
                 setTaskSolved({ xp: rewardAfterHints(stepXp(step), hints) });
               }}
+              onContinue={taskSolved ? () => advance(taskSolved.xp) : undefined}
+              continueLabel={taskSolved ? `${t('common.continue')} · ${t('lesson.earned', { xp: taskSolved.xp })}` : undefined}
               solvedFooter={
-                taskSolved ? <Button title={`${t('common.continue')} · ${t('lesson.earned', { xp: taskSolved.xp })}`} onPress={() => advance(taskSolved.xp)} /> : null
+                taskSolved ? <Button title={`${t('common.continue')} · ${t('lesson.earned', { xp: taskSolved.xp })}`} hint={Platform.OS === 'web' ? 'Enter' : undefined} onPress={() => advance(taskSolved.xp)} /> : null
               }
             />
           ) : null}
-        </View>
+        </SlideIn>
       </KeyboardAvoidingView>
     </Screen>
   );

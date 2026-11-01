@@ -8,6 +8,8 @@ import { useTheme, MONO, MONO_BOLD, space } from '../theme';
 import { Body, Button, H1, Icon, IconButton, ProgressBar, Row, Screen } from '../components/ui';
 import { dayKey, dueCards } from '../lib/progress';
 import { Text } from '../theme/Text';
+import { goBack } from '../lib/nav';
+import { BackButton } from '../components/BackButton';
 
 /** Spaced-repetition flashcards for commands the user struggled with (SM-2). */
 export default function ReviewScreen() {
@@ -28,7 +30,7 @@ export default function ReviewScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
-        <IconButton icon="x" label={t('common.close')} onPress={() => router.back()} />
+        <BackButton />
         <View style={{ flex: 1 }}>
           <ProgressBar value={deck.length ? i / deck.length : 1} height={6} />
         </View>
@@ -38,7 +40,7 @@ export default function ReviewScreen() {
           <View style={styles.center}>
             <Icon name="check-circle" size={64} color={theme.success} />
             <H1 style={{ textAlign: 'center' }}>{deck.length ? t('practice.reviewDone') : t('practice.reviewEmpty')}</H1>
-            <Button title={t('common.done')} onPress={() => router.back()} style={{ alignSelf: 'stretch' }} />
+            <Button title={t('common.done')} onPress={() => goBack()} style={{ alignSelf: 'stretch' }} />
           </View>
         ) : (
           <View style={{ gap: space.lg }}>

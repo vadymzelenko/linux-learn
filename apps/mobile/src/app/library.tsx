@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { courseModules, courses, lessonMinutes, tr } from '@linux-learn/content';
 import { Text } from '../theme/Text';
+import { BackButton } from '../components/BackButton';
 import { useStore } from '../state/store';
 import { useTheme, space } from '../theme';
 import { Body, Card, H1, Icon, IconButton, Row, Screen } from '../components/ui';
@@ -14,7 +15,7 @@ export default function LibraryScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
-        <IconButton icon="chevron-left" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />
+        <BackButton />
         <View>
           <H1 style={{ fontSize: 24 }}>{t('library.title')}</H1>
         </View>

@@ -10,6 +10,7 @@ import { Body, Button, Card, H1, H2, IconButton, Row, Screen } from '../componen
 import { LANGUAGE_NAMES } from '../i18n';
 import { syncReminder } from '../lib/reminders';
 import { Text } from '../theme/Text';
+import { BackButton } from '../components/BackButton';
 import { confirmDialog, infoDialog } from '../components/Dialog';
 import { sound } from '../lib/sound';
 import { haptic } from '../lib/haptics';
@@ -56,7 +57,7 @@ export default function SettingsScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
-        <IconButton icon="chevron-left" label={t('common.back')} onPress={() => router.back()} />
+        <BackButton />
         <H1 style={{ fontSize: 24 }}>{t('settings.title')}</H1>
       </Row>
       <ScrollView contentContainerStyle={styles.content}>

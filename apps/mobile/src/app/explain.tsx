@@ -7,6 +7,7 @@ import { commandSummary, optionText } from '@linux-learn/content';
 import { useTheme, MONO, MONO_BOLD, space } from '../theme';
 import { Body, H1, Icon, IconButton, Row, Screen } from '../components/ui';
 import { Text } from '../theme/Text';
+import { BackButton } from '../components/BackButton';
 import { haptic } from '../lib/haptics';
 
 const EXAMPLES = [
@@ -63,7 +64,7 @@ export default function ExplainScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
-        <IconButton icon="x" label={t('common.close')} onPress={() => router.back()} />
+        <BackButton />
         <H1 style={{ fontSize: 22 }}>{t('explain.title')}</H1>
       </Row>
       <ScrollView contentContainerStyle={styles.wrap} keyboardShouldPersistTaps="handled">

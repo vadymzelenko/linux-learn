@@ -9,6 +9,8 @@ import { Body, Button, H1, Icon, IconButton, ProgressBar, Row, Screen } from '..
 import { TaskRunner } from '../components/steps/TaskRunner';
 import { Certificate } from '../components/Certificate';
 import { Text } from '../theme/Text';
+import { goBack } from '../lib/nav';
+import { BackButton } from '../components/BackButton';
 
 export const PASS_PERCENT = 70;
 
@@ -43,7 +45,7 @@ export default function ExamScreen() {
           <Body style={{ textAlign: 'center' }}>{t('exam.intro', { count: tasks.length, pass: PASS_PERCENT })}</Body>
           <Button title={t('common.start')} icon="play" onPress={() => setPhase('run')} style={{ alignSelf: 'stretch' }} />
           {passedAt ? <Button variant="secondary" title={t('exam.certificate')} onPress={() => setPhase('result')} style={{ alignSelf: 'stretch' }} /> : null}
-          <Button variant="ghost" title={t('common.back')} onPress={() => router.back()} />
+          <Button variant="ghost" title={t('common.back')} onPress={() => goBack()} />
         </View>
       </Screen>
     );
@@ -71,7 +73,7 @@ export default function ExamScreen() {
           ) : (
             <Button title={t('common.retry')} onPress={() => router.replace('/exam')} style={{ alignSelf: 'stretch' }} />
           )}
-          <Button variant="secondary" title={t('lesson.backToMap')} onPress={() => router.back()} style={{ alignSelf: 'stretch' }} />
+          <Button variant="secondary" title={t('lesson.backToMap')} onPress={() => goBack()} style={{ alignSelf: 'stretch' }} />
         </ScrollView>
       </Screen>
     );
@@ -82,7 +84,7 @@ export default function ExamScreen() {
     <Screen edges={['top', 'bottom']}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <Row style={{ padding: space.sm }}>
-          <IconButton icon="x" label={t('common.close')} onPress={() => router.back()} />
+          <BackButton />
           <View style={{ flex: 1, gap: 4 }}>
             <Text style={{ color: theme.textDim, fontSize: 12 }}>{t('exam.task', { n: index + 1, total: tasks.length })}</Text>
             <ProgressBar value={index / tasks.length} height={6} />

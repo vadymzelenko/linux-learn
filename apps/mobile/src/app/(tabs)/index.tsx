@@ -5,7 +5,7 @@ import { challenges, courseHours, courseLessons, courses, glossary, levelFor, tr
 import { Text } from '../../theme/Text';
 import { useStore } from '../../state/store';
 import { useTheme, MONO, space } from '../../theme';
-import { Body, Card, H1, H2, Icon, ProgressBar, Row, Screen } from '../../components/ui';
+import { Body, Card, FadeIn, H1, H2, Icon, ProgressBar, Row, Screen } from '../../components/ui';
 import { dayKey, liveStreak } from '../../lib/progress';
 
 function Quick({ icon, label, onPress, color }: { icon: string; label: string; onPress: () => void; color: string }) {
@@ -65,6 +65,7 @@ export default function HomeScreen() {
         </Row>
 
         {next ? (
+          <FadeIn scale>
           <Pressable
             onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
             accessibilityRole="button"
@@ -79,15 +80,17 @@ export default function HomeScreen() {
               <Icon name="play" size={22} color={next.course.color} />
             </View>
           </Pressable>
+          </FadeIn>
         ) : null}
 
         <H2 style={styles.section}>{t('home.courses')}</H2>
         <View style={{ gap: space.md }}>
-          {courses.map((c) => {
+          {courses.map((c, ci) => {
             const ls = courseLessons(c);
             const done = ls.filter((l) => progress.lessons[l.lesson.id]?.completedAt).length;
             return (
-              <Card key={c.id} onPress={() => router.push({ pathname: '/courses', params: { course: c.id } })} accessibilityLabel={tr(c.title, i18n.language)}>
+              <FadeIn key={c.id} index={ci + 1}>
+              <Card onPress={() => router.push({ pathname: '/courses', params: { course: c.id } })} accessibilityLabel={tr(c.title, i18n.language)}>
                 <Row gap={14} style={{ alignItems: 'flex-start' }}>
                   <View style={[styles.courseIcon, { backgroundColor: c.color }]}>
                     <Icon name={c.icon} size={28} color="#06240F" />
@@ -103,6 +106,7 @@ export default function HomeScreen() {
                   </View>
                 </Row>
               </Card>
+              </FadeIn>
             );
           })}
         </View>
