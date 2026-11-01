@@ -119,6 +119,23 @@ function Choice({ text, mono, state, onPress, index }: { text: string; mono?: bo
   );
 }
 
+/**
+ * Display order of the options: shuffled on every mount so the right answer is
+ * not always in the same place (in the content it is usually the first one).
+ */
+function useOrder(n: number, answer: number): number[] {
+  return useMemo(() => {
+    const idx = Array.from({ length: n }, (_, i) => i);
+    for (let i = n - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [idx[i], idx[j]] = [idx[j]!, idx[i]!];
+    }
+    // never leave the answer first two times in a row by chance: rotate it
+    if (n > 2 && idx[0] === answer && Math.random() < 0.67) idx.push(idx.shift()!);
+    return idx;
+  }, [n, answer]);
+}
+
 function useChoice(answer: number, onDone: (i: { mistakes: number }) => void) {
   const [picked, setPicked] = useState<number[]>([]);
   const solved = picked.includes(answer);
@@ -135,11 +152,12 @@ function useChoice(answer: number, onDone: (i: { mistakes: number }) => void) {
 export function QuizStep({ step, onDone }: StepProps<'quiz'>) {
   const { t, i18n } = useTranslation();
   const c = useChoice(step.answer, onDone);
+  const order = useOrder(step.options.length, step.answer);
   return (
     <ScrollView contentContainerStyle={{ gap: space.md }}>
       <RichText text={tr(step.question, i18n.language)} style={{ fontSize: 18, fontWeight: '700' }} />
-      {step.options.map((o, i) => (
-        <Choice key={i} index={i} text={tr(o, i18n.language)} state={c.state(i)} onPress={() => c.pick(i)} />
+      {order.map((i, k) => (
+        <Choice key={i} index={k} text={tr(step.options[i]!, i18n.language)} state={c.state(i)} onPress={() => c.pick(i)} />
       ))}
       {c.picked.length ? <Feedback ok={c.solved} {...(step.explanation ? { explanation: step.explanation } : {})} /> : null}
       {c.solved ? <Button title={t('common.continue')} onPress={c.finish} /> : null}
@@ -151,6 +169,7 @@ export function PredictStep({ step, lessonSetup, onDone }: StepProps<'predict'>)
   const theme = useTheme();
   const { t } = useTranslation();
   const c = useChoice(step.answer, onDone);
+  const order = useOrder(step.options.length, step.answer);
   const session = useMemo(() => prepareSession(step.setup ?? lessonSetup, step.prepare ?? []), [step, lessonSetup]);
   const where = session.cwd.replace(/^\/home\/student/, '~');
   const p = `${session.user}@${session.machine.hostname}:${where}$ `;
@@ -190,8 +209,8 @@ export function PredictStep({ step, lessonSetup, onDone }: StepProps<'predict'>)
           {step.command}
         </Text>
       </View>
-      {step.options.map((o, i) => (
-        <Choice key={i} index={i} mono text={o === '' ? t('lesson.emptyOutput') : o} state={c.state(i)} onPress={() => c.pick(i)} />
+      {order.map((i, k) => (
+        <Choice key={i} index={k} mono text={step.options[i] === '' ? t('lesson.emptyOutput') : step.options[i]!} state={c.state(i)} onPress={() => c.pick(i)} />
       ))}
       {c.picked.length ? <Feedback ok={c.solved} {...(step.explanation ? { explanation: step.explanation } : {})} /> : null}
       {c.solved ? <Button title={t('common.continue')} onPress={c.finish} /> : null}

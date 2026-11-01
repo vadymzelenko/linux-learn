@@ -680,7 +680,7 @@ $ awk -F, 'NR>1 {printf "%-6s %5d\\n", $2, $4}' sales.csv
              [used('awk', L('awk with END', 'awk с END', 'awk з END')), out(L('5300', '5300', '5300'), regex='^5300$')],
              L("awk -F, 'NR>1 {s += $4} END {print s}' FILE", "awk -F, 'NR>1 {s += $4} END {print s}' ФАЙЛ", "awk -F, 'NR>1 {s += $4} END {print s}' ФАЙЛ"), 'awk', ["awk -F, 'NR>1 {s += $4} END {print s}' ~/data/sales.csv"]),
         task(L('Total sales per city, biggest first.', 'Сумма продаж по каждому городу, сначала самые большие.', 'Сума продажів за кожним містом, спершу найбільші.'),
-             [used('awk', L('awk array t[$2]', 'awk-массив t[$2]', 'awk-масив t[$2]')), out(L('Kyiv 2250 on top', 'Kyiv 2250 сверху', 'Kyiv 2250 зверху'), regex='^Kyiv 2250'), lines(L('3 cities', '3 города', '3 міста'), eq=3)],
+             [used('awk', L('awk array t[$2]', 'awk-массив t[$2]', 'awk-масив t[$2]')), out(L('Kyiv 2250 on top', 'Kyiv 2250 сверху', 'Kyiv 2250 зверху'), regex='^\\s*(Kyiv\\D+2250|2250\\D+Kyiv)'), lines(L('3 cities', '3 города', '3 міста'), eq=3)],
              L("awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' FILE | sort -k2 -rn", "awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' ФАЙЛ | sort -k2 -rn", "awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' ФАЙЛ | sort -k2 -rn"), 'awk',
              ["awk -F, 'NR>1 {t[$2] += $4} END {for (c in t) print c, t[c]}' ~/data/sales.csv | sort -k2 -rn"]),
         task(L('Show only the laptop sales above 1200.', 'Покажите только продажи ноутбуков (laptop) дороже 1200.', 'Покажіть лише продажі ноутбуків (laptop) дорожчих за 1200.'),

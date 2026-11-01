@@ -544,7 +544,7 @@
             },
             {
               "type": "outputContains",
-              "regex": "^Kyiv 2250",
+              "regex": "^\\s*(Kyiv\\D+2250|2250\\D+Kyiv)",
               "label": {
                 "en": "Kyiv 2250 on top",
                 "ru": "Kyiv 2250 сверху",
