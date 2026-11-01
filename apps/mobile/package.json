@@ -48,7 +48,10 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "export:web": "expo export --platform web --output-dir dist"
+    "export:web": "expo export --platform web --output-dir dist",
+    "android:prebuild": "expo prebuild --platform android --clean",
+    "android:apk": "cd android && ./gradlew assembleRelease",
+    "android:aab": "cd android && ./gradlew bundleRelease"
   },
   "private": true
 }

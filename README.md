@@ -19,13 +19,7 @@ pnpm run ci         # всё, что проверяет CI
 
 Веб-версия деплоится на Vercel без настройки: `vercel.json` в корне задаёт установку, сборку (`expo export --platform web`) и папку `apps/mobile/dist`. Достаточно импортировать репозиторий на vercel.com.
 
-Сборка для Google Play — через EAS (`apps/mobile/eas.json`):
-
-```bash
-cd apps/mobile
-npx eas-cli@latest build --profile preview --platform android     # APK для тестировщиков
-npx eas-cli@latest build --profile production --platform android  # AAB для Play Console
-```
+**APK и AAB собираются в GitHub Actions** на каждый push (workflow *Android*): APK ставится на телефон, AAB — для Google Play, а APK сразу проходит автотест на эмуляторе со скриншотами. Подробно — сборка локально и через EAS, ключ загрузки, публикация в Play по шагам: [`docs/ANDROID.md`](docs/ANDROID.md). Тексты и картинки для страницы магазина — [`docs/store/`](docs/store/listing.md).
 
 ## Архитектура
 

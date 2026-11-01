@@ -1,0 +1,52 @@
+# Smoke test of the release APK on an emulator (run by .github/workflows/android.yml).
+# Onboarding → first command → home → a lesson task solved from the keyboard.
+appId: com.vadymzelenko.linuxtrainer
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "English"
+    timeout: 30000
+- tapOn: "English"
+- takeScreenshot: 01-onboarding
+- tapOn: "Next"
+- tapOn: "Next"
+- tapOn: "Start"
+- extendedWaitUntil:
+    visible: "Your first command"
+    timeout: 10000
+- inputText: "pwd"
+- pressKey: Enter
+- extendedWaitUntil:
+    visible: "Let’s go"
+    timeout: 10000
+- takeScreenshot: 02-first-command
+- tapOn: "Let’s go"
+- extendedWaitUntil:
+    visible: "CONTINUE LEARNING"
+    timeout: 10000
+- takeScreenshot: 03-home
+- tapOn: "Where am I.*"
+- extendedWaitUntil:
+    visible: "THEORY"
+    timeout: 10000
+- takeScreenshot: 04-theory
+- tapOn: "Continue"
+- extendedWaitUntil:
+    visible: "GOAL"
+    timeout: 10000
+- inputText: "pwd"
+- pressKey: Enter
+- extendedWaitUntil:
+    visible: "Task solved.*"
+    timeout: 10000
+- takeScreenshot: 05-task-solved
+- pressKey: Back
+- extendedWaitUntil:
+    visible: "Leave the lesson.*"
+    timeout: 5000
+- takeScreenshot: 06-exit-dialog
+- tapOn: "Back to the menu"
+- assertVisible: "Courses"
+- tapOn: "Sandbox"
+- takeScreenshot: 07-sandbox
