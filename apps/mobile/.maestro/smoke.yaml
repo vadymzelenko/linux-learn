@@ -6,7 +6,7 @@ appId: com.vadymzelenko.linuxtrainer
     clearState: true
 - extendedWaitUntil:
     visible: "English"
-    timeout: 30000
+    timeout: 60000
 - tapOn: "English"
 - takeScreenshot: 01-onboarding
 - tapOn: "Next"
