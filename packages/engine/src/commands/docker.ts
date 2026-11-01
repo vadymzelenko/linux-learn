@@ -1228,7 +1228,7 @@ export const docker: CommandDef = {
       case 'ps': {
         const all = rest.includes('-a') || rest.includes('--all') || rest.some((a) => /^-\w*a/.test(a) && !a.startsWith('--'));
         const quiet = rest.includes('-q') || rest.includes('--quiet') || rest.some((a) => /^-\w*q/.test(a) && !a.startsWith('--'));
-        const list = s.containers.filter((c) => all || c.state === 'running').reverse();
+        const list = s.containers.filter((c) => all || c.state === 'running' || c.state === 'paused').reverse();
         if (quiet) {
           ctx.out(list.map((c) => c.id.slice(0, 12) + '\n').join(''));
           return 0;

@@ -71,7 +71,7 @@ function ModuleBranch({ module, last, open, onToggle, nextId, color }: { module:
           <Text style={{ color: theme.text, fontSize: 14 }} numberOfLines={2}>
             {tr(module.title, i18n.language)}
           </Text>
-          <ProgressBar value={done / module.lessons.length} height={4} color={complete ? theme.success : color} style={{ marginTop: 3, maxWidth: 180 }} />
+          <ProgressBar value={done / module.lessons.length} height={4} color={complete ? theme.success : color} track={theme.surface2} style={{ marginTop: 3, maxWidth: 180 }} />
         </View>
         <View style={{ alignItems: 'flex-end', gap: 4 }}>
           {complete ? (
@@ -194,7 +194,7 @@ export default function CoursesScreen() {
               {next.module.path}/{next.lesson.id}
             </Text>
             <H2>{tr(next.lesson.title, i18n.language)}</H2>
-            <ProgressBar value={doneCount / lessons.length} color={course.color} />
+            <ProgressBar value={doneCount / lessons.length} color={course.color} track={theme.border} />
             <Text style={{ color: theme.textDim, fontSize: 13 }}>{t('learn.lessons', { done: doneCount, total: lessons.length })}</Text>
             <Button
               title={doneCount === 0 ? t('learn.startCourse') : t('common.continue')}

@@ -100,14 +100,14 @@ export function Button({
   );
 }
 
-export function ProgressBar({ value, color, height = 8, style }: { value: number; color?: string; height?: number; style?: StyleProp<ViewStyle> }) {
+export function ProgressBar({ value, color, height = 8, style, track }: { value: number; color?: string; height?: number; style?: StyleProp<ViewStyle>; track?: string }) {
   const t = useTheme();
   const v = Math.max(0, Math.min(1, value));
   return (
     <View
       accessibilityRole="progressbar"
       accessibilityValue={{ min: 0, max: 100, now: Math.round(v * 100) }}
-      style={[{ height, borderRadius: height, backgroundColor: t.surface2, overflow: 'hidden' }, style]}
+      style={[{ height, borderRadius: height, backgroundColor: track ?? t.surface2, overflow: 'hidden' }, style]}
     >
       <View style={{ width: `${v * 100}%`, height, borderRadius: height, backgroundColor: color ?? t.accent }} />
     </View>

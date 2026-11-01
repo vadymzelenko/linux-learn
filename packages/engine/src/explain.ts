@@ -454,7 +454,7 @@ function explainArgs(ctx: Ctx, def: CommandDef | undefined, words: Word[], start
 
   if (name === 'kill' && words[i]) {
     const t = wordLiteral(words[i]!);
-    const m = /^-(?:s\s*)?(\d+|[A-Z]+)$/.exec(t);
+    const m = /^-(?:s\s*)?(\d+|[A-Z][A-Z0-9]*)$/.exec(t);
     if (m) {
       const n = /^\d+$/.test(m[1]!) ? m[1]! : (SIGNAL_BY_NAME[m[1]!.replace(/^SIG/, '')] ?? '');
       const sig = SIGNALS[n];

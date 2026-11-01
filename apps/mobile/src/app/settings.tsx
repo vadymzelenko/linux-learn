@@ -83,15 +83,15 @@ export default function SettingsScreen() {
                 style={[styles.themeCard, { backgroundColor: th.term.bg, borderColor: active ? theme.accent : theme.border, borderWidth: active ? 2 : 1 }]}
               >
                 <Text style={{ fontFamily: MONO, fontSize: 12 }}>
-                  <Text style={{ color: th.term.user }}>student@trainer</Text>
-                  <Text style={{ color: th.term.fg }}>:</Text>
-                  <Text style={{ color: th.term.path }}>~</Text>
-                  <Text style={{ color: th.term.fg }}>$ ls</Text>
+                  <Text style={{ fontFamily: MONO, color: th.term.user }}>student@trainer</Text>
+                  <Text style={{ fontFamily: MONO, color: th.term.fg }}>:</Text>
+                  <Text style={{ fontFamily: MONO, color: th.term.path }}>~</Text>
+                  <Text style={{ fontFamily: MONO, color: th.term.fg }}>$ ls</Text>
                 </Text>
                 <Text style={{ fontFamily: MONO, fontSize: 12 }}>
-                  <Text style={{ color: th.term.ansi[12] }}>docs</Text>
-                  <Text style={{ color: th.term.fg }}>  notes.txt  </Text>
-                  <Text style={{ color: th.term.ansi[10] }}>run.sh</Text>
+                  <Text style={{ fontFamily: MONO, color: th.term.ansi[12] }}>docs</Text>
+                  <Text style={{ fontFamily: MONO, color: th.term.fg }}>  notes.txt  </Text>
+                  <Text style={{ fontFamily: MONO, color: th.term.ansi[10] }}>run.sh</Text>
                 </Text>
                 <Text style={{ color: th.term.fg, marginTop: 6, fontWeight: '700' }}>{t(`settings.themes.${id}`)}</Text>
               </Pressable>
