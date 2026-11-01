@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { router } from 'expo-router';
 import Constants from 'expo-constants';
@@ -10,6 +11,9 @@ import { Body, Button, Card, H1, H2, IconButton, Row, Screen } from '../componen
 import { LANGUAGE_NAMES } from '../i18n';
 import { syncReminder } from '../lib/reminders';
 import { Text } from '../theme/Text';
+import { TextInput } from 'react-native';
+import { TermKeyboard } from '../components/terminal/TermKeyboard';
+import { DEFAULT_QUICK, type KeyboardSettings } from '../state/store';
 import { BackButton } from '../components/BackButton';
 import { confirmDialog, infoDialog } from '../components/Dialog';
 import { sound } from '../lib/sound';
@@ -100,6 +104,9 @@ export default function SettingsScreen() {
           })}
         </View>
 
+        <H2>{t('keyboard.title')}</H2>
+        <KeyboardSettingsCard />
+
         <H2>{t('settings.fontSize')}</H2>
         <Card style={{ gap: space.md }}>
           <Text style={{ fontFamily: MONO, fontSize: s.fontSize, color: theme.text }}>$ echo &quot;Hello, Linux&quot;</Text>
@@ -172,6 +179,103 @@ const styles = StyleSheet.create({
   content: { padding: space.lg, gap: space.md, paddingBottom: space.xxl, maxWidth: 720, width: '100%', alignSelf: 'center' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: { paddingHorizontal: 14, paddingVertical: 10, borderRadius: 999, minHeight: 40, justifyContent: 'center' },
+  qchip: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8 },
+  qinput: { flex: 1, borderWidth: 1, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 8, fontSize: 14 },
+  preview: { borderRadius: 12, borderWidth: StyleSheet.hairlineWidth, overflow: 'hidden' },
   themes: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   themeCard: { width: '48%', flexGrow: 1, minWidth: 150, borderRadius: 14, padding: 12, gap: 2 },
 });
+
+/** Keyboard settings with a live preview of the keyboard itself. */
+function KeyboardSettingsCard() {
+  const theme = useTheme();
+  const { t } = useTranslation();
+  const kb = useStore((st) => st.settings.keyboard);
+  const setSettings = useStore((st) => st.setSettings);
+  const [draft, setDraft] = useState('');
+  const [typed, setTyped] = useState('');
+  const set = (patch: Partial<KeyboardSettings>) => setSettings({ keyboard: { ...kb, ...patch } });
+  const noop = () => undefined;
+  return (
+    <Card style={{ gap: space.md }}>
+      <View style={styles.chips}>
+        <Chip label={t('keyboard.custom')} active={kb.mode === 'custom'} onPress={() => set({ mode: 'custom' })} />
+        <Chip label={t('keyboard.system')} active={kb.mode === 'system'} onPress={() => set({ mode: 'system' })} />
+      </View>
+      <Body dim>{kb.mode === 'custom' ? t('keyboard.customHint') : t('keyboard.systemHint')}</Body>
+      {kb.mode === 'custom' ? (
+        <>
+          <Row style={{ flexWrap: 'wrap' }}>
+            <Text style={{ color: theme.textDim, minWidth: 110 }}>{t('keyboard.size')}</Text>
+            {(['S', 'M', 'L'] as const).map((z) => (
+              <Chip key={z} label={t(`keyboard.sizes.${z}`)} active={kb.size === z} onPress={() => set({ size: z })} />
+            ))}
+          </Row>
+          <Row style={{ flexWrap: 'wrap' }}>
+            <Text style={{ color: theme.textDim, minWidth: 110 }}>{t('keyboard.opacity')}</Text>
+            {[1, 0.85, 0.7].map((o) => (
+              <Chip key={o} label={`${Math.round(o * 100)}%`} active={Math.abs(kb.opacity - o) < 0.01} onPress={() => set({ opacity: o })} />
+            ))}
+          </Row>
+          <Row style={{ justifyContent: 'space-between' }}>
+            <Text style={{ color: theme.text, flex: 1 }}>{t('keyboard.numberRow')}</Text>
+            <Switch value={kb.numberRow} onValueChange={(v) => set({ numberRow: v })} accessibilityLabel={t('keyboard.numberRow')} />
+          </Row>
+          <Row style={{ justifyContent: 'space-between' }}>
+            <Text style={{ color: theme.text, flex: 1 }}>{t('keyboard.keySound')}</Text>
+            <Switch value={kb.keySound} onValueChange={(v) => set({ keySound: v })} accessibilityLabel={t('keyboard.keySound')} />
+          </Row>
+          <Text style={{ color: theme.text, fontWeight: '700' }}>{t('keyboard.quick')}</Text>
+          <View style={styles.chips}>
+            {kb.quick.map((q) => (
+              <Pressable
+                key={q}
+                onPress={() => set({ quick: kb.quick.filter((x) => x !== q) })}
+                accessibilityRole="button"
+                accessibilityHint={t('keyboard.removeQuick')}
+                style={[styles.qchip, { backgroundColor: theme.surface2 }]}
+              >
+                <Text style={{ fontFamily: MONO, color: theme.accent }}>{q.trimEnd()}</Text>
+                <Text style={{ color: theme.textDim }}>✕</Text>
+              </Pressable>
+            ))}
+          </View>
+          <Row>
+            <TextInput
+              value={draft}
+              onChangeText={setDraft}
+              placeholder={t('keyboard.addQuick')}
+              placeholderTextColor={theme.textDim}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onSubmitEditing={() => {
+                if (draft.trim() && !kb.quick.includes(draft)) set({ quick: [...kb.quick, draft] });
+                setDraft('');
+              }}
+              style={[styles.qinput, { color: theme.text, borderColor: theme.border, fontFamily: MONO }]}
+            />
+            <Button small variant="secondary" title={t('keyboard.reset')} onPress={() => set({ quick: DEFAULT_QUICK })} />
+          </Row>
+          <Text style={{ color: theme.textDim, fontSize: 13 }}>{t('keyboard.preview')}</Text>
+          <View style={[styles.preview, { backgroundColor: theme.term.bg, borderColor: theme.border }]}>
+            <Text style={{ fontFamily: MONO, color: theme.term.fg, padding: 10 }}>
+              $ {typed}
+              <Text style={{ color: theme.term.cursor }}>▌</Text>
+            </Text>
+            <TermKeyboard
+              actions={{
+                insert: (x) => setTyped((v) => (v + x).slice(-40)),
+                backspace: () => setTyped((v) => v.slice(0, -1)),
+                enter: () => setTyped(''),
+                special: noop,
+                control: (c) => (c === 'c' || c === 'u' ? setTyped('') : undefined),
+                alt: noop,
+                hide: noop,
+              }}
+            />
+          </View>
+        </>
+      ) : null}
+    </Card>
+  );
+}

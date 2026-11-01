@@ -417,6 +417,25 @@ const pl: Dict = {
     file: 'Plik',
     folder: 'Katalog',
   },
+  keyboard: {
+    show: 'Pokaż klawiaturę',
+    hide: 'Ukryj klawiaturę',
+    preview: 'Wypróbuj:',
+    reset: 'Domyślne',
+    removeQuick: 'Usuń',
+    addQuick: 'Dodaj, np. docker ps',
+    quick: 'Szybkie polecenia (dotknij, by usunąć)',
+    keySound: 'Dźwięk klawiszy',
+    numberRow: 'Rząd cyfr',
+    opacity: 'Krycie',
+    sizes: { L: 'Duże', M: 'Średnie', S: 'Małe' },
+    size: 'Rozmiar klawiszy',
+    systemHint: 'Zwykła klawiatura telefonu (inne alfabety, pisanie gestami) z paskiem dodatkowych klawiszy.',
+    customHint: 'Kompaktowa klawiatura do terminala: wszystkie symbole, Tab, strzałki, Ctrl i Alt, szybkie polecenia. Przytrzymaj literę, by wpisać cyfrę lub symbol.',
+    system: 'Klawiatura telefonu',
+    custom: 'Wbudowana',
+    title: 'Klawiatura terminala',
+  },
 };
 
 export default pl;

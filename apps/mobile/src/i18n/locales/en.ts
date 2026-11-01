@@ -426,6 +426,25 @@ const en = {
     file: 'File',
     folder: 'Folder',
   },
+  keyboard: {
+    show: 'Show keyboard',
+    hide: 'Hide keyboard',
+    preview: 'Try it:',
+    reset: 'Default',
+    removeQuick: 'Remove',
+    addQuick: 'Add, e.g. docker ps',
+    quick: 'Quick commands (tap to remove)',
+    keySound: 'Key click sound',
+    numberRow: 'Row of digits',
+    opacity: 'Opacity',
+    sizes: { L: 'Large', M: 'Medium', S: 'Small' },
+    size: 'Key size',
+    systemHint: 'The usual phone keyboard (other alphabets, swipe typing) with a bar of extra keys above it.',
+    customHint: 'A compact keyboard made for the shell: all symbols, Tab, arrows, Ctrl and Alt, quick commands. Hold a letter for its digit or symbol.',
+    system: 'Phone keyboard',
+    custom: 'Built-in',
+    title: 'Terminal keyboard',
+  },
 };
 
 export default en;

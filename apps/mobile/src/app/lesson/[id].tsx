@@ -16,6 +16,7 @@ import { goBack } from '../../lib/nav';
 import { confirmDialog } from '../../components/Dialog';
 import { KeyCatcher } from '../../components/KeyCatcher';
 import { SlideIn } from '../../components/ui';
+import { useLayout } from '../../lib/layout';
 
 /** The finish badge pops in with a spring and the "lesson complete" cue. */
 function FinishBadge({ color, iconColor }: { color: string; iconColor: string }) {
@@ -42,6 +43,7 @@ export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const ref = findLesson(id ?? '');
   const theme = useTheme();
+  const layout = useLayout();
   const { t, i18n } = useTranslation();
   const saved = useStore((s) => (ref ? s.progress.lessons[ref.lesson.id] : undefined));
   const [index, setIndex] = useState(() => (saved && !saved.completedAt ? Math.min(saved.step, (ref?.lesson.steps.length ?? 1) - 1) : 0));
@@ -191,8 +193,10 @@ export default function LessonScreen() {
             }
           }}
         />
-        <SlideIn key={index} style={styles.body}>
-          <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 12, letterSpacing: 1, marginBottom: space.sm }}>{kindLabel.toUpperCase()}</Text>
+        <SlideIn key={index} style={[styles.body, { paddingHorizontal: layout.pad, maxWidth: layout.split ? 1200 : layout.contentMax + layout.pad * 2 }]}>
+          {layout.compact && isTaskStep(step) ? null : (
+            <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 12, letterSpacing: 1, marginBottom: space.sm }}>{kindLabel.toUpperCase()}</Text>
+          )}
           {step.type === 'theory' ? (
             <TheoryStep key={index} step={step} lessonSetup={lesson.setup} onDone={onSimpleDone(stepXp(step))} />
           ) : step.type === 'quiz' ? (
@@ -236,7 +240,7 @@ export default function LessonScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: space.sm, paddingHorizontal: space.sm, paddingVertical: space.sm },
+  header: { flexDirection: 'row', alignItems: 'center', gap: space.sm, paddingHorizontal: space.sm, paddingVertical: 6 },
   body: { flex: 1, paddingHorizontal: space.md, paddingBottom: space.sm, maxWidth: 1200, width: '100%', alignSelf: 'center' },
   finish: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.md },
   badge: { width: 104, height: 104, borderRadius: 52, alignItems: 'center', justifyContent: 'center', marginBottom: space.md },

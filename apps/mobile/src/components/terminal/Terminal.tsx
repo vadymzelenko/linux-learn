@@ -9,6 +9,8 @@ import { haptic } from '../../lib/haptics';
 import { AnsiText } from './AnsiText';
 import { PromptText } from './Prompt';
 import { KeyBar, type SpecialKey } from './KeyBar';
+import { TermKeyboard, type KeyboardActions } from './TermKeyboard';
+import { Icon } from '../ui/Icon';
 import { Editor } from './Editor';
 import type { Block, ShellController } from './useShell';
 import { Text } from '../../theme/Text';
@@ -34,6 +36,8 @@ interface Props {
   banner?: string | null;
   /** Web: typing anywhere on the page goes into this terminal. */
   grabTyping?: boolean;
+  /** The on-screen keyboard (ours) appeared / disappeared: parents make room. */
+  onKeyboardChange?: (visible: boolean) => void;
 }
 
 /** Approximate number of monospace columns for a given width. */
@@ -41,10 +45,22 @@ export function columnsFor(width: number, fontSize: number) {
   return Math.max(20, Math.floor((width - 24) / (fontSize * 0.6)));
 }
 
-export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmptyEnter, banner, grabTyping }: Props) {
+export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmptyEnter, banner, grabTyping, onKeyboardChange }: Props) {
   const theme = useTheme();
   const { t } = useTranslation();
   const fontSize = useStore((s) => s.settings.fontSize);
+  const custom = useStore((s) => s.settings.keyboard.mode === 'custom');
+  const [kbVisible, setKbVisibleState] = useState(!!autoFocus);
+  const kbCb = useRef(onKeyboardChange);
+  kbCb.current = onKeyboardChange;
+  const setKbVisible = useCallback((v: boolean) => {
+    setKbVisibleState(v);
+    kbCb.current?.(v);
+  }, []);
+  useEffect(() => {
+    if (custom) kbCb.current?.(kbVisible);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [custom]);
   const [input, setInput] = useState(prefill ?? '');
   /**
    * The cursor position is NOT a controlled prop all the time: re-applying a
@@ -202,6 +218,50 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
     [moveCursor, setText, shell],
   );
 
+  const backspace = useCallback(() => {
+    const cur = inputValue.current;
+    const { start, end } = sel.current;
+    if (end > start) return setText(cur.slice(0, start) + cur.slice(end), start);
+    if (start === 0) return;
+    setText(cur.slice(0, start - 1) + cur.slice(start), start - 1);
+  }, [setText]);
+
+  /** Alt+b / Alt+f — word left / right; Alt+. — the last argument of the previous command. */
+  const altKey = useCallback(
+    (ch: string) => {
+      const cur = inputValue.current;
+      const p = sel.current.start;
+      if (ch === 'b') {
+        const m = cur.slice(0, p).match(/\S+\s*$/);
+        moveCursor(m ? -m[0].length : -p);
+      } else if (ch === 'f') {
+        const m = cur.slice(p).match(/^\s*\S+/);
+        moveCursor(m ? m[0].length : cur.length - p);
+      } else if (ch === '.') {
+        const last = shell.historyStep(-1, '') ?? '';
+        shell.historyStep(1, '');
+        const arg = last.trim().split(/\s+/).pop() ?? '';
+        if (arg) insertAtCursor(arg);
+      }
+    },
+    [insertAtCursor, moveCursor, shell],
+  );
+
+  const kbActions: KeyboardActions = {
+    insert: insertAtCursor,
+    backspace,
+    enter: () => submitRef.current(),
+    special: (k) => onSpecial(k),
+    control: (ch) => {
+      control(ch);
+    },
+    alt: altKey,
+    hide: () => {
+      setKbVisible(false);
+      inputRef.current?.blur();
+    },
+  };
+
   /** With Ctrl armed, the next typed letter becomes a control key. */
   const onChangeText = useCallback(
     (text: string) => {
@@ -319,7 +379,14 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
 
   return (
     <View style={[styles.wrap, { backgroundColor: theme.term.bg, borderColor: theme.border }, style]}>
-      <Pressable style={styles.flex} onPress={() => inputRef.current?.focus()} accessible={false}>
+      <Pressable
+        style={styles.flex}
+        onPress={() => {
+          inputRef.current?.focus();
+          if (custom) setKbVisible(true);
+        }}
+        accessible={false}
+      >
         <FlatList
           ref={listRef}
           data={shell.blocks}
@@ -346,6 +413,10 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
                 onSubmitEditing={submit}
                 onKeyPress={onKeyPress}
                 autoFocus={autoFocus}
+                showSoftInputOnFocus={!custom}
+                onFocus={() => {
+                  if (custom && !kbVisible) setKbVisible(true);
+                }}
                 autoCorrect={false}
                 autoCapitalize="none"
                 autoComplete="off"
@@ -381,7 +452,26 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
           </View>
         </Pressable>
       ) : null}
-      <KeyBar onKey={onSpecial} ctrl={ctrl} onRun={submit} />
+      {custom ? (
+        kbVisible ? (
+          <TermKeyboard actions={kbActions} />
+        ) : (
+          <Pressable
+            onPress={() => {
+              inputRef.current?.focus();
+              setKbVisible(true);
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={t('keyboard.show')}
+            style={({ pressed }) => [styles.showKb, { backgroundColor: pressed ? theme.border : theme.surface, borderTopColor: theme.border }]}
+          >
+            <Icon name="keyboard-outline" size={20} color={theme.accent} />
+            <Text style={{ color: theme.text, fontWeight: '700' }}>{t('keyboard.show')}</Text>
+          </Pressable>
+        )
+      ) : (
+        <KeyBar onKey={onSpecial} ctrl={ctrl} onRun={submit} />
+      )}
       {shell.editor ? <Editor state={shell.editor} onSave={shell.saveEditor} onClose={shell.closeEditor} /> : null}
     </View>
   );
@@ -397,9 +487,10 @@ const styles = StyleSheet.create({
   wrap: { flex: 1, borderRadius: 14, overflow: 'hidden', borderWidth: StyleSheet.hairlineWidth },
   flex: { flex: 1 },
   content: { padding: 12, paddingBottom: 8 },
-  inputRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'nowrap' },
-  input: { flex: 1, padding: 0, margin: 0, minHeight: 24, ...(Platform.OS === 'web' ? ({ outlineStyle: 'none' } as object) : {}) },
+  inputRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', overflow: 'hidden' },
+  input: { flex: 1, minWidth: 80, padding: 0, margin: 0, minHeight: 24, ...(Platform.OS === 'web' ? ({ outlineStyle: 'none' } as object) : {}) },
   note: { marginVertical: 4, paddingLeft: 8, borderLeftWidth: 2 },
+  showKb: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 10, borderTopWidth: StyleSheet.hairlineWidth },
   banner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, paddingVertical: 10 },
   kbd: { borderWidth: 1, borderRadius: 6, paddingHorizontal: 6, paddingVertical: 1 },
   toast: { position: 'absolute', alignSelf: 'center', bottom: 56, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 999 },

@@ -12,6 +12,7 @@ import { feedback } from '../../lib/haptics';
 import { confirmDialog } from '../Dialog';
 import { Text } from '../../theme/Text';
 import { HowTo } from './Steps';
+import { useLayout } from '../../lib/layout';
 import { MachineView } from '../MachineView';
 import { FadeIn } from '../ui';
 
@@ -51,7 +52,12 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
   const lang = i18n.language;
   const columns = useColumns();
   const { width, height } = useWindowDimensions();
-  const wide = width >= 720 && width > height;
+  const layout = useLayout();
+  const wide = layout.split;
+  const [kbOpen, setKbOpen] = useState(false);
+  /** While our keyboard is open on a phone, the goal card shrinks to one line (tap to peek). */
+  const [peek, setPeek] = useState(false);
+  const mini = !wide && kbOpen && !peek;
   const initial = useMemo(() => prepareSession(task.setup, task.prepare ?? []), [task.key]); // eslint-disable-line react-hooks/exhaustive-deps
   const executed = useRef<ExecutedCommand[]>([]);
   const mistakes = useRef(0);
@@ -98,6 +104,28 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
 
   const missing = evaluation?.results.find((r) => r.status === 'partial')?.missingFlags;
 
+  const passedCount = evaluation?.results.filter((r) => r.status === 'pass').length ?? 0;
+
+  const miniCard = (
+    <Pressable
+      onPress={() => setPeek(true)}
+      accessibilityRole="button"
+      accessibilityHint={t('lesson.expand')}
+      style={[styles.mini, { backgroundColor: theme.surface, borderColor: solved ? theme.success : theme.border }]}
+    >
+      <Icon name={solved ? 'check-circle' : 'target'} size={18} color={solved ? theme.success : theme.accent} />
+      <Text style={{ color: theme.text, fontSize: 14, flex: 1, fontWeight: '600' }} numberOfLines={2}>
+        {solved ? t('lesson.solved') : task.goal ? tr(task.goal, lang).replace(/[`*]/g, '') : ''}
+      </Text>
+      <View style={[styles.counter, { backgroundColor: theme.surface2 }]}>
+        <Text style={{ color: passedCount === task.checks.length ? theme.success : theme.textDim, fontSize: 12, fontWeight: '800' }}>
+          {passedCount}/{task.checks.length}
+        </Text>
+      </View>
+      <Icon name="chevron-down" size={20} color={theme.textDim} />
+    </Pressable>
+  );
+
   const card = (
     <View style={[styles.card, { backgroundColor: theme.surface, borderColor: solved ? theme.success : theme.border }]}>
       <Row style={{ justifyContent: 'space-between' }}>
@@ -116,7 +144,7 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
             <Icon name="refresh" size={20} color={theme.textDim} />
           </Pressable>
           <Pressable
-            onPress={() => setCollapsed(!collapsed)}
+            onPress={() => (kbOpen && !wide ? setPeek(false) : setCollapsed(!collapsed))}
             hitSlop={8}
             accessibilityRole="button"
             accessibilityLabel={collapsed ? t('lesson.expand') : t('lesson.collapse')}
@@ -127,7 +155,7 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
         </Row>
       </Row>
       {!collapsed ? (
-        <ScrollView style={{ maxHeight: wide ? undefined : height * 0.36 }} contentContainerStyle={{ gap: space.sm }}>
+        <ScrollView style={{ maxHeight: wide ? undefined : height * (kbOpen ? 0.3 : layout.compact ? 0.4 : 0.46) }} contentContainerStyle={{ gap: space.sm }}>
           {task.story ? <RichText text={tr(task.story, lang)} style={{ fontSize: 15, color: theme.textDim, marginBottom: 4 }} /> : null}
           {task.goal ? <RichText text={tr(task.goal, lang)} style={{ fontSize: 17, fontWeight: '600', marginBottom: 4 }} /> : null}
           {!solved ? <HowTo text={t('lesson.howTo.task')} keys="Tab · ↑↓ · Enter" /> : null}
@@ -197,13 +225,17 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
 
   return (
     <View style={[styles.wrap, wide && { flexDirection: 'row' }]}>
-      <View style={wide ? { width: '38%' } : undefined}>{card}</View>
+      <View style={wide ? { width: '38%' } : undefined}>{mini ? miniCard : card}</View>
       <Terminal
         ref={termRef}
         shell={shell}
         prefill={task.prefill}
         autoFocus
         grabTyping
+        onKeyboardChange={(v) => {
+          setKbOpen(v);
+          if (v) setPeek(false);
+        }}
         style={{ flex: 1 }}
         banner={solved && onContinue ? (continueLabel ?? t('common.continue')) : null}
         onEmptyEnter={() => {
@@ -234,7 +266,9 @@ export function TaskSolvedNote({ xp }: { xp: number }) {
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, gap: space.md },
+  wrap: { flex: 1, gap: space.sm },
+  mini: { flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 8, minHeight: 44 },
+  counter: { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 2 },
   card: { borderRadius: 16, borderWidth: 1, padding: space.md, gap: space.sm },
   iconBtn: { padding: 6, borderRadius: 999 },
   pill: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999, marginRight: 4 },

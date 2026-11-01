@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { produce } from 'immer';
@@ -27,7 +28,23 @@ export interface Settings {
   reminderHour: number;
   onboarded: boolean;
   certName: string;
+  keyboard: KeyboardSettings;
 }
+
+/** The in-app terminal keyboard (instead of the phone's system keyboard). */
+export interface KeyboardSettings {
+  /** custom: our keyboard; system: the phone keyboard (other languages, swipe typing). */
+  mode: 'custom' | 'system';
+  /** 0.55–1: see the output through the keyboard. */
+  opacity: number;
+  size: 'S' | 'M' | 'L';
+  numberRow: boolean;
+  keySound: boolean;
+  /** Quick-insert chips above the keys. */
+  quick: string[];
+}
+
+export const DEFAULT_QUICK = ['ls -la', 'cd ', 'cd ..', 'cat ', 'grep ', 'sudo ', '| ', '> ', '~/', 'clear'];
 
 export interface Machine {
   id: string;
@@ -90,6 +107,7 @@ const defaultSettings: Settings = {
   reminderHour: 19,
   onboarded: false,
   certName: '',
+  keyboard: { mode: Platform.OS === 'web' ? 'system' : 'custom', opacity: 1, size: 'M', numberRow: true, keySound: false, quick: DEFAULT_QUICK },
 };
 
 let toastSeq = 1;
@@ -272,7 +290,7 @@ export const useStore = create<State>()(
           .slice(0, MAX_MACHINES);
         return {
           ...current,
-          settings: { ...defaultSettings, ...(p.settings ?? {}) },
+          settings: { ...defaultSettings, ...(p.settings ?? {}), keyboard: { ...defaultSettings.keyboard, ...(p.settings?.keyboard ?? {}) } },
           progress: { ...initialProgress(), ...(p.progress ?? {}), stats: { ...initialProgress().stats, ...(p.progress?.stats ?? {}) } },
           sandbox: { machines, activeId: machines.some((m) => m.id === p.sandbox?.activeId) ? p.sandbox!.activeId : (machines[0]?.id ?? null) },
         };

@@ -49,6 +49,7 @@ export function TheoryStep({ step, lessonSetup, onDone }: StepProps<'theory'>) {
   const termRef = useRef<TerminalHandle>(null);
   const [playing, setPlaying] = useState(false);
   const [termOpen, setTermOpen] = useState(wide);
+  const [kbOpen, setKbOpen] = useState(false);
   const done = () => onDone({ mistakes: 0 });
 
   const insert = (c: string) => {
@@ -87,7 +88,7 @@ export function TheoryStep({ step, lessonSetup, onDone }: StepProps<'theory'>) {
           }
         }}
       />
-      <ScrollView style={{ flex: wide ? 1.1 : termOpen ? 1.2 : 1 }} contentContainerStyle={{ paddingBottom: space.md }}>
+      <ScrollView style={{ flex: wide ? 1.1 : termOpen ? (kbOpen ? 0.45 : 1.2) : 1 }} contentContainerStyle={{ paddingBottom: space.md }}>
         <FadeIn>
           <TheoryCards text={tr(step.text, i18n.language)} {...(step.title ? { title: tr(step.title, i18n.language) } : {})} onCode={hasTerminal ? insert : undefined} />
         </FadeIn>
@@ -115,13 +116,16 @@ export function TheoryStep({ step, lessonSetup, onDone }: StepProps<'theory'>) {
               done();
               return true;
             }}
+            onKeyboardChange={setKbOpen}
             grabTyping
           />
         ) : null}
+        {kbOpen && !wide ? null : (
         <Row>
           {step.demo ? <Button variant="secondary" icon="play" title={t('lesson.watchDemo')} onPress={() => void play()} disabled={playing} style={{ flex: 1 }} /> : null}
           <Button title={t('common.continue')} hint={Platform.OS === 'web' ? 'Enter' : undefined} onPress={done} style={{ flex: 1 }} />
         </Row>
+        )}
       </View>
     </View>
   );
