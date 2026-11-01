@@ -199,7 +199,8 @@
           "instructions": {
             "en": "1. Add the execute bit: `chmod +x scripts/hello.sh`\n2. Run the script by its path: `./scripts/hello.sh`",
             "ru": "1. Добавьте бит выполнения: `chmod +x scripts/hello.sh`\n2. Запустите скрипт по пути: `./scripts/hello.sh`",
-            "uk": "1. Додайте біт виконання: `chmod +x scripts/hello.sh`\n2. Запустіть скрипт за шляхом: `./scripts/hello.sh`"
+            "uk": "1. Додайте біт виконання: `chmod +x scripts/hello.sh`\n2. Запустіть скрипт за шляхом: `./scripts/hello.sh`",
+            "pl": "1. Dodaj bit wykonywania: `chmod +x scripts/hello.sh`\n2. Uruchom skrypt po ścieżce: `./scripts/hello.sh`"
           }
         },
         {

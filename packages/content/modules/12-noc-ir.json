@@ -586,7 +586,8 @@
               "label": {
                 "en": "nginx is active",
                 "ru": "nginx активен",
-                "uk": "nginx активний"
+                "uk": "nginx активний",
+                "pl": "nginx jest aktywny"
               }
             },
             {
@@ -708,7 +709,8 @@
       "title": {
         "en": "Escalation",
         "ru": "Эскалация",
-        "uk": "Ескалація"
+        "uk": "Ескалація",
+        "pl": "Eskalacja"
       },
       "commands": [
         "grep",
@@ -1611,7 +1613,8 @@
               "label": {
                 "en": "The config is restored",
                 "ru": "Конфиг восстановлен",
-                "uk": "Конфіг відновлено"
+                "uk": "Конфіг відновлено",
+                "pl": "Konfiguracja przywrócona"
               }
             },
             {
@@ -1621,7 +1624,8 @@
               "label": {
                 "en": "nginx is active",
                 "ru": "nginx активен",
-                "uk": "nginx активний"
+                "uk": "nginx активний",
+                "pl": "nginx jest aktywny"
               }
             },
             {

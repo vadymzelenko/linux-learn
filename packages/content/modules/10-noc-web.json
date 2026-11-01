@@ -2324,7 +2324,8 @@
               "label": {
                 "en": "nginx is active",
                 "ru": "nginx активен",
-                "uk": "nginx активний"
+                "uk": "nginx активний",
+                "pl": "nginx jest aktywny"
               }
             }
           ],

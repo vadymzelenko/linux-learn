@@ -839,12 +839,14 @@
     "title": {
       "en": "Black Friday 502",
       "ru": "Чёрная пятница: 502",
-      "uk": "Чорна п’ятниця: 502"
+      "uk": "Чорна п’ятниця: 502",
+      "pl": "Czarny piątek: 502"
     },
     "story": {
       "en": "10:43 UTC, Black Friday. Alert: the shop returns 5xx to 40% of buyers (ticket ~/tickets/INC-3001.txt). Find which part of the chain is broken, bring the shop back and leave a note in the ticket: what was down and what you did.",
       "ru": "10:43 UTC, Чёрная пятница. Алерт: магазин отдаёт 5xx 40% покупателей (тикет ~/tickets/INC-3001.txt). Найдите, какое звено цепочки сломано, верните магазин и оставьте запись в тикете: что лежало и что вы сделали.",
-      "uk": "10:43 UTC, Чорна п’ятниця. Алерт: магазин віддає 5xx 40% покупців (тікет ~/tickets/INC-3001.txt). Знайдіть, яка ланка ланцюжка зламана, поверніть магазин і залиште запис у тікеті: що лежало і що ви зробили."
+      "uk": "10:43 UTC, Чорна п’ятниця. Алерт: магазин віддає 5xx 40% покупців (тікет ~/tickets/INC-3001.txt). Знайдіть, яка ланка ланцюжка зламана, поверніть магазин і залиште запис у тікеті: що лежало і що ви зробили.",
+      "pl": "10:43 UTC, Czarny piątek. Alert: sklep zwraca 5xx 40% kupujących (zgłoszenie ~/tickets/INC-3001.txt). Ustal, które ogniwo łańcucha jest zepsute, przywróć sklep i zostaw notatkę w zgłoszeniu: co nie działało i co zrobiłeś."
     },
     "difficulty": 2,
     "requires": "noc-web",
@@ -1150,7 +1152,8 @@
     "instructions": {
       "en": "1. Confirm: `curl -I http://localhost/api/items`\n2. What is broken? `systemctl --failed`\n3. Why? `journalctl -u api -n 5`\n4. Mitigate and verify with curl\n5. `echo \"…\" >> ~/tickets/INC-3001.txt`",
       "ru": "1. Подтвердите: `curl -I http://localhost/api/items`\n2. Что сломано? `systemctl --failed`\n3. Почему? `journalctl -u api -n 5`\n4. Митигируйте и проверьте через curl\n5. `echo \"…\" >> ~/tickets/INC-3001.txt`",
-      "uk": "1. Підтвердіть: `curl -I http://localhost/api/items`\n2. Що зламано? `systemctl --failed`\n3. Чому? `journalctl -u api -n 5`\n4. Мітигуйте й перевірте через curl\n5. `echo \"…\" >> ~/tickets/INC-3001.txt`"
+      "uk": "1. Підтвердіть: `curl -I http://localhost/api/items`\n2. Що зламано? `systemctl --failed`\n3. Чому? `journalctl -u api -n 5`\n4. Мітигуйте й перевірте через curl\n5. `echo \"…\" >> ~/tickets/INC-3001.txt`",
+      "pl": "1. Potwierdź: `curl -I http://localhost/api/items`\n2. Co jest zepsute? `systemctl --failed`\n3. Dlaczego? `journalctl -u api -n 5`\n4. Napraw doraźnie i sprawdź przez curl\n5. `echo \"…\" >> ~/tickets/INC-3001.txt`"
     },
     "checks": [
       {
@@ -1160,7 +1163,8 @@
         "label": {
           "en": "The api service is running",
           "ru": "Сервис api работает",
-          "uk": "Сервіс api працює"
+          "uk": "Сервіс api працює",
+          "pl": "Usługa api działa"
         }
       },
       {
@@ -1169,7 +1173,8 @@
         "label": {
           "en": "You verified the site with curl",
           "ru": "Вы проверили сайт через curl",
-          "uk": "Ви перевірили сайт через curl"
+          "uk": "Ви перевірили сайт через curl",
+          "pl": "Sprawdziłeś stronę przez curl"
         }
       },
       {
@@ -1179,7 +1184,8 @@
         "label": {
           "en": "The ticket still has its header",
           "ru": "Заголовок тикета сохранён",
-          "uk": "Заголовок тікета збережено"
+          "uk": "Заголовок тікета збережено",
+          "pl": "Zgłoszenie wciąż ma nagłówek"
         }
       },
       {
@@ -1189,7 +1195,8 @@
         "label": {
           "en": "The ticket mentions api",
           "ru": "В тикете упомянут api",
-          "uk": "У тікеті згадано api"
+          "uk": "У тікеті згадано api",
+          "pl": "Zgłoszenie wspomina api"
         }
       }
     ],
@@ -1197,7 +1204,8 @@
       "direction": {
         "en": "curl -I localhost/api/items → systemctl --failed → status / journal → sudo systemctl restart api → echo \"…\" >> ticket",
         "ru": "curl -I localhost/api/items → systemctl --failed → status / journal → sudo systemctl restart api → echo \"…\" >> тикет",
-        "uk": "curl -I localhost/api/items → systemctl --failed → status / journal → sudo systemctl restart api → echo \"…\" >> тікет"
+        "uk": "curl -I localhost/api/items → systemctl --failed → status / journal → sudo systemctl restart api → echo \"…\" >> тікет",
+        "pl": "curl -I localhost/api/items → systemctl --failed → status / dziennik → sudo systemctl restart api → echo \"…\" >> zgłoszenie"
       },
       "command": "systemctl"
     },
@@ -1219,12 +1227,14 @@
     "title": {
       "en": "95% and climbing",
       "ru": "95% и растёт",
-      "uk": "95% і зростає"
+      "uk": "95% і зростає",
+      "pl": "95% i rośnie"
     },
     "story": {
       "en": "The root filesystem of web01 is at 95%. Free space by following ~/runbooks/disk-full.md — remove only what the runbook allows — and save the \"after\" df -h / output to ~/disk-after.txt for the ticket.",
       "ru": "Корневая ФС web01 заполнена на 95%. Освободите место по ~/runbooks/disk-full.md — удаляйте только то, что разрешает ранбук — и сохраните вывод df -h / «после» в ~/disk-after.txt для тикета.",
-      "uk": "Коренева ФС web01 заповнена на 95%. Звільніть місце за ~/runbooks/disk-full.md — видаляйте лише те, що дозволяє ранбук — і збережіть вивід df -h / «після» у ~/disk-after.txt для тікета."
+      "uk": "Коренева ФС web01 заповнена на 95%. Звільніть місце за ~/runbooks/disk-full.md — видаляйте лише те, що дозволяє ранбук — і збережіть вивід df -h / «після» у ~/disk-after.txt для тікета.",
+      "pl": "Główny system plików web01 jest zapełniony w 95%. Zwolnij miejsce według ~/runbooks/disk-full.md — usuń tylko to, na co pozwala runbook — i zapisz wynik „po” z df -h / do ~/disk-after.txt dla zgłoszenia."
     },
     "difficulty": 2,
     "requires": "noc-health",
@@ -1237,7 +1247,8 @@
         "label": {
           "en": "The old rotated log is removed",
           "ru": "Старый ротированный лог удалён",
-          "uk": "Старий ротований лог видалено"
+          "uk": "Старий ротований лог видалено",
+          "pl": "Stary zrotowany log usunięty"
         }
       },
       {
@@ -1246,7 +1257,8 @@
         "label": {
           "en": "The core dump is removed",
           "ru": "Core dump удалён",
-          "uk": "Core dump видалено"
+          "uk": "Core dump видалено",
+          "pl": "Zrzut pamięci (core dump) usunięty"
         }
       },
       {
@@ -1255,7 +1267,8 @@
         "label": {
           "en": "The LIVE log was not deleted",
           "ru": "ЖИВОЙ лог не удалён",
-          "uk": "ЖИВИЙ лог не видалено"
+          "uk": "ЖИВИЙ лог не видалено",
+          "pl": "ŻYWY log nie został usunięty"
         }
       },
       {
@@ -1265,7 +1278,8 @@
         "label": {
           "en": "df output saved",
           "ru": "Вывод df сохранён",
-          "uk": "Вивід df збережено"
+          "uk": "Вивід df збережено",
+          "pl": "Wynik df zapisany"
         }
       }
     ],
@@ -1273,7 +1287,8 @@
       "direction": {
         "en": "cat the runbook; sudo du -sh /var/log/* /var/crash/*; delete *.gz and the core dump; df -h / > ~/disk-after.txt",
         "ru": "cat ранбука; sudo du -sh /var/log/* /var/crash/*; удалить *.gz и core dump; df -h / > ~/disk-after.txt",
-        "uk": "cat ранбука; sudo du -sh /var/log/* /var/crash/*; видалити *.gz і core dump; df -h / > ~/disk-after.txt"
+        "uk": "cat ранбука; sudo du -sh /var/log/* /var/crash/*; видалити *.gz і core dump; df -h / > ~/disk-after.txt",
+        "pl": "cat runbooka; sudo du -sh /var/log/* /var/crash/*; usuń *.gz i core dump; df -h / > ~/disk-after.txt"
       },
       "command": "rm"
     },
@@ -1293,12 +1308,14 @@
     "title": {
       "en": "Works on my server",
       "ru": "У меня на сервере работает",
-      "uk": "У мене на сервері працює"
+      "uk": "У мене на сервері працює",
+      "pl": "U mnie na serwerze działa"
     },
     "story": {
       "en": "Ticket INC-3017: legacy.shop.local opens from web01 but not from the office. Find out WHY. Write into ~/tickets/INC-3017.txt the IP that web01 uses for legacy.shop.local and the file where it comes from.",
       "ru": "Тикет INC-3017: legacy.shop.local открывается с web01, но не из офиса. Выясните ПОЧЕМУ. Запишите в ~/tickets/INC-3017.txt IP, который web01 использует для legacy.shop.local, и файл, откуда он берётся.",
-      "uk": "Тікет INC-3017: legacy.shop.local відкривається з web01, але не з офісу. З’ясуйте ЧОМУ. Запишіть у ~/tickets/INC-3017.txt IP, який web01 використовує для legacy.shop.local, і файл, звідки він береться."
+      "uk": "Тікет INC-3017: legacy.shop.local відкривається з web01, але не з офісу. З’ясуйте ЧОМУ. Запишіть у ~/tickets/INC-3017.txt IP, який web01 використовує для legacy.shop.local, і файл, звідки він береться.",
+      "pl": "Zgłoszenie INC-3017: legacy.shop.local otwiera się z web01, ale nie z biura. Ustal DLACZEGO. Zapisz w ~/tickets/INC-3017.txt adres IP, którego web01 używa dla legacy.shop.local, i plik, z którego pochodzi."
     },
     "difficulty": 2,
     "requires": "noc-network",
@@ -1373,7 +1390,8 @@
         "label": {
           "en": "You asked DNS with dig",
           "ru": "Вы спросили DNS через dig",
-          "uk": "Ви запитали DNS через dig"
+          "uk": "Ви запитали DNS через dig",
+          "pl": "Zapytałeś DNS przez dig"
         }
       },
       {
@@ -1383,7 +1401,8 @@
         "label": {
           "en": "The IP 10.0.9.15",
           "ru": "IP 10.0.9.15",
-          "uk": "IP 10.0.9.15"
+          "uk": "IP 10.0.9.15",
+          "pl": "Adres IP 10.0.9.15"
         }
       },
       {
@@ -1393,7 +1412,8 @@
         "label": {
           "en": "The source: /etc/hosts",
           "ru": "Источник: /etc/hosts",
-          "uk": "Джерело: /etc/hosts"
+          "uk": "Джерело: /etc/hosts",
+          "pl": "Źródło: /etc/hosts"
         }
       }
     ],
@@ -1401,7 +1421,8 @@
       "direction": {
         "en": "ping legacy.shop.local shows the IP; dig says NXDOMAIN — so the name is not in DNS. grep it in /etc/hosts.",
         "ru": "ping legacy.shop.local покажет IP; dig скажет NXDOMAIN — значит, в DNS имени нет. Найдите его grep в /etc/hosts.",
-        "uk": "ping legacy.shop.local покаже IP; dig скаже NXDOMAIN — отже, у DNS імені немає. Знайдіть його grep в /etc/hosts."
+        "uk": "ping legacy.shop.local покаже IP; dig скаже NXDOMAIN — отже, у DNS імені немає. Знайдіть його grep в /etc/hosts.",
+        "pl": "ping legacy.shop.local pokazuje IP; dig mówi NXDOMAIN — więc nazwy nie ma w DNS. Poszukaj jej grepem w /etc/hosts."
       },
       "command": "dig"
     },
@@ -1423,12 +1444,14 @@
     "title": {
       "en": "The 401 storm",
       "ru": "Шторм из 401",
-      "uk": "Шторм із 401"
+      "uk": "Шторм із 401",
+      "pl": "Burza 401"
     },
     "story": {
       "en": "Security asks for a short report: which IP hammers /login on the shop, how many requests it made and with which user agent. Analyse /var/log/nginx/access.log and write the answer into ~/incident/bot.txt.",
       "ru": "Безопасники просят короткий отчёт: какой IP долбит /login магазина, сколько запросов он сделал и с каким user agent. Проанализируйте /var/log/nginx/access.log и запишите ответ в ~/incident/bot.txt.",
-      "uk": "Безпека просить короткий звіт: який IP довбає /login магазину, скільки запитів він зробив і з яким user agent. Проаналізуйте /var/log/nginx/access.log і запишіть відповідь у ~/incident/bot.txt."
+      "uk": "Безпека просить короткий звіт: який IP довбає /login магазину, скільки запитів він зробив і з яким user agent. Проаналізуйте /var/log/nginx/access.log і запишіть відповідь у ~/incident/bot.txt.",
+      "pl": "Dział bezpieczeństwa prosi o krótki raport: który IP atakuje /login sklepu, ile wysłał żądań i z jakim user agentem. Przeanalizuj /var/log/nginx/access.log i zapisz odpowiedź w ~/incident/bot.txt."
     },
     "difficulty": 3,
     "requires": "noc-logs",
@@ -1742,7 +1765,8 @@
         "label": {
           "en": "The IP 45.155.205.66",
           "ru": "IP 45.155.205.66",
-          "uk": "IP 45.155.205.66"
+          "uk": "IP 45.155.205.66",
+          "pl": "Adres IP 45.155.205.66"
         }
       },
       {
@@ -1752,7 +1776,8 @@
         "label": {
           "en": "The count: 48",
           "ru": "Количество: 48",
-          "uk": "Кількість: 48"
+          "uk": "Кількість: 48",
+          "pl": "Liczba: 48"
         }
       },
       {
@@ -1762,7 +1787,8 @@
         "label": {
           "en": "The user agent",
           "ru": "User agent",
-          "uk": "User agent"
+          "uk": "User agent",
+          "pl": "User agent"
         }
       }
     ],
@@ -1770,7 +1796,8 @@
       "direction": {
         "en": "awk '$9 == 401 {print $1}' … | sort | uniq -c; then grep the IP and look at the last field",
         "ru": "awk '$9 == 401 {print $1}' … | sort | uniq -c; затем grep по IP и посмотрите последнее поле",
-        "uk": "awk '$9 == 401 {print $1}' … | sort | uniq -c; потім grep за IP і подивіться останнє поле"
+        "uk": "awk '$9 == 401 {print $1}' … | sort | uniq -c; потім grep за IP і подивіться останнє поле",
+        "pl": "awk '$9 == 401 {print $1}' … | sort | uniq -c; potem grep tego IP i spójrz na ostatnie pole"
       },
       "command": "awk"
     },
@@ -1792,12 +1819,14 @@
     "title": {
       "en": "Friday deploy",
       "ru": "Деплой в пятницу",
-      "uk": "Деплой у п’ятницю"
+      "uk": "Деплой у п’ятницю",
+      "pl": "Wdrożenie w piątek"
     },
     "story": {
       "en": "12:15 UTC. Right after change CHG-118 the shop is down. Follow the rollback plan in ~/tickets/CHG-118.txt, make sure the shop answers 200 and append \"rolled back\" with the time to the change ticket.",
       "ru": "12:15 UTC. Сразу после изменения CHG-118 магазин лёг. Выполните план отката из ~/tickets/CHG-118.txt, убедитесь, что магазин отвечает 200, и допишите в тикет изменения «rolled back» со временем.",
-      "uk": "12:15 UTC. Одразу після зміни CHG-118 магазин ліг. Виконайте план відкату з ~/tickets/CHG-118.txt, переконайтеся, що магазин відповідає 200, і допишіть у тікет зміни «rolled back» із часом."
+      "uk": "12:15 UTC. Одразу після зміни CHG-118 магазин ліг. Виконайте план відкату з ~/tickets/CHG-118.txt, переконайтеся, що магазин відповідає 200, і допишіть у тікет зміни «rolled back» із часом.",
+      "pl": "12:15 UTC. Zaraz po zmianie CHG-118 sklep leży. Wykonaj plan wycofania z ~/tickets/CHG-118.txt, upewnij się, że sklep odpowiada 200, i dopisz do zgłoszenia zmiany „rolled back” z godziną."
     },
     "difficulty": 3,
     "requires": "noc-ir",
@@ -2108,7 +2137,8 @@
         "label": {
           "en": "The config is restored",
           "ru": "Конфиг восстановлен",
-          "uk": "Конфіг відновлено"
+          "uk": "Конфіг відновлено",
+          "pl": "Konfiguracja przywrócona"
         }
       },
       {
@@ -2118,7 +2148,8 @@
         "label": {
           "en": "nginx is active",
           "ru": "nginx активен",
-          "uk": "nginx активний"
+          "uk": "nginx активний",
+          "pl": "nginx jest aktywny"
         }
       },
       {
@@ -2127,7 +2158,8 @@
         "label": {
           "en": "Verified with curl",
           "ru": "Проверено через curl",
-          "uk": "Перевірено через curl"
+          "uk": "Перевірено через curl",
+          "pl": "Sprawdzone przez curl"
         }
       },
       {
@@ -2137,7 +2169,8 @@
         "label": {
           "en": "\"rolled back\" noted",
           "ru": "Отмечено «rolled back»",
-          "uk": "Позначено «rolled back»"
+          "uk": "Позначено «rolled back»",
+          "pl": "Zapisano „rolled back”"
         }
       },
       {
@@ -2147,7 +2180,8 @@
         "label": {
           "en": "The rollback plan is still there",
           "ru": "План отката на месте",
-          "uk": "План відкату на місці"
+          "uk": "План відкату на місці",
+          "pl": "Plan wycofania wciąż jest na miejscu"
         }
       }
     ],
@@ -2155,7 +2189,8 @@
       "direction": {
         "en": "cat the ticket, diff .bak with the config, sudo cp, sudo systemctl restart nginx, curl, echo >>",
         "ru": "cat тикета, diff .bak с конфигом, sudo cp, sudo systemctl restart nginx, curl, echo >>",
-        "uk": "cat тікета, diff .bak з конфігом, sudo cp, sudo systemctl restart nginx, curl, echo >>"
+        "uk": "cat тікета, diff .bak з конфігом, sudo cp, sudo systemctl restart nginx, curl, echo >>",
+        "pl": "cat zgłoszenia, diff .bak z konfiguracją, sudo cp, sudo systemctl restart nginx, curl, echo >>"
       },
       "command": "cp"
     },

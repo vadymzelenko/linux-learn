@@ -360,7 +360,8 @@
           "instructions": {
             "en": "1. Run `ps aux` and find the line with mining.py\n2. Take the number from the PID column (second column)\n3. Run `kill PID`",
             "ru": "1. Выполните `ps aux` и найдите строку с mining.py\n2. Возьмите число из колонки PID (вторая колонка)\n3. Выполните `kill PID`",
-            "uk": "1. Виконайте `ps aux` і знайдіть рядок із mining.py\n2. Візьміть число з колонки PID (друга колонка)\n3. Виконайте `kill PID`"
+            "uk": "1. Виконайте `ps aux` і знайдіть рядок із mining.py\n2. Візьміть число з колонки PID (друга колонка)\n3. Виконайте `kill PID`",
+            "pl": "1. Uruchom `ps aux` i znajdź wiersz z mining.py\n2. Weź liczbę z kolumny PID (druga kolumna)\n3. Uruchom `kill PID`"
           }
         },
         {
@@ -474,7 +475,8 @@
           "instructions": {
             "en": "1. Write the script: `echo 'echo Hello from my script' > scripts/greet.sh`\n2. Make it executable: `chmod +x scripts/greet.sh`\n3. Run it: `./scripts/greet.sh`",
             "ru": "1. Запишите скрипт: `echo 'echo Hello from my script' > scripts/greet.sh`\n2. Сделайте его исполняемым: `chmod +x scripts/greet.sh`\n3. Запустите: `./scripts/greet.sh`",
-            "uk": "1. Запишіть скрипт: `echo 'echo Hello from my script' > scripts/greet.sh`\n2. Зробіть його виконуваним: `chmod +x scripts/greet.sh`\n3. Запустіть: `./scripts/greet.sh`"
+            "uk": "1. Запишіть скрипт: `echo 'echo Hello from my script' > scripts/greet.sh`\n2. Зробіть його виконуваним: `chmod +x scripts/greet.sh`\n3. Запустіть: `./scripts/greet.sh`",
+            "pl": "1. Napisz skrypt: `echo 'echo Hello from my script' > scripts/greet.sh`\n2. Nadaj prawo wykonywania: `chmod +x scripts/greet.sh`\n3. Uruchom go: `./scripts/greet.sh`"
           }
         },
         {
