@@ -103,7 +103,7 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome }: Pro
 
   const onSpecial = useCallback(
     (k: SpecialKey) => {
-      haptic.tap();
+      haptic.key();
       switch (k) {
         case 'tab':
           return doTab();

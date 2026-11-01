@@ -1,4 +1,4 @@
-import type { DirNode, ExecOptions, ExecResult, ExecutedCommand, OutputChunk, ProcessInfo, Service, Session, ShellEvent, UserInfo } from '../types';
+import type { DirNode, DockerState, ExecOptions, ExecResult, ExecutedCommand, OutputChunk, ProcessInfo, Service, Session, ShellEvent, UserInfo } from '../types';
 import { can, collate, FsError, resolve, R, X, type Cred } from '../vfs/fs';
 import { basename, normalize } from '../vfs/path';
 import { suggest } from '../util/levenshtein';
@@ -52,6 +52,7 @@ class Runner implements ShellApi {
     this.fs = session.machine.fs;
     this.procs = session.machine.processes;
     this.svcs = session.machine.services ?? [];
+    this.dock = session.machine.docker;
     this.usrs = session.machine.users;
     this.cwdPath = session.cwd;
     this.env = { ...session.env };
@@ -80,6 +81,13 @@ class Runner implements ShellApi {
   }
   setServices(s: Service[]) {
     this.svcs = s;
+  }
+  dock: DockerState | undefined;
+  docker() {
+    return this.dock;
+  }
+  setDocker(d: DockerState) {
+    this.dock = d;
   }
 
   // ---------- ShellApi ----------
@@ -831,9 +839,9 @@ export function executeLine(session: Session, input: string, opts: InterpreterOp
     }
     const newSession: Session = {
       machine:
-        runner.fs === session.machine.fs && runner.procs === session.machine.processes && runner.svcs === (session.machine.services ?? []) && runner.usrs === session.machine.users
+        runner.fs === session.machine.fs && runner.procs === session.machine.processes && runner.svcs === (session.machine.services ?? []) && runner.usrs === session.machine.users && runner.dock === session.machine.docker
           ? session.machine
-          : { ...session.machine, fs: runner.fs, processes: runner.procs, users: runner.usrs, ...(session.machine.services || runner.svcs.length ? { services: runner.svcs } : {}) },
+          : { ...session.machine, fs: runner.fs, processes: runner.procs, users: runner.usrs, ...(session.machine.services || runner.svcs.length ? { services: runner.svcs } : {}), ...(runner.dock ? { docker: runner.dock } : {}) },
       user: runner.user,
       cwd: runner.cwdPath,
       env: runner.env,

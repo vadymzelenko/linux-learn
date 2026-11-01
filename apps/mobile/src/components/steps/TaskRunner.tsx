@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { Alert, Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { evaluateTask, prepareSession, tr, type ContentCheck, type L10n } from '@linux-learn/content';
 import { run, stripAnsi, type ExecutedCommand, type ExecResult, type Session, type TaskEvaluation } from '@linux-learn/engine';
@@ -8,7 +8,8 @@ import { Body, Button, Icon, Row } from '../ui';
 import { RichText } from '../ui/RichText';
 import { Terminal, useColumns, type TerminalHandle } from '../terminal/Terminal';
 import { useShell } from '../terminal/useShell';
-import { haptic } from '../../lib/haptics';
+import { feedback } from '../../lib/haptics';
+import { confirmDialog } from '../Dialog';
 import { Text } from '../../theme/Text';
 
 export interface TaskSpec {
@@ -63,12 +64,12 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
       const ev = evaluateTask(task.checks, result.session, executed.current, out, result.exitCode);
       setEvaluation((prev) => {
         const newlyPassed = ev.results.some((r, i) => r.status === 'pass' && prev?.results[i]?.status !== 'pass');
-        if (newlyPassed && !ev.passed) haptic.light();
+        if (newlyPassed && !ev.passed) feedback.check();
         return ev;
       });
       if (ev.passed) {
         setSolved(true);
-        haptic.success();
+        feedback.correct();
         onSolved({ hints, mistakes: mistakes.current });
       }
     },
@@ -86,11 +87,7 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
       shell.replaceSession(prepareSession(task.setup, task.prepare ?? []));
       if (task.prefill) termRef.current?.setInput(task.prefill);
     };
-    if (Platform.OS === 'web') return doIt();
-    Alert.alert(t('lesson.resetConfirm'), undefined, [
-      { text: t('common.cancel'), style: 'cancel' },
-      { text: t('common.reset'), style: 'destructive', onPress: doIt },
-    ]);
+    confirmDialog({ title: t('lesson.resetConfirm'), message: t('lesson.resetHint'), icon: 'refresh', confirm: t('common.reset'), cancel: t('common.cancel'), destructive: true, onConfirm: doIt });
   };
 
   const missing = evaluation?.results.find((r) => r.status === 'partial')?.missingFlags;

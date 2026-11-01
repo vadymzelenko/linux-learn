@@ -2,6 +2,7 @@ import type { Dict } from './en';
 
 const ru: Dict = {
   common: {
+    ok: 'Понятно',
     continue: 'Продолжить',
     next: 'Далее',
     back: 'Назад',
@@ -50,6 +51,7 @@ const ru: Dict = {
     examLocked: 'Пройдите все модули, чтобы открыть экзамен',
   },
   lesson: {
+    resetHint: 'Все файлы и изменения на этой машине вернутся к началу задания.',
     files: 'Файлы на этой машине',
     instructions: 'Что нужно сделать',
     context: 'Машина',
@@ -121,6 +123,7 @@ const ru: Dict = {
     discard: 'Не сохранять',
   },
   sandbox: {
+    limitTitle: 'Все слоты заняты',
     title: 'Песочница',
     subtitle: 'Свободная практика, до 3 машин',
     newMachine: 'Новая машина',
@@ -248,6 +251,9 @@ const ru: Dict = {
     certificate: 'Сертификат',
   },
   settings: {
+    soundsHint: 'Тихие сигналы на верные и неверные ответы и пройденные уроки',
+    sounds: 'Звуки',
+    remindersDeniedHint: 'Разрешите уведомления для приложения в настройках системы и включите напоминание снова.',
     title: 'Настройки',
     language: 'Язык',
     system: 'Язык системы',
@@ -255,7 +261,7 @@ const ru: Dict = {
     themes: { classic: 'Классическая зелёная', dracula: 'Dracula', solarized: 'Solarized', light: 'Светлая' },
     fontSize: 'Размер шрифта терминала',
     haptics: 'Вибрация',
-    hapticsHint: 'При выполнении условий и ошибках',
+    hapticsHint: 'Разные паттерны для проверок, ошибок, пройденных уроков и достижений',
     reminders: 'Ежедневное напоминание',
     remindersHint: 'Не чаще раза в день и только с вашего согласия',
     reminderTime: 'Время напоминания',

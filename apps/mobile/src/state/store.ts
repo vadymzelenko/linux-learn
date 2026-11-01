@@ -22,6 +22,7 @@ export interface Settings {
   theme: ThemeId;
   fontSize: number;
   haptics: boolean;
+  sounds: boolean;
   reminders: boolean;
   reminderHour: number;
   onboarded: boolean;
@@ -84,6 +85,7 @@ const defaultSettings: Settings = {
   theme: 'classic',
   fontSize: 14,
   haptics: true,
+  sounds: true,
   reminders: false,
   reminderHour: 19,
   onboarded: false,

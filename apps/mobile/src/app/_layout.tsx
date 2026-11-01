@@ -13,6 +13,8 @@ import i18n, { resolveLang } from '../i18n';
 import { AppThemeProvider, useTheme } from '../theme';
 import { useStore } from '../state/store';
 import { Toasts } from '../components/Toasts';
+import { DialogHost } from '../components/Dialog';
+import { sound } from '../lib/sound';
 import { syncReminder } from '../lib/reminders';
 import { Button } from '../components/ui';
 import { GlossaryProvider } from '../components/ui/RichText';
@@ -24,6 +26,10 @@ function Shell() {
   const theme = useTheme();
   const { t } = useTranslation();
   const settings = useStore((s) => s.settings);
+
+  useEffect(() => {
+    sound.preload();
+  }, []);
 
   useEffect(() => {
     void SystemUI.setBackgroundColorAsync(theme.bg).catch(() => undefined);
@@ -38,6 +44,7 @@ function Shell() {
       <StatusBar style={theme.dark ? 'light' : 'dark'} />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.bg }, animation: Platform.OS === 'android' ? 'fade_from_bottom' : 'default' }} />
       <Toasts />
+      <DialogHost />
     </View>
   );
 }

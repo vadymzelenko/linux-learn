@@ -1,5 +1,6 @@
 const en = {
   common: {
+    ok: 'OK',
     continue: 'Continue',
     next: 'Next',
     back: 'Back',
@@ -48,6 +49,7 @@ const en = {
     examLocked: 'Finish all modules to unlock the exam',
   },
   lesson: {
+    resetHint: 'All files and changes on this machine return to the start of the task.',
     files: 'Files on this machine',
     instructions: 'What to do',
     context: 'The machine',
@@ -119,6 +121,7 @@ const en = {
     discard: 'Discard',
   },
   sandbox: {
+    limitTitle: 'All slots are taken',
     title: 'Sandbox',
     subtitle: 'Free practice, up to 3 machines',
     newMachine: 'New machine',
@@ -246,6 +249,9 @@ const en = {
     certificate: 'Certificate',
   },
   settings: {
+    soundsHint: 'Quiet cues for right and wrong answers and finished lessons',
+    sounds: 'Sounds',
+    remindersDeniedHint: 'Allow notifications for the app in the system settings, then turn the reminder on again.',
     title: 'Settings',
     language: 'Language',
     system: 'System language',
@@ -253,7 +259,7 @@ const en = {
     themes: { classic: 'Classic green', dracula: 'Dracula', solarized: 'Solarized', light: 'Light' },
     fontSize: 'Terminal font size',
     haptics: 'Vibration',
-    hapticsHint: 'On solved checks and on errors',
+    hapticsHint: 'Different patterns for checks, errors, finished lessons and achievements',
     reminders: 'Daily reminder',
     remindersHint: 'At most once a day, only with your permission',
     reminderTime: 'Reminder time',

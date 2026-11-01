@@ -2,6 +2,7 @@ import type { Dict } from './en';
 
 const pl: Dict = {
   common: {
+    ok: 'OK',
     continue: 'Dalej',
     next: 'Dalej',
     back: 'Wstecz',
@@ -50,6 +51,7 @@ const pl: Dict = {
     examLocked: 'Ukończ wszystkie moduły, aby odblokować egzamin',
   },
   lesson: {
+    resetHint: 'Wszystkie pliki i zmiany na tej maszynie wrócą do stanu z początku zadania.',
     files: 'Pliki na tej maszynie',
     instructions: 'Co trzeba zrobić',
     context: 'Maszyna',
@@ -121,6 +123,7 @@ const pl: Dict = {
     discard: 'Odrzuć',
   },
   sandbox: {
+    limitTitle: 'Wszystkie miejsca zajęte',
     title: 'Piaskownica',
     subtitle: 'Swobodna praktyka, do 3 maszyn',
     newMachine: 'Nowa maszyna',
@@ -248,6 +251,9 @@ const pl: Dict = {
     certificate: 'Certyfikat',
   },
   settings: {
+    soundsHint: 'Ciche sygnały przy dobrych i złych odpowiedziach oraz ukończonych lekcjach',
+    sounds: 'Dźwięki',
+    remindersDeniedHint: 'Zezwól aplikacji na powiadomienia w ustawieniach systemu i włącz przypomnienie ponownie.',
     title: 'Ustawienia',
     language: 'Język',
     system: 'Język systemu',
@@ -255,7 +261,7 @@ const pl: Dict = {
     themes: { classic: 'Klasyczny zielony', dracula: 'Dracula', solarized: 'Solarized', light: 'Jasny' },
     fontSize: 'Rozmiar czcionki terminala',
     haptics: 'Wibracje',
-    hapticsHint: 'Przy spełnionych warunkach i błędach',
+    hapticsHint: 'Różne wzorce dla sprawdzeń, błędów, ukończonych lekcji i osiągnięć',
     reminders: 'Codzienne przypomnienie',
     remindersHint: 'Najwyżej raz dziennie i tylko za twoją zgodą',
     reminderTime: 'Godzina przypomnienia',

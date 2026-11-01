@@ -1,4 +1,4 @@
-import { Alert, Platform, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { router } from 'expo-router';
 import Constants from 'expo-constants';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,9 @@ import { Body, Button, Card, H1, H2, IconButton, Row, Screen } from '../componen
 import { LANGUAGE_NAMES } from '../i18n';
 import { syncReminder } from '../lib/reminders';
 import { Text } from '../theme/Text';
+import { confirmDialog, infoDialog } from '../components/Dialog';
+import { sound } from '../lib/sound';
+import { haptic } from '../lib/haptics';
 
 function Chip({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
   const theme = useTheme();
@@ -37,7 +40,7 @@ export default function SettingsScreen() {
       const ok = await syncReminder(true, s.reminderHour, t('settings.reminderTitle'), t('settings.reminderBody'));
       if (!ok) {
         set({ reminders: false });
-        Alert.alert(t('settings.remindersDenied'));
+        infoDialog({ title: t('settings.remindersDenied'), message: t('settings.remindersDeniedHint'), ok: t('common.ok'), icon: 'bell-off', tone: 'warning' });
       }
     }
   };
@@ -47,14 +50,7 @@ export default function SettingsScreen() {
       useStore.getState().resetAll();
       router.replace('/');
     };
-    if (Platform.OS === 'web') {
-      if (globalThis.confirm?.(t('settings.resetConfirm')) ?? true) doIt();
-      return;
-    }
-    Alert.alert(t('settings.resetConfirm'), undefined, [
-      { text: t('common.cancel'), style: 'cancel' },
-      { text: t('common.reset'), style: 'destructive', onPress: doIt },
-    ]);
+    confirmDialog({ title: t('settings.resetProgress'), message: t('settings.resetConfirm'), confirm: t('common.reset'), cancel: t('common.cancel'), destructive: true, icon: 'trash', onConfirm: doIt });
   };
 
   return (
@@ -66,7 +62,7 @@ export default function SettingsScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         <H2>{t('settings.language')}</H2>
         <View style={styles.chips}>
-          <Chip label={t('settings.system')} active={s.lang === 'system'} onPress={() => set({ lang: 'system' })} />
+          <Chip label={t('settings.system')} active={s.lang === 'system'} onPress={() => { haptic.tap(); set({ lang: 'system' }); }} />
           {LANGS.map((l) => (
             <Chip key={l} label={LANGUAGE_NAMES[l]} active={s.lang === l} onPress={() => set({ lang: l })} />
           ))}
@@ -119,7 +115,28 @@ export default function SettingsScreen() {
               <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.haptics')}</Text>
               <Body dim>{t('settings.hapticsHint')}</Body>
             </View>
-            <Switch value={s.haptics} onValueChange={(v) => set({ haptics: v })} accessibilityLabel={t('settings.haptics')} />
+            <Switch
+              value={s.haptics}
+              onValueChange={(v) => {
+                set({ haptics: v });
+                if (v) setTimeout(() => haptic.success(), 50);
+              }}
+              accessibilityLabel={t('settings.haptics')}
+            />
+          </Row>
+          <Row style={{ justifyContent: 'space-between' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.sounds')}</Text>
+              <Body dim>{t('settings.soundsHint')}</Body>
+            </View>
+            <Switch
+              value={s.sounds}
+              onValueChange={(v) => {
+                set({ sounds: v });
+                if (v) setTimeout(() => sound.play('success'), 50);
+              }}
+              accessibilityLabel={t('settings.sounds')}
+            />
           </Row>
           <Row style={{ justifyContent: 'space-between' }}>
             <View style={{ flex: 1 }}>

@@ -2,6 +2,7 @@ import type { Dict } from './en';
 
 const uk: Dict = {
   common: {
+    ok: 'Зрозуміло',
     continue: 'Продовжити',
     next: 'Далі',
     back: 'Назад',
@@ -50,6 +51,7 @@ const uk: Dict = {
     examLocked: 'Пройдіть усі модулі, щоб відкрити іспит',
   },
   lesson: {
+    resetHint: 'Усі файли й зміни на цій машині повернуться до початку завдання.',
     files: 'Файли на цій машині',
     instructions: 'Що потрібно зробити',
     context: 'Машина',
@@ -121,6 +123,7 @@ const uk: Dict = {
     discard: 'Не зберігати',
   },
   sandbox: {
+    limitTitle: 'Усі слоти зайняті',
     title: 'Пісочниця',
     subtitle: 'Вільна практика, до 3 машин',
     newMachine: 'Нова машина',
@@ -248,6 +251,9 @@ const uk: Dict = {
     certificate: 'Сертифікат',
   },
   settings: {
+    soundsHint: 'Тихі сигнали на правильні й неправильні відповіді та пройдені уроки',
+    sounds: 'Звуки',
+    remindersDeniedHint: 'Дозвольте сповіщення для застосунку в налаштуваннях системи й увімкніть нагадування знову.',
     title: 'Налаштування',
     language: 'Мова',
     system: 'Мова системи',
@@ -255,7 +261,7 @@ const uk: Dict = {
     themes: { classic: 'Класична зелена', dracula: 'Dracula', solarized: 'Solarized', light: 'Світла' },
     fontSize: 'Розмір шрифту терміналу',
     haptics: 'Вібрація',
-    hapticsHint: 'Під час виконання умов і помилок',
+    hapticsHint: 'Різні патерни для перевірок, помилок, пройдених уроків і досягнень',
     reminders: 'Щоденне нагадування',
     remindersHint: 'Не частіше разу на день і лише з вашого дозволу',
     reminderTime: 'Час нагадування',

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { createShell } from '@linux-learn/engine';
 import { fixtures } from '@linux-learn/content';
@@ -9,18 +9,12 @@ import { Body, Button, Card, H1, Icon, IconButton, Row, Screen } from '../../com
 import { Terminal, useColumns } from '../../components/terminal/Terminal';
 import { useShell } from '../../components/terminal/useShell';
 import { Text } from '../../theme/Text';
+import { confirmDialog, infoDialog } from '../../components/Dialog';
 
 const TEMPLATES = Object.keys(fixtures);
 
-function confirm(title: string, onYes: () => void, yes: string, cancel: string) {
-  if (Platform.OS === 'web') {
-    if (globalThis.confirm?.(title) ?? true) onYes();
-    return;
-  }
-  Alert.alert(title, undefined, [
-    { text: cancel, style: 'cancel' },
-    { text: yes, style: 'destructive', onPress: onYes },
-  ]);
+function confirm(title: string, onYes: () => void, yes: string, cancel: string, icon = 'alert-triangle') {
+  confirmDialog({ title, confirm: yes, cancel, destructive: true, icon, onConfirm: onYes });
 }
 
 function MachineTerminal({ machine }: { machine: Machine }) {
@@ -47,7 +41,7 @@ export default function SandboxScreen() {
 
   const create = (template: string) => {
     const id = useStore.getState().createMachine(template, t('sandbox.machineName', { n: machines.length + 1 }));
-    if (!id) Alert.alert(t('sandbox.limit'));
+    if (!id) infoDialog({ title: t('sandbox.limitTitle'), message: t('sandbox.limit'), ok: t('common.ok'), icon: 'server', tone: 'warning' });
     setCreating(false);
   };
 
@@ -66,14 +60,14 @@ export default function SandboxScreen() {
                 icon="refresh"
                 label={t('common.reset')}
                 onPress={() =>
-                  confirm(t('lesson.resetConfirm'), () => { useStore.getState().resetMachine(active.id); setResetCount((c) => c + 1); }, t('common.reset'), t('common.cancel'))
+                  confirm(t('lesson.resetConfirm'), () => { useStore.getState().resetMachine(active.id); setResetCount((c) => c + 1); }, t('common.reset'), t('common.cancel'), 'refresh')
                 }
               />
               <IconButton
                 icon="trash"
                 label={t('common.delete')}
                 color={theme.danger}
-                onPress={() => confirm(t('sandbox.deleteConfirm', { name: active.name }), () => useStore.getState().deleteMachine(active.id), t('common.delete'), t('common.cancel'))}
+                onPress={() => confirm(t('sandbox.deleteConfirm', { name: active.name }), () => useStore.getState().deleteMachine(active.id), t('common.delete'), t('common.cancel'), 'trash')}
               />
             </>
           ) : null}

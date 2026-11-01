@@ -11,15 +11,42 @@ import { useLocalSearchParams } from 'expo-router';
 import { haptic } from '../../lib/haptics';
 import { Text } from '../../theme/Text';
 
-function ModuleBranch({ module, last, open, onToggle, nextId }: { module: Module; last: boolean; open: boolean; onToggle: () => void; nextId?: string }) {
+const RAIL = 26;
+const LINE = 2;
+
+/**
+ * One connector of the tree, drawn with views (box-drawing glyphs do not line
+ * up across fonts): `├─` for a middle child, a rounded `╰─` for the last one.
+ */
+function Rail({ last, color, width = RAIL }: { last: boolean; color: string; width?: number }) {
+  return (
+    <View style={{ width, alignSelf: 'stretch' }}>
+      {last ? (
+        <View style={{ position: 'absolute', left: width / 2 - LINE / 2, top: 0, height: '50%', width: width / 2 + LINE / 2, borderLeftWidth: LINE, borderBottomWidth: LINE, borderBottomLeftRadius: 9, borderColor: color }} />
+      ) : (
+        <>
+          <View style={{ position: 'absolute', left: width / 2 - LINE / 2, top: 0, bottom: 0, width: LINE, backgroundColor: color }} />
+          <View style={{ position: 'absolute', left: width / 2, top: '50%', marginTop: -LINE / 2, width: width / 2, height: LINE, backgroundColor: color }} />
+        </>
+      )}
+    </View>
+  );
+}
+
+/** A vertical line that continues the parent's branch past nested rows. */
+function Pipe({ show, color, width = RAIL }: { show: boolean; color: string; width?: number }) {
+  return <View style={{ width, alignSelf: 'stretch' }}>{show ? <View style={{ position: 'absolute', left: width / 2 - LINE / 2, top: 0, bottom: 0, width: LINE, backgroundColor: color }} /> : null}</View>;
+}
+
+function ModuleBranch({ module, last, open, onToggle, nextId, color }: { module: Module; last: boolean; open: boolean; onToggle: () => void; nextId?: string; color: string }) {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const progress = useStore((s) => s.progress);
   const done = module.lessons.filter((l) => progress.lessons[l.id]?.completedAt).length;
   const complete = done === module.lessons.length;
-  const unlocked = true;
-  const branch = last ? '└── ' : '├── ';
-  const pipe = last ? '    ' : '│   ';
+  const active = module.lessons.some((l) => l.id === nextId);
+  const lineColor = theme.border;
+  const tint = complete ? theme.success : active ? color : theme.term.path;
 
   return (
     <View>
@@ -33,53 +60,65 @@ function ModuleBranch({ module, last, open, onToggle, nextId }: { module: Module
         accessibilityState={{ expanded: open }}
         style={({ pressed }) => [styles.row, pressed && { backgroundColor: theme.surface2 }]}
       >
-        <Text style={[styles.tree, { color: theme.textDim }]}>{branch}</Text>
-        <Icon name={module.icon} size={20} color={unlocked ? theme.term.path : theme.textDim} />
-        <View style={{ flex: 1 }}>
-          <Text style={[styles.dirName, { color: unlocked ? theme.term.path : theme.textDim }]}>{module.path.split('/').pop()}/</Text>
-          <Text style={{ color: theme.textDim, fontSize: 13 }} numberOfLines={1}>
+        <Rail last={last && !open} color={lineColor} />
+        <View style={[styles.node, { backgroundColor: theme.surface2, borderColor: complete ? theme.success : active ? color : theme.border }]}>
+          <Icon name={module.icon} size={20} color={tint} />
+        </View>
+        <View style={{ flex: 1, gap: 3, paddingVertical: 2 }}>
+          <Text style={[styles.dirName, { color: theme.term.path }]} numberOfLines={1}>
+            {module.path.split('/').pop()}/
+          </Text>
+          <Text style={{ color: theme.text, fontSize: 14 }} numberOfLines={2}>
             {tr(module.title, i18n.language)}
           </Text>
+          <ProgressBar value={done / module.lessons.length} height={4} color={complete ? theme.success : color} style={{ marginTop: 3, maxWidth: 180 }} />
         </View>
-        {complete ? (
-          <Icon name="check-circle" size={20} color={theme.success} />
-        ) : (
-          <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 12 }}>
-            {done}/{module.lessons.length}
-          </Text>
-        )}
-        <Icon name={open ? 'chevron-up' : 'chevron-down'} size={18} color={theme.textDim} />
+        <View style={{ alignItems: 'flex-end', gap: 4 }}>
+          {complete ? (
+            <Icon name="check-circle" size={20} color={theme.success} />
+          ) : (
+            <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 12 }}>
+              {done}/{module.lessons.length}
+            </Text>
+          )}
+          <Icon name={open ? 'chevron-up' : 'chevron-down'} size={18} color={theme.textDim} />
+        </View>
       </Pressable>
       {open
         ? module.lessons.map((l, i) => {
             const lp = progress.lessons[l.id];
-            const ok = true;
             const isNext = l.id === nextId;
             const isLast = i === module.lessons.length - 1;
+            const status = lp?.completedAt ? 'done' : isNext ? 'next' : lp ? 'started' : 'todo';
             return (
               <Pressable
                 key={l.id}
-                disabled={!ok}
-                onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: l.id } })}
+                onPress={() => {
+                  haptic.tap();
+                  router.push({ pathname: '/lesson/[id]', params: { id: l.id } });
+                }}
                 accessibilityRole="button"
                 accessibilityLabel={tr(l.title, i18n.language)}
-                accessibilityState={{ disabled: !ok }}
-                style={({ pressed }) => [styles.row, pressed && { backgroundColor: theme.surface2 }]}
+                style={({ pressed }) => [styles.row, styles.lessonRow, pressed && { backgroundColor: theme.surface2 }, isNext && { backgroundColor: theme.surface2 }]}
               >
-                <Text style={[styles.tree, { color: theme.textDim }]}>
-                  {pipe}
-                  {isLast ? '└── ' : '├── '}
-                </Text>
-                <Icon
-                  name={lp?.completedAt ? 'check-circle' : isNext || lp ? 'play' : 'circle'}
-                  size={18}
-                  color={lp?.completedAt ? theme.success : isNext ? theme.accent : theme.textDim}
-                />
-                <Text style={{ flex: 1, color: theme.text, fontSize: 15, fontWeight: isNext ? '700' : '400' }} numberOfLines={2}>
+                <Pipe show={!last} color={lineColor} />
+                <Rail last={isLast} color={lineColor} width={22} />
+                <View
+                  style={[
+                    styles.dot,
+                    status === 'done' && { backgroundColor: theme.success, borderColor: theme.success },
+                    status === 'next' && { backgroundColor: color, borderColor: color },
+                    status === 'started' && { borderColor: color },
+                    status === 'todo' && { borderColor: theme.border },
+                  ]}
+                >
+                  {status === 'done' ? <Icon name="check" size={13} color={theme.onAccent} /> : status === 'next' ? <Icon name="play" size={12} color={theme.onAccent} /> : null}
+                </View>
+                <Text style={{ flex: 1, color: status === 'todo' ? theme.textDim : theme.text, fontSize: 15, fontWeight: isNext ? '700' : '400' }} numberOfLines={2}>
                   {tr(l.title, i18n.language)}
                 </Text>
                 {lp?.completedAt ? (
-                  <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 12 }}>+{lp.xp}</Text>
+                  <Text style={{ color: theme.success, fontFamily: MONO, fontSize: 12 }}>+{lp.xp}</Text>
                 ) : (
                   <Text style={{ color: theme.textDim, fontSize: 12 }}>{t('courses.minutes', { n: lessonMinutes(l) })}</Text>
                 )}
@@ -165,10 +204,15 @@ export default function CoursesScreen() {
           </Card>
         ) : null}
 
-        <Card style={{ marginTop: space.lg, paddingHorizontal: space.sm }}>
-          <Text style={[styles.dirName, { color: theme.term.path, paddingHorizontal: space.sm }]}>/{course.id}</Text>
+        <Card style={{ marginTop: space.lg, paddingHorizontal: space.sm, paddingVertical: space.md }}>
+          <Row gap={8} style={{ paddingBottom: 2 }}>
+            <View style={[styles.rootNode, { backgroundColor: course.color }]}>
+              <Icon name={course.icon} size={16} color="#06240F" />
+            </View>
+            <Text style={[styles.dirName, { color: theme.term.path }]}>/{course.id}</Text>
+          </Row>
           {mods.map((m, i) => (
-            <ModuleBranch key={m.id} module={m} last={i === mods.length - 1} open={open === m.id} onToggle={() => setOpen(open === m.id ? null : m.id)} {...(next ? { nextId: next.lesson.id } : {})} />
+            <ModuleBranch key={m.id} color={course.color} module={m} last={i === mods.length - 1} open={open === m.id} onToggle={() => setOpen(open === m.id ? null : m.id)} {...(next ? { nextId: next.lesson.id } : {})} />
           ))}
         </Card>
 
@@ -227,7 +271,10 @@ const styles = StyleSheet.create({
   chip: { paddingHorizontal: 4 },
   hero: { gap: space.md },
   courseTab: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 999, minHeight: 42 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 9, paddingHorizontal: space.sm, borderRadius: 10, minHeight: 44 },
-  tree: { fontFamily: MONO, fontSize: 14 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingRight: space.sm, borderRadius: 10, minHeight: 64 },
+  lessonRow: { minHeight: 48, gap: 6 },
+  node: { width: 38, height: 38, borderRadius: 12, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', marginVertical: 8 },
+  dot: { width: 20, height: 20, borderRadius: 10, borderWidth: 2, alignItems: 'center', justifyContent: 'center', marginRight: 4 },
   dirName: { fontFamily: MONO_BOLD, fontSize: 15 },
+  rootNode: { width: 26, height: 26, borderRadius: 8, alignItems: 'center', justifyContent: 'center', marginLeft: 0 },
 });

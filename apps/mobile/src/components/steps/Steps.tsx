@@ -8,7 +8,7 @@ import { RichText, TheoryCards } from '../ui/RichText';
 import { run, stripAnsi } from '@linux-learn/engine';
 import { Terminal, useColumns, type TerminalHandle } from '../terminal/Terminal';
 import { useShell } from '../terminal/useShell';
-import { haptic } from '../../lib/haptics';
+import { feedback } from '../../lib/haptics';
 import { Text } from '../../theme/Text';
 
 type StepOf<T extends Step['type']> = Extract<Step, { type: T }>;
@@ -124,8 +124,8 @@ function useChoice(answer: number, onDone: (i: { mistakes: number }) => void) {
   const solved = picked.includes(answer);
   const pick = (i: number) => {
     if (solved || picked.includes(i)) return;
-    if (i === answer) haptic.success();
-    else haptic.error();
+    if (i === answer) feedback.correct();
+    else feedback.wrong();
     setPicked([...picked, i]);
   };
   const state = (i: number): 'idle' | 'right' | 'wrong' => (picked.includes(i) ? (i === answer ? 'right' : 'wrong') : 'idle');
@@ -227,9 +227,9 @@ export function BuildStep({ step, onDone }: StepProps<'build'>) {
   const check = () => {
     const ok = line.join(' ') === step.answer.join(' ');
     setResult(ok);
-    if (ok) haptic.success();
+    if (ok) feedback.correct();
     else {
-      haptic.error();
+      feedback.wrong();
       setMistakes(mistakes + 1);
     }
   };
@@ -244,6 +244,7 @@ export function BuildStep({ step, onDone }: StepProps<'build'>) {
           <Pressable
             key={id}
             onPress={() => {
+              feedback.tap();
               setResult(null);
               setChosen(chosen.filter((c) => c !== id));
             }}
@@ -261,7 +262,7 @@ export function BuildStep({ step, onDone }: StepProps<'build'>) {
             <Pressable
               key={p.id}
               onPress={() => {
-                haptic.tap();
+                feedback.key();
                 setResult(null);
                 setChosen([...chosen, p.id]);
               }}
