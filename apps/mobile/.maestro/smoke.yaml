@@ -32,11 +32,16 @@ appId: com.vadymzelenko.linuxtrainer
     timeout: 10000
 - takeScreenshot: 04-theory
 - tapOn: "Continue"
+# the task: with the built-in keyboard open the goal card is a single line
 - extendedWaitUntil:
-    visible: "GOAL"
-    timeout: 10000
-- inputText: "pwd"
-- pressKey: Enter
+    visible: "Find out which directory.*"
+    timeout: 15000
+- takeScreenshot: 05a-task-keyboard
+# type with the built-in terminal keyboard
+- tapOn: "p"
+- tapOn: "w"
+- tapOn: "d"
+- tapOn: "Enter"
 - extendedWaitUntil:
     visible: "Task solved.*"
     timeout: 10000
