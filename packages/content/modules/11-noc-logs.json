@@ -1032,7 +1032,8 @@
             {
               "en": "DNS is broken",
               "ru": "Сломан DNS",
-              "uk": "Зламано DNS"
+              "uk": "Зламано DNS",
+              "pl": "Zepsuty DNS"
             }
           ],
           "answer": 0
