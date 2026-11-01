@@ -78,6 +78,7 @@ packages/content ──JSON уроков, миссий, «машин»──▶ 
 ```bash
 cd packages/content
 python3 authoring/<модуль>.py && python3 authoring/courses.py && python3 authoring/register.py
+python3 authoring/pl_tools.py apply   # польские переводы (authoring/pl/*.py, ключ — хэш английского текста)
 npx tsx scripts/lint.ts          # решает каждое задание эталоном и считает часы курса
 ```
 

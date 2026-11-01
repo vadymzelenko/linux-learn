@@ -76,22 +76,26 @@
             {
               "en": "404",
               "ru": "404",
-              "uk": "404"
+              "uk": "404",
+              "pl": "404"
             },
             {
               "en": "500",
               "ru": "500",
-              "uk": "500"
+              "uk": "500",
+              "pl": "500"
             },
             {
               "en": "301",
               "ru": "301",
-              "uk": "301"
+              "uk": "301",
+              "pl": "301"
             },
             {
               "en": "503",
               "ru": "503",
-              "uk": "503"
+              "uk": "503",
+              "pl": "503"
             }
           ],
           "answer": 0
@@ -113,7 +117,8 @@
               "label": {
                 "en": "curl -I",
                 "ru": "curl -I",
-                "uk": "curl -I"
+                "uk": "curl -I",
+                "pl": "curl -I"
               }
             },
             {
@@ -122,7 +127,8 @@
               "label": {
                 "en": "200 OK",
                 "ru": "200 OK",
-                "uk": "200 OK"
+                "uk": "200 OK",
+                "pl": "200 OK"
               }
             }
           ],
@@ -166,7 +172,8 @@
               "label": {
                 "en": "404",
                 "ru": "404",
-                "uk": "404"
+                "uk": "404",
+                "pl": "404"
               }
             }
           ],
@@ -174,7 +181,8 @@
             "direction": {
               "en": "curl -s -o /dev/null -w '%{http_code}' URL",
               "ru": "curl -s -o /dev/null -w '%{http_code}' URL",
-              "uk": "curl -s -o /dev/null -w '%{http_code}' URL"
+              "uk": "curl -s -o /dev/null -w '%{http_code}' URL",
+              "pl": "curl -s -o /dev/null -w '%{http_code}' URL"
             },
             "command": "curl"
           },
@@ -534,7 +542,8 @@
               "label": {
                 "en": "502 Bad Gateway",
                 "ru": "502 Bad Gateway",
-                "uk": "502 Bad Gateway"
+                "uk": "502 Bad Gateway",
+                "pl": "502 Bad Gateway"
               }
             }
           ],
@@ -542,7 +551,8 @@
             "direction": {
               "en": "curl -I URL",
               "ru": "curl -I URL",
-              "uk": "curl -I URL"
+              "uk": "curl -I URL",
+              "pl": "curl -I URL"
             },
             "command": "curl"
           },
@@ -576,7 +586,8 @@
               "label": {
                 "en": "Couldn't connect",
                 "ru": "Couldn't connect",
-                "uk": "Couldn't connect"
+                "uk": "Couldn't connect",
+                "pl": "Couldn't connect"
               }
             }
           ],
@@ -584,7 +595,8 @@
             "direction": {
               "en": "curl localhost:3000/health",
               "ru": "curl localhost:3000/health",
-              "uk": "curl localhost:3000/health"
+              "uk": "curl localhost:3000/health",
+              "pl": "curl localhost:3000/health"
             },
             "command": "curl"
           },
@@ -958,7 +970,8 @@
               "label": {
                 "en": "systemctl --failed",
                 "ru": "systemctl --failed",
-                "uk": "systemctl --failed"
+                "uk": "systemctl --failed",
+                "pl": "systemctl --failed"
               }
             },
             {
@@ -975,7 +988,8 @@
             "direction": {
               "en": "systemctl --failed",
               "ru": "systemctl --failed",
-              "uk": "systemctl --failed"
+              "uk": "systemctl --failed",
+              "pl": "systemctl --failed"
             },
             "command": "systemctl"
           },
@@ -1001,7 +1015,8 @@
               "label": {
                 "en": "systemctl status api",
                 "ru": "systemctl status api",
-                "uk": "systemctl status api"
+                "uk": "systemctl status api",
+                "pl": "systemctl status api"
               }
             },
             {
@@ -1036,7 +1051,8 @@
           "instructions": {
             "en": "1. `sudo systemctl restart api`\n2. `systemctl is-active api` → active\n3. `curl -I http://localhost/api/items` → 200",
             "ru": "1. `sudo systemctl restart api`\n2. `systemctl is-active api` → active\n3. `curl -I http://localhost/api/items` → 200",
-            "uk": "1. `sudo systemctl restart api`\n2. `systemctl is-active api` → active\n3. `curl -I http://localhost/api/items` → 200"
+            "uk": "1. `sudo systemctl restart api`\n2. `systemctl is-active api` → active\n3. `curl -I http://localhost/api/items` → 200",
+            "pl": "1. `sudo systemctl restart api`\n2. `systemctl is-active api` → active\n3. `curl -I http://localhost/api/items` → 200"
           },
           "checks": [
             {
@@ -1064,7 +1080,8 @@
               "label": {
                 "en": "HTTP 200",
                 "ru": "HTTP 200",
-                "uk": "HTTP 200"
+                "uk": "HTTP 200",
+                "pl": "HTTP 200"
               }
             }
           ],
@@ -1449,7 +1466,8 @@
               "label": {
                 "en": "journalctl -u api -n 5",
                 "ru": "journalctl -u api -n 5",
-                "uk": "journalctl -u api -n 5"
+                "uk": "journalctl -u api -n 5",
+                "pl": "journalctl -u api -n 5"
               }
             },
             {
@@ -1491,7 +1509,8 @@
               "label": {
                 "en": "journalctl -p err",
                 "ru": "journalctl -p err",
-                "uk": "journalctl -p err"
+                "uk": "journalctl -p err",
+                "pl": "journalctl -p err"
               }
             },
             {
@@ -1508,7 +1527,8 @@
             "direction": {
               "en": "-p err",
               "ru": "-p err",
-              "uk": "-p err"
+              "uk": "-p err",
+              "pl": "-p err"
             },
             "command": "journalctl"
           },
@@ -2211,7 +2231,8 @@
             "direction": {
               "en": "journalctl -u nginx",
               "ru": "journalctl -u nginx",
-              "uk": "journalctl -u nginx"
+              "uk": "journalctl -u nginx",
+              "pl": "journalctl -u nginx"
             },
             "command": "journalctl"
           },
@@ -2236,7 +2257,8 @@
               "label": {
                 "en": "grep -n",
                 "ru": "grep -n",
-                "uk": "grep -n"
+                "uk": "grep -n",
+                "pl": "grep -n"
               }
             },
             {
@@ -2245,7 +2267,8 @@
               "label": {
                 "en": "8: listn 80;",
                 "ru": "8: listn 80;",
-                "uk": "8: listn 80;"
+                "uk": "8: listn 80;",
+                "pl": "8: listn 80;"
               }
             }
           ],
@@ -2271,7 +2294,8 @@
           "instructions": {
             "en": "1. `sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak`\n2. `sudo sed -i 's/listn/listen/' /etc/nginx/nginx.conf`\n3. `sudo systemctl restart nginx`\n4. `curl -I localhost`",
             "ru": "1. `sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak`\n2. `sudo sed -i 's/listn/listen/' /etc/nginx/nginx.conf`\n3. `sudo systemctl restart nginx`\n4. `curl -I localhost`",
-            "uk": "1. `sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak`\n2. `sudo sed -i 's/listn/listen/' /etc/nginx/nginx.conf`\n3. `sudo systemctl restart nginx`\n4. `curl -I localhost`"
+            "uk": "1. `sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak`\n2. `sudo sed -i 's/listn/listen/' /etc/nginx/nginx.conf`\n3. `sudo systemctl restart nginx`\n4. `curl -I localhost`",
+            "pl": "1. `sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak`\n2. `sudo sed -i 's/listn/listen/' /etc/nginx/nginx.conf`\n3. `sudo systemctl restart nginx`\n4. `curl -I localhost`"
           },
           "checks": [
             {
@@ -2308,7 +2332,8 @@
             "direction": {
               "en": "sudo cp, sudo sed -i, sudo systemctl restart.",
               "ru": "sudo cp, sudo sed -i, sudo systemctl restart.",
-              "uk": "sudo cp, sudo sed -i, sudo systemctl restart."
+              "uk": "sudo cp, sudo sed -i, sudo systemctl restart.",
+              "pl": "sudo cp, sudo sed -i, sudo systemctl restart."
             },
             "command": "sed"
           },

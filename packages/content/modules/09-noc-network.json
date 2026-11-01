@@ -84,7 +84,8 @@
             "direction": {
               "en": "ip + a (address).",
               "ru": "ip + a (address).",
-              "uk": "ip + a (address)."
+              "uk": "ip + a (address).",
+              "pl": "ip + a (address)."
             },
             "command": "ip"
           },
@@ -126,7 +127,8 @@
             "direction": {
               "en": "ip + r (route).",
               "ru": "ip + r (route).",
-              "uk": "ip + r (route)."
+              "uk": "ip + r (route).",
+              "pl": "ip + r (route)."
             },
             "command": "ip"
           },
@@ -171,17 +173,20 @@
             {
               "en": "192.168.1.10",
               "ru": "192.168.1.10",
-              "uk": "192.168.1.10"
+              "uk": "192.168.1.10",
+              "pl": "192.168.1.10"
             },
             {
               "en": "8.8.8.8",
               "ru": "8.8.8.8",
-              "uk": "8.8.8.8"
+              "uk": "8.8.8.8",
+              "pl": "8.8.8.8"
             },
             {
               "en": "93.184.215.14",
               "ru": "93.184.215.14",
-              "uk": "93.184.215.14"
+              "uk": "93.184.215.14",
+              "pl": "93.184.215.14"
             }
           ],
           "answer": 0
@@ -305,7 +310,8 @@
               "label": {
                 "en": "0% packet loss",
                 "ru": "0% packet loss",
-                "uk": "0% packet loss"
+                "uk": "0% packet loss",
+                "pl": "0% packet loss"
               }
             }
           ],
@@ -347,7 +353,8 @@
               "label": {
                 "en": "100% packet loss",
                 "ru": "100% packet loss",
-                "uk": "100% packet loss"
+                "uk": "100% packet loss",
+                "pl": "100% packet loss"
               }
             }
           ],
@@ -398,7 +405,8 @@
             "direction": {
               "en": "-c 10",
               "ru": "-c 10",
-              "uk": "-c 10"
+              "uk": "-c 10",
+              "pl": "-c 10"
             },
             "command": "ping"
           },
@@ -630,7 +638,8 @@
             "direction": {
               "en": "trace + route.",
               "ru": "trace + route.",
-              "uk": "trace + route."
+              "uk": "trace + route.",
+              "pl": "trace + route."
             },
             "command": "traceroute"
           },
@@ -655,7 +664,8 @@
               "label": {
                 "en": "traceroute -n backup01",
                 "ru": "traceroute -n backup01",
-                "uk": "traceroute -n backup01"
+                "uk": "traceroute -n backup01",
+                "pl": "traceroute -n backup01"
               }
             },
             {
@@ -870,7 +880,8 @@
               "label": {
                 "en": "NXDOMAIN",
                 "ru": "NXDOMAIN",
-                "uk": "NXDOMAIN"
+                "uk": "NXDOMAIN",
+                "pl": "NXDOMAIN"
               }
             }
           ],
@@ -1093,7 +1104,8 @@
               "label": {
                 "en": "ss -tulpn",
                 "ru": "ss -tulpn",
-                "uk": "ss -tulpn"
+                "uk": "ss -tulpn",
+                "pl": "ss -tulpn"
               }
             },
             {
@@ -1136,7 +1148,8 @@
               "label": {
                 "en": "nc -zv",
                 "ru": "nc -zv",
-                "uk": "nc -zv"
+                "uk": "nc -zv",
+                "pl": "nc -zv"
               }
             },
             {
@@ -1145,7 +1158,8 @@
               "label": {
                 "en": "succeeded",
                 "ru": "succeeded",
-                "uk": "succeeded"
+                "uk": "succeeded",
+                "pl": "succeeded"
               }
             }
           ],
@@ -1247,7 +1261,8 @@
               "label": {
                 "en": "Connection refused",
                 "ru": "Connection refused",
-                "uk": "Connection refused"
+                "uk": "Connection refused",
+                "pl": "Connection refused"
               }
             }
           ],

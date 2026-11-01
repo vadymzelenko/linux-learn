@@ -474,7 +474,8 @@
             "direction": {
               "en": "cat ~/runbooks/website-down.md",
               "ru": "cat ~/runbooks/website-down.md",
-              "uk": "cat ~/runbooks/website-down.md"
+              "uk": "cat ~/runbooks/website-down.md",
+              "pl": "cat ~/runbooks/website-down.md"
             },
             "command": "cat"
           },
@@ -496,7 +497,8 @@
               "label": {
                 "en": "curl -I http://localhost",
                 "ru": "curl -I http://localhost",
-                "uk": "curl -I http://localhost"
+                "uk": "curl -I http://localhost",
+                "pl": "curl -I http://localhost"
               }
             },
             {
@@ -505,7 +507,8 @@
               "label": {
                 "en": "Couldn't connect",
                 "ru": "Couldn't connect",
-                "uk": "Couldn't connect"
+                "uk": "Couldn't connect",
+                "pl": "Couldn't connect"
               }
             }
           ],
@@ -513,7 +516,8 @@
             "direction": {
               "en": "curl -I http://localhost",
               "ru": "curl -I http://localhost",
-              "uk": "curl -I http://localhost"
+              "uk": "curl -I http://localhost",
+              "pl": "curl -I http://localhost"
             },
             "command": "curl"
           },
@@ -539,7 +543,8 @@
               "label": {
                 "en": "systemctl status nginx",
                 "ru": "systemctl status nginx",
-                "uk": "systemctl status nginx"
+                "uk": "systemctl status nginx",
+                "pl": "systemctl status nginx"
               }
             },
             {
@@ -548,7 +553,8 @@
               "label": {
                 "en": "inactive (dead)",
                 "ru": "inactive (dead)",
-                "uk": "inactive (dead)"
+                "uk": "inactive (dead)",
+                "pl": "inactive (dead)"
               }
             }
           ],
@@ -556,7 +562,8 @@
             "direction": {
               "en": "systemctl status nginx",
               "ru": "systemctl status nginx",
-              "uk": "systemctl status nginx"
+              "uk": "systemctl status nginx",
+              "pl": "systemctl status nginx"
             },
             "command": "systemctl"
           },
@@ -597,7 +604,8 @@
               "label": {
                 "en": "200 OK",
                 "ru": "200 OK",
-                "uk": "200 OK"
+                "uk": "200 OK",
+                "pl": "200 OK"
               }
             }
           ],
@@ -605,7 +613,8 @@
             "direction": {
               "en": "sudo systemctl start nginx; curl -I http://localhost",
               "ru": "sudo systemctl start nginx; curl -I http://localhost",
-              "uk": "sudo systemctl start nginx; curl -I http://localhost"
+              "uk": "sudo systemctl start nginx; curl -I http://localhost",
+              "pl": "sudo systemctl start nginx; curl -I http://localhost"
             },
             "command": "systemctl"
           },
@@ -717,7 +726,8 @@
           "title": {
             "en": "L1 → L2 → L3",
             "ru": "L1 → L2 → L3",
-            "uk": "L1 → L2 → L3"
+            "uk": "L1 → L2 → L3",
+            "pl": "L1 → L2 → L3"
           },
           "terminal": false
         },
@@ -744,7 +754,8 @@
               "label": {
                 "en": "Marek",
                 "ru": "Marek",
-                "uk": "Marek"
+                "uk": "Marek",
+                "pl": "Marek"
               }
             }
           ],
@@ -752,7 +763,8 @@
             "direction": {
               "en": "grep -i db ~/notes/oncall.txt",
               "ru": "grep -i db ~/notes/oncall.txt",
-              "uk": "grep -i db ~/notes/oncall.txt"
+              "uk": "grep -i db ~/notes/oncall.txt",
+              "pl": "grep -i db ~/notes/oncall.txt"
             },
             "command": "grep"
           },
@@ -774,7 +786,8 @@
               "label": {
                 "en": "grep Severity",
                 "ru": "grep Severity",
-                "uk": "grep Severity"
+                "uk": "grep Severity",
+                "pl": "grep Severity"
               }
             },
             {
@@ -783,7 +796,8 @@
               "label": {
                 "en": "within 15 min",
                 "ru": "within 15 min",
-                "uk": "within 15 min"
+                "uk": "within 15 min",
+                "pl": "within 15 min"
               }
             }
           ],
@@ -791,7 +805,8 @@
             "direction": {
               "en": "grep -i severity ~/notes/oncall.txt",
               "ru": "grep -i severity ~/notes/oncall.txt",
-              "uk": "grep -i severity ~/notes/oncall.txt"
+              "uk": "grep -i severity ~/notes/oncall.txt",
+              "pl": "grep -i severity ~/notes/oncall.txt"
             },
             "command": "grep"
           },
@@ -1209,7 +1224,8 @@
             "direction": {
               "en": "cat ~/tickets/CHG-118.txt",
               "ru": "cat ~/tickets/CHG-118.txt",
-              "uk": "cat ~/tickets/CHG-118.txt"
+              "uk": "cat ~/tickets/CHG-118.txt",
+              "pl": "cat ~/tickets/CHG-118.txt"
             },
             "command": "cat"
           },
@@ -1248,7 +1264,8 @@
             "direction": {
               "en": "diff /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf",
               "ru": "diff /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf",
-              "uk": "diff /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf"
+              "uk": "diff /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf",
+              "pl": "diff /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf"
             },
             "command": "diff"
           },
@@ -1583,7 +1600,8 @@
           "instructions": {
             "en": "1. `sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf`\n2. `sudo systemctl restart nginx`\n3. `curl -I http://localhost`",
             "ru": "1. `sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf`\n2. `sudo systemctl restart nginx`\n3. `curl -I http://localhost`",
-            "uk": "1. `sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf`\n2. `sudo systemctl restart nginx`\n3. `curl -I http://localhost`"
+            "uk": "1. `sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf`\n2. `sudo systemctl restart nginx`\n3. `curl -I http://localhost`",
+            "pl": "1. `sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf`\n2. `sudo systemctl restart nginx`\n3. `curl -I http://localhost`"
           },
           "checks": [
             {
@@ -1612,7 +1630,8 @@
               "label": {
                 "en": "HTTP 200",
                 "ru": "HTTP 200",
-                "uk": "HTTP 200"
+                "uk": "HTTP 200",
+                "pl": "HTTP 200"
               }
             }
           ],
@@ -1620,7 +1639,8 @@
             "direction": {
               "en": "sudo cp BAK CONF; sudo systemctl restart nginx; curl -I localhost",
               "ru": "sudo cp BAK CONF; sudo systemctl restart nginx; curl -I localhost",
-              "uk": "sudo cp BAK CONF; sudo systemctl restart nginx; curl -I localhost"
+              "uk": "sudo cp BAK CONF; sudo systemctl restart nginx; curl -I localhost",
+              "pl": "sudo cp BAK CONF; sudo systemctl restart nginx; curl -I localhost"
             },
             "command": "cp"
           },

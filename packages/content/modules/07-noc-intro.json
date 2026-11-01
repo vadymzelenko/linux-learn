@@ -94,7 +94,8 @@
           "instructions": {
             "en": "1. `ls ~/runbooks`\n2. `cat ~/runbooks/website-down.md`",
             "ru": "1. `ls ~/runbooks`\n2. `cat ~/runbooks/website-down.md`",
-            "uk": "1. `ls ~/runbooks`\n2. `cat ~/runbooks/website-down.md`"
+            "uk": "1. `ls ~/runbooks`\n2. `cat ~/runbooks/website-down.md`",
+            "pl": "1. `ls ~/runbooks`\n2. `cat ~/runbooks/website-down.md`"
           },
           "checks": [
             {
@@ -410,22 +411,26 @@
             {
               "en": "P1",
               "ru": "P1",
-              "uk": "P1"
+              "uk": "P1",
+              "pl": "P1"
             },
             {
               "en": "P2",
               "ru": "P2",
-              "uk": "P2"
+              "uk": "P2",
+              "pl": "P2"
             },
             {
               "en": "P3",
               "ru": "P3",
-              "uk": "P3"
+              "uk": "P3",
+              "pl": "P3"
             },
             {
               "en": "P4",
               "ru": "P4",
-              "uk": "P4"
+              "uk": "P4",
+              "pl": "P4"
             }
           ],
           "answer": 0
@@ -441,22 +446,26 @@
             {
               "en": "P1",
               "ru": "P1",
-              "uk": "P1"
+              "uk": "P1",
+              "pl": "P1"
             },
             {
               "en": "P2",
               "ru": "P2",
-              "uk": "P2"
+              "uk": "P2",
+              "pl": "P2"
             },
             {
               "en": "P3",
               "ru": "P3",
-              "uk": "P3"
+              "uk": "P3",
+              "pl": "P3"
             },
             {
               "en": "P4",
               "ru": "P4",
-              "uk": "P4"
+              "uk": "P4",
+              "pl": "P4"
             }
           ],
           "answer": 2
@@ -472,22 +481,26 @@
             {
               "en": "P1",
               "ru": "P1",
-              "uk": "P1"
+              "uk": "P1",
+              "pl": "P1"
             },
             {
               "en": "P2",
               "ru": "P2",
-              "uk": "P2"
+              "uk": "P2",
+              "pl": "P2"
             },
             {
               "en": "P3",
               "ru": "P3",
-              "uk": "P3"
+              "uk": "P3",
+              "pl": "P3"
             },
             {
               "en": "P4",
               "ru": "P4",
-              "uk": "P4"
+              "uk": "P4",
+              "pl": "P4"
             }
           ],
           "answer": 3

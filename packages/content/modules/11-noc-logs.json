@@ -337,7 +337,8 @@
           "title": {
             "en": "/var/log",
             "ru": "/var/log",
-            "uk": "/var/log"
+            "uk": "/var/log",
+            "pl": "/var/log"
           },
           "terminal": false
         },
@@ -358,7 +359,8 @@
               "label": {
                 "en": "ls -lh",
                 "ru": "ls -lh",
-                "uk": "ls -lh"
+                "uk": "ls -lh",
+                "pl": "ls -lh"
               }
             },
             {
@@ -375,7 +377,8 @@
             "direction": {
               "en": "ls -lh /var/log/nginx",
               "ru": "ls -lh /var/log/nginx",
-              "uk": "ls -lh /var/log/nginx"
+              "uk": "ls -lh /var/log/nginx",
+              "pl": "ls -lh /var/log/nginx"
             },
             "command": "ls"
           },
@@ -407,7 +410,8 @@
               "label": {
                 "en": "3 lines",
                 "ru": "3 строки",
-                "uk": "3 рядки"
+                "uk": "3 рядки",
+                "pl": "3 wiersze"
               }
             }
           ],
@@ -415,7 +419,8 @@
             "direction": {
               "en": "sudo tail -n 3 /var/log/auth.log",
               "ru": "sudo tail -n 3 /var/log/auth.log",
-              "uk": "sudo tail -n 3 /var/log/auth.log"
+              "uk": "sudo tail -n 3 /var/log/auth.log",
+              "pl": "sudo tail -n 3 /var/log/auth.log"
             },
             "command": "tail"
           },
@@ -446,7 +451,8 @@
               "label": {
                 "en": "disk quota exceeded",
                 "ru": "disk quota exceeded",
-                "uk": "disk quota exceeded"
+                "uk": "disk quota exceeded",
+                "pl": "disk quota exceeded"
               }
             }
           ],
@@ -473,12 +479,14 @@
             {
               "en": "access.log.1",
               "ru": "access.log.1",
-              "uk": "access.log.1"
+              "uk": "access.log.1",
+              "pl": "access.log.1"
             },
             {
               "en": "access.log",
               "ru": "access.log",
-              "uk": "access.log"
+              "uk": "access.log",
+              "pl": "access.log"
             },
             {
               "en": "error.log only",
@@ -840,7 +848,8 @@
               "label": {
                 "en": "grep -E",
                 "ru": "grep -E",
-                "uk": "grep -E"
+                "uk": "grep -E",
+                "pl": "grep -E"
               }
             },
             {
@@ -849,7 +858,8 @@
               "label": {
                 "en": "3 lines",
                 "ru": "3 строки",
-                "uk": "3 рядки"
+                "uk": "3 рядки",
+                "pl": "3 wiersze"
               }
             }
           ],
@@ -882,7 +892,8 @@
               "label": {
                 "en": "grep -c",
                 "ru": "grep -c",
-                "uk": "grep -c"
+                "uk": "grep -c",
+                "pl": "grep -c"
               }
             },
             {
@@ -891,7 +902,8 @@
               "label": {
                 "en": "6",
                 "ru": "6",
-                "uk": "6"
+                "uk": "6",
+                "pl": "6"
               }
             }
           ],
@@ -921,7 +933,8 @@
               "label": {
                 "en": "grep",
                 "ru": "grep",
-                "uk": "grep"
+                "uk": "grep",
+                "pl": "grep"
               }
             },
             {
@@ -930,7 +943,8 @@
               "label": {
                 "en": "1 line",
                 "ru": "1 строка",
-                "uk": "1 рядок"
+                "uk": "1 рядок",
+                "pl": "1 wiersz"
               }
             },
             {
@@ -969,7 +983,8 @@
               "label": {
                 "en": "tail -n 1",
                 "ru": "tail -n 1",
-                "uk": "tail -n 1"
+                "uk": "tail -n 1",
+                "pl": "tail -n 1"
               }
             },
             {
@@ -978,7 +993,8 @@
               "label": {
                 "en": "Connection refused",
                 "ru": "Connection refused",
-                "uk": "Connection refused"
+                "uk": "Connection refused",
+                "pl": "Connection refused"
               }
             }
           ],
@@ -986,7 +1002,8 @@
             "direction": {
               "en": "tail -n 1 /var/log/nginx/error.log",
               "ru": "tail -n 1 /var/log/nginx/error.log",
-              "uk": "tail -n 1 /var/log/nginx/error.log"
+              "uk": "tail -n 1 /var/log/nginx/error.log",
+              "pl": "tail -n 1 /var/log/nginx/error.log"
             },
             "command": "tail"
           },
@@ -1381,7 +1398,8 @@
               "label": {
                 "en": "uniq -c",
                 "ru": "uniq -c",
-                "uk": "uniq -c"
+                "uk": "uniq -c",
+                "pl": "uniq -c"
               }
             },
             {
@@ -1429,7 +1447,8 @@
               "label": {
                 "en": "3 lines",
                 "ru": "3 строки",
-                "uk": "3 рядки"
+                "uk": "3 рядки",
+                "pl": "3 wiersze"
               }
             },
             {
@@ -1872,7 +1891,8 @@
               "label": {
                 "en": "8",
                 "ru": "8",
-                "uk": "8"
+                "uk": "8",
+                "pl": "8"
               }
             }
           ],
@@ -1880,7 +1900,8 @@
             "direction": {
               "en": "sudo grep -c 'Failed password' /var/log/auth.log",
               "ru": "sudo grep -c 'Failed password' /var/log/auth.log",
-              "uk": "sudo grep -c 'Failed password' /var/log/auth.log"
+              "uk": "sudo grep -c 'Failed password' /var/log/auth.log",
+              "pl": "sudo grep -c 'Failed password' /var/log/auth.log"
             },
             "command": "grep"
           },
@@ -1903,7 +1924,8 @@
               "label": {
                 "en": "grep COMMAND",
                 "ru": "grep COMMAND",
-                "uk": "grep COMMAND"
+                "uk": "grep COMMAND",
+                "pl": "grep COMMAND"
               }
             },
             {
@@ -1912,7 +1934,8 @@
               "label": {
                 "en": "restart nginx",
                 "ru": "restart nginx",
-                "uk": "restart nginx"
+                "uk": "restart nginx",
+                "pl": "restart nginx"
               }
             }
           ],
@@ -1920,7 +1943,8 @@
             "direction": {
               "en": "sudo grep COMMAND /var/log/auth.log",
               "ru": "sudo grep COMMAND /var/log/auth.log",
-              "uk": "sudo grep COMMAND /var/log/auth.log"
+              "uk": "sudo grep COMMAND /var/log/auth.log",
+              "pl": "sudo grep COMMAND /var/log/auth.log"
             },
             "command": "grep"
           },
@@ -1942,7 +1966,8 @@
               "label": {
                 "en": "awk $(NF-3)",
                 "ru": "awk $(NF-3)",
-                "uk": "awk $(NF-3)"
+                "uk": "awk $(NF-3)",
+                "pl": "awk $(NF-3)"
               }
             },
             {
@@ -2349,7 +2374,8 @@
               "label": {
                 "en": "grep -n",
                 "ru": "grep -n",
-                "uk": "grep -n"
+                "uk": "grep -n",
+                "pl": "grep -n"
               }
             },
             {
@@ -2358,7 +2384,8 @@
               "label": {
                 "en": "2: ... WARN db pool",
                 "ru": "2: ... WARN db pool",
-                "uk": "2: ... WARN db pool"
+                "uk": "2: ... WARN db pool",
+                "pl": "2: ... WARN db pool"
               }
             }
           ],
@@ -2384,7 +2411,8 @@
           "instructions": {
             "en": "1. `mkdir -p ~/incident`\n2. `grep -E 'ERROR|FATAL' /var/log/app/api.log > ~/incident/timeline.txt`\n3. `cat ~/incident/timeline.txt`",
             "ru": "1. `mkdir -p ~/incident`\n2. `grep -E 'ERROR|FATAL' /var/log/app/api.log > ~/incident/timeline.txt`\n3. `cat ~/incident/timeline.txt`",
-            "uk": "1. `mkdir -p ~/incident`\n2. `grep -E 'ERROR|FATAL' /var/log/app/api.log > ~/incident/timeline.txt`\n3. `cat ~/incident/timeline.txt`"
+            "uk": "1. `mkdir -p ~/incident`\n2. `grep -E 'ERROR|FATAL' /var/log/app/api.log > ~/incident/timeline.txt`\n3. `cat ~/incident/timeline.txt`",
+            "pl": "1. `mkdir -p ~/incident`\n2. `grep -E 'ERROR|FATAL' /var/log/app/api.log > ~/incident/timeline.txt`\n3. `cat ~/incident/timeline.txt`"
           },
           "checks": [
             {
@@ -2414,7 +2442,8 @@
               "label": {
                 "en": "3 lines",
                 "ru": "3 строки",
-                "uk": "3 рядки"
+                "uk": "3 рядки",
+                "pl": "3 wiersze"
               }
             }
           ],
@@ -2471,7 +2500,8 @@
               "label": {
                 "en": "4 lines",
                 "ru": "4 строки",
-                "uk": "4 рядки"
+                "uk": "4 рядки",
+                "pl": "4 wiersze"
               }
             }
           ],

@@ -56,7 +56,8 @@
     "term": {
       "en": "bash",
       "ru": "bash",
-      "uk": "bash"
+      "uk": "bash",
+      "pl": "bash"
     },
     "definition": {
       "en": "Bourne-Again SHell — the most popular Linux shell and scripting language.",
@@ -594,7 +595,8 @@
     "term": {
       "en": "/etc",
       "ru": "/etc",
-      "uk": "/etc"
+      "uk": "/etc",
+      "pl": "/etc"
     },
     "definition": {
       "en": "The directory with system-wide configuration files: /etc/hosts, /etc/passwd, /etc/nginx/...",
@@ -615,7 +617,8 @@
     "term": {
       "en": "/var/log",
       "ru": "/var/log",
-      "uk": "/var/log"
+      "uk": "/var/log",
+      "pl": "/var/log"
     },
     "definition": {
       "en": "Where logs live: syslog, auth.log, nginx/access.log, ...",
@@ -636,7 +639,8 @@
     "term": {
       "en": "/dev/null",
       "ru": "/dev/null",
-      "uk": "/dev/null"
+      "uk": "/dev/null",
+      "pl": "/dev/null"
     },
     "definition": {
       "en": "A black hole: everything written there disappears. 2>/dev/null hides errors.",
@@ -893,7 +897,8 @@
     "term": {
       "en": "CSV",
       "ru": "CSV",
-      "uk": "CSV"
+      "uk": "CSV",
+      "pl": "CSV"
     },
     "definition": {
       "en": "Comma-separated values: a text table, one row per line. cut -d, and awk -F, read it.",
@@ -1072,7 +1077,8 @@
     "term": {
       "en": "sudo",
       "ru": "sudo",
-      "uk": "sudo"
+      "uk": "sudo",
+      "pl": "sudo"
     },
     "definition": {
       "en": "Run one command as root: sudo systemctl restart nginx. Your user must be in the sudo group.",
@@ -1120,7 +1126,8 @@
     "term": {
       "en": "UID",
       "ru": "UID",
-      "uk": "UID"
+      "uk": "UID",
+      "pl": "UID"
     },
     "definition": {
       "en": "User ID — the number behind a user name. root is 0, normal users start at 1000.",
@@ -1142,7 +1149,8 @@
     "term": {
       "en": "/etc/passwd",
       "ru": "/etc/passwd",
-      "uk": "/etc/passwd"
+      "uk": "/etc/passwd",
+      "pl": "/etc/passwd"
     },
     "definition": {
       "en": "The list of users: name:x:uid:gid:comment:home:shell. Passwords themselves are in /etc/shadow.",
@@ -1189,7 +1197,8 @@
     "term": {
       "en": "PID",
       "ru": "PID",
-      "uk": "PID"
+      "uk": "PID",
+      "pl": "PID"
     },
     "definition": {
       "en": "Process ID — the number used to manage a process: kill 1234.",
@@ -1291,7 +1300,8 @@
     "term": {
       "en": "systemd",
       "ru": "systemd",
-      "uk": "systemd"
+      "uk": "systemd",
+      "pl": "systemd"
     },
     "definition": {
       "en": "The init system of modern Linux: starts services at boot, restarts them and collects their logs (journal).",
@@ -1446,7 +1456,8 @@
     "term": {
       "en": "OOM killer",
       "ru": "OOM killer",
-      "uk": "OOM killer"
+      "uk": "OOM killer",
+      "pl": "OOM killer"
     },
     "definition": {
       "en": "When memory runs out, the kernel kills a big process (\"Out of memory: Killed process ...\"). Look for it in the logs.",
@@ -1468,7 +1479,8 @@
     "term": {
       "en": "cron",
       "ru": "cron",
-      "uk": "cron"
+      "uk": "cron",
+      "pl": "cron"
     },
     "definition": {
       "en": "The scheduler that runs commands at set times (backups at 03:00). Its runs appear in syslog as CRON.",
@@ -1541,7 +1553,8 @@
     "term": {
       "en": "$PATH",
       "ru": "$PATH",
-      "uk": "$PATH"
+      "uk": "$PATH",
+      "pl": "$PATH"
     },
     "definition": {
       "en": "The list of directories where the shell looks for programs. That is why a script in the current directory needs ./",
@@ -1639,7 +1652,8 @@
     "term": {
       "en": "~/.bashrc",
       "ru": "~/.bashrc",
-      "uk": "~/.bashrc"
+      "uk": "~/.bashrc",
+      "pl": "~/.bashrc"
     },
     "definition": {
       "en": "Your shell settings file, read at every start: aliases, variables, prompt. Apply changes with source ~/.bashrc.",
@@ -1843,7 +1857,8 @@
     "term": {
       "en": "localhost (127.0.0.1)",
       "ru": "localhost (127.0.0.1)",
-      "uk": "localhost (127.0.0.1)"
+      "uk": "localhost (127.0.0.1)",
+      "pl": "localhost (127.0.0.1)"
     },
     "definition": {
       "en": "The machine itself. A service bound to 127.0.0.1 is reachable only from the same machine.",
@@ -1891,7 +1906,8 @@
     "term": {
       "en": "TCP / UDP",
       "ru": "TCP / UDP",
-      "uk": "TCP / UDP"
+      "uk": "TCP / UDP",
+      "pl": "TCP / UDP"
     },
     "definition": {
       "en": "TCP: reliable connection with delivery checks (web, ssh, databases). UDP: fast messages without guarantees (DNS, video, VoIP).",
@@ -1913,7 +1929,8 @@
     "term": {
       "en": "ICMP / ping",
       "ru": "ICMP / ping",
-      "uk": "ICMP / ping"
+      "uk": "ICMP / ping",
+      "pl": "ICMP / ping"
     },
     "definition": {
       "en": "Service messages of IP. ping sends ICMP echo and measures the round trip time (RTT).",
@@ -2014,7 +2031,8 @@
     "term": {
       "en": "DNS",
       "ru": "DNS",
-      "uk": "DNS"
+      "uk": "DNS",
+      "pl": "DNS"
     },
     "definition": {
       "en": "The internet phone book: turns names (example.com) into IP addresses. Query with dig or nslookup.",
@@ -2061,7 +2079,8 @@
     "term": {
       "en": "NXDOMAIN",
       "ru": "NXDOMAIN",
-      "uk": "NXDOMAIN"
+      "uk": "NXDOMAIN",
+      "pl": "NXDOMAIN"
     },
     "definition": {
       "en": "DNS answer \"no such domain\": the name does not exist (or a typo).",
@@ -2082,7 +2101,8 @@
     "term": {
       "en": "/etc/hosts",
       "ru": "/etc/hosts",
-      "uk": "/etc/hosts"
+      "uk": "/etc/hosts",
+      "pl": "/etc/hosts"
     },
     "definition": {
       "en": "A local list name → IP checked before DNS by ping, curl and most programs (but not by dig).",
@@ -2103,7 +2123,8 @@
     "term": {
       "en": "HTTP / HTTPS",
       "ru": "HTTP / HTTPS",
-      "uk": "HTTP / HTTPS"
+      "uk": "HTTP / HTTPS",
+      "pl": "HTTP / HTTPS"
     },
     "definition": {
       "en": "The protocol of the web. A client sends a request (GET /path), the server answers with a status code, headers and a body. HTTPS = HTTP over TLS encryption, port 443.",
@@ -2155,7 +2176,8 @@
     "term": {
       "en": "502 Bad Gateway",
       "ru": "502 Bad Gateway",
-      "uk": "502 Bad Gateway"
+      "uk": "502 Bad Gateway",
+      "pl": "502 Bad Gateway"
     },
     "definition": {
       "en": "The proxy (nginx) is alive, but the application behind it does not answer — check the backend service.",
@@ -2229,7 +2251,8 @@
     "term": {
       "en": "Connection refused",
       "ru": "Connection refused",
-      "uk": "Connection refused"
+      "uk": "Connection refused",
+      "pl": "Connection refused"
     },
     "definition": {
       "en": "The host is reachable but nothing listens on that port (service stopped or wrong port).",
@@ -2276,7 +2299,8 @@
     "term": {
       "en": "SSH",
       "ru": "SSH",
-      "uk": "SSH"
+      "uk": "SSH",
+      "pl": "SSH"
     },
     "definition": {
       "en": "Secure shell: encrypted remote login to servers, port 22: ssh user@host.",
@@ -2566,7 +2590,8 @@
     "term": {
       "en": "SLO / SLI",
       "ru": "SLO / SLI",
-      "uk": "SLO / SLI"
+      "uk": "SLO / SLI",
+      "pl": "SLO / SLI"
     },
     "definition": {
       "en": "SLI is a measured indicator (share of successful requests); SLO is the internal target for it (99.95%).",
@@ -2613,7 +2638,8 @@
     "term": {
       "en": "MTTA / MTTR",
       "ru": "MTTA / MTTR",
-      "uk": "MTTA / MTTR"
+      "uk": "MTTA / MTTR",
+      "pl": "MTTA / MTTR"
     },
     "definition": {
       "en": "Mean time to acknowledge an alert / to restore the service. The main speed metrics of a NOC.",
@@ -2958,7 +2984,8 @@
     "term": {
       "en": "Sticky bit",
       "ru": "Sticky bit",
-      "uk": "Sticky bit"
+      "uk": "Sticky bit",
+      "pl": "Sticky bit"
     },
     "definition": {
       "en": "A permission bit on a directory (the \"t\" in drwxrwxrwt): everybody may create files, but only the owner can delete them. Used on /tmp.",
@@ -3034,7 +3061,8 @@
     "term": {
       "en": "SIGTERM / SIGKILL",
       "ru": "SIGTERM / SIGKILL",
-      "uk": "SIGTERM / SIGKILL"
+      "uk": "SIGTERM / SIGKILL",
+      "pl": "SIGTERM / SIGKILL"
     },
     "definition": {
       "en": "TERM (15) politely asks a process to finish and lets it clean up; KILL (9) is an immediate stop by the kernel without cleanup.",
@@ -3089,7 +3117,8 @@
     "term": {
       "en": "Brace expansion",
       "ru": "Раскрытие скобок",
-      "uk": "Розкриття дужок"
+      "uk": "Розкриття дужок",
+      "pl": "Rozwijanie nawiasów klamrowych"
     },
     "definition": {
       "en": "bash turns file{1,2}.txt into file1.txt file2.txt and {1..5} into 1 2 3 4 5 before running the command.",
