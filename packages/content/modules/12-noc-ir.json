@@ -5,12 +5,14 @@
   "title": {
     "en": "Incident management",
     "ru": "Управление инцидентами",
-    "uk": "Керування інцидентами"
+    "uk": "Керування інцидентами",
+    "pl": "Zarządzanie incydentami"
   },
   "description": {
     "en": "Lifecycle, runbooks, escalation, changes and rollback, postmortems.",
     "ru": "Жизненный цикл, ранбуки, эскалация, изменения и откат, постмортемы.",
-    "uk": "Життєвий цикл, ранбуки, ескалація, зміни й відкат, постмортеми."
+    "uk": "Життєвий цикл, ранбуки, ескалація, зміни й відкат, постмортеми.",
+    "pl": "Cykl życia, runbooki, eskalacja, zmiany i wycofanie, postmortemy."
   },
   "lessons": [
     {
@@ -18,7 +20,8 @@
       "title": {
         "en": "The incident lifecycle",
         "ru": "Жизненный цикл инцидента",
-        "uk": "Життєвий цикл інциденту"
+        "uk": "Життєвий цикл інциденту",
+        "pl": "Cykl życia incydentu"
       },
       "commands": [
         "cat"
@@ -29,7 +32,8 @@
           "text": {
             "en": "## Seven steps\n1. **Detect** — an alert, a customer, a colleague\n2. **Acknowledge** — \"I am on it\" in the alert tool: nobody else duplicates work, and the escalation timer stops\n3. **Assess** — what is broken, for whom, since when → **priority**\n4. **Communicate** — open a ticket / channel, the first update within minutes\n5. **Mitigate** — restore service *first* (restart, failover, rollback)\n6. **Resolve** — remove the root cause\n7. **Review** — postmortem: what we learn, what we change\n\n## Mitigate ≠ resolve\n==Mitigation== returns the service to users, ==resolution== makes sure it does not happen again. During the incident you mitigate; you resolve when users are happy again.\n\n> The first 5 minutes decide the incident: acknowledge, assess, communicate. Silence is the worst update.",
             "ru": "## Семь шагов\n1. **Обнаружить** — алерт, клиент, коллега\n2. **Подтвердить (acknowledge)** — «я занимаюсь» в системе алертов: никто не дублирует работу, таймер эскалации останавливается\n3. **Оценить** — что сломано, у кого, с какого времени → **приоритет**\n4. **Сообщить** — тикет / канал, первое обновление в течение минут\n5. **Смягчить (mitigate)** — *сначала* вернуть сервис (рестарт, переключение, откат)\n6. **Устранить (resolve)** — убрать первопричину\n7. **Разобрать** — постмортем: чему научились, что меняем\n\n## Митигация ≠ устранение\n==Митигация== возвращает сервис пользователям, ==устранение== гарантирует, что это не повторится. Во время инцидента вы смягчаете; устраняете, когда пользователи снова довольны.\n\n> Первые 5 минут решают всё: подтвердить, оценить, сообщить. Молчание — худшее обновление.",
-            "uk": "## Сім кроків\n1. **Виявити** — алерт, клієнт, колега\n2. **Підтвердити (acknowledge)** — «я займаюся» в системі алертів: ніхто не дублює роботу, таймер ескалації зупиняється\n3. **Оцінити** — що зламано, у кого, відколи → **пріоритет**\n4. **Повідомити** — тікет / канал, перше оновлення протягом хвилин\n5. **Пом’якшити (mitigate)** — *спершу* повернути сервіс (рестарт, перемикання, відкат)\n6. **Усунути (resolve)** — прибрати першопричину\n7. **Розібрати** — постмортем: чого навчилися, що змінюємо\n\n## Мітигація ≠ усунення\n==Мітигація== повертає сервіс користувачам, ==усунення== гарантує, що це не повториться. Під час інциденту ви пом’якшуєте; усуваєте, коли користувачі знову задоволені.\n\n> Перші 5 хвилин вирішують усе: підтвердити, оцінити, повідомити. Мовчання — найгірше оновлення."
+            "uk": "## Сім кроків\n1. **Виявити** — алерт, клієнт, колега\n2. **Підтвердити (acknowledge)** — «я займаюся» в системі алертів: ніхто не дублює роботу, таймер ескалації зупиняється\n3. **Оцінити** — що зламано, у кого, відколи → **пріоритет**\n4. **Повідомити** — тікет / канал, перше оновлення протягом хвилин\n5. **Пом’якшити (mitigate)** — *спершу* повернути сервіс (рестарт, перемикання, відкат)\n6. **Усунути (resolve)** — прибрати першопричину\n7. **Розібрати** — постмортем: чого навчилися, що змінюємо\n\n## Мітигація ≠ усунення\n==Мітигація== повертає сервіс користувачам, ==усунення== гарантує, що це не повториться. Під час інциденту ви пом’якшуєте; усуваєте, коли користувачі знову задоволені.\n\n> Перші 5 хвилин вирішують усе: підтвердити, оцінити, повідомити. Мовчання — найгірше оновлення.",
+            "pl": "## Siedem kroków\n1. **Wykryj** — alert, klient, kolega\n2. **Potwierdź** — „zajmuję się tym” w narzędziu do alertów: nikt nie dubluje pracy, a licznik eskalacji staje\n3. **Oceń** — co jest zepsute, dla kogo, od kiedy → **priorytet**\n4. **Komunikuj** — otwórz zgłoszenie / kanał, pierwsza aktualizacja w ciągu kilku minut\n5. **Mityguj** — *najpierw* przywróć usługę (restart, przełączenie, wycofanie)\n6. **Rozwiąż** — usuń przyczynę źródłową\n7. **Omów** — postmortem: czego się uczymy, co zmieniamy\n\n## Mitygacja ≠ rozwiązanie\n==Mitygacja== oddaje usługę użytkownikom, ==rozwiązanie== sprawia, że to się nie powtórzy. W trakcie incydentu mitygujesz; rozwiązujesz, gdy użytkownicy znów są zadowoleni.\n\n> Pierwsze 5 minut decyduje o incydencie: potwierdź, oceń, komunikuj. Cisza to najgorsza aktualizacja."
           },
           "title": {
             "en": "From alert to postmortem",
@@ -44,23 +48,27 @@
           "question": {
             "en": "An alert fires at 03:00. What do you do FIRST?",
             "ru": "Алерт сработал в 03:00. Что вы делаете ПЕРВЫМ?",
-            "uk": "Алерт спрацював о 03:00. Що ви робите ПЕРШИМ?"
+            "uk": "Алерт спрацював о 03:00. Що ви робите ПЕРШИМ?",
+            "pl": "Alert odpala się o 03:00. Co robisz NAJPIERW?"
           },
           "options": [
             {
               "en": "Acknowledge it, so the team knows someone is on it",
               "ru": "Подтверждаю (ack), чтобы команда знала, что им занимаются",
-              "uk": "Підтверджую (ack), щоб команда знала, що ним займаються"
+              "uk": "Підтверджую (ack), щоб команда знала, що ним займаються",
+              "pl": "Potwierdzam go, żeby zespół wiedział, że ktoś się tym zajmuje"
             },
             {
               "en": "Start rewriting the config",
               "ru": "Начинаю переписывать конфиг",
-              "uk": "Починаю переписувати конфіг"
+              "uk": "Починаю переписувати конфіг",
+              "pl": "Zaczynam przepisywać konfigurację"
             },
             {
               "en": "Wait to see if it resolves itself",
               "ru": "Жду, вдруг само пройдёт",
-              "uk": "Чекаю, раптом саме мине"
+              "uk": "Чекаю, раптом саме мине",
+              "pl": "Czekam, czy samo się rozwiąże"
             }
           ],
           "answer": 0
@@ -70,23 +78,27 @@
           "question": {
             "en": "The database is slow; you switch traffic to the replica and users are fine. What did you just do?",
             "ru": "База тормозит; вы переключили трафик на реплику, и пользователям хорошо. Что вы сделали?",
-            "uk": "База гальмує; ви перемкнули трафік на репліку, і користувачам добре. Що ви зробили?"
+            "uk": "База гальмує; ви перемкнули трафік на репліку, і користувачам добре. Що ви зробили?",
+            "pl": "Baza danych zwalnia; przełączasz ruch na replikę i użytkownikom jest dobrze. Co właśnie zrobiłeś?"
           },
           "options": [
             {
               "en": "Mitigation — the root cause is still there",
               "ru": "Митигацию — первопричина осталась",
-              "uk": "Мітигацію — першопричина залишилася"
+              "uk": "Мітигацію — першопричина залишилася",
+              "pl": "Mitygację — przyczyna źródłowa wciąż jest"
             },
             {
               "en": "Resolution — the incident is closed forever",
               "ru": "Устранение — инцидент закрыт навсегда",
-              "uk": "Усунення — інцидент закрито назавжди"
+              "uk": "Усунення — інцидент закрито назавжди",
+              "pl": "Rozwiązanie — incydent zamknięty na zawsze"
             },
             {
               "en": "A postmortem",
               "ru": "Постмортем",
-              "uk": "Постмортем"
+              "uk": "Постмортем",
+              "pl": "Postmortem"
             }
           ],
           "answer": 0
@@ -96,30 +108,35 @@
           "question": {
             "en": "Which update to stakeholders is best?",
             "ru": "Какое обновление для заинтересованных лучше?",
-            "uk": "Яке оновлення для зацікавлених найкраще?"
+            "uk": "Яке оновлення для зацікавлених найкраще?",
+            "pl": "Która aktualizacja dla interesariuszy jest najlepsza?"
           },
           "options": [
             {
               "en": "\"11:10 UTC: checkout returns errors for ~30% of users. Cause under investigation (nginx/api). Next update 11:25.\"",
               "ru": "«11:10 UTC: оформление заказа выдаёт ошибки ~30% пользователей. Причину ищем (nginx/api). Следующее обновление в 11:25.»",
-              "uk": "«11:10 UTC: оформлення замовлення видає помилки ~30% користувачів. Причину шукаємо (nginx/api). Наступне оновлення об 11:25.»"
+              "uk": "«11:10 UTC: оформлення замовлення видає помилки ~30% користувачів. Причину шукаємо (nginx/api). Наступне оновлення об 11:25.»",
+              "pl": "„11:10 UTC: finalizacja zamówienia zwraca błędy u ~30% użytkowników. Przyczyna w trakcie ustalania (nginx/api). Następna aktualizacja 11:25.”"
             },
             {
               "en": "\"Something is broken, working on it\"",
               "ru": "«Что-то сломалось, работаем»",
-              "uk": "«Щось зламалося, працюємо»"
+              "uk": "«Щось зламалося, працюємо»",
+              "pl": "„Coś się zepsuło, pracujemy nad tym”"
             },
             {
               "en": "\"The upstream returns 502 because of ECONNRESET in pool 20/20\"",
               "ru": "«upstream отдаёт 502 из-за ECONNRESET в pool 20/20»",
-              "uk": "«upstream віддає 502 через ECONNRESET у pool 20/20»"
+              "uk": "«upstream віддає 502 через ECONNRESET у pool 20/20»",
+              "pl": "„Upstream zwraca 502 przez ECONNRESET w puli 20/20”"
             }
           ],
           "answer": 0,
           "explanation": {
             "en": "Impact, time, current status and when the next update comes — in plain language.",
             "ru": "Влияние, время, текущий статус и когда будет следующее обновление — простым языком.",
-            "uk": "Вплив, час, поточний статус і коли буде наступне оновлення — простою мовою."
+            "uk": "Вплив, час, поточний статус і коли буде наступне оновлення — простою мовою.",
+            "pl": "Wpływ, czas, obecny stan i kiedy będzie następna aktualizacja — prostym językiem."
           }
         }
       ]
@@ -129,7 +146,8 @@
       "title": {
         "en": "Following a runbook",
         "ru": "Работа по ранбуку",
-        "uk": "Робота за ранбуком"
+        "uk": "Робота за ранбуком",
+        "pl": "Praca według runbooka"
       },
       "commands": [
         "cat",
@@ -435,12 +453,14 @@
           "text": {
             "en": "## Runbook = a recipe for a known problem\nA good runbook has:\n- **when to use** it (which alert)\n- **numbered steps** with exact commands\n- the **expected result** of each step\n- **when to escalate** and to whom\n\nYou are on call. Ticket INC-2041 says \"Shop is down\". The runbook is in `~/runbooks/website-down.md`, the ticket in `~/tickets/INC-2041.txt`.\n\n> Follow the steps in order and write what you saw. \"Step 2: nginx inactive since 11:02\" helps the next person more than \"fixed it\".",
             "ru": "## Ранбук — рецепт для известной проблемы\nВ хорошем ранбуке есть:\n- **когда применять** (какой алерт)\n- **пронумерованные шаги** с точными командами\n- **ожидаемый результат** каждого шага\n- **когда эскалировать** и кому\n\nВы на дежурстве. Тикет INC-2041: «Магазин лежит». Ранбук — в `~/runbooks/website-down.md`, тикет — в `~/tickets/INC-2041.txt`.\n\n> Идите по шагам по порядку и записывайте, что увидели. «Шаг 2: nginx inactive с 11:02» полезнее следующему человеку, чем «починил».",
-            "uk": "## Ранбук — рецепт для відомої проблеми\nУ хорошому ранбуці є:\n- **коли застосовувати** (який алерт)\n- **пронумеровані кроки** з точними командами\n- **очікуваний результат** кожного кроку\n- **коли ескалювати** і кому\n\nВи на чергуванні. Тікет INC-2041: «Магазин лежить». Ранбук — у `~/runbooks/website-down.md`, тікет — у `~/tickets/INC-2041.txt`.\n\n> Ідіть кроками по черзі й записуйте, що побачили. «Крок 2: nginx inactive з 11:02» корисніше наступній людині, ніж «полагодив»."
+            "uk": "## Ранбук — рецепт для відомої проблеми\nУ хорошому ранбуці є:\n- **коли застосовувати** (який алерт)\n- **пронумеровані кроки** з точними командами\n- **очікуваний результат** кожного кроку\n- **коли ескалювати** і кому\n\nВи на чергуванні. Тікет INC-2041: «Магазин лежить». Ранбук — у `~/runbooks/website-down.md`, тікет — у `~/tickets/INC-2041.txt`.\n\n> Ідіть кроками по черзі й записуйте, що побачили. «Крок 2: nginx inactive з 11:02» корисніше наступній людині, ніж «полагодив».",
+            "pl": "## Runbook = przepis na znany problem\nDobry runbook zawiera:\n- **kiedy go użyć** (który alert)\n- **ponumerowane kroki** z dokładnymi poleceniami\n- **oczekiwany wynik** każdego kroku\n- **kiedy eskalować** i do kogo\n\nMasz dyżur. Zgłoszenie INC-2041 mówi „Sklep nie działa”. Runbook jest w `~/runbooks/website-down.md`, zgłoszenie w `~/tickets/INC-2041.txt`.\n\n> Wykonuj kroki po kolei i zapisuj, co widziałeś. „Krok 2: nginx inactive od 11:02” pomaga następnej osobie bardziej niż „naprawione”."
           },
           "title": {
             "en": "INC-2041: shop is down",
             "ru": "INC-2041: магазин лежит",
-            "uk": "INC-2041: магазин лежить"
+            "uk": "INC-2041: магазин лежить",
+            "pl": "INC-2041: sklep nie działa"
           },
           "terminal": false
         },
@@ -449,7 +469,8 @@
           "goal": {
             "en": "Read the runbook for \"website down\".",
             "ru": "Прочитайте ранбук «сайт не работает».",
-            "uk": "Прочитайте ранбук «сайт не працює»."
+            "uk": "Прочитайте ранбук «сайт не працює».",
+            "pl": "Przeczytaj runbook „strona nie działa”."
           },
           "checks": [
             {
@@ -458,7 +479,8 @@
               "label": {
                 "en": "cat the runbook",
                 "ru": "cat ранбука",
-                "uk": "cat ранбука"
+                "uk": "cat ранбука",
+                "pl": "cat runbooka"
               }
             },
             {
@@ -467,7 +489,8 @@
               "label": {
                 "en": "Escalate to L2 is visible",
                 "ru": "Видно «Escalate to L2»",
-                "uk": "Видно «Escalate to L2»"
+                "uk": "Видно «Escalate to L2»",
+                "pl": "Widać eskalację do L2"
               }
             }
           ],
@@ -489,7 +512,8 @@
           "goal": {
             "en": "Step 1: confirm the problem — request http://localhost.",
             "ru": "Шаг 1: подтвердите проблему — запросите http://localhost.",
-            "uk": "Крок 1: підтвердіть проблему — запитайте http://localhost."
+            "uk": "Крок 1: підтвердіть проблему — запитайте http://localhost.",
+            "pl": "Krok 1: potwierdź problem — zażądaj http://localhost."
           },
           "checks": [
             {
@@ -531,7 +555,8 @@
           "goal": {
             "en": "Step 2: is nginx running? Check its status.",
             "ru": "Шаг 2: работает ли nginx? Проверьте статус.",
-            "uk": "Крок 2: чи працює nginx? Перевірте статус."
+            "uk": "Крок 2: чи працює nginx? Перевірте статус.",
+            "pl": "Krok 2: czy nginx działa? Sprawdź jego status."
           },
           "checks": [
             {
@@ -577,7 +602,8 @@
           "goal": {
             "en": "nginx was stopped cleanly (not crashed). Start it and confirm the site answers 200.",
             "ru": "nginx был остановлен штатно (не упал). Запустите его и убедитесь, что сайт отвечает 200.",
-            "uk": "nginx було зупинено штатно (не впав). Запустіть його й переконайтеся, що сайт відповідає 200."
+            "uk": "nginx було зупинено штатно (не впав). Запустіть його й переконайтеся, що сайт відповідає 200.",
+            "pl": "nginx został zatrzymany normalnie (nie padł). Uruchom go i potwierdź, że strona odpowiada 200."
           },
           "checks": [
             {
@@ -597,7 +623,8 @@
               "label": {
                 "en": "Verify with curl",
                 "ru": "Проверьте через curl",
-                "uk": "Перевірте через curl"
+                "uk": "Перевірте через curl",
+                "pl": "Sprawdź przez curl"
               }
             },
             {
@@ -630,7 +657,8 @@
           "goal": {
             "en": "Write the result into the ticket: append a line with \"nginx was stopped\" and \"started\" to ~/tickets/INC-2041.txt.",
             "ru": "Запишите результат в тикет: допишите строку со словами «nginx was stopped» и «started» в ~/tickets/INC-2041.txt.",
-            "uk": "Запишіть результат у тікет: допишіть рядок зі словами «nginx was stopped» і «started» у ~/tickets/INC-2041.txt."
+            "uk": "Запишіть результат у тікет: допишіть рядок зі словами «nginx was stopped» і «started» у ~/tickets/INC-2041.txt.",
+            "pl": "Zapisz wynik w zgłoszeniu: dopisz do ~/tickets/INC-2041.txt wiersz ze słowami „nginx was stopped” i „started”."
           },
           "checks": [
             {
@@ -640,7 +668,8 @@
               "label": {
                 "en": "The original ticket text is kept",
                 "ru": "Исходный текст тикета сохранён",
-                "uk": "Початковий текст тікета збережено"
+                "uk": "Початковий текст тікета збережено",
+                "pl": "Pierwotny tekst zgłoszenia zachowany"
               }
             },
             {
@@ -650,7 +679,8 @@
               "label": {
                 "en": "\"nginx was stopped\" is written",
                 "ru": "Записано «nginx was stopped»",
-                "uk": "Записано «nginx was stopped»"
+                "uk": "Записано «nginx was stopped»",
+                "pl": "Zapisano „nginx was stopped”"
               }
             },
             {
@@ -660,7 +690,8 @@
               "label": {
                 "en": "\"started\" is written",
                 "ru": "Записано «started»",
-                "uk": "Записано «started»"
+                "uk": "Записано «started»",
+                "pl": "Zapisano „started”"
               }
             }
           ],
@@ -668,7 +699,8 @@
             "direction": {
               "en": "echo \"...\" >> FILE  (two > !)",
               "ru": "echo \"...\" >> ФАЙЛ  (два > !)",
-              "uk": "echo \"...\" >> ФАЙЛ  (два > !)"
+              "uk": "echo \"...\" >> ФАЙЛ  (два > !)",
+              "pl": "echo \"...\" >> PLIK  (dwa > !)"
             },
             "command": "echo"
           },
@@ -682,23 +714,27 @@
           "question": {
             "en": "nginx was stopped cleanly by someone. What else belongs in the ticket?",
             "ru": "Кто-то штатно остановил nginx. Что ещё стоит записать в тикет?",
-            "uk": "Хтось штатно зупинив nginx. Що ще варто записати в тікет?"
+            "uk": "Хтось штатно зупинив nginx. Що ще варто записати в тікет?",
+            "pl": "Ktoś normalnie zatrzymał nginx. Co jeszcze należy zapisać w zgłoszeniu?"
           },
           "options": [
             {
               "en": "A follow-up: find out who stopped it and why (auth.log, change calendar)",
               "ru": "Задачу на потом: выяснить, кто и зачем его остановил (auth.log, календарь изменений)",
-              "uk": "Задачу на потім: з’ясувати, хто і навіщо його зупинив (auth.log, календар змін)"
+              "uk": "Задачу на потім: з’ясувати, хто і навіщо його зупинив (auth.log, календар змін)",
+              "pl": "Zadanie na później: ustalić, kto i po co go zatrzymał (auth.log, kalendarz zmian)"
             },
             {
               "en": "Nothing — it works now",
               "ru": "Ничего — сейчас всё работает",
-              "uk": "Нічого — зараз усе працює"
+              "uk": "Нічого — зараз усе працює",
+              "pl": "Nic — teraz działa"
             },
             {
               "en": "The root password",
               "ru": "Пароль root",
-              "uk": "Пароль root"
+              "uk": "Пароль root",
+              "pl": "Hasło roota"
             }
           ],
           "answer": 0
@@ -724,7 +760,8 @@
           "text": {
             "en": "## Escalation is not a failure\nL1 (NOC) sees everything but has limited rights and knowledge of each system. L2/L3 are the experts. **Escalating on time is part of the job.**\n\n## When to escalate\n- the runbook ends and the service is still down\n- the timer in the runbook expired (e.g. 15 minutes)\n- the fix needs rights you don't have, or is risky (DB, data deletion)\n- P1 — inform the duty manager immediately, even if you are fixing it\n\n## How to escalate\nA good handover answers before being asked:\n```\nINC-2041 P1, shop down since 11:02 UTC.\nChecked: nginx inactive; started it; 200 again 11:12.\nUnclear: who stopped it. Need: L2 web to review.\n```\n> Never escalate with \"it does not work\". Say what you saw, what you did, what you need.",
             "ru": "## Эскалация — не провал\nL1 (NOC) видит всё, но у него ограничены права и знание каждой системы. L2/L3 — эксперты. **Вовремя эскалировать — часть работы.**\n\n## Когда эскалировать\n- ранбук закончился, а сервис всё ещё лежит\n- истёк таймер из ранбука (например, 15 минут)\n- для исправления нужны права, которых у вас нет, или это рискованно (БД, удаление данных)\n- P1 — сразу сообщить дежурному менеджеру, даже если вы уже чините\n\n## Как эскалировать\nХорошая передача отвечает на вопросы до того, как их зададут:\n```\nINC-2041 P1, магазин лежит с 11:02 UTC.\nПроверил: nginx inactive; запустил; 200 снова в 11:12.\nНеясно: кто его остановил. Нужно: L2 web посмотреть.\n```\n> Никогда не эскалируйте словами «не работает». Скажите, что видели, что сделали, что нужно.",
-            "uk": "## Ескалація — не провал\nL1 (NOC) бачить усе, але має обмежені права й знання кожної системи. L2/L3 — експерти. **Вчасно ескалювати — частина роботи.**\n\n## Коли ескалювати\n- ранбук закінчився, а сервіс усе ще лежить\n- сплив таймер із ранбука (наприклад, 15 хвилин)\n- для виправлення потрібні права, яких у вас немає, або це ризиковано (БД, видалення даних)\n- P1 — одразу повідомити черговому менеджеру, навіть якщо ви вже лагодите\n\n## Як ескалювати\nХороша передача відповідає на питання до того, як їх поставлять:\n```\nINC-2041 P1, магазин лежить з 11:02 UTC.\nПеревірив: nginx inactive; запустив; 200 знову об 11:12.\nНезрозуміло: хто його зупинив. Потрібно: L2 web подивитися.\n```\n> Ніколи не ескалюйте словами «не працює». Скажіть, що бачили, що зробили, що потрібно."
+            "uk": "## Ескалація — не провал\nL1 (NOC) бачить усе, але має обмежені права й знання кожної системи. L2/L3 — експерти. **Вчасно ескалювати — частина роботи.**\n\n## Коли ескалювати\n- ранбук закінчився, а сервіс усе ще лежить\n- сплив таймер із ранбука (наприклад, 15 хвилин)\n- для виправлення потрібні права, яких у вас немає, або це ризиковано (БД, видалення даних)\n- P1 — одразу повідомити черговому менеджеру, навіть якщо ви вже лагодите\n\n## Як ескалювати\nХороша передача відповідає на питання до того, як їх поставлять:\n```\nINC-2041 P1, магазин лежить з 11:02 UTC.\nПеревірив: nginx inactive; запустив; 200 знову об 11:12.\nНезрозуміло: хто його зупинив. Потрібно: L2 web подивитися.\n```\n> Ніколи не ескалюйте словами «не працює». Скажіть, що бачили, що зробили, що потрібно.",
+            "pl": "## Eskalacja to nie porażka\nL1 (NOC) widzi wszystko, ale ma ograniczone uprawnienia i wiedzę o każdym systemie. L2/L3 to eksperci. **Eskalacja na czas to część pracy.**\n\n## Kiedy eskalować\n- runbook się skończył, a usługa wciąż leży\n- minął czas z runbooka (np. 15 minut)\n- naprawa wymaga uprawnień, których nie masz, albo jest ryzykowna (baza, usuwanie danych)\n- P1 — natychmiast poinformuj kierownika zmiany, nawet jeśli naprawiasz\n\n## Jak eskalować\nDobre przekazanie odpowiada, zanim ktoś zapyta:\n```\nINC-2041 P1, shop down since 11:02 UTC.\nChecked: nginx inactive; started it; 200 again 11:12.\nUnclear: who stopped it. Need: L2 web to review.\n```\n> Nigdy nie eskaluj słowami „nie działa”. Powiedz, co widziałeś, co zrobiłeś, czego potrzebujesz."
           },
           "title": {
             "en": "L1 → L2 → L3",
@@ -739,7 +776,8 @@
           "goal": {
             "en": "The database looks broken. Find out who is the L2 on call for the DB in ~/notes/oncall.txt.",
             "ru": "Похоже, сломана база. Узнайте, кто дежурный L2 по БД, в ~/notes/oncall.txt.",
-            "uk": "Схоже, зламано базу. Дізнайтеся, хто черговий L2 з БД, у ~/notes/oncall.txt."
+            "uk": "Схоже, зламано базу. Дізнайтеся, хто черговий L2 з БД, у ~/notes/oncall.txt.",
+            "pl": "Wygląda na to, że baza danych jest zepsuta. Znajdź w ~/notes/oncall.txt, kto ma dyżur L2 od baz danych."
           },
           "checks": [
             {
@@ -748,7 +786,8 @@
               "label": {
                 "en": "grep the notes",
                 "ru": "grep по заметкам",
-                "uk": "grep по нотатках"
+                "uk": "grep по нотатках",
+                "pl": "grep w notatkach"
               }
             },
             {
@@ -780,7 +819,8 @@
           "goal": {
             "en": "How fast must a P2 be picked up? Find the line about severity.",
             "ru": "Как быстро нужно взять в работу P2? Найдите строку про severity.",
-            "uk": "Як швидко потрібно взяти в роботу P2? Знайдіть рядок про severity."
+            "uk": "Як швидко потрібно взяти в роботу P2? Знайдіть рядок про severity.",
+            "pl": "Jak szybko trzeba podjąć P2? Znajdź wiersz o priorytetach (severity)."
           },
           "checks": [
             {
@@ -822,18 +862,21 @@
           "question": {
             "en": "The runbook says \"escalate after 15 minutes\". It is minute 14 and you have an idea that might work. What do you do?",
             "ru": "В ранбуке «эскалировать через 15 минут». Идёт 14-я минута, и у вас есть идея, которая может сработать. Что делать?",
-            "uk": "У ранбуці «ескалювати через 15 хвилин». Іде 14-та хвилина, і у вас є ідея, яка може спрацювати. Що робити?"
+            "uk": "У ранбуці «ескалювати через 15 хвилин». Іде 14-та хвилина, і у вас є ідея, яка може спрацювати. Що робити?",
+            "pl": "Runbook mówi „eskaluj po 15 minutach”. Jest 14. minuta, a Ty masz pomysł, który może zadziałać. Co robisz?"
           },
           "options": [
             {
               "en": "Escalate now and mention the idea — L2 decides together with you",
               "ru": "Эскалировать сейчас и упомянуть идею — L2 решит вместе с вами",
-              "uk": "Ескалювати зараз і згадати ідею — L2 вирішить разом із вами"
+              "uk": "Ескалювати зараз і згадати ідею — L2 вирішить разом із вами",
+              "pl": "Eskaluję teraz i wspominam o pomyśle — L2 zdecyduje razem ze mną"
             },
             {
               "en": "Keep trying for another hour",
               "ru": "Пробовать ещё час",
-              "uk": "Пробувати ще годину"
+              "uk": "Пробувати ще годину",
+              "pl": "Próbuję jeszcze godzinę"
             },
             {
               "en": "Close the ticket",
@@ -849,23 +892,27 @@
           "question": {
             "en": "Which handover message is useful for L2?",
             "ru": "Какое сообщение при передаче полезно L2?",
-            "uk": "Яке повідомлення при передачі корисне L2?"
+            "uk": "Яке повідомлення при передачі корисне L2?",
+            "pl": "Która wiadomość przy przekazaniu jest przydatna dla L2?"
           },
           "options": [
             {
               "en": "\"P2: api 500s since 10:50, db pool 20/20 in api.log, restart helped for 5 min, need DB check\"",
               "ru": "«P2: api 500 с 10:50, в api.log db pool 20/20, рестарт помог на 5 мин, нужна проверка БД»",
-              "uk": "«P2: api 500 з 10:50, в api.log db pool 20/20, рестарт допоміг на 5 хв, потрібна перевірка БД»"
+              "uk": "«P2: api 500 з 10:50, в api.log db pool 20/20, рестарт допоміг на 5 хв, потрібна перевірка БД»",
+              "pl": "„P2: api 500 od 10:50, w api.log pula db 20/20, restart pomógł na 5 min, potrzebne sprawdzenie bazy”"
             },
             {
               "en": "\"API is broken, please help\"",
               "ru": "«API сломан, помогите»",
-              "uk": "«API зламано, допоможіть»"
+              "uk": "«API зламано, допоможіть»",
+              "pl": "„API jest zepsute, pomocy”"
             },
             {
               "en": "\"???\"",
               "ru": "«???»",
-              "uk": "«???»"
+              "uk": "«???»",
+              "pl": "„???”"
             }
           ],
           "answer": 0
@@ -877,7 +924,8 @@
       "title": {
         "en": "Changes and rollback",
         "ru": "Изменения и откат",
-        "uk": "Зміни та відкат"
+        "uk": "Зміни та відкат",
+        "pl": "Zmiany i wycofanie"
       },
       "commands": [
         "diff",
@@ -1188,12 +1236,14 @@
           "text": {
             "en": "## Most outages follow a change\nDeploys, config edits, network changes. So the first question in an incident is: **what changed recently?**\n\n## Change management in short\n- every change has a ticket (CHG-…) with time, owner and a **rollback plan**\n- risky changes happen in a maintenance window\n- after the change: verify (curl, status, dashboards)\n\n## Rollback first, debug later\nIf an incident starts right after a change, the fastest mitigation is usually to **roll it back**. Find out *why* it broke afterwards, calmly.\n```\n$ diff /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf\n$ sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf\n```\n> `diff OLD NEW`: lines with `<` are only in OLD, lines with `>` only in NEW.",
             "ru": "## Большинство аварий следует за изменением\nДеплои, правки конфигов, изменения сети. Поэтому первый вопрос в инциденте: **что недавно менялось?**\n\n## Управление изменениями вкратце\n- у каждого изменения есть тикет (CHG-…) со временем, ответственным и **планом отката**\n- рискованные изменения делают в окно обслуживания\n- после изменения — проверка (curl, status, дашборды)\n\n## Сначала откат, разбор потом\nЕсли инцидент начался сразу после изменения, самая быстрая митигация — обычно **откатить** его. Почему сломалось — выясняйте потом, спокойно.\n```\n$ diff /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf\n$ sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf\n```\n> `diff СТАРЫЙ НОВЫЙ`: строки с `<` есть только в СТАРОМ, строки с `>` — только в НОВОМ.",
-            "uk": "## Більшість аварій іде за зміною\nДеплої, правки конфігів, зміни мережі. Тому перше питання в інциденті: **що нещодавно змінювалося?**\n\n## Керування змінами коротко\n- кожна зміна має тікет (CHG-…) з часом, відповідальним і **планом відкату**\n- ризиковані зміни роблять у вікно обслуговування\n- після зміни — перевірка (curl, status, дашборди)\n\n## Спершу відкат, розбір потім\nЯкщо інцидент почався одразу після зміни, найшвидша мітигація — зазвичай **відкотити** її. Чому зламалося — з’ясовуйте потім, спокійно.\n```\n$ diff /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf\n$ sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf\n```\n> `diff СТАРИЙ НОВИЙ`: рядки з `<` є лише в СТАРОМУ, рядки з `>` — лише в НОВОМУ."
+            "uk": "## Більшість аварій іде за зміною\nДеплої, правки конфігів, зміни мережі. Тому перше питання в інциденті: **що нещодавно змінювалося?**\n\n## Керування змінами коротко\n- кожна зміна має тікет (CHG-…) з часом, відповідальним і **планом відкату**\n- ризиковані зміни роблять у вікно обслуговування\n- після зміни — перевірка (curl, status, дашборди)\n\n## Спершу відкат, розбір потім\nЯкщо інцидент почався одразу після зміни, найшвидша мітигація — зазвичай **відкотити** її. Чому зламалося — з’ясовуйте потім, спокійно.\n```\n$ diff /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf\n$ sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf\n```\n> `diff СТАРИЙ НОВИЙ`: рядки з `<` є лише в СТАРОМУ, рядки з `>` — лише в НОВОМУ.",
+            "pl": "## Większość awarii następuje po zmianie\nWdrożenia, edycje konfiguracji, zmiany w sieci. Dlatego pierwsze pytanie przy incydencie brzmi: **co się ostatnio zmieniło?**\n\n## Zarządzanie zmianami w skrócie\n- każda zmiana ma zgłoszenie (CHG-…) z czasem, właścicielem i **planem wycofania**\n- ryzykowne zmiany wykonuje się w oknie serwisowym\n- po zmianie: sprawdź (curl, status, dashboardy)\n\n## Najpierw wycofaj, potem debuguj\nJeśli incydent zaczyna się tuż po zmianie, najszybszą mitygacją jest zwykle jej **wycofanie**. *Dlaczego* się zepsuło — ustalisz potem, na spokojnie.\n```\n$ diff /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf\n$ sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf\n```\n> `diff STARY NOWY`: wiersze z `<` są tylko w STARYM, wiersze z `>` tylko w NOWYM."
           },
           "title": {
             "en": "What changed?",
             "ru": "Что поменялось?",
-            "uk": "Що змінилося?"
+            "uk": "Що змінилося?",
+            "pl": "Co się zmieniło?"
           },
           "terminal": false
         },
@@ -1202,7 +1252,8 @@
           "goal": {
             "en": "nginx is down after change CHG-118. Read the change ticket in ~/tickets.",
             "ru": "nginx лежит после изменения CHG-118. Прочитайте тикет изменения в ~/tickets.",
-            "uk": "nginx лежить після зміни CHG-118. Прочитайте тікет зміни в ~/tickets."
+            "uk": "nginx лежить після зміни CHG-118. Прочитайте тікет зміни в ~/tickets.",
+            "pl": "nginx leży po zmianie CHG-118. Przeczytaj zgłoszenie zmiany w ~/tickets."
           },
           "checks": [
             {
@@ -1211,7 +1262,8 @@
               "label": {
                 "en": "cat the ticket",
                 "ru": "cat тикета",
-                "uk": "cat тікета"
+                "uk": "cat тікета",
+                "pl": "cat zgłoszenia"
               }
             },
             {
@@ -1220,7 +1272,8 @@
               "label": {
                 "en": "Rollback plan is visible",
                 "ru": "Виден Rollback plan",
-                "uk": "Видно Rollback plan"
+                "uk": "Видно Rollback plan",
+                "pl": "Widać plan wycofania"
               }
             }
           ],
@@ -1242,7 +1295,8 @@
           "goal": {
             "en": "Compare the backup with the current config: what exactly changed?",
             "ru": "Сравните резервную копию с текущим конфигом: что именно поменялось?",
-            "uk": "Порівняйте резервну копію з поточним конфігом: що саме змінилося?"
+            "uk": "Порівняйте резервну копію з поточним конфігом: що саме змінилося?",
+            "pl": "Porównaj kopię zapasową z obecną konfiguracją: co dokładnie się zmieniło?"
           },
           "checks": [
             {
@@ -1251,7 +1305,8 @@
               "label": {
                 "en": "diff OLD NEW",
                 "ru": "diff СТАРЫЙ НОВЫЙ",
-                "uk": "diff СТАРИЙ НОВИЙ"
+                "uk": "diff СТАРИЙ НОВИЙ",
+                "pl": "diff STARY NOWY"
               }
             },
             {
@@ -1260,7 +1315,8 @@
               "label": {
                 "en": "The proxy_pass line differs",
                 "ru": "Отличается строка proxy_pass",
-                "uk": "Відрізняється рядок proxy_pass"
+                "uk": "Відрізняється рядок proxy_pass",
+                "pl": "Wiersz proxy_pass się różni"
               }
             }
           ],
@@ -1591,7 +1647,8 @@
           "explanation": {
             "en": "\"10c10\": line 10 of the old file was changed into line 10 of the new one.",
             "ru": "«10c10»: строка 10 старого файла заменена строкой 10 нового.",
-            "uk": "«10c10»: рядок 10 старого файлу замінено рядком 10 нового."
+            "uk": "«10c10»: рядок 10 старого файлу замінено рядком 10 нового.",
+            "pl": "„10c10”: wiersz 10 starego pliku zmieniono na wiersz 10 nowego."
           }
         },
         {
@@ -1599,7 +1656,8 @@
           "goal": {
             "en": "Execute the rollback plan and verify the shop answers 200.",
             "ru": "Выполните план отката и убедитесь, что магазин отвечает 200.",
-            "uk": "Виконайте план відкату й переконайтеся, що магазин відповідає 200."
+            "uk": "Виконайте план відкату й переконайтеся, що магазин відповідає 200.",
+            "pl": "Wykonaj plan wycofania i sprawdź, że sklep odpowiada 200."
           },
           "instructions": {
             "en": "1. `sudo cp /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf`\n2. `sudo systemctl restart nginx`\n3. `curl -I http://localhost`",
@@ -1662,23 +1720,27 @@
           "question": {
             "en": "A deploy 5 minutes ago, now 5xx errors. Fastest safe mitigation?",
             "ru": "Деплой 5 минут назад, теперь ошибки 5xx. Самая быстрая безопасная митигация?",
-            "uk": "Деплой 5 хвилин тому, тепер помилки 5xx. Найшвидша безпечна мітигація?"
+            "uk": "Деплой 5 хвилин тому, тепер помилки 5xx. Найшвидша безпечна мітигація?",
+            "pl": "Wdrożenie 5 minut temu, teraz błędy 5xx. Najszybsza bezpieczna mitygacja?"
           },
           "options": [
             {
               "en": "Roll back the deploy",
               "ru": "Откатить деплой",
-              "uk": "Відкотити деплой"
+              "uk": "Відкотити деплой",
+              "pl": "Wycofać wdrożenie"
             },
             {
               "en": "Debug the new code on production",
               "ru": "Отлаживать новый код на продакшене",
-              "uk": "Налагоджувати новий код на продакшені"
+              "uk": "Налагоджувати новий код на продакшені",
+              "pl": "Debugować nowy kod na produkcji"
             },
             {
               "en": "Reboot all servers",
               "ru": "Перезагрузить все серверы",
-              "uk": "Перезавантажити всі сервери"
+              "uk": "Перезавантажити всі сервери",
+              "pl": "Zrestartować wszystkie serwery"
             }
           ],
           "answer": 0
@@ -1690,7 +1752,8 @@
       "title": {
         "en": "Postmortem and 5 whys",
         "ru": "Постмортем и 5 почему",
-        "uk": "Постмортем і 5 чому"
+        "uk": "Постмортем і 5 чому",
+        "pl": "Postmortem i 5 dlaczego"
       },
       "commands": [
         "cat"
@@ -1701,12 +1764,14 @@
           "text": {
             "en": "## A blameless postmortem\nAfter every serious incident the team writes a short document. **Blameless** means: we look for weak spots in the *system*, not for a guilty person. People who are afraid hide information.\n\n## Structure\n1. **Summary** — 2–3 sentences: what, how long, impact\n2. **Timeline** — from the first signal to recovery (UTC)\n3. **Root cause** — found with \"5 whys\"\n4. **What went well / badly**\n5. **Action items** — concrete tasks with an owner and a date\n\n## 5 whys — example\n1. Why was the shop down? — nginx did not start.\n2. Why? — a syntax error in nginx.conf.\n3. Why did it get to production? — the config was not tested before restart.\n4. Why not? — there is no `nginx -t` step in the change procedure.\n5. Why? — the procedure was written before we used nginx.\n\n**Action item:** add `nginx -t` to the change checklist; CI check for configs.\n\n> \"Be more careful\" is not an action item. An action item changes the system.",
             "ru": "## Постмортем без поиска виноватых\nПосле каждого серьёзного инцидента команда пишет короткий документ. **Blameless** значит: ищем слабые места в *системе*, а не виноватого человека. Люди, которые боятся, скрывают информацию.\n\n## Структура\n1. **Кратко** — 2–3 предложения: что, сколько длилось, влияние\n2. **Таймлайн** — от первого сигнала до восстановления (UTC)\n3. **Первопричина** — найдена через «5 почему»\n4. **Что прошло хорошо / плохо**\n5. **Задачи (action items)** — конкретные, с ответственным и сроком\n\n## 5 почему — пример\n1. Почему магазин лежал? — nginx не стартовал.\n2. Почему? — синтаксическая ошибка в nginx.conf.\n3. Почему она попала в прод? — конфиг не проверили перед рестартом.\n4. Почему? — в процедуре изменений нет шага `nginx -t`.\n5. Почему? — процедуру писали, когда nginx у нас ещё не было.\n\n**Задача:** добавить `nginx -t` в чек-лист изменений; проверка конфигов в CI.\n\n> «Быть внимательнее» — не задача. Задача меняет систему.",
-            "uk": "## Постмортем без пошуку винних\nПісля кожного серйозного інциденту команда пише короткий документ. **Blameless** означає: шукаємо слабкі місця в *системі*, а не винну людину. Люди, які бояться, приховують інформацію.\n\n## Структура\n1. **Коротко** — 2–3 речення: що, скільки тривало, вплив\n2. **Таймлайн** — від першого сигналу до відновлення (UTC)\n3. **Першопричина** — знайдена через «5 чому»\n4. **Що пройшло добре / погано**\n5. **Завдання (action items)** — конкретні, з відповідальним і терміном\n\n## 5 чому — приклад\n1. Чому магазин лежав? — nginx не стартував.\n2. Чому? — синтаксична помилка в nginx.conf.\n3. Чому вона потрапила в прод? — конфіг не перевірили перед рестартом.\n4. Чому? — у процедурі змін немає кроку `nginx -t`.\n5. Чому? — процедуру писали, коли nginx у нас ще не було.\n\n**Завдання:** додати `nginx -t` у чек-лист змін; перевірка конфігів у CI.\n\n> «Бути уважнішим» — не завдання. Завдання змінює систему."
+            "uk": "## Постмортем без пошуку винних\nПісля кожного серйозного інциденту команда пише короткий документ. **Blameless** означає: шукаємо слабкі місця в *системі*, а не винну людину. Люди, які бояться, приховують інформацію.\n\n## Структура\n1. **Коротко** — 2–3 речення: що, скільки тривало, вплив\n2. **Таймлайн** — від першого сигналу до відновлення (UTC)\n3. **Першопричина** — знайдена через «5 чому»\n4. **Що пройшло добре / погано**\n5. **Завдання (action items)** — конкретні, з відповідальним і терміном\n\n## 5 чому — приклад\n1. Чому магазин лежав? — nginx не стартував.\n2. Чому? — синтаксична помилка в nginx.conf.\n3. Чому вона потрапила в прод? — конфіг не перевірили перед рестартом.\n4. Чому? — у процедурі змін немає кроку `nginx -t`.\n5. Чому? — процедуру писали, коли nginx у нас ще не було.\n\n**Завдання:** додати `nginx -t` у чек-лист змін; перевірка конфігів у CI.\n\n> «Бути уважнішим» — не завдання. Завдання змінює систему.",
+            "pl": "## Postmortem bez szukania winnych\nPo każdym poważnym incydencie zespół pisze krótki dokument. **Blameless** oznacza: szukamy słabych punktów w *systemie*, a nie winnej osoby. Ludzie, którzy się boją, ukrywają informacje.\n\n## Struktura\n1. **Podsumowanie** — 2–3 zdania: co, jak długo, jaki wpływ\n2. **Oś czasu** — od pierwszego sygnału do przywrócenia (UTC)\n3. **Przyczyna źródłowa** — znaleziona metodą „5 dlaczego”\n4. **Co poszło dobrze / źle**\n5. **Zadania** — konkretne zadania z właścicielem i terminem\n\n## 5 dlaczego — przykład\n1. Dlaczego sklep nie działał? — nginx nie wystartował.\n2. Dlaczego? — błąd składni w nginx.conf.\n3. Dlaczego trafił na produkcję? — konfiguracji nie przetestowano przed restartem.\n4. Dlaczego nie? — w procedurze zmian nie ma kroku `nginx -t`.\n5. Dlaczego? — procedurę napisano, zanim zaczęliśmy używać nginx.\n\n**Zadanie:** dodać `nginx -t` do listy kontrolnej zmian; sprawdzanie konfiguracji w CI.\n\n> „Bądźmy ostrożniejsi” to nie jest zadanie. Zadanie zmienia system."
           },
           "title": {
             "en": "Learning from incidents",
             "ru": "Учимся на инцидентах",
-            "uk": "Вчимося на інцидентах"
+            "uk": "Вчимося на інцидентах",
+            "pl": "Uczenie się na incydentach"
           },
           "terminal": false
         },
@@ -1715,23 +1780,27 @@
           "question": {
             "en": "Which is a good action item?",
             "ru": "Какая задача (action item) хорошая?",
-            "uk": "Яке завдання (action item) хороше?"
+            "uk": "Яке завдання (action item) хороше?",
+            "pl": "Które zadanie jest dobre?"
           },
           "options": [
             {
               "en": "\"Add a disk-usage alert at 85% for all web servers — owner: Olena, by Nov 15\"",
               "ru": "«Добавить алерт на заполнение диска 85% для всех веб-серверов — Олена, до 15 ноября»",
-              "uk": "«Додати алерт на заповнення диска 85% для всіх вебсерверів — Олена, до 15 листопада»"
+              "uk": "«Додати алерт на заповнення диска 85% для всіх вебсерверів — Олена, до 15 листопада»",
+              "pl": "„Dodać alert zajętości dysku przy 85% dla wszystkich serwerów WWW — właścicielka: Olena, do 15 listopada”"
             },
             {
               "en": "\"Be more careful with disks\"",
               "ru": "«Внимательнее следить за дисками»",
-              "uk": "«Уважніше стежити за дисками»"
+              "uk": "«Уважніше стежити за дисками»",
+              "pl": "„Bardziej uważać na dyski”"
             },
             {
               "en": "\"Punish whoever filled the disk\"",
               "ru": "«Наказать того, кто забил диск»",
-              "uk": "«Покарати того, хто заповнив диск»"
+              "uk": "«Покарати того, хто заповнив диск»",
+              "pl": "„Ukarać tego, kto zapełnił dysk”"
             }
           ],
           "answer": 0
@@ -1741,23 +1810,27 @@
           "question": {
             "en": "Why are postmortems \"blameless\"?",
             "ru": "Почему постмортемы «blameless»?",
-            "uk": "Чому постмортеми «blameless»?"
+            "uk": "Чому постмортеми «blameless»?",
+            "pl": "Dlaczego postmortemy są „blameless”?"
           },
           "options": [
             {
               "en": "So people share all facts openly and the system gets fixed",
               "ru": "Чтобы люди открыто делились фактами и чинилась система",
-              "uk": "Щоб люди відкрито ділилися фактами й лагодилася система"
+              "uk": "Щоб люди відкрито ділилися фактами й лагодилася система",
+              "pl": "Żeby ludzie otwarcie dzielili się wszystkimi faktami i żeby naprawiano system"
             },
             {
               "en": "Because nobody is ever responsible",
               "ru": "Потому что никто никогда не отвечает",
-              "uk": "Бо ніхто ніколи не відповідає"
+              "uk": "Бо ніхто ніколи не відповідає",
+              "pl": "Bo nikt nigdy za nic nie odpowiada"
             },
             {
               "en": "To make them shorter",
               "ru": "Чтобы они были короче",
-              "uk": "Щоб вони були коротші"
+              "uk": "Щоб вони були коротші",
+              "pl": "Żeby były krótsze"
             }
           ],
           "answer": 0
@@ -1767,23 +1840,27 @@
           "question": {
             "en": "5 whys: \"The disk filled up\" → why? → \"debug logging was left on\". Next good \"why\"?",
             "ru": "5 почему: «Диск заполнился» → почему? → «оставили debug-логирование». Следующий хороший «почему»?",
-            "uk": "5 чому: «Диск заповнився» → чому? → «залишили debug-логування». Наступне хороше «чому»?"
+            "uk": "5 чому: «Диск заповнився» → чому? → «залишили debug-логування». Наступне хороше «чому»?",
+            "pl": "5 dlaczego: „Dysk się zapełnił” → dlaczego? → „zostawiono włączone logowanie debug”. Następne dobre „dlaczego”?"
           },
           "options": [
             {
               "en": "Why was debug logging possible on production without an alert or limit?",
               "ru": "Почему debug-логирование на проде возможно без алерта и лимита?",
-              "uk": "Чому debug-логування на проді можливе без алерту й ліміту?"
+              "uk": "Чому debug-логування на проді можливе без алерту й ліміту?",
+              "pl": "Dlaczego logowanie debug było możliwe na produkcji bez alertu i limitu?"
             },
             {
               "en": "Who turned it on?",
               "ru": "Кто его включил?",
-              "uk": "Хто його ввімкнув?"
+              "uk": "Хто його ввімкнув?",
+              "pl": "Kto je włączył?"
             },
             {
               "en": "Why do disks exist?",
               "ru": "Зачем вообще нужны диски?",
-              "uk": "Навіщо взагалі потрібні диски?"
+              "uk": "Навіщо взагалі потрібні диски?",
+              "pl": "Po co w ogóle są dyski?"
             }
           ],
           "answer": 0
@@ -1793,23 +1870,27 @@
           "question": {
             "en": "Which belongs in the postmortem summary?",
             "ru": "Что входит в краткое описание постмортема?",
-            "uk": "Що входить у короткий опис постмортему?"
+            "uk": "Що входить у короткий опис постмортему?",
+            "pl": "Co należy do podsumowania postmortemu?"
           },
           "options": [
             {
               "en": "What broke, for how long, and the user impact",
               "ru": "Что сломалось, на сколько и влияние на пользователей",
-              "uk": "Що зламалося, на скільки і вплив на користувачів"
+              "uk": "Що зламалося, на скільки і вплив на користувачів",
+              "pl": "Co się zepsuło, na jak długo i jaki był wpływ na użytkowników"
             },
             {
               "en": "All shell commands you typed",
               "ru": "Все команды, которые вы вводили",
-              "uk": "Усі команди, які ви вводили"
+              "uk": "Усі команди, які ви вводили",
+              "pl": "Wszystkie polecenia, które wpisałeś"
             },
             {
               "en": "The names of guilty people",
               "ru": "Имена виноватых",
-              "uk": "Імена винних"
+              "uk": "Імена винних",
+              "pl": "Nazwiska winnych"
             }
           ],
           "answer": 0

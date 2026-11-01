@@ -5,12 +5,14 @@
   "title": {
     "en": "Logs and investigation",
     "ru": "Логи и расследование",
-    "uk": "Логи та розслідування"
+    "uk": "Логи та розслідування",
+    "pl": "Logi i dochodzenie"
   },
   "description": {
     "en": "Where logs live, grep and awk on real access logs, security events and timelines.",
     "ru": "Где лежат логи, grep и awk по настоящим access-логам, события безопасности и таймлайны.",
-    "uk": "Де лежать логи, grep і awk по справжніх access-логах, події безпеки й таймлайни."
+    "uk": "Де лежать логи, grep і awk по справжніх access-логах, події безпеки й таймлайни.",
+    "pl": "Gdzie mieszkają logi, grep i awk na prawdziwych access logach, zdarzenia bezpieczeństwa i osie czasu."
   },
   "lessons": [
     {
@@ -18,7 +20,8 @@
       "title": {
         "en": "Where the logs live",
         "ru": "Где живут логи",
-        "uk": "Де живуть логи"
+        "uk": "Де живуть логи",
+        "pl": "Gdzie mieszkają logi"
       },
       "commands": [
         "ls",
@@ -332,7 +335,8 @@
           "text": {
             "en": "## The log map\n| file | what is inside |\n|---|---|\n| /var/log/syslog | general system messages (Debian/Ubuntu) |\n| /var/log/auth.log | logins, sudo, ssh — **root only** |\n| /var/log/kern.log | kernel: disks, network cards, OOM |\n| /var/log/nginx/access.log | every HTTP request |\n| /var/log/nginx/error.log | nginx errors, upstream problems |\n| /var/log/app/ | your company's applications |\n| journalctl | the systemd journal (all services) |\n\n## Rotation\nLogs would grow forever, so **logrotate** renames them every day or week:\n```\naccess.log        ← written right now\naccess.log.1      ← yesterday\naccess.log.2.gz   ← older, compressed\n```\nCompressed logs are read with `zcat`, `zgrep`, `zless` — no need to unpack.\n\n> When an incident started yesterday evening, the answer is often in `.1`, not in the live file.",
             "ru": "## Карта логов\n| файл | что внутри |\n|---|---|\n| /var/log/syslog | общие сообщения системы (Debian/Ubuntu) |\n| /var/log/auth.log | входы, sudo, ssh — **только для root** |\n| /var/log/kern.log | ядро: диски, сетевые карты, OOM |\n| /var/log/nginx/access.log | каждый HTTP-запрос |\n| /var/log/nginx/error.log | ошибки nginx, проблемы с upstream |\n| /var/log/app/ | приложения вашей компании |\n| journalctl | журнал systemd (все сервисы) |\n\n## Ротация\nЛоги росли бы бесконечно, поэтому **logrotate** каждый день или неделю переименовывает их:\n```\naccess.log        ← пишется прямо сейчас\naccess.log.1      ← вчера\naccess.log.2.gz   ← старше, сжат\n```\nСжатые логи читают через `zcat`, `zgrep`, `zless` — распаковывать не нужно.\n\n> Если инцидент начался вчера вечером, ответ часто в `.1`, а не в живом файле.",
-            "uk": "## Мапа логів\n| файл | що всередині |\n|---|---|\n| /var/log/syslog | загальні повідомлення системи (Debian/Ubuntu) |\n| /var/log/auth.log | входи, sudo, ssh — **лише для root** |\n| /var/log/kern.log | ядро: диски, мережеві карти, OOM |\n| /var/log/nginx/access.log | кожен HTTP-запит |\n| /var/log/nginx/error.log | помилки nginx, проблеми з upstream |\n| /var/log/app/ | застосунки вашої компанії |\n| journalctl | журнал systemd (усі сервіси) |\n\n## Ротація\nЛоги росли б безкінечно, тому **logrotate** щодня або щотижня перейменовує їх:\n```\naccess.log        ← пишеться просто зараз\naccess.log.1      ← учора\naccess.log.2.gz   ← старіший, стиснутий\n```\nСтиснуті логи читають через `zcat`, `zgrep`, `zless` — розпаковувати не треба.\n\n> Якщо інцидент почався вчора ввечері, відповідь часто в `.1`, а не в живому файлі."
+            "uk": "## Мапа логів\n| файл | що всередині |\n|---|---|\n| /var/log/syslog | загальні повідомлення системи (Debian/Ubuntu) |\n| /var/log/auth.log | входи, sudo, ssh — **лише для root** |\n| /var/log/kern.log | ядро: диски, мережеві карти, OOM |\n| /var/log/nginx/access.log | кожен HTTP-запит |\n| /var/log/nginx/error.log | помилки nginx, проблеми з upstream |\n| /var/log/app/ | застосунки вашої компанії |\n| journalctl | журнал systemd (усі сервіси) |\n\n## Ротація\nЛоги росли б безкінечно, тому **logrotate** щодня або щотижня перейменовує їх:\n```\naccess.log        ← пишеться просто зараз\naccess.log.1      ← учора\naccess.log.2.gz   ← старіший, стиснутий\n```\nСтиснуті логи читають через `zcat`, `zgrep`, `zless` — розпаковувати не треба.\n\n> Якщо інцидент почався вчора ввечері, відповідь часто в `.1`, а не в живому файлі.",
+            "pl": "## Mapa logów\n| plik | co jest w środku |\n|---|---|\n| /var/log/syslog | ogólne komunikaty systemu (Debian/Ubuntu) |\n| /var/log/auth.log | logowania, sudo, ssh — **tylko root** |\n| /var/log/kern.log | jądro: dyski, karty sieciowe, OOM |\n| /var/log/nginx/access.log | każde żądanie HTTP |\n| /var/log/nginx/error.log | błędy nginx, problemy z upstreamem |\n| /var/log/app/ | aplikacje Twojej firmy |\n| journalctl | dziennik systemd (wszystkie usługi) |\n\n## Rotacja\nLogi rosłyby w nieskończoność, więc **logrotate** przemianowuje je co dzień lub co tydzień:\n```\naccess.log        ← zapisywany właśnie teraz\naccess.log.1      ← wczoraj\naccess.log.2.gz   ← starszy, skompresowany\n```\nSkompresowane logi czyta się przez `zcat`, `zgrep`, `zless` — bez rozpakowywania.\n\n> Gdy incydent zaczął się wczoraj wieczorem, odpowiedź często jest w `.1`, a nie w żywym pliku."
           },
           "title": {
             "en": "/var/log",
@@ -347,7 +351,8 @@
           "goal": {
             "en": "List the nginx logs with their sizes.",
             "ru": "Выведите логи nginx с размерами.",
-            "uk": "Виведіть логи nginx із розмірами."
+            "uk": "Виведіть логи nginx із розмірами.",
+            "pl": "Wypisz logi nginx z ich rozmiarami."
           },
           "checks": [
             {
@@ -369,7 +374,8 @@
               "label": {
                 "en": "access.log.2.gz is visible",
                 "ru": "Виден access.log.2.gz",
-                "uk": "Видно access.log.2.gz"
+                "uk": "Видно access.log.2.gz",
+                "pl": "Widać access.log.2.gz"
               }
             }
           ],
@@ -391,7 +397,8 @@
           "goal": {
             "en": "Read the last 3 lines of /var/log/auth.log. (Hint: it is not readable for everyone.)",
             "ru": "Прочитайте последние 3 строки /var/log/auth.log. (Подсказка: он читается не всеми.)",
-            "uk": "Прочитайте останні 3 рядки /var/log/auth.log. (Підказка: його читають не всі.)"
+            "uk": "Прочитайте останні 3 рядки /var/log/auth.log. (Підказка: його читають не всі.)",
+            "pl": "Przeczytaj ostatnie 3 wiersze /var/log/auth.log. (Podpowiedź: nie każdy może go czytać.)"
           },
           "checks": [
             {
@@ -401,7 +408,8 @@
               "label": {
                 "en": "tail -n 3 with sudo",
                 "ru": "tail -n 3 через sudo",
-                "uk": "tail -n 3 через sudo"
+                "uk": "tail -n 3 через sudo",
+                "pl": "tail -n 3 przez sudo"
               }
             },
             {
@@ -433,7 +441,8 @@
           "goal": {
             "en": "Two days ago the backup failed. Find \"error\" in the compressed /var/log/syslog.2.gz.",
             "ru": "Два дня назад упал бэкап. Найдите «error» в сжатом /var/log/syslog.2.gz.",
-            "uk": "Два дні тому впав бекап. Знайдіть «error» у стиснутому /var/log/syslog.2.gz."
+            "uk": "Два дні тому впав бекап. Знайдіть «error» у стиснутому /var/log/syslog.2.gz.",
+            "pl": "Dwa dni temu nie udała się kopia zapasowa. Znajdź „error” w skompresowanym /var/log/syslog.2.gz."
           },
           "checks": [
             {
@@ -442,7 +451,8 @@
               "label": {
                 "en": "Use zgrep",
                 "ru": "Используйте zgrep",
-                "uk": "Використайте zgrep"
+                "uk": "Використайте zgrep",
+                "pl": "Użyj zgrep"
               }
             },
             {
@@ -460,7 +470,8 @@
             "direction": {
               "en": "zgrep PATTERN FILE.gz",
               "ru": "zgrep ШАБЛОН ФАЙЛ.gz",
-              "uk": "zgrep ШАБЛОН ФАЙЛ.gz"
+              "uk": "zgrep ШАБЛОН ФАЙЛ.gz",
+              "pl": "zgrep WZORZEC PLIK.gz"
             },
             "command": "zgrep"
           },
@@ -473,7 +484,8 @@
           "question": {
             "en": "A customer says the site was slow yesterday at 23:00. It is 09:00 now and logs rotate at midnight. Which file?",
             "ru": "Клиент говорит, что вчера в 23:00 сайт тормозил. Сейчас 09:00, ротация в полночь. Какой файл смотреть?",
-            "uk": "Клієнт каже, що вчора о 23:00 сайт гальмував. Зараз 09:00, ротація опівночі. Який файл дивитися?"
+            "uk": "Клієнт каже, що вчора о 23:00 сайт гальмував. Зараз 09:00, ротація опівночі. Який файл дивитися?",
+            "pl": "Klient mówi, że wczoraj o 23:00 strona zwalniała. Jest 09:00, logi rotują o północy. Który plik?"
           },
           "options": [
             {
@@ -491,14 +503,16 @@
             {
               "en": "error.log only",
               "ru": "Только error.log",
-              "uk": "Лише error.log"
+              "uk": "Лише error.log",
+              "pl": "Tylko error.log"
             }
           ],
           "answer": 0,
           "explanation": {
             "en": "After midnight yesterday's lines moved to .1.",
             "ru": "После полуночи вчерашние строки переехали в .1.",
-            "uk": "Після опівночі вчорашні рядки переїхали в .1."
+            "uk": "Після опівночі вчорашні рядки переїхали в .1.",
+            "pl": "Po północy wczorajsze wiersze przeniosły się do .1."
           }
         }
       ]
@@ -508,7 +522,8 @@
       "title": {
         "en": "Searching logs with grep",
         "ru": "Поиск по логам: grep",
-        "uk": "Пошук у логах: grep"
+        "uk": "Пошук у логах: grep",
+        "pl": "Przeszukiwanie logów grepem"
       },
       "commands": [
         "grep",
@@ -821,12 +836,14 @@
           "text": {
             "en": "## Recipes\n```\n$ grep -i error /var/log/app/api.log\n$ grep -c ' 502 ' /var/log/nginx/access.log\n$ grep -v ' 200 ' /var/log/nginx/access.log\n$ grep '10:5' /var/log/nginx/access.log\n$ grep -E 'ERROR|FATAL' /var/log/app/api.log\n$ grep -n FATAL /var/log/app/api.log\n```\n- `-i` ignore case, `-c` count, `-v` invert, `-n` line numbers, `-E` alternatives with `|`\n- grep by **time** (`10:5` = 10:50–10:59) to cut a time window\n\n> Put spaces around a status code: `' 502 '` — otherwise `502` also matches a byte size like 15020.",
             "ru": "## Рецепты\n```\n$ grep -i error /var/log/app/api.log\n$ grep -c ' 502 ' /var/log/nginx/access.log\n$ grep -v ' 200 ' /var/log/nginx/access.log\n$ grep '10:5' /var/log/nginx/access.log\n$ grep -E 'ERROR|FATAL' /var/log/app/api.log\n$ grep -n FATAL /var/log/app/api.log\n```\n- `-i` без учёта регистра, `-c` подсчёт, `-v` инверсия, `-n` номера строк, `-E` варианты через `|`\n- grep по **времени** (`10:5` = 10:50–10:59) вырезает временное окно\n\n> Обрамляйте код ответа пробелами: `' 502 '` — иначе `502` совпадёт и с размером 15020.",
-            "uk": "## Рецепти\n```\n$ grep -i error /var/log/app/api.log\n$ grep -c ' 502 ' /var/log/nginx/access.log\n$ grep -v ' 200 ' /var/log/nginx/access.log\n$ grep '10:5' /var/log/nginx/access.log\n$ grep -E 'ERROR|FATAL' /var/log/app/api.log\n$ grep -n FATAL /var/log/app/api.log\n```\n- `-i` без урахування регістру, `-c` підрахунок, `-v` інверсія, `-n` номери рядків, `-E` варіанти через `|`\n- grep за **часом** (`10:5` = 10:50–10:59) вирізає часове вікно\n\n> Обрамлюйте код відповіді пробілами: `' 502 '` — інакше `502` збіжиться й із розміром 15020."
+            "uk": "## Рецепти\n```\n$ grep -i error /var/log/app/api.log\n$ grep -c ' 502 ' /var/log/nginx/access.log\n$ grep -v ' 200 ' /var/log/nginx/access.log\n$ grep '10:5' /var/log/nginx/access.log\n$ grep -E 'ERROR|FATAL' /var/log/app/api.log\n$ grep -n FATAL /var/log/app/api.log\n```\n- `-i` без урахування регістру, `-c` підрахунок, `-v` інверсія, `-n` номери рядків, `-E` варіанти через `|`\n- grep за **часом** (`10:5` = 10:50–10:59) вирізає часове вікно\n\n> Обрамлюйте код відповіді пробілами: `' 502 '` — інакше `502` збіжиться й із розміром 15020.",
+            "pl": "## Przepisy\n```\n$ grep -i error /var/log/app/api.log\n$ grep -c ' 502 ' /var/log/nginx/access.log\n$ grep -v ' 200 ' /var/log/nginx/access.log\n$ grep '10:5' /var/log/nginx/access.log\n$ grep -E 'ERROR|FATAL' /var/log/app/api.log\n$ grep -n FATAL /var/log/app/api.log\n```\n- `-i` bez rozróżniania wielkości liter, `-c` licz, `-v` odwróć, `-n` numery wierszy, `-E` alternatywy przez `|`\n- grep po **czasie** (`10:5` = 10:50–10:59), by wyciąć okno czasowe\n\n> Otaczaj kod statusu spacjami: `' 502 '` — inaczej `502` dopasuje się też do rozmiaru w bajtach, np. 15020."
           },
           "title": {
             "en": "grep in logs",
             "ru": "grep по логам",
-            "uk": "grep у логах"
+            "uk": "grep у логах",
+            "pl": "grep w logach"
           },
           "demo": {
             "commands": [
@@ -839,7 +856,8 @@
           "goal": {
             "en": "Find all ERROR and FATAL lines in the API log /var/log/app/api.log.",
             "ru": "Найдите все строки ERROR и FATAL в логе API /var/log/app/api.log.",
-            "uk": "Знайдіть усі рядки ERROR і FATAL у лозі API /var/log/app/api.log."
+            "uk": "Знайдіть усі рядки ERROR і FATAL у лозі API /var/log/app/api.log.",
+            "pl": "Znajdź wszystkie wiersze ERROR i FATAL w logu API /var/log/app/api.log."
           },
           "checks": [
             {
@@ -867,7 +885,8 @@
             "direction": {
               "en": "grep -E 'ERROR|FATAL' FILE",
               "ru": "grep -E 'ERROR|FATAL' ФАЙЛ",
-              "uk": "grep -E 'ERROR|FATAL' ФАЙЛ"
+              "uk": "grep -E 'ERROR|FATAL' ФАЙЛ",
+              "pl": "grep -E 'ERROR|FATAL' PLIK"
             },
             "command": "grep"
           },
@@ -880,7 +899,8 @@
           "goal": {
             "en": "How many requests ended with 502 in /var/log/nginx/access.log?",
             "ru": "Сколько запросов закончились кодом 502 в /var/log/nginx/access.log?",
-            "uk": "Скільки запитів завершилися кодом 502 у /var/log/nginx/access.log?"
+            "uk": "Скільки запитів завершилися кодом 502 у /var/log/nginx/access.log?",
+            "pl": "Ile żądań zakończyło się kodem 502 w /var/log/nginx/access.log?"
           },
           "checks": [
             {
@@ -911,7 +931,8 @@
             "direction": {
               "en": "grep -c ' 502 ' FILE",
               "ru": "grep -c ' 502 ' ФАЙЛ",
-              "uk": "grep -c ' 502 ' ФАЙЛ"
+              "uk": "grep -c ' 502 ' ФАЙЛ",
+              "pl": "grep -c ' 502 ' PLIK"
             },
             "command": "grep"
           },
@@ -924,7 +945,8 @@
           "goal": {
             "en": "When did the 502s start? Show the FIRST 502 line only.",
             "ru": "Когда начались 502? Покажите только ПЕРВУЮ строку с 502.",
-            "uk": "Коли почалися 502? Покажіть лише ПЕРШИЙ рядок із 502."
+            "uk": "Коли почалися 502? Покажіть лише ПЕРШИЙ рядок із 502.",
+            "pl": "Kiedy zaczęły się 502? Pokaż tylko PIERWSZY wiersz z 502."
           },
           "checks": [
             {
@@ -953,7 +975,8 @@
               "label": {
                 "en": "time 10:50:46",
                 "ru": "время 10:50:46",
-                "uk": "час 10:50:46"
+                "uk": "час 10:50:46",
+                "pl": "czas 10:50:46"
               }
             }
           ],
@@ -961,7 +984,8 @@
             "direction": {
               "en": "grep ' 502 ' FILE | head -n 1  (or grep -m 1)",
               "ru": "grep ' 502 ' ФАЙЛ | head -n 1  (или grep -m 1)",
-              "uk": "grep ' 502 ' ФАЙЛ | head -n 1  (або grep -m 1)"
+              "uk": "grep ' 502 ' ФАЙЛ | head -n 1  (або grep -m 1)",
+              "pl": "grep ' 502 ' PLIK | head -n 1  (albo grep -m 1)"
             },
             "command": "grep"
           },
@@ -974,7 +998,8 @@
           "goal": {
             "en": "Look at the nginx error log: what does nginx say about the upstream? Show the last line.",
             "ru": "Посмотрите лог ошибок nginx: что nginx пишет про upstream? Покажите последнюю строку.",
-            "uk": "Подивіться лог помилок nginx: що nginx пише про upstream? Покажіть останній рядок."
+            "uk": "Подивіться лог помилок nginx: що nginx пише про upstream? Покажіть останній рядок.",
+            "pl": "Zajrzyj do logu błędów nginx: co nginx mówi o upstreamie? Pokaż ostatni wiersz."
           },
           "checks": [
             {
@@ -1016,18 +1041,21 @@
           "question": {
             "en": "nginx error.log says \"connect() failed (111: Connection refused) while connecting to upstream 127.0.0.1:3000\". Meaning?",
             "ru": "В error.log nginx: «connect() failed (111: Connection refused) while connecting to upstream 127.0.0.1:3000». Что это значит?",
-            "uk": "В error.log nginx: «connect() failed (111: Connection refused) while connecting to upstream 127.0.0.1:3000». Що це означає?"
+            "uk": "В error.log nginx: «connect() failed (111: Connection refused) while connecting to upstream 127.0.0.1:3000». Що це означає?",
+            "pl": "error.log nginx mówi „connect() failed (111: Connection refused) while connecting to upstream 127.0.0.1:3000”. Co to znaczy?"
           },
           "options": [
             {
               "en": "Nothing listens on port 3000 — the backend is down",
               "ru": "На порту 3000 никто не слушает — бэкенд лежит",
-              "uk": "На порту 3000 ніхто не слухає — бекенд лежить"
+              "uk": "На порту 3000 ніхто не слухає — бекенд лежить",
+              "pl": "Na porcie 3000 nic nie nasłuchuje — backend leży"
             },
             {
               "en": "The client has no internet",
               "ru": "У клиента нет интернета",
-              "uk": "У клієнта немає інтернету"
+              "uk": "У клієнта немає інтернету",
+              "pl": "Klient nie ma internetu"
             },
             {
               "en": "DNS is broken",
@@ -1045,7 +1073,8 @@
       "title": {
         "en": "Analysing access.log",
         "ru": "Анализ access.log",
-        "uk": "Аналіз access.log"
+        "uk": "Аналіз access.log",
+        "pl": "Analiza access.log"
       },
       "commands": [
         "awk",
@@ -1359,12 +1388,14 @@
           "text": {
             "en": "## Anatomy of a line\n```\n45.155.205.66 - - [31/Oct/2026:10:00:00 +0000] \"POST /login HTTP/1.1\" 401 512 \"-\" \"python-requests/2.31\"\n```\n| awk field | value |\n|---|---|\n| `$1` | client IP |\n| `$4` | time `[31/Oct/2026:10:00:00` |\n| `$6` | method `\"POST` |\n| `$7` | path `/login` |\n| `$9` | **status** 401 |\n| `$10` | size in bytes |\n\n## The magic pipeline\n```\n$ awk '{print $9}' access.log | sort | uniq -c | sort -rn\n```\n1. `awk` cuts one column\n2. `sort` puts equal values together\n3. `uniq -c` counts each group\n4. `sort -rn` — biggest first\n\n> Swap `$9` for `$1` (who), `$7` (what) — and you answer 80% of \"what is going on with the site\" questions.",
             "ru": "## Анатомия строки\n```\n45.155.205.66 - - [31/Oct/2026:10:00:00 +0000] \"POST /login HTTP/1.1\" 401 512 \"-\" \"python-requests/2.31\"\n```\n| поле awk | значение |\n|---|---|\n| `$1` | IP клиента |\n| `$4` | время `[31/Oct/2026:10:00:00` |\n| `$6` | метод `\"POST` |\n| `$7` | путь `/login` |\n| `$9` | **код ответа** 401 |\n| `$10` | размер в байтах |\n\n## Магический конвейер\n```\n$ awk '{print $9}' access.log | sort | uniq -c | sort -rn\n```\n1. `awk` вырезает одну колонку\n2. `sort` ставит одинаковые значения рядом\n3. `uniq -c` считает каждую группу\n4. `sort -rn` — самые большие сверху\n\n> Замените `$9` на `$1` (кто), `$7` (что) — и вы ответите на 80% вопросов «что происходит с сайтом».",
-            "uk": "## Анатомія рядка\n```\n45.155.205.66 - - [31/Oct/2026:10:00:00 +0000] \"POST /login HTTP/1.1\" 401 512 \"-\" \"python-requests/2.31\"\n```\n| поле awk | значення |\n|---|---|\n| `$1` | IP клієнта |\n| `$4` | час `[31/Oct/2026:10:00:00` |\n| `$6` | метод `\"POST` |\n| `$7` | шлях `/login` |\n| `$9` | **код відповіді** 401 |\n| `$10` | розмір у байтах |\n\n## Магічний конвеєр\n```\n$ awk '{print $9}' access.log | sort | uniq -c | sort -rn\n```\n1. `awk` вирізає одну колонку\n2. `sort` ставить однакові значення поруч\n3. `uniq -c` рахує кожну групу\n4. `sort -rn` — найбільші зверху\n\n> Замініть `$9` на `$1` (хто), `$7` (що) — і ви відповісте на 80% питань «що відбувається із сайтом»."
+            "uk": "## Анатомія рядка\n```\n45.155.205.66 - - [31/Oct/2026:10:00:00 +0000] \"POST /login HTTP/1.1\" 401 512 \"-\" \"python-requests/2.31\"\n```\n| поле awk | значення |\n|---|---|\n| `$1` | IP клієнта |\n| `$4` | час `[31/Oct/2026:10:00:00` |\n| `$6` | метод `\"POST` |\n| `$7` | шлях `/login` |\n| `$9` | **код відповіді** 401 |\n| `$10` | розмір у байтах |\n\n## Магічний конвеєр\n```\n$ awk '{print $9}' access.log | sort | uniq -c | sort -rn\n```\n1. `awk` вирізає одну колонку\n2. `sort` ставить однакові значення поруч\n3. `uniq -c` рахує кожну групу\n4. `sort -rn` — найбільші зверху\n\n> Замініть `$9` на `$1` (хто), `$7` (що) — і ви відповісте на 80% питань «що відбувається із сайтом».",
+            "pl": "## Anatomia wiersza\n```\n45.155.205.66 - - [31/Oct/2026:10:00:00 +0000] \"POST /login HTTP/1.1\" 401 512 \"-\" \"python-requests/2.31\"\n```\n| pole awk | wartość |\n|---|---|\n| `$1` | IP klienta |\n| `$4` | czas `[31/Oct/2026:10:00:00` |\n| `$6` | metoda `\"POST` |\n| `$7` | ścieżka `/login` |\n| `$9` | **status** 401 |\n| `$10` | rozmiar w bajtach |\n\n## Magiczny potok\n```\n$ awk '{print $9}' access.log | sort | uniq -c | sort -rn\n```\n1. `awk` wycina jedną kolumnę\n2. `sort` stawia równe wartości obok siebie\n3. `uniq -c` liczy każdą grupę\n4. `sort -rn` — największe najpierw\n\n> Zamień `$9` na `$1` (kto), `$7` (co) — i odpowiesz na 80% pytań „co się dzieje ze stroną”."
           },
           "title": {
             "en": "Columns of access.log",
             "ru": "Колонки access.log",
-            "uk": "Колонки access.log"
+            "uk": "Колонки access.log",
+            "pl": "Kolumny access.log"
           },
           "terminal": false
         },
@@ -1373,12 +1404,14 @@
           "goal": {
             "en": "Count requests per status code in /var/log/nginx/access.log, most frequent first.",
             "ru": "Посчитайте запросы по кодам ответа в /var/log/nginx/access.log, самые частые сверху.",
-            "uk": "Порахуйте запити за кодами відповіді в /var/log/nginx/access.log, найчастіші зверху."
+            "uk": "Порахуйте запити за кодами відповіді в /var/log/nginx/access.log, найчастіші зверху.",
+            "pl": "Policz żądania według kodu statusu w /var/log/nginx/access.log, najczęstsze najpierw."
           },
           "instructions": {
             "en": "1. `awk '{print $9}' /var/log/nginx/access.log` — only the codes\n2. `| sort | uniq -c` — count\n3. `| sort -rn` — biggest first",
             "ru": "1. `awk '{print $9}' /var/log/nginx/access.log` — только коды\n2. `| sort | uniq -c` — посчитать\n3. `| sort -rn` — больше сверху",
-            "uk": "1. `awk '{print $9}' /var/log/nginx/access.log` — лише коди\n2. `| sort | uniq -c` — порахувати\n3. `| sort -rn` — більші зверху"
+            "uk": "1. `awk '{print $9}' /var/log/nginx/access.log` — лише коди\n2. `| sort | uniq -c` — порахувати\n3. `| sort -rn` — більші зверху",
+            "pl": "1. `awk '{print $9}' /var/log/nginx/access.log` — same kody\n2. `| sort | uniq -c` — policz\n3. `| sort -rn` — największe najpierw"
           },
           "checks": [
             {
@@ -1387,7 +1420,8 @@
               "label": {
                 "en": "awk prints $9",
                 "ru": "awk печатает $9",
-                "uk": "awk друкує $9"
+                "uk": "awk друкує $9",
+                "pl": "awk wypisuje $9"
               }
             },
             {
@@ -1409,7 +1443,8 @@
               "label": {
                 "en": "170 requests with 200 on top",
                 "ru": "170 запросов с 200 сверху",
-                "uk": "170 запитів із 200 зверху"
+                "uk": "170 запитів із 200 зверху",
+                "pl": "170 żądań z 200 na górze"
               }
             }
           ],
@@ -1417,7 +1452,8 @@
             "direction": {
               "en": "awk '{print $9}' FILE | sort | uniq -c | sort -rn",
               "ru": "awk '{print $9}' ФАЙЛ | sort | uniq -c | sort -rn",
-              "uk": "awk '{print $9}' ФАЙЛ | sort | uniq -c | sort -rn"
+              "uk": "awk '{print $9}' ФАЙЛ | sort | uniq -c | sort -rn",
+              "pl": "awk '{print $9}' PLIK | sort | uniq -c | sort -rn"
             },
             "command": "awk"
           },
@@ -1430,7 +1466,8 @@
           "goal": {
             "en": "Which IP sends the most requests? Show the top 3 IPs.",
             "ru": "Какой IP шлёт больше всего запросов? Покажите топ-3 IP.",
-            "uk": "Який IP надсилає найбільше запитів? Покажіть топ-3 IP."
+            "uk": "Який IP надсилає найбільше запитів? Покажіть топ-3 IP.",
+            "pl": "Który IP wysyła najwięcej żądań? Pokaż 3 pierwsze IP."
           },
           "checks": [
             {
@@ -1439,7 +1476,8 @@
               "label": {
                 "en": "head -n 3 (or -3)",
                 "ru": "head -n 3 (или -3)",
-                "uk": "head -n 3 (або -3)"
+                "uk": "head -n 3 (або -3)",
+                "pl": "head -n 3 (albo -3)"
               }
             },
             {
@@ -1458,7 +1496,8 @@
               "label": {
                 "en": "45.155.205.66 on top",
                 "ru": "45.155.205.66 сверху",
-                "uk": "45.155.205.66 зверху"
+                "uk": "45.155.205.66 зверху",
+                "pl": "45.155.205.66 na górze"
               }
             }
           ],
@@ -1466,7 +1505,8 @@
             "direction": {
               "en": "Same pipeline with $1, then | head -n 3",
               "ru": "Тот же конвейер с $1, затем | head -n 3",
-              "uk": "Той самий конвеєр з $1, потім | head -n 3"
+              "uk": "Той самий конвеєр з $1, потім | head -n 3",
+              "pl": "Ten sam potok z $1, potem | head -n 3"
             },
             "command": "awk"
           },
@@ -1479,7 +1519,8 @@
           "goal": {
             "en": "Which paths return 5xx errors? Count 5xx per path.",
             "ru": "Какие пути отдают ошибки 5xx? Посчитайте 5xx по путям.",
-            "uk": "Які шляхи віддають помилки 5xx? Порахуйте 5xx за шляхами."
+            "uk": "Які шляхи віддають помилки 5xx? Порахуйте 5xx за шляхами.",
+            "pl": "Które ścieżki zwracają błędy 5xx? Policz 5xx według ścieżek."
           },
           "checks": [
             {
@@ -1488,7 +1529,8 @@
               "label": {
                 "en": "awk with a condition $9 >= 500",
                 "ru": "awk с условием $9 >= 500",
-                "uk": "awk з умовою $9 >= 500"
+                "uk": "awk з умовою $9 >= 500",
+                "pl": "awk z warunkiem $9 >= 500"
               }
             },
             {
@@ -1497,7 +1539,8 @@
               "label": {
                 "en": "/api/ paths",
                 "ru": "пути /api/",
-                "uk": "шляхи /api/"
+                "uk": "шляхи /api/",
+                "pl": "ścieżki /api/"
               }
             }
           ],
@@ -1505,7 +1548,8 @@
             "direction": {
               "en": "awk '$9 >= 500 {print $7}' FILE | sort | uniq -c",
               "ru": "awk '$9 >= 500 {print $7}' ФАЙЛ | sort | uniq -c",
-              "uk": "awk '$9 >= 500 {print $7}' ФАЙЛ | sort | uniq -c"
+              "uk": "awk '$9 >= 500 {print $7}' ФАЙЛ | sort | uniq -c",
+              "pl": "awk '$9 >= 500 {print $7}' PLIK | sort | uniq -c"
             },
             "command": "awk"
           },
@@ -1518,23 +1562,27 @@
           "question": {
             "en": "45.155.205.66 sends a POST /login every few seconds, always 401, user agent python-requests. What is it most likely?",
             "ru": "45.155.205.66 каждые несколько секунд шлёт POST /login, всегда 401, user agent python-requests. Что это скорее всего?",
-            "uk": "45.155.205.66 кожні кілька секунд надсилає POST /login, завжди 401, user agent python-requests. Що це найімовірніше?"
+            "uk": "45.155.205.66 кожні кілька секунд надсилає POST /login, завжди 401, user agent python-requests. Що це найімовірніше?",
+            "pl": "45.155.205.66 co kilka sekund wysyła POST /login, zawsze 401, user agent python-requests. Co to najpewniej jest?"
           },
           "options": [
             {
               "en": "A password-guessing bot — report to security, consider blocking",
               "ru": "Бот подбирает пароли — сообщить безопасникам, подумать о блокировке",
-              "uk": "Бот підбирає паролі — повідомити безпеці, подумати про блокування"
+              "uk": "Бот підбирає паролі — повідомити безпеці, подумати про блокування",
+              "pl": "Bot zgadujący hasła — zgłosić działowi bezpieczeństwa, rozważyć blokadę"
             },
             {
               "en": "A happy customer",
               "ru": "Довольный клиент",
-              "uk": "Задоволений клієнт"
+              "uk": "Задоволений клієнт",
+              "pl": "Zadowolony klient"
             },
             {
               "en": "Our own health check",
               "ru": "Наш собственный health-check",
-              "uk": "Наш власний health-check"
+              "uk": "Наш власний health-check",
+              "pl": "Nasz własny health check"
             }
           ],
           "answer": 0
@@ -1546,7 +1594,8 @@
       "title": {
         "en": "Security: auth.log",
         "ru": "Безопасность: auth.log",
-        "uk": "Безпека: auth.log"
+        "uk": "Безпека: auth.log",
+        "pl": "Bezpieczeństwo: auth.log"
       },
       "commands": [
         "grep",
@@ -1860,12 +1909,14 @@
           "text": {
             "en": "## What auth.log shows\n- `Accepted publickey for student from 192.168.1.10` — a successful ssh login\n- `Failed password for invalid user admin from 45.155.205.2` — someone guessing\n- `sudo: student : ... COMMAND=/usr/bin/systemctl restart nginx` — **who** did **what** as root\n\n## Counting attackers\n```\n$ sudo grep 'Failed password' /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c\n```\n`$NF` = the last field, `$(NF-3)` = fourth from the end — here the IP.\n\n> `sudo` lines in auth.log are the first place to look after \"who restarted nginx at 10:12?\".",
             "ru": "## Что показывает auth.log\n- `Accepted publickey for student from 192.168.1.10` — успешный вход по ssh\n- `Failed password for invalid user admin from 45.155.205.2` — кто-то подбирает пароль\n- `sudo: student : ... COMMAND=/usr/bin/systemctl restart nginx` — **кто** сделал **что** от root\n\n## Считаем атакующих\n```\n$ sudo grep 'Failed password' /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c\n```\n`$NF` — последнее поле, `$(NF-3)` — четвёртое с конца, здесь это IP.\n\n> Строки sudo в auth.log — первое место, куда смотреть на вопрос «кто перезапустил nginx в 10:12?».",
-            "uk": "## Що показує auth.log\n- `Accepted publickey for student from 192.168.1.10` — успішний вхід через ssh\n- `Failed password for invalid user admin from 45.155.205.2` — хтось підбирає пароль\n- `sudo: student : ... COMMAND=/usr/bin/systemctl restart nginx` — **хто** зробив **що** від root\n\n## Рахуємо атакувальників\n```\n$ sudo grep 'Failed password' /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c\n```\n`$NF` — останнє поле, `$(NF-3)` — четверте з кінця, тут це IP.\n\n> Рядки sudo в auth.log — перше місце, куди дивитися на питання «хто перезапустив nginx о 10:12?»."
+            "uk": "## Що показує auth.log\n- `Accepted publickey for student from 192.168.1.10` — успішний вхід через ssh\n- `Failed password for invalid user admin from 45.155.205.2` — хтось підбирає пароль\n- `sudo: student : ... COMMAND=/usr/bin/systemctl restart nginx` — **хто** зробив **що** від root\n\n## Рахуємо атакувальників\n```\n$ sudo grep 'Failed password' /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c\n```\n`$NF` — останнє поле, `$(NF-3)` — четверте з кінця, тут це IP.\n\n> Рядки sudo в auth.log — перше місце, куди дивитися на питання «хто перезапустив nginx о 10:12?».",
+            "pl": "## Co pokazuje auth.log\n- `Accepted publickey for student from 192.168.1.10` — udane logowanie przez ssh\n- `Failed password for invalid user admin from 45.155.205.2` — ktoś zgaduje\n- `sudo: student : ... COMMAND=/usr/bin/systemctl restart nginx` — **kto** zrobił **co** jako root\n\n## Liczenie atakujących\n```\n$ sudo grep 'Failed password' /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c\n```\n`$NF` = ostatnie pole, `$(NF-3)` = czwarte od końca — tutaj IP.\n\n> Wiersze `sudo` w auth.log to pierwsze miejsce, gdzie szukać po pytaniu „kto zrestartował nginx o 10:12?”."
           },
           "title": {
             "en": "Logins and sudo",
             "ru": "Входы и sudo",
-            "uk": "Входи та sudo"
+            "uk": "Входи та sudo",
+            "pl": "Logowania i sudo"
           }
         },
         {
@@ -1873,7 +1924,8 @@
           "goal": {
             "en": "How many failed password attempts are in /var/log/auth.log?",
             "ru": "Сколько неудачных попыток ввода пароля в /var/log/auth.log?",
-            "uk": "Скільки невдалих спроб введення пароля в /var/log/auth.log?"
+            "uk": "Скільки невдалих спроб введення пароля в /var/log/auth.log?",
+            "pl": "Ile nieudanych prób podania hasła jest w /var/log/auth.log?"
           },
           "checks": [
             {
@@ -1883,7 +1935,8 @@
               "label": {
                 "en": "grep -c via sudo",
                 "ru": "grep -c через sudo",
-                "uk": "grep -c через sudo"
+                "uk": "grep -c через sudo",
+                "pl": "grep -c przez sudo"
               }
             },
             {
@@ -1915,7 +1968,8 @@
           "goal": {
             "en": "Who restarted nginx with sudo? Find the sudo line.",
             "ru": "Кто перезапускал nginx через sudo? Найдите строку sudo.",
-            "uk": "Хто перезапускав nginx через sudo? Знайдіть рядок sudo."
+            "uk": "Хто перезапускав nginx через sudo? Знайдіть рядок sudo.",
+            "pl": "Kto zrestartował nginx przez sudo? Znajdź wiersz sudo."
           },
           "checks": [
             {
@@ -1958,7 +2012,8 @@
           "goal": {
             "en": "List the attacking IPs (one per line, unique).",
             "ru": "Выведите атакующие IP (по одному на строку, без повторов).",
-            "uk": "Виведіть IP атакувальників (по одному на рядок, без повторів)."
+            "uk": "Виведіть IP атакувальників (по одному на рядок, без повторів).",
+            "pl": "Wypisz atakujące IP (po jednym w wierszu, bez powtórzeń)."
           },
           "checks": [
             {
@@ -1977,7 +2032,8 @@
               "label": {
                 "en": "45.155.205.9 is listed",
                 "ru": "Есть 45.155.205.9",
-                "uk": "Є 45.155.205.9"
+                "uk": "Є 45.155.205.9",
+                "pl": "Widać 45.155.205.9"
               }
             },
             {
@@ -1986,7 +2042,8 @@
               "label": {
                 "en": "6 unique IPs",
                 "ru": "6 уникальных IP",
-                "uk": "6 унікальних IP"
+                "uk": "6 унікальних IP",
+                "pl": "6 unikalnych IP"
               }
             }
           ],
@@ -1994,7 +2051,8 @@
             "direction": {
               "en": "sudo grep 'Failed password' FILE | awk '{print $(NF-3)}' | sort -u",
               "ru": "sudo grep 'Failed password' ФАЙЛ | awk '{print $(NF-3)}' | sort -u",
-              "uk": "sudo grep 'Failed password' ФАЙЛ | awk '{print $(NF-3)}' | sort -u"
+              "uk": "sudo grep 'Failed password' ФАЙЛ | awk '{print $(NF-3)}' | sort -u",
+              "pl": "sudo grep 'Failed password' PLIK | awk '{print $(NF-3)}' | sort -u"
             },
             "command": "awk"
           },
@@ -2007,23 +2065,27 @@
           "question": {
             "en": "You see thousands of \"Failed password for invalid user admin\" from different IPs. Correct NOC reaction?",
             "ru": "Вы видите тысячи «Failed password for invalid user admin» с разных IP. Правильная реакция NOC?",
-            "uk": "Ви бачите тисячі «Failed password for invalid user admin» з різних IP. Правильна реакція NOC?"
+            "uk": "Ви бачите тисячі «Failed password for invalid user admin» з різних IP. Правильна реакція NOC?",
+            "pl": "Widzisz tysiące „Failed password for invalid user admin” z różnych IP. Prawidłowa reakcja NOC?"
           },
           "options": [
             {
               "en": "Note it in a ticket for security; it is background noise unless a login succeeded",
               "ru": "Записать в тикет для безопасности; это фон, если нет успешного входа",
-              "uk": "Записати в тікет для безпеки; це фон, якщо немає успішного входу"
+              "uk": "Записати в тікет для безпеки; це фон, якщо немає успішного входу",
+              "pl": "Zanotować w zgłoszeniu dla bezpieczeństwa; to szum tła, o ile nie było udanego logowania"
             },
             {
               "en": "Shut the server down",
               "ru": "Выключить сервер",
-              "uk": "Вимкнути сервер"
+              "uk": "Вимкнути сервер",
+              "pl": "Wyłączyć serwer"
             },
             {
               "en": "Delete auth.log",
               "ru": "Удалить auth.log",
-              "uk": "Видалити auth.log"
+              "uk": "Видалити auth.log",
+              "pl": "Usunąć auth.log"
             }
           ],
           "answer": 0
@@ -2035,7 +2097,8 @@
       "title": {
         "en": "Building a timeline",
         "ru": "Строим таймлайн",
-        "uk": "Будуємо таймлайн"
+        "uk": "Будуємо таймлайн",
+        "pl": "Budowanie osi czasu"
       },
       "commands": [
         "grep",
@@ -2349,12 +2412,14 @@
           "text": {
             "en": "## Why a timeline\nEvery incident review starts with the question **\"what happened when?\"**. Collect events from all sources into one list:\n```\n10:12  student restarted nginx (auth.log)\n10:50  api: db pool exhausted (app/api.log)\n10:50  api: FATAL ECONNRESET, shutting down\n10:50  nginx: first 502 (access.log)\n10:55  alert \"5xx rate high\" fired\n```\n## Rules\n- times in **one timezone** (UTC is safest)\n- the source of each line — so others can verify\n- facts, not guesses: \"api stopped\" — fact, \"the DB is to blame\" — hypothesis\n\n> The first error in time is usually closer to the cause than the loudest one.",
             "ru": "## Зачем таймлайн\nЛюбой разбор инцидента начинается с вопроса **«что и когда случилось?»**. Соберите события из всех источников в один список:\n```\n10:12  student перезапустил nginx (auth.log)\n10:50  api: db pool exhausted (app/api.log)\n10:50  api: FATAL ECONNRESET, shutting down\n10:50  nginx: первый 502 (access.log)\n10:55  сработал алерт «5xx rate high»\n```\n## Правила\n- время в **одном часовом поясе** (надёжнее всего UTC)\n- источник каждой строки — чтобы другие могли проверить\n- факты, а не догадки: «api остановился» — факт, «виновата БД» — гипотеза\n\n> Первая по времени ошибка обычно ближе к причине, чем самая громкая.",
-            "uk": "## Навіщо таймлайн\nБудь-який розбір інциденту починається з питання **«що і коли сталося?»**. Зберіть події з усіх джерел в один список:\n```\n10:12  student перезапустив nginx (auth.log)\n10:50  api: db pool exhausted (app/api.log)\n10:50  api: FATAL ECONNRESET, shutting down\n10:50  nginx: перший 502 (access.log)\n10:55  спрацював алерт «5xx rate high»\n```\n## Правила\n- час в **одному часовому поясі** (найнадійніше UTC)\n- джерело кожного рядка — щоб інші могли перевірити\n- факти, а не здогадки: «api зупинився» — факт, «винна БД» — гіпотеза\n\n> Перша за часом помилка зазвичай ближча до причини, ніж найгучніша."
+            "uk": "## Навіщо таймлайн\nБудь-який розбір інциденту починається з питання **«що і коли сталося?»**. Зберіть події з усіх джерел в один список:\n```\n10:12  student перезапустив nginx (auth.log)\n10:50  api: db pool exhausted (app/api.log)\n10:50  api: FATAL ECONNRESET, shutting down\n10:50  nginx: перший 502 (access.log)\n10:55  спрацював алерт «5xx rate high»\n```\n## Правила\n- час в **одному часовому поясі** (найнадійніше UTC)\n- джерело кожного рядка — щоб інші могли перевірити\n- факти, а не здогадки: «api зупинився» — факт, «винна БД» — гіпотеза\n\n> Перша за часом помилка зазвичай ближча до причини, ніж найгучніша.",
+            "pl": "## Po co oś czasu\nKażde omówienie incydentu zaczyna się od pytania **„co się stało i kiedy?”**. Zbierz zdarzenia ze wszystkich źródeł w jedną listę:\n```\n10:12  student restarted nginx (auth.log)\n10:50  api: db pool exhausted (app/api.log)\n10:50  api: FATAL ECONNRESET, shutting down\n10:50  nginx: first 502 (access.log)\n10:55  alert \"5xx rate high\" fired\n```\n## Zasady\n- czasy w **jednej strefie** (UTC jest najbezpieczniejsze)\n- źródło każdego wiersza — żeby inni mogli sprawdzić\n- fakty, nie domysły: „api się zatrzymało” — fakt, „winna jest baza” — hipoteza\n\n> Pierwszy w czasie błąd jest zwykle bliżej przyczyny niż ten najgłośniejszy."
           },
           "title": {
             "en": "What happened when",
             "ru": "Что и когда",
-            "uk": "Що і коли"
+            "uk": "Що і коли",
+            "pl": "Co się stało i kiedy"
           },
           "terminal": false
         },
@@ -2363,7 +2428,8 @@
           "goal": {
             "en": "Find the very first warning or error in /var/log/app/api.log (with its line number).",
             "ru": "Найдите самое первое предупреждение или ошибку в /var/log/app/api.log (с номером строки).",
-            "uk": "Знайдіть найперше попередження або помилку в /var/log/app/api.log (з номером рядка)."
+            "uk": "Знайдіть найперше попередження або помилку в /var/log/app/api.log (з номером рядка).",
+            "pl": "Znajdź pierwsze ostrzeżenie lub błąd w /var/log/app/api.log (z numerem wiersza)."
           },
           "checks": [
             {
@@ -2394,7 +2460,8 @@
             "direction": {
               "en": "grep -n -E 'WARN|ERROR' FILE | head -n 1",
               "ru": "grep -n -E 'WARN|ERROR' ФАЙЛ | head -n 1",
-              "uk": "grep -n -E 'WARN|ERROR' ФАЙЛ | head -n 1"
+              "uk": "grep -n -E 'WARN|ERROR' ФАЙЛ | head -n 1",
+              "pl": "grep -n -E 'WARN|ERROR' PLIK | head -n 1"
             },
             "command": "grep"
           },
@@ -2407,7 +2474,8 @@
           "goal": {
             "en": "Start a timeline: save the ERROR and FATAL lines of the API log to ~/incident/timeline.txt.",
             "ru": "Начните таймлайн: сохраните строки ERROR и FATAL лога API в ~/incident/timeline.txt.",
-            "uk": "Почніть таймлайн: збережіть рядки ERROR і FATAL логу API в ~/incident/timeline.txt."
+            "uk": "Почніть таймлайн: збережіть рядки ERROR і FATAL логу API в ~/incident/timeline.txt.",
+            "pl": "Zacznij oś czasu: zapisz wiersze ERROR i FATAL logu API do ~/incident/timeline.txt."
           },
           "instructions": {
             "en": "1. `mkdir -p ~/incident`\n2. `grep -E 'ERROR|FATAL' /var/log/app/api.log > ~/incident/timeline.txt`\n3. `cat ~/incident/timeline.txt`",
@@ -2422,7 +2490,8 @@
               "label": {
                 "en": "~/incident exists",
                 "ru": "~/incident создан",
-                "uk": "~/incident створено"
+                "uk": "~/incident створено",
+                "pl": "~/incident istnieje"
               }
             },
             {
@@ -2432,7 +2501,8 @@
               "label": {
                 "en": "FATAL is in the timeline",
                 "ru": "FATAL в таймлайне",
-                "uk": "FATAL у таймлайні"
+                "uk": "FATAL у таймлайні",
+                "pl": "FATAL jest na osi czasu"
               }
             },
             {
@@ -2452,7 +2522,8 @@
             "direction": {
               "en": "mkdir ~/incident, then grep -E ... > ~/incident/timeline.txt",
               "ru": "mkdir ~/incident, затем grep -E ... > ~/incident/timeline.txt",
-              "uk": "mkdir ~/incident, потім grep -E ... > ~/incident/timeline.txt"
+              "uk": "mkdir ~/incident, потім grep -E ... > ~/incident/timeline.txt",
+              "pl": "mkdir ~/incident, potem grep -E ... > ~/incident/timeline.txt"
             },
             "command": "grep"
           },
@@ -2466,7 +2537,8 @@
           "goal": {
             "en": "Add the first 502 from access.log to the end of the timeline (do not overwrite it!).",
             "ru": "Добавьте первый 502 из access.log в конец таймлайна (не перезапишите его!).",
-            "uk": "Додайте перший 502 з access.log у кінець таймлайну (не перезапишіть його!)."
+            "uk": "Додайте перший 502 з access.log у кінець таймлайну (не перезапишіть його!).",
+            "pl": "Dopisz pierwsze 502 z access.log na koniec osi czasu (nie nadpisz jej!)."
           },
           "prepare": [
             "mkdir -p ~/incident",
@@ -2480,7 +2552,8 @@
               "label": {
                 "en": "FATAL is still there",
                 "ru": "FATAL на месте",
-                "uk": "FATAL на місці"
+                "uk": "FATAL на місці",
+                "pl": "FATAL wciąż tam jest"
               }
             },
             {
@@ -2490,7 +2563,8 @@
               "label": {
                 "en": "The 502 line was appended",
                 "ru": "Строка 502 дописана",
-                "uk": "Рядок 502 дописано"
+                "uk": "Рядок 502 дописано",
+                "pl": "Wiersz 502 został dopisany"
               }
             },
             {
@@ -2510,7 +2584,8 @@
             "direction": {
               "en": ">> appends, > overwrites.",
               "ru": ">> дописывает, > перезаписывает.",
-              "uk": ">> дописує, > перезаписує."
+              "uk": ">> дописує, > перезаписує.",
+              "pl": ">> dopisuje, > nadpisuje."
             },
             "command": "grep"
           },
@@ -2523,23 +2598,27 @@
           "question": {
             "en": "Which statement belongs in the timeline as a FACT?",
             "ru": "Какое утверждение попадает в таймлайн как ФАКТ?",
-            "uk": "Яке твердження потрапляє в таймлайн як ФАКТ?"
+            "uk": "Яке твердження потрапляє в таймлайн як ФАКТ?",
+            "pl": "Które stwierdzenie trafia na oś czasu jako FAKT?"
           },
           "options": [
             {
               "en": "10:50:04 api logged FATAL ECONNRESET and shut down",
               "ru": "10:50:04 api записал FATAL ECONNRESET и завершился",
-              "uk": "10:50:04 api записав FATAL ECONNRESET і завершився"
+              "uk": "10:50:04 api записав FATAL ECONNRESET і завершився",
+              "pl": "10:50:04 api zapisało FATAL ECONNRESET i się wyłączyło"
             },
             {
               "en": "The developers broke something again",
               "ru": "Разработчики опять что-то сломали",
-              "uk": "Розробники знову щось зламали"
+              "uk": "Розробники знову щось зламали",
+              "pl": "Deweloperzy znowu coś zepsuli"
             },
             {
               "en": "Probably the database is slow",
               "ru": "Наверное, база тормозит",
-              "uk": "Мабуть, база гальмує"
+              "uk": "Мабуть, база гальмує",
+              "pl": "Pewnie baza danych zwalnia"
             }
           ],
           "answer": 0
