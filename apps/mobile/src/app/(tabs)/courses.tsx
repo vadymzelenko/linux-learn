@@ -1,155 +1,264 @@
-import { useState } from 'react';
-import { LayoutAnimation, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, Easing, LayoutAnimation, Pressable, ScrollView, StyleSheet, View, type ScrollViewInstance } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { courseLessons, courseModules, courses, levelFor, lessonMinutes, missions, modules, tr, type Module } from '@linux-learn/content';
+import { activeCourses, courseLessons, courseModules, courses, levelFor, lessonMinutes, missions, modules, tr, type Course, type Module } from '@linux-learn/content';
 import { useStore } from '../../state/store';
-import { useTheme, MONO, MONO_BOLD, space } from '../../theme';
+import { useTheme, MONO, MONO_BOLD, radius, space } from '../../theme';
 import { Body, Button, Card, FadeIn, H1, H2, Icon, Pill, ProgressBar, Row, Screen } from '../../components/ui';
+import { ND } from '../../components/ui/Motion';
 import { dayKey, liveStreak } from '../../lib/progress';
-import { useLocalSearchParams } from 'expo-router';
 import { haptic } from '../../lib/haptics';
+import { showSoon } from '../../lib/soon';
+import { useLayout } from '../../lib/layout';
 import { Text } from '../../theme/Text';
 
-const RAIL = 26;
-const LINE = 2;
+const NODE = 40;
+const RAIL_W = 48;
+const LINE = 3;
 
-/**
- * One connector of the tree, drawn with views (box-drawing glyphs do not line
- * up across fonts): `├─` for a middle child, a rounded `╰─` for the last one.
- */
-function Rail({ last, color, width = RAIL }: { last: boolean; color: string; width?: number }) {
+/** Smooth height/opacity change for the next layout pass. */
+function animateLayout() {
+  LayoutAnimation.configureNext({
+    duration: 260,
+    create: { type: 'easeInEaseOut', property: 'opacity' },
+    update: { type: 'spring', springDamping: 0.86 },
+    delete: { type: 'easeInEaseOut', property: 'opacity' },
+  });
+}
+
+/** A chevron that turns smoothly when a branch opens. */
+function Chevron({ open, color }: { open: boolean; color: string }) {
+  const v = useRef(new Animated.Value(open ? 1 : 0)).current;
+  useEffect(() => {
+    Animated.timing(v, { toValue: open ? 1 : 0, duration: 220, easing: Easing.out(Easing.cubic), useNativeDriver: ND }).start();
+  }, [open, v]);
   return (
-    <View style={{ width, alignSelf: 'stretch' }}>
-      {last ? (
-        <View style={{ position: 'absolute', left: width / 2 - LINE / 2, top: 0, height: '50%', width: width / 2 + LINE / 2, borderLeftWidth: LINE, borderBottomWidth: LINE, borderBottomLeftRadius: 9, borderColor: color }} />
-      ) : (
-        <>
-          <View style={{ position: 'absolute', left: width / 2 - LINE / 2, top: 0, bottom: 0, width: LINE, backgroundColor: color }} />
-          <View style={{ position: 'absolute', left: width / 2, top: '50%', marginTop: -LINE / 2, width: width / 2, height: LINE, backgroundColor: color }} />
-        </>
-      )}
-    </View>
+    <Animated.View style={{ transform: [{ rotate: v.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] }) }] }}>
+      <Icon name="chevron-down" size={20} color={color} />
+    </Animated.View>
   );
 }
 
-/** A vertical line that continues the parent's branch past nested rows. */
-function Pipe({ show, color, width = RAIL }: { show: boolean; color: string; width?: number }) {
-  return <View style={{ width, alignSelf: 'stretch' }}>{show ? <View style={{ position: 'absolute', left: width / 2 - LINE / 2, top: 0, bottom: 0, width: LINE, backgroundColor: color }} /> : null}</View>;
+/** The node of the current module breathes softly to show "you are here". */
+function Pulse({ color, active }: { color: string; active: boolean }) {
+  const v = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    if (!active) return;
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(v, { toValue: 1, duration: 1400, easing: Easing.inOut(Easing.quad), useNativeDriver: ND }),
+        Animated.timing(v, { toValue: 0, duration: 1400, easing: Easing.inOut(Easing.quad), useNativeDriver: ND }),
+      ]),
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [active, v]);
+  if (!active) return null;
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        styles.pulse,
+        { backgroundColor: color, opacity: v.interpolate({ inputRange: [0, 1], outputRange: [0.08, 0.22] }), transform: [{ scale: v.interpolate({ inputRange: [0, 1], outputRange: [1, 1.25] }) }] },
+      ]}
+    />
+  );
 }
 
-function ModuleBranch({ module, last, open, onToggle, nextId, color }: { module: Module; last: boolean; open: boolean; onToggle: () => void; nextId?: string; color: string }) {
+function ModuleBranch({
+  module,
+  index,
+  first,
+  last,
+  open,
+  onToggle,
+  nextId,
+  color,
+  prevDone,
+}: {
+  module: Module;
+  index: number;
+  first: boolean;
+  last: boolean;
+  open: boolean;
+  onToggle: () => void;
+  nextId?: string;
+  color: string;
+  prevDone: boolean;
+}) {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const progress = useStore((s) => s.progress);
   const done = module.lessons.filter((l) => progress.lessons[l.id]?.completedAt).length;
-  const complete = done === module.lessons.length;
+  const total = module.lessons.length;
+  const complete = done === total;
   const active = module.lessons.some((l) => l.id === nextId);
-  const lineColor = theme.border;
-  const tint = complete ? theme.success : active ? color : theme.term.path;
+  const started = done > 0 || module.lessons.some((l) => progress.lessons[l.id]);
+  const tint = complete ? theme.success : active ? color : theme.textDim;
+  // the path is "lit" up to where you are
+  const lineTop = prevDone ? (complete || active ? tint : theme.border) : theme.border;
+  const lineBottom = complete ? theme.success : theme.border;
 
   return (
-    <View>
-      <Pressable
-        onPress={() => {
-          haptic.tap();
-          LayoutAnimation.configureNext(LayoutAnimation.create(220, 'easeInEaseOut', 'opacity'));
-          onToggle();
-        }}
-        accessibilityRole="button"
-        accessibilityLabel={`${tr(module.title, i18n.language)}, ${t('learn.lessons', { done, total: module.lessons.length })}`}
-        accessibilityState={{ expanded: open }}
-        style={({ pressed }) => [styles.row, pressed && { backgroundColor: theme.surface2 }]}
-      >
-        <Rail last={last && !open} color={lineColor} />
-        <View style={[styles.node, { backgroundColor: theme.surface2, borderColor: complete ? theme.success : active ? color : theme.border }]}>
-          <Icon name={module.icon} size={20} color={tint} />
+    <View style={styles.branch}>
+      {/* rail: two segments around the node so the path is continuous whatever the height */}
+      <View style={styles.rail}>
+        {!first ? <View style={[styles.lineTop, { backgroundColor: lineTop }]} /> : null}
+        {!last ? <View style={[styles.lineBottom, { backgroundColor: lineBottom }]} /> : null}
+        <View style={styles.nodeWrap}>
+          <Pulse color={color} active={active} />
+          <View
+            style={[
+              styles.node,
+              complete
+                ? { backgroundColor: theme.success, borderColor: theme.success }
+                : active
+                  ? { backgroundColor: theme.surface, borderColor: color }
+                  : { backgroundColor: theme.surface, borderColor: started ? color : theme.border },
+            ]}
+          >
+            {complete ? <Icon name="check" size={20} color={theme.onAccent} /> : <Icon name={module.icon} size={19} color={tint} />}
+          </View>
         </View>
-        <View style={{ flex: 1, gap: 3, paddingVertical: 2 }}>
-          <Text style={[styles.dirName, { color: theme.term.path }]} numberOfLines={1}>
-            {module.path.split('/').pop()}/
-          </Text>
-          <Text style={{ color: theme.text, fontSize: 14 }} numberOfLines={2}>
-            {tr(module.title, i18n.language)}
-          </Text>
-          <ProgressBar value={done / module.lessons.length} height={4} color={complete ? theme.success : color} track={theme.surface2} style={{ marginTop: 3, maxWidth: 180 }} />
-        </View>
-        <View style={{ alignItems: 'flex-end', gap: 4 }}>
-          {complete ? (
-            <Icon name="check-circle" size={20} color={theme.success} />
-          ) : (
-            <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 12 }}>
-              {done}/{module.lessons.length}
+      </View>
+
+      <View style={[styles.moduleCard, { backgroundColor: active ? theme.surface2 : theme.surface, borderColor: active ? color : theme.border }]}>
+        <Pressable
+          onPress={() => {
+            haptic.tap();
+            animateLayout();
+            onToggle();
+          }}
+          accessibilityRole="button"
+          accessibilityLabel={`${tr(module.title, i18n.language)}, ${t('learn.lessons', { done, total })}`}
+          accessibilityState={{ expanded: open }}
+          style={({ pressed }) => [styles.moduleHead, pressed && { opacity: 0.75 }]}
+        >
+          <View style={{ flex: 1, gap: 4 }}>
+            <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 11 }} numberOfLines={1}>
+              {String(index + 1).padStart(2, '0')} · {module.path.split('/').pop()}/
             </Text>
-          )}
-          <Icon name={open ? 'chevron-up' : 'chevron-down'} size={18} color={theme.textDim} />
-        </View>
-      </Pressable>
-      {open
-        ? module.lessons.map((l, i) => {
-            const lp = progress.lessons[l.id];
-            const isNext = l.id === nextId;
-            const isLast = i === module.lessons.length - 1;
-            const status = lp?.completedAt ? 'done' : isNext ? 'next' : lp ? 'started' : 'todo';
-            return (
-              <Pressable
-                key={l.id}
-                onPress={() => {
-                  haptic.tap();
-                  router.push({ pathname: '/lesson/[id]', params: { id: l.id } });
-                }}
-                accessibilityRole="button"
-                accessibilityLabel={tr(l.title, i18n.language)}
-                style={({ pressed }) => [styles.row, styles.lessonRow, pressed && { backgroundColor: theme.surface2 }, isNext && { backgroundColor: theme.surface2 }]}
-              >
-                <Pipe show={!last} color={lineColor} />
-                <Rail last={isLast} color={lineColor} width={22} />
-                <View
-                  style={[
-                    styles.dot,
-                    status === 'done' && { backgroundColor: theme.success, borderColor: theme.success },
-                    status === 'next' && { backgroundColor: color, borderColor: color },
-                    status === 'started' && { borderColor: color },
-                    status === 'todo' && { borderColor: theme.border },
-                  ]}
+            <Text style={{ color: theme.text, fontSize: 16, fontWeight: '700' }} numberOfLines={2}>
+              {tr(module.title, i18n.language)}
+            </Text>
+            <Row gap={8} style={{ marginTop: 4 }}>
+              <ProgressBar value={done / total} height={5} color={complete ? theme.success : color} track={theme.border} style={{ flex: 1, maxWidth: 200 }} />
+              <Text style={{ color: complete ? theme.success : theme.textDim, fontFamily: MONO, fontSize: 12 }}>
+                {done}/{total}
+              </Text>
+            </Row>
+          </View>
+          <Chevron open={open} color={theme.textDim} />
+        </Pressable>
+
+        {open ? (
+          <View style={styles.lessons}>
+            <View style={[styles.lessonLine, { backgroundColor: theme.border }]} />
+            {module.lessons.map((l) => {
+              const lp = progress.lessons[l.id];
+              const isNext = l.id === nextId;
+              const status = lp?.completedAt ? 'done' : isNext ? 'next' : lp ? 'started' : 'todo';
+              return (
+                <Pressable
+                  key={l.id}
+                  onPress={() => {
+                    haptic.tap();
+                    router.push({ pathname: '/lesson/[id]', params: { id: l.id } });
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={tr(l.title, i18n.language)}
+                  style={({ pressed }) => [styles.lessonRow, { backgroundColor: pressed ? theme.border : isNext ? theme.bg : 'transparent' }]}
                 >
-                  {status === 'done' ? <Icon name="check" size={13} color={theme.onAccent} /> : status === 'next' ? <Icon name="play" size={12} color={theme.onAccent} /> : null}
-                </View>
-                <Text style={{ flex: 1, color: status === 'todo' ? theme.textDim : theme.text, fontSize: 15, fontWeight: isNext ? '700' : '400' }} numberOfLines={2}>
-                  {tr(l.title, i18n.language)}
-                </Text>
-                {lp?.completedAt ? (
-                  <Text style={{ color: theme.success, fontFamily: MONO, fontSize: 12 }}>+{lp.xp}</Text>
-                ) : (
-                  <Text style={{ color: theme.textDim, fontSize: 12 }}>{t('courses.minutes', { n: lessonMinutes(l) })}</Text>
-                )}
-              </Pressable>
-            );
-          })
-        : null}
+                  <View
+                    style={[
+                      styles.dot,
+                      { backgroundColor: theme.surface, borderColor: theme.border },
+                      status === 'done' && { backgroundColor: theme.success, borderColor: theme.success },
+                      status === 'next' && { backgroundColor: color, borderColor: color },
+                      status === 'started' && { borderColor: color },
+                    ]}
+                  >
+                    {status === 'done' ? <Icon name="check" size={12} color={theme.onAccent} /> : status === 'next' ? <Icon name="play" size={11} color={theme.onAccent} /> : null}
+                  </View>
+                  <Text style={{ flex: 1, color: status === 'todo' ? theme.textDim : theme.text, fontSize: 15, fontWeight: isNext ? '700' : '400' }} numberOfLines={2}>
+                    {tr(l.title, i18n.language)}
+                  </Text>
+                  {lp?.completedAt ? (
+                    <Text style={{ color: theme.success, fontFamily: MONO, fontSize: 12 }}>+{lp.xp}</Text>
+                  ) : (
+                    <Text style={{ color: theme.textDim, fontSize: 12 }}>{t('courses.minutes', { n: lessonMinutes(l) })}</Text>
+                  )}
+                </Pressable>
+              );
+            })}
+          </View>
+        ) : null}
+      </View>
     </View>
+  );
+}
+
+function CourseTab({ c, active, onPress, onLayout }: { c: Course; active: boolean; onPress: () => void; onLayout: (x: number) => void }) {
+  const theme = useTheme();
+  const { t, i18n } = useTranslation();
+  return (
+    <Pressable
+      onPress={onPress}
+      onLayout={(e) => onLayout(e.nativeEvent.layout.x)}
+      accessibilityRole="tab"
+      accessibilityState={{ selected: active, disabled: !!c.soon }}
+      style={({ pressed }) => [
+        styles.courseTab,
+        { backgroundColor: active ? c.color : theme.surface2, opacity: c.soon ? 0.6 : pressed ? 0.85 : 1, borderColor: active ? c.color : theme.border },
+      ]}
+    >
+      <Icon name={c.icon} size={18} color={active ? '#06240F' : c.soon ? theme.textDim : c.color} />
+      <Text style={{ color: active ? '#06240F' : theme.text, fontWeight: '700' }}>{tr(c.title, i18n.language)}</Text>
+      {c.soon ? (
+        <View style={[styles.soonBadge, { backgroundColor: theme.border }]}>
+          <Text style={{ color: theme.textDim, fontSize: 10, fontWeight: '800' }}>{t('courses.soon').toUpperCase()}</Text>
+        </View>
+      ) : null}
+    </Pressable>
   );
 }
 
 export default function CoursesScreen() {
   const theme = useTheme();
+  const layout = useLayout();
   const { t, i18n } = useTranslation();
   const params = useLocalSearchParams<{ course?: string }>();
   const progress = useStore((s) => s.progress);
-  const [courseId, setCourseId] = useState(params.course ?? courses[0]!.id);
-  const course = courses.find((c) => c.id === (params.course ?? courseId)) ?? courses[0]!;
+  const [courseId, setCourseId] = useState(params.course ?? activeCourses[0]!.id);
+  const course = activeCourses.find((c) => c.id === (params.course ?? courseId)) ?? activeCourses[0]!;
   const lessons = courseLessons(course);
   const next = lessons.find((l) => !progress.lessons[l.lesson.id]?.completedAt);
-  const [open, setOpen] = useState<string | null>(next?.module.id ?? course.modules[0]!);
+  const [open, setOpen] = useState<string | null>(next?.module.id ?? course.modules[0] ?? null);
   const level = levelFor(progress.xp);
   const streak = liveStreak(progress.streak, dayKey(new Date()));
   const doneCount = lessons.filter((l) => progress.lessons[l.lesson.id]?.completedAt).length;
-  const allDone = courses.every((c) => courseLessons(c).every((l) => progress.lessons[l.lesson.id]?.completedAt));
+  const allDone = activeCourses.every((c) => courseLessons(c).every((l) => progress.lessons[l.lesson.id]?.completedAt));
   const mods = courseModules(course);
+  const tabsRef = useRef<ScrollViewInstance>(null);
+  const tabX = useRef<Record<string, number>>({});
+  // keep the selected course tab in view (it may be off-screen on a phone)
+  useEffect(() => {
+    const x = tabX.current[course.id];
+    if (x !== undefined) tabsRef.current?.scrollTo({ x: Math.max(0, x - 16), animated: true });
+  }, [course.id]);
+
+  // a course opened from the home screen: unfold its current module
+  useEffect(() => {
+    if (!params.course) return;
+    const c = activeCourses.find((x) => x.id === params.course);
+    if (c) setOpen(courseLessons(c).find((l) => !progress.lessons[l.lesson.id]?.completedAt)?.module.id ?? c.modules[0] ?? null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.course]);
 
   return (
     <Screen>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView contentContainerStyle={[styles.content, { padding: layout.pad, maxWidth: layout.tablet ? 860 : undefined }]}>
         <Row style={{ justifyContent: 'space-between' }}>
           <H1>{t('courses.title')}</H1>
           <Row gap={12}>
@@ -167,55 +276,83 @@ export default function CoursesScreen() {
           {t('profile.level')}: {t(`profile.levels.${level.id}` as 'profile.levels.root')}
         </Body>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingBottom: space.md }}>
-          {courses.map((c) => {
-            const active = c.id === course.id;
-            return (
-              <Pressable
-                key={c.id}
-                onPress={() => {
-                  setCourseId(c.id);
-                  router.setParams({ course: c.id });
-                  setOpen(courseLessons(c).find((l) => !progress.lessons[l.lesson.id]?.completedAt)?.module.id ?? c.modules[0]!);
-                }}
-                accessibilityRole="tab"
-                accessibilityState={{ selected: active }}
-                style={[styles.courseTab, { backgroundColor: active ? c.color : theme.surface2 }]}
-              >
-                <Icon name={c.icon} size={18} color={active ? '#06240F' : theme.text} />
-                <Text style={{ color: active ? '#06240F' : theme.text, fontWeight: '700' }}>{tr(c.title, i18n.language)}</Text>
-              </Pressable>
-            );
-          })}
+        <ScrollView ref={tabsRef} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingBottom: space.md, paddingRight: space.md }}>
+          {courses.map((c) => (
+            <CourseTab
+              key={c.id}
+              onLayout={(x) => {
+                tabX.current[c.id] = x;
+                if (c.id === course.id && x > 200) tabsRef.current?.scrollTo({ x: x - 16, animated: false });
+              }}
+              c={c}
+              active={c.id === course.id}
+              onPress={() => {
+                if (c.soon) return showSoon(c, i18n.language, t);
+                haptic.tap();
+                animateLayout();
+                setCourseId(c.id);
+                router.setParams({ course: c.id });
+                setOpen(courseLessons(c).find((l) => !progress.lessons[l.lesson.id]?.completedAt)?.module.id ?? c.modules[0] ?? null);
+              }}
+            />
+          ))}
         </ScrollView>
 
-        {next ? (
-          <Card style={[styles.hero, { backgroundColor: theme.surface2 }]}>
-            <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 12 }}>
-              {next.module.path}/{next.lesson.id}
-            </Text>
-            <H2>{tr(next.lesson.title, i18n.language)}</H2>
-            <ProgressBar value={doneCount / lessons.length} color={course.color} track={theme.border} />
-            <Text style={{ color: theme.textDim, fontSize: 13 }}>{t('learn.lessons', { done: doneCount, total: lessons.length })}</Text>
-            <Button
-              title={doneCount === 0 ? t('learn.startCourse') : t('common.continue')}
-              icon="play"
-              onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
-            />
-          </Card>
-        ) : null}
+        <FadeIn key={course.id}>
+          <Body dim style={{ marginBottom: space.md }}>
+            {tr(course.description, i18n.language)}
+          </Body>
+          {next ? (
+            <Card style={[styles.hero, { backgroundColor: theme.surface2, borderColor: course.color }]}>
+              <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 12 }} numberOfLines={1}>
+                {next.module.path}/{next.lesson.id}
+              </Text>
+              <H2>{tr(next.lesson.title, i18n.language)}</H2>
+              <ProgressBar value={doneCount / lessons.length} color={course.color} track={theme.border} />
+              <Text style={{ color: theme.textDim, fontSize: 13 }}>{t('learn.lessons', { done: doneCount, total: lessons.length })}</Text>
+              <Button
+                title={doneCount === 0 ? t('learn.startCourse') : t('common.continue')}
+                icon="play"
+                onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
+              />
+            </Card>
+          ) : (
+            <Card style={[styles.hero, { borderColor: theme.success }]}>
+              <Row>
+                <Icon name="check-circle" color={theme.success} size={28} />
+                <H2 style={{ flex: 1 }}>{t('courses.courseDone')}</H2>
+              </Row>
+            </Card>
+          )}
 
-        <Card style={{ marginTop: space.lg, paddingHorizontal: space.sm, paddingVertical: space.md }}>
-          <Row gap={8} style={{ paddingBottom: 2 }}>
+          <View style={styles.treeHead}>
             <View style={[styles.rootNode, { backgroundColor: course.color }]}>
-              <Icon name={course.icon} size={16} color="#06240F" />
+              <Icon name={course.icon} size={18} color="#06240F" />
             </View>
-            <Text style={[styles.dirName, { color: theme.term.path }]}>/{course.id}</Text>
-          </Row>
-          {mods.map((m, i) => (
-            <FadeIn key={m.id} index={i} from={8}><ModuleBranch color={course.color} module={m} last={i === mods.length - 1} open={open === m.id} onToggle={() => setOpen(open === m.id ? null : m.id)} {...(next ? { nextId: next.lesson.id } : {})} /></FadeIn>
-          ))}
-        </Card>
+            <Text style={[styles.rootName, { color: theme.text }]}>~/{course.id}</Text>
+            <Pill text={t('learn.lessons', { done: doneCount, total: lessons.length })} />
+          </View>
+          <View style={styles.tree}>
+            {mods.map((m, i) => {
+              const prevDone = i === 0 || mods[i - 1]!.lessons.every((l) => progress.lessons[l.id]?.completedAt);
+              return (
+                <FadeIn key={m.id} index={i} from={10}>
+                  <ModuleBranch
+                    color={course.color}
+                    module={m}
+                    index={i}
+                    first={i === 0}
+                    last={i === mods.length - 1}
+                    prevDone={prevDone}
+                    open={open === m.id}
+                    onToggle={() => setOpen(open === m.id ? null : m.id)}
+                    {...(next ? { nextId: next.lesson.id } : {})}
+                  />
+                </FadeIn>
+              );
+            })}
+          </View>
+        </FadeIn>
 
         <H2 style={{ marginTop: space.xl }}>{t('learn.missions')}</H2>
         <Body dim style={{ marginBottom: space.md }}>
@@ -239,7 +376,7 @@ export default function CoursesScreen() {
                   <Body dim numberOfLines={2} style={{ marginTop: 6 }}>
                     {tr(m.story, i18n.language)}
                   </Body>
-                  <Row style={{ marginTop: 8 }}>
+                  <Row style={{ marginTop: 8, flexWrap: 'wrap' }}>
                     <Pill text={t('common.xp', { count: m.xp })} />
                     {req && !done ? <Pill text={`↳ ${tr(req.title, i18n.language)}`} /> : null}
                   </Row>
@@ -268,14 +405,26 @@ export default function CoursesScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { padding: space.lg, maxWidth: 820, width: '100%', alignSelf: 'center' },
+  content: { width: '100%', alignSelf: 'center' },
   chip: { paddingHorizontal: 4 },
-  hero: { gap: space.md },
-  courseTab: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 999, minHeight: 42 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingRight: space.sm, borderRadius: 10, minHeight: 64 },
-  lessonRow: { minHeight: 48, gap: 6 },
-  node: { width: 38, height: 38, borderRadius: 12, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', marginVertical: 8 },
-  dot: { width: 20, height: 20, borderRadius: 10, borderWidth: 2, alignItems: 'center', justifyContent: 'center', marginRight: 4 },
-  dirName: { fontFamily: MONO_BOLD, fontSize: 15 },
-  rootNode: { width: 26, height: 26, borderRadius: 8, alignItems: 'center', justifyContent: 'center', marginLeft: 0 },
+  hero: { gap: space.md, borderWidth: 1 },
+  courseTab: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingVertical: 10, borderRadius: radius.pill, minHeight: 44, borderWidth: StyleSheet.hairlineWidth },
+  soonBadge: { borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2 },
+  treeHead: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: space.xl, marginBottom: space.sm, paddingLeft: (RAIL_W - 30) / 2 },
+  rootNode: { width: 30, height: 30, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  rootName: { fontFamily: MONO_BOLD, fontSize: 15, flex: 1 },
+  tree: { paddingBottom: space.sm },
+  branch: { flexDirection: 'row', alignItems: 'stretch' },
+  rail: { width: RAIL_W, alignItems: 'center' },
+  lineTop: { position: 'absolute', top: 0, height: 10 + NODE / 2, width: LINE, borderRadius: LINE, left: RAIL_W / 2 - LINE / 2 },
+  lineBottom: { position: 'absolute', top: 10 + NODE / 2, bottom: 0, width: LINE, borderRadius: LINE, left: RAIL_W / 2 - LINE / 2 },
+  nodeWrap: { marginTop: 10, width: NODE, height: NODE, alignItems: 'center', justifyContent: 'center' },
+  node: { width: NODE, height: NODE, borderRadius: NODE / 2, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
+  pulse: { position: 'absolute', width: NODE + 14, height: NODE + 14, borderRadius: (NODE + 14) / 2 },
+  moduleCard: { flex: 1, borderRadius: radius.lg, borderWidth: StyleSheet.hairlineWidth, marginBottom: space.md, overflow: 'hidden' },
+  moduleHead: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: space.md, paddingVertical: space.md, minHeight: 72 },
+  lessons: { paddingHorizontal: 6, paddingBottom: 8 },
+  lessonLine: { position: 'absolute', left: 6 + 14 + 10 - 1, top: 22, bottom: 22, width: 2, borderRadius: 1 },
+  lessonRow: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 48, paddingHorizontal: 14, paddingVertical: 6, borderRadius: radius.md },
+  dot: { width: 20, height: 20, borderRadius: 10, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
 });

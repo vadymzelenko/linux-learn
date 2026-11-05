@@ -215,7 +215,9 @@ export const CourseSchema = z.object({
   title: L10n,
   subtitle: L10n,
   description: L10n,
-  modules: z.array(z.string()).min(1),
+  /** Announced course ("Later"): shown greyed out, no modules yet. */
+  soon: z.boolean().optional(),
+  modules: z.array(z.string()),
 });
 export type Course = z.infer<typeof CourseSchema>;
 

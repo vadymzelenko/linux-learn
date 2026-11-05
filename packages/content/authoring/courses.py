@@ -20,9 +20,31 @@ C = [
      "subtitle": {**L("Containers, images, Dockerfile and Compose", "Контейнеры, образы, Dockerfile и Compose", "Контейнери, образи, Dockerfile і Compose"), "pl": "Kontenery, obrazy, Dockerfile i Compose"},
      "description": {**L("Run, debug and build containers: from hello-world to a multi-container app with docker compose.", "Запускайте, отлаживайте и собирайте контейнеры: от hello-world до приложения из нескольких контейнеров на docker compose.", "Запускайте, налагоджуйте й збирайте контейнери: від hello-world до застосунку з кількох контейнерів на docker compose."), "pl": "Uruchamiaj, debuguj i buduj kontenery: od hello-world do aplikacji z wielu kontenerów w docker compose."},
      "modules": ["docker-basics", "docker-ops", "docker-build"]},
+    {"id": "git", "icon": "git", "color": "#F1502F",
+     "title": {**L("Git & GitHub", "Git и GitHub", "Git і GitHub"), "pl": "Git i GitHub"},
+     "subtitle": {**L("Commits, branches, merging, pull requests", "Коммиты, ветки, слияние, pull request’ы", "Коміти, гілки, злиття, pull request’и"), "pl": "Commity, gałęzie, scalanie, pull requesty"},
+     "description": {**L("Version control from the first commit to the team workflow on GitHub: branches, conflicts, push and pull, pull requests and issues.", "Контроль версий от первого коммита до командной работы на GitHub: ветки, конфликты, push и pull, pull request’ы и issues.", "Контроль версій від першого коміту до командної роботи на GitHub: гілки, конфлікти, push і pull, pull request’и та issues."), "pl": "Kontrola wersji od pierwszego commita do pracy zespołowej na GitHubie: gałęzie, konflikty, push i pull, pull requesty i zgłoszenia."},
+     "modules": ["git-basics", "git-branches", "github"]},
+    # announced courses: shown with a "Later" badge, no lessons yet
+    {"id": "bash", "icon": "script-text-outline", "color": "#B48EF5", "soon": True,
+     "title": {**L("Bash scripting", "Bash-скрипты", "Bash-скрипти"), "pl": "Skrypty Bash"},
+     "subtitle": {**L("Variables, functions, arguments, cron", "Переменные, функции, аргументы, cron", "Змінні, функції, аргументи, cron"), "pl": "Zmienne, funkcje, argumenty, cron"},
+     "description": {**L("Automate routine work: scripts with arguments, functions, error handling and scheduled jobs.", "Автоматизируйте рутину: скрипты с аргументами, функции, обработка ошибок и задания по расписанию.", "Автоматизуйте рутину: скрипти з аргументами, функції, обробка помилок і завдання за розкладом."), "pl": "Automatyzuj rutynę: skrypty z argumentami, funkcje, obsługa błędów i zadania cykliczne."},
+     "modules": []},
+    {"id": "networks", "icon": "lan", "color": "#F5A524", "soon": True,
+     "title": {**L("Networks deep dive", "Сети глубже", "Мережі глибше"), "pl": "Sieci dogłębnie"},
+     "subtitle": {**L("TCP/IP, DNS, SSH, firewalls, TLS", "TCP/IP, DNS, SSH, файрволы, TLS", "TCP/IP, DNS, SSH, файрволи, TLS"), "pl": "TCP/IP, DNS, SSH, zapory, TLS"},
+     "description": {**L("How packets travel: addressing and routing, DNS, SSH keys, firewalls and certificates.", "Как путешествуют пакеты: адресация и маршрутизация, DNS, SSH-ключи, файрволы и сертификаты.", "Як подорожують пакети: адресація й маршрутизація, DNS, SSH-ключі, файрволи та сертифікати."), "pl": "Jak podróżują pakiety: adresacja i routing, DNS, klucze SSH, zapory i certyfikaty."},
+     "modules": []},
+    {"id": "kubernetes", "icon": "ship-wheel", "color": "#4F8DF5", "soon": True,
+     "title": {**L("Kubernetes", "Kubernetes", "Kubernetes"), "pl": "Kubernetes"},
+     "subtitle": {**L("Pods, deployments, services, kubectl", "Поды, деплойменты, сервисы, kubectl", "Поди, деплойменти, сервіси, kubectl"), "pl": "Pody, deploymenty, serwisy, kubectl"},
+     "description": {**L("Run containers at scale: kubectl, pods, deployments, services and rolling updates.", "Запускайте контейнеры в масштабе: kubectl, поды, деплойменты, сервисы и плавные обновления.", "Запускайте контейнери в масштабі: kubectl, поди, деплойменти, сервіси й плавні оновлення."), "pl": "Uruchamiaj kontenery na dużą skalę: kubectl, pody, deploymenty, serwisy i płynne aktualizacje."},
+     "modules": []},
 ]
 for c in C:
     c["modules"] = [m for m in c["modules"] if m in existing]
+    assert c["modules"] or c.get("soon"), c["id"]
 json.dump(C, open(os.path.join(ROOT, 'courses.json'), 'w'), indent=2, ensure_ascii=False)
 open(os.path.join(ROOT, 'courses.json'), 'a').write('\n')
 print({c['id']: len(c['modules']) for c in C})

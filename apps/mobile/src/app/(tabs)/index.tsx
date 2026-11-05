@@ -1,7 +1,8 @@
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { challenges, courseHours, courseLessons, courses, glossary, levelFor, tr } from '@linux-learn/content';
+import { activeCourses, challenges, courseHours, courseLessons, glossary, levelFor, soonCourses, tr } from '@linux-learn/content';
+import { showSoon } from '../../lib/soon';
 import { Text } from '../../theme/Text';
 import { useStore } from '../../state/store';
 import { useTheme, MONO, space } from '../../theme';
@@ -40,7 +41,7 @@ export default function HomeScreen() {
   const nextTask = challenges.find((c) => !progress.practice?.[c.id]);
 
   // the most recently touched unfinished lesson, else the first unfinished lesson of the first course
-  const all = courses.flatMap((c) => courseLessons(c).map((l) => ({ ...l, course: c })));
+  const all = activeCourses.flatMap((c) => courseLessons(c).map((l) => ({ ...l, course: c })));
   const started = all.find((l) => progress.lessons[l.lesson.id] && !progress.lessons[l.lesson.id]!.completedAt);
   const next = started ?? all.find((l) => !progress.lessons[l.lesson.id]?.completedAt);
 
@@ -85,7 +86,7 @@ export default function HomeScreen() {
 
         <H2 style={styles.section}>{t('home.courses')}</H2>
         <View style={{ gap: space.md }}>
-          {courses.map((c, ci) => {
+          {activeCourses.map((c, ci) => {
             const ls = courseLessons(c);
             const done = ls.filter((l) => progress.lessons[l.lesson.id]?.completedAt).length;
             return (
@@ -110,6 +111,39 @@ export default function HomeScreen() {
             );
           })}
         </View>
+
+        {soonCourses.length ? (
+          <>
+            <Text style={[styles.soonHead, { color: theme.textDim }]}>{t('home.soon').toUpperCase()}</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingRight: space.md }}>
+              {soonCourses.map((c) => (
+                <Pressable
+                  key={c.id}
+                  onPress={() => showSoon(c, i18n.language, t)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${tr(c.title, i18n.language)}, ${t('courses.soon')}`}
+                  style={({ pressed }) => [styles.soon, { backgroundColor: theme.surface, borderColor: theme.border, opacity: pressed ? 0.8 : 1 }]}
+                >
+                  <View style={[styles.soonIcon, { backgroundColor: theme.surface2 }]}>
+                    <Icon name={c.icon} size={22} color={c.color} />
+                  </View>
+                  <View style={{ flex: 1, gap: 2, paddingTop: 14 }}>
+                    <Text style={{ color: theme.text, fontWeight: '800' }} numberOfLines={1}>
+                      {tr(c.title, i18n.language)}
+                    </Text>
+                    <Text style={{ color: theme.textDim, fontSize: 12 }} numberOfLines={2}>
+                      {tr(c.subtitle, i18n.language)}
+                    </Text>
+                  </View>
+                  <View style={[styles.soonPill, { backgroundColor: theme.surface2 }]}>
+                    <Icon name="clock-outline" size={12} color={theme.textDim} />
+                    <Text style={{ color: theme.textDim, fontSize: 11, fontWeight: '800' }}>{t('courses.soon')}</Text>
+                  </View>
+                </Pressable>
+              ))}
+            </ScrollView>
+          </>
+        ) : null}
 
         <H2 style={styles.section}>{t('home.quick')}</H2>
         <View style={styles.grid}>
@@ -161,5 +195,9 @@ const styles = StyleSheet.create({
   courseIcon: { width: 56, height: 56, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   quick: { width: '31.5%', flexGrow: 1, minWidth: 100, borderRadius: 18, borderWidth: StyleSheet.hairlineWidth, padding: space.md, alignItems: 'center', gap: 8 },
+  soonHead: { fontWeight: '800', fontSize: 12, letterSpacing: 1, marginTop: space.lg, marginBottom: space.sm },
+  soon: { width: 260, flexDirection: 'row', alignItems: 'center', gap: 10, padding: space.md, borderRadius: 18, borderWidth: StyleSheet.hairlineWidth },
+  soonIcon: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center', opacity: 0.85 },
+  soonPill: { position: 'absolute', top: 8, right: 8, flexDirection: 'row', alignItems: 'center', gap: 3, borderRadius: 999, paddingHorizontal: 7, paddingVertical: 2 },
   quickIcon: { width: 48, height: 48, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
 });

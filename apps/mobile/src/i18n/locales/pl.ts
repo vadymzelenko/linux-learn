@@ -103,6 +103,7 @@ const pl: Dict = {
     expand: 'Rozwiń',
   },
   home: {
+    soon: 'Wkrótce',
     hello: 'Cześć, {{name}}!',
     subtitle: 'Czego się dziś uczymy?',
     continue: 'Kontynuuj naukę',
@@ -113,7 +114,10 @@ const pl: Dict = {
     termOfDay: 'Termin dnia',
     tools: 'Narzędzia',
   },
-  courses: { title: 'Kursy', recommended: 'Polecamy dalej', open: 'Otwórz kurs', minutes: '{{n}} min' },
+  courses: {
+    courseDone: 'Kurs ukończony — świetna robota!',
+    soonText: 'Właśnie piszemy ten kurs. Pojawi się w jednej z kolejnych aktualizacji — za darmo, jak wszystko tutaj.',
+    soon: 'Później', title: 'Kursy', recommended: 'Polecamy dalej', open: 'Otwórz kurs', minutes: '{{n}} min' },
   glossary: {
     title: 'Słownik', search: 'Szukaj terminów', open: 'Otwórz słownik', count: '{{n}} terminów', categories: { docker: 'Docker', basics: 'Podstawy', files: 'Pliki', text: 'Tekst', permissions: 'Uprawnienia', processes: 'Procesy', network: 'Sieć', noc: 'NOC i incydenty', shell: 'Powłoka' } },
   library: { title: 'Biblioteka', subtitle: 'Cała teoria do czytania', read: 'Czytaj', practice: 'Przejdź lekcję' },
@@ -198,6 +202,17 @@ const pl: Dict = {
     examples: 'Przykłady',
   },
   explainKeys: {
+    'explain.git.lastN': 'Tylko ostatnie {{n}} commitów',
+    'explain.arg.tagName': 'Nazwa tagu: {{name}}',
+    'explain.arg.revision': 'Commit: {{rev}} (HEAD — bieżący, HEAD~1 — poprzedni)',
+    'explain.arg.configValue': 'Nowa wartość: {{value}}',
+    'explain.arg.configKey': 'Ustawienie {{name}}',
+    'explain.arg.branch': 'Gałąź {{name}}',
+    'explain.arg.remote': 'Zdalne repozytorium {{name}} (origin — skąd pochodzi projekt)',
+    'explain.arg.repoName': 'Repozytorium {{name}} (WŁAŚCICIEL/NAZWA lub sama NAZWA)',
+    'explain.arg.prNumber': 'Numer {{n}} (pull requesta lub zgłoszenia)',
+    'explain.git.configOpt': 'Ustawienie tylko dla tego jednego polecenia',
+    'explain.git.dirOpt': 'Uruchom git tak, jakby był wywołany w tym katalogu',
     'explain.runScript': 'Uruchom program lub skrypt {{file}} (to ścieżka, więc $PATH nie jest przeszukiwany; plik potrzebuje prawa x)',
     'explain.notInTrainer': '{{name}} to prawdziwe polecenie Linuksa, ale trenażer go nie symuluje',
     'explain.chmod.add': 'Dodaj dla: {{who}}: {{perms}}',

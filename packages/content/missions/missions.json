@@ -2311,5 +2311,130 @@
       "docker rm db",
       "docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:16"
     ]
+  },
+  {
+    "id": "git-hotfix",
+    "course": "git",
+    "topics": [
+      "gt-branches",
+      "gh-pr",
+      "gh-clone-pull"
+    ],
+    "title": {
+      "en": "Friday hotfix",
+      "ru": "Хотфикс в пятницу",
+      "uk": "Хотфікс у п’ятницю",
+      "pl": "Piątkowy hotfix"
+    },
+    "story": {
+      "en": "17:40, Friday. The site has a typo in the main heading: \"Helo!\". Anna already pushed a footer to GitHub. Fix the typo the team way: get the latest main, make a branch hotfix, commit, push it, open a pull request and merge it — main on GitHub must have both the fix and the footer.",
+      "ru": "17:40, пятница. На сайте опечатка в главном заголовке: «Helo!». Анна уже отправила на GitHub подвал. Исправьте опечатку по-командному: заберите свежую main, создайте ветку hotfix, закоммитьте, отправьте, откройте pull request и слейте его — в main на GitHub должны быть и исправление, и подвал.",
+      "uk": "17:40, п’ятниця. На сайті помилка в головному заголовку: «Helo!». Анна вже надіслала на GitHub підвал. Виправте помилку по-командному: заберіть свіжу main, створіть гілку hotfix, закомітьте, надішліть, відкрийте pull request і злийте його — у main на GitHub мають бути і виправлення, і підвал.",
+      "pl": "17:40, piątek. Na stronie jest literówka w głównym nagłówku: „Helo!”. Anna wysłała już stopkę na GitHuba. Popraw literówkę zespołowo: pobierz świeżą main, utwórz gałąź hotfix, zatwierdź, wypchnij, otwórz pull request i scal go — main na GitHubie musi mieć i poprawkę, i stopkę."
+    },
+    "difficulty": 2,
+    "requires": "github",
+    "xp": 120,
+    "setup": "git-lab",
+    "prepare": [
+      "cd ~/project",
+      "git init -q",
+      "git add .",
+      "git commit -qm \"Add home page\"",
+      "echo \"h1 { color: teal; }\" >> style.css",
+      "git commit -qam \"Teal headings\"",
+      "echo \"<p>Welcome to my site.</p>\" >> index.html",
+      "git commit -qam \"Welcome text\"",
+      "sed -i \"s/Hello!/Helo!/\" index.html",
+      "git commit -qam \"New heading\"",
+      "gh repo create site --public > /dev/null",
+      "git remote add origin https://github.com/student/site.git",
+      "git push -qu origin main 2>/dev/null",
+      "cd ~",
+      "git clone -q https://github.com/student/site.git /tmp/anna 2>/dev/null",
+      "cd /tmp/anna",
+      "echo \"<footer>© 2026</footer>\" >> index.html",
+      "git -c user.name=Anna -c user.email=anna@example.com commit -qam \"Add footer\"",
+      "git push -q 2>/dev/null",
+      "cd ~/project"
+    ],
+    "checks": [
+      {
+        "type": "github",
+        "repo": "site",
+        "merged": 1,
+        "label": {
+          "en": "A pull request was merged on GitHub",
+          "ru": "На GitHub слит pull request",
+          "uk": "На GitHub злито pull request",
+          "pl": "Na GitHubie scalono pull request"
+        }
+      },
+      {
+        "type": "github",
+        "repo": "site",
+        "branch": "hotfix",
+        "label": {
+          "en": "The branch hotfix was pushed",
+          "ru": "Ветка hotfix отправлена",
+          "uk": "Гілку hotfix надіслано",
+          "pl": "Gałąź hotfix została wypchnięta"
+        }
+      },
+      {
+        "type": "git",
+        "path": "~/project",
+        "pushed": "main",
+        "head": "main",
+        "label": {
+          "en": "Your main has the merged result",
+          "ru": "В вашей main результат слияния",
+          "uk": "У вашій main результат злиття",
+          "pl": "Twoja main ma wynik scalenia"
+        }
+      },
+      {
+        "type": "fileContains",
+        "path": "~/project/index.html",
+        "text": "<h1>Hello!</h1>",
+        "label": {
+          "en": "The heading is fixed",
+          "ru": "Заголовок исправлен",
+          "uk": "Заголовок виправлено",
+          "pl": "Nagłówek poprawiony"
+        }
+      },
+      {
+        "type": "fileContains",
+        "path": "~/project/index.html",
+        "text": "<footer>",
+        "label": {
+          "en": "Anna's footer is kept",
+          "ru": "Подвал Анны на месте",
+          "uk": "Підвал Анни на місці",
+          "pl": "Stopka Anny została"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "git pull first; then git switch -c hotfix, sed or nano to fix, commit, git push -u origin hotfix, gh pr create, gh pr merge, git switch main, git pull.",
+        "ru": "Сначала git pull; затем git switch -c hotfix, sed или nano для правки, commit, git push -u origin hotfix, gh pr create, gh pr merge, git switch main, git pull.",
+        "uk": "Спершу git pull; потім git switch -c hotfix, sed або nano для правки, commit, git push -u origin hotfix, gh pr create, gh pr merge, git switch main, git pull.",
+        "pl": "Najpierw git pull; potem git switch -c hotfix, sed lub nano do poprawki, commit, git push -u origin hotfix, gh pr create, gh pr merge, git switch main, git pull."
+      },
+      "command": "gh pr create"
+    },
+    "solution": [
+      "git pull",
+      "git switch -c hotfix",
+      "sed -i \"s/Helo!/Hello!/\" index.html",
+      "git commit -am \"Fix heading typo\"",
+      "git push -u origin hotfix",
+      "gh pr create --title \"Fix heading typo\" --body \"Helo -> Hello\"",
+      "gh pr merge 1 --merge",
+      "git switch main",
+      "git pull"
+    ]
   }
 ]

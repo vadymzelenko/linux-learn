@@ -101,6 +101,7 @@ const en = {
     expand: 'Expand',
   },
   home: {
+    soon: 'Coming later',
     hello: 'Hi, {{name}}!',
     subtitle: 'What are we learning today?',
     continue: 'Continue learning',
@@ -111,7 +112,10 @@ const en = {
     termOfDay: 'Term of the day',
     tools: 'Tools',
   },
-  courses: { title: 'Courses', recommended: 'Recommended next', open: 'Open course', minutes: '{{n}} min' },
+  courses: {
+    courseDone: 'Course completed — great job!',
+    soonText: 'We are writing this course now. It will arrive in one of the next updates — free, like everything here.',
+    soon: 'Later', title: 'Courses', recommended: 'Recommended next', open: 'Open course', minutes: '{{n}} min' },
   glossary: {
     title: 'Glossary', search: 'Search terms', open: 'Open glossary', count: '{{n}} terms', categories: { docker: 'Docker', basics: 'Basics', files: 'Files', text: 'Text', permissions: 'Permissions', processes: 'Processes', network: 'Network', noc: 'NOC & incidents', shell: 'Shell' } },
   library: { title: 'Library', subtitle: 'All theory for reading', read: 'Read', practice: 'Practise this lesson' },
@@ -196,6 +200,17 @@ const en = {
     examples: 'Examples',
   },
   explainKeys: {
+    'explain.git.lastN': 'Only the last {{n}} commits',
+    'explain.arg.tagName': 'The name of the tag: {{name}}',
+    'explain.arg.revision': 'A commit: {{rev}} (HEAD is the current one, HEAD~1 the one before it)',
+    'explain.arg.configValue': 'Its new value: {{value}}',
+    'explain.arg.configKey': 'The setting {{name}}',
+    'explain.arg.branch': 'The branch {{name}}',
+    'explain.arg.remote': 'The remote repository {{name}} (origin = where the project came from)',
+    'explain.arg.repoName': 'The repository {{name}} (OWNER/NAME or just NAME)',
+    'explain.arg.prNumber': 'Number {{n}} (of a pull request or issue)',
+    'explain.git.configOpt': 'A setting only for this one command',
+    'explain.git.dirOpt': 'Run git as if it was started in this directory',
     'explain.runScript': 'Run the program or script {{file}} (a path, so the shell does not search $PATH; the file needs the x permission)',
     'explain.notInTrainer': '{{name}} is a real Linux command, but this trainer does not simulate it',
     'explain.chmod.add': 'Add for {{who}}: {{perms}}',

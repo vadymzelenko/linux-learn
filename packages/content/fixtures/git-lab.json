@@ -1,0 +1,9 @@
+{
+  "hostname": "dev01",
+  "files": {
+    "~/.gitconfig": "[user]\n\tname = Student\n\temail = student@example.com\n",
+    "~/project/index.html": "<!doctype html>\n<title>My site</title>\n<h1>Hello!</h1>\n",
+    "~/project/style.css": "body { font-family: sans-serif; }\n",
+    "~/project/notes.txt": "ideas:\n- dark theme\n- contact page\n"
+  }
+}

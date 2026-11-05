@@ -1968,8 +1968,17 @@ export const git: CommandDef = {
       }
       ctx.shell.setCwd(dir);
     }
+    const quiet = rest.some((a) => a === '--quiet' || /^-[a-zA-Z]*q[a-zA-Z]*$/.test(a)) && cmd !== 'log' && cmd !== 'grep';
+    const before = ctx.chunks().length;
     try {
-      return fn(ctx, rest, { repo: findRepo(ctx, ctx.cwd), overrides });
+      const code = fn(ctx, rest.filter((a) => a !== '-q' && a !== '--quiet').map((a) => (/^-[a-zA-Z]*q[a-zA-Z]*$/.test(a) ? a.replace('q', '') : a)), { repo: findRepo(ctx, ctx.cwd), overrides });
+      if (quiet) {
+        // -q: keep only errors
+        const chunks = ctx.chunks();
+        const keep = chunks.slice(before).filter((c) => c.stream === 'stderr' && (code !== 0 || /^(error|fatal|warning)/m.test(c.text)));
+        chunks.splice(before, chunks.length - before, ...keep);
+      }
+      return code;
     } catch (e) {
       if (e instanceof FsError) {
         ctx.err(`fatal: ${e.code === 'EACCES' ? 'Permission denied' : e.message}\n`);

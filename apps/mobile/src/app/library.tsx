@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { courseModules, courses, lessonMinutes, tr } from '@linux-learn/content';
+import { activeCourses, courseModules, lessonMinutes, tr } from '@linux-learn/content';
 import { Text } from '../theme/Text';
 import { BackButton } from '../components/BackButton';
 import { useStore } from '../state/store';
@@ -22,7 +22,7 @@ export default function LibraryScreen() {
       </Row>
       <ScrollView contentContainerStyle={styles.content}>
         <Body dim style={{ marginBottom: space.md }}>{t('library.subtitle')}</Body>
-        {courses.map((c) => (
+        {activeCourses.map((c) => (
           <View key={c.id} style={{ marginBottom: space.xl, gap: space.md }}>
             <Row>
               <View style={[styles.icon, { backgroundColor: c.color }]}>

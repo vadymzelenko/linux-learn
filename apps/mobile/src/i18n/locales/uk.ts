@@ -103,6 +103,7 @@ const uk: Dict = {
     expand: 'Розгорнути',
   },
   home: {
+    soon: 'Незабаром',
     hello: 'Привіт, {{name}}!',
     subtitle: 'Що вивчаємо сьогодні?',
     continue: 'Продовжити навчання',
@@ -113,7 +114,10 @@ const uk: Dict = {
     termOfDay: 'Термін дня',
     tools: 'Інструменти',
   },
-  courses: { title: 'Курси', recommended: 'Рекомендуємо далі', open: 'Відкрити курс', minutes: '{{n}} хв' },
+  courses: {
+    courseDone: 'Курс пройдено — чудова робота!',
+    soonText: 'Ми якраз пишемо цей курс. Він з’явиться в одному з наступних оновлень — безкоштовно, як і все тут.',
+    soon: 'Пізніше', title: 'Курси', recommended: 'Рекомендуємо далі', open: 'Відкрити курс', minutes: '{{n}} хв' },
   glossary: {
     title: 'Словник', search: 'Пошук термінів', open: 'Відкрити словник', count: '{{n}} термінів', categories: { docker: 'Docker', basics: 'Основи', files: 'Файли', text: 'Текст', permissions: 'Права', processes: 'Процеси', network: 'Мережа', noc: 'NOC та інциденти', shell: 'Оболонка' } },
   library: { title: 'Бібліотека', subtitle: 'Уся теорія для читання', read: 'Читати', practice: 'Пройти урок' },
@@ -198,6 +202,17 @@ const uk: Dict = {
     examples: 'Приклади',
   },
   explainKeys: {
+    'explain.git.lastN': 'Лише останні {{n}} комітів',
+    'explain.arg.tagName': 'Назва тегу: {{name}}',
+    'explain.arg.revision': 'Коміт: {{rev}} (HEAD — поточний, HEAD~1 — попередній)',
+    'explain.arg.configValue': 'Його нове значення: {{value}}',
+    'explain.arg.configKey': 'Налаштування {{name}}',
+    'explain.arg.branch': 'Гілка {{name}}',
+    'explain.arg.remote': 'Віддалений репозиторій {{name}} (origin — звідки проєкт узято)',
+    'explain.arg.repoName': 'Репозиторій {{name}} (ВЛАСНИК/НАЗВА або просто НАЗВА)',
+    'explain.arg.prNumber': 'Номер {{n}} (pull request’а або issue)',
+    'explain.git.configOpt': 'Налаштування лише для цієї однієї команди',
+    'explain.git.dirOpt': 'Запустити git так, ніби його запущено в цій директорії',
     'explain.runScript': 'Запустити програму або скрипт {{file}} (це шлях, тому $PATH не використовується; файлу потрібне право x)',
     'explain.notInTrainer': '{{name}} — справжня команда Linux, але в тренажері вона не симулюється',
     'explain.chmod.add': 'Додати для {{who}}: {{perms}}',

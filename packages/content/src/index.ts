@@ -154,6 +154,11 @@ export function examTasks(): { step: Extract<Step, { type: 'task' | 'fix' }>; le
 
 // ---------- courses ----------
 
+/** Courses with lessons (announced "Later" courses are left out). */
+export const activeCourses: Course[] = courses.filter((c) => !c.soon);
+/** Announced courses without lessons yet. */
+export const soonCourses: Course[] = courses.filter((c) => c.soon);
+
 export function courseOfModule(moduleId: string): Course | undefined {
   return courses.find((c) => c.modules.includes(moduleId));
 }
