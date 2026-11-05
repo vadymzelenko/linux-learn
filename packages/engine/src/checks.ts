@@ -8,6 +8,7 @@ import { normalizeFlags } from './shell/args';
 import { resolve, type Cred } from './vfs/fs';
 import { expandTilde, normalize } from './vfs/path';
 import { stripAnsi } from './commands/util';
+import { GITHUB_ROOT, gitAncestors, gitCurrentBranch, gitDbAt, gitHeadCommit, gitIgnoreMatcher, gitWorkTreeOf } from './commands/git';
 
 export type Check =
   | { type: 'fileExists'; path: string }
@@ -38,7 +39,19 @@ export type Check =
   /** A local docker image (repo or repo:tag) exists (or not). */
   | { type: 'imageExists'; name: string; exists?: boolean }
   /** Number of docker containers (all or only running). */
-  | { type: 'containerCount'; eq?: number; max?: number; min?: number; running?: boolean };
+  | { type: 'containerCount'; eq?: number; max?: number; min?: number; running?: boolean }
+  /**
+   * A git repository at (or containing) `path`. Every given field must hold:
+   * commits = at least N commits on HEAD; branch = this branch exists; head = current branch;
+   * clean = nothing staged / modified / untracked; tracked = file is in the last commit;
+   * staged = file differs between HEAD and the index; remote = remote exists;
+   * pushed = the branch equals its remote-tracking branch (origin/<branch>);
+   * message = regex for the last commit message; merged = branch is merged into HEAD;
+   * merging = a merge with conflicts is in progress; tag = tag exists; ignored = path matches .gitignore.
+   */
+  | { type: 'git'; path: string; commits?: number; branch?: string; noBranch?: string; head?: string; clean?: boolean; tracked?: string; untracked?: string; staged?: string; remote?: string; pushed?: string; message?: string; merged?: string; merging?: boolean; tag?: string; ignored?: string }
+  /** A repository on the simulated GitHub (OWNER/NAME or NAME of the student). */
+  | { type: 'github'; repo: string; exists?: boolean; branch?: string; file?: string; commits?: number; prs?: number; merged?: number; issues?: number };
 
 export interface CheckContext {
   session: Session;
@@ -190,6 +203,77 @@ export function evaluateCheck(check: Check, ctx: CheckContext): CheckResult {
       const [repo, tag] = check.name.includes(':') ? check.name.split(':') : [check.name, undefined];
       const found = !!s.machine.docker?.images.some((i) => i.repo === repo && (tag === undefined || i.tag === tag));
       return ok(check.exists === false ? !found : found);
+    }
+    case 'git': {
+      const root = p(check.path);
+      const db = gitDbAt(s.machine.fs, root);
+      if (!db || db.bare) return ok(false);
+      const head = gitHeadCommit(db);
+      const tree = head ? (db.commits[head]?.tree ?? {}) : {};
+      const rel = (f: string) => {
+        const a = p(f);
+        // repo root: the directory that holds .git
+        let r = root;
+        while (r !== '/' && !lookup(s, `${r}/.git`)) r = r.slice(0, r.lastIndexOf('/')) || '/';
+        return a.startsWith(r === '/' ? '/' : r + '/') ? a.slice(r === '/' ? 1 : r.length + 1) : f;
+      };
+      const repoRoot = (() => {
+        let r = root;
+        while (r !== '/' && !lookup(s, `${r}/.git`)) r = r.slice(0, r.lastIndexOf('/')) || '/';
+        return r;
+      })();
+      const conds: boolean[] = [];
+      if (check.commits !== undefined) conds.push(gitAncestors(db, head).size >= check.commits);
+      if (check.branch !== undefined) conds.push(db.branches[check.branch] !== undefined || gitCurrentBranch(db) === check.branch);
+      if (check.noBranch !== undefined) conds.push(db.branches[check.noBranch] === undefined);
+      if (check.head !== undefined) conds.push(gitCurrentBranch(db) === check.head);
+      if (check.tracked !== undefined) conds.push(rel(check.tracked) in tree);
+      if (check.untracked !== undefined) conds.push(!(rel(check.untracked) in db.index));
+      if (check.staged !== undefined) conds.push(db.index[rel(check.staged)] !== tree[rel(check.staged)]);
+      if (check.remote !== undefined) conds.push(db.remotes[check.remote] !== undefined);
+      if (check.tag !== undefined) conds.push(db.tags[check.tag] !== undefined);
+      if (check.merging !== undefined) conds.push(!!db.merge === check.merging);
+      if (check.pushed !== undefined) {
+        const local = db.branches[check.pushed];
+        const up = db.upstream[check.pushed];
+        conds.push(!!local && db.tracking[`${up?.remote ?? 'origin'}/${up?.branch ?? check.pushed}`] === local);
+      }
+      if (check.merged !== undefined) {
+        const b = db.branches[check.merged] ?? db.tracking[check.merged];
+        conds.push(!!b && gitAncestors(db, head).has(b));
+      }
+      if (check.message !== undefined) {
+        try {
+          conds.push(!!head && new RegExp(check.message, 'i').test(db.commits[head]?.message ?? ''));
+        } catch {
+          conds.push(false);
+        }
+      }
+      const work = check.clean !== undefined || check.ignored !== undefined ? gitWorkTreeOf(s.machine.fs, repoRoot) : {};
+      if (check.ignored !== undefined) conds.push(gitIgnoreMatcher(work)(rel(check.ignored)));
+      if (check.clean !== undefined) {
+        const ign = gitIgnoreMatcher(work);
+        const same = JSON.stringify(Object.entries(db.index).sort()) === JSON.stringify(Object.entries(tree).sort());
+        const clean = same && !db.merge && Object.keys(db.index).every((f) => work[f] === db.index[f]) && Object.keys(work).every((f) => f in db.index || ign(f));
+        conds.push(clean === check.clean);
+      }
+      return ok(conds.every(Boolean));
+    }
+    case 'github': {
+      const user = s.userStack[0]?.user ?? s.user;
+      const [owner, name] = check.repo.includes('/') ? check.repo.split('/') : [user, check.repo];
+      const db = gitDbAt(s.machine.fs, `${GITHUB_ROOT}/${owner}/${name}.git`);
+      if (check.exists === false) return ok(!db);
+      if (!db) return ok(false);
+      const main = 'branch' in db.head ? db.head.branch : 'main';
+      const conds: boolean[] = [];
+      if (check.branch !== undefined) conds.push(db.branches[check.branch] !== undefined);
+      if (check.file !== undefined) conds.push(!!db.branches[main] && check.file in (db.commits[db.branches[main]!]?.tree ?? {}));
+      if (check.commits !== undefined) conds.push(gitAncestors(db, db.branches[main]).size >= check.commits);
+      if (check.prs !== undefined) conds.push((db.pulls ?? []).length >= check.prs);
+      if (check.merged !== undefined) conds.push((db.pulls ?? []).filter((x) => x.state === 'MERGED').length >= check.merged);
+      if (check.issues !== undefined) conds.push((db.issues ?? []).length >= check.issues);
+      return ok(conds.every(Boolean));
     }
     case 'containerCount': {
       const n = (s.machine.docker?.containers ?? []).filter((c) => !check.running || c.state === 'running').length;

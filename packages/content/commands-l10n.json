@@ -801,6 +801,289 @@
    }
   }
  },
+ "gh": {
+  "summary": {
+   "ru": "GitHub из терминала: репозитории, pull request’ы, issues",
+   "uk": "GitHub з термінала: репозиторії, pull request’и, issues",
+   "pl": "GitHub z terminala: repozytoria, pull requesty, zgłoszenia"
+  },
+  "options": {
+   "auth status": {
+    "ru": "в какой аккаунт GitHub вы вошли",
+    "uk": "у який акаунт GitHub ви увійшли",
+    "pl": "na jakie konto GitHub jesteś zalogowany"
+   },
+   "repo create NAME": {
+    "ru": "создать репозиторий на GitHub (--public / --private)",
+    "uk": "створити репозиторій на GitHub (--public / --private)",
+    "pl": "utwórz repozytorium na GitHubie (--public / --private)"
+   },
+   "repo clone OWNER/NAME": {
+    "ru": "клонировать репозиторий с GitHub",
+    "uk": "клонувати репозиторій з GitHub",
+    "pl": "sklonuj repozytorium z GitHuba"
+   },
+   "repo view": {
+    "ru": "показать репозиторий и его README",
+    "uk": "показати репозиторій і його README",
+    "pl": "pokaż repozytorium i jego README"
+   },
+   "repo list": {
+    "ru": "ваши репозитории",
+    "uk": "ваші репозиторії",
+    "pl": "twoje repozytoria"
+   },
+   "pr create": {
+    "ru": "открыть pull request из текущей ветки (--title, --body, --base)",
+    "uk": "відкрити pull request з поточної гілки (--title, --body, --base)",
+    "pl": "otwórz pull request z bieżącej gałęzi (--title, --body, --base)"
+   },
+   "pr list": {
+    "ru": "открытые pull request’ы",
+    "uk": "відкриті pull request’и",
+    "pl": "otwarte pull requesty"
+   },
+   "pr view N": {
+    "ru": "один pull request",
+    "uk": "один pull request",
+    "pl": "jeden pull request"
+   },
+   "pr merge N": {
+    "ru": "слить pull request на GitHub (--merge, --squash)",
+    "uk": "злити pull request на GitHub (--merge, --squash)",
+    "pl": "scal pull request na GitHubie (--merge, --squash)"
+   },
+   "pr checkout N": {
+    "ru": "перейти на ветку pull request’а",
+    "uk": "перейти на гілку pull request’а",
+    "pl": "przełącz się na gałąź pull requesta"
+   },
+   "issue create": {
+    "ru": "создать issue (--title, --body)",
+    "uk": "створити issue (--title, --body)",
+    "pl": "utwórz zgłoszenie (--title, --body)"
+   },
+   "issue list": {
+    "ru": "открытые issues",
+    "uk": "відкриті issues",
+    "pl": "otwarte zgłoszenia"
+   },
+   "issue close N": {
+    "ru": "закрыть issue",
+    "uk": "закрити issue",
+    "pl": "zamknij zgłoszenie"
+   },
+   "--title, -t TEXT": {
+    "ru": "заголовок pull request’а или issue",
+    "uk": "заголовок pull request’а або issue",
+    "pl": "tytuł pull requesta lub zgłoszenia"
+   },
+   "--body, -b TEXT": {
+    "ru": "описание pull request’а или issue",
+    "uk": "опис pull request’а або issue",
+    "pl": "opis pull requesta lub zgłoszenia"
+   },
+   "--base, -B BRANCH": {
+    "ru": "pr create: ветка, в которую вливать (по умолчанию main)",
+    "uk": "pr create: гілка, у яку вливати (за замовчуванням main)",
+    "pl": "pr create: gałąź docelowa (domyślnie main)"
+   },
+   "--public": {
+    "ru": "repo create: виден всем",
+    "uk": "repo create: видимий усім",
+    "pl": "repo create: widoczne dla wszystkich"
+   },
+   "--private": {
+    "ru": "repo create: виден только вам",
+    "uk": "repo create: видимий лише вам",
+    "pl": "repo create: widoczne tylko dla ciebie"
+   }
+  }
+ },
+ "git": {
+  "summary": {
+   "ru": "контроль версий: сохранять снимки проекта и делиться ими",
+   "uk": "контроль версій: зберігати знімки проєкту й ділитися ними",
+   "pl": "kontrola wersji: zapisuj migawki projektu i udostępniaj je"
+  },
+  "options": {
+   "init": {
+    "ru": "создать пустой репозиторий в текущей директории",
+    "uk": "створити порожній репозиторій у поточній директорії",
+    "pl": "utwórz puste repozytorium w bieżącym katalogu"
+   },
+   "clone URL [DIR]": {
+    "ru": "скопировать удалённый репозиторий со всей историей",
+    "uk": "скопіювати віддалений репозиторій з усією історією",
+    "pl": "skopiuj zdalne repozytorium z całą historią"
+   },
+   "status": {
+    "ru": "что изменилось: в индексе, не в индексе, неотслеживаемые файлы",
+    "uk": "що змінилося: в індексі, не в індексі, невідстежувані файли",
+    "pl": "co się zmieniło: w indeksie, poza indeksem, nieśledzone pliki"
+   },
+   "add FILE...": {
+    "ru": "добавить изменения в индекс для следующего коммита (git add . — всё)",
+    "uk": "додати зміни в індекс для наступного коміту (git add . — усе)",
+    "pl": "dodaj zmiany do indeksu na następny commit (git add . — wszystko)"
+   },
+   "commit -m MESSAGE": {
+    "ru": "сохранить снимок из индекса с сообщением",
+    "uk": "зберегти знімок з індексу з повідомленням",
+    "pl": "zapisz migawkę z indeksu z opisem"
+   },
+   "log": {
+    "ru": "история коммитов (--oneline — по строке на коммит)",
+    "uk": "історія комітів (--oneline — по рядку на коміт)",
+    "pl": "historia commitów (--oneline — jedna linia na commit)"
+   },
+   "diff": {
+    "ru": "незафиксированные изменения построчно (--staged — что уйдёт в коммит)",
+    "uk": "незафіксовані зміни порядково (--staged — що піде в коміт)",
+    "pl": "niezatwierdzone zmiany linia po linii (--staged — co trafi do commita)"
+   },
+   "show COMMIT": {
+    "ru": "один коммит и его изменения",
+    "uk": "один коміт і його зміни",
+    "pl": "jeden commit i jego zmiany"
+   },
+   "branch [NAME]": {
+    "ru": "список веток или создать ветку",
+    "uk": "список гілок або створити гілку",
+    "pl": "lista gałęzi lub utworzenie gałęzi"
+   },
+   "switch BRANCH": {
+    "ru": "перейти на ветку (-c ИМЯ — сначала создать)",
+    "uk": "перейти на гілку (-c НАЗВА — спершу створити)",
+    "pl": "przełącz na gałąź (-c NAZWA — najpierw utwórz)"
+   },
+   "checkout BRANCH": {
+    "ru": "перейти на ветку (старая команда; -b ИМЯ создаёт ветку)",
+    "uk": "перейти на гілку (стара команда; -b НАЗВА створює гілку)",
+    "pl": "przełącz gałąź (starsze polecenie; -b NAZWA tworzy gałąź)"
+   },
+   "merge BRANCH": {
+    "ru": "влить другую ветку в текущую",
+    "uk": "влити іншу гілку в поточну",
+    "pl": "scal inną gałąź z bieżącą"
+   },
+   "remote add NAME URL": {
+    "ru": "подключить удалённый репозиторий (обычно origin)",
+    "uk": "підключити віддалений репозиторій (зазвичай origin)",
+    "pl": "podłącz zdalne repozytorium (zwykle origin)"
+   },
+   "push": {
+    "ru": "отправить свои коммиты в удалённый репозиторий (-u — запомнить его)",
+    "uk": "надіслати свої коміти у віддалений репозиторій (-u — запам’ятати його)",
+    "pl": "wyślij swoje commity do zdalnego repozytorium (-u — zapamiętaj je)"
+   },
+   "pull": {
+    "ru": "получить новые коммиты с сервера и слить их",
+    "uk": "отримати нові коміти із сервера й злити їх",
+    "pl": "pobierz nowe commity z serwera i scal je"
+   },
+   "fetch": {
+    "ru": "скачать новые коммиты, не сливая их",
+    "uk": "завантажити нові коміти, не зливаючи їх",
+    "pl": "pobierz nowe commity bez scalania"
+   },
+   "restore FILE": {
+    "ru": "отменить изменения в файле (--staged — убрать из индекса)",
+    "uk": "скасувати зміни у файлі (--staged — прибрати з індексу)",
+    "pl": "cofnij zmiany w pliku (--staged — usuń z indeksu)"
+   },
+   "reset": {
+    "ru": "передвинуть ветку назад (--hard — заодно стереть изменения)",
+    "uk": "пересунути гілку назад (--hard — заразом стерти зміни)",
+    "pl": "cofnij gałąź (--hard — skasuj też zmiany)"
+   },
+   "revert COMMIT": {
+    "ru": "новый коммит, отменяющий старый",
+    "uk": "новий коміт, що скасовує старий",
+    "pl": "nowy commit cofający stary"
+   },
+   "stash": {
+    "ru": "отложить незаконченные изменения (stash pop — вернуть)",
+    "uk": "відкласти незавершені зміни (stash pop — повернути)",
+    "pl": "odłóż niedokończone zmiany (stash pop — przywróć)"
+   },
+   "tag NAME": {
+    "ru": "пометить коммит, например релиз v1.0",
+    "uk": "позначити коміт, наприклад реліз v1.0",
+    "pl": "oznacz commit, np. wydanie v1.0"
+   },
+   "config KEY VALUE": {
+    "ru": "настройки, например user.name и user.email (--global — для всех ваших репозиториев)",
+    "uk": "налаштування, наприклад user.name і user.email (--global — для всіх ваших репозиторіїв)",
+    "pl": "ustawienia, np. user.name i user.email (--global — dla wszystkich twoich repozytoriów)"
+   },
+   "-m, --message MSG": {
+    "ru": "commit: сообщение коммита",
+    "uk": "commit: повідомлення коміту",
+    "pl": "commit: opis commita"
+   },
+   "-a, --all": {
+    "ru": "commit: сначала добавить все изменённые отслеживаемые файлы",
+    "uk": "commit: спершу додати всі змінені відстежувані файли",
+    "pl": "commit: najpierw dodaj wszystkie zmienione śledzone pliki"
+   },
+   "--oneline": {
+    "ru": "log: одна короткая строка на коммит",
+    "uk": "log: один короткий рядок на коміт",
+    "pl": "log: jedna krótka linia na commit"
+   },
+   "--graph": {
+    "ru": "log: нарисовать граф веток",
+    "uk": "log: намалювати граф гілок",
+    "pl": "log: narysuj graf gałęzi"
+   },
+   "-u, --set-upstream": {
+    "ru": "push: запомнить удалённую ветку для git push / git pull",
+    "uk": "push: запам’ятати віддалену гілку для git push / git pull",
+    "pl": "push: zapamiętaj zdalną gałąź dla git push / git pull"
+   },
+   "--staged, --cached": {
+    "ru": "diff / restore: индекс (staging area)",
+    "uk": "diff / restore: індекс (staging area)",
+    "pl": "diff / restore: indeks (staging area)"
+   },
+   "--hard": {
+    "ru": "reset: заодно перезаписать файлы в рабочей папке",
+    "uk": "reset: заразом перезаписати файли в робочій теці",
+    "pl": "reset: nadpisz też pliki w katalogu roboczym"
+   },
+   "-b NAME": {
+    "ru": "checkout: создать новую ветку и перейти на неё",
+    "uk": "checkout: створити нову гілку й перейти на неї",
+    "pl": "checkout: utwórz nową gałąź i przełącz się na nią"
+   },
+   "-c NAME": {
+    "ru": "switch: создать новую ветку и перейти на неё",
+    "uk": "switch: створити нову гілку й перейти на неї",
+    "pl": "switch: utwórz nową gałąź i przełącz się na nią"
+   },
+   "-d NAME": {
+    "ru": "branch: удалить слитую ветку (-D — удалить в любом случае)",
+    "uk": "branch: видалити злиту гілку (-D — видалити в будь-якому разі)",
+    "pl": "branch: usuń scaloną gałąź (-D — usuń mimo wszystko)"
+   },
+   "--global": {
+    "ru": "config: настройка для всех ваших репозиториев",
+    "uk": "config: налаштування для всіх ваших репозиторіїв",
+    "pl": "config: ustawienie dla wszystkich twoich repozytoriów"
+   },
+   "--amend": {
+    "ru": "commit: заменить последний коммит",
+    "uk": "commit: замінити останній коміт",
+    "pl": "commit: zastąp ostatni commit"
+   },
+   "--abort": {
+    "ru": "merge: отменить слияние с конфликтами",
+    "uk": "merge: скасувати злиття з конфліктами",
+    "pl": "merge: przerwij scalanie z konfliktami"
+   }
+  }
+ },
  "grep": {
   "summary": {
    "ru": "найти строки по шаблону",

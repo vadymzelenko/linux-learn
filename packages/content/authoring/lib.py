@@ -75,6 +75,16 @@ def ccount(label, eq=None, running=None, mx=None):
     if mx is not None: d["max"] = mx
     if running: d["running"] = True
     return _c(d, label)
+def git(path, label, **kw):
+    """git check: commits=N, branch=, noBranch=, head=, clean=, tracked=, untracked=, staged=, remote=, pushed=, message=, merged=, merging=, tag=, ignored="""
+    d = {"type": "git", "path": path}
+    d.update({k: v for k, v in kw.items() if v is not None})
+    return _c(d, label)
+def github(repo, label, **kw):
+    """GitHub check: exists=, branch=, file=, commits=, prs=, merged=, issues="""
+    d = {"type": "github", "repo": repo}
+    d.update({k: v for k, v in kw.items() if v is not None})
+    return _c(d, label)
 def proc_gone(name, label): return _c({"type": "processGone", "name": name}, label)
 def var(name, value, label): return _c({"type": "varEquals", "name": name, "value": value}, label)
 def alias(name, label, value=None):

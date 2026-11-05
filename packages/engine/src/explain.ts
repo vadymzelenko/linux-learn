@@ -518,6 +518,25 @@ function explainArgs(ctx: Ctx, def: CommandDef | undefined, words: Word[], start
   }
 
   // subcommand-style tools
+  if (def && (name === 'git' || name === 'gh')) {
+    while (i < words.length && isOption(wordLiteral(words[i]!)) && name === 'git') {
+      const t = wordLiteral(words[i]!);
+      if ((t === '-C' || t === '-c') && words[i + 1]) {
+        ctx.parts.push({ text: words[i]!.raw, kind: 'flag', key: t === '-C' ? 'explain.git.dirOpt' : 'explain.git.configOpt', description: t === '-C' ? 'run as if git was started in this directory' : 'a setting only for this one command' });
+        ctx.parts.push({ text: words[i + 1]!.raw, kind: 'value', key: 'explain.optionValue', params: { option: t, value: strip(words[i + 1]!.raw) }, description: `value for ${t}` });
+        i += 2;
+      } else i = explainOption(ctx, def, words, i);
+    }
+    const subName = words[i] ? wordLiteral(words[i]!) : undefined;
+    if (!subName) return;
+    const next = words[i + 1] ? wordLiteral(words[i + 1]!) : undefined;
+    const spec = subcommandSpec(def, subName, next);
+    const two = !!spec && !!next && !next.startsWith('-') && spec[0].split(/\s+/).slice(0, 2).join(' ') === `${subName} ${next}`;
+    ctx.parts.push({ text: two ? `${words[i]!.raw} ${words[i + 1]!.raw}` : words[i]!.raw, kind: 'subcommand', owner: name!, ...(spec ? { spec: spec[0], description: spec[1] } : { key: 'explain.subcommand', params: { sub: subName }, description: `subcommand ${subName}` }) });
+    i += two ? 2 : 1;
+    return explainGit(ctx, def, name!, two ? `${subName} ${next}` : subName, words, i);
+  }
+
   if (def && (name === 'systemctl' || name === 'docker' || name === 'ip' || name === 'journalctl') ) {
     while (i < words.length && isOption(wordLiteral(words[i]!))) i = explainOption(ctx, def, words, i);
     const sub = words[i] ? wordLiteral(words[i]!) : undefined;
@@ -695,6 +714,45 @@ function explainDocker(ctx: Ctx, def: CommandDef, sub: string, sub2: string | un
       continue;
     }
     ctx.parts.push({ text: w.raw, kind: 'arg', ...describePath(w.raw) });
+  }
+}
+
+const GIT_BRANCH_SUBS = new Set(['switch', 'checkout', 'merge', 'branch', 'rebase']);
+const GIT_REV_SUBS = new Set(['show', 'revert', 'reset', 'tag', 'diff', 'log']);
+
+function explainGit(ctx: Ctx, def: CommandDef, name: string, fullSub: string, words: Word[], start: number): void {
+  const sub = name === 'git' ? fullSub.split(' ')[0]! : fullSub;
+  let positional = name === 'git' && fullSub.includes(' ') && sub === 'remote' ? 1 : 0;
+  for (let i = start; i < words.length; i++) {
+    const w = words[i]!;
+    const t = wordLiteral(w);
+    if (t === '--') {
+      ctx.parts.push({ text: w.raw, kind: 'flag', key: 'explain.endOfOptions', description: 'end of options: everything after this is a file name or argument' });
+      continue;
+    }
+    if (/^-\d+$/.test(t) && name === 'git') {
+      ctx.parts.push({ text: w.raw, kind: 'flag', key: 'explain.git.lastN', params: { n: t.slice(1) }, description: `only the last ${t.slice(1)} commits` });
+      continue;
+    }
+    if (isOption(t)) {
+      i = explainOption(ctx, def, words, i) - 1;
+      continue;
+    }
+    const n = positional++;
+    const v = strip(w.raw);
+    let part: Omit<ExplainPart, 'text' | 'kind'>;
+    if (name === 'gh') {
+      if (/^#?\d+$/.test(v)) part = { key: 'explain.arg.prNumber', params: { n: v.replace('#', '') }, description: `number ${v} (of a pull request or issue)` };
+      else part = { key: 'explain.arg.repoName', params: { name: v }, description: `the repository ${v} (OWNER/NAME or just NAME)` };
+    } else if (sub === 'clone') part = n === 0 ? describeRole('url', w.raw) : { key: 'explain.arg.newDir', params: { name: v }, description: `the directory to create: ${v}` };
+    else if (sub === 'remote') part = n === 0 ? { key: 'explain.subcommand', params: { sub: v }, description: `subcommand ${v}` } : n === 1 ? { key: 'explain.arg.remote', params: { name: v }, description: `the remote ${v}` } : describeRole('url', w.raw);
+    else if (sub === 'push' || sub === 'pull' || sub === 'fetch') part = n === 0 ? { key: 'explain.arg.remote', params: { name: v }, description: `the remote ${v}` } : { key: 'explain.arg.branch', params: { name: v }, description: `the branch ${v}` };
+    else if (sub === 'config') part = n === 0 ? { key: 'explain.arg.configKey', params: { name: v }, description: `the setting ${v}` } : { key: 'explain.arg.configValue', params: { value: v }, description: `its new value: ${v}` };
+    else if (GIT_BRANCH_SUBS.has(sub)) part = { key: 'explain.arg.branch', params: { name: v }, description: `the branch ${v}` };
+    else if (GIT_REV_SUBS.has(sub) && /^(HEAD|@|[0-9a-f]{6,40}|v?\d[\w.-]*|\w+\/\w+)([~^]\d*)*$/.test(v)) part = { key: 'explain.arg.revision', params: { rev: v }, description: `a commit: ${v} (HEAD is the current one, HEAD~1 the one before it)` };
+    else if (sub === 'tag' && n === 0) part = { key: 'explain.arg.tagName', params: { name: v }, description: `the name of the tag: ${v}` };
+    else part = describePath(w.raw);
+    ctx.parts.push({ text: w.raw, kind: 'arg', ...part });
   }
 }
 

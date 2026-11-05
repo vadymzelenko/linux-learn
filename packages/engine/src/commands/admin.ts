@@ -382,9 +382,9 @@ export const killall: CommandDef = {
 
 // ---------------------------------------------------------------- diff
 
-type Op = { t: ' ' | '-' | '+'; s: string };
+export type Op = { t: ' ' | '-' | '+'; s: string };
 
-function diffOps(x: string[], y: string[], eq: (p: string, r: string) => boolean): Op[] {
+export function diffOps(x: string[], y: string[], eq: (p: string, r: string) => boolean): Op[] {
   const n = x.length;
   const m = y.length;
   const L = Array.from({ length: n + 1 }, () => new Uint32Array(m + 1));

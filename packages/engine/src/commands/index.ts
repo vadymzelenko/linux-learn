@@ -3,6 +3,7 @@ import * as admin from './admin';
 import * as builtins from './builtins';
 import * as dockerCmds from './docker';
 import * as files from './files';
+import * as gitCmds from './git';
 import * as nav from './nav';
 import * as network from './network';
 import * as search from './search';
@@ -15,7 +16,7 @@ function isCommand(v: unknown): v is CommandDef {
 }
 
 const all: CommandDef[] = [];
-for (const mod of [nav, files, text, textproc, search, system, network, admin, dockerCmds, builtins]) {
+for (const mod of [nav, files, text, textproc, search, system, network, admin, dockerCmds, gitCmds, builtins]) {
   for (const v of Object.values(mod)) if (isCommand(v)) all.push(v);
 }
 
