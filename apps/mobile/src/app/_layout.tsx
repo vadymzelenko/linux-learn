@@ -1,6 +1,6 @@
 import '../i18n';
 import { useEffect } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, UIManager, View } from 'react-native';
 import { Stack, type ErrorBoundaryProps } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
@@ -21,6 +21,8 @@ import { GlossaryProvider } from '../components/ui/RichText';
 import { Text } from '../theme/Text';
 
 void SplashScreen.preventAutoHideAsync().catch(() => undefined);
+// smooth expand / collapse (LayoutAnimation) on Android's old architecture too
+if (Platform.OS === 'android') UIManager.setLayoutAnimationEnabledExperimental?.(true);
 
 function Shell() {
   const theme = useTheme();
@@ -42,7 +44,7 @@ function Shell() {
   return (
     <View style={{ flex: 1, backgroundColor: theme.bg }}>
       <StatusBar style={theme.dark ? 'light' : 'dark'} />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.bg }, animation: Platform.OS === 'android' ? 'fade_from_bottom' : 'default' }} />
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.bg }, animation: Platform.OS === 'android' ? 'fade_from_bottom' : 'default', animationDuration: 260, gestureEnabled: true }} />
       <Toasts />
       <DialogHost />
     </View>

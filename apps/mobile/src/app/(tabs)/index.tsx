@@ -73,8 +73,8 @@ export default function HomeScreen() {
             style={({ pressed }) => [styles.hero, { backgroundColor: next.course.color, opacity: pressed ? 0.92 : 1 }]}
           >
             <Text style={{ color: '#06240F', fontWeight: '700', fontSize: 13, opacity: 0.8 }}>{t('home.continue').toUpperCase()}</Text>
-            <Text style={{ color: '#06240F', fontWeight: '800', fontSize: 24 }}>{tr(next.lesson.title, i18n.language)}</Text>
-            <Text style={{ color: '#06240F', fontSize: 14 }}>
+            <Text style={{ color: '#06240F', fontWeight: '800', fontSize: 24, paddingRight: 56 }}>{tr(next.lesson.title, i18n.language)}</Text>
+            <Text style={{ color: '#06240F', fontSize: 14, paddingRight: 56 }}>
               {tr(next.course.title, i18n.language)} · {tr(next.module.title, i18n.language)}
             </Text>
             <View style={[styles.play, { backgroundColor: '#06240F' }]}>

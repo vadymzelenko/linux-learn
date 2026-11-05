@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { ActivityIndicator, Animated, Easing, Pressable, StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Animated, Easing, Pressable, StyleSheet, useWindowDimensions, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
 import { useTheme, radius, space, MONO } from '../../theme';
 import { haptic } from '../../lib/haptics';
@@ -11,9 +11,18 @@ export { FadeIn, SlideIn } from './Motion';
 
 export { Icon };
 
+/** A screen: safe-area aware, fades in softly when it opens. */
 export function Screen({ children, edges = ['top'], style }: { children: ReactNode; edges?: Edge[]; style?: StyleProp<ViewStyle> }) {
   const t = useTheme();
-  return <SafeAreaView edges={edges} style={[{ flex: 1, backgroundColor: t.bg }, style]}>{children}</SafeAreaView>;
+  const v = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(v, { toValue: 1, duration: 240, easing: Easing.out(Easing.quad), useNativeDriver: ND }).start();
+  }, [v]);
+  return (
+    <SafeAreaView edges={edges} style={[{ flex: 1, backgroundColor: t.bg }, style]}>
+      <Animated.View style={{ flex: 1, opacity: v.interpolate({ inputRange: [0, 1], outputRange: [0.35, 1] }), transform: [{ translateY: v.interpolate({ inputRange: [0, 1], outputRange: [6, 0] }) }] }}>{children}</Animated.View>
+    </SafeAreaView>
+  );
 }
 
 export function H1({ children, style }: { children: ReactNode; style?: StyleProp<TextStyle> }) {
@@ -91,6 +100,9 @@ export function Button({
   small?: boolean;
 }) {
   const t = useTheme();
+  const { width } = useWindowDimensions();
+  // keyboard hints only where there is a keyboard and room for them
+  const showHint = !!hint && width >= 600;
   const press = usePressScale(0.96);
   const bg = { primary: t.accent, secondary: t.surface2, ghost: 'transparent', danger: t.danger }[variant];
   const fg = { primary: t.onAccent, secondary: t.text, ghost: t.accent, danger: '#FFFFFF' }[variant];
@@ -116,8 +128,10 @@ export function Button({
       ]}
     >
       {loading ? <ActivityIndicator color={fg} /> : icon ? <Icon name={icon} size={small ? 16 : 20} color={fg} /> : null}
-      <Text style={{ color: fg, fontSize: small ? 14 : 16, fontWeight: '700' }}>{title}</Text>
-      {hint ? (
+      <Text style={{ color: fg, fontSize: small ? 14 : 16, fontWeight: '700', flexShrink: 1, textAlign: 'center' }} numberOfLines={2}>
+        {title}
+      </Text>
+      {showHint ? (
         <View style={[styles.kbd, { borderColor: variant === 'primary' ? fg : t.border }]}>
           <Text style={{ color: fg, fontSize: 11, fontFamily: MONO, opacity: 0.8 }}>{hint}</Text>
         </View>

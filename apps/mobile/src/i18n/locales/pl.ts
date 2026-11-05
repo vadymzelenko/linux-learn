@@ -449,6 +449,7 @@ const pl: Dict = {
     folder: 'Katalog',
   },
   keyboard: {
+    spaceHint: 'Stuknij — spacja, przeciągnij w lewo lub w prawo — przesuń kursor. Przesuń klawiaturę w dół, by ją ukryć.',
     show: 'Pokaż klawiaturę',
     hide: 'Ukryj klawiaturę',
     preview: 'Wypróbuj:',
@@ -462,7 +463,7 @@ const pl: Dict = {
     sizes: { L: 'Duże', M: 'Średnie', S: 'Małe' },
     size: 'Rozmiar klawiszy',
     systemHint: 'Zwykła klawiatura telefonu (inne alfabety, pisanie gestami) z paskiem dodatkowych klawiszy.',
-    customHint: 'Kompaktowa klawiatura do terminala: wszystkie symbole, Tab, strzałki, Ctrl i Alt, szybkie polecenia. Przytrzymaj literę, by wpisać cyfrę lub symbol.',
+    customHint: 'Kompaktowa klawiatura do terminala: wszystkie symbole, Tab, strzałki, Ctrl i Alt, szybkie polecenia. Przytrzymaj literę, by wpisać cyfrę lub symbol, przeciągnij spację, by przesunąć kursor, przesuń klawiaturę w dół, by ją ukryć.',
     system: 'Klawiatura telefonu',
     custom: 'Wbudowana',
     title: 'Klawiatura terminala',

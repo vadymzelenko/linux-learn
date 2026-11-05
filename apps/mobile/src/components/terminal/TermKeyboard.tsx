@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, Easing, PanResponder, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ND } from '../ui/Motion';
 import { useTranslation } from 'react-i18next';
 import { useTheme, MONO, MONO_BOLD } from '../../theme';
 import { useStore } from '../../state/store';
@@ -58,12 +59,76 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
   const [ctrl, setCtrl] = useState(false);
   const [alt, setAlt] = useState(false);
   const lastShift = useRef(0);
-  const repeat = useRef<ReturnType<typeof setInterval> | null>(null);
-  const keyH = Math.round(HEIGHT[kb.size] * (layout.compact ? 0.88 : 1) * (layout.tablet ? 1.1 : 1));
+  const repeat = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  // The keyboard may take at most ~45% of the window (55% on tall phones):
+  // on small phones and in landscape the keys get lower and the number row
+  // folds into long presses, so the terminal output stays visible.
+  const budget = layout.height * (layout.landscape ? 0.5 : layout.height < 700 ? 0.47 : 0.42);
+  const wantNumbers = kb.numberRow && layer === 'abc';
+  const rowsWith = (numbers: boolean) => 4 + (numbers ? 1 : 0);
+  const maxKey = (numbers: boolean) => (budget - 44 - rowsWith(numbers) * 5) / rowsWith(numbers);
+  const showNumbers = wantNumbers && maxKey(true) >= 30;
+  const base = HEIGHT[kb.size] * (layout.tablet ? 1.1 : 1);
+  const keyH = Math.round(Math.max(28, Math.min(base, maxKey(showNumbers || layer !== 'abc'))));
 
   useEffect(() => () => {
-    if (repeat.current) clearInterval(repeat.current);
+    if (repeat.current) clearTimeout(repeat.current);
   }, []);
+
+  // slide in when shown
+  const enter = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(enter, { toValue: 1, duration: 220, easing: Easing.out(Easing.cubic), useNativeDriver: ND }).start();
+  }, [enter]);
+
+  // swipe down on the keyboard hides it
+  const hideRef = useRef(actions.hide);
+  hideRef.current = actions.hide;
+  const swipeDown = useMemo(
+    () =>
+      PanResponder.create({
+        onMoveShouldSetPanResponder: (_, g) => g.dy > 14 && Math.abs(g.dy) > Math.abs(g.dx) * 1.5,
+        onPanResponderRelease: (_, g) => {
+          if (g.dy > 50) hideRef.current();
+        },
+      }),
+    [],
+  );
+
+  // drag along the space bar to move the cursor (like on phone keyboards)
+  const actionsRef = useRef(actions);
+  actionsRef.current = actions;
+  const spaceDrag = useRef({ moved: 0, active: false });
+  const spacePan = useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+          spaceDrag.current = { moved: 0, active: false };
+        },
+        onPanResponderMove: (_, g) => {
+          const steps = Math.trunc(g.dx / 14);
+          const d = steps - spaceDrag.current.moved;
+          if (Math.abs(g.dx) > 10) spaceDrag.current.active = true;
+          for (let i = 0; i < Math.abs(d); i++) actionsRef.current.special(d > 0 ? 'right' : 'left');
+          if (d) haptic.key();
+          spaceDrag.current.moved = steps;
+        },
+        onPanResponderRelease: () => {
+          if (!spaceDrag.current.active) {
+            haptic.key();
+            if (kbRef.current.keySound) sound.play('tap');
+            actionsRef.current.insert(' ');
+          }
+        },
+        onPanResponderTerminationRequest: () => false,
+      }),
+    [],
+  );
+  const kbRef = useRef(kb);
+  kbRef.current = kb;
 
   const feedback = () => {
     haptic.key();
@@ -93,12 +158,20 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
     lastShift.current = now;
   };
 
+  /** Hold backspace: a pause, then repeats that speed up. */
   const startRepeat = () => {
+    feedback();
     actions.backspace();
-    repeat.current = setInterval(() => actions.backspace(), 70);
+    let n = 0;
+    const tick = () => {
+      actions.backspace();
+      n++;
+      repeat.current = setTimeout(tick, n < 6 ? 90 : n < 20 ? 55 : 30);
+    };
+    repeat.current = setTimeout(tick, 380);
   };
   const stopRepeat = () => {
-    if (repeat.current) clearInterval(repeat.current);
+    if (repeat.current) clearTimeout(repeat.current);
     repeat.current = null;
   };
 
@@ -111,8 +184,14 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
       onPress={onPress}
       onLongPress={long ? () => type(long) : undefined}
       delayLongPress={300}
-      onPressIn={onPressIn}
-      onPressOut={onPressOut}
+      onPressIn={() => {
+        if (!mod && label && label.length <= 2) setPreview(label);
+        onPressIn?.();
+      }}
+      onPressOut={() => {
+        setPreview((p) => (p === label ? null : p));
+        onPressOut?.();
+      }}
       accessibilityRole="keyboardkey"
       accessibilityLabel={a11y ?? label}
       accessibilityState={active !== undefined ? { selected: active } : undefined}
@@ -124,7 +203,12 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
       {children ?? (
         <Text style={{ fontFamily: mono ? MONO : undefined, fontSize: label && label.length > 2 ? 13 : keyH > 46 ? 21 : 18, color: active ? theme.onAccent : theme.text }}>{label}</Text>
       )}
-      {long && kb.size !== 'S' ? <Text style={[styles.hint, { color: theme.textDim }]}>{long}</Text> : null}
+      {long && kb.size !== 'S' && keyH >= 36 ? <Text style={[styles.hint, { color: theme.textDim }]}>{long}</Text> : null}
+      {preview && preview === label ? (
+        <View pointerEvents="none" style={[styles.bubble, { backgroundColor: keyBg, borderColor: theme.border, bottom: keyH + 4 }]}>
+          <Text style={{ fontFamily: MONO, fontSize: 24, color: theme.text }}>{label}</Text>
+        </View>
+      ) : null}
     </Pressable>
   );
 
@@ -132,7 +216,14 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
   const show = (c: string) => (layer === 'abc' && shift ? c.toUpperCase() : c);
 
   return (
-    <View style={[styles.wrap, { backgroundColor: bg, opacity: kb.opacity, borderTopColor: theme.border, paddingBottom: Platform.OS === 'ios' ? 6 : 4 }]}>
+    <Animated.View
+      {...swipeDown.panHandlers}
+      style={[
+        styles.wrap,
+        { backgroundColor: bg, opacity: Animated.multiply(enter, kb.opacity), borderTopColor: theme.border, paddingBottom: Platform.OS === 'ios' ? 6 : 4, transform: [{ translateY: enter.interpolate({ inputRange: [0, 1], outputRange: [40, 0] }) }] },
+      ]}
+    >
+      <View style={[styles.grabber, { backgroundColor: theme.border }]} />
       <View style={{ width: '100%', maxWidth: layout.tablet ? 820 : undefined, alignSelf: 'center', gap: 5 }}>
       {/* quick commands + navigation */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="always" contentContainerStyle={styles.quick}>
@@ -169,7 +260,7 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
         </Pressable>
       </ScrollView>
 
-      {kb.numberRow && layer === 'abc' ? (
+      {showNumbers ? (
         <View style={styles.row}>
           {NUMBERS.map((n) => (
             <Key key={n} label={n} onPress={() => type(n)} />
@@ -210,7 +301,16 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
         <Key mod flex={1.3} label="Ctrl" active={ctrl} mono={false} onPress={() => { feedback(); setCtrl(!ctrl); setAlt(false); }} />
         <Key mod flex={1.1} label="Alt" active={alt} mono={false} onPress={() => { feedback(); setAlt(!alt); setCtrl(false); }} />
         <Key mod flex={1.3} label={layer === 'abc' ? '?123' : 'ABC'} mono={false} onPress={() => { feedback(); setLayer(layer === 'abc' ? 'sym' : 'abc'); }} />
-        <Key flex={3.6} label="space" mono={false} a11y="space" onPress={() => type(' ')} />
+        <View
+          {...spacePan.panHandlers}
+          accessible
+          accessibilityRole="keyboardkey"
+          accessibilityLabel="space"
+          accessibilityHint={t('keyboard.spaceHint')}
+          style={[styles.key, { flex: 3.6, height: keyH, backgroundColor: keyBg }]}
+        >
+          <Text style={{ fontSize: 13, color: theme.textDim }}>‹ space ›</Text>
+        </View>
         <Key mod flex={1} label="/" onPress={() => type('/')} />
         <Key mod flex={1} label="Esc" mono={false} onPress={() => { feedback(); setCtrl(false); setAlt(false); actions.special('esc'); }} />
         <Pressable
@@ -226,7 +326,7 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
         </Pressable>
       </View>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -235,6 +335,8 @@ const styles = StyleSheet.create({
   quick: { gap: 6, paddingHorizontal: 3, paddingBottom: 2 },
   chip: { height: 34, paddingHorizontal: 12, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
   row: { flexDirection: 'row', gap: 4 },
-  key: { borderRadius: 7, alignItems: 'center', justifyContent: 'center', minWidth: 0, shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 0, shadowOffset: { width: 0, height: 1 }, elevation: 1 },
+  key: { borderRadius: 8, alignItems: 'center', justifyContent: 'center', minWidth: 0, shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 0, shadowOffset: { width: 0, height: 1 }, elevation: 1 },
   hint: { position: 'absolute', top: 2, right: 4, fontSize: 9, fontFamily: MONO },
+  bubble: { position: 'absolute', minWidth: 44, height: 52, borderRadius: 10, borderWidth: StyleSheet.hairlineWidth, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8, elevation: 6, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 6, shadowOffset: { width: 0, height: 2 }, zIndex: 10 },
+  grabber: { alignSelf: 'center', width: 36, height: 4, borderRadius: 2, marginBottom: 2, opacity: 0.8 },
 });

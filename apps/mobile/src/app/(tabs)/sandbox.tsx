@@ -85,7 +85,7 @@ export default function SandboxScreen() {
               <Text style={{ color: m.id === active?.id ? theme.onAccent : theme.text, fontWeight: '700' }}>{m.name}</Text>
             </Pressable>
           ))}
-          {machines.length < MAX_MACHINES ? (
+          {machines.length > 0 && machines.length < MAX_MACHINES ? (
             <Pressable onPress={() => setCreating(true)} accessibilityRole="button" accessibilityLabel={t('sandbox.newMachine')} style={[styles.tab, { borderWidth: 1, borderColor: theme.border, borderStyle: 'dashed' }]}>
               <Icon name="plus" size={16} color={theme.accent} />
               <Text style={{ color: theme.accent, fontWeight: '700' }}>{t('sandbox.newMachine')}</Text>

@@ -458,6 +458,7 @@ const en = {
     folder: 'Folder',
   },
   keyboard: {
+    spaceHint: 'Tap for a space, drag left or right to move the cursor. Swipe the keyboard down to hide it.',
     show: 'Show keyboard',
     hide: 'Hide keyboard',
     preview: 'Try it:',
@@ -471,7 +472,7 @@ const en = {
     sizes: { L: 'Large', M: 'Medium', S: 'Small' },
     size: 'Key size',
     systemHint: 'The usual phone keyboard (other alphabets, swipe typing) with a bar of extra keys above it.',
-    customHint: 'A compact keyboard made for the shell: all symbols, Tab, arrows, Ctrl and Alt, quick commands. Hold a letter for its digit or symbol.',
+    customHint: 'A compact keyboard made for the shell: all symbols, Tab, arrows, Ctrl and Alt, quick commands. Hold a letter for its digit or symbol, drag the space bar to move the cursor, swipe the keyboard down to hide it.',
     system: 'Phone keyboard',
     custom: 'Built-in',
     title: 'Terminal keyboard',
