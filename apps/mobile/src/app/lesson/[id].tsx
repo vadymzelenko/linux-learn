@@ -9,7 +9,6 @@ import { Body, Button, H1, Icon, IconButton, ProgressBar, Row, Screen } from '..
 import { BuildStep, PredictStep, QuizStep, TheoryStep } from '../../components/steps/Steps';
 import { TaskRunner } from '../../components/steps/TaskRunner';
 import { rewardAfterHints } from '../../lib/progress';
-import { ads } from '../../lib/ads';
 import { Text } from '../../theme/Text';
 import { feedback } from '../../lib/haptics';
 import { goBack } from '../../lib/nav';
@@ -93,7 +92,6 @@ export default function LessonScreen() {
         st.completeLesson(lesson.id, earned.current);
         st.scheduleReview(lesson.commands, hintsTotal.current, mistakesTotal.current);
         if (hintsTotal.current) st.addHints(lesson.id, 0);
-        ads.onLessonCompleted();
         setFinished(true);
       }
     },
@@ -137,10 +135,7 @@ export default function LessonScreen() {
                 title={t('lesson.nextLesson')}
                 hint={Platform.OS === 'web' ? 'Enter' : undefined}
                 icon="play"
-                onPress={() => {
-                  if (ads.shouldShowInterstitial()) ads.showInterstitial();
-                  router.replace({ pathname: '/lesson/[id]', params: { id: next.lesson.id } });
-                }}
+                onPress={() => router.replace({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
               />
             ) : null}
             <Button variant="secondary" icon="map-outline" title={t('lesson.backToMap')} hint={Platform.OS === 'web' ? 'Esc' : undefined} onPress={() => goBack('/courses')} />

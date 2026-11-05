@@ -1322,6 +1322,12 @@ const sub: Record<string, Sub> = {
     if (paths.length) {
       // unstage files
       const tree = db.commits[revParse(db, revArg ?? 'HEAD') ?? '']?.tree ?? {};
+      const work = readTree(ctx, repo.root);
+      const unknown = pathspecs(ctx, repo, paths).findIndex((spec) => ![...Object.keys(db.index), ...Object.keys(tree), ...Object.keys(work)].some((p) => under(p, spec)));
+      if (unknown >= 0) {
+        ctx.err(`fatal: ambiguous argument '${paths[unknown]}': unknown revision or path not in the working tree.\n`);
+        return 128;
+      }
       for (const spec of pathspecs(ctx, repo, paths)) {
         for (const p of [...new Set([...Object.keys(db.index), ...Object.keys(tree)])].filter((p) => under(p, spec))) {
           if (p in tree) db.index[p] = tree[p]!;
@@ -1446,8 +1452,8 @@ const sub: Record<string, Sub> = {
     if (!repo) return 128;
     const { flags, values, rest } = flagsOf(args);
     const db = repo.db;
-    if (flags.has('-d')) {
-      for (const t of rest) {
+    if (flags.has('-d') || values['-d'] !== undefined) {
+      for (const t of [...(values['-d'] !== undefined ? [values['-d']] : []), ...rest]) {
         if (db.tags[t] === undefined) {
           ctx.err(`error: tag '${t}' not found.\n`);
           return 1;
@@ -1471,7 +1477,6 @@ const sub: Record<string, Sub> = {
       ctx.err(`fatal: tag '${rest[0]}' already exists\n`);
       return 128;
     }
-    void values;
     db.tags[rest[0]!] = id;
     saveDb(ctx, repo);
     return 0;
@@ -1564,7 +1569,8 @@ const sub: Record<string, Sub> = {
       throw e;
     }
     const db = emptyDb(false, branch);
-    db.remotes.origin = url;
+    // a local path is remembered as an absolute one, like git does
+    db.remotes.origin = /^(https?:|git@|file:)/.test(url) ? url : remote.gitDir === remotePath(ctx, url) || remote.root === remotePath(ctx, url) ? remotePath(ctx, url) : url;
     for (const [b, id] of Object.entries(rdb.branches)) {
       copyCommits(rdb, db, id);
       db.tracking[`origin/${b}`] = id;

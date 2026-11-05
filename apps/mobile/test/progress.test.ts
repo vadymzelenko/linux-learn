@@ -14,7 +14,6 @@ import {
   scheduleStruggles,
   touchStreak,
 } from '../src/lib/progress';
-import { bannerAllowed, interstitialAllowed } from '../src/lib/ads';
 
 describe('dates', () => {
   it('day arithmetic', () => {
@@ -91,14 +90,5 @@ describe('progress', () => {
     expect(got).toEqual(expect.arrayContaining(['first-command', 'first-pipe', 'first-lesson', 'module-done', 'no-hints-module', 'rm-rf-root']));
     p.achievements['first-command'] = 1;
     expect(newAchievements(p, { now: new Date() })).not.toContain('first-command');
-  });
-  it('ads policy: never during a task, once per 3 lessons, consent first', () => {
-    const s = { lessonsSinceInterstitial: 3, consentGiven: true, premium: false };
-    expect(interstitialAllowed(s, false)).toBe(true);
-    expect(interstitialAllowed(s, true)).toBe(false);
-    expect(interstitialAllowed({ ...s, lessonsSinceInterstitial: 2 }, false)).toBe(false);
-    expect(interstitialAllowed({ ...s, consentGiven: false }, false)).toBe(false);
-    expect(bannerAllowed(s, 'terminal')).toBe(false);
-    expect(bannerAllowed({ ...s, premium: true }, 'list')).toBe(false);
   });
 });
