@@ -86,10 +86,10 @@
           },
           "options": [
             {
-              "en": "Only the owner",
-              "uk": "Лише власник",
-              "ru": "Только владелец",
-              "pl": "Tylko właściciel"
+              "en": "Only the owner (and root, who can do anything)",
+              "uk": "Лише власник (і root, якому можна все)",
+              "ru": "Только владелец (и root, которому можно всё)",
+              "pl": "Tylko właściciel (i root, który może wszystko)"
             },
             {
               "en": "Everybody",

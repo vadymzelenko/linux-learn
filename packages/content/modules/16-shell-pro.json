@@ -1093,10 +1093,10 @@
         {
           "type": "quiz",
           "question": {
-            "en": "Why does \"[$n -gt 3]\" fail with \"command not found\"?",
-            "ru": "Почему «[$n -gt 3]» падает с «command not found»?",
-            "uk": "Чому «[$n -gt 3]» падає з «command not found»?",
-            "pl": "Dlaczego „[$n -gt 3]” kończy się „command not found”?"
+            "en": "n=4. Why does \"[$n -gt 3]\" fail with \"command not found\"?",
+            "ru": "n=4. Почему «[$n -gt 3]» падает с «command not found»?",
+            "uk": "n=4. Чому «[$n -gt 3]» падає з «command not found»?",
+            "pl": "n=4. Dlaczego „[$n -gt 3]” kończy się „command not found”?"
           },
           "options": [
             {

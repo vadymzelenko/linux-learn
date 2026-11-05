@@ -297,10 +297,10 @@
             "free -h | head -2"
           ],
           "explanation": {
-            "en": "1.4 GiB of swap is used: the server ran out of RAM and is swapping.",
-            "ru": "Занято 1,4 ГиБ свопа: оперативной памяти не хватило, сервер свопится.",
-            "uk": "Зайнято 1,4 ГіБ свопу: оперативної пам’яті забракло, сервер свопиться.",
-            "pl": "Zajęte jest 1,4 GiB swapu: serwerowi zabrakło RAM i swapuje."
+            "en": "1.4 GiB of swap is used: at some point RAM was not enough and pages were moved to swap. Used swap alone is a hint, not proof of slowness: check \"available\" and whether swapping goes on right now.",
+            "ru": "Занято 1,4 ГиБ свопа: в какой-то момент оперативной памяти не хватило, и часть страниц ушла в своп. Сам по себе занятый своп — подсказка, а не доказательство тормозов: проверьте available и идёт ли подкачка прямо сейчас.",
+            "uk": "Зайнято 1,4 ГіБ свопу: колись оперативної пам’яті забракло, і частина сторінок пішла у своп. Сам по собі зайнятий своп — підказка, а не доказ гальмування: перевірте available і чи йде підкачка просто зараз.",
+            "pl": "Zajęte 1,4 GiB swapu: w pewnym momencie zabrakło RAM-u i część stron trafiła do swapu. Sam zajęty swap to wskazówka, a nie dowód spowolnienia: sprawdź available i czy wymiana trwa właśnie teraz."
           }
         },
         {

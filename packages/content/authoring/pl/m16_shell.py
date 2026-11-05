@@ -148,7 +148,7 @@ Warunkiem może być dowolne polecenie: `if grep -q error app.log; then …`."""
 "3739b8a692": "Skrypt używa if",
 "d4c247bb17": "… i fi",
 "244ec6962e": "Napisz go w nano, potem bash ~/check.sh",
-"626e29ace4": "Dlaczego „[$n -gt 3]” kończy się „command not found”?",
+"50d9f2a1d8": "n=4. Dlaczego „[$n -gt 3]” kończy się „command not found”?",
 "6d9588b3a7": "Brak spacji: bash szuka polecenia o nazwie „[4”",
 "5a5ee4b052": "-gt nie istnieje",
 "9e6953bdd3": "W testach nie wolno używać zmiennych",

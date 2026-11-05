@@ -59,7 +59,7 @@ Gdy pamięć skończy się całkowicie, jądro zabija duży proces i zapisuje w 
 "ce32626b07": "Użyj free z -h",
 "77b9fc7e99": "Widać wiersz Swap",
 "7daf0bd3bb": "free + flaga czytelnych jednostek.",
-"0213a44105": "Zajęte jest 1,4 GiB swapu: serwerowi zabrakło RAM i swapuje.",
+"814fa4a9ff": "Zajęte 1,4 GiB swapu: w pewnym momencie zabrakło RAM-u i część stron trafiła do swapu. Sam zajęty swap to wskazówka, a nie dowód spowolnienia: sprawdź available i czy wymiana trwa właśnie teraz.",
 "6ba9ba197c": "free -h: total 3.8Gi, used 1.6Gi, free 200Mi, buff/cache 2.0Gi, available 2.1Gi. Czy serwerowi brakuje pamięci?",
 "2302baa10c": "Nie: dostępne jest 2,1 GiB, cache zostanie zwolniony",
 "a825d45450": "Tak: wolne jest tylko 200 MiB",
