@@ -17,6 +17,7 @@ import {
   type Progress,
 } from '../lib/progress';
 import { storage } from './storage';
+import { importSettings, mergeProgress, type Backup } from '../lib/backup';
 
 export interface Settings {
   lang: 'system' | Lang;
@@ -95,6 +96,8 @@ interface State {
   dismissToast(id: number): void;
   pushToast(t: DistributiveOmit<Toast, 'id'>): void;
   resetAll(): void;
+  /** Apply a backup from another device: replace everything or merge progress. */
+  importBackup(b: Backup, mode: 'replace' | 'merge'): void;
 }
 
 const defaultSettings: Settings = {
@@ -275,6 +278,20 @@ export const useStore = create<State>()(
             settings: { ...get().settings, onboarded: true },
             toasts: [],
           }),
+        importBackup: (b, mode) => {
+          const cur = get();
+          const incoming = b.sandbox?.machines ?? [];
+          const machines =
+            mode === 'merge'
+              ? [...cur.sandbox.machines, ...incoming.filter((m) => !cur.sandbox.machines.some((x) => x.id === m.id))].slice(0, MAX_MACHINES)
+              : incoming.slice(0, MAX_MACHINES);
+          const activeId = machines.some((m) => m.id === cur.sandbox.activeId) ? cur.sandbox.activeId : machines.some((m) => m.id === b.sandbox?.activeId) ? b.sandbox!.activeId : (machines[0]?.id ?? null);
+          set({
+            progress: mode === 'merge' ? mergeProgress(cur.progress, b.progress) : b.progress,
+            settings: { ...importSettings(cur.settings, b.settings), onboarded: true },
+            sandbox: { machines, activeId },
+          });
+        },
       };
     },
     {

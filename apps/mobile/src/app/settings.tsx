@@ -7,7 +7,7 @@ import { LANGS } from '@linux-learn/content';
 import { useStore } from '../state/store';
 import { useTheme, MONO, space } from '../theme';
 import { themes, THEME_IDS } from '../theme/themes';
-import { Body, Button, Card, H1, H2, IconButton, Row, Screen } from '../components/ui';
+import { Body, Button, Card, H1, H2, Icon, IconButton, Row, Screen } from '../components/ui';
 import { LANGUAGE_NAMES } from '../i18n';
 import { syncReminder } from '../lib/reminders';
 import { Text } from '../theme/Text';
@@ -161,6 +161,17 @@ export default function SettingsScreen() {
               ))}
             </Row>
           ) : null}
+        </Card>
+
+        <Card onPress={() => router.push('/backup')} accessibilityLabel={t('backup.title')}>
+          <Row gap={12}>
+            <Icon name="swap-horizontal-circle-outline" size={28} color={theme.accent} />
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: theme.text, fontWeight: '800', fontSize: 16 }}>{t('backup.title')}</Text>
+              <Body dim>{t('backup.entry')}</Body>
+            </View>
+            <Icon name="chevron-right" color={theme.textDim} />
+          </Row>
         </Card>
 
         <H2>{t('settings.privacy')}</H2>
