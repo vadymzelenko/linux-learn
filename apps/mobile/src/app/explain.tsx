@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +29,11 @@ function useDescribe() {
   const lang = i18n.language;
   const keyText = (key: string | undefined, params: Record<string, string> | undefined, fallback: string) => {
     if (!key) return fallback;
-    const v = t(`explainKeys.${key}`, { defaultValue: '', ...(params ?? {}), interpolation: { escapeValue: false } });
+    // "@k1|k2" params are lists of words to translate (chmod: who / which permissions)
+    const p = Object.fromEntries(
+      Object.entries(params ?? {}).map(([k, v]) => [k, v.startsWith('@') ? v.slice(1).split('|').map((w) => t(`explainKeys.${w}`, { defaultValue: w })).join(', ') : v]),
+    );
+    const v = t(`explainKeys.${key}`, { defaultValue: '', ...p, interpolation: { escapeValue: false } });
     return v || fallback;
   };
   const flag = (f: ExplainFlag, owner?: string) => (f.spec ? optionText(owner, f.spec, lang, f.description) : keyText(f.key, f.params, f.description));
@@ -46,6 +50,10 @@ export default function ExplainScreen() {
   const { t } = useTranslation();
   const params = useLocalSearchParams<{ cmd?: string }>();
   const [line, setLine] = useState(params.cmd ?? EXAMPLES[1]!);
+  // opened again with another command (e.g. from a lesson): show that one
+  useEffect(() => {
+    if (params.cmd) setLine(params.cmd);
+  }, [params.cmd]);
   const result = useMemo(() => explain(line), [line]);
   const describe = useDescribe();
   const kindColor: Record<ExplainKind, string> = {
@@ -72,7 +80,7 @@ export default function ExplainScreen() {
           <Text style={{ fontFamily: MONO_BOLD, color: theme.term.user, fontSize: 15, paddingTop: 14 }}>$</Text>
           <TextInput
             value={line}
-            onChangeText={setLine}
+            onChangeText={(v) => setLine(v.replace(/\n/g, ' '))}
             placeholder={t('explain.placeholder')}
             placeholderTextColor={theme.textDim}
             autoCorrect={false}

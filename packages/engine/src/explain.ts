@@ -238,6 +238,34 @@ function rwx(d: number): string {
   return (d & 4 ? 'r' : '-') + (d & 2 ? 'w' : '-') + (d & 1 ? 'x' : '-');
 }
 
+const WHO: Record<string, string> = { u: 'owner', g: 'group', o: 'others', a: 'everyone' };
+const PERM: Record<string, string> = { r: 'read', w: 'write', x: 'execute', X: 'execute (dirs)', s: 'setuid/setgid', t: 'sticky' };
+const OP: Record<string, string> = { '+': 'add', '-': 'remove', '=': 'set exactly' };
+
+/**
+ * `u+x,g-w` → "owner: add execute; group: remove write". Words are passed as
+ * `@key|key` params: the app translates every key and joins them.
+ */
+function symbolicMode(v: string): (Omit<ExplainPart, 'text' | 'kind'>) | undefined {
+  const clauses = v.split(',');
+  const en: string[] = [];
+  for (const c of clauses) {
+    const m = /^([ugoa]*)([+=-])([rwxXst]*)$/.exec(c);
+    if (!m) return undefined;
+    const who = [...new Set((m[1] || 'a').split(''))];
+    const perms = [...new Set(m[3]!.split(''))];
+    const whoKeys = who.map((w) => `explain.chmod.who.${w}`).join('|');
+    const permKeys = perms.length ? perms.map((p) => `explain.chmod.perm.${p === 'X' ? 'x' : p}`).join('|') : 'explain.chmod.perm.none';
+    const op = m[2] === '+' ? 'add' : m[2] === '-' ? 'remove' : 'set';
+    en.push(`${who.map((w) => WHO[w]).join(', ')}: ${OP[m[2]!]} ${perms.length ? perms.map((p) => PERM[p]).join(', ') : 'nothing'}`);
+    if (clauses.length === 1) return { key: `explain.chmod.${op}`, params: { mode: v, who: '@' + whoKeys, perms: '@' + permKeys }, description: `${v}: ${en[0]}` };
+  }
+  return { key: 'explain.arg.modeSymbolicList', params: { mode: v }, description: `${v}: ${en.join('; ')}`, flags: clauses.map((c) => {
+    const one = symbolicMode(c)!;
+    return { flag: c, key: one.key!, params: one.params!, description: one.description };
+  }) };
+}
+
 /** Turn a positional argument into a described part according to its role. */
 function describeRole(role: Role, raw: string): Omit<ExplainPart, 'text' | 'kind'> & { kind?: ExplainKind } {
   const v = strip(raw);
@@ -287,6 +315,8 @@ function describeRole(role: Role, raw: string): Omit<ExplainPart, 'text' | 'kind
         const s = d.map(rwx);
         return { key: 'explain.arg.modeOctal', params: { mode: v, all: s.join(''), u: s[0]!, g: s[1]!, o: s[2]! }, description: `permissions ${v} = ${s.join('')}: owner ${s[0]}, group ${s[1]}, others ${s[2]}` };
       }
+      const sym = symbolicMode(v);
+      if (sym) return sym;
       return { key: 'explain.arg.modeSymbolic', params: { mode: v }, description: `symbolic permissions ${v}: u owner, g group, o others, a all; + add, - remove, = set exactly; r read, w write, x execute` };
     }
     case 'owner': {
@@ -308,6 +338,7 @@ function describeRole(role: Role, raw: string): Omit<ExplainPart, 'text' | 'kind
     case 'port':
       return { key: 'explain.arg.port', params: { port: v }, description: `TCP port ${v}` };
     case 'text':
+      if (/^["']?\$/.test(raw) || raw.startsWith('`')) return describePath(raw);
       return { key: 'explain.arg.text', params: { text: v }, description: 'the text to print' };
     case 'format':
       return { key: 'explain.arg.format', params: { format: v }, description: 'the format: %s is replaced with a string, %d with a number, \\n is a new line' };
@@ -349,8 +380,19 @@ interface Ctx {
   registry: Registry;
 }
 
+/** Real commands the trainer does not simulate: not a typo, just not here. */
+const REAL_ELSEWHERE = new Set(['tar', 'gzip', 'gunzip', 'zip', 'unzip', 'xz', 'bzip2', 'apt', 'apt-get', 'dpkg', 'yum', 'dnf', 'pacman', 'snap', 'ssh', 'scp', 'sftp', 'rsync', 'make', 'gcc', 'python', 'python3', 'pip', 'pip3', 'node', 'npm', 'npx', 'java', 'htop', 'crontab', 'mount', 'umount', 'lsblk', 'fdisk', 'mkfs', 'vi', 'emacs', 'screen', 'tmux', 'gh', 'kubectl', 'helm', 'terraform', 'ansible', 'openssl', 'iptables', 'ufw', 'nmap', 'tcpdump', 'jq', 'watch', 'lsof', 'strace', 'shutdown', 'reboot']);
+
 function commandPart(ctx: Ctx, w: Word): CommandDef | undefined {
   const name = wordLiteral(w);
+  if (name.includes('/')) {
+    ctx.parts.push({ text: w.raw, kind: 'command', key: 'explain.runScript', params: { file: name }, description: `run the program or script ${name} (a path, not a command from $PATH)` });
+    return undefined;
+  }
+  if (!ctx.registry.get(name) && REAL_ELSEWHERE.has(name)) {
+    ctx.parts.push({ text: w.raw, kind: 'command', key: 'explain.notInTrainer', params: { name }, description: `${name}: a real Linux command, but this trainer does not simulate it` });
+    return undefined;
+  }
   const def = ctx.registry.get(name);
   ctx.parts.push(def ? { text: w.raw, kind: 'command', command: def.name, description: def.doc.summary } : { text: w.raw, kind: 'unknown', key: 'explain.unknownCommand', description: 'unknown command — maybe a typo?' });
   return def;
@@ -511,6 +553,10 @@ function explainArgs(ctx: Ctx, def: CommandDef | undefined, words: Word[], start
       continue;
     }
     // `grep -e PATTERN` / `sed -e SCRIPT` consume the first positional role
+    if (!endOfOptions && isOption(t) && !def) {
+      ctx.parts.push({ text: w.raw, kind: 'flag', key: 'explain.option', description: 'an option of the command' });
+      continue;
+    }
     if (!endOfOptions && isOption(t) && def) {
       const before = ctx.parts.length;
       i = explainOption(ctx, def, words, i) - 1;

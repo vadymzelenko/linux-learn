@@ -264,3 +264,28 @@ describe('explain: roles and localization keys', () => {
     expect(kinds('docker frob x')).toContain('arg:x:explain.arg.plain');
   });
 });
+
+describe('explain: scripts, unsimulated commands, variables, symbolic chmod', () => {
+  const parts = (l: string) => explain(l).parts;
+  it('a path is a script to run, not a typo', () => {
+    const p = parts('./deploy.sh --force');
+    expect(p[0]).toMatchObject({ kind: 'command', key: 'explain.runScript' });
+    expect(p[1]).toMatchObject({ kind: 'flag', key: 'explain.option' });
+  });
+  it('a real but unsimulated command keeps its flags as flags', () => {
+    const p = parts('tar -czf b.tgz /etc');
+    expect(p[0]).toMatchObject({ kind: 'command', key: 'explain.notInTrainer' });
+    expect(p[1]).toMatchObject({ kind: 'flag', text: '-czf' });
+  });
+  it('echo $VAR is a variable', () => {
+    expect(parts('echo $HOME')[1]).toMatchObject({ key: 'explain.arg.variable' });
+    expect(parts('echo hi')[1]).toMatchObject({ key: 'explain.arg.text' });
+  });
+  it('symbolic chmod modes are decoded', () => {
+    expect(parts('chmod +x f')[1]).toMatchObject({ key: 'explain.chmod.add', params: { who: '@explain.chmod.who.a', perms: '@explain.chmod.perm.x' } });
+    const list = parts('chmod u+x,go-w f')[1]!;
+    expect(list.key).toBe('explain.arg.modeSymbolicList');
+    expect(list.flags?.map((f) => f.key)).toEqual(['explain.chmod.add', 'explain.chmod.remove']);
+    expect(list.flags?.[1]?.params?.who).toBe('@explain.chmod.who.g|explain.chmod.who.o');
+  });
+});
