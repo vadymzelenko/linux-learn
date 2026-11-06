@@ -106,6 +106,10 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
 
   const passedCount = evaluation?.results.filter((r) => r.status === 'pass').length ?? 0;
 
+  // missions have a story instead of a goal: show the next unmet check, else the story
+  const nextCheck = task.checks.find((_, i) => evaluation?.results[i]?.status !== 'pass');
+  const miniText = (task.goal ? tr(task.goal, lang) : nextCheck ? `→ ${tr(nextCheck.label, lang)}` : task.story ? tr(task.story, lang) : '').replace(/[`*]/g, '');
+
   const miniCard = (
     <Pressable
       onPress={() => setPeek(true)}
@@ -115,7 +119,7 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
     >
       <Icon name={solved ? 'check-circle' : 'target'} size={18} color={solved ? theme.success : theme.accent} />
       <Text style={{ color: theme.text, fontSize: 14, flex: 1, fontWeight: '600' }} numberOfLines={2}>
-        {solved ? t('lesson.solved') : task.goal ? tr(task.goal, lang).replace(/[`*]/g, '') : ''}
+        {solved ? t('lesson.solved') : miniText}
       </Text>
       <View style={[styles.counter, { backgroundColor: theme.surface2 }]}>
         <Text style={{ color: passedCount === task.checks.length ? theme.success : theme.textDim, fontSize: 12, fontWeight: '800' }}>

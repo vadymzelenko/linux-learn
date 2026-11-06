@@ -23,7 +23,7 @@ const uk: Dict = {
     new: 'Нове',
     copied: 'Скопійовано',
   },
-  tabs: { home: 'Головна', courses: 'Курси', learn: 'Вчитися', sandbox: 'Пісочниця', practice: 'Тренування', profile: 'Профіль' },
+  tabs: { home: 'Головна', courses: 'Курси', learn: 'Вчитися', sandbox: 'Пісочниця', practice: 'Практика', profile: 'Профіль' },
   onboarding: {
     s1Title: 'Справжній термінал у кишені',
     s1Text: 'Вводьте справжні команди Linux у безпечній симульованій системі. Усе працює офлайн.',

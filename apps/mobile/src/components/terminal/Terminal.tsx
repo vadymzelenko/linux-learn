@@ -84,9 +84,15 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
     return () => cancelAnimationFrame(id);
   }, [forcedSel]);
 
+  /** Selection events older than our own last edit are stale (fast typing). */
+  const ownSelUntil = useRef(0);
   const setText = useCallback((text: string, cursor = text.length) => {
-    setInput(text);
+    // update the refs right away: the next key may arrive before React renders,
+    // otherwise it would edit the old text and the previous character is lost
+    inputValue.current = text;
     sel.current = { start: cursor, end: cursor };
+    ownSelUntil.current = Date.now() + 250;
+    setInput(text);
     setForcedSel({ start: cursor, end: cursor });
   }, []);
 
@@ -271,7 +277,9 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
         setCtrl(false);
         if (control(ch)) return;
       }
-      setInput(text.replace(/\n/g, ''));
+      const clean = text.replace(/\n/g, '');
+      inputValue.current = clean;
+      setInput(clean);
     },
     [control, ctrl],
   );
@@ -408,7 +416,10 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
                 onChangeText={onChangeText}
                 {...(forcedSel ? { selection: forcedSel } : {})}
                 onSelectionChange={(e) => {
-                  sel.current = e.nativeEvent.selection;
+                  const next = e.nativeEvent.selection;
+                  // ignore late echoes of an older cursor position right after our own edit
+                  if (Date.now() < ownSelUntil.current && (next.start !== sel.current.start || next.end !== sel.current.end)) return;
+                  sel.current = next;
                 }}
                 onSubmitEditing={submit}
                 onKeyPress={onKeyPress}

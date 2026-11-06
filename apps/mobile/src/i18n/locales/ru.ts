@@ -23,7 +23,7 @@ const ru: Dict = {
     new: 'Новое',
     copied: 'Скопировано',
   },
-  tabs: { home: 'Главная', courses: 'Курсы', learn: 'Учиться', sandbox: 'Песочница', practice: 'Тренировка', profile: 'Профиль' },
+  tabs: { home: 'Главная', courses: 'Курсы', learn: 'Учиться', sandbox: 'Песочница', practice: 'Практика', profile: 'Профиль' },
   onboarding: {
     s1Title: 'Настоящий терминал в кармане',
     s1Text: 'Вводите настоящие команды Linux в безопасной симулированной системе. Всё работает офлайн.',

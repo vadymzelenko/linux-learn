@@ -4,7 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { allLessons, findLesson, isTaskStep, stepXp, tr } from '@linux-learn/content';
 import { useStore } from '../../state/store';
-import { useTheme, space } from '../../theme';
+import { useTheme, space, MONO } from '../../theme';
 import { Body, Button, H1, Icon, IconButton, ProgressBar, Row, Screen } from '../../components/ui';
 import { BuildStep, PredictStep, QuizStep, TheoryStep } from '../../components/steps/Steps';
 import { TaskRunner } from '../../components/steps/TaskRunner';
@@ -171,7 +171,9 @@ export default function LessonScreen() {
               <Text style={{ color: theme.text, fontWeight: '800', fontSize: 15, flexShrink: 1 }} numberOfLines={1}>
                 {tr(lesson.title, i18n.language)}
               </Text>
-              <Text style={{ color: theme.textDim, fontSize: 12 }}>{t('lesson.step', { n: index + 1, total: lesson.steps.length })}</Text>
+              <Text style={{ color: theme.textDim, fontSize: 12, flexShrink: 0, fontFamily: MONO }} numberOfLines={1}>
+                {layout.width < 520 ? `${index + 1}/${lesson.steps.length}` : t('lesson.step', { n: index + 1, total: lesson.steps.length })}
+              </Text>
             </Row>
             <ProgressBar value={index / lesson.steps.length} height={6} />
           </View>
