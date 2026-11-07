@@ -4,6 +4,18 @@ appId: com.vadymzelenko.linuxtrainer
 ---
 - launchApp:
     clearState: true
+# the CI emulator is slow: a system "… isn't responding" dialog (usually the
+# launcher) can cover the app — answer "Wait" until the app is visible
+- repeat:
+    times: 12
+    while:
+      notVisible: "English"
+    commands:
+      - tapOn:
+          text: "Wait"
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 5000
 - extendedWaitUntil:
     visible: "English"
     timeout: 60000
