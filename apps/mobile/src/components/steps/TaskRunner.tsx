@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { LayoutAnimation, Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { evaluateTask, prepareSession, tr, type ContentCheck, type L10n } from '@linux-learn/content';
 import { stripAnsi, type ExecutedCommand, type ExecResult, type Session, type TaskEvaluation } from '@linux-learn/engine';
@@ -14,7 +14,9 @@ import { Text } from '../../theme/Text';
 import { HowTo } from './Steps';
 import { useLayout } from '../../lib/layout';
 import { MachineView } from '../MachineView';
-import { FadeIn } from '../ui';
+import { Collapsible, FadeIn } from '../ui';
+import { useUi } from '../../state/ui';
+import { useStore } from '../../state/store';
 
 export interface TaskSpec {
   /** Unique key: changing it restarts the task. */
@@ -58,6 +60,38 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
   /** While our keyboard is open on a phone, the goal card shrinks to one line (tap to peek). */
   const [peek, setPeek] = useState(false);
   const mini = !wide && kbOpen && !peek;
+  const focus = !wide && kbOpen;
+  /** The goal pane next to the terminal on a phone held sideways is narrow. */
+  const narrowPane = wide && width * 0.38 < 330;
+
+  // phone + our keyboard: the lesson header folds away too (see lesson screen)
+  useEffect(() => {
+    useUi.getState().setFocus(focus);
+  }, [focus]);
+  useEffect(() => () => useUi.getState().setFocus(false), []);
+
+  // once: suggest turning the phone sideways, where goal and terminal sit side by side
+  const tipSeen = useStore((s) => s.settings.rotateTipSeen);
+  const [tip, setTip] = useState(false);
+  useEffect(() => {
+    if (!focus || tipSeen || layout.tablet || Platform.OS === 'web') return;
+    const show = setTimeout(() => setTip(true), 900);
+    const hide = setTimeout(() => {
+      setTip(false);
+      useStore.getState().setSettings({ rotateTipSeen: true });
+    }, 8000);
+    return () => {
+      clearTimeout(show);
+      clearTimeout(hide);
+    };
+  }, [focus, tipSeen, layout.tablet]);
+  const closeTip = () => {
+    setTip(false);
+    useStore.getState().setSettings({ rotateTipSeen: true });
+  };
+
+  /** Smooth swap between the full goal card and its one-line version. */
+  const animateSwap = () => LayoutAnimation.configureNext(LayoutAnimation.create(220, 'easeInEaseOut', 'opacity'));
   const initial = useMemo(() => prepareSession(task.setup, task.prepare ?? []), [task.key]); // eslint-disable-line react-hooks/exhaustive-deps
   const executed = useRef<ExecutedCommand[]>([]);
   const mistakes = useRef(0);
@@ -112,13 +146,16 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
 
   const miniCard = (
     <Pressable
-      onPress={() => setPeek(true)}
+      onPress={() => {
+        animateSwap();
+        setPeek(true);
+      }}
       accessibilityRole="button"
       accessibilityHint={t('lesson.expand')}
       style={[styles.mini, { backgroundColor: theme.surface, borderColor: solved ? theme.success : theme.border }]}
     >
       <Icon name={solved ? 'check-circle' : 'target'} size={18} color={solved ? theme.success : theme.accent} />
-      <Text style={{ color: theme.text, fontSize: 14, flex: 1, fontWeight: '600' }} numberOfLines={2}>
+      <Text style={{ color: theme.text, fontSize: 14, flex: 1, fontWeight: '600' }} numberOfLines={layout.compact ? 1 : 2}>
         {solved ? t('lesson.solved') : miniText}
       </Text>
       <View style={[styles.counter, { backgroundColor: theme.surface2 }]}>
@@ -138,7 +175,7 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
           {onTheory ? (
             <Pressable onPress={onTheory} hitSlop={8} accessibilityRole="button" accessibilityLabel={t('topic.readTopic')} style={[styles.pill, { backgroundColor: theme.surface2 }]}>
               <Icon name="book-open" size={16} color={theme.accent} />
-              <Text style={{ color: theme.accent, fontWeight: '700', fontSize: 13 }}>{t('topic.theory')}</Text>
+              {narrowPane ? null : <Text style={{ color: theme.accent, fontWeight: '700', fontSize: 13 }}>{t('topic.theory')}</Text>}
             </Pressable>
           ) : null}
           <Pressable onPress={() => setShowFiles(!showFiles)} hitSlop={8} accessibilityRole="button" accessibilityLabel={t('lesson.files')} style={styles.iconBtn}>
@@ -148,7 +185,11 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
             <Icon name="refresh" size={20} color={theme.textDim} />
           </Pressable>
           <Pressable
-            onPress={() => (kbOpen && !wide ? setPeek(false) : setCollapsed(!collapsed))}
+            onPress={() => {
+              animateSwap();
+              if (kbOpen && !wide) setPeek(false);
+              else setCollapsed(!collapsed);
+            }}
             hitSlop={8}
             accessibilityRole="button"
             accessibilityLabel={collapsed ? t('lesson.expand') : t('lesson.collapse')}
@@ -162,7 +203,7 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
         <ScrollView style={{ maxHeight: wide ? undefined : height * (kbOpen ? 0.3 : layout.compact ? 0.4 : 0.46) }} contentContainerStyle={{ gap: space.sm }}>
           {task.story ? <RichText text={tr(task.story, lang)} style={{ fontSize: 15, color: theme.textDim, marginBottom: 4 }} /> : null}
           {task.goal ? <RichText text={tr(task.goal, lang)} style={{ fontSize: 17, fontWeight: '600', marginBottom: 4 }} /> : null}
-          {!solved ? <HowTo text={t('lesson.howTo.task')} keys="Tab · ↑↓ · Enter" /> : null}
+          {!solved && !layout.compact ? <HowTo text={t('lesson.howTo.task')} keys="Tab · ↑↓ · Enter" /> : null}
           {task.instructions ? (
             <View style={[styles.instr, { backgroundColor: theme.surface2 }]}>
               <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 12, letterSpacing: 1 }}>{t('lesson.instructions').toUpperCase()}</Text>
@@ -229,7 +270,18 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
 
   return (
     <View style={[styles.wrap, wide && { flexDirection: 'row' }]}>
-      <View style={wide ? { width: '38%' } : undefined}>{mini ? miniCard : card}</View>
+      <View style={wide ? { width: '38%' } : undefined}>
+        <FadeIn key={mini ? 'mini' : 'card'} from={mini ? -6 : 6} delay={0}>
+          {mini ? miniCard : card}
+        </FadeIn>
+        <Collapsible open={tip}>
+          <Pressable onPress={closeTip} accessibilityRole="button" style={[styles.tip, { backgroundColor: theme.surface2, borderColor: theme.accent }]}>
+            <Icon name="phone-rotate-landscape" size={20} color={theme.accent} />
+            <Text style={{ color: theme.text, fontSize: 13, flex: 1 }}>{t('lesson.rotateTip')}</Text>
+            <Icon name="x" size={16} color={theme.textDim} />
+          </Pressable>
+        </Collapsible>
+      </View>
       <Terminal
         ref={termRef}
         shell={shell}
@@ -237,6 +289,7 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
         autoFocus
         grabTyping
         onKeyboardChange={(v) => {
+          if (v !== kbOpen) animateSwap();
           setKbOpen(v);
           if (v) setPeek(false);
         }}
@@ -271,7 +324,7 @@ export function TaskSolvedNote({ xp }: { xp: number }) {
 
 const styles = StyleSheet.create({
   wrap: { flex: 1, gap: space.sm },
-  mini: { flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 8, minHeight: 44 },
+  mini: { flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 6, minHeight: 40 },
   counter: { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 2 },
   card: { borderRadius: 16, borderWidth: 1, padding: space.md, gap: space.sm },
   iconBtn: { padding: 6, borderRadius: 999 },
@@ -279,6 +332,7 @@ const styles = StyleSheet.create({
   instr: { borderRadius: 12, padding: 12, gap: 6 },
   files: { borderRadius: 12, padding: 12 },
   hint: { borderRadius: 10, padding: 10, gap: 2 },
+  tip: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 6, borderRadius: 12, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 8 },
 });
 
 /** A quick look at the machine: where you are and what is there. */

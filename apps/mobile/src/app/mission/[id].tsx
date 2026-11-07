@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { findMission, tr } from '@linux-learn/content';
 import { useStore } from '../../state/store';
 import { useTheme, space } from '../../theme';
-import { Button, IconButton, Screen } from '../../components/ui';
+import { Button, Collapsible, Icon, IconButton, Screen } from '../../components/ui';
+import { useUi } from '../../state/ui';
+import { useLayout } from '../../lib/layout';
 import { TaskRunner } from '../../components/steps/TaskRunner';
 import { rewardAfterHints } from '../../lib/progress';
 import { Text } from '../../theme/Text';
@@ -19,10 +21,15 @@ export default function MissionScreen() {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const [reward, setReward] = useState<number | null>(null);
+  const focus = useUi((u) => u.focus);
+  const layout = useLayout();
+  /** Terminal keyboard open on a phone, or a phone on its side: a slim header. */
+  const slim = focus || (layout.landscape && !layout.tablet);
   if (!mission) return null;
   return (
     <Screen edges={['top', 'bottom']}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <Collapsible open={!slim}>
         <View style={styles.header}>
           <BackButton />
           <Text style={{ color: theme.text, fontWeight: '800', fontSize: 17, flex: 1 }} numberOfLines={1}>
@@ -30,6 +37,17 @@ export default function MissionScreen() {
           </Text>
           <Text style={{ color: theme.warning, letterSpacing: 2 }}>{'★'.repeat(mission.difficulty)}</Text>
         </View>
+        </Collapsible>
+        <Collapsible open={slim}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, height: 28, paddingHorizontal: space.md }}>
+            <Pressable onPress={() => goBack('/courses')} hitSlop={10} accessibilityRole="button" accessibilityLabel={t('common.back')}>
+              <Icon name="chevron-left" size={20} color={theme.textDim} />
+            </Pressable>
+            <Text style={{ color: theme.textDim, fontWeight: '700', fontSize: 13, flex: 1 }} numberOfLines={1}>
+              {tr(mission.title, i18n.language)}
+            </Text>
+          </View>
+        </Collapsible>
         <View style={styles.body}>
           <TaskRunner
             task={{

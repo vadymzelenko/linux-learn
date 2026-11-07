@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, BackHandler, Easing, KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { Animated, BackHandler, Easing, KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { allLessons, findLesson, isTaskStep, stepXp, tr } from '@linux-learn/content';
 import { useStore } from '../../state/store';
 import { useTheme, space, MONO } from '../../theme';
-import { Body, Button, H1, Icon, IconButton, ProgressBar, Row, Screen } from '../../components/ui';
+import { Body, Button, Collapsible, H1, Icon, IconButton, ProgressBar, Row, Screen } from '../../components/ui';
 import { BuildStep, PredictStep, QuizStep, TheoryStep } from '../../components/steps/Steps';
 import { TaskRunner } from '../../components/steps/TaskRunner';
 import { rewardAfterHints } from '../../lib/progress';
@@ -16,6 +16,7 @@ import { confirmDialog } from '../../components/Dialog';
 import { KeyCatcher } from '../../components/KeyCatcher';
 import { SlideIn } from '../../components/ui';
 import { useLayout } from '../../lib/layout';
+import { useUi } from '../../state/ui';
 
 /** The finish badge pops in with a spring and the "lesson complete" cue. */
 function FinishBadge({ color, iconColor }: { color: string; iconColor: string }) {
@@ -54,6 +55,9 @@ export default function LessonScreen() {
 
   const lesson = ref?.lesson;
   const step = lesson?.steps[index];
+  const focus = useUi((u) => u.focus);
+  /** Phone with the terminal keyboard open, or a phone on its side: a slim header. */
+  const slim = !!step && isTaskStep(step) && (focus || (layout.landscape && !layout.tablet));
 
   /** Leaving mid-lesson asks first (progress is kept); a finished lesson just closes. */
   const askExit = useCallback(() => {
@@ -164,23 +168,36 @@ export default function LessonScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <View style={styles.header}>
-          <IconButton icon="x" label={t('lesson.exitTitle')} onPress={askExit} />
-          <View style={{ flex: 1, gap: 4 }}>
-            <Row style={{ justifyContent: 'space-between' }}>
-              <Text style={{ color: theme.text, fontWeight: '800', fontSize: 15, flexShrink: 1 }} numberOfLines={1}>
-                {tr(lesson.title, i18n.language)}
-              </Text>
-              <Text style={{ color: theme.textDim, fontSize: 12, flexShrink: 0, fontFamily: MONO }} numberOfLines={1}>
-                {layout.width < 520 ? `${index + 1}/${lesson.steps.length}` : t('lesson.step', { n: index + 1, total: lesson.steps.length })}
-              </Text>
-            </Row>
-            <ProgressBar value={index / lesson.steps.length} height={6} />
+        <Collapsible open={!slim}>
+          <View style={styles.header}>
+              <IconButton icon="x" label={t('lesson.exitTitle')} onPress={askExit} />
+              <View style={{ flex: 1, gap: 4 }}>
+                <Row style={{ justifyContent: 'space-between' }}>
+                  <Text style={{ color: theme.text, fontWeight: '800', fontSize: 15, flexShrink: 1 }} numberOfLines={1}>
+                      {tr(lesson.title, i18n.language)}
+                  </Text>
+                  <Text style={{ color: theme.textDim, fontSize: 12, flexShrink: 0, fontFamily: MONO }} numberOfLines={1}>
+                      {layout.width < 520 ? `${index + 1}/${lesson.steps.length}` : t('lesson.step', { n: index + 1, total: lesson.steps.length })}
+                  </Text>
+                </Row>
+                <ProgressBar value={index / lesson.steps.length} height={6} />
+              </View>
+              {step.type !== 'theory' && lesson.steps.some((s) => s.type === 'theory') ? (
+                <IconButton icon="book-open" label={t('topic.readTopic')} color={theme.accent} onPress={() => router.push({ pathname: '/read/[id]', params: { id: lesson.id } })} />
+              ) : null}
+            </View>
+        </Collapsible>
+        <Collapsible open={slim}>
+          <View style={styles.slim}>
+            <Pressable onPress={askExit} hitSlop={10} accessibilityRole="button" accessibilityLabel={t('lesson.exitTitle')} style={styles.slimX}>
+              <Icon name="x" size={18} color={theme.textDim} />
+            </Pressable>
+            <ProgressBar value={index / lesson.steps.length} height={4} style={{ flex: 1 }} />
+            <Text style={{ color: theme.textDim, fontSize: 11, fontFamily: MONO }}>
+              {index + 1}/{lesson.steps.length}
+            </Text>
           </View>
-          {step.type !== 'theory' && lesson.steps.some((s) => s.type === 'theory') ? (
-            <IconButton icon="book-open" label={t('topic.readTopic')} color={theme.accent} onPress={() => router.push({ pathname: '/read/[id]', params: { id: lesson.id } })} />
-          ) : null}
-        </View>
+        </Collapsible>
         <KeyCatcher
           webOnly
           onKey={(e) => {
@@ -191,9 +208,9 @@ export default function LessonScreen() {
           }}
         />
         <SlideIn key={index} style={[styles.body, { paddingHorizontal: layout.pad, maxWidth: layout.split ? 1200 : layout.contentMax + layout.pad * 2 }]}>
-          {layout.compact && isTaskStep(step) ? null : (
-            <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 12, letterSpacing: 1, marginBottom: space.sm }}>{kindLabel.toUpperCase()}</Text>
-          )}
+          <Collapsible open={!(slim || (layout.compact && isTaskStep(step)))}>
+            <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 12, letterSpacing: 1, paddingBottom: space.sm }}>{kindLabel.toUpperCase()}</Text>
+          </Collapsible>
           {step.type === 'theory' ? (
             <TheoryStep key={index} step={step} lessonSetup={lesson.setup} onDone={onSimpleDone(stepXp(step))} />
           ) : step.type === 'quiz' ? (
@@ -237,6 +254,8 @@ export default function LessonScreen() {
 }
 
 const styles = StyleSheet.create({
+  slim: { flexDirection: 'row', alignItems: 'center', gap: 10, height: 28, paddingHorizontal: space.md },
+  slimX: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
   header: { flexDirection: 'row', alignItems: 'center', gap: space.sm, paddingHorizontal: space.sm, paddingVertical: 6 },
   body: { flex: 1, paddingHorizontal: space.md, paddingBottom: space.sm, maxWidth: 1200, width: '100%', alignSelf: 'center' },
   finish: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.md },

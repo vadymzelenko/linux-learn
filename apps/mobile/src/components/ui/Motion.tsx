@@ -1,5 +1,5 @@
-import { useEffect, useRef, type ReactNode } from 'react';
-import { Animated, Easing, Platform, type StyleProp, type ViewStyle } from 'react-native';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { Animated, Easing, Platform, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 /** Native driver where it exists (the web build animates with JS). */
 export const ND = Platform.OS !== 'web';
@@ -59,3 +59,35 @@ export function usePressScale(to = 0.97) {
     onPressOut: () => Animated.spring(s, { toValue: 1, speed: 20, bounciness: 8, useNativeDriver: ND }).start(),
   };
 }
+
+/**
+ * Folds its content away (height + fade) when `open` turns false and unfolds
+ * it again. The natural height is measured once, so any content works.
+ */
+export function Collapsible({ open, children, style, duration = 240 }: { open: boolean; children: ReactNode; style?: StyleProp<ViewStyle>; duration?: number }) {
+  const v = useRef(new Animated.Value(open ? 1 : 0)).current;
+  const [h, setH] = useState(0);
+  useEffect(() => {
+    // height cannot use the native driver
+    Animated.timing(v, { toValue: open ? 1 : 0, duration, easing: Easing.out(Easing.cubic), useNativeDriver: false }).start();
+  }, [open, v, duration]);
+  const measure = (nh: number) => {
+    if (nh > 0 && Math.abs(nh - h) > 0.5) setH(nh);
+  };
+  return (
+    <Animated.View
+      pointerEvents={open ? 'auto' : 'none'}
+      style={[
+        { overflow: 'hidden', opacity: v },
+        h ? { height: v.interpolate({ inputRange: [0, 1], outputRange: [0, h] }) } : open ? null : { height: 0 },
+        style,
+      ]}
+    >
+      <View onLayout={(e) => measure(e.nativeEvent.layout.height)} style={h || !open ? styles.measure : null}>
+        {children}
+      </View>
+    </Animated.View>
+  );
+}
+
+const styles = StyleSheet.create({ measure: { position: 'absolute', left: 0, right: 0, top: 0 } });

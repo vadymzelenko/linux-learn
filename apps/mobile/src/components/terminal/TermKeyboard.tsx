@@ -149,7 +149,8 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
   // so the terminal output stays visible.
   const budget = layout.height * (layout.landscape ? 0.5 : layout.height < 700 ? 0.47 : 0.42);
   const rowsWith = (numbers: boolean) => 4 + (numbers ? 1 : 0);
-  const maxKey = (numbers: boolean) => (budget - 44 - rowsWith(numbers) * 5) / rowsWith(numbers);
+  const chipH = layout.landscape && !layout.tablet ? 30 : 34;
+  const maxKey = (numbers: boolean) => (budget - chipH - 10 - rowsWith(numbers) * 5) / rowsWith(numbers);
   const showNumbers = kb.numberRow && layer === 'abc' && maxKey(true) >= 34;
   const base = HEIGHT[kb.size] * (layout.tablet ? 1.1 : 1);
   const keyH = Math.round(Math.max(30, Math.min(base, maxKey(showNumbers || layer !== 'abc'))));
@@ -309,7 +310,7 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
         { backgroundColor: bg, opacity: Animated.multiply(enter, kb.opacity), borderTopColor: theme.border, paddingBottom: Platform.OS === 'ios' ? 6 : 4, transform: [{ translateY: enter.interpolate({ inputRange: [0, 1], outputRange: [32, 0] }) }] },
       ]}
     >
-      <View style={[styles.grabber, { backgroundColor: theme.border }]} />
+      {layout.landscape && !layout.tablet ? null : <View style={[styles.grabber, { backgroundColor: theme.border }]} />}
       <View style={{ width: '100%', maxWidth: layout.tablet ? 820 : undefined, alignSelf: 'center', gap: 5 }}>
         {/* quick commands + navigation */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="always" contentContainerStyle={styles.quick}>
@@ -322,7 +323,7 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
               }}
               accessibilityRole="keyboardkey"
               accessibilityLabel={k}
-              style={({ pressed }) => [styles.chip, NO_SELECT, { backgroundColor: pressed ? theme.border : colors.mod }]}
+              style={({ pressed }) => [styles.chip, NO_SELECT, { height: chipH, backgroundColor: pressed ? theme.border : colors.mod }]}
             >
               <Text selectable={false} style={{ fontFamily: MONO_BOLD, color: theme.text, fontSize: 14 }}>
                 {{ tab: 'Tab', up: '↑', down: '↓', left: '←', right: '→' }[k]}
@@ -338,14 +339,14 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
                 else actions.insert(q);
               }}
               accessibilityRole="keyboardkey"
-              style={({ pressed }) => [styles.chip, NO_SELECT, { backgroundColor: pressed ? theme.border : colors.key, borderColor: theme.border, borderWidth: StyleSheet.hairlineWidth }]}
+              style={({ pressed }) => [styles.chip, NO_SELECT, { height: chipH, backgroundColor: pressed ? theme.border : colors.key, borderColor: theme.border, borderWidth: StyleSheet.hairlineWidth }]}
             >
               <Text selectable={false} style={{ fontFamily: MONO, color: theme.accent, fontSize: 14 }}>
                 {q.trimEnd() || '␣'}
               </Text>
             </Pressable>
           ))}
-          <Pressable onPress={actions.hide} accessibilityRole="button" accessibilityLabel={t('keyboard.hide')} style={({ pressed }) => [styles.chip, NO_SELECT, { backgroundColor: pressed ? theme.border : colors.mod }]}>
+          <Pressable onPress={actions.hide} accessibilityRole="button" accessibilityLabel={t('keyboard.hide')} style={({ pressed }) => [styles.chip, NO_SELECT, { height: chipH, backgroundColor: pressed ? theme.border : colors.mod }]}>
             <Icon name="keyboard-close" size={18} color={theme.text} />
           </Pressable>
         </ScrollView>

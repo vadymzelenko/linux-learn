@@ -7,7 +7,7 @@ import { Icon } from './Icon';
 import { Text } from '../../theme/Text';
 import { ND, usePressScale } from './Motion';
 
-export { FadeIn, SlideIn } from './Motion';
+export { Collapsible, FadeIn, SlideIn } from './Motion';
 
 export { Icon };
 
@@ -19,7 +19,7 @@ export function Screen({ children, edges = ['top'], style }: { children: ReactNo
     Animated.timing(v, { toValue: 1, duration: 240, easing: Easing.out(Easing.quad), useNativeDriver: ND }).start();
   }, [v]);
   return (
-    <SafeAreaView edges={edges} style={[{ flex: 1, backgroundColor: t.bg }, style]}>
+    <SafeAreaView edges={[...new Set<Edge>([...edges, 'left', 'right'])]} style={[{ flex: 1, backgroundColor: t.bg }, style]}>
       <Animated.View style={{ flex: 1, opacity: v.interpolate({ inputRange: [0, 1], outputRange: [0.35, 1] }), transform: [{ translateY: v.interpolate({ inputRange: [0, 1], outputRange: [6, 0] }) }] }}>{children}</Animated.View>
     </SafeAreaView>
   );

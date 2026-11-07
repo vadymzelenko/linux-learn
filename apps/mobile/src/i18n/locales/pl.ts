@@ -52,6 +52,7 @@ const pl: Dict = {
     examLocked: 'Ukończ wszystkie moduły, aby odblokować egzamin',
   },
   lesson: {
+    rotateTip: 'Wskazówka: obróć telefon poziomo — zadanie i terminal staną obok siebie, będzie więcej miejsca na czytanie i pisanie.',
     exitStay: 'Zostań',
     exitConfirm: 'Wróć do menu',
     exitText: 'Postęp zostanie zapisany: następnym razem zaczniesz od kroku {{n}} z {{total}}.',

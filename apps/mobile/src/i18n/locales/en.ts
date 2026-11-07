@@ -50,6 +50,7 @@ const en = {
     examLocked: 'Finish all modules to unlock the exam',
   },
   lesson: {
+    rotateTip: 'Tip: turn the phone sideways — the task and the terminal sit side by side, with more room to read and type.',
     exitStay: 'Stay',
     exitConfirm: 'Back to the menu',
     exitText: 'Your progress is saved: next time you continue from step {{n}} of {{total}}.',

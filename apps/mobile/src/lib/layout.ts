@@ -19,7 +19,7 @@ export function useLayout() {
     /** Small phone or a phone in landscape: everything tighter. */
     compact: !tablet && (height < 700 || landscape),
     /** Two panes (task | terminal) side by side. */
-    split: (tablet && landscape && width >= 900) || (landscape && width >= 720),
+    split: (tablet && landscape && width >= 900) || (landscape && width >= 600),
     /** Max width of readable content on big screens. */
     contentMax: tablet ? 760 : width,
     fontScale,

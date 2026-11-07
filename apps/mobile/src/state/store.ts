@@ -29,6 +29,8 @@ export interface Settings {
   reminderHour: number;
   onboarded: boolean;
   certName: string;
+  /** The one-time "turn the phone sideways" tip was shown. */
+  rotateTipSeen: boolean;
   keyboard: KeyboardSettings;
 }
 
@@ -110,6 +112,7 @@ const defaultSettings: Settings = {
   reminderHour: 19,
   onboarded: false,
   certName: '',
+  rotateTipSeen: false,
   keyboard: { mode: Platform.OS === 'web' ? 'system' : 'custom', opacity: 1, size: 'M', numberRow: true, keySound: false, quick: DEFAULT_QUICK },
 };
 
