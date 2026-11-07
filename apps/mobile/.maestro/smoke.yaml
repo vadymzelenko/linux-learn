@@ -14,6 +14,10 @@ appId: com.vadymzelenko.linuxtrainer
       - tapOn:
           text: "Wait"
           optional: true
+      # Android's one-time full-screen hint ("Viewing full screen … Got it")
+      - tapOn:
+          text: "Got it"
+          optional: true
       - waitForAnimationToEnd:
           timeout: 5000
 - extendedWaitUntil:
@@ -27,6 +31,9 @@ appId: com.vadymzelenko.linuxtrainer
 - extendedWaitUntil:
     visible: "Your first command"
     timeout: 10000
+- tapOn:
+    text: "Got it"
+    optional: true
 - inputText: "pwd"
 - pressKey: Enter
 - extendedWaitUntil:

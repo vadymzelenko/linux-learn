@@ -114,6 +114,8 @@ jobs:
             # a slow CI emulator sometimes shows "Pixel Launcher isn't responding" over the app: hide such system dialogs
             adb shell settings put global hide_error_dialogs 1 || true
             adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS || true
+            # the app runs full screen: skip Android's one-time "Viewing full screen — Got it" hint
+            adb shell settings put secure immersive_mode_confirmations confirmed || true
             maestro test apps/mobile/.maestro/smoke.yaml --format junit --output maestro-out/report.xml --test-output-dir maestro-out || (echo "::group::What is on screen"; maestro hierarchy | grep -oE '"(text|accessibilityText|resource-id)" *: *"[^"]+"' | head -80; echo "::endgroup::"; echo "::group::Crash / JS errors"; adb logcat -d -s ReactNativeJS:V AndroidRuntime:E ReactNative:E | tail -150; echo "::endgroup::"; adb shell dumpsys activity activities | grep -E "mResumedActivity|topResumedActivity" ; adb logcat -d > maestro-out/logcat.txt; exit 1)
             adb logcat -d -s ReactNativeJS:V AndroidRuntime:E > maestro-out/logcat.txt || true
       - uses: actions/upload-artifact@v4
