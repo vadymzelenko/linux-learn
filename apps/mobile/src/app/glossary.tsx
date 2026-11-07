@@ -1,13 +1,16 @@
 import { useMemo, useState } from 'react';
-import { Pressable, SectionList, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, SectionList, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { KbTextInput } from '../components/terminal/KbTextInput';
+import { KeyboardDock } from '../components/terminal/KeyboardDock';
 import { glossary, tr } from '@linux-learn/content';
 import { Text } from '../theme/Text';
+import { BackButton } from '../components/BackButton';
 import { useTheme, MONO, space } from '../theme';
 import { H1, IconButton, Row, Screen } from '../components/ui';
 
-const ORDER = ['basics', 'files', 'text', 'permissions', 'processes', 'shell', 'network', 'noc'];
+const ORDER = ['basics', 'files', 'text', 'permissions', 'processes', 'shell', 'network', 'noc', 'docker'];
 
 export default function GlossaryScreen() {
   const theme = useTheme();
@@ -26,11 +29,11 @@ export default function GlossaryScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
-        <IconButton icon="chevron-left" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />
+        <BackButton />
         <H1 style={{ fontSize: 24 }}>{t('glossary.title')}</H1>
         <Text style={{ color: theme.textDim, marginLeft: 'auto', marginRight: space.md }}>{t('glossary.count', { n: glossary.length })}</Text>
       </Row>
-      <TextInput
+      <KbTextInput
         value={q}
         onChangeText={setQ}
         placeholder={t('glossary.search')}
@@ -72,6 +75,7 @@ export default function GlossaryScreen() {
           );
         }}
       />
+      <KeyboardDock />
     </Screen>
   );
 }

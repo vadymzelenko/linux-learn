@@ -1,0 +1,552 @@
+{
+  "id": "git-branches",
+  "path": "/git/branches",
+  "icon": "git-merge",
+  "title": {
+    "en": "Branches and merging",
+    "ru": "Ветки и слияние",
+    "uk": "Гілки та злиття",
+    "pl": "Gałęzie i scalanie"
+  },
+  "description": {
+    "en": "Work on ideas safely, merge them and resolve conflicts",
+    "ru": "Безопасно работайте над идеями, сливайте их и разрешайте конфликты",
+    "uk": "Безпечно працюйте над ідеями, зливайте їх і розв’язуйте конфлікти",
+    "pl": "Bezpiecznie pracuj nad pomysłami, scalaj je i rozwiązuj konflikty"
+  },
+  "lessons": [
+    {
+      "id": "gt-branches",
+      "title": {
+        "en": "Branches",
+        "ru": "Ветки",
+        "uk": "Гілки",
+        "pl": "Gałęzie"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## A safe place for an idea\nA **branch** is a movable label on a commit. `main` is the main line; for a new feature you make a branch, commit there, and `main` stays untouched.\n```\n$ git branch\n$ git switch -c dark-theme\n$ git branch\n$ git switch main\n```\n- `git branch` — list branches, `*` marks the current one\n- `git switch -c NAME` — **create** a branch and switch to it\n- `git switch NAME` — switch to an existing branch; the files in the folder change to that branch's version\n- `git branch -d NAME` — delete a branch that is already merged\n\nOlder guides use `git checkout NAME` and `git checkout -b NAME` — it does the same.\n\n> Commit or stash your changes before switching: Git refuses to switch if unsaved edits would be overwritten.",
+            "ru": "## Безопасное место для идеи\n**Ветка** — подвижная метка на коммите. `main` — основная линия; для новой функции создают ветку, коммитят в неё, а `main` остаётся нетронутой.\n```\n$ git branch\n$ git switch -c dark-theme\n$ git branch\n$ git switch main\n```\n- `git branch` — список веток, `*` отмечает текущую\n- `git switch -c ИМЯ` — **создать** ветку и перейти на неё\n- `git switch ИМЯ` — перейти на существующую ветку; файлы в папке станут версией этой ветки\n- `git branch -d ИМЯ` — удалить уже слитую ветку\n\nВ старых руководствах пишут `git checkout ИМЯ` и `git checkout -b ИМЯ` — это то же самое.\n\n> Перед переключением закоммитьте или отложите (stash) изменения: Git не даст переключиться, если несохранённые правки будут затёрты.",
+            "uk": "## Безпечне місце для ідеї\n**Гілка** — рухома мітка на коміті. `main` — основна лінія; для нової функції створюють гілку, комітять у неї, а `main` лишається недоторканою.\n```\n$ git branch\n$ git switch -c dark-theme\n$ git branch\n$ git switch main\n```\n- `git branch` — список гілок, `*` позначає поточну\n- `git switch -c НАЗВА` — **створити** гілку й перейти на неї\n- `git switch НАЗВА` — перейти на наявну гілку; файли в теці стануть версією цієї гілки\n- `git branch -d НАЗВА` — видалити вже злиту гілку\n\nУ старих посібниках пишуть `git checkout НАЗВА` і `git checkout -b НАЗВА` — це те саме.\n\n> Перед перемиканням закомітьте або відкладіть (stash) зміни: Git не дасть перемкнутися, якщо незбережені правки буде затерто.",
+            "pl": "## Bezpieczne miejsce na pomysł\n**Gałąź** to ruchoma etykieta na commicie. `main` to główna linia; dla nowej funkcji tworzy się gałąź, zatwierdza w niej, a `main` pozostaje nietknięta.\n```\n$ git branch\n$ git switch -c dark-theme\n$ git branch\n$ git switch main\n```\n- `git branch` — lista gałęzi, `*` oznacza bieżącą\n- `git switch -c NAZWA` — **utwórz** gałąź i przełącz się na nią\n- `git switch NAZWA` — przełącz się na istniejącą gałąź; pliki w folderze zmienią się na wersję tej gałęzi\n- `git branch -d NAZWA` — usuń już scaloną gałąź\n\nStarsze poradniki używają `git checkout NAZWA` i `git checkout -b NAZWA` — to to samo.\n\n> Przed przełączeniem zatwierdź lub odłóż (stash) zmiany: Git odmówi, jeśli niezapisane zmiany zostałyby nadpisane."
+          },
+          "title": {
+            "en": "branch and switch",
+            "ru": "branch и switch",
+            "uk": "branch і switch",
+            "pl": "branch i switch"
+          },
+          "demo": {
+            "commands": [
+              "cd ~/project && git init -q && git add . && git commit -qm \"Add home page\"",
+              "git switch -c dark-theme",
+              "git branch"
+            ],
+            "setup": "git-lab"
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Create a branch named contact-page and switch to it. Add contact.html (any text) and commit it there.",
+            "ru": "Создайте ветку contact-page и перейдите на неё. Добавьте contact.html (любой текст) и закоммитьте его там.",
+            "uk": "Створіть гілку contact-page і перейдіть на неї. Додайте contact.html (будь-який текст) і закомітьте його там.",
+            "pl": "Utwórz gałąź contact-page i przełącz się na nią. Dodaj contact.html (dowolny tekst) i zatwierdź go tam."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\""
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "head": "contact-page",
+              "label": {
+                "en": "You are on contact-page",
+                "ru": "Вы на ветке contact-page",
+                "uk": "Ви на гілці contact-page",
+                "pl": "Jesteś na gałęzi contact-page"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "tracked": "~/project/contact.html",
+              "commits": 4,
+              "label": {
+                "en": "contact.html is committed",
+                "ru": "contact.html закоммичен",
+                "uk": "contact.html закомічено",
+                "pl": "contact.html jest zatwierdzony"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git switch -c NAME, then echo … > contact.html, git add, git commit",
+              "ru": "git switch -c ИМЯ, затем echo … > contact.html, git add, git commit",
+              "uk": "git switch -c НАЗВА, потім echo … > contact.html, git add, git commit",
+              "pl": "git switch -c NAZWA, potem echo … > contact.html, git add, git commit"
+            },
+            "command": "git switch -c"
+          },
+          "solution": [
+            "git switch -c contact-page",
+            "echo \"<h1>Contacts</h1>\" > contact.html",
+            "git add contact.html",
+            "git commit -m \"Add contact page\""
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "ls",
+          "options": [
+            "index.html\nnotes.txt\nstyle.css\n",
+            "contact.html\nindex.html\nnotes.txt\nstyle.css\n"
+          ],
+          "answer": 0,
+          "setup": "git-lab",
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "git switch -qc contact-page 2>/dev/null",
+            "echo hi > contact.html",
+            "git add contact.html",
+            "git commit -qm \"Contact page\"",
+            "git switch main 2>/dev/null"
+          ],
+          "context": [
+            "git branch",
+            "git log --oneline --all"
+          ],
+          "explanation": {
+            "en": "contact.html exists only in the commits of contact-page. Switching to main puts the folder in main's state — the file disappears (and comes back when you switch back).",
+            "ru": "contact.html есть только в коммитах ветки contact-page. Переключение на main приводит папку к состоянию main — файл исчезает (и вернётся, если переключиться обратно).",
+            "uk": "contact.html є лише в комітах гілки contact-page. Перемикання на main приводить теку до стану main — файл зникає (і повернеться, якщо перемкнутися назад).",
+            "pl": "contact.html istnieje tylko w commitach gałęzi contact-page. Przełączenie na main ustawia folder w stanie main — plik znika (i wróci po powrocie)."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You are on main with an edited, uncommitted index.html. `git switch feature` fails with \"would be overwritten\". What do you do?",
+            "ru": "Вы на main, index.html изменён и не закоммичен. `git switch feature` падает с «would be overwritten». Что делать?",
+            "uk": "Ви на main, index.html змінено й не закомічено. `git switch feature` падає з «would be overwritten». Що робити?",
+            "pl": "Jesteś na main, index.html jest zmieniony i niezatwierdzony. `git switch feature` kończy się „would be overwritten”. Co robisz?"
+          },
+          "options": [
+            {
+              "en": "Commit the change or put it aside with git stash, then switch",
+              "ru": "Закоммитить изменение или отложить его через git stash, затем переключиться",
+              "uk": "Закомітити зміну або відкласти її через git stash, потім перемкнутися",
+              "pl": "Zatwierdzić zmianę albo odłożyć ją przez git stash, potem się przełączyć"
+            },
+            {
+              "en": "Delete the .git folder",
+              "ru": "Удалить папку .git",
+              "uk": "Видалити теку .git",
+              "pl": "Usunąć folder .git"
+            },
+            {
+              "en": "Create the branch again with -c",
+              "ru": "Создать ветку заново с -c",
+              "uk": "Створити гілку заново з -c",
+              "pl": "Utworzyć gałąź ponownie z -c"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "gt-merge",
+      "title": {
+        "en": "Merging branches",
+        "ru": "Слияние веток",
+        "uk": "Злиття гілок",
+        "pl": "Scalanie gałęzi"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Bring the work home\nWhen a feature is ready, merge its branch into `main`:\n```\n$ git switch main\n$ git merge dark-theme\n```\nYou always merge **into the current branch**: first switch to the receiver, then name the giver.\n\n## Two kinds of merge\n| case | what Git does |\n|---|---|\n| main did not move since the branch started | **fast-forward**: main simply moves to the branch's last commit |\n| both branches have new commits | a **merge commit** with two parents joins the lines |\n\n```\n$ git log --oneline --graph --all\n```\ndraws the branches. After the merge the branch label can go: `git branch -d dark-theme`.",
+            "ru": "## Вернуть работу домой\nКогда функция готова, влейте её ветку в `main`:\n```\n$ git switch main\n$ git merge dark-theme\n```\nСливают всегда **в текущую ветку**: сначала перейдите в принимающую, затем назовите ту, которую вливаете.\n\n## Два вида слияния\n| случай | что делает Git |\n|---|---|\n| main не двигалась с момента создания ветки | **fast-forward**: main просто переезжает на последний коммит ветки |\n| в обеих ветках есть новые коммиты | **коммит слияния** с двумя родителями соединяет линии |\n\n```\n$ git log --oneline --graph --all\n```\nрисует ветки. После слияния метку ветки можно удалить: `git branch -d dark-theme`.",
+            "uk": "## Повернути роботу додому\nКоли функція готова, влийте її гілку в `main`:\n```\n$ git switch main\n$ git merge dark-theme\n```\nЗливають завжди **в поточну гілку**: спершу перейдіть у ту, що приймає, потім назвіть ту, яку вливаєте.\n\n## Два види злиття\n| випадок | що робить Git |\n|---|---|\n| main не рухалася відтоді, як створили гілку | **fast-forward**: main просто переїжджає на останній коміт гілки |\n| в обох гілках є нові коміти | **коміт злиття** з двома батьками з’єднує лінії |\n\n```\n$ git log --oneline --graph --all\n```\nмалює гілки. Після злиття мітку гілки можна видалити: `git branch -d dark-theme`.",
+            "pl": "## Sprowadź pracę do domu\nGdy funkcja jest gotowa, scal jej gałąź z `main`:\n```\n$ git switch main\n$ git merge dark-theme\n```\nZawsze scalasz **do bieżącej gałęzi**: najpierw przełącz się na odbiorcę, potem podaj dawcę.\n\n## Dwa rodzaje scalania\n| przypadek | co robi Git |\n|---|---|\n| main się nie ruszyła od utworzenia gałęzi | **fast-forward**: main po prostu przesuwa się na ostatni commit gałęzi |\n| obie gałęzie mają nowe commity | **commit scalający** z dwoma rodzicami łączy linie |\n\n```\n$ git log --oneline --graph --all\n```\nrysuje gałęzie. Po scaleniu etykietę gałęzi można usunąć: `git branch -d dark-theme`."
+          },
+          "title": {
+            "en": "git merge",
+            "ru": "git merge",
+            "uk": "git merge",
+            "pl": "git merge"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The branch dark-theme is ready. Merge it into main.",
+            "ru": "Ветка dark-theme готова. Влейте её в main.",
+            "uk": "Гілка dark-theme готова. Влийте її в main.",
+            "pl": "Gałąź dark-theme jest gotowa. Scal ją z main."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "git switch -qc dark-theme 2>/dev/null",
+            "echo \"body { background: #111; color: #eee; }\" >> style.css",
+            "git commit -qam \"Dark theme\"",
+            "git switch -q main 2>/dev/null"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "head": "main",
+              "label": {
+                "en": "You are on main",
+                "ru": "Вы на main",
+                "uk": "Ви на main",
+                "pl": "Jesteś na main"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "merged": "dark-theme",
+              "label": {
+                "en": "dark-theme is merged into main",
+                "ru": "dark-theme влита в main",
+                "uk": "dark-theme влито в main",
+                "pl": "dark-theme jest scalona z main"
+              }
+            },
+            {
+              "type": "fileContains",
+              "path": "~/project/style.css",
+              "text": "#111",
+              "label": {
+                "en": "The dark theme is in style.css",
+                "ru": "Тёмная тема есть в style.css",
+                "uk": "Темна тема є в style.css",
+                "pl": "Ciemny motyw jest w style.css"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "You are already on main: git merge with the branch name",
+              "ru": "Вы уже на main: git merge с именем ветки",
+              "uk": "Ви вже на main: git merge з назвою гілки",
+              "pl": "Jesteś już na main: git merge z nazwą gałęzi"
+            },
+            "command": "git merge"
+          },
+          "solution": [
+            "git merge dark-theme"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Clean up: delete the merged branch dark-theme.",
+            "ru": "Наведите порядок: удалите слитую ветку dark-theme.",
+            "uk": "Наведіть лад: видаліть злиту гілку dark-theme.",
+            "pl": "Posprzątaj: usuń scaloną gałąź dark-theme."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "git switch -qc dark-theme 2>/dev/null",
+            "echo \"body { background: #111; color: #eee; }\" >> style.css",
+            "git commit -qam \"Dark theme\"",
+            "git switch -q main 2>/dev/null",
+            "git merge -q dark-theme > /dev/null"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "noBranch": "dark-theme",
+              "label": {
+                "en": "dark-theme is gone",
+                "ru": "Ветки dark-theme больше нет",
+                "uk": "Гілки dark-theme більше немає",
+                "pl": "Gałęzi dark-theme już nie ma"
+              }
+            },
+            {
+              "type": "fileContains",
+              "path": "~/project/style.css",
+              "text": "#111",
+              "label": {
+                "en": "The work stays in main",
+                "ru": "Работа осталась в main",
+                "uk": "Робота лишилася в main",
+                "pl": "Praca została w main"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "branch with the delete flag",
+              "ru": "branch с флагом удаления",
+              "uk": "branch із прапорцем видалення",
+              "pl": "branch z flagą usuwania"
+            },
+            "command": "git branch -d"
+          },
+          "solution": [
+            "git branch -d dark-theme"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You want the commits of feature to end up in main. Where must you be?",
+            "ru": "Нужно, чтобы коммиты feature оказались в main. Где нужно находиться?",
+            "uk": "Треба, щоб коміти feature опинилися в main. Де треба бути?",
+            "pl": "Chcesz, by commity z feature trafiły do main. Gdzie musisz być?"
+          },
+          "options": [
+            {
+              "en": "On main, then run git merge feature",
+              "ru": "На main, затем git merge feature",
+              "uk": "На main, потім git merge feature",
+              "pl": "Na main, potem git merge feature"
+            },
+            {
+              "en": "On feature, then run git merge main",
+              "ru": "На feature, затем git merge main",
+              "uk": "На feature, потім git merge main",
+              "pl": "Na feature, potem git merge main"
+            },
+            {
+              "en": "It does not matter",
+              "ru": "Неважно",
+              "uk": "Неважливо",
+              "pl": "Nie ma znaczenia"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "git merge X brings X into the branch you are on. On feature, git merge main would do the opposite.",
+            "ru": "git merge X вливает X в ветку, на которой вы находитесь. На feature git merge main сделал бы наоборот.",
+            "uk": "git merge X вливає X у гілку, на якій ви перебуваєте. На feature git merge main зробив би навпаки.",
+            "pl": "git merge X wciąga X do gałęzi, na której jesteś. Na feature git merge main zrobiłby odwrotnie."
+          }
+        }
+      ]
+    },
+    {
+      "id": "gt-conflicts",
+      "title": {
+        "en": "Merge conflicts",
+        "ru": "Конфликты слияния",
+        "uk": "Конфлікти злиття",
+        "pl": "Konflikty scalania"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## When Git cannot decide\nBoth branches changed **the same lines** differently — Git stops and asks you:\n```\nCONFLICT (content): Merge conflict in index.html\nAutomatic merge failed; fix conflicts and then commit the result.\n```\nThe file now holds both versions between markers:\n```\n<<<<<<< HEAD\n<h1>Hi there!</h1>\n=======\n<h1>Hello from the team!</h1>\n>>>>>>> title\n```\n- above `=======` — your branch (HEAD), below — the branch being merged\n\n## Resolve it\n1. `git status` — which files are in conflict (*both modified*)\n2. edit the file: keep the right text, **delete all three marker lines**\n3. `git add index.html` — mark it as resolved\n4. `git commit` — finish the merge (the message is ready: `-m` is optional here)\n\nChanged your mind? `git merge --abort` returns everything to before the merge.\n\n> A conflict is normal teamwork, not an error. It only means two people edited the same place.",
+            "ru": "## Когда Git не может решить сам\nОбе ветки по-разному изменили **одни и те же строки** — Git останавливается и спрашивает вас:\n```\nCONFLICT (content): Merge conflict in index.html\nAutomatic merge failed; fix conflicts and then commit the result.\n```\nТеперь в файле обе версии между маркерами:\n```\n<<<<<<< HEAD\n<h1>Hi there!</h1>\n=======\n<h1>Hello from the team!</h1>\n>>>>>>> title\n```\n- над `=======` — ваша ветка (HEAD), под ним — вливаемая ветка\n\n## Разрешите конфликт\n1. `git status` — какие файлы в конфликте (*both modified*)\n2. отредактируйте файл: оставьте правильный текст и **удалите все три строки-маркера**\n3. `git add index.html` — отметить как разрешённый\n4. `git commit` — завершить слияние (сообщение уже готово: `-m` здесь необязателен)\n\nПередумали? `git merge --abort` вернёт всё как было до слияния.\n\n> Конфликт — нормальная командная работа, а не ошибка. Это лишь значит, что двое правили одно место.",
+            "uk": "## Коли Git не може вирішити сам\nОбидві гілки по-різному змінили **ті самі рядки** — Git зупиняється й питає вас:\n```\nCONFLICT (content): Merge conflict in index.html\nAutomatic merge failed; fix conflicts and then commit the result.\n```\nТепер у файлі обидві версії між маркерами:\n```\n<<<<<<< HEAD\n<h1>Hi there!</h1>\n=======\n<h1>Hello from the team!</h1>\n>>>>>>> title\n```\n- над `=======` — ваша гілка (HEAD), під ним — гілка, що вливається\n\n## Розв’яжіть конфлікт\n1. `git status` — які файли в конфлікті (*both modified*)\n2. відредагуйте файл: лишіть правильний текст і **видаліть усі три рядки-маркери**\n3. `git add index.html` — позначити як розв’язаний\n4. `git commit` — завершити злиття (повідомлення вже готове: `-m` тут необов’язковий)\n\nПередумали? `git merge --abort` поверне все як було до злиття.\n\n> Конфлікт — нормальна командна робота, а не помилка. Це лише означає, що двоє правили одне місце.",
+            "pl": "## Gdy Git nie może zdecydować\nObie gałęzie inaczej zmieniły **te same linie** — Git zatrzymuje się i pyta ciebie:\n```\nCONFLICT (content): Merge conflict in index.html\nAutomatic merge failed; fix conflicts and then commit the result.\n```\nPlik zawiera teraz obie wersje między znacznikami:\n```\n<<<<<<< HEAD\n<h1>Hi there!</h1>\n=======\n<h1>Hello from the team!</h1>\n>>>>>>> title\n```\n- nad `=======` — twoja gałąź (HEAD), pod nim — gałąź scalana\n\n## Rozwiąż konflikt\n1. `git status` — które pliki są w konflikcie (*both modified*)\n2. popraw plik: zostaw właściwy tekst i **usuń wszystkie trzy linie znaczników**\n3. `git add index.html` — oznacz jako rozwiązany\n4. `git commit` — zakończ scalanie (opis jest gotowy: `-m` jest tu opcjonalne)\n\nZmiana planów? `git merge --abort` przywraca stan sprzed scalania.\n\n> Konflikt to normalna praca zespołowa, nie błąd. Oznacza tylko, że dwie osoby edytowały to samo miejsce."
+          },
+          "title": {
+            "en": "Conflict markers",
+            "ru": "Маркеры конфликта",
+            "uk": "Маркери конфлікту",
+            "pl": "Znaczniki konfliktu"
+          },
+          "terminal": false
+        },
+        {
+          "type": "predict",
+          "command": "git status -s",
+          "options": [
+            "UU index.html\n",
+            "M  index.html\n",
+            " M index.html\n"
+          ],
+          "answer": 0,
+          "setup": "git-lab",
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "git switch -qc title 2>/dev/null",
+            "sed -i \"s/Hello!/Hello from the team!/\" index.html",
+            "git commit -qam \"Team title\"",
+            "git switch -q main 2>/dev/null",
+            "sed -i \"s/Hello!/Hi there!/\" index.html",
+            "git commit -qam \"Friendlier title\"",
+            "git merge title > /dev/null"
+          ],
+          "context": [
+            "cat index.html"
+          ],
+          "explanation": {
+            "en": "UU = \"unmerged, both modified\": the file waits for you to resolve the conflict.",
+            "ru": "UU — «не слито, изменено обеими сторонами»: файл ждёт, пока вы разрешите конфликт.",
+            "uk": "UU — «не злито, змінено обома сторонами»: файл чекає, поки ви розв’яжете конфлікт.",
+            "pl": "UU = „nie scalony, zmieniony przez obie strony”: plik czeka, aż rozwiążesz konflikt."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The merge of the branch title stopped on a conflict in index.html. Keep the title \"Hello from the team!\", remove the markers and finish the merge.",
+            "ru": "Слияние ветки title остановилось на конфликте в index.html. Оставьте заголовок «Hello from the team!», уберите маркеры и завершите слияние.",
+            "uk": "Злиття гілки title зупинилося на конфлікті в index.html. Лишіть заголовок «Hello from the team!», приберіть маркери й завершіть злиття.",
+            "pl": "Scalanie gałęzi title zatrzymało się na konflikcie w index.html. Zostaw tytuł „Hello from the team!”, usuń znaczniki i zakończ scalanie."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "git switch -qc title 2>/dev/null",
+            "sed -i \"s/Hello!/Hello from the team!/\" index.html",
+            "git commit -qam \"Team title\"",
+            "git switch -q main 2>/dev/null",
+            "sed -i \"s/Hello!/Hi there!/\" index.html",
+            "git commit -qam \"Friendlier title\"",
+            "git merge title > /dev/null"
+          ],
+          "checks": [
+            {
+              "type": "fileNotContains",
+              "path": "~/project/index.html",
+              "regex": "^(<<<<<<<|=======|>>>>>>>)",
+              "label": {
+                "en": "No conflict markers left",
+                "ru": "Маркеров конфликта не осталось",
+                "uk": "Маркерів конфлікту не лишилося",
+                "pl": "Nie ma już znaczników konfliktu"
+              }
+            },
+            {
+              "type": "fileContains",
+              "path": "~/project/index.html",
+              "text": "Hello from the team!",
+              "label": {
+                "en": "The team title is kept",
+                "ru": "Командный заголовок сохранён",
+                "uk": "Командний заголовок збережено",
+                "pl": "Tytuł zespołu został"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "merging": false,
+              "merged": "title",
+              "label": {
+                "en": "The merge is finished",
+                "ru": "Слияние завершено",
+                "uk": "Злиття завершено",
+                "pl": "Scalanie zakończone"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Edit with nano index.html (or sed), then git add index.html and git commit",
+              "ru": "Отредактируйте nano index.html (или sed), затем git add index.html и git commit",
+              "uk": "Відредагуйте nano index.html (або sed), потім git add index.html і git commit",
+              "pl": "Popraw przez nano index.html (lub sed), potem git add index.html i git commit"
+            },
+            "command": "git add"
+          },
+          "solution": [
+            "sed -i \"/^<<<<<<< /d; /^=======$/d; /^>>>>>>> /d; /Hi there!/d\" index.html",
+            "git add index.html",
+            "git commit -m \"Merge title\""
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "What does `git merge --abort` do in the middle of a conflict?",
+            "ru": "Что делает `git merge --abort` посреди конфликта?",
+            "uk": "Що робить `git merge --abort` посеред конфлікту?",
+            "pl": "Co robi `git merge --abort` w trakcie konfliktu?"
+          },
+          "options": [
+            {
+              "en": "Cancels the merge and returns the files to the state before it",
+              "ru": "Отменяет слияние и возвращает файлы в состояние до него",
+              "uk": "Скасовує злиття й повертає файли до стану перед ним",
+              "pl": "Anuluje scalanie i przywraca pliki do stanu sprzed niego"
+            },
+            {
+              "en": "Keeps your version of every conflicting file",
+              "ru": "Оставляет вашу версию каждого конфликтного файла",
+              "uk": "Лишає вашу версію кожного конфліктного файлу",
+              "pl": "Zostawia twoją wersję każdego pliku w konflikcie"
+            },
+            {
+              "en": "Deletes the other branch",
+              "ru": "Удаляет другую ветку",
+              "uk": "Видаляє іншу гілку",
+              "pl": "Usuwa drugą gałąź"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

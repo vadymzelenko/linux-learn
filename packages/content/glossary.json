@@ -5,12 +5,14 @@
     "term": {
       "en": "Terminal",
       "ru": "Терминал",
-      "uk": "Термінал"
+      "uk": "Термінал",
+      "pl": "Terminal"
     },
     "definition": {
       "en": "A text window where you type commands and read the answers of the computer.",
       "ru": "Текстовое окно, в котором вы вводите команды и читаете ответы компьютера.",
-      "uk": "Текстове вікно, у якому ви вводите команди й читаєте відповіді комп’ютера."
+      "uk": "Текстове вікно, у якому ви вводите команди й читаєте відповіді комп’ютера.",
+      "pl": "Tekstowe okno, w którym wpisujesz polecenia i czytasz odpowiedzi komputera."
     },
     "match": {
       "en": [
@@ -30,12 +32,14 @@
     "term": {
       "en": "Shell",
       "ru": "Оболочка (shell)",
-      "uk": "Оболонка (shell)"
+      "uk": "Оболонка (shell)",
+      "pl": "Powłoka (shell)"
     },
     "definition": {
       "en": "The program that reads your commands, expands variables and patterns and starts other programs. On Ubuntu it is bash.",
       "ru": "Программа, которая читает ваши команды, раскрывает переменные и шаблоны и запускает другие программы. В Ubuntu это bash.",
-      "uk": "Програма, що читає ваші команди, розгортає змінні й шаблони та запускає інші програми. В Ubuntu це bash."
+      "uk": "Програма, що читає ваші команди, розгортає змінні й шаблони та запускає інші програми. В Ubuntu це bash.",
+      "pl": "Program, który czyta Twoje polecenia, rozwija zmienne i wzorce i uruchamia inne programy. W Ubuntu to bash."
     },
     "match": {
       "en": [
@@ -56,12 +60,14 @@
     "term": {
       "en": "bash",
       "ru": "bash",
-      "uk": "bash"
+      "uk": "bash",
+      "pl": "bash"
     },
     "definition": {
       "en": "Bourne-Again SHell — the most popular Linux shell and scripting language.",
       "ru": "Bourne-Again SHell — самая популярная оболочка Linux и язык скриптов.",
-      "uk": "Bourne-Again SHell — найпопулярніша оболонка Linux і мова скриптів."
+      "uk": "Bourne-Again SHell — найпопулярніша оболонка Linux і мова скриптів.",
+      "pl": "Bourne-Again SHell — najpopularniejsza powłoka Linuksa i język skryptów."
     },
     "match": {
       "en": [
@@ -78,12 +84,14 @@
     "term": {
       "en": "Command",
       "ru": "Команда",
-      "uk": "Команда"
+      "uk": "Команда",
+      "pl": "Polecenie"
     },
     "definition": {
       "en": "A program name plus arguments, e.g. ls -la /tmp. The first word is the program, the rest are options and arguments.",
       "ru": "Имя программы плюс аргументы, например ls -la /tmp. Первое слово — программа, остальные — опции и аргументы.",
-      "uk": "Назва програми плюс аргументи, наприклад ls -la /tmp. Перше слово — програма, решта — опції та аргументи."
+      "uk": "Назва програми плюс аргументи, наприклад ls -la /tmp. Перше слово — програма, решта — опції та аргументи.",
+      "pl": "Nazwa programu plus argumenty, np. ls -la /tmp. Pierwsze słowo to program, reszta to opcje i argumenty."
     },
     "match": {
       "en": [
@@ -103,12 +111,14 @@
     "term": {
       "en": "Argument",
       "ru": "Аргумент",
-      "uk": "Аргумент"
+      "uk": "Аргумент",
+      "pl": "Argument"
     },
     "definition": {
       "en": "A word passed to a command after its name: a file name, text or number.",
       "ru": "Слово, переданное команде после её имени: имя файла, текст или число.",
-      "uk": "Слово, передане команді після її назви: назва файлу, текст або число."
+      "uk": "Слово, передане команді після її назви: назва файлу, текст або число.",
+      "pl": "Słowo przekazane poleceniu po jego nazwie: nazwa pliku, tekst lub liczba."
     },
     "match": {
       "en": [
@@ -128,12 +138,14 @@
     "term": {
       "en": "Option (flag)",
       "ru": "Опция (флаг)",
-      "uk": "Опція (прапорець)"
+      "uk": "Опція (прапорець)",
+      "pl": "Opcja (flaga)"
     },
     "definition": {
       "en": "A switch that changes how a command works. Short form -l, long form --long. Short flags can be glued: -la.",
       "ru": "Переключатель, меняющий работу команды. Короткая форма -l, длинная --long. Короткие флаги можно склеивать: -la.",
-      "uk": "Перемикач, що змінює роботу команди. Коротка форма -l, довга --long. Короткі прапорці можна склеювати: -la."
+      "uk": "Перемикач, що змінює роботу команди. Коротка форма -l, довга --long. Короткі прапорці можна склеювати: -la.",
+      "pl": "Przełącznik zmieniający działanie polecenia. Krótka forma -l, długa --long. Krótkie flagi można sklejać: -la."
     },
     "match": {
       "en": [
@@ -156,12 +168,14 @@
     "term": {
       "en": "Prompt",
       "ru": "Приглашение (prompt)",
-      "uk": "Запрошення (prompt)"
+      "uk": "Запрошення (prompt)",
+      "pl": "Znak zachęty (prompt)"
     },
     "definition": {
       "en": "The text before the cursor: user@host:path$. # instead of $ means you are root.",
       "ru": "Текст перед курсором: user@host:путь$. # вместо $ означает, что вы root.",
-      "uk": "Текст перед курсором: user@host:шлях$. # замість $ означає, що ви root."
+      "uk": "Текст перед курсором: user@host:шлях$. # замість $ означає, що ви root.",
+      "pl": "Tekst przed kursorem: użytkownik@host:ścieżka$. # zamiast $ oznacza, że jesteś rootem."
     },
     "match": {
       "en": [
@@ -181,12 +195,14 @@
     "term": {
       "en": "Exit code",
       "ru": "Код возврата",
-      "uk": "Код повернення"
+      "uk": "Код повернення",
+      "pl": "Kod wyjścia"
     },
     "definition": {
       "en": "A number every command returns: 0 = success, anything else = error. Shown by echo $?.",
       "ru": "Число, которое возвращает каждая команда: 0 — успех, всё остальное — ошибка. Показывает echo $?.",
-      "uk": "Число, яке повертає кожна команда: 0 — успіх, усе інше — помилка. Показує echo $?."
+      "uk": "Число, яке повертає кожна команда: 0 — успіх, усе інше — помилка. Показує echo $?.",
+      "pl": "Liczba zwracana przez każde polecenie: 0 = sukces, wszystko inne = błąd. Pokazuje go echo $?."
     },
     "match": {
       "en": [
@@ -207,12 +223,14 @@
     "term": {
       "en": "Manual page",
       "ru": "Страница руководства (man)",
-      "uk": "Сторінка посібника (man)"
+      "uk": "Сторінка посібника (man)",
+      "pl": "Strona podręcznika (man)"
     },
     "definition": {
       "en": "Built-in documentation of a command: man ls. Short help: ls --help.",
       "ru": "Встроенная документация команды: man ls. Короткая справка: ls --help.",
-      "uk": "Вбудована документація команди: man ls. Коротка довідка: ls --help."
+      "uk": "Вбудована документація команди: man ls. Коротка довідка: ls --help.",
+      "pl": "Wbudowana dokumentacja polecenia: man ls. Krótka pomoc: ls --help."
     },
     "match": {
       "en": [
@@ -233,12 +251,14 @@
     "term": {
       "en": "Distribution",
       "ru": "Дистрибутив",
-      "uk": "Дистрибутив"
+      "uk": "Дистрибутив",
+      "pl": "Dystrybucja"
     },
     "definition": {
       "en": "A complete Linux system: kernel + programs + package manager (Ubuntu, Debian, Fedora, Arch).",
       "ru": "Готовая система Linux: ядро + программы + менеджер пакетов (Ubuntu, Debian, Fedora, Arch).",
-      "uk": "Готова система Linux: ядро + програми + менеджер пакетів (Ubuntu, Debian, Fedora, Arch)."
+      "uk": "Готова система Linux: ядро + програми + менеджер пакетів (Ubuntu, Debian, Fedora, Arch).",
+      "pl": "Kompletny system Linux: jądro + programy + menedżer pakietów (Ubuntu, Debian, Fedora, Arch)."
     },
     "match": {
       "en": [
@@ -258,12 +278,14 @@
     "term": {
       "en": "Kernel",
       "ru": "Ядро",
-      "uk": "Ядро"
+      "uk": "Ядро",
+      "pl": "Jądro"
     },
     "definition": {
       "en": "The core of the OS: manages memory, processes, disks and network. Linux is, strictly speaking, the kernel.",
       "ru": "Сердце ОС: управляет памятью, процессами, дисками и сетью. Linux, строго говоря, — это ядро.",
-      "uk": "Серце ОС: керує пам’яттю, процесами, дисками та мережею. Linux, строго кажучи, — це ядро."
+      "uk": "Серце ОС: керує пам’яттю, процесами, дисками та мережею. Linux, строго кажучи, — це ядро.",
+      "pl": "Rdzeń systemu: zarządza pamięcią, procesami, dyskami i siecią. Linux to, ściśle mówiąc, właśnie jądro."
     },
     "match": {
       "en": [
@@ -284,12 +306,14 @@
     "term": {
       "en": "Tab completion",
       "ru": "Автодополнение (Tab)",
-      "uk": "Автодоповнення (Tab)"
+      "uk": "Автодоповнення (Tab)",
+      "pl": "Dopełnianie Tabem"
     },
     "definition": {
       "en": "Press Tab to complete a command or file name; press it twice to see all variants.",
       "ru": "Нажмите Tab, чтобы дописать имя команды или файла; дважды — увидеть все варианты.",
-      "uk": "Натисніть Tab, щоб дописати назву команди чи файлу; двічі — побачити всі варіанти."
+      "uk": "Натисніть Tab, щоб дописати назву команди чи файлу; двічі — побачити всі варіанти.",
+      "pl": "Naciśnij Tab, aby dokończyć polecenie lub nazwę pliku; naciśnij dwa razy, by zobaczyć wszystkie warianty."
     },
     "match": {
       "en": [
@@ -309,12 +333,14 @@
     "term": {
       "en": "Directory",
       "ru": "Директория (папка)",
-      "uk": "Директорія (тека)"
+      "uk": "Директорія (тека)",
+      "pl": "Katalog"
     },
     "definition": {
       "en": "A container for files and other directories. In Linux a directory is also a special kind of file.",
       "ru": "Контейнер для файлов и других директорий. В Linux директория — тоже особый вид файла.",
-      "uk": "Контейнер для файлів та інших директорій. У Linux директорія — теж особливий вид файлу."
+      "uk": "Контейнер для файлів та інших директорій. У Linux директорія — теж особливий вид файлу.",
+      "pl": "Pojemnik na pliki i inne katalogi. W Linuksie katalog też jest szczególnym rodzajem pliku."
     },
     "match": {
       "en": [
@@ -336,12 +362,14 @@
     "term": {
       "en": "Home directory",
       "ru": "Домашняя директория",
-      "uk": "Домашня директорія"
+      "uk": "Домашня директорія",
+      "pl": "Katalog domowy"
     },
     "definition": {
       "en": "Your personal directory, /home/<name>, written as ~. cd without arguments takes you there.",
       "ru": "Ваша личная директория /home/<имя>, сокращённо ~. cd без аргументов ведёт туда.",
-      "uk": "Ваша особиста директорія /home/<ім’я>, скорочено ~. cd без аргументів веде туди."
+      "uk": "Ваша особиста директорія /home/<ім’я>, скорочено ~. cd без аргументів веде туди.",
+      "pl": "Twój osobisty katalog, /home/<nazwa>, zapisywany jako ~. cd bez argumentów prowadzi właśnie tam."
     },
     "match": {
       "en": [
@@ -361,12 +389,14 @@
     "term": {
       "en": "Root directory /",
       "ru": "Корень /",
-      "uk": "Корінь /"
+      "uk": "Корінь /",
+      "pl": "Katalog główny /"
     },
     "definition": {
       "en": "The top of the file system tree. Every absolute path starts with /.",
       "ru": "Вершина дерева файловой системы. Каждый абсолютный путь начинается с /.",
-      "uk": "Вершина дерева файлової системи. Кожен абсолютний шлях починається з /."
+      "uk": "Вершина дерева файлової системи. Кожен абсолютний шлях починається з /.",
+      "pl": "Wierzchołek drzewa systemu plików. Każda ścieżka bezwzględna zaczyna się od /."
     },
     "match": {
       "en": [
@@ -388,12 +418,14 @@
     "term": {
       "en": "Path",
       "ru": "Путь",
-      "uk": "Шлях"
+      "uk": "Шлях",
+      "pl": "Ścieżka"
     },
     "definition": {
       "en": "The address of a file: directories separated by /. Absolute (from /) or relative (from the current directory).",
       "ru": "Адрес файла: директории через /. Абсолютный (от /) или относительный (от текущей директории).",
-      "uk": "Адреса файлу: директорії через /. Абсолютний (від /) або відносний (від поточної директорії)."
+      "uk": "Адреса файлу: директорії через /. Абсолютний (від /) або відносний (від поточної директорії).",
+      "pl": "Adres pliku: katalogi rozdzielone /. Bezwzględna (od /) lub względna (od bieżącego katalogu)."
     },
     "match": {
       "en": [
@@ -413,12 +445,14 @@
     "term": {
       "en": "Absolute path",
       "ru": "Абсолютный путь",
-      "uk": "Абсолютний шлях"
+      "uk": "Абсолютний шлях",
+      "pl": "Ścieżka bezwzględna"
     },
     "definition": {
       "en": "A path starting at the root /: /home/student/docs. Works from anywhere.",
       "ru": "Путь от корня /: /home/student/docs. Работает откуда угодно.",
-      "uk": "Шлях від кореня /: /home/student/docs. Працює звідусіль."
+      "uk": "Шлях від кореня /: /home/student/docs. Працює звідусіль.",
+      "pl": "Ścieżka zaczynająca się od korzenia /: /home/student/docs. Działa z dowolnego miejsca."
     },
     "match": {
       "en": [
@@ -438,12 +472,14 @@
     "term": {
       "en": "Relative path",
       "ru": "Относительный путь",
-      "uk": "Відносний шлях"
+      "uk": "Відносний шлях",
+      "pl": "Ścieżka względna"
     },
     "definition": {
       "en": "A path from where you are: docs/report.txt, ../music.",
       "ru": "Путь от текущего места: docs/report.txt, ../music.",
-      "uk": "Шлях від поточного місця: docs/report.txt, ../music."
+      "uk": "Шлях від поточного місця: docs/report.txt, ../music.",
+      "pl": "Ścieżka od miejsca, w którym jesteś: docs/report.txt, ../music."
     },
     "match": {
       "en": [
@@ -463,12 +499,14 @@
     "term": {
       "en": "Working directory",
       "ru": "Текущая директория",
-      "uk": "Поточна директорія"
+      "uk": "Поточна директорія",
+      "pl": "Katalog roboczy"
     },
     "definition": {
       "en": "The directory you are in right now; relative paths start here. pwd prints it.",
       "ru": "Директория, в которой вы сейчас; от неё считаются относительные пути. Показывает pwd.",
-      "uk": "Директорія, у якій ви зараз; від неї рахуються відносні шляхи. Показує pwd."
+      "uk": "Директорія, у якій ви зараз; від неї рахуються відносні шляхи. Показує pwd.",
+      "pl": "Katalog, w którym właśnie jesteś; od niego zaczynają się ścieżki względne. Wypisuje go pwd."
     },
     "match": {
       "en": [
@@ -489,12 +527,14 @@
     "term": {
       "en": "Hidden file",
       "ru": "Скрытый файл",
-      "uk": "Прихований файл"
+      "uk": "Прихований файл",
+      "pl": "Plik ukryty"
     },
     "definition": {
       "en": "A file whose name starts with a dot (.bashrc). ls shows it only with -a.",
       "ru": "Файл, имя которого начинается с точки (.bashrc). ls показывает его только с -a.",
-      "uk": "Файл, назва якого починається з крапки (.bashrc). ls показує його лише з -a."
+      "uk": "Файл, назва якого починається з крапки (.bashrc). ls показує його лише з -a.",
+      "pl": "Plik, którego nazwa zaczyna się od kropki (.bashrc). ls pokazuje go tylko z -a."
     },
     "match": {
       "en": [
@@ -514,12 +554,14 @@
     "term": {
       "en": "Symbolic link",
       "ru": "Символьная ссылка",
-      "uk": "Символьне посилання"
+      "uk": "Символьне посилання",
+      "pl": "Dowiązanie symboliczne"
     },
     "definition": {
       "en": "A shortcut pointing to another path: ln -s target name. Breaks if the target is removed.",
       "ru": "Ярлык, указывающий на другой путь: ln -s цель имя. Ломается, если цель удалить.",
-      "uk": "Ярлик, що вказує на інший шлях: ln -s ціль назва. Ламається, якщо ціль видалити."
+      "uk": "Ярлик, що вказує на інший шлях: ln -s ціль назва. Ламається, якщо ціль видалити.",
+      "pl": "Skrót wskazujący inną ścieżkę: ln -s cel nazwa. Psuje się, gdy cel zostanie usunięty."
     },
     "match": {
       "en": [
@@ -543,12 +585,14 @@
     "term": {
       "en": "Wildcard (glob)",
       "ru": "Шаблон (glob)",
-      "uk": "Шаблон (glob)"
+      "uk": "Шаблон (glob)",
+      "pl": "Wzorzec (glob)"
     },
     "definition": {
       "en": "Pattern characters * ? [abc] that the shell expands into matching file names.",
       "ru": "Символы * ? [abc], которые оболочка заменяет подходящими именами файлов.",
-      "uk": "Символи * ? [abc], які оболонка замінює відповідними назвами файлів."
+      "uk": "Символи * ? [abc], які оболонка замінює відповідними назвами файлів.",
+      "pl": "Znaki wzorca * ? [abc], które powłoka zamienia na pasujące nazwy plików."
     },
     "match": {
       "en": [
@@ -569,12 +613,14 @@
     "term": {
       "en": "Filesystem hierarchy (FHS)",
       "ru": "Иерархия ФС (FHS)",
-      "uk": "Ієрархія ФС (FHS)"
+      "uk": "Ієрархія ФС (FHS)",
+      "pl": "Hierarchia systemu plików (FHS)"
     },
     "definition": {
       "en": "The standard layout: /etc configs, /var changing data and logs, /home users, /usr programs, /tmp temporary files.",
       "ru": "Стандартная раскладка: /etc — настройки, /var — изменяемые данные и логи, /home — пользователи, /usr — программы, /tmp — временные файлы.",
-      "uk": "Стандартне розташування: /etc — налаштування, /var — змінні дані й логи, /home — користувачі, /usr — програми, /tmp — тимчасові файли."
+      "uk": "Стандартне розташування: /etc — налаштування, /var — змінні дані й логи, /home — користувачі, /usr — програми, /tmp — тимчасові файли.",
+      "pl": "Standardowy układ: /etc konfiguracja, /var zmienne dane i logi, /home użytkownicy, /usr programy, /tmp pliki tymczasowe."
     },
     "match": {
       "en": [
@@ -594,12 +640,14 @@
     "term": {
       "en": "/etc",
       "ru": "/etc",
-      "uk": "/etc"
+      "uk": "/etc",
+      "pl": "/etc"
     },
     "definition": {
       "en": "The directory with system-wide configuration files: /etc/hosts, /etc/passwd, /etc/nginx/...",
       "ru": "Директория с системными настройками: /etc/hosts, /etc/passwd, /etc/nginx/...",
-      "uk": "Директорія із системними налаштуваннями: /etc/hosts, /etc/passwd, /etc/nginx/..."
+      "uk": "Директорія із системними налаштуваннями: /etc/hosts, /etc/passwd, /etc/nginx/...",
+      "pl": "Katalog z plikami konfiguracji całego systemu: /etc/hosts, /etc/passwd, /etc/nginx/..."
     },
     "match": {
       "en": [
@@ -615,12 +663,14 @@
     "term": {
       "en": "/var/log",
       "ru": "/var/log",
-      "uk": "/var/log"
+      "uk": "/var/log",
+      "pl": "/var/log"
     },
     "definition": {
       "en": "Where logs live: syslog, auth.log, nginx/access.log, ...",
       "ru": "Место, где живут логи: syslog, auth.log, nginx/access.log, ...",
-      "uk": "Місце, де живуть логи: syslog, auth.log, nginx/access.log, ..."
+      "uk": "Місце, де живуть логи: syslog, auth.log, nginx/access.log, ...",
+      "pl": "Tu mieszkają logi: syslog, auth.log, nginx/access.log, ..."
     },
     "match": {
       "en": [
@@ -636,12 +686,14 @@
     "term": {
       "en": "/dev/null",
       "ru": "/dev/null",
-      "uk": "/dev/null"
+      "uk": "/dev/null",
+      "pl": "/dev/null"
     },
     "definition": {
       "en": "A black hole: everything written there disappears. 2>/dev/null hides errors.",
       "ru": "Чёрная дыра: всё, что туда записано, исчезает. 2>/dev/null прячет ошибки.",
-      "uk": "Чорна діра: усе, що туди записано, зникає. 2>/dev/null ховає помилки."
+      "uk": "Чорна діра: усе, що туди записано, зникає. 2>/dev/null ховає помилки.",
+      "pl": "Czarna dziura: wszystko, co się tam zapisze, znika. 2>/dev/null ukrywa błędy."
     },
     "match": {
       "en": [
@@ -657,12 +709,14 @@
     "term": {
       "en": "Disk usage",
       "ru": "Занятое место",
-      "uk": "Зайняте місце"
+      "uk": "Зайняте місце",
+      "pl": "Zajętość dysku"
     },
     "definition": {
       "en": "How much space files take on disk. du shows it per directory, df per file system.",
       "ru": "Сколько места файлы занимают на диске. du показывает по директориям, df — по файловым системам.",
-      "uk": "Скільки місця файли займають на диску. du показує по директоріях, df — по файлових системах."
+      "uk": "Скільки місця файли займають на диску. du показує по директоріях, df — по файлових системах.",
+      "pl": "Ile miejsca zajmują pliki na dysku. du pokazuje to dla katalogów, df dla systemów plików."
     },
     "match": {
       "en": [
@@ -683,12 +737,14 @@
     "term": {
       "en": "File system",
       "ru": "Файловая система",
-      "uk": "Файлова система"
+      "uk": "Файлова система",
+      "pl": "System plików"
     },
     "definition": {
       "en": "The way data is organised on a disk (ext4, xfs). A disk partition with a file system is mounted at a directory.",
       "ru": "Способ организации данных на диске (ext4, xfs). Раздел с файловой системой монтируется в директорию.",
-      "uk": "Спосіб організації даних на диску (ext4, xfs). Розділ із файловою системою монтується в директорію."
+      "uk": "Спосіб організації даних на диску (ext4, xfs). Розділ із файловою системою монтується в директорію.",
+      "pl": "Sposób organizacji danych na dysku (ext4, xfs). Partycja z systemem plików jest montowana w katalogu."
     },
     "match": {
       "en": [
@@ -714,12 +770,14 @@
     "term": {
       "en": "Mount point",
       "ru": "Точка монтирования",
-      "uk": "Точка монтування"
+      "uk": "Точка монтування",
+      "pl": "Punkt montowania"
     },
     "definition": {
       "en": "The directory where a disk or partition is attached, e.g. / or /var/lib/postgresql.",
       "ru": "Директория, к которой подключён диск или раздел, например / или /var/lib/postgresql.",
-      "uk": "Директорія, до якої підключено диск чи розділ, наприклад / або /var/lib/postgresql."
+      "uk": "Директорія, до якої підключено диск чи розділ, наприклад / або /var/lib/postgresql.",
+      "pl": "Katalog, w którym podłączony jest dysk lub partycja, np. / albo /var/lib/postgresql."
     },
     "match": {
       "en": [
@@ -739,12 +797,14 @@
     "term": {
       "en": "Standard output (stdout)",
       "ru": "Стандартный вывод (stdout)",
-      "uk": "Стандартний вивід (stdout)"
+      "uk": "Стандартний вивід (stdout)",
+      "pl": "Standardowe wyjście (stdout)"
     },
     "definition": {
       "en": "Stream 1: the normal output of a command. Redirect with > or pass on with |.",
       "ru": "Поток 1: обычный вывод команды. Перенаправляется > или передаётся дальше через |.",
-      "uk": "Потік 1: звичайний вивід команди. Перенаправляється > або передається далі через |."
+      "uk": "Потік 1: звичайний вивід команди. Перенаправляється > або передається далі через |.",
+      "pl": "Strumień 1: zwykłe wyjście polecenia. Przekieruj przez > albo przekaż dalej przez |."
     },
     "match": {
       "en": [
@@ -765,12 +825,14 @@
     "term": {
       "en": "Standard error (stderr)",
       "ru": "Поток ошибок (stderr)",
-      "uk": "Потік помилок (stderr)"
+      "uk": "Потік помилок (stderr)",
+      "pl": "Standardowe wyjście błędów (stderr)"
     },
     "definition": {
       "en": "Stream 2: error messages. Redirect with 2> file or hide with 2>/dev/null.",
       "ru": "Поток 2: сообщения об ошибках. Перенаправляется 2> файл или прячется 2>/dev/null.",
-      "uk": "Потік 2: повідомлення про помилки. Перенаправляється 2> файл або ховається 2>/dev/null."
+      "uk": "Потік 2: повідомлення про помилки. Перенаправляється 2> файл або ховається 2>/dev/null.",
+      "pl": "Strumień 2: komunikaty o błędach. Przekieruj przez 2> plik albo ukryj przez 2>/dev/null."
     },
     "match": {
       "en": [
@@ -790,12 +852,14 @@
     "term": {
       "en": "Standard input (stdin)",
       "ru": "Стандартный ввод (stdin)",
-      "uk": "Стандартне введення (stdin)"
+      "uk": "Стандартне введення (stdin)",
+      "pl": "Standardowe wejście (stdin)"
     },
     "definition": {
       "en": "Stream 0: where a command reads data. Fill it from a file with < or from a pipe.",
       "ru": "Поток 0: откуда команда читает данные. Заполняется из файла через < или из конвейера.",
-      "uk": "Потік 0: звідки команда читає дані. Заповнюється з файлу через < або з конвеєра."
+      "uk": "Потік 0: звідки команда читає дані. Заповнюється з файлу через < або з конвеєра.",
+      "pl": "Strumień 0: skąd polecenie czyta dane. Wypełnij go z pliku przez < albo z potoku."
     },
     "match": {
       "en": [
@@ -815,12 +879,14 @@
     "term": {
       "en": "Pipe |",
       "ru": "Конвейер |",
-      "uk": "Конвеєр |"
+      "uk": "Конвеєр |",
+      "pl": "Potok |"
     },
     "definition": {
       "en": "Connects commands: the output of the left one becomes the input of the right one. grep ERROR log | wc -l.",
       "ru": "Соединяет команды: вывод левой становится входом правой. grep ERROR log | wc -l.",
-      "uk": "З’єднує команди: вивід лівої стає входом правої. grep ERROR log | wc -l."
+      "uk": "З’єднує команди: вивід лівої стає входом правої. grep ERROR log | wc -l.",
+      "pl": "Łączy polecenia: wyjście lewego staje się wejściem prawego. grep ERROR log | wc -l."
     },
     "match": {
       "en": [
@@ -841,12 +907,14 @@
     "term": {
       "en": "Redirection",
       "ru": "Перенаправление",
-      "uk": "Перенаправлення"
+      "uk": "Перенаправлення",
+      "pl": "Przekierowanie"
     },
     "definition": {
       "en": "Sending output to a file (> overwrite, >> append) or reading input from a file (<).",
       "ru": "Отправка вывода в файл (> перезапись, >> дописать) или чтение ввода из файла (<).",
-      "uk": "Надсилання виводу у файл (> перезапис, >> дописати) або читання вводу з файлу (<)."
+      "uk": "Надсилання виводу у файл (> перезапис, >> дописати) або читання вводу з файлу (<).",
+      "pl": "Wysłanie wyjścia do pliku (> nadpisanie, >> dopisanie) albo czytanie wejścia z pliku (<)."
     },
     "match": {
       "en": [
@@ -866,12 +934,14 @@
     "term": {
       "en": "Regular expression",
       "ru": "Регулярное выражение",
-      "uk": "Регулярний вираз"
+      "uk": "Регулярний вираз",
+      "pl": "Wyrażenie regularne"
     },
     "definition": {
       "en": "A search pattern for text: ^ start of line, $ end, . any char, * repeat. Used by grep, sed, awk.",
       "ru": "Шаблон поиска текста: ^ начало строки, $ конец, . любой символ, * повтор. Используют grep, sed, awk.",
-      "uk": "Шаблон пошуку тексту: ^ початок рядка, $ кінець, . будь-який символ, * повтор. Використовують grep, sed, awk."
+      "uk": "Шаблон пошуку тексту: ^ початок рядка, $ кінець, . будь-який символ, * повтор. Використовують grep, sed, awk.",
+      "pl": "Wzorzec wyszukiwania tekstu: ^ początek wiersza, $ koniec, . dowolny znak, * powtórzenie. Używają go grep, sed, awk."
     },
     "match": {
       "en": [
@@ -893,12 +963,14 @@
     "term": {
       "en": "CSV",
       "ru": "CSV",
-      "uk": "CSV"
+      "uk": "CSV",
+      "pl": "CSV"
     },
     "definition": {
       "en": "Comma-separated values: a text table, one row per line. cut -d, and awk -F, read it.",
       "ru": "Значения через запятую: текстовая таблица, одна строка — одна запись. Читается cut -d, и awk -F,.",
-      "uk": "Значення через кому: текстова таблиця, один рядок — один запис. Читається cut -d, і awk -F,."
+      "uk": "Значення через кому: текстова таблиця, один рядок — один запис. Читається cut -d, і awk -F,.",
+      "pl": "Wartości rozdzielone przecinkami: tabela tekstowa, jeden wiersz na linię. Czytają ją cut -d, i awk -F,."
     },
     "match": {
       "en": [
@@ -915,12 +987,14 @@
     "term": {
       "en": "Field (column)",
       "ru": "Поле (колонка)",
-      "uk": "Поле (колонка)"
+      "uk": "Поле (колонка)",
+      "pl": "Pole (kolumna)"
     },
     "definition": {
       "en": "A part of a line between separators. awk calls them $1, $2...; cut selects them with -f.",
       "ru": "Часть строки между разделителями. В awk это $1, $2...; cut выбирает их через -f.",
-      "uk": "Частина рядка між роздільниками. В awk це $1, $2...; cut вибирає їх через -f."
+      "uk": "Частина рядка між роздільниками. В awk це $1, $2...; cut вибирає їх через -f.",
+      "pl": "Część wiersza między separatorami. awk nazywa je $1, $2...; cut wybiera je przez -f."
     },
     "match": {
       "en": [
@@ -941,12 +1015,14 @@
     "term": {
       "en": "Text editor",
       "ru": "Текстовый редактор",
-      "uk": "Текстовий редактор"
+      "uk": "Текстовий редактор",
+      "pl": "Edytor tekstu"
     },
     "definition": {
       "en": "A program to edit files in the terminal: nano (simple), vim (powerful).",
       "ru": "Программа для правки файлов в терминале: nano (простой), vim (мощный).",
-      "uk": "Програма для редагування файлів у терміналі: nano (простий), vim (потужний)."
+      "uk": "Програма для редагування файлів у терміналі: nano (простий), vim (потужний).",
+      "pl": "Program do edycji plików w terminalu: nano (prosty), vim (potężny)."
     },
     "match": {
       "en": [
@@ -967,12 +1043,14 @@
     "term": {
       "en": "Permissions (rwx)",
       "ru": "Права доступа (rwx)",
-      "uk": "Права доступу (rwx)"
+      "uk": "Права доступу (rwx)",
+      "pl": "Uprawnienia (rwx)"
     },
     "definition": {
       "en": "Who may read (r), write (w) and execute (x) a file — for the owner, the group and others.",
       "ru": "Кто может читать (r), писать (w) и выполнять (x) файл — для владельца, группы и остальных.",
-      "uk": "Хто може читати (r), писати (w) і виконувати (x) файл — для власника, групи та інших."
+      "uk": "Хто може читати (r), писати (w) і виконувати (x) файл — для власника, групи та інших.",
+      "pl": "Kto może czytać (r), zapisywać (w) i wykonywać (x) plik — dla właściciela, grupy i pozostałych."
     },
     "match": {
       "en": [
@@ -995,12 +1073,14 @@
     "term": {
       "en": "Owner",
       "ru": "Владелец",
-      "uk": "Власник"
+      "uk": "Власник",
+      "pl": "Właściciel"
     },
     "definition": {
       "en": "The user a file belongs to. Only the owner (or root) can change its permissions.",
       "ru": "Пользователь, которому принадлежит файл. Менять права может только владелец (или root).",
-      "uk": "Користувач, якому належить файл. Змінювати права може лише власник (або root)."
+      "uk": "Користувач, якому належить файл. Змінювати права може лише власник (або root).",
+      "pl": "Użytkownik, do którego należy plik. Tylko właściciel (albo root) może zmieniać jego uprawnienia."
     },
     "match": {
       "en": [
@@ -1021,12 +1101,14 @@
     "term": {
       "en": "Group",
       "ru": "Группа",
-      "uk": "Група"
+      "uk": "Група",
+      "pl": "Grupa"
     },
     "definition": {
       "en": "A set of users sharing permissions, e.g. sudo, adm, www-data.",
       "ru": "Набор пользователей с общими правами, например sudo, adm, www-data.",
-      "uk": "Набір користувачів зі спільними правами, наприклад sudo, adm, www-data."
+      "uk": "Набір користувачів зі спільними правами, наприклад sudo, adm, www-data.",
+      "pl": "Zbiór użytkowników ze wspólnymi uprawnieniami, np. sudo, adm, www-data."
     },
     "match": {
       "en": [
@@ -1047,12 +1129,14 @@
     "term": {
       "en": "root",
       "ru": "root (суперпользователь)",
-      "uk": "root (суперкористувач)"
+      "uk": "root (суперкористувач)",
+      "pl": "root"
     },
     "definition": {
       "en": "The administrator account with uid 0. Permission checks do not apply to it.",
       "ru": "Учётная запись администратора с uid 0. Проверки прав на неё не действуют.",
-      "uk": "Обліковий запис адміністратора з uid 0. Перевірки прав на нього не діють."
+      "uk": "Обліковий запис адміністратора з uid 0. Перевірки прав на нього не діють.",
+      "pl": "Konto administratora z uid 0. Sprawdzanie uprawnień go nie dotyczy."
     },
     "match": {
       "en": [
@@ -1072,12 +1156,14 @@
     "term": {
       "en": "sudo",
       "ru": "sudo",
-      "uk": "sudo"
+      "uk": "sudo",
+      "pl": "sudo"
     },
     "definition": {
       "en": "Run one command as root: sudo systemctl restart nginx. Your user must be in the sudo group.",
       "ru": "Выполнить одну команду от root: sudo systemctl restart nginx. Пользователь должен быть в группе sudo.",
-      "uk": "Виконати одну команду від root: sudo systemctl restart nginx. Користувач має бути в групі sudo."
+      "uk": "Виконати одну команду від root: sudo systemctl restart nginx. Користувач має бути в групі sudo.",
+      "pl": "Uruchom jedno polecenie jako root: sudo systemctl restart nginx. Twój użytkownik musi być w grupie sudo."
     },
     "match": {
       "en": [
@@ -1094,12 +1180,14 @@
     "term": {
       "en": "Octal mode (755)",
       "ru": "Числовые права (755)",
-      "uk": "Числові права (755)"
+      "uk": "Числові права (755)",
+      "pl": "Tryb ósemkowy (755)"
     },
     "definition": {
       "en": "Permissions as three digits, r=4 w=2 x=1 summed for owner, group, others. 644 = rw-r--r--, 755 = rwxr-xr-x.",
       "ru": "Права тремя цифрами: r=4 w=2 x=1, сумма для владельца, группы, остальных. 644 = rw-r--r--, 755 = rwxr-xr-x.",
-      "uk": "Права трьома цифрами: r=4 w=2 x=1, сума для власника, групи, інших. 644 = rw-r--r--, 755 = rwxr-xr-x."
+      "uk": "Права трьома цифрами: r=4 w=2 x=1, сума для власника, групи, інших. 644 = rw-r--r--, 755 = rwxr-xr-x.",
+      "pl": "Uprawnienia jako trzy cyfry, r=4 w=2 x=1 sumowane dla właściciela, grupy i pozostałych. 644 = rw-r--r--, 755 = rwxr-xr-x."
     },
     "match": {
       "en": [
@@ -1120,12 +1208,14 @@
     "term": {
       "en": "UID",
       "ru": "UID",
-      "uk": "UID"
+      "uk": "UID",
+      "pl": "UID"
     },
     "definition": {
       "en": "User ID — the number behind a user name. root is 0, normal users start at 1000.",
       "ru": "Идентификатор пользователя — число за именем. У root 0, обычные пользователи с 1000.",
-      "uk": "Ідентифікатор користувача — число за іменем. У root 0, звичайні користувачі з 1000."
+      "uk": "Ідентифікатор користувача — число за іменем. У root 0, звичайні користувачі з 1000.",
+      "pl": "User ID — liczba kryjąca się za nazwą użytkownika. root ma 0, zwykli użytkownicy zaczynają od 1000."
     },
     "match": {
       "en": [
@@ -1142,12 +1232,14 @@
     "term": {
       "en": "/etc/passwd",
       "ru": "/etc/passwd",
-      "uk": "/etc/passwd"
+      "uk": "/etc/passwd",
+      "pl": "/etc/passwd"
     },
     "definition": {
       "en": "The list of users: name:x:uid:gid:comment:home:shell. Passwords themselves are in /etc/shadow.",
       "ru": "Список пользователей: имя:x:uid:gid:комментарий:дом:оболочка. Сами пароли — в /etc/shadow.",
-      "uk": "Список користувачів: ім’я:x:uid:gid:коментар:дім:оболонка. Самі паролі — в /etc/shadow."
+      "uk": "Список користувачів: ім’я:x:uid:gid:коментар:дім:оболонка. Самі паролі — в /etc/shadow.",
+      "pl": "Lista użytkowników: nazwa:x:uid:gid:komentarz:katalog_domowy:powłoka. Same hasła są w /etc/shadow."
     },
     "match": {
       "en": [
@@ -1163,12 +1255,14 @@
     "term": {
       "en": "Process",
       "ru": "Процесс",
-      "uk": "Процес"
+      "uk": "Процес",
+      "pl": "Proces"
     },
     "definition": {
       "en": "A running program with its own number (PID), owner, memory and CPU usage.",
       "ru": "Запущенная программа со своим номером (PID), владельцем, памятью и загрузкой CPU.",
-      "uk": "Запущена програма зі своїм номером (PID), власником, пам’яттю та навантаженням CPU."
+      "uk": "Запущена програма зі своїм номером (PID), власником, пам’яттю та навантаженням CPU.",
+      "pl": "Działający program z własnym numerem (PID), właścicielem, pamięcią i zużyciem CPU."
     },
     "match": {
       "en": [
@@ -1189,12 +1283,14 @@
     "term": {
       "en": "PID",
       "ru": "PID",
-      "uk": "PID"
+      "uk": "PID",
+      "pl": "PID"
     },
     "definition": {
       "en": "Process ID — the number used to manage a process: kill 1234.",
       "ru": "Идентификатор процесса — номер для управления им: kill 1234.",
-      "uk": "Ідентифікатор процесу — номер для керування ним: kill 1234."
+      "uk": "Ідентифікатор процесу — номер для керування ним: kill 1234.",
+      "pl": "Process ID — numer, którym zarządza się procesem: kill 1234."
     },
     "match": {
       "en": [
@@ -1211,12 +1307,14 @@
     "term": {
       "en": "Signal",
       "ru": "Сигнал",
-      "uk": "Сигнал"
+      "uk": "Сигнал",
+      "pl": "Sygnał"
     },
     "definition": {
       "en": "A message to a process: SIGTERM (15) asks to stop, SIGKILL (9) kills immediately, SIGHUP (1) often means reload.",
       "ru": "Сообщение процессу: SIGTERM (15) просит завершиться, SIGKILL (9) убивает сразу, SIGHUP (1) часто означает перечитать настройки.",
-      "uk": "Повідомлення процесу: SIGTERM (15) просить завершитися, SIGKILL (9) вбиває одразу, SIGHUP (1) часто означає перечитати налаштування."
+      "uk": "Повідомлення процесу: SIGTERM (15) просить завершитися, SIGKILL (9) вбиває одразу, SIGHUP (1) часто означає перечитати налаштування.",
+      "pl": "Wiadomość do procesu: SIGTERM (15) prosi o zakończenie, SIGKILL (9) zabija natychmiast, SIGHUP (1) często oznacza przeładowanie."
     },
     "match": {
       "en": [
@@ -1239,12 +1337,14 @@
     "term": {
       "en": "Daemon",
       "ru": "Демон",
-      "uk": "Демон"
+      "uk": "Демон",
+      "pl": "Demon"
     },
     "definition": {
       "en": "A background program serving requests: sshd, nginx, cron. Usually managed by systemd as a service.",
       "ru": "Фоновая программа, обслуживающая запросы: sshd, nginx, cron. Обычно управляется systemd как сервис.",
-      "uk": "Фонова програма, що обслуговує запити: sshd, nginx, cron. Зазвичай керується systemd як сервіс."
+      "uk": "Фонова програма, що обслуговує запити: sshd, nginx, cron. Зазвичай керується systemd як сервіс.",
+      "pl": "Program w tle obsługujący żądania: sshd, nginx, cron. Zwykle zarządzany przez systemd jako usługa."
     },
     "match": {
       "en": [
@@ -1264,12 +1364,14 @@
     "term": {
       "en": "Service (unit)",
       "ru": "Сервис (юнит)",
-      "uk": "Сервіс (юніт)"
+      "uk": "Сервіс (юніт)",
+      "pl": "Usługa (unit)"
     },
     "definition": {
       "en": "A daemon managed by systemd: systemctl status|start|stop|restart NAME.",
       "ru": "Демон под управлением systemd: systemctl status|start|stop|restart ИМЯ.",
-      "uk": "Демон під керуванням systemd: systemctl status|start|stop|restart НАЗВА."
+      "uk": "Демон під керуванням systemd: systemctl status|start|stop|restart НАЗВА.",
+      "pl": "Demon zarządzany przez systemd: systemctl status|start|stop|restart NAZWA."
     },
     "match": {
       "en": [
@@ -1291,12 +1393,14 @@
     "term": {
       "en": "systemd",
       "ru": "systemd",
-      "uk": "systemd"
+      "uk": "systemd",
+      "pl": "systemd"
     },
     "definition": {
       "en": "The init system of modern Linux: starts services at boot, restarts them and collects their logs (journal).",
       "ru": "Система инициализации современного Linux: запускает сервисы при загрузке, перезапускает их и собирает их логи (журнал).",
-      "uk": "Система ініціалізації сучасного Linux: запускає сервіси під час завантаження, перезапускає їх і збирає їхні логи (журнал)."
+      "uk": "Система ініціалізації сучасного Linux: запускає сервіси під час завантаження, перезапускає їх і збирає їхні логи (журнал).",
+      "pl": "System init współczesnego Linuksa: uruchamia usługi przy starcie, restartuje je i zbiera ich logi (journal)."
     },
     "match": {
       "en": [
@@ -1313,12 +1417,14 @@
     "term": {
       "en": "Journal (journald)",
       "ru": "Журнал (journald)",
-      "uk": "Журнал (journald)"
+      "uk": "Журнал (journald)",
+      "pl": "Dziennik (journald)"
     },
     "definition": {
       "en": "The systemd log of all services. Read with journalctl -u SERVICE.",
       "ru": "Лог systemd для всех сервисов. Читается через journalctl -u СЕРВИС.",
-      "uk": "Лог systemd для всіх сервісів. Читається через journalctl -u СЕРВІС."
+      "uk": "Лог systemd для всіх сервісів. Читається через journalctl -u СЕРВІС.",
+      "pl": "Dziennik systemd wszystkich usług. Czytaj przez journalctl -u USŁUGA."
     },
     "match": {
       "en": [
@@ -1339,12 +1445,14 @@
     "term": {
       "en": "Load average",
       "ru": "Load average (средняя нагрузка)",
-      "uk": "Load average (середнє навантаження)"
+      "uk": "Load average (середнє навантаження)",
+      "pl": "Średnie obciążenie (load average)"
     },
     "definition": {
       "en": "Average number of processes running or waiting for CPU over 1, 5 and 15 minutes. Compare with the number of cores (nproc).",
       "ru": "Среднее число процессов, работающих или ждущих CPU, за 1, 5 и 15 минут. Сравнивайте с числом ядер (nproc).",
-      "uk": "Середня кількість процесів, що працюють або чекають CPU, за 1, 5 і 15 хвилин. Порівнюйте з кількістю ядер (nproc)."
+      "uk": "Середня кількість процесів, що працюють або чекають CPU, за 1, 5 і 15 хвилин. Порівнюйте з кількістю ядер (nproc).",
+      "pl": "Średnia liczba procesów działających lub czekających na CPU w ciągu 1, 5 i 15 minut. Porównuj z liczbą rdzeni (nproc)."
     },
     "match": {
       "en": [
@@ -1367,12 +1475,14 @@
     "term": {
       "en": "CPU",
       "ru": "Процессор (CPU)",
-      "uk": "Процесор (CPU)"
+      "uk": "Процесор (CPU)",
+      "pl": "CPU"
     },
     "definition": {
       "en": "The processor. %CPU in ps/top shows how much of one core a process uses (200% = two full cores).",
       "ru": "Процессор. %CPU в ps/top — сколько одного ядра занимает процесс (200% = два ядра целиком).",
-      "uk": "Процесор. %CPU у ps/top — скільки одного ядра займає процес (200% = два ядра повністю)."
+      "uk": "Процесор. %CPU у ps/top — скільки одного ядра займає процес (200% = два ядра повністю).",
+      "pl": "Procesor. %CPU w ps/top pokazuje, ile jednego rdzenia używa proces (200% = dwa pełne rdzenie)."
     },
     "match": {
       "en": [
@@ -1393,12 +1503,14 @@
     "term": {
       "en": "RAM",
       "ru": "Оперативная память (RAM)",
-      "uk": "Оперативна пам’ять (RAM)"
+      "uk": "Оперативна пам’ять (RAM)",
+      "pl": "RAM"
     },
     "definition": {
       "en": "Working memory. \"available\" in free -h is what programs can still get.",
       "ru": "Рабочая память. «available» в free -h — сколько ещё могут получить программы.",
-      "uk": "Робоча пам’ять. «available» у free -h — скільки ще можуть отримати програми."
+      "uk": "Робоча пам’ять. «available» у free -h — скільки ще можуть отримати програми.",
+      "pl": "Pamięć operacyjna. „available” w free -h to tyle, ile programy mogą jeszcze dostać."
     },
     "match": {
       "en": [
@@ -1420,12 +1532,14 @@
     "term": {
       "en": "Swap",
       "ru": "Своп (swap)",
-      "uk": "Своп (swap)"
+      "uk": "Своп (swap)",
+      "pl": "Swap (pamięć wymiany)"
     },
     "definition": {
       "en": "Disk space used as overflow memory. Heavy swap use makes the server very slow.",
       "ru": "Место на диске, используемое как запасная память. Активный своп сильно замедляет сервер.",
-      "uk": "Місце на диску, що використовується як запасна пам’ять. Активний своп сильно сповільнює сервер."
+      "uk": "Місце на диску, що використовується як запасна пам’ять. Активний своп сильно сповільнює сервер.",
+      "pl": "Miejsce na dysku używane jako zapas pamięci. Intensywny swap bardzo spowalnia serwer."
     },
     "match": {
       "en": [
@@ -1446,12 +1560,14 @@
     "term": {
       "en": "OOM killer",
       "ru": "OOM killer",
-      "uk": "OOM killer"
+      "uk": "OOM killer",
+      "pl": "OOM killer"
     },
     "definition": {
       "en": "When memory runs out, the kernel kills a big process (\"Out of memory: Killed process ...\"). Look for it in the logs.",
       "ru": "Когда память кончается, ядро убивает крупный процесс («Out of memory: Killed process ...»). Ищите это в логах.",
-      "uk": "Коли пам’ять закінчується, ядро вбиває великий процес («Out of memory: Killed process ...»). Шукайте це в логах."
+      "uk": "Коли пам’ять закінчується, ядро вбиває великий процес («Out of memory: Killed process ...»). Шукайте це в логах.",
+      "pl": "Gdy brakuje pamięci, jądro zabija duży proces („Out of memory: Killed process ...”). Szukaj tego w logach."
     },
     "match": {
       "en": [
@@ -1468,12 +1584,14 @@
     "term": {
       "en": "cron",
       "ru": "cron",
-      "uk": "cron"
+      "uk": "cron",
+      "pl": "cron"
     },
     "definition": {
       "en": "The scheduler that runs commands at set times (backups at 03:00). Its runs appear in syslog as CRON.",
       "ru": "Планировщик, запускающий команды по расписанию (бэкап в 03:00). Его запуски видны в syslog как CRON.",
-      "uk": "Планувальник, що запускає команди за розкладом (бекап о 03:00). Його запуски видно в syslog як CRON."
+      "uk": "Планувальник, що запускає команди за розкладом (бекап о 03:00). Його запуски видно в syslog як CRON.",
+      "pl": "Harmonogram uruchamiający polecenia o ustalonych porach (kopie zapasowe o 03:00). Jego uruchomienia widać w syslogu jako CRON."
     },
     "match": {
       "en": [
@@ -1489,12 +1607,14 @@
     "term": {
       "en": "Variable",
       "ru": "Переменная",
-      "uk": "Змінна"
+      "uk": "Змінна",
+      "pl": "Zmienna"
     },
     "definition": {
       "en": "A named value: NAME=value, read as $NAME. export makes it visible to started programs.",
       "ru": "Именованное значение: NAME=значение, читается как $NAME. export делает её видимой запускаемым программам.",
-      "uk": "Іменоване значення: NAME=значення, читається як $NAME. export робить її видимою для запущених програм."
+      "uk": "Іменоване значення: NAME=значення, читається як $NAME. export робить її видимою для запущених програм.",
+      "pl": "Nazwana wartość: NAZWA=wartość, odczyt przez $NAZWA. export udostępnia ją uruchamianym programom."
     },
     "match": {
       "en": [
@@ -1515,12 +1635,14 @@
     "term": {
       "en": "Environment variable",
       "ru": "Переменная окружения",
-      "uk": "Змінна оточення"
+      "uk": "Змінна оточення",
+      "pl": "Zmienna środowiska"
     },
     "definition": {
       "en": "An exported variable inherited by programs: HOME, USER, PATH, LANG.",
       "ru": "Экспортированная переменная, которую наследуют программы: HOME, USER, PATH, LANG.",
-      "uk": "Експортована змінна, яку успадковують програми: HOME, USER, PATH, LANG."
+      "uk": "Експортована змінна, яку успадковують програми: HOME, USER, PATH, LANG.",
+      "pl": "Wyeksportowana zmienna dziedziczona przez programy: HOME, USER, PATH, LANG."
     },
     "match": {
       "en": [
@@ -1541,12 +1663,14 @@
     "term": {
       "en": "$PATH",
       "ru": "$PATH",
-      "uk": "$PATH"
+      "uk": "$PATH",
+      "pl": "$PATH"
     },
     "definition": {
       "en": "The list of directories where the shell looks for programs. That is why a script in the current directory needs ./",
       "ru": "Список директорий, где оболочка ищет программы. Поэтому скрипту в текущей директории нужен ./",
-      "uk": "Список директорій, де оболонка шукає програми. Тому скрипту в поточній директорії потрібен ./"
+      "uk": "Список директорій, де оболонка шукає програми. Тому скрипту в поточній директорії потрібен ./",
+      "pl": "Lista katalogów, w których powłoka szuka programów. Dlatego skrypt z bieżącego katalogu wymaga ./"
     },
     "match": {
       "en": [
@@ -1562,12 +1686,14 @@
     "term": {
       "en": "Alias",
       "ru": "Алиас",
-      "uk": "Аліас"
+      "uk": "Аліас",
+      "pl": "Alias"
     },
     "definition": {
       "en": "A short name for a longer command: alias ll='ls -alF'. Put it in ~/.bashrc to keep it.",
       "ru": "Короткое имя для длинной команды: alias ll='ls -alF'. Чтобы сохранить — в ~/.bashrc.",
-      "uk": "Коротка назва для довгої команди: alias ll='ls -alF'. Щоб зберегти — у ~/.bashrc."
+      "uk": "Коротка назва для довгої команди: alias ll='ls -alF'. Щоб зберегти — у ~/.bashrc.",
+      "pl": "Krótka nazwa dłuższego polecenia: alias ll='ls -alF'. Dopisz go do ~/.bashrc, by go zachować."
     },
     "match": {
       "en": [
@@ -1588,12 +1714,14 @@
     "term": {
       "en": "Script",
       "ru": "Скрипт",
-      "uk": "Скрипт"
+      "uk": "Скрипт",
+      "pl": "Skrypt"
     },
     "definition": {
       "en": "A text file with commands, run line by line. Starts with #!/bin/bash, needs chmod +x.",
       "ru": "Текстовый файл с командами, выполняемыми построчно. Начинается с #!/bin/bash, нужен chmod +x.",
-      "uk": "Текстовий файл із командами, що виконуються рядок за рядком. Починається з #!/bin/bash, потрібен chmod +x."
+      "uk": "Текстовий файл із командами, що виконуються рядок за рядком. Починається з #!/bin/bash, потрібен chmod +x.",
+      "pl": "Plik tekstowy z poleceniami wykonywanymi wiersz po wierszu. Zaczyna się od #!/bin/bash, wymaga chmod +x."
     },
     "match": {
       "en": [
@@ -1614,12 +1742,14 @@
     "term": {
       "en": "Shebang #!",
       "ru": "Шебанг #!",
-      "uk": "Шебанг #!"
+      "uk": "Шебанг #!",
+      "pl": "Shebang #!"
     },
     "definition": {
       "en": "The first line of a script that names its interpreter: #!/bin/bash.",
       "ru": "Первая строка скрипта, называющая интерпретатор: #!/bin/bash.",
-      "uk": "Перший рядок скрипта, що називає інтерпретатор: #!/bin/bash."
+      "uk": "Перший рядок скрипта, що називає інтерпретатор: #!/bin/bash.",
+      "pl": "Pierwszy wiersz skryptu wskazujący jego interpreter: #!/bin/bash."
     },
     "match": {
       "en": [
@@ -1639,12 +1769,14 @@
     "term": {
       "en": "~/.bashrc",
       "ru": "~/.bashrc",
-      "uk": "~/.bashrc"
+      "uk": "~/.bashrc",
+      "pl": "~/.bashrc"
     },
     "definition": {
       "en": "Your shell settings file, read at every start: aliases, variables, prompt. Apply changes with source ~/.bashrc.",
       "ru": "Файл настроек оболочки, читается при каждом запуске: алиасы, переменные, приглашение. Применить изменения: source ~/.bashrc.",
-      "uk": "Файл налаштувань оболонки, читається під час кожного запуску: аліаси, змінні, запрошення. Застосувати зміни: source ~/.bashrc."
+      "uk": "Файл налаштувань оболонки, читається під час кожного запуску: аліаси, змінні, запрошення. Застосувати зміни: source ~/.bashrc.",
+      "pl": "Plik ustawień Twojej powłoki, czytany przy każdym starcie: aliasy, zmienne, prompt. Zastosuj zmiany przez source ~/.bashrc."
     },
     "match": {
       "en": [
@@ -1661,12 +1793,14 @@
     "term": {
       "en": "Command history",
       "ru": "История команд",
-      "uk": "Історія команд"
+      "uk": "Історія команд",
+      "pl": "Historia poleceń"
     },
     "definition": {
       "en": "Your past commands: ↑/↓ to walk, history to list, !! repeats the last one.",
       "ru": "Ваши прошлые команды: ↑/↓ листают, history показывает список, !! повторяет последнюю.",
-      "uk": "Ваші минулі команди: ↑/↓ гортають, history показує список, !! повторює останню."
+      "uk": "Ваші минулі команди: ↑/↓ гортають, history показує список, !! повторює останню.",
+      "pl": "Twoje dawne polecenia: ↑/↓ do przewijania, history do listy, !! powtarza ostatnie."
     },
     "match": {
       "en": [
@@ -1687,12 +1821,14 @@
     "term": {
       "en": "Command substitution $( )",
       "ru": "Подстановка команды $( )",
-      "uk": "Підстановка команди $( )"
+      "uk": "Підстановка команди $( )",
+      "pl": "Podstawianie polecenia $( )"
     },
     "definition": {
       "en": "Puts the output of a command into another command: echo \"today is $(date +%F)\".",
       "ru": "Вставляет вывод одной команды в другую: echo \"today is $(date +%F)\".",
-      "uk": "Вставляє вивід однієї команди в іншу: echo \"today is $(date +%F)\"."
+      "uk": "Вставляє вивід однієї команди в іншу: echo \"today is $(date +%F)\".",
+      "pl": "Wstawia wyjście polecenia do innego polecenia: echo \"dziś jest $(date +%F)\"."
     },
     "match": {
       "en": [
@@ -1712,12 +1848,14 @@
     "term": {
       "en": "IP address",
       "ru": "IP-адрес",
-      "uk": "IP-адреса"
+      "uk": "IP-адреса",
+      "pl": "Adres IP"
     },
     "definition": {
       "en": "The address of a machine in a network, e.g. 10.0.2.15. IPv4 = four numbers 0–255.",
       "ru": "Адрес машины в сети, например 10.0.2.15. IPv4 — четыре числа от 0 до 255.",
-      "uk": "Адреса машини в мережі, наприклад 10.0.2.15. IPv4 — чотири числа від 0 до 255."
+      "uk": "Адреса машини в мережі, наприклад 10.0.2.15. IPv4 — чотири числа від 0 до 255.",
+      "pl": "Adres maszyny w sieci, np. 10.0.2.15. IPv4 = cztery liczby 0–255."
     },
     "match": {
       "en": [
@@ -1740,12 +1878,14 @@
     "term": {
       "en": "Subnet / CIDR",
       "ru": "Подсеть / CIDR",
-      "uk": "Підмережа / CIDR"
+      "uk": "Підмережа / CIDR",
+      "pl": "Podsieć / CIDR"
     },
     "definition": {
       "en": "A range of addresses written as 10.0.2.0/24: the first 24 bits are the network, the rest are hosts (256 addresses).",
       "ru": "Диапазон адресов в виде 10.0.2.0/24: первые 24 бита — сеть, остальные — хосты (256 адресов).",
-      "uk": "Діапазон адрес у вигляді 10.0.2.0/24: перші 24 біти — мережа, решта — хости (256 адрес)."
+      "uk": "Діапазон адрес у вигляді 10.0.2.0/24: перші 24 біти — мережа, решта — хости (256 адрес).",
+      "pl": "Zakres adresów zapisany jako 10.0.2.0/24: pierwsze 24 bity to sieć, reszta to hosty (256 adresów)."
     },
     "match": {
       "en": [
@@ -1766,12 +1906,14 @@
     "term": {
       "en": "Private address",
       "ru": "Частный (приватный) адрес",
-      "uk": "Приватна адреса"
+      "uk": "Приватна адреса",
+      "pl": "Adres prywatny"
     },
     "definition": {
       "en": "Addresses for internal networks, not routed on the internet: 10.x.x.x, 172.16–31.x.x, 192.168.x.x.",
       "ru": "Адреса для внутренних сетей, не маршрутизируются в интернете: 10.x.x.x, 172.16–31.x.x, 192.168.x.x.",
-      "uk": "Адреси для внутрішніх мереж, не маршрутизуються в інтернеті: 10.x.x.x, 172.16–31.x.x, 192.168.x.x."
+      "uk": "Адреси для внутрішніх мереж, не маршрутизуються в інтернеті: 10.x.x.x, 172.16–31.x.x, 192.168.x.x.",
+      "pl": "Adresy sieci wewnętrznych, nietrasowane w internecie: 10.x.x.x, 172.16–31.x.x, 192.168.x.x."
     },
     "match": {
       "en": [
@@ -1791,12 +1933,14 @@
     "term": {
       "en": "Gateway",
       "ru": "Шлюз",
-      "uk": "Шлюз"
+      "uk": "Шлюз",
+      "pl": "Brama"
     },
     "definition": {
       "en": "The router that leads out of your network. ip r shows it as \"default via ...\".",
       "ru": "Маршрутизатор, ведущий из вашей сети наружу. ip r показывает его как «default via ...».",
-      "uk": "Маршрутизатор, що веде з вашої мережі назовні. ip r показує його як «default via ...»."
+      "uk": "Маршрутизатор, що веде з вашої мережі назовні. ip r показує його як «default via ...».",
+      "pl": "Router prowadzący poza Twoją sieć. ip r pokazuje go jako „default via ...”."
     },
     "match": {
       "en": [
@@ -1817,12 +1961,14 @@
     "term": {
       "en": "Network interface",
       "ru": "Сетевой интерфейс",
-      "uk": "Мережевий інтерфейс"
+      "uk": "Мережевий інтерфейс",
+      "pl": "Interfejs sieciowy"
     },
     "definition": {
       "en": "A network card (real or virtual): lo, eth0, ens3. ip a lists them with addresses and state UP/DOWN.",
       "ru": "Сетевая карта (настоящая или виртуальная): lo, eth0, ens3. ip a показывает их адреса и состояние UP/DOWN.",
-      "uk": "Мережева карта (справжня чи віртуальна): lo, eth0, ens3. ip a показує їхні адреси та стан UP/DOWN."
+      "uk": "Мережева карта (справжня чи віртуальна): lo, eth0, ens3. ip a показує їхні адреси та стан UP/DOWN.",
+      "pl": "Karta sieciowa (prawdziwa lub wirtualna): lo, eth0, ens3. ip a wypisuje je z adresami i stanem UP/DOWN."
     },
     "match": {
       "en": [
@@ -1843,12 +1989,14 @@
     "term": {
       "en": "localhost (127.0.0.1)",
       "ru": "localhost (127.0.0.1)",
-      "uk": "localhost (127.0.0.1)"
+      "uk": "localhost (127.0.0.1)",
+      "pl": "localhost (127.0.0.1)"
     },
     "definition": {
       "en": "The machine itself. A service bound to 127.0.0.1 is reachable only from the same machine.",
       "ru": "Сама машина. Сервис, привязанный к 127.0.0.1, доступен только с этой же машины.",
-      "uk": "Сама машина. Сервіс, прив’язаний до 127.0.0.1, доступний лише з цієї ж машини."
+      "uk": "Сама машина. Сервіс, прив’язаний до 127.0.0.1, доступний лише з цієї ж машини.",
+      "pl": "Sama maszyna. Usługa przypięta do 127.0.0.1 jest dostępna tylko z tej samej maszyny."
     },
     "match": {
       "en": [
@@ -1865,12 +2013,14 @@
     "term": {
       "en": "Port",
       "ru": "Порт",
-      "uk": "Порт"
+      "uk": "Порт",
+      "pl": "Port"
     },
     "definition": {
       "en": "A number 1–65535 that selects a service on a machine: 22 ssh, 80 http, 443 https, 5432 postgresql.",
       "ru": "Число 1–65535, выбирающее сервис на машине: 22 ssh, 80 http, 443 https, 5432 postgresql.",
-      "uk": "Число 1–65535, що вибирає сервіс на машині: 22 ssh, 80 http, 443 https, 5432 postgresql."
+      "uk": "Число 1–65535, що вибирає сервіс на машині: 22 ssh, 80 http, 443 https, 5432 postgresql.",
+      "pl": "Liczba 1–65535 wybierająca usługę na maszynie: 22 ssh, 80 http, 443 https, 5432 postgresql."
     },
     "match": {
       "en": [
@@ -1891,12 +2041,14 @@
     "term": {
       "en": "TCP / UDP",
       "ru": "TCP / UDP",
-      "uk": "TCP / UDP"
+      "uk": "TCP / UDP",
+      "pl": "TCP / UDP"
     },
     "definition": {
       "en": "TCP: reliable connection with delivery checks (web, ssh, databases). UDP: fast messages without guarantees (DNS, video, VoIP).",
       "ru": "TCP — надёжное соединение с проверкой доставки (веб, ssh, базы). UDP — быстрые сообщения без гарантий (DNS, видео, VoIP).",
-      "uk": "TCP — надійне з’єднання з перевіркою доставки (веб, ssh, бази). UDP — швидкі повідомлення без гарантій (DNS, відео, VoIP)."
+      "uk": "TCP — надійне з’єднання з перевіркою доставки (веб, ssh, бази). UDP — швидкі повідомлення без гарантій (DNS, відео, VoIP).",
+      "pl": "TCP: niezawodne połączenie z potwierdzaniem dostarczenia (WWW, ssh, bazy danych). UDP: szybkie wiadomości bez gwarancji (DNS, wideo, VoIP)."
     },
     "match": {
       "en": [
@@ -1913,12 +2065,14 @@
     "term": {
       "en": "ICMP / ping",
       "ru": "ICMP / ping",
-      "uk": "ICMP / ping"
+      "uk": "ICMP / ping",
+      "pl": "ICMP / ping"
     },
     "definition": {
       "en": "Service messages of IP. ping sends ICMP echo and measures the round trip time (RTT).",
       "ru": "Служебные сообщения IP. ping отправляет ICMP echo и меряет время туда-обратно (RTT).",
-      "uk": "Службові повідомлення IP. ping надсилає ICMP echo й вимірює час туди-назад (RTT)."
+      "uk": "Службові повідомлення IP. ping надсилає ICMP echo й вимірює час туди-назад (RTT).",
+      "pl": "Komunikaty serwisowe IP. ping wysyła ICMP echo i mierzy czas podróży w obie strony (RTT)."
     },
     "match": {
       "en": [
@@ -1935,12 +2089,14 @@
     "term": {
       "en": "Latency (RTT)",
       "ru": "Задержка (RTT)",
-      "uk": "Затримка (RTT)"
+      "uk": "Затримка (RTT)",
+      "pl": "Opóźnienie (RTT)"
     },
     "definition": {
       "en": "Time for a packet to go and come back, in ms. In a LAN < 1 ms, across Europe 20–50 ms.",
       "ru": "Время, за которое пакет идёт туда и обратно, в мс. В локальной сети < 1 мс, по Европе 20–50 мс.",
-      "uk": "Час, за який пакет іде туди й назад, у мс. У локальній мережі < 1 мс, Європою 20–50 мс."
+      "uk": "Час, за який пакет іде туди й назад, у мс. У локальній мережі < 1 мс, Європою 20–50 мс.",
+      "pl": "Czas, w jakim pakiet dociera i wraca, w ms. W sieci lokalnej < 1 ms, przez Europę 20–50 ms."
     },
     "match": {
       "en": [
@@ -1962,12 +2118,14 @@
     "term": {
       "en": "Packet loss",
       "ru": "Потеря пакетов",
-      "uk": "Втрата пакетів"
+      "uk": "Втрата пакетів",
+      "pl": "Utrata pakietów"
     },
     "definition": {
       "en": "Percentage of packets that never came back. Anything above 1% hurts voice, video and APIs.",
       "ru": "Доля пакетов, которые не вернулись. Больше 1% уже бьёт по голосу, видео и API.",
-      "uk": "Частка пакетів, що не повернулися. Понад 1% уже б’є по голосу, відео та API."
+      "uk": "Частка пакетів, що не повернулися. Понад 1% уже б’є по голосу, відео та API.",
+      "pl": "Odsetek pakietów, które nigdy nie wróciły. Wszystko powyżej 1% szkodzi głosowi, wideo i API."
     },
     "match": {
       "en": [
@@ -1988,12 +2146,14 @@
     "term": {
       "en": "Hop",
       "ru": "Хоп (переход)",
-      "uk": "Хоп (перехід)"
+      "uk": "Хоп (перехід)",
+      "pl": "Przeskok (hop)"
     },
     "definition": {
       "en": "One router on the way to a host. traceroute lists the hops; * * * means a hop did not answer.",
       "ru": "Один маршрутизатор на пути к хосту. traceroute перечисляет хопы; * * * — хоп не ответил.",
-      "uk": "Один маршрутизатор на шляху до хоста. traceroute перелічує хопи; * * * — хоп не відповів."
+      "uk": "Один маршрутизатор на шляху до хоста. traceroute перелічує хопи; * * * — хоп не відповів.",
+      "pl": "Jeden router na drodze do hosta. traceroute wypisuje przeskoki; * * * oznacza, że przeskok nie odpowiedział."
     },
     "match": {
       "en": [
@@ -2014,12 +2174,14 @@
     "term": {
       "en": "DNS",
       "ru": "DNS",
-      "uk": "DNS"
+      "uk": "DNS",
+      "pl": "DNS"
     },
     "definition": {
       "en": "The internet phone book: turns names (example.com) into IP addresses. Query with dig or nslookup.",
       "ru": "Телефонная книга интернета: превращает имена (example.com) в IP-адреса. Запросы — dig или nslookup.",
-      "uk": "Телефонна книга інтернету: перетворює імена (example.com) на IP-адреси. Запити — dig або nslookup."
+      "uk": "Телефонна книга інтернету: перетворює імена (example.com) на IP-адреси. Запити — dig або nslookup.",
+      "pl": "Książka telefoniczna internetu: zamienia nazwy (example.com) na adresy IP. Odpytuj przez dig lub nslookup."
     },
     "match": {
       "en": [
@@ -2036,12 +2198,14 @@
     "term": {
       "en": "A record",
       "ru": "A-запись",
-      "uk": "A-запис"
+      "uk": "A-запис",
+      "pl": "Rekord A"
     },
     "definition": {
       "en": "A DNS record that maps a name to an IPv4 address. AAAA is the same for IPv6.",
       "ru": "Запись DNS, связывающая имя с IPv4-адресом. AAAA — то же для IPv6.",
-      "uk": "Запис DNS, що зв’язує ім’я з IPv4-адресою. AAAA — те саме для IPv6."
+      "uk": "Запис DNS, що зв’язує ім’я з IPv4-адресою. AAAA — те саме для IPv6.",
+      "pl": "Rekord DNS łączący nazwę z adresem IPv4. AAAA to samo dla IPv6."
     },
     "match": {
       "en": [
@@ -2061,12 +2225,14 @@
     "term": {
       "en": "NXDOMAIN",
       "ru": "NXDOMAIN",
-      "uk": "NXDOMAIN"
+      "uk": "NXDOMAIN",
+      "pl": "NXDOMAIN"
     },
     "definition": {
       "en": "DNS answer \"no such domain\": the name does not exist (or a typo).",
       "ru": "Ответ DNS «нет такого домена»: имя не существует (или опечатка).",
-      "uk": "Відповідь DNS «немає такого домену»: ім’я не існує (або друкарська помилка)."
+      "uk": "Відповідь DNS «немає такого домену»: ім’я не існує (або друкарська помилка).",
+      "pl": "Odpowiedź DNS „nie ma takiej domeny”: nazwa nie istnieje (albo literówka)."
     },
     "match": {
       "en": [
@@ -2082,12 +2248,14 @@
     "term": {
       "en": "/etc/hosts",
       "ru": "/etc/hosts",
-      "uk": "/etc/hosts"
+      "uk": "/etc/hosts",
+      "pl": "/etc/hosts"
     },
     "definition": {
       "en": "A local list name → IP checked before DNS by ping, curl and most programs (but not by dig).",
       "ru": "Локальный список имя → IP, который ping, curl и большинство программ проверяют раньше DNS (а dig — нет).",
-      "uk": "Локальний список ім’я → IP, який ping, curl і більшість програм перевіряють раніше за DNS (а dig — ні)."
+      "uk": "Локальний список ім’я → IP, який ping, curl і більшість програм перевіряють раніше за DNS (а dig — ні).",
+      "pl": "Lokalna lista nazwa → IP sprawdzana przed DNS przez ping, curl i większość programów (ale nie przez dig)."
     },
     "match": {
       "en": [
@@ -2103,12 +2271,14 @@
     "term": {
       "en": "HTTP / HTTPS",
       "ru": "HTTP / HTTPS",
-      "uk": "HTTP / HTTPS"
+      "uk": "HTTP / HTTPS",
+      "pl": "HTTP / HTTPS"
     },
     "definition": {
       "en": "The protocol of the web. A client sends a request (GET /path), the server answers with a status code, headers and a body. HTTPS = HTTP over TLS encryption, port 443.",
       "ru": "Протокол веба. Клиент шлёт запрос (GET /путь), сервер отвечает кодом статуса, заголовками и телом. HTTPS — HTTP с шифрованием TLS, порт 443.",
-      "uk": "Протокол вебу. Клієнт надсилає запит (GET /шлях), сервер відповідає кодом статусу, заголовками й тілом. HTTPS — HTTP із шифруванням TLS, порт 443."
+      "uk": "Протокол вебу. Клієнт надсилає запит (GET /шлях), сервер відповідає кодом статусу, заголовками й тілом. HTTPS — HTTP із шифруванням TLS, порт 443.",
+      "pl": "Protokół sieci WWW. Klient wysyła żądanie (GET /ścieżka), serwer odpowiada kodem statusu, nagłówkami i treścią. HTTPS = HTTP przez szyfrowanie TLS, port 443."
     },
     "match": {
       "en": [
@@ -2126,12 +2296,14 @@
     "term": {
       "en": "HTTP status code",
       "ru": "Код ответа HTTP",
-      "uk": "Код відповіді HTTP"
+      "uk": "Код відповіді HTTP",
+      "pl": "Kod statusu HTTP"
     },
     "definition": {
       "en": "2xx success (200 OK), 3xx redirect (301), 4xx client error (404 Not Found, 403), 5xx server error (500, 502 Bad Gateway, 503, 504).",
       "ru": "2xx — успех (200 OK), 3xx — редирект (301), 4xx — ошибка клиента (404 Not Found, 403), 5xx — ошибка сервера (500, 502 Bad Gateway, 503, 504).",
-      "uk": "2xx — успіх (200 OK), 3xx — редирект (301), 4xx — помилка клієнта (404 Not Found, 403), 5xx — помилка сервера (500, 502 Bad Gateway, 503, 504)."
+      "uk": "2xx — успіх (200 OK), 3xx — редирект (301), 4xx — помилка клієнта (404 Not Found, 403), 5xx — помилка сервера (500, 502 Bad Gateway, 503, 504).",
+      "pl": "2xx sukces (200 OK), 3xx przekierowanie (301), 4xx błąd klienta (404 Not Found, 403), 5xx błąd serwera (500, 502 Bad Gateway, 503, 504)."
     },
     "match": {
       "en": [
@@ -2155,12 +2327,14 @@
     "term": {
       "en": "502 Bad Gateway",
       "ru": "502 Bad Gateway",
-      "uk": "502 Bad Gateway"
+      "uk": "502 Bad Gateway",
+      "pl": "502 Bad Gateway"
     },
     "definition": {
       "en": "The proxy (nginx) is alive, but the application behind it does not answer — check the backend service.",
       "ru": "Прокси (nginx) жив, но приложение за ним не отвечает — проверяйте бэкенд-сервис.",
-      "uk": "Проксі (nginx) живий, але застосунок за ним не відповідає — перевіряйте бекенд-сервіс."
+      "uk": "Проксі (nginx) живий, але застосунок за ним не відповідає — перевіряйте бекенд-сервіс.",
+      "pl": "Proxy (nginx) żyje, ale aplikacja za nim nie odpowiada — sprawdź usługę backendu."
     },
     "match": {
       "en": [
@@ -2177,12 +2351,14 @@
     "term": {
       "en": "Reverse proxy",
       "ru": "Обратный прокси",
-      "uk": "Зворотний проксі"
+      "uk": "Зворотний проксі",
+      "pl": "Reverse proxy"
     },
     "definition": {
       "en": "A server (nginx) that receives client requests and passes them to applications behind it.",
       "ru": "Сервер (nginx), принимающий запросы клиентов и передающий их приложениям за собой.",
-      "uk": "Сервер (nginx), що приймає запити клієнтів і передає їх застосункам за собою."
+      "uk": "Сервер (nginx), що приймає запити клієнтів і передає їх застосункам за собою.",
+      "pl": "Serwer (nginx), który przyjmuje żądania klientów i przekazuje je aplikacjom stojącym za nim."
     },
     "match": {
       "en": [
@@ -2202,12 +2378,14 @@
     "term": {
       "en": "Firewall",
       "ru": "Файрвол",
-      "uk": "Файрвол"
+      "uk": "Файрвол",
+      "pl": "Zapora (firewall)"
     },
     "definition": {
       "en": "A filter that allows or drops network traffic. Dropped packets look like timeouts; rejected ones like \"connection refused\".",
       "ru": "Фильтр, пропускающий или отбрасывающий трафик. Отброшенные пакеты выглядят как таймаут, отклонённые — как «connection refused».",
-      "uk": "Фільтр, що пропускає або відкидає трафік. Відкинуті пакети виглядають як таймаут, відхилені — як «connection refused»."
+      "uk": "Фільтр, що пропускає або відкидає трафік. Відкинуті пакети виглядають як таймаут, відхилені — як «connection refused».",
+      "pl": "Filtr przepuszczający lub odrzucający ruch sieciowy. Odrzucone po cichu pakiety wyglądają jak timeout; odrzucone z odpowiedzią — jak „connection refused”."
     },
     "match": {
       "en": [
@@ -2229,12 +2407,14 @@
     "term": {
       "en": "Connection refused",
       "ru": "Connection refused",
-      "uk": "Connection refused"
+      "uk": "Connection refused",
+      "pl": "Connection refused"
     },
     "definition": {
       "en": "The host is reachable but nothing listens on that port (service stopped or wrong port).",
       "ru": "Хост доступен, но на этом порту никто не слушает (сервис остановлен или порт неверный).",
-      "uk": "Хост доступний, але на цьому порту ніхто не слухає (сервіс зупинено або порт хибний)."
+      "uk": "Хост доступний, але на цьому порту ніхто не слухає (сервіс зупинено або порт хибний).",
+      "pl": "Host jest osiągalny, ale nic nie nasłuchuje na tym porcie (usługa zatrzymana lub zły port)."
     },
     "match": {
       "en": [
@@ -2250,12 +2430,14 @@
     "term": {
       "en": "Timeout",
       "ru": "Таймаут",
-      "uk": "Таймаут"
+      "uk": "Таймаут",
+      "pl": "Przekroczenie czasu (timeout)"
     },
     "definition": {
       "en": "No answer at all within the waiting time: the host is down, unreachable or a firewall drops packets.",
       "ru": "Ответа нет вовсе за время ожидания: хост выключен, недоступен или пакеты режет файрвол.",
-      "uk": "Відповіді немає взагалі за час очікування: хост вимкнено, недоступний або пакети ріже файрвол."
+      "uk": "Відповіді немає взагалі за час очікування: хост вимкнено, недоступний або пакети ріже файрвол.",
+      "pl": "Brak jakiejkolwiek odpowiedzi w czasie oczekiwania: host leży, jest nieosiągalny albo zapora odrzuca pakiety."
     },
     "match": {
       "en": [
@@ -2276,12 +2458,14 @@
     "term": {
       "en": "SSH",
       "ru": "SSH",
-      "uk": "SSH"
+      "uk": "SSH",
+      "pl": "SSH"
     },
     "definition": {
       "en": "Secure shell: encrypted remote login to servers, port 22: ssh user@host.",
       "ru": "Защищённая оболочка: зашифрованный удалённый вход на сервер, порт 22: ssh user@host.",
-      "uk": "Захищена оболонка: зашифрований віддалений вхід на сервер, порт 22: ssh user@host."
+      "uk": "Захищена оболонка: зашифрований віддалений вхід на сервер, порт 22: ssh user@host.",
+      "pl": "Secure shell: szyfrowane zdalne logowanie na serwery, port 22: ssh użytkownik@host."
     },
     "match": {
       "en": [
@@ -2297,12 +2481,14 @@
     "term": {
       "en": "NOC",
       "ru": "NOC (центр управления сетью)",
-      "uk": "NOC (центр керування мережею)"
+      "uk": "NOC (центр керування мережею)",
+      "pl": "NOC"
     },
     "definition": {
       "en": "Network Operations Center: the team that watches monitoring 24/7, reacts to alerts and coordinates incidents.",
       "ru": "Network Operations Center: команда, которая 24/7 следит за мониторингом, реагирует на алерты и координирует инциденты.",
-      "uk": "Network Operations Center: команда, що 24/7 стежить за моніторингом, реагує на алерти й координує інциденти."
+      "uk": "Network Operations Center: команда, що 24/7 стежить за моніторингом, реагує на алерти й координує інциденти.",
+      "pl": "Network Operations Center: zespół, który 24/7 obserwuje monitoring, reaguje na alerty i koordynuje incydenty."
     },
     "match": {
       "en": [
@@ -2318,12 +2504,14 @@
     "term": {
       "en": "Monitoring",
       "ru": "Мониторинг",
-      "uk": "Моніторинг"
+      "uk": "Моніторинг",
+      "pl": "Monitoring"
     },
     "definition": {
       "en": "Continuous collection of metrics and checks (CPU, disk, HTTP status) with alerts when something goes wrong.",
       "ru": "Постоянный сбор метрик и проверок (CPU, диск, HTTP-статус) с алертами, когда что-то идёт не так.",
-      "uk": "Постійний збір метрик і перевірок (CPU, диск, HTTP-статус) з алертами, коли щось іде не так."
+      "uk": "Постійний збір метрик і перевірок (CPU, диск, HTTP-статус) з алертами, коли щось іде не так.",
+      "pl": "Ciągłe zbieranie metryk i sprawdzeń (CPU, dysk, status HTTP) z alertami, gdy coś idzie nie tak."
     },
     "match": {
       "en": [
@@ -2343,12 +2531,14 @@
     "term": {
       "en": "Metric",
       "ru": "Метрика",
-      "uk": "Метрика"
+      "uk": "Метрика",
+      "pl": "Metryka"
     },
     "definition": {
       "en": "A number measured over time: CPU %, free disk, requests per second, error rate.",
       "ru": "Число, измеряемое во времени: CPU %, свободный диск, запросы в секунду, доля ошибок.",
-      "uk": "Число, що вимірюється в часі: CPU %, вільний диск, запити за секунду, частка помилок."
+      "uk": "Число, що вимірюється в часі: CPU %, вільний диск, запити за секунду, частка помилок.",
+      "pl": "Liczba mierzona w czasie: CPU %, wolne miejsce na dysku, żądania na sekundę, odsetek błędów."
     },
     "match": {
       "en": [
@@ -2368,12 +2558,14 @@
     "term": {
       "en": "Alert",
       "ru": "Алерт (оповещение)",
-      "uk": "Алерт (сповіщення)"
+      "uk": "Алерт (сповіщення)",
+      "pl": "Alert"
     },
     "definition": {
       "en": "A notification that a metric crossed a threshold: \"disk / > 90% on web01\".",
       "ru": "Уведомление, что метрика пересекла порог: «disk / > 90% on web01».",
-      "uk": "Сповіщення, що метрика перетнула поріг: «disk / > 90% on web01»."
+      "uk": "Сповіщення, що метрика перетнула поріг: «disk / > 90% on web01».",
+      "pl": "Powiadomienie, że metryka przekroczyła próg: „dysk / > 90% na web01”."
     },
     "match": {
       "en": [
@@ -2393,12 +2585,14 @@
     "term": {
       "en": "Threshold",
       "ru": "Порог",
-      "uk": "Поріг"
+      "uk": "Поріг",
+      "pl": "Próg"
     },
     "definition": {
       "en": "The value at which an alert fires: warning at 80%, critical at 90%.",
       "ru": "Значение, при котором срабатывает алерт: warning на 80%, critical на 90%.",
-      "uk": "Значення, за якого спрацьовує алерт: warning на 80%, critical на 90%."
+      "uk": "Значення, за якого спрацьовує алерт: warning на 80%, critical на 90%.",
+      "pl": "Wartość, przy której alert się odpala: ostrzeżenie przy 80%, krytyczny przy 90%."
     },
     "match": {
       "en": [
@@ -2419,12 +2613,14 @@
     "term": {
       "en": "False positive",
       "ru": "Ложное срабатывание",
-      "uk": "Хибне спрацювання"
+      "uk": "Хибне спрацювання",
+      "pl": "Fałszywy alarm"
     },
     "definition": {
       "en": "An alert without a real problem. Too many of them cause alert fatigue — people start ignoring alerts.",
       "ru": "Алерт без реальной проблемы. Если их много, наступает «усталость от алертов» — их начинают игнорировать.",
-      "uk": "Алерт без реальної проблеми. Якщо їх багато, настає «втома від алертів» — їх починають ігнорувати."
+      "uk": "Алерт без реальної проблеми. Якщо їх багато, настає «втома від алертів» — їх починають ігнорувати.",
+      "pl": "Alert bez prawdziwego problemu. Zbyt wiele takich powoduje zmęczenie alertami — ludzie zaczynają je ignorować."
     },
     "match": {
       "en": [
@@ -2444,12 +2640,14 @@
     "term": {
       "en": "Incident",
       "ru": "Инцидент",
-      "uk": "Інцидент"
+      "uk": "Інцидент",
+      "pl": "Incydent"
     },
     "definition": {
       "en": "An unplanned interruption or degradation of a service that users notice or will notice soon.",
       "ru": "Незапланированный сбой или деградация сервиса, которую замечают (или скоро заметят) пользователи.",
-      "uk": "Незапланований збій або деградація сервісу, яку помічають (або скоро помітять) користувачі."
+      "uk": "Незапланований збій або деградація сервісу, яку помічають (або скоро помітять) користувачі.",
+      "pl": "Nieplanowana przerwa lub pogorszenie działania usługi, które użytkownicy zauważają albo zaraz zauważą."
     },
     "match": {
       "en": [
@@ -2469,12 +2667,14 @@
     "term": {
       "en": "Severity (P1–P4)",
       "ru": "Приоритет (P1–P4)",
-      "uk": "Пріоритет (P1–P4)"
+      "uk": "Пріоритет (P1–P4)",
+      "pl": "Priorytet (P1–P4)"
     },
     "definition": {
       "en": "How bad an incident is. P1: everything down for everyone; P2: major feature broken; P3: minor, workaround exists; P4: cosmetic.",
       "ru": "Насколько всё плохо. P1 — всё лежит у всех; P2 — сломана важная функция; P3 — мелочь, есть обходной путь; P4 — косметика.",
-      "uk": "Наскільки все погано. P1 — усе лежить у всіх; P2 — зламано важливу функцію; P3 — дрібниця, є обхідний шлях; P4 — косметика."
+      "uk": "Наскільки все погано. P1 — усе лежить у всіх; P2 — зламано важливу функцію; P3 — дрібниця, є обхідний шлях; P4 — косметика.",
+      "pl": "Jak poważny jest incydent. P1: nic nie działa u nikogo; P2: zepsuta ważna funkcja; P3: drobne, jest obejście; P4: kosmetyka."
     },
     "match": {
       "en": [
@@ -2495,12 +2695,14 @@
     "term": {
       "en": "Escalation",
       "ru": "Эскалация",
-      "uk": "Ескалація"
+      "uk": "Ескалація",
+      "pl": "Eskalacja"
     },
     "definition": {
       "en": "Handing an incident to a more experienced or specialised team (L1 → L2 → L3) or informing management.",
       "ru": "Передача инцидента более опытной или профильной команде (L1 → L2 → L3) или информирование руководства.",
-      "uk": "Передача інциденту досвідченішій чи профільній команді (L1 → L2 → L3) або інформування керівництва."
+      "uk": "Передача інциденту досвідченішій чи профільній команді (L1 → L2 → L3) або інформування керівництва.",
+      "pl": "Przekazanie incydentu bardziej doświadczonemu lub wyspecjalizowanemu zespołowi (L1 → L2 → L3) albo poinformowanie kierownictwa."
     },
     "match": {
       "en": [
@@ -2520,12 +2722,14 @@
     "term": {
       "en": "Runbook",
       "ru": "Ранбук (инструкция)",
-      "uk": "Ранбук (інструкція)"
+      "uk": "Ранбук (інструкція)",
+      "pl": "Runbook"
     },
     "definition": {
       "en": "A step-by-step instruction for a known problem: what to check, what to run, when to escalate.",
       "ru": "Пошаговая инструкция для известной проблемы: что проверить, что выполнить, когда эскалировать.",
-      "uk": "Покрокова інструкція для відомої проблеми: що перевірити, що виконати, коли ескалювати."
+      "uk": "Покрокова інструкція для відомої проблеми: що перевірити, що виконати, коли ескалювати.",
+      "pl": "Instrukcja krok po kroku dla znanego problemu: co sprawdzić, co uruchomić, kiedy eskalować."
     },
     "match": {
       "en": [
@@ -2545,12 +2749,14 @@
     "term": {
       "en": "SLA",
       "ru": "SLA (соглашение об уровне сервиса)",
-      "uk": "SLA (угода про рівень сервісу)"
+      "uk": "SLA (угода про рівень сервісу)",
+      "pl": "SLA"
     },
     "definition": {
       "en": "A promise to customers, e.g. 99.9% availability per month, with penalties if broken.",
       "ru": "Обещание клиентам, например доступность 99,9% в месяц, со штрафами при нарушении.",
-      "uk": "Обіцянка клієнтам, наприклад доступність 99,9% на місяць, зі штрафами в разі порушення."
+      "uk": "Обіцянка клієнтам, наприклад доступність 99,9% на місяць, зі штрафами в разі порушення.",
+      "pl": "Obietnica dla klientów, np. 99,9% dostępności miesięcznie, z karami za jej złamanie."
     },
     "match": {
       "en": [
@@ -2566,12 +2772,14 @@
     "term": {
       "en": "SLO / SLI",
       "ru": "SLO / SLI",
-      "uk": "SLO / SLI"
+      "uk": "SLO / SLI",
+      "pl": "SLO / SLI"
     },
     "definition": {
       "en": "SLI is a measured indicator (share of successful requests); SLO is the internal target for it (99.95%).",
       "ru": "SLI — измеряемый показатель (доля успешных запросов); SLO — внутренняя цель для него (99,95%).",
-      "uk": "SLI — вимірюваний показник (частка успішних запитів); SLO — внутрішня ціль для нього (99,95%)."
+      "uk": "SLI — вимірюваний показник (частка успішних запитів); SLO — внутрішня ціль для нього (99,95%).",
+      "pl": "SLI to mierzony wskaźnik (odsetek udanych żądań); SLO to wewnętrzny cel dla niego (99,95%)."
     },
     "match": {
       "en": [
@@ -2588,12 +2796,14 @@
     "term": {
       "en": "Availability (uptime %)",
       "ru": "Доступность (uptime %)",
-      "uk": "Доступність (uptime %)"
+      "uk": "Доступність (uptime %)",
+      "pl": "Dostępność (uptime %)"
     },
     "definition": {
       "en": "Share of time a service works. 99.9% ≈ 43 min of downtime per month, 99.99% ≈ 4.3 min.",
       "ru": "Доля времени, когда сервис работает. 99,9% ≈ 43 минуты простоя в месяц, 99,99% ≈ 4,3 минуты.",
-      "uk": "Частка часу, коли сервіс працює. 99,9% ≈ 43 хвилини простою на місяць, 99,99% ≈ 4,3 хвилини."
+      "uk": "Частка часу, коли сервіс працює. 99,9% ≈ 43 хвилини простою на місяць, 99,99% ≈ 4,3 хвилини.",
+      "pl": "Odsetek czasu, w którym usługa działa. 99,9% ≈ 43 min przestoju miesięcznie, 99,99% ≈ 4,3 min."
     },
     "match": {
       "en": [
@@ -2613,12 +2823,14 @@
     "term": {
       "en": "MTTA / MTTR",
       "ru": "MTTA / MTTR",
-      "uk": "MTTA / MTTR"
+      "uk": "MTTA / MTTR",
+      "pl": "MTTA / MTTR"
     },
     "definition": {
       "en": "Mean time to acknowledge an alert / to restore the service. The main speed metrics of a NOC.",
       "ru": "Среднее время до подтверждения алерта / до восстановления сервиса. Главные метрики скорости NOC.",
-      "uk": "Середній час до підтвердження алерту / до відновлення сервісу. Головні метрики швидкості NOC."
+      "uk": "Середній час до підтвердження алерту / до відновлення сервісу. Головні метрики швидкості NOC.",
+      "pl": "Średni czas potwierdzenia alertu / przywrócenia usługi. Główne metryki szybkości NOC."
     },
     "match": {
       "en": [
@@ -2635,12 +2847,14 @@
     "term": {
       "en": "Ticket",
       "ru": "Тикет (заявка)",
-      "uk": "Тікет (заявка)"
+      "uk": "Тікет (заявка)",
+      "pl": "Zgłoszenie (ticket)"
     },
     "definition": {
       "en": "A record in a tracking system (Jira, ServiceNow) with the timeline, actions and status of an issue.",
       "ru": "Запись в системе учёта (Jira, ServiceNow) с хронологией, действиями и статусом проблемы.",
-      "uk": "Запис у системі обліку (Jira, ServiceNow) з хронологією, діями та статусом проблеми."
+      "uk": "Запис у системі обліку (Jira, ServiceNow) з хронологією, діями та статусом проблеми.",
+      "pl": "Wpis w systemie zgłoszeń (Jira, ServiceNow) z osią czasu, działaniami i statusem sprawy."
     },
     "match": {
       "en": [
@@ -2660,12 +2874,14 @@
     "term": {
       "en": "Postmortem",
       "ru": "Постмортем (разбор инцидента)",
-      "uk": "Постмортем (розбір інциденту)"
+      "uk": "Постмортем (розбір інциденту)",
+      "pl": "Postmortem"
     },
     "definition": {
       "en": "A blameless write-up after an incident: timeline, root cause, impact and actions so it does not happen again.",
       "ru": "Разбор после инцидента без поиска виноватых: хронология, корневая причина, влияние и действия, чтобы не повторилось.",
-      "uk": "Розбір після інциденту без пошуку винних: хронологія, коренева причина, вплив і дії, щоб не повторилося."
+      "uk": "Розбір після інциденту без пошуку винних: хронологія, коренева причина, вплив і дії, щоб не повторилося.",
+      "pl": "Opis po incydencie bez szukania winnych: oś czasu, przyczyna źródłowa, wpływ i działania, by się nie powtórzyło."
     },
     "match": {
       "en": [
@@ -2686,12 +2902,14 @@
     "term": {
       "en": "Root cause",
       "ru": "Корневая причина",
-      "uk": "Коренева причина"
+      "uk": "Коренева причина",
+      "pl": "Przyczyna źródłowa"
     },
     "definition": {
       "en": "The real reason behind the symptoms (a full disk, not \"the site is slow\"). Found with the 5 whys.",
       "ru": "Настоящая причина за симптомами (переполненный диск, а не «сайт тормозит»). Ищется методом «5 почему».",
-      "uk": "Справжня причина за симптомами (переповнений диск, а не «сайт гальмує»). Шукається методом «5 чому»."
+      "uk": "Справжня причина за симптомами (переповнений диск, а не «сайт гальмує»). Шукається методом «5 чому».",
+      "pl": "Prawdziwy powód stojący za objawami (pełny dysk, a nie „strona jest wolna”). Znajduje się ją metodą 5 dlaczego."
     },
     "match": {
       "en": [
@@ -2711,12 +2929,14 @@
     "term": {
       "en": "Mitigation",
       "ru": "Митигация (смягчение)",
-      "uk": "Мітигація (пом’якшення)"
+      "uk": "Мітигація (пом’якшення)",
+      "pl": "Mitygacja"
     },
     "definition": {
       "en": "A quick action that reduces impact now (restart, failover, rollback), before the root cause is fixed.",
       "ru": "Быстрое действие, уменьшающее ущерб прямо сейчас (рестарт, переключение, откат), до устранения корневой причины.",
-      "uk": "Швидка дія, що зменшує шкоду просто зараз (рестарт, перемикання, відкат), до усунення кореневої причини."
+      "uk": "Швидка дія, що зменшує шкоду просто зараз (рестарт, перемикання, відкат), до усунення кореневої причини.",
+      "pl": "Szybkie działanie, które zmniejsza skutki teraz (restart, przełączenie, wycofanie), zanim przyczyna zostanie usunięta."
     },
     "match": {
       "en": [
@@ -2737,12 +2957,14 @@
     "term": {
       "en": "Rollback",
       "ru": "Откат",
-      "uk": "Відкат"
+      "uk": "Відкат",
+      "pl": "Wycofanie (rollback)"
     },
     "definition": {
       "en": "Returning to the previous working version after a bad deploy or config change.",
       "ru": "Возврат к предыдущей рабочей версии после неудачного деплоя или изменения настроек.",
-      "uk": "Повернення до попередньої робочої версії після невдалого деплою чи зміни налаштувань."
+      "uk": "Повернення до попередньої робочої версії після невдалого деплою чи зміни налаштувань.",
+      "pl": "Powrót do poprzedniej działającej wersji po nieudanym wdrożeniu lub zmianie konfiguracji."
     },
     "match": {
       "en": [
@@ -2762,12 +2984,14 @@
     "term": {
       "en": "On-call",
       "ru": "Дежурство (on-call)",
-      "uk": "Чергування (on-call)"
+      "uk": "Чергування (on-call)",
+      "pl": "Dyżur (on-call)"
     },
     "definition": {
       "en": "The engineer responsible for answering alerts at a given time, also at night.",
       "ru": "Инженер, отвечающий за реакцию на алерты в определённое время, в том числе ночью.",
-      "uk": "Інженер, відповідальний за реакцію на алерти в певний час, зокрема вночі."
+      "uk": "Інженер, відповідальний за реакцію на алерти в певний час, зокрема вночі.",
+      "pl": "Inżynier odpowiedzialny za reagowanie na alerty w danym czasie, także w nocy."
     },
     "match": {
       "en": [
@@ -2787,12 +3011,14 @@
     "term": {
       "en": "Change (deploy)",
       "ru": "Изменение (деплой)",
-      "uk": "Зміна (деплой)"
+      "uk": "Зміна (деплой)",
+      "pl": "Zmiana (wdrożenie)"
     },
     "definition": {
       "en": "Any planned modification: release, config edit, upgrade. Most incidents start right after a change — always ask \"what changed?\".",
       "ru": "Любая плановая модификация: релиз, правка конфига, обновление. Большинство инцидентов начинаются сразу после изменения — всегда спрашивайте «что поменялось?».",
-      "uk": "Будь-яка планова модифікація: реліз, правка конфігу, оновлення. Більшість інцидентів починаються одразу після зміни — завжди питайте «що змінилося?»."
+      "uk": "Будь-яка планова модифікація: реліз, правка конфігу, оновлення. Більшість інцидентів починаються одразу після зміни — завжди питайте «що змінилося?».",
+      "pl": "Każda planowana modyfikacja: wydanie, edycja konfiguracji, aktualizacja. Większość incydentów zaczyna się tuż po zmianie — zawsze pytaj „co się zmieniło?”."
     },
     "match": {
       "en": [
@@ -2812,12 +3038,14 @@
     "term": {
       "en": "Health check",
       "ru": "Проверка здоровья (health check)",
-      "uk": "Перевірка здоров’я (health check)"
+      "uk": "Перевірка здоров’я (health check)",
+      "pl": "Health check"
     },
     "definition": {
       "en": "A special URL or command that says whether a service works: curl localhost:3000/health.",
       "ru": "Специальный URL или команда, говорящие, работает ли сервис: curl localhost:3000/health.",
-      "uk": "Спеціальний URL або команда, що каже, чи працює сервіс: curl localhost:3000/health."
+      "uk": "Спеціальний URL або команда, що каже, чи працює сервіс: curl localhost:3000/health.",
+      "pl": "Specjalny URL lub polecenie mówiące, czy usługa działa: curl localhost:3000/health."
     },
     "match": {
       "en": [
@@ -2834,12 +3062,14 @@
     "term": {
       "en": "Dashboard",
       "ru": "Дашборд",
-      "uk": "Дашборд"
+      "uk": "Дашборд",
+      "pl": "Dashboard"
     },
     "definition": {
       "en": "A screen with graphs of key metrics (Grafana). The first place a NOC engineer looks.",
       "ru": "Экран с графиками ключевых метрик (Grafana). Первое, куда смотрит NOC-инженер.",
-      "uk": "Екран із графіками ключових метрик (Grafana). Перше, куди дивиться NOC-інженер."
+      "uk": "Екран із графіками ключових метрик (Grafana). Перше, куди дивиться NOC-інженер.",
+      "pl": "Ekran z wykresami kluczowych metryk (Grafana). Pierwsze miejsce, na które patrzy inżynier NOC."
     },
     "match": {
       "en": [
@@ -2859,12 +3089,14 @@
     "term": {
       "en": "L1 / L2 / L3 support",
       "ru": "Линии поддержки L1 / L2 / L3",
-      "uk": "Лінії підтримки L1 / L2 / L3"
+      "uk": "Лінії підтримки L1 / L2 / L3",
+      "pl": "Wsparcie L1 / L2 / L3"
     },
     "definition": {
       "en": "L1 (NOC) detects, triages and follows runbooks; L2 are system/service experts; L3 are developers of the product.",
       "ru": "L1 (NOC) обнаруживает, сортирует и действует по ранбукам; L2 — эксперты по системам и сервисам; L3 — разработчики продукта.",
-      "uk": "L1 (NOC) виявляє, сортує та діє за ранбуками; L2 — експерти із систем і сервісів; L3 — розробники продукту."
+      "uk": "L1 (NOC) виявляє, сортує та діє за ранбуками; L2 — експерти із систем і сервісів; L3 — розробники продукту.",
+      "pl": "L1 (NOC) wykrywa, ocenia i działa według runbooków; L2 to eksperci od systemów i usług; L3 to deweloperzy produktu."
     },
     "match": {
       "en": [
@@ -2882,12 +3114,14 @@
     "term": {
       "en": "Triage",
       "ru": "Триаж (сортировка)",
-      "uk": "Тріаж (сортування)"
+      "uk": "Тріаж (сортування)",
+      "pl": "Triaż"
     },
     "definition": {
       "en": "Quickly deciding how serious an alert is, who is affected and who should handle it.",
       "ru": "Быстрое решение: насколько серьёзен алерт, кого затронуло и кто должен заниматься.",
-      "uk": "Швидке рішення: наскільки серйозний алерт, кого зачепило і хто має цим займатися."
+      "uk": "Швидке рішення: наскільки серйозний алерт, кого зачепило і хто має цим займатися.",
+      "pl": "Szybka ocena, jak poważny jest alert, kogo dotyczy i kto powinien się nim zająć."
     },
     "match": {
       "en": [
@@ -2907,12 +3141,14 @@
     "term": {
       "en": "Log",
       "ru": "Лог (журнал событий)",
-      "uk": "Лог (журнал подій)"
+      "uk": "Лог (журнал подій)",
+      "pl": "Log"
     },
     "definition": {
       "en": "A text file or stream where programs write what happens: time, level (INFO/WARN/ERROR) and message.",
       "ru": "Текстовый файл или поток, куда программы пишут происходящее: время, уровень (INFO/WARN/ERROR) и сообщение.",
-      "uk": "Текстовий файл або потік, куди програми пишуть, що відбувається: час, рівень (INFO/WARN/ERROR) і повідомлення."
+      "uk": "Текстовий файл або потік, куди програми пишуть, що відбувається: час, рівень (INFO/WARN/ERROR) і повідомлення.",
+      "pl": "Plik tekstowy lub strumień, do którego programy zapisują, co się dzieje: czas, poziom (INFO/WARN/ERROR) i komunikat."
     },
     "match": {
       "en": [
@@ -2933,12 +3169,14 @@
     "term": {
       "en": "Log rotation",
       "ru": "Ротация логов",
-      "uk": "Ротація логів"
+      "uk": "Ротація логів",
+      "pl": "Rotacja logów"
     },
     "definition": {
       "en": "Regularly renaming and compressing old logs (access.log.1, .2.gz) so they do not fill the disk.",
       "ru": "Регулярное переименование и сжатие старых логов (access.log.1, .2.gz), чтобы они не заполнили диск.",
-      "uk": "Регулярне перейменування та стискання старих логів (access.log.1, .2.gz), щоб вони не заповнили диск."
+      "uk": "Регулярне перейменування та стискання старих логів (access.log.1, .2.gz), щоб вони не заповнили диск.",
+      "pl": "Regularne przemianowywanie i kompresowanie starych logów (access.log.1, .2.gz), żeby nie zapełniły dysku."
     },
     "match": {
       "en": [
@@ -2958,12 +3196,14 @@
     "term": {
       "en": "Sticky bit",
       "ru": "Sticky bit",
-      "uk": "Sticky bit"
+      "uk": "Sticky bit",
+      "pl": "Sticky bit"
     },
     "definition": {
       "en": "A permission bit on a directory (the \"t\" in drwxrwxrwt): everybody may create files, but only the owner can delete them. Used on /tmp.",
       "ru": "Бит прав на папке («t» в drwxrwxrwt): создавать файлы могут все, а удалять — только владелец. Стоит на /tmp.",
-      "uk": "Біт прав на папці («t» у drwxrwxrwt): створювати файли можуть усі, а видаляти — лише власник. Стоїть на /tmp."
+      "uk": "Біт прав на папці («t» у drwxrwxrwt): створювати файли можуть усі, а видаляти — лише власник. Стоїть на /tmp.",
+      "pl": "Bit uprawnień na katalogu („t” w drwxrwxrwt): każdy może tworzyć pliki, ale usunąć je może tylko właściciel. Używany na /tmp."
     },
     "match": {
       "en": [
@@ -2983,12 +3223,14 @@
     "term": {
       "en": "setgid on a directory",
       "ru": "setgid на папке",
-      "uk": "setgid на папці"
+      "uk": "setgid на папці",
+      "pl": "setgid na katalogu"
     },
     "definition": {
       "en": "The \"s\" in place of the group x (chmod 2770): new files inside get the group of the directory — handy for team folders.",
       "ru": "«s» на месте x группы (chmod 2770): новые файлы внутри получают группу папки — удобно для командных папок.",
-      "uk": "«s» на місці x групи (chmod 2770): нові файли всередині отримують групу папки — зручно для командних папок."
+      "uk": "«s» на місці x групи (chmod 2770): нові файли всередині отримують групу папки — зручно для командних папок.",
+      "pl": "„s” w miejscu x grupy (chmod 2770): nowe pliki w środku dostają grupę katalogu — wygodne dla katalogów zespołu."
     },
     "match": {
       "en": [
@@ -3008,12 +3250,14 @@
     "term": {
       "en": "System user",
       "ru": "Системный пользователь",
-      "uk": "Системний користувач"
+      "uk": "Системний користувач",
+      "pl": "Użytkownik systemowy"
     },
     "definition": {
       "en": "An account for a service, not a person (www-data, postgres). Limits the damage if the service is hacked.",
       "ru": "Учётная запись для сервиса, а не человека (www-data, postgres). Ограничивает ущерб при взломе сервиса.",
-      "uk": "Обліковий запис для сервісу, а не людини (www-data, postgres). Обмежує шкоду в разі зламу сервісу."
+      "uk": "Обліковий запис для сервісу, а не людини (www-data, postgres). Обмежує шкоду в разі зламу сервісу.",
+      "pl": "Konto dla usługi, nie dla człowieka (www-data, postgres). Ogranicza szkody, jeśli usługa zostanie przejęta."
     },
     "match": {
       "en": [
@@ -3034,12 +3278,14 @@
     "term": {
       "en": "SIGTERM / SIGKILL",
       "ru": "SIGTERM / SIGKILL",
-      "uk": "SIGTERM / SIGKILL"
+      "uk": "SIGTERM / SIGKILL",
+      "pl": "SIGTERM / SIGKILL"
     },
     "definition": {
       "en": "TERM (15) politely asks a process to finish and lets it clean up; KILL (9) is an immediate stop by the kernel without cleanup.",
       "ru": "TERM (15) вежливо просит процесс завершиться и даёт прибраться; KILL (9) — мгновенная остановка ядром без уборки.",
-      "uk": "TERM (15) ввічливо просить процес завершитися й дає прибрати; KILL (9) — миттєва зупинка ядром без прибирання."
+      "uk": "TERM (15) ввічливо просить процес завершитися й дає прибрати; KILL (9) — миттєва зупинка ядром без прибирання.",
+      "pl": "TERM (15) grzecznie prosi proces o zakończenie i pozwala mu posprzątać; KILL (9) to natychmiastowe zatrzymanie przez jądro bez sprzątania."
     },
     "match": {
       "en": [
@@ -3063,12 +3309,14 @@
     "term": {
       "en": "Process state (STAT)",
       "ru": "Состояние процесса (STAT)",
-      "uk": "Стан процесу (STAT)"
+      "uk": "Стан процесу (STAT)",
+      "pl": "Stan procesu (STAT)"
     },
     "definition": {
       "en": "A letter in ps: R running, S sleeping, D waiting for disk, Z zombie, T stopped.",
       "ru": "Буква в ps: R работает, S спит, D ждёт диск, Z зомби, T остановлен.",
-      "uk": "Літера в ps: R працює, S спить, D чекає диск, Z зомбі, T зупинений."
+      "uk": "Літера в ps: R працює, S спить, D чекає диск, Z зомбі, T зупинений.",
+      "pl": "Litera w ps: R działa, S śpi, D czeka na dysk, Z zombie, T zatrzymany."
     },
     "match": {
       "en": [
@@ -3089,12 +3337,14 @@
     "term": {
       "en": "Brace expansion",
       "ru": "Раскрытие скобок",
-      "uk": "Розкриття дужок"
+      "uk": "Розкриття дужок",
+      "pl": "Rozwijanie nawiasów klamrowych"
     },
     "definition": {
       "en": "bash turns file{1,2}.txt into file1.txt file2.txt and {1..5} into 1 2 3 4 5 before running the command.",
       "ru": "bash превращает file{1,2}.txt в file1.txt file2.txt, а {1..5} — в 1 2 3 4 5 до запуска команды.",
-      "uk": "bash перетворює file{1,2}.txt на file1.txt file2.txt, а {1..5} — на 1 2 3 4 5 до запуску команди."
+      "uk": "bash перетворює file{1,2}.txt на file1.txt file2.txt, а {1..5} — на 1 2 3 4 5 до запуску команди.",
+      "pl": "bash zamienia file{1,2}.txt na file1.txt file2.txt, a {1..5} na 1 2 3 4 5, zanim uruchomi polecenie."
     },
     "match": {
       "en": [
@@ -3116,12 +3366,14 @@
     "term": {
       "en": "Loop",
       "ru": "Цикл",
-      "uk": "Цикл"
+      "uk": "Цикл",
+      "pl": "Pętla"
     },
     "definition": {
       "en": "Repeating commands: for NAME in LIST; do …; done, or while CONDITION; do …; done.",
       "ru": "Повторение команд: for ИМЯ in СПИСОК; do …; done или while УСЛОВИЕ; do …; done.",
-      "uk": "Повторення команд: for НАЗВА in СПИСОК; do …; done або while УМОВА; do …; done."
+      "uk": "Повторення команд: for НАЗВА in СПИСОК; do …; done або while УМОВА; do …; done.",
+      "pl": "Powtarzanie poleceń: for NAZWA in LISTA; do …; done albo while WARUNEK; do …; done."
     },
     "match": {
       "en": [
@@ -3141,12 +3393,14 @@
     "term": {
       "en": "Quoting",
       "ru": "Кавычки",
-      "uk": "Лапки"
+      "uk": "Лапки",
+      "pl": "Cytowanie"
     },
     "definition": {
       "en": "\"double\" quotes keep spaces but expand $VAR; 'single' quotes keep everything literally.",
       "ru": "\"двойные\" кавычки сохраняют пробелы, но раскрывают $VAR; 'одинарные' сохраняют всё буквально.",
-      "uk": "\"подвійні\" лапки зберігають пробіли, але розкривають $VAR; 'одинарні' зберігають усе буквально."
+      "uk": "\"подвійні\" лапки зберігають пробіли, але розкривають $VAR; 'одинарні' зберігають усе буквально.",
+      "pl": "„podwójne” cudzysłowy zachowują spacje, ale rozwijają $VAR; 'pojedyncze' zachowują wszystko dosłownie."
     },
     "match": {
       "en": [
@@ -3167,12 +3421,14 @@
     "term": {
       "en": "&& and ||",
       "ru": "&& и ||",
-      "uk": "&& і ||"
+      "uk": "&& і ||",
+      "pl": "&& i ||"
     },
     "definition": {
       "en": "a && b runs b only if a succeeded; a || b runs b only if a failed.",
       "ru": "a && b запускает b, только если a успешна; a || b — только если a упала.",
-      "uk": "a && b запускає b, лише якщо a успішна; a || b — лише якщо a впала."
+      "uk": "a && b запускає b, лише якщо a успішна; a || b — лише якщо a впала.",
+      "pl": "a && b uruchamia b tylko, jeśli a się powiodło; a || b uruchamia b tylko, jeśli a się nie powiodło."
     },
     "match": {
       "en": [
@@ -3188,12 +3444,14 @@
     "term": {
       "en": "Upstream (backend)",
       "ru": "Upstream (бэкенд)",
-      "uk": "Upstream (бекенд)"
+      "uk": "Upstream (бекенд)",
+      "pl": "Upstream (backend)"
     },
     "definition": {
       "en": "The server a proxy forwards requests to — e.g. nginx → the API on 127.0.0.1:3000. If it is down, the proxy answers 502.",
       "ru": "Сервер, которому прокси передаёт запросы, — например nginx → API на 127.0.0.1:3000. Если он лежит, прокси отвечает 502.",
-      "uk": "Сервер, якому проксі передає запити, — наприклад nginx → API на 127.0.0.1:3000. Якщо він лежить, проксі відповідає 502."
+      "uk": "Сервер, якому проксі передає запити, — наприклад nginx → API на 127.0.0.1:3000. Якщо він лежить, проксі відповідає 502.",
+      "pl": "Serwer, do którego proxy przekazuje żądania — np. nginx → API na 127.0.0.1:3000. Gdy leży, proxy odpowiada 502."
     },
     "match": {
       "en": [
@@ -3216,12 +3474,14 @@
     "term": {
       "en": "Incident timeline",
       "ru": "Таймлайн инцидента",
-      "uk": "Таймлайн інциденту"
+      "uk": "Таймлайн інциденту",
+      "pl": "Oś czasu incydentu"
     },
     "definition": {
       "en": "The list of events of an incident in time order (UTC) with their sources — the backbone of a postmortem.",
       "ru": "Список событий инцидента по времени (UTC) с источниками — основа постмортема.",
-      "uk": "Список подій інциденту за часом (UTC) із джерелами — основа постмортему."
+      "uk": "Список подій інциденту за часом (UTC) із джерелами — основа постмортему.",
+      "pl": "Lista zdarzeń incydentu w kolejności czasowej (UTC) ze źródłami — kręgosłup postmortemu."
     },
     "match": {
       "en": [
@@ -3241,12 +3501,14 @@
     "term": {
       "en": "Blameless",
       "ru": "Без поиска виноватых (blameless)",
-      "uk": "Без пошуку винних (blameless)"
+      "uk": "Без пошуку винних (blameless)",
+      "pl": "Bez szukania winnych (blameless)"
     },
     "definition": {
       "en": "A postmortem culture that looks for weak spots in the system, not for a guilty person, so people share all facts.",
       "ru": "Культура постмортемов, где ищут слабые места системы, а не виноватого, чтобы люди делились всеми фактами.",
-      "uk": "Культура постмортемів, де шукають слабкі місця системи, а не винного, щоб люди ділилися всіма фактами."
+      "uk": "Культура постмортемів, де шукають слабкі місця системи, а не винного, щоб люди ділилися всіма фактами.",
+      "pl": "Kultura postmortemów, która szuka słabych punktów w systemie, a nie winnej osoby, żeby ludzie dzielili się wszystkimi faktami."
     },
     "match": {
       "en": [
@@ -3266,12 +3528,14 @@
     "term": {
       "en": "5 whys",
       "ru": "5 почему",
-      "uk": "5 чому"
+      "uk": "5 чому",
+      "pl": "5 dlaczego"
     },
     "definition": {
       "en": "Asking \"why?\" again and again (about five times) to get from a symptom to the root cause.",
       "ru": "Спрашивать «почему?» снова и снова (около пяти раз), чтобы дойти от симптома до первопричины.",
-      "uk": "Питати «чому?» знову й знову (близько п’яти разів), щоб дійти від симптому до першопричини."
+      "uk": "Питати «чому?» знову й знову (близько п’яти разів), щоб дійти від симптому до першопричини.",
+      "pl": "Pytanie „dlaczego?” raz po raz (około pięciu razy), żeby przejść od objawu do przyczyny źródłowej."
     },
     "match": {
       "en": [
@@ -3287,5 +3551,238 @@
         "п'ять чому"
       ]
     }
+  },
+  {
+    "id": "container",
+    "category": "docker",
+    "term": {
+      "en": "Container",
+      "ru": "Контейнер",
+      "uk": "Контейнер",
+      "pl": "Kontener"
+    },
+    "definition": {
+      "en": "An isolated process started from an image, with its own file system, network and process list, sharing the host kernel.",
+      "ru": "Изолированный процесс, запущенный из образа, со своей файловой системой, сетью и списком процессов, на общем ядре хоста.",
+      "uk": "Ізольований процес, запущений з образу, зі своєю файловою системою, мережею й списком процесів, на спільному ядрі хоста.",
+      "pl": "Odizolowany proces uruchomiony z obrazu, z własnym systemem plików, siecią i listą procesów, na wspólnym jądrze hosta."
+    },
+    "match": {
+      "en": [
+        "container"
+      ],
+      "ru": [
+        "контейнер"
+      ],
+      "uk": [
+        "контейнер"
+      ]
+    },
+    "command": "docker"
+  },
+  {
+    "id": "image",
+    "category": "docker",
+    "term": {
+      "en": "Image",
+      "ru": "Образ (image)",
+      "uk": "Образ (image)",
+      "pl": "Obraz (image)"
+    },
+    "definition": {
+      "en": "A read-only template for containers: the files of an application and the command to start it, stored in layers.",
+      "ru": "Шаблон для контейнеров только для чтения: файлы приложения и команда запуска, хранится слоями.",
+      "uk": "Шаблон для контейнерів лише для читання: файли застосунку й команда запуску, зберігається шарами.",
+      "pl": "Szablon kontenerów tylko do odczytu: pliki aplikacji i polecenie startowe, przechowywany w warstwach."
+    },
+    "match": {
+      "en": [
+        "image"
+      ],
+      "ru": [
+        "образы",
+        "образов",
+        "образа",
+        "образе",
+        "образами"
+      ],
+      "uk": [
+        "образи",
+        "образів",
+        "образу",
+        "образами"
+      ]
+    },
+    "command": "docker"
+  },
+  {
+    "id": "dockerfile",
+    "category": "docker",
+    "term": {
+      "en": "Dockerfile",
+      "ru": "Dockerfile",
+      "uk": "Dockerfile",
+      "pl": "Dockerfile"
+    },
+    "definition": {
+      "en": "A text recipe for building an image: FROM a base image, COPY files, RUN commands, set the CMD.",
+      "ru": "Текстовый рецепт сборки образа: FROM базовый образ, COPY файлов, RUN команд, CMD запуска.",
+      "uk": "Текстовий рецепт збирання образу: FROM базовий образ, COPY файлів, RUN команд, CMD запуску.",
+      "pl": "Tekstowy przepis budowania obrazu: FROM obraz bazowy, COPY plików, RUN poleceń, CMD startu."
+    },
+    "match": {
+      "en": [
+        "dockerfile"
+      ],
+      "ru": [
+        "dockerfile"
+      ],
+      "uk": [
+        "dockerfile"
+      ]
+    }
+  },
+  {
+    "id": "registry",
+    "category": "docker",
+    "term": {
+      "en": "Registry",
+      "ru": "Реестр образов",
+      "uk": "Реєстр образів",
+      "pl": "Rejestr obrazów"
+    },
+    "definition": {
+      "en": "A server that stores images, e.g. Docker Hub; docker pull downloads from it, docker push uploads.",
+      "ru": "Сервер, где хранятся образы, например Docker Hub; docker pull скачивает оттуда, docker push загружает.",
+      "uk": "Сервер, де зберігаються образи, наприклад Docker Hub; docker pull завантажує звідти, docker push вивантажує.",
+      "pl": "Serwer przechowujący obrazy, np. Docker Hub; docker pull pobiera z niego, docker push wysyła."
+    },
+    "match": {
+      "en": [
+        "registry",
+        "docker hub"
+      ],
+      "ru": [
+        "реестр",
+        "docker hub"
+      ],
+      "uk": [
+        "реєстр",
+        "docker hub"
+      ]
+    }
+  },
+  {
+    "id": "tag",
+    "category": "docker",
+    "term": {
+      "en": "Tag",
+      "ru": "Тег образа",
+      "uk": "Тег образу",
+      "pl": "Tag obrazu"
+    },
+    "definition": {
+      "en": "The version part of an image name after the colon: nginx:1.27. No tag means latest.",
+      "ru": "Часть имени образа после двоеточия — версия: nginx:1.27. Без тега — latest.",
+      "uk": "Частина імені образу після двокрапки — версія: nginx:1.27. Без тегу — latest.",
+      "pl": "Część nazwy obrazu po dwukropku — wersja: nginx:1.27. Bez tagu — latest."
+    },
+    "match": {
+      "en": [
+        "tag"
+      ],
+      "ru": [
+        "тег"
+      ],
+      "uk": [
+        "тег"
+      ]
+    }
+  },
+  {
+    "id": "volume",
+    "category": "docker",
+    "term": {
+      "en": "Volume",
+      "ru": "Том (volume)",
+      "uk": "Том (volume)",
+      "pl": "Wolumen"
+    },
+    "definition": {
+      "en": "Storage that lives outside a container and survives its removal: a named volume or a bind-mounted host folder (-v).",
+      "ru": "Хранилище вне контейнера, переживающее его удаление: именованный том или примонтированная папка хоста (-v).",
+      "uk": "Сховище поза контейнером, що переживає його видалення: іменований том або примонтована тека хоста (-v).",
+      "pl": "Magazyn poza kontenerem, który przetrwa jego usunięcie: nazwany wolumen lub zamontowany katalog hosta (-v)."
+    },
+    "match": {
+      "en": [
+        "volume"
+      ],
+      "ru": [
+        "томов",
+        "томами",
+        "именованный том"
+      ],
+      "uk": [
+        "томів",
+        "томами",
+        "іменований том"
+      ]
+    }
+  },
+  {
+    "id": "port-publish",
+    "category": "docker",
+    "term": {
+      "en": "Port publishing",
+      "ru": "Проброс порта",
+      "uk": "Прокидання порту",
+      "pl": "Publikowanie portu"
+    },
+    "definition": {
+      "en": "-p HOST:CONTAINER connects a port on the host to a port inside the container, e.g. -p 8080:80.",
+      "ru": "-p ХОСТ:КОНТЕЙНЕР связывает порт хоста с портом внутри контейнера, например -p 8080:80.",
+      "uk": "-p ХОСТ:КОНТЕЙНЕР пов’язує порт хоста з портом усередині контейнера, наприклад -p 8080:80.",
+      "pl": "-p HOST:KONTENER łączy port hosta z portem w kontenerze, np. -p 8080:80."
+    },
+    "match": {
+      "en": [
+        "publish"
+      ],
+      "ru": [
+        "проброс"
+      ],
+      "uk": [
+        "прокидання"
+      ]
+    }
+  },
+  {
+    "id": "compose",
+    "category": "docker",
+    "term": {
+      "en": "Docker Compose",
+      "ru": "Docker Compose",
+      "uk": "Docker Compose",
+      "pl": "Docker Compose"
+    },
+    "definition": {
+      "en": "A tool that starts several containers described in compose.yaml with one command: docker compose up -d.",
+      "ru": "Инструмент, который поднимает несколько контейнеров из compose.yaml одной командой: docker compose up -d.",
+      "uk": "Інструмент, що піднімає кілька контейнерів із compose.yaml однією командою: docker compose up -d.",
+      "pl": "Narzędzie uruchamiające kilka kontenerów z compose.yaml jednym poleceniem: docker compose up -d."
+    },
+    "match": {
+      "en": [
+        "compose"
+      ],
+      "ru": [
+        "compose"
+      ],
+      "uk": [
+        "compose"
+      ]
+    },
+    "command": "docker"
   }
 ]

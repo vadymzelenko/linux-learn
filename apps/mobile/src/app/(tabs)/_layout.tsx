@@ -1,3 +1,4 @@
+import { useWindowDimensions } from 'react-native';
 import { Redirect } from 'expo-router';
 import { Tabs } from 'expo-router/tabs';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +10,9 @@ export default function TabsLayout() {
   const theme = useTheme();
   const { t } = useTranslation();
   const onboarded = useStore((s) => s.settings.onboarded);
+  const { width } = useWindowDimensions();
+  // narrow phones: smaller labels so "Sandbox" / "Practice" are not cut off
+  const labelSize = width < 360 ? 9.5 : width < 400 ? 10.5 : 12;
   if (!onboarded) return <Redirect href="/onboarding" />;
   return (
     <Tabs
@@ -17,7 +21,9 @@ export default function TabsLayout() {
         tabBarActiveTintColor: theme.accent,
         tabBarInactiveTintColor: theme.textDim,
         tabBarStyle: { backgroundColor: theme.surface, borderTopColor: theme.border },
-        tabBarLabelStyle: { fontWeight: '700' },
+        tabBarLabelStyle: { fontWeight: '700', fontSize: labelSize },
+        tabBarItemStyle: { paddingHorizontal: 0 },
+        animation: 'shift',
         sceneStyle: { backgroundColor: theme.bg },
       }}
     >

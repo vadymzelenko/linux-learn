@@ -1,0 +1,7 @@
+{
+  "hostname": "dev01",
+  "files": {
+    "~/project/index.html": "<!doctype html>\n<title>My site</title>\n<h1>Hello!</h1>\n",
+    "~/project/style.css": "body { font-family: sans-serif; }\n"
+  }
+}

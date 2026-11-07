@@ -1,6 +1,8 @@
 import '../i18n';
+import '../lib/nav';
 import { useEffect } from 'react';
-import { Platform, View } from 'react-native';
+import { AppState, Platform, UIManager, View } from 'react-native';
+import * as NavigationBar from 'expo-navigation-bar';
 import { Stack, type ErrorBoundaryProps } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
@@ -13,17 +15,48 @@ import i18n, { resolveLang } from '../i18n';
 import { AppThemeProvider, useTheme } from '../theme';
 import { useStore } from '../state/store';
 import { Toasts } from '../components/Toasts';
+import { DialogHost } from '../components/Dialog';
+import { sound } from '../lib/sound';
 import { syncReminder } from '../lib/reminders';
 import { Button } from '../components/ui';
 import { GlossaryProvider } from '../components/ui/RichText';
 import { Text } from '../theme/Text';
 
 void SplashScreen.preventAutoHideAsync().catch(() => undefined);
+// smooth expand / collapse (LayoutAnimation) on Android's old architecture too
+if (Platform.OS === 'android') UIManager.setLayoutAnimationEnabledExperimental?.(true);
 
 function Shell() {
   const theme = useTheme();
   const { t } = useTranslation();
   const settings = useStore((s) => s.settings);
+
+  useEffect(() => {
+    sound.preload();
+  }, []);
+
+  // web on a phone: fullscreen like a web game (address bar away); browsers allow it only after a tap
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined' || !settings.immersive) return;
+    if (!window.matchMedia?.('(pointer: coarse)').matches || !document.documentElement.requestFullscreen) return;
+    const go = () => {
+      if (!document.fullscreenElement) void document.documentElement.requestFullscreen({ navigationUI: 'hide' }).catch(() => undefined);
+    };
+    document.addEventListener('pointerup', go);
+    return () => document.removeEventListener('pointerup', go);
+  }, [settings.immersive]);
+
+  // Android, like games: status bar and system buttons hidden ("immersive sticky");
+  // a swipe from the top or bottom edge shows them over the app for a moment
+  useEffect(() => {
+    if (Platform.OS !== 'android') return;
+    const apply = () => void NavigationBar.setVisibilityAsync(settings.immersive ? 'hidden' : 'visible').catch(() => undefined);
+    apply();
+    const sub = AppState.addEventListener('change', (st) => {
+      if (st === 'active') apply();
+    });
+    return () => sub.remove();
+  }, [settings.immersive]);
 
   useEffect(() => {
     void SystemUI.setBackgroundColorAsync(theme.bg).catch(() => undefined);
@@ -35,9 +68,10 @@ function Shell() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.bg }}>
-      <StatusBar style={theme.dark ? 'light' : 'dark'} />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.bg }, animation: Platform.OS === 'android' ? 'fade_from_bottom' : 'default' }} />
+      <StatusBar style={theme.dark ? 'light' : 'dark'} hidden={Platform.OS === 'android' && settings.immersive} />
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.bg }, animation: Platform.OS === 'android' ? 'fade_from_bottom' : 'default', animationDuration: 260, gestureEnabled: true }} />
       <Toasts />
+      <DialogHost />
     </View>
   );
 }
@@ -48,7 +82,10 @@ export default function RootLayout() {
   const lang = useStore((s) => s.settings.lang);
 
   useEffect(() => {
-    void i18n.changeLanguage(resolveLang(lang));
+    const l = resolveLang(lang);
+    void i18n.changeLanguage(l);
+    // web: the page language follows the app (screen readers, no "translate this page?")
+    if (Platform.OS === 'web' && typeof document !== 'undefined') document.documentElement.lang = l;
   }, [lang]);
 
   const ready = (fontsLoaded || !!fontError) && hydrated;

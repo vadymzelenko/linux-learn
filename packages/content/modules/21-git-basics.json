@@ -1,0 +1,1143 @@
+{
+  "id": "git-basics",
+  "path": "/git/basics",
+  "icon": "git",
+  "title": {
+    "en": "Git basics",
+    "ru": "Основы Git",
+    "uk": "Основи Git",
+    "pl": "Podstawy Gita"
+  },
+  "description": {
+    "en": "Repository, commits, history, undo and .gitignore",
+    "ru": "Репозиторий, коммиты, история, отмена и .gitignore",
+    "uk": "Репозиторій, коміти, історія, скасування й .gitignore",
+    "pl": "Repozytorium, commity, historia, cofanie i .gitignore"
+  },
+  "lessons": [
+    {
+      "id": "gt-why",
+      "title": {
+        "en": "Why version control",
+        "ru": "Зачем нужен контроль версий",
+        "uk": "Навіщо потрібен контроль версій",
+        "pl": "Po co kontrola wersji"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-fresh",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## final_v2_REALLY_final.html\nWithout version control people copy folders, mail zip files and lose work when two people edit the same file.\n\n**Git** keeps the whole **history** of a project inside the project folder:\n- every saved state is a **commit** — a snapshot of all files with a message, an author and a date;\n- you can see what changed, when and why, and go back to any snapshot;\n- **branches** let you try ideas without breaking the working version;\n- the history can be shared: **GitHub** is a website that hosts Git repositories, so a team works on one project.\n\n## Words of this course\n| word | what it is |\n|---|---|\n| **repository** (repo) | a project folder with its history (the hidden `.git` folder) |\n| **commit** | a saved snapshot + message |\n| **branch** | a line of development, e.g. `main` or `feature` |\n| **remote** | a copy of the repository on a server, usually called `origin` |\n| **push / pull** | send your commits to the remote / get new ones from it |\n\n> Git is a program on your computer. GitHub is a service on the internet. Git works perfectly without GitHub; GitHub stores Git repositories.",
+            "ru": "## final_v2_TOCHNO_final.html\nБез контроля версий люди копируют папки, пересылают zip-архивы и теряют работу, когда двое правят один файл.\n\n**Git** хранит всю **историю** проекта прямо в папке проекта:\n- каждое сохранённое состояние — **коммит**: снимок всех файлов с сообщением, автором и датой;\n- видно, что, когда и зачем поменялось, и можно вернуться к любому снимку;\n- **ветки** позволяют пробовать идеи, не ломая рабочую версию;\n- историей можно делиться: **GitHub** — сайт, где хранятся Git-репозитории, чтобы команда работала над одним проектом.\n\n## Слова этого курса\n| слово | что это |\n|---|---|\n| **репозиторий** (repo) | папка проекта с историей (скрытая папка `.git`) |\n| **коммит** | сохранённый снимок + сообщение |\n| **ветка** | линия разработки, например `main` или `feature` |\n| **remote** | копия репозитория на сервере, обычно с именем `origin` |\n| **push / pull** | отправить свои коммиты на сервер / забрать оттуда новые |\n\n> Git — программа на вашем компьютере. GitHub — сервис в интернете. Git прекрасно работает без GitHub; GitHub хранит Git-репозитории.",
+            "uk": "## final_v2_TOCHNO_final.html\nБез контролю версій люди копіюють теки, пересилають zip-архіви й втрачають роботу, коли двоє правлять один файл.\n\n**Git** зберігає всю **історію** проєкту просто в теці проєкту:\n- кожен збережений стан — **коміт**: знімок усіх файлів з повідомленням, автором і датою;\n- видно, що, коли й навіщо змінилося, і можна повернутися до будь-якого знімка;\n- **гілки** дають змогу пробувати ідеї, не ламаючи робочу версію;\n- історією можна ділитися: **GitHub** — сайт, де зберігаються Git-репозиторії, щоб команда працювала над одним проєктом.\n\n## Слова цього курсу\n| слово | що це |\n|---|---|\n| **репозиторій** (repo) | тека проєкту з історією (прихована тека `.git`) |\n| **коміт** | збережений знімок + повідомлення |\n| **гілка** | лінія розробки, наприклад `main` або `feature` |\n| **remote** | копія репозиторію на сервері, зазвичай з назвою `origin` |\n| **push / pull** | надіслати свої коміти на сервер / забрати звідти нові |\n\n> Git — програма на вашому комп’ютері. GitHub — сервіс в інтернеті. Git чудово працює без GitHub; GitHub зберігає Git-репозиторії.",
+            "pl": "## final_v2_NAPRAWDE_final.html\nBez kontroli wersji ludzie kopiują foldery, wysyłają archiwa zip i tracą pracę, gdy dwie osoby edytują ten sam plik.\n\n**Git** przechowuje całą **historię** projektu w jego folderze:\n- każdy zapisany stan to **commit** — migawka wszystkich plików z opisem, autorem i datą;\n- widać, co, kiedy i dlaczego się zmieniło, i można wrócić do dowolnej migawki;\n- **gałęzie** pozwalają próbować pomysłów bez psucia działającej wersji;\n- historią można się dzielić: **GitHub** to serwis z repozytoriami Gita, dzięki któremu zespół pracuje nad jednym projektem.\n\n## Słowa tego kursu\n| słowo | co to jest |\n|---|---|\n| **repozytorium** (repo) | folder projektu z historią (ukryty folder `.git`) |\n| **commit** | zapisana migawka + opis |\n| **gałąź** (branch) | linia rozwoju, np. `main` albo `feature` |\n| **remote** | kopia repozytorium na serwerze, zwykle o nazwie `origin` |\n| **push / pull** | wyślij swoje commity na serwer / pobierz z niego nowe |\n\n> Git to program na twoim komputerze. GitHub to serwis w internecie. Git świetnie działa bez GitHuba; GitHub przechowuje repozytoria Gita."
+          },
+          "title": {
+            "en": "History of a project",
+            "ru": "История проекта",
+            "uk": "Історія проєкту",
+            "pl": "Historia projektu"
+          },
+          "terminal": false
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "What is the difference between Git and GitHub?",
+            "ru": "Чем Git отличается от GitHub?",
+            "uk": "Чим Git відрізняється від GitHub?",
+            "pl": "Czym różni się Git od GitHuba?"
+          },
+          "options": [
+            {
+              "en": "Git is a version control program; GitHub is a website that hosts Git repositories",
+              "ru": "Git — программа контроля версий; GitHub — сайт, на котором хранятся Git-репозитории",
+              "uk": "Git — програма контролю версій; GitHub — сайт, на якому зберігаються Git-репозиторії",
+              "pl": "Git to program do kontroli wersji; GitHub to serwis, który przechowuje repozytoria Gita"
+            },
+            {
+              "en": "GitHub is the new name of Git",
+              "ru": "GitHub — новое название Git",
+              "uk": "GitHub — нова назва Git",
+              "pl": "GitHub to nowa nazwa Gita"
+            },
+            {
+              "en": "Git works only when connected to GitHub",
+              "ru": "Git работает только при подключении к GitHub",
+              "uk": "Git працює лише з підключенням до GitHub",
+              "pl": "Git działa tylko po połączeniu z GitHubem"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "You can use Git for years without GitHub. GitHub (like GitLab or Bitbucket) is one of the places to keep a copy and work as a team.",
+            "ru": "Git можно годами использовать без GitHub. GitHub (как и GitLab или Bitbucket) — одно из мест, где хранят копию и работают командой.",
+            "uk": "Git можна роками використовувати без GitHub. GitHub (як і GitLab чи Bitbucket) — одне з місць, де зберігають копію й працюють командою.",
+            "pl": "Gita można używać latami bez GitHuba. GitHub (jak GitLab czy Bitbucket) to jedno z miejsc na kopię i pracę zespołową."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "What is a commit?",
+            "ru": "Что такое коммит?",
+            "uk": "Що таке коміт?",
+            "pl": "Czym jest commit?"
+          },
+          "options": [
+            {
+              "en": "A saved snapshot of the project with a message, an author and a time",
+              "ru": "Сохранённый снимок проекта с сообщением, автором и временем",
+              "uk": "Збережений знімок проєкту з повідомленням, автором і часом",
+              "pl": "Zapisana migawka projektu z opisem, autorem i czasem"
+            },
+            {
+              "en": "Uploading files to GitHub",
+              "ru": "Загрузка файлов на GitHub",
+              "uk": "Завантаження файлів на GitHub",
+              "pl": "Wysłanie plików na GitHuba"
+            },
+            {
+              "en": "A copy of one file",
+              "ru": "Копия одного файла",
+              "uk": "Копія одного файлу",
+              "pl": "Kopia jednego pliku"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "gt-setup",
+      "title": {
+        "en": "Who you are and a new repository",
+        "ru": "Кто вы и новый репозиторий",
+        "uk": "Хто ви і новий репозиторій",
+        "pl": "Kim jesteś i nowe repozytorium"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-fresh",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Introduce yourself once\nEvery commit stores an author. Tell Git your name and e-mail — once per computer:\n```\n$ git config --global user.name \"Student\"\n$ git config --global user.email \"student@example.com\"\n$ git config --global --list\n```\n`--global` writes to `~/.gitconfig` and applies to all your repositories.\n\n## Start a repository\n```\n$ cd ~/project\n$ git init\n$ ls -a\n```\n`git init` creates the hidden folder **`.git`** — that *is* the repository: the history, branches and settings. Your files stay where they are.\n\n> Never edit files inside `.git` by hand, and do not delete it: without `.git` the folder is no longer a repository and the history is gone.",
+            "ru": "## Представьтесь один раз\nКаждый коммит хранит автора. Сообщите Git своё имя и e-mail — один раз на компьютер:\n```\n$ git config --global user.name \"Student\"\n$ git config --global user.email \"student@example.com\"\n$ git config --global --list\n```\n`--global` пишет в `~/.gitconfig` и действует для всех ваших репозиториев.\n\n## Создайте репозиторий\n```\n$ cd ~/project\n$ git init\n$ ls -a\n```\n`git init` создаёт скрытую папку **`.git`** — это и есть репозиторий: история, ветки и настройки. Ваши файлы остаются на месте.\n\n> Не правьте файлы внутри `.git` руками и не удаляйте её: без `.git` папка перестаёт быть репозиторием, а история пропадает.",
+            "uk": "## Представтеся один раз\nКожен коміт зберігає автора. Повідомте Git своє ім’я та e-mail — один раз на комп’ютер:\n```\n$ git config --global user.name \"Student\"\n$ git config --global user.email \"student@example.com\"\n$ git config --global --list\n```\n`--global` пише в `~/.gitconfig` і діє для всіх ваших репозиторіїв.\n\n## Створіть репозиторій\n```\n$ cd ~/project\n$ git init\n$ ls -a\n```\n`git init` створює приховану теку **`.git`** — це і є репозиторій: історія, гілки й налаштування. Ваші файли лишаються на місці.\n\n> Не правте файли всередині `.git` вручну й не видаляйте її: без `.git` тека перестає бути репозиторієм, а історія зникає.",
+            "pl": "## Przedstaw się raz\nKażdy commit zapisuje autora. Podaj Gitowi imię i e-mail — raz na komputer:\n```\n$ git config --global user.name \"Student\"\n$ git config --global user.email \"student@example.com\"\n$ git config --global --list\n```\n`--global` zapisuje do `~/.gitconfig` i działa dla wszystkich twoich repozytoriów.\n\n## Utwórz repozytorium\n```\n$ cd ~/project\n$ git init\n$ ls -a\n```\n`git init` tworzy ukryty folder **`.git`** — to właśnie jest repozytorium: historia, gałęzie i ustawienia. Twoje pliki zostają na miejscu.\n\n> Nie edytuj ręcznie plików w `.git` i nie usuwaj go: bez `.git` folder przestaje być repozytorium, a historia znika."
+          },
+          "title": {
+            "en": "git config and git init",
+            "ru": "git config и git init",
+            "uk": "git config і git init",
+            "pl": "git config i git init"
+          },
+          "demo": {
+            "commands": [
+              "git config --global user.name \"Student\"",
+              "git config --global user.email \"student@example.com\"",
+              "git config --global --list"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Tell Git your name (Student) and e-mail (student@example.com) for all repositories.",
+            "ru": "Сообщите Git своё имя (Student) и e-mail (student@example.com) для всех репозиториев.",
+            "uk": "Повідомте Git своє ім’я (Student) та e-mail (student@example.com) для всіх репозиторіїв.",
+            "pl": "Podaj Gitowi imię (Student) i e-mail (student@example.com) dla wszystkich repozytoriów."
+          },
+          "checks": [
+            {
+              "type": "fileContains",
+              "path": "~/.gitconfig",
+              "regex": "name = \\S",
+              "label": {
+                "en": "The name is set",
+                "ru": "Имя задано",
+                "uk": "Ім’я задано",
+                "pl": "Imię ustawione"
+              }
+            },
+            {
+              "type": "fileContains",
+              "path": "~/.gitconfig",
+              "regex": "email = \\S+@\\S+",
+              "label": {
+                "en": "The e-mail is set",
+                "ru": "E-mail задан",
+                "uk": "E-mail задано",
+                "pl": "E-mail ustawiony"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git config --global user.name \"…\", then the same for user.email",
+              "ru": "git config --global user.name \"…\", затем то же для user.email",
+              "uk": "git config --global user.name \"…\", потім те саме для user.email",
+              "pl": "git config --global user.name \"…\", potem to samo dla user.email"
+            },
+            "command": "git config"
+          },
+          "solution": [
+            "git config --global user.name \"Student\"",
+            "git config --global user.email \"student@example.com\""
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Turn ~/project into a Git repository.",
+            "ru": "Превратите ~/project в Git-репозиторий.",
+            "uk": "Перетворіть ~/project на Git-репозиторій.",
+            "pl": "Zamień ~/project w repozytorium Gita."
+          },
+          "prepare": [
+            "git config --global user.name \"Student\"",
+            "git config --global user.email \"student@example.com\""
+          ],
+          "checks": [
+            {
+              "type": "dirExists",
+              "path": "~/project/.git",
+              "label": {
+                "en": "~/project/.git exists",
+                "ru": "Есть ~/project/.git",
+                "uk": "Є ~/project/.git",
+                "pl": "Istnieje ~/project/.git"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "head": "main",
+              "label": {
+                "en": "Git sees a repository there",
+                "ru": "Git видит там репозиторий",
+                "uk": "Git бачить там репозиторій",
+                "pl": "Git widzi tam repozytorium"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Go into the folder, then one git command creates the repository.",
+              "ru": "Перейдите в папку, затем одна команда git создаст репозиторий.",
+              "uk": "Перейдіть у теку, потім одна команда git створить репозиторій.",
+              "pl": "Wejdź do folderu, potem jedno polecenie git utworzy repozytorium."
+            },
+            "command": "git init"
+          },
+          "solution": [
+            "cd ~/project",
+            "git init"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Where does Git keep the history of ~/project?",
+            "ru": "Где Git хранит историю ~/project?",
+            "uk": "Де Git зберігає історію ~/project?",
+            "pl": "Gdzie Git przechowuje historię ~/project?"
+          },
+          "options": [
+            {
+              "en": "In the hidden folder ~/project/.git",
+              "ru": "В скрытой папке ~/project/.git",
+              "uk": "У прихованій теці ~/project/.git",
+              "pl": "W ukrytym folderze ~/project/.git"
+            },
+            {
+              "en": "On GitHub",
+              "ru": "На GitHub",
+              "uk": "На GitHub",
+              "pl": "Na GitHubie"
+            },
+            {
+              "en": "In ~/.gitconfig",
+              "ru": "В ~/.gitconfig",
+              "uk": "У ~/.gitconfig",
+              "pl": "W ~/.gitconfig"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "~/.gitconfig holds only your settings (name, e-mail). The history is in .git inside the project.",
+            "ru": "В ~/.gitconfig только ваши настройки (имя, e-mail). История — в .git внутри проекта.",
+            "uk": "У ~/.gitconfig лише ваші налаштування (ім’я, e-mail). Історія — у .git усередині проєкту.",
+            "pl": "~/.gitconfig zawiera tylko twoje ustawienia (imię, e-mail). Historia jest w .git wewnątrz projektu."
+          }
+        }
+      ]
+    },
+    {
+      "id": "gt-commit",
+      "title": {
+        "en": "The first commit",
+        "ru": "Первый коммит",
+        "uk": "Перший коміт",
+        "pl": "Pierwszy commit"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Three places\n| place | what is there |\n|---|---|\n| **working tree** | the files you edit |\n| **staging area** (index) | what goes into the next commit |\n| **repository** | saved commits |\n\nA file goes: edit → `git add` → `git commit`.\n```\n$ git status\n$ git add index.html style.css\n$ git commit -m \"Add home page\"\n```\n- `git status` — your best friend: what is **untracked**, what is **staged**, what is **modified**\n- `git add FILE` — put the current version of a file into the staging area (`git add .` — everything in this folder)\n- `git commit -m \"…\"` — save the staged snapshot with a message\n\n## A good message\nShort, in the imperative, says *what and why*: `Add contact page`, `Fix broken link in menu`. Not `update`, not `asdf`.\n\n> Why the staging area? You choose what goes into a commit: changed 5 files, but only 2 belong to this fix — add just those.",
+            "ru": "## Три места\n| место | что там |\n|---|---|\n| **рабочая папка** (working tree) | файлы, которые вы правите |\n| **индекс** (staging area) | то, что попадёт в следующий коммит |\n| **репозиторий** | сохранённые коммиты |\n\nПуть файла: правка → `git add` → `git commit`.\n```\n$ git status\n$ git add index.html style.css\n$ git commit -m \"Add home page\"\n```\n- `git status` — ваш лучший друг: что **не отслеживается** (untracked), что **в индексе** (staged), что **изменено** (modified)\n- `git add ФАЙЛ` — положить текущую версию файла в индекс (`git add .` — всё в этой папке)\n- `git commit -m \"…\"` — сохранить снимок из индекса с сообщением\n\n## Хорошее сообщение\nКороткое, в повелительном наклонении, говорит *что и зачем*: `Add contact page`, `Fix broken link in menu`. Не `update` и не `asdf`.\n\n> Зачем индекс? Вы сами выбираете, что войдёт в коммит: изменили 5 файлов, а к этой правке относятся только 2 — добавьте только их.",
+            "uk": "## Три місця\n| місце | що там |\n|---|---|\n| **робоча тека** (working tree) | файли, які ви правите |\n| **індекс** (staging area) | те, що потрапить у наступний коміт |\n| **репозиторій** | збережені коміти |\n\nШлях файлу: правка → `git add` → `git commit`.\n```\n$ git status\n$ git add index.html style.css\n$ git commit -m \"Add home page\"\n```\n- `git status` — ваш найкращий друг: що **не відстежується** (untracked), що **в індексі** (staged), що **змінено** (modified)\n- `git add ФАЙЛ` — покласти поточну версію файлу в індекс (`git add .` — усе в цій теці)\n- `git commit -m \"…\"` — зберегти знімок з індексу з повідомленням\n\n## Добре повідомлення\nКоротке, у наказовому способі, каже *що й навіщо*: `Add contact page`, `Fix broken link in menu`. Не `update` і не `asdf`.\n\n> Навіщо індекс? Ви самі обираєте, що ввійде в коміт: змінили 5 файлів, а до цієї правки стосуються лише 2 — додайте тільки їх.",
+            "pl": "## Trzy miejsca\n| miejsce | co tam jest |\n|---|---|\n| **katalog roboczy** (working tree) | pliki, które edytujesz |\n| **indeks** (staging area) | to, co trafi do następnego commita |\n| **repozytorium** | zapisane commity |\n\nDroga pliku: edycja → `git add` → `git commit`.\n```\n$ git status\n$ git add index.html style.css\n$ git commit -m \"Add home page\"\n```\n- `git status` — twój najlepszy przyjaciel: co jest **nieśledzone** (untracked), co **w indeksie** (staged), co **zmienione** (modified)\n- `git add PLIK` — wstaw bieżącą wersję pliku do indeksu (`git add .` — wszystko w tym folderze)\n- `git commit -m \"…\"` — zapisz migawkę z indeksu z opisem\n\n## Dobry opis\nKrótki, w trybie rozkazującym, mówi *co i po co*: `Add contact page`, `Fix broken link in menu`. Nie `update` ani `asdf`.\n\n> Po co indeks? Sam wybierasz, co trafi do commita: zmieniłeś 5 plików, a do tej poprawki należą tylko 2 — dodaj tylko je."
+          },
+          "title": {
+            "en": "status → add → commit",
+            "ru": "status → add → commit",
+            "uk": "status → add → commit",
+            "pl": "status → add → commit"
+          },
+          "demo": {
+            "commands": [
+              "mkdir demo && cd demo && git init -q",
+              "echo \"<h1>Hi</h1>\" > index.html",
+              "git status",
+              "git add index.html",
+              "git status -s"
+            ],
+            "setup": {
+              "files": {
+                "~/.gitconfig": "[user]\n\tname = Student\n\temail = student@example.com\n"
+              }
+            }
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "In ~/project, commit index.html and style.css (but not notes.txt) with a meaningful message.",
+            "ru": "В ~/project закоммитьте index.html и style.css (но не notes.txt) с понятным сообщением.",
+            "uk": "У ~/project закомітьте index.html і style.css (але не notes.txt) зі зрозумілим повідомленням.",
+            "pl": "W ~/project zatwierdź index.html i style.css (ale nie notes.txt) z sensownym opisem."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "commits": 1,
+              "label": {
+                "en": "There is a commit",
+                "ru": "Есть коммит",
+                "uk": "Є коміт",
+                "pl": "Jest commit"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "tracked": "~/project/index.html",
+              "label": {
+                "en": "index.html is in it",
+                "ru": "В нём есть index.html",
+                "uk": "У ньому є index.html",
+                "pl": "Zawiera index.html"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "tracked": "~/project/style.css",
+              "label": {
+                "en": "style.css is in it",
+                "ru": "В нём есть style.css",
+                "uk": "У ньому є style.css",
+                "pl": "Zawiera style.css"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "untracked": "~/project/notes.txt",
+              "label": {
+                "en": "notes.txt is not committed",
+                "ru": "notes.txt не закоммичен",
+                "uk": "notes.txt не закомічено",
+                "pl": "notes.txt nie jest zatwierdzony"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git add with the two file names, then git commit -m \"…\"",
+              "ru": "git add с двумя именами файлов, затем git commit -m \"…\"",
+              "uk": "git add з двома назвами файлів, потім git commit -m \"…\"",
+              "pl": "git add z dwiema nazwami plików, potem git commit -m \"…\""
+            },
+            "command": "git add"
+          },
+          "solution": [
+            "git add index.html style.css",
+            "git commit -m \"Add home page\""
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "git status -s",
+          "options": [
+            " M index.html\n?? notes.txt\n",
+            "M  index.html\n?? notes.txt\n",
+            "?? index.html\n?? notes.txt\n"
+          ],
+          "answer": 0,
+          "setup": "git-lab",
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add index.html style.css",
+            "git commit -qm \"Add home page\"",
+            "echo \"<p>New</p>\" >> index.html"
+          ],
+          "context": [
+            "git log --oneline",
+            "cat index.html"
+          ],
+          "explanation": {
+            "en": "-s is the short status: the left column is the staging area, the right one the working tree. \" M\" = modified but not staged, \"??\" = untracked.",
+            "ru": "-s — краткий статус: левая колонка — индекс, правая — рабочая папка. « M» — изменён, но не в индексе, «??» — не отслеживается.",
+            "uk": "-s — короткий статус: ліва колонка — індекс, права — робоча тека. « M» — змінено, але не в індексі, «??» — не відстежується.",
+            "pl": "-s to krótki status: lewa kolumna to indeks, prawa — katalog roboczy. „ M” = zmieniony, ale nie w indeksie, „??” = nieśledzony."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You ran `git add style.css`, then edited style.css again. What will `git commit` save?",
+            "ru": "Вы выполнили `git add style.css`, а потом снова изменили style.css. Что сохранит `git commit`?",
+            "uk": "Ви виконали `git add style.css`, а потім знову змінили style.css. Що збереже `git commit`?",
+            "pl": "Wykonałeś `git add style.css`, a potem znów zmieniłeś style.css. Co zapisze `git commit`?"
+          },
+          "options": [
+            {
+              "en": "The version from the moment of git add; the new edit needs another git add",
+              "ru": "Версию на момент git add; новую правку нужно добавить ещё раз через git add",
+              "uk": "Версію на момент git add; нову правку треба додати ще раз через git add",
+              "pl": "Wersję z chwili git add; nową zmianę trzeba dodać ponownie przez git add"
+            },
+            {
+              "en": "The latest version of the file",
+              "ru": "Последнюю версию файла",
+              "uk": "Останню версію файлу",
+              "pl": "Najnowszą wersję pliku"
+            },
+            {
+              "en": "Nothing: the file changed, so it is skipped",
+              "ru": "Ничего: файл изменился, поэтому он пропускается",
+              "uk": "Нічого: файл змінився, тому його пропущено",
+              "pl": "Nic: plik się zmienił, więc jest pomijany"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "git add copies the file as it is right now into the staging area. git status will show style.css both under \"to be committed\" and \"not staged\".",
+            "ru": "git add копирует файл в индекс таким, какой он сейчас. git status покажет style.css и в «to be committed», и в «not staged».",
+            "uk": "git add копіює файл в індекс таким, який він зараз. git status покаже style.css і в «to be committed», і в «not staged».",
+            "pl": "git add kopiuje plik do indeksu w obecnej postaci. git status pokaże style.css zarówno w „to be committed”, jak i „not staged”."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Edit notes.txt (add any line), then save the change with one commit command, without a separate git add. notes.txt is already tracked.",
+            "ru": "Измените notes.txt (добавьте любую строку) и сохраните изменение одной командой commit, без отдельного git add. notes.txt уже отслеживается.",
+            "uk": "Змініть notes.txt (додайте будь-який рядок) і збережіть зміну однією командою commit, без окремого git add. notes.txt уже відстежується.",
+            "pl": "Zmień notes.txt (dopisz dowolną linię) i zapisz zmianę jednym poleceniem commit, bez osobnego git add. notes.txt jest już śledzony."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Initial commit\""
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "commits": 2,
+              "label": {
+                "en": "Two commits",
+                "ru": "Два коммита",
+                "uk": "Два коміти",
+                "pl": "Dwa commity"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "clean": true,
+              "label": {
+                "en": "Nothing left uncommitted",
+                "ru": "Ничего не осталось незакоммиченным",
+                "uk": "Нічого не лишилося незакоміченим",
+                "pl": "Nic nie zostało niezatwierdzone"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "flags": [
+                "-a"
+              ],
+              "args": [
+                "commit"
+              ],
+              "label": {
+                "en": "commit -a",
+                "ru": "commit -a",
+                "uk": "commit -a",
+                "pl": "commit -a"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "commit has a flag that stages every modified tracked file first: -a. Combine it with -m.",
+              "ru": "У commit есть флаг, который сначала добавляет все изменённые отслеживаемые файлы: -a. Совместите с -m.",
+              "uk": "У commit є прапорець, що спершу додає всі змінені відстежувані файли: -a. Поєднайте з -m.",
+              "pl": "commit ma flagę, która najpierw dodaje wszystkie zmienione śledzone pliki: -a. Połącz ją z -m."
+            },
+            "command": "git commit"
+          },
+          "solution": [
+            "echo \"- blog\" >> notes.txt",
+            "git commit -am \"Add blog idea\""
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gt-history",
+      "title": {
+        "en": "History and differences",
+        "ru": "История и различия",
+        "uk": "Історія та відмінності",
+        "pl": "Historia i różnice"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## What happened?\n```\n$ git log\n$ git log --oneline\n$ git log --oneline -2\n$ git show HEAD\n```\n- `git log` — commits from the newest: id (hash), author, date, message\n- `--oneline` — one short line each; `-2` — only the last two\n- **HEAD** = the commit you are on now; `HEAD~1` — the one before, `HEAD~2` — two back\n- `git show COMMIT` — one commit with its changes\n\n## What changed?\n```\n$ git diff\n$ git diff --staged\n```\n- `git diff` — changes **not yet staged** (working tree vs staging area)\n- `git diff --staged` — what **will go** into the next commit\nLines with `+` were added, with `-` removed.\n\n> Commit ids are long (40 characters), but the first 7 are enough: `git show 3f2a9c1`.",
+            "ru": "## Что происходило?\n```\n$ git log\n$ git log --oneline\n$ git log --oneline -2\n$ git show HEAD\n```\n- `git log` — коммиты от новых к старым: id (хэш), автор, дата, сообщение\n- `--oneline` — по одной короткой строке; `-2` — только два последних\n- **HEAD** — коммит, на котором вы сейчас; `HEAD~1` — предыдущий, `HEAD~2` — на два назад\n- `git show КОММИТ` — один коммит с его изменениями\n\n## Что изменилось?\n```\n$ git diff\n$ git diff --staged\n```\n- `git diff` — изменения, **ещё не добавленные** в индекс (рабочая папка против индекса)\n- `git diff --staged` — то, что **войдёт** в следующий коммит\nСтроки с `+` добавлены, с `-` удалены.\n\n> Id коммитов длинные (40 символов), но хватает первых 7: `git show 3f2a9c1`.",
+            "uk": "## Що відбувалося?\n```\n$ git log\n$ git log --oneline\n$ git log --oneline -2\n$ git show HEAD\n```\n- `git log` — коміти від нових до старих: id (хеш), автор, дата, повідомлення\n- `--oneline` — по одному короткому рядку; `-2` — лише два останні\n- **HEAD** — коміт, на якому ви зараз; `HEAD~1` — попередній, `HEAD~2` — на два назад\n- `git show КОМІТ` — один коміт з його змінами\n\n## Що змінилося?\n```\n$ git diff\n$ git diff --staged\n```\n- `git diff` — зміни, **ще не додані** в індекс (робоча тека проти індексу)\n- `git diff --staged` — те, що **ввійде** в наступний коміт\nРядки з `+` додано, з `-` видалено.\n\n> Id комітів довгі (40 символів), але вистачає перших 7: `git show 3f2a9c1`.",
+            "pl": "## Co się działo?\n```\n$ git log\n$ git log --oneline\n$ git log --oneline -2\n$ git show HEAD\n```\n- `git log` — commity od najnowszego: id (hash), autor, data, opis\n- `--oneline` — po jednej krótkiej linii; `-2` — tylko dwa ostatnie\n- **HEAD** = commit, na którym teraz jesteś; `HEAD~1` — poprzedni, `HEAD~2` — dwa wstecz\n- `git show COMMIT` — jeden commit z jego zmianami\n\n## Co się zmieniło?\n```\n$ git diff\n$ git diff --staged\n```\n- `git diff` — zmiany **jeszcze nie dodane** do indeksu (katalog roboczy kontra indeks)\n- `git diff --staged` — co **trafi** do następnego commita\nLinie z `+` dodano, z `-` usunięto.\n\n> Id commitów są długie (40 znaków), ale wystarczy pierwsze 7: `git show 3f2a9c1`."
+          },
+          "title": {
+            "en": "log, show, diff",
+            "ru": "log, show, diff",
+            "uk": "log, show, diff",
+            "pl": "log, show, diff"
+          },
+          "demo": {
+            "commands": [
+              "cd ~/project && git init -q && git add . && git commit -qm \"Add home page\"",
+              "echo \"<p>Hi</p>\" >> index.html && git commit -qam \"Greeting\"",
+              "git log --oneline",
+              "git show HEAD"
+            ],
+            "setup": "git-lab"
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show the history of ~/project, one short line per commit.",
+            "ru": "Покажите историю ~/project, по одной короткой строке на коммит.",
+            "uk": "Покажіть історію ~/project, по одному короткому рядку на коміт.",
+            "pl": "Pokaż historię ~/project, po jednej krótkiej linii na commit."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\""
+          ],
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "flags": [
+                "--oneline"
+              ],
+              "args": [
+                "log"
+              ],
+              "label": {
+                "en": "git log --oneline",
+                "ru": "git log --oneline",
+                "uk": "git log --oneline",
+                "pl": "git log --oneline"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Welcome text",
+              "label": {
+                "en": "You see \"Welcome text\"",
+                "ru": "Видно «Welcome text»",
+                "uk": "Видно «Welcome text»",
+                "pl": "Widać „Welcome text”"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "log with a flag for short lines",
+              "ru": "log с флагом коротких строк",
+              "uk": "log із прапорцем коротких рядків",
+              "pl": "log z flagą krótkich linii"
+            },
+            "command": "git log"
+          },
+          "solution": [
+            "git log --oneline"
+          ]
+        },
+        {
+          "type": "predict",
+          "command": "git show HEAD~2:style.css",
+          "options": [
+            "body { font-family: sans-serif; }\n",
+            "body { font-family: sans-serif; }\nh1 { color: teal; }\n",
+            "fatal: path 'style.css' does not exist in 'HEAD~2'\n"
+          ],
+          "answer": 0,
+          "setup": "git-lab",
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\""
+          ],
+          "context": [
+            "git log --oneline",
+            "cat style.css"
+          ],
+          "explanation": {
+            "en": "HEAD~2 is two commits before the current one: \"Add home page\". COMMIT:FILE prints the file as it was in that commit — before the teal headings were added.",
+            "ru": "HEAD~2 — на два коммита раньше текущего: «Add home page». КОММИТ:ФАЙЛ печатает файл таким, каким он был в том коммите, — ещё до бирюзовых заголовков.",
+            "uk": "HEAD~2 — на два коміти раніше від поточного: «Add home page». КОМІТ:ФАЙЛ друкує файл таким, яким він був у тому коміті, — ще до бірюзових заголовків.",
+            "pl": "HEAD~2 to dwa commity przed bieżącym: „Add home page”. COMMIT:PLIK wypisuje plik takim, jaki był w tym commicie — jeszcze przed turkusowymi nagłówkami."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Add a line to style.css and look at the exact change before committing it.",
+            "ru": "Добавьте строку в style.css и посмотрите точное изменение, прежде чем его коммитить.",
+            "uk": "Додайте рядок у style.css і подивіться точну зміну, перш ніж її комітити.",
+            "pl": "Dopisz linię do style.css i obejrzyj dokładną zmianę przed zatwierdzeniem."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\""
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "clean": false,
+              "label": {
+                "en": "style.css is modified",
+                "ru": "style.css изменён",
+                "uk": "style.css змінено",
+                "pl": "style.css zmieniony"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "args": [
+                "diff"
+              ],
+              "label": {
+                "en": "git diff",
+                "ru": "git diff",
+                "uk": "git diff",
+                "pl": "git diff"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^\\+[^+]",
+              "label": {
+                "en": "The diff shows an added line",
+                "ru": "diff показывает добавленную строку",
+                "uk": "diff показує доданий рядок",
+                "pl": "diff pokazuje dodaną linię"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Append with echo … >> style.css, then the git command that compares the working tree with the staging area.",
+              "ru": "Допишите через echo … >> style.css, затем команда git, сравнивающая рабочую папку с индексом.",
+              "uk": "Допишіть через echo … >> style.css, потім команда git, що порівнює робочу теку з індексом.",
+              "pl": "Dopisz przez echo … >> style.css, potem polecenie git porównujące katalog roboczy z indeksem."
+            },
+            "command": "git diff"
+          },
+          "solution": [
+            "echo \"p { margin: 0; }\" >> style.css",
+            "git diff"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You staged everything with `git add .`. Now `git diff` prints nothing. Why?",
+            "ru": "Вы добавили всё через `git add .`. Теперь `git diff` ничего не выводит. Почему?",
+            "uk": "Ви додали все через `git add .`. Тепер `git diff` нічого не виводить. Чому?",
+            "pl": "Dodałeś wszystko przez `git add .`. Teraz `git diff` nic nie wypisuje. Dlaczego?"
+          },
+          "options": [
+            {
+              "en": "git diff compares the working tree with the staging area, and they are equal now; use git diff --staged",
+              "ru": "git diff сравнивает рабочую папку с индексом, а они теперь одинаковые; нужен git diff --staged",
+              "uk": "git diff порівнює робочу теку з індексом, а вони тепер однакові; потрібен git diff --staged",
+              "pl": "git diff porównuje katalog roboczy z indeksem, a teraz są równe; użyj git diff --staged"
+            },
+            {
+              "en": "git add . deleted the changes",
+              "ru": "git add . удалил изменения",
+              "uk": "git add . видалив зміни",
+              "pl": "git add . usunął zmiany"
+            },
+            {
+              "en": "The changes were committed automatically",
+              "ru": "Изменения закоммитились автоматически",
+              "uk": "Зміни закомітилися автоматично",
+              "pl": "Zmiany zostały zatwierdzone automatycznie"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "gt-undo",
+      "title": {
+        "en": "Undoing changes",
+        "ru": "Отмена изменений",
+        "uk": "Скасування змін",
+        "pl": "Cofanie zmian"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Not committed yet\n| situation | command |\n|---|---|\n| broke a file, want the last committed version | `git restore FILE` |\n| staged a file by mistake | `git restore --staged FILE` |\n\n`git restore FILE` **throws away** your edits in that file — there is no undo for this one.\n\n## Already committed\n| situation | command |\n|---|---|\n| the last commit message has a typo | `git commit --amend -m \"Better message\"` |\n| undo a commit that is already shared | `git revert COMMIT` — a *new* commit with the opposite change |\n| forget the last commits locally | `git reset --hard HEAD~1` — moves the branch back, files too |\n\n> `revert` is safe: history only grows. `reset --hard` rewrites history and deletes changes — use it only for commits nobody else has.",
+            "ru": "## Ещё не закоммичено\n| ситуация | команда |\n|---|---|\n| сломали файл, нужна последняя закоммиченная версия | `git restore ФАЙЛ` |\n| случайно добавили файл в индекс | `git restore --staged ФАЙЛ` |\n\n`git restore ФАЙЛ` **выбрасывает** ваши правки в файле — эту операцию не отменить.\n\n## Уже закоммичено\n| ситуация | команда |\n|---|---|\n| опечатка в сообщении последнего коммита | `git commit --amend -m \"Better message\"` |\n| отменить коммит, который уже у других | `git revert КОММИТ` — *новый* коммит с обратным изменением |\n| забыть последние коммиты локально | `git reset --hard HEAD~1` — откатывает ветку и файлы |\n\n> `revert` безопасен: история только растёт. `reset --hard` переписывает историю и стирает изменения — только для коммитов, которых больше ни у кого нет.",
+            "uk": "## Ще не закомічено\n| ситуація | команда |\n|---|---|\n| зламали файл, потрібна остання закомічена версія | `git restore ФАЙЛ` |\n| випадково додали файл в індекс | `git restore --staged ФАЙЛ` |\n\n`git restore ФАЙЛ` **викидає** ваші правки у файлі — цю операцію не скасувати.\n\n## Уже закомічено\n| ситуація | команда |\n|---|---|\n| помилка в повідомленні останнього коміту | `git commit --amend -m \"Better message\"` |\n| скасувати коміт, який уже є в інших | `git revert КОМІТ` — *новий* коміт з оберненою зміною |\n| забути останні коміти локально | `git reset --hard HEAD~1` — відкочує гілку й файли |\n\n> `revert` безпечний: історія лише росте. `reset --hard` переписує історію й стирає зміни — тільки для комітів, яких більше ні в кого немає.",
+            "pl": "## Jeszcze niezatwierdzone\n| sytuacja | polecenie |\n|---|---|\n| zepsułeś plik, chcesz ostatnią zatwierdzoną wersję | `git restore PLIK` |\n| przez pomyłkę dodałeś plik do indeksu | `git restore --staged PLIK` |\n\n`git restore PLIK` **wyrzuca** twoje zmiany w pliku — tego nie da się cofnąć.\n\n## Już zatwierdzone\n| sytuacja | polecenie |\n|---|---|\n| literówka w opisie ostatniego commita | `git commit --amend -m \"Better message\"` |\n| cofnij commit, który mają już inni | `git revert COMMIT` — *nowy* commit z odwrotną zmianą |\n| zapomnij ostatnie commity lokalnie | `git reset --hard HEAD~1` — cofa gałąź i pliki |\n\n> `revert` jest bezpieczny: historia tylko rośnie. `reset --hard` przepisuje historię i kasuje zmiany — tylko dla commitów, których nikt inny nie ma."
+          },
+          "title": {
+            "en": "restore, revert, reset",
+            "ru": "restore, revert, reset",
+            "uk": "restore, revert, reset",
+            "pl": "restore, revert, reset"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Oops: index.html was overwritten. Bring back the last committed version.",
+            "ru": "Ой: index.html затёрт. Верните последнюю закоммиченную версию.",
+            "uk": "Ой: index.html затерто. Поверніть останню закомічену версію.",
+            "pl": "Ups: index.html został nadpisany. Przywróć ostatnią zatwierdzoną wersję."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "echo oops > index.html"
+          ],
+          "checks": [
+            {
+              "type": "fileContains",
+              "path": "~/project/index.html",
+              "text": "Welcome to my site",
+              "label": {
+                "en": "index.html is back",
+                "ru": "index.html вернулся",
+                "uk": "index.html повернувся",
+                "pl": "index.html wrócił"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "clean": true,
+              "label": {
+                "en": "Nothing modified",
+                "ru": "Ничего не изменено",
+                "uk": "Нічого не змінено",
+                "pl": "Nic nie jest zmienione"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "restore takes the file from the last commit.",
+              "ru": "restore берёт файл из последнего коммита.",
+              "uk": "restore бере файл з останнього коміту.",
+              "pl": "restore bierze plik z ostatniego commita."
+            },
+            "command": "git restore"
+          },
+          "solution": [
+            "git restore index.html"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "draft.txt got into the staging area by mistake. Unstage it without losing the file.",
+            "ru": "draft.txt случайно попал в индекс. Уберите его из индекса, не потеряв файл.",
+            "uk": "draft.txt випадково потрапив в індекс. Приберіть його з індексу, не втративши файл.",
+            "pl": "draft.txt przez pomyłkę trafił do indeksu. Usuń go z indeksu, nie tracąc pliku."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "echo \"my draft\" > draft.txt",
+            "git add draft.txt"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "untracked": "~/project/draft.txt",
+              "label": {
+                "en": "draft.txt is not staged",
+                "ru": "draft.txt не в индексе",
+                "uk": "draft.txt не в індексі",
+                "pl": "draft.txt nie jest w indeksie"
+              }
+            },
+            {
+              "type": "fileExists",
+              "path": "~/project/draft.txt",
+              "label": {
+                "en": "The file is still there",
+                "ru": "Файл на месте",
+                "uk": "Файл на місці",
+                "pl": "Plik nadal istnieje"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "restore with the flag for the staging area",
+              "ru": "restore с флагом для индекса",
+              "uk": "restore з прапорцем для індексу",
+              "pl": "restore z flagą dla indeksu"
+            },
+            "command": "git restore"
+          },
+          "solution": [
+            "git restore --staged draft.txt"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The commit \"Teal headings\" broke the design, and the team already has it. Undo it safely, without rewriting history.",
+            "ru": "Коммит «Teal headings» сломал дизайн, и он уже есть у команды. Отмените его безопасно, не переписывая историю.",
+            "uk": "Коміт «Teal headings» зламав дизайн, і він уже є в команди. Скасуйте його безпечно, не переписуючи історію.",
+            "pl": "Commit „Teal headings” zepsuł wygląd, a zespół już go ma. Cofnij go bezpiecznie, bez przepisywania historii."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\""
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "commits": 4,
+              "message": "^Revert",
+              "label": {
+                "en": "A new commit was added (4 in total)",
+                "ru": "Добавлен новый коммит (всего 4)",
+                "uk": "Додано новий коміт (усього 4)",
+                "pl": "Dodano nowy commit (razem 4)"
+              }
+            },
+            {
+              "type": "fileNotContains",
+              "path": "~/project/style.css",
+              "text": "teal",
+              "label": {
+                "en": "style.css has no teal any more",
+                "ru": "В style.css больше нет teal",
+                "uk": "У style.css більше немає teal",
+                "pl": "W style.css nie ma już teal"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git revert with the commit: it is HEAD~1 (or its short id from git log --oneline).",
+              "ru": "git revert с коммитом: это HEAD~1 (или его короткий id из git log --oneline).",
+              "uk": "git revert з комітом: це HEAD~1 (або його короткий id з git log --oneline).",
+              "pl": "git revert z commitem: to HEAD~1 (albo jego krótkie id z git log --oneline)."
+            },
+            "command": "git revert"
+          },
+          "solution": [
+            "git revert HEAD~1"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Which command is safe for a commit that is already on GitHub?",
+            "ru": "Какая команда безопасна для коммита, который уже на GitHub?",
+            "uk": "Яка команда безпечна для коміту, який уже на GitHub?",
+            "pl": "Które polecenie jest bezpieczne dla commita, który jest już na GitHubie?"
+          },
+          "options": [
+            {
+              "en": "git revert — it adds a new commit",
+              "ru": "git revert — он добавляет новый коммит",
+              "uk": "git revert — він додає новий коміт",
+              "pl": "git revert — dodaje nowy commit"
+            },
+            {
+              "en": "git reset --hard — it removes the commit",
+              "ru": "git reset --hard — он удаляет коммит",
+              "uk": "git reset --hard — він видаляє коміт",
+              "pl": "git reset --hard — usuwa commit"
+            },
+            {
+              "en": "git restore — it restores the commit",
+              "ru": "git restore — он восстанавливает коммит",
+              "uk": "git restore — він відновлює коміт",
+              "pl": "git restore — przywraca commit"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "Others already have the old history. reset would make your history different from theirs, and your next push would be rejected.",
+            "ru": "У других уже есть старая история. reset сделает вашу историю отличной от их, и следующий push будет отклонён.",
+            "uk": "Інші вже мають стару історію. reset зробить вашу історію відмінною від їхньої, і наступний push буде відхилено.",
+            "pl": "Inni mają już starą historię. reset sprawi, że twoja będzie inna, a następny push zostanie odrzucony."
+          }
+        }
+      ]
+    },
+    {
+      "id": "gt-ignore",
+      "title": {
+        "en": "What not to commit: .gitignore",
+        "ru": "Что не коммитить: .gitignore",
+        "uk": "Що не комітити: .gitignore",
+        "pl": "Czego nie zatwierdzać: .gitignore"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Not everything belongs in history\nLogs, build output, dependencies (`node_modules/`), editor files and especially **secrets** (`.env` with passwords) should not be committed.\n\nList them in a file named **`.gitignore`** at the root of the repository:\n```\n*.log\nbuild/\n.env\n```\n| pattern | ignores |\n|---|---|\n| `*.log` | every file ending in .log, in any folder |\n| `build/` | the folder build and everything inside |\n| `.env` | files named .env |\n| `!keep.log` | an exception: do not ignore keep.log |\n\nCommit `.gitignore` itself — it is a part of the project.\n\n> `.gitignore` affects only **untracked** files. A file that is already committed stays tracked: remove it from the index with `git rm --cached FILE`.",
+            "ru": "## Не всё должно быть в истории\nЛоги, результаты сборки, зависимости (`node_modules/`), файлы редактора и особенно **секреты** (`.env` с паролями) коммитить не нужно.\n\nПеречислите их в файле **`.gitignore`** в корне репозитория:\n```\n*.log\nbuild/\n.env\n```\n| шаблон | игнорирует |\n|---|---|\n| `*.log` | все файлы на .log в любой папке |\n| `build/` | папку build со всем содержимым |\n| `.env` | файлы с именем .env |\n| `!keep.log` | исключение: keep.log не игнорировать |\n\nСам `.gitignore` коммитят — это часть проекта.\n\n> `.gitignore` действует только на **неотслеживаемые** файлы. Уже закоммиченный файл продолжит отслеживаться: уберите его из индекса через `git rm --cached ФАЙЛ`.",
+            "uk": "## Не все має бути в історії\nЛоги, результати збирання, залежності (`node_modules/`), файли редактора й особливо **секрети** (`.env` з паролями) комітити не треба.\n\nПерелічіть їх у файлі **`.gitignore`** у корені репозиторію:\n```\n*.log\nbuild/\n.env\n```\n| шаблон | ігнорує |\n|---|---|\n| `*.log` | усі файли на .log у будь-якій теці |\n| `build/` | теку build з усім вмістом |\n| `.env` | файли з назвою .env |\n| `!keep.log` | виняток: keep.log не ігнорувати |\n\nСам `.gitignore` комітять — це частина проєкту.\n\n> `.gitignore` діє лише на **невідстежувані** файли. Уже закомічений файл і далі відстежуватиметься: приберіть його з індексу через `git rm --cached ФАЙЛ`.",
+            "pl": "## Nie wszystko powinno trafić do historii\nLogi, wyniki budowania, zależności (`node_modules/`), pliki edytora, a zwłaszcza **sekrety** (`.env` z hasłami) nie powinny być zatwierdzane.\n\nWypisz je w pliku **`.gitignore`** w katalogu głównym repozytorium:\n```\n*.log\nbuild/\n.env\n```\n| wzorzec | ignoruje |\n|---|---|\n| `*.log` | każdy plik kończący się na .log, w dowolnym folderze |\n| `build/` | folder build z całą zawartością |\n| `.env` | pliki o nazwie .env |\n| `!keep.log` | wyjątek: nie ignoruj keep.log |\n\nSam `.gitignore` się zatwierdza — to część projektu.\n\n> `.gitignore` działa tylko na **nieśledzone** pliki. Plik już zatwierdzony dalej będzie śledzony: usuń go z indeksu przez `git rm --cached PLIK`."
+          },
+          "title": {
+            "en": ".gitignore",
+            "ru": ".gitignore",
+            "uk": ".gitignore",
+            "pl": ".gitignore"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The project has debug.log and a secret .env. Make Git ignore all .log files and .env, and commit the .gitignore.",
+            "ru": "В проекте есть debug.log и секретный .env. Сделайте так, чтобы Git игнорировал все .log-файлы и .env, и закоммитьте .gitignore.",
+            "uk": "У проєкті є debug.log і секретний .env. Зробіть так, щоб Git ігнорував усі .log-файли та .env, і закомітьте .gitignore.",
+            "pl": "W projekcie są debug.log i tajny .env. Spraw, by Git ignorował wszystkie pliki .log i .env, i zatwierdź .gitignore."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "echo \"error at 12:00\" > debug.log",
+            "echo \"API_KEY=s3cr3t\" > .env"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "ignored": "~/project/debug.log",
+              "label": {
+                "en": "*.log is ignored",
+                "ru": "*.log игнорируется",
+                "uk": "*.log ігнорується",
+                "pl": "*.log jest ignorowany"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "ignored": "~/project/.env",
+              "label": {
+                "en": ".env is ignored",
+                "ru": ".env игнорируется",
+                "uk": ".env ігнорується",
+                "pl": ".env jest ignorowany"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "tracked": "~/project/.gitignore",
+              "label": {
+                "en": ".gitignore is committed",
+                "ru": ".gitignore закоммичен",
+                "uk": ".gitignore закомічено",
+                "pl": ".gitignore jest zatwierdzony"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "clean": true,
+              "label": {
+                "en": "Status is clean",
+                "ru": "Статус чистый",
+                "uk": "Статус чистий",
+                "pl": "Status jest czysty"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "echo \"*.log\" > .gitignore, then append .env with >>, then add and commit .gitignore",
+              "ru": "echo \"*.log\" > .gitignore, потом допишите .env через >>, затем add и commit для .gitignore",
+              "uk": "echo \"*.log\" > .gitignore, потім допишіть .env через >>, далі add і commit для .gitignore",
+              "pl": "echo \"*.log\" > .gitignore, potem dopisz .env przez >>, następnie add i commit dla .gitignore"
+            },
+            "command": "echo"
+          },
+          "solution": [
+            "echo \"*.log\" > .gitignore",
+            "echo \".env\" >> .gitignore",
+            "git add .gitignore",
+            "git commit -m \"Ignore logs and secrets\""
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "config.php with a password was committed a week ago. You add it to .gitignore. What happens?",
+            "ru": "config.php с паролем закоммитили неделю назад. Вы добавляете его в .gitignore. Что будет?",
+            "uk": "config.php з паролем закомітили тиждень тому. Ви додаєте його в .gitignore. Що буде?",
+            "pl": "config.php z hasłem zatwierdzono tydzień temu. Dodajesz go do .gitignore. Co się stanie?"
+          },
+          "options": [
+            {
+              "en": "Nothing changes: the file stays tracked and the password stays in history",
+              "ru": "Ничего: файл продолжает отслеживаться, а пароль остаётся в истории",
+              "uk": "Нічого: файл і далі відстежується, а пароль лишається в історії",
+              "pl": "Nic: plik dalej jest śledzony, a hasło zostaje w historii"
+            },
+            {
+              "en": "Git deletes the file from all old commits",
+              "ru": "Git удаляет файл из всех старых коммитов",
+              "uk": "Git видаляє файл з усіх старих комітів",
+              "pl": "Git usuwa plik ze wszystkich starych commitów"
+            },
+            {
+              "en": "Git deletes the file from the disk",
+              "ru": "Git удаляет файл с диска",
+              "uk": "Git видаляє файл з диска",
+              "pl": "Git usuwa plik z dysku"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": ".gitignore only affects untracked files. Use git rm --cached config.php — and change the password: it is still in the history.",
+            "ru": ".gitignore влияет только на неотслеживаемые файлы. Выполните git rm --cached config.php — и смените пароль: он остался в истории.",
+            "uk": ".gitignore впливає лише на невідстежувані файли. Виконайте git rm --cached config.php — і змініть пароль: він лишився в історії.",
+            "pl": ".gitignore działa tylko na pliki nieśledzone. Wykonaj git rm --cached config.php — i zmień hasło: nadal jest w historii."
+          }
+        }
+      ]
+    }
+  ]
+}

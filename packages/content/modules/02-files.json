@@ -294,7 +294,8 @@
           "instructions": {
             "en": "1. echo prints text, > redirects it into a file\n2. Form: `echo TEXT > FILE`\n3. Check the result with `cat greeting.txt`",
             "ru": "1. echo печатает текст, > перенаправляет его в файл\n2. Форма: `echo ТЕКСТ > ФАЙЛ`\n3. Проверьте результат: `cat greeting.txt`",
-            "uk": "1. echo друкує текст, > перенаправляє його у файл\n2. Форма: `echo ТЕКСТ > ФАЙЛ`\n3. Перевірте результат: `cat greeting.txt`"
+            "uk": "1. echo друкує текст, > перенаправляє його у файл\n2. Форма: `echo ТЕКСТ > ФАЙЛ`\n3. Перевірте результат: `cat greeting.txt`",
+            "pl": "1. echo wypisuje tekst, > przekierowuje go do pliku\n2. Postać: `echo TEKST > PLIK`\n3. Sprawdź wynik przez `cat greeting.txt`"
           }
         },
         {
@@ -344,7 +345,8 @@
           "instructions": {
             "en": "1. Use >> (two arrows) — it appends\n2. A single > would erase the file!\n3. Check: `cat notes.txt`",
             "ru": "1. Используйте >> (две стрелки) — дописывает в конец\n2. Одна > сотрёт файл!\n3. Проверьте: `cat notes.txt`",
-            "uk": "1. Використайте >> (дві стрілки) — дописує в кінець\n2. Одна > зітре файл!\n3. Перевірте: `cat notes.txt`"
+            "uk": "1. Використайте >> (дві стрілки) — дописує в кінець\n2. Одна > зітре файл!\n3. Перевірте: `cat notes.txt`",
+            "pl": "1. Użyj >> (dwie strzałki) — dopisuje\n2. Pojedyncze > wymazałoby plik!\n3. Sprawdź: `cat notes.txt`"
           }
         },
         {
@@ -496,7 +498,8 @@
           "instructions": {
             "en": "1. Create the directory: `mkdir project`\n2. Move the file into it: `mv notes.txt project/`\n3. Check: `ls project`",
             "ru": "1. Создайте директорию: `mkdir project`\n2. Переместите в неё файл: `mv notes.txt project/`\n3. Проверьте: `ls project`",
-            "uk": "1. Створіть директорію: `mkdir project`\n2. Перемістіть у неї файл: `mv notes.txt project/`\n3. Перевірте: `ls project`"
+            "uk": "1. Створіть директорію: `mkdir project`\n2. Перемістіть у неї файл: `mv notes.txt project/`\n3. Перевірте: `ls project`",
+            "pl": "1. Utwórz katalog: `mkdir project`\n2. Przenieś do niego plik: `mv notes.txt project/`\n3. Sprawdź: `ls project`"
           }
         },
         {
@@ -588,7 +591,8 @@
           "instructions": {
             "en": "1. The source is the directory projects/website\n2. Directories are copied with cp -r\n3. The copy must be called website-backup in your home",
             "ru": "1. Источник — директория projects/website\n2. Директории копируются через cp -r\n3. Копия должна называться website-backup и лежать дома",
-            "uk": "1. Джерело — директорія projects/website\n2. Директорії копіюються через cp -r\n3. Копія має називатися website-backup і лежати вдома"
+            "uk": "1. Джерело — директорія projects/website\n2. Директорії копіюються через cp -r\n3. Копія має називатися website-backup і лежати вдома",
+            "pl": "1. Źródłem jest katalog projects/website\n2. Katalogi kopiuje się przez cp -r\n3. Kopia ma się nazywać website-backup w katalogu domowym"
           }
         }
       ]

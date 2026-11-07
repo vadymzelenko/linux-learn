@@ -1,0 +1,906 @@
+{
+  "id": "github",
+  "path": "/git/github",
+  "icon": "github",
+  "title": {
+    "en": "Working with GitHub",
+    "ru": "Работа с GitHub",
+    "uk": "Робота з GitHub",
+    "pl": "Praca z GitHubem"
+  },
+  "description": {
+    "en": "Remotes, push and pull, pull requests, issues and teamwork",
+    "ru": "Remote, push и pull, pull request’ы, issues и командная работа",
+    "uk": "Remote, push і pull, pull request’и, issues і командна робота",
+    "pl": "Remote, push i pull, pull requesty, zgłoszenia i praca zespołowa"
+  },
+  "lessons": [
+    {
+      "id": "gh-remote",
+      "title": {
+        "en": "Your repository on GitHub",
+        "ru": "Ваш репозиторий на GitHub",
+        "uk": "Ваш репозиторій на GitHub",
+        "pl": "Twoje repozytorium na GitHubie"
+      },
+      "commands": [
+        "git",
+        "gh"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## A copy on the server\nGitHub keeps a copy of your repository: a backup, a place to share code and to work as a team. Steps:\n1. create an empty repository on github.com (or `gh repo create site --public` in the terminal)\n2. connect it: `git remote add origin https://github.com/student/site.git`\n3. send your commits: `git push -u origin main`\n```\n$ git remote -v\n$ git push -u origin main\n$ git status\n```\n- **origin** is just the conventional name of the main remote\n- `-u` remembers that local `main` goes to `origin/main`; afterwards plain `git push` and `git pull` are enough\n- `git status` now says *Your branch is up to date with 'origin/main'* — or *ahead by N commits* when you have unpushed work\n\n> In the trainer GitHub is simulated: `gh` and `git push` talk to a pretend github.com on this machine. On a real computer you would log in once with `gh auth login`.",
+            "ru": "## Копия на сервере\nGitHub хранит копию вашего репозитория: резерв, место, где делятся кодом и работают командой. Шаги:\n1. создать пустой репозиторий на github.com (или `gh repo create site --public` в терминале)\n2. подключить его: `git remote add origin https://github.com/student/site.git`\n3. отправить коммиты: `git push -u origin main`\n```\n$ git remote -v\n$ git push -u origin main\n$ git status\n```\n- **origin** — просто общепринятое имя основного удалённого репозитория\n- `-u` запоминает, что локальная `main` идёт в `origin/main`; дальше хватает просто `git push` и `git pull`\n- `git status` теперь пишет *Your branch is up to date with 'origin/main'* — или *ahead by N commits*, если есть неотправленная работа\n\n> В тренажёре GitHub симулирован: `gh` и `git push` общаются с ненастоящим github.com на этой машине. На реальном компьютере один раз входят через `gh auth login`.",
+            "uk": "## Копія на сервері\nGitHub зберігає копію вашого репозиторію: резерв, місце, де діляться кодом і працюють командою. Кроки:\n1. створити порожній репозиторій на github.com (або `gh repo create site --public` у терміналі)\n2. підключити його: `git remote add origin https://github.com/student/site.git`\n3. надіслати коміти: `git push -u origin main`\n```\n$ git remote -v\n$ git push -u origin main\n$ git status\n```\n- **origin** — просто загальноприйнята назва основного віддаленого репозиторію\n- `-u` запам’ятовує, що локальна `main` іде в `origin/main`; далі вистачає просто `git push` і `git pull`\n- `git status` тепер пише *Your branch is up to date with 'origin/main'* — або *ahead by N commits*, якщо є ненадіслана робота\n\n> У тренажері GitHub симульовано: `gh` і `git push` спілкуються з несправжнім github.com на цій машині. На реальному комп’ютері один раз входять через `gh auth login`.",
+            "pl": "## Kopia na serwerze\nGitHub przechowuje kopię twojego repozytorium: zapas, miejsce do dzielenia się kodem i pracy zespołowej. Kroki:\n1. utwórz puste repozytorium na github.com (albo `gh repo create site --public` w terminalu)\n2. podłącz je: `git remote add origin https://github.com/student/site.git`\n3. wyślij commity: `git push -u origin main`\n```\n$ git remote -v\n$ git push -u origin main\n$ git status\n```\n- **origin** to po prostu przyjęta nazwa głównego zdalnego repozytorium\n- `-u` zapamiętuje, że lokalna `main` idzie do `origin/main`; potem wystarczy samo `git push` i `git pull`\n- `git status` pisze teraz *Your branch is up to date with 'origin/main'* — albo *ahead by N commits*, gdy masz niewysłaną pracę\n\n> W trenażerze GitHub jest symulowany: `gh` i `git push` rozmawiają z udawanym github.com na tej maszynie. Na prawdziwym komputerze logujesz się raz przez `gh auth login`."
+          },
+          "title": {
+            "en": "remote and push",
+            "ru": "remote и push",
+            "uk": "remote і push",
+            "pl": "remote i push"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Publish ~/project: create the public GitHub repository site, connect it as origin and push main so that later a plain git push works.",
+            "ru": "Опубликуйте ~/project: создайте публичный репозиторий site на GitHub, подключите его как origin и отправьте main так, чтобы потом работал просто git push.",
+            "uk": "Опублікуйте ~/project: створіть публічний репозиторій site на GitHub, підключіть його як origin і надішліть main так, щоб потім працював просто git push.",
+            "pl": "Opublikuj ~/project: utwórz publiczne repozytorium site na GitHubie, podłącz je jako origin i wyślij main tak, by potem działało samo git push."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\""
+          ],
+          "checks": [
+            {
+              "type": "github",
+              "repo": "site",
+              "label": {
+                "en": "The repository site exists on GitHub",
+                "ru": "Репозиторий site есть на GitHub",
+                "uk": "Репозиторій site є на GitHub",
+                "pl": "Repozytorium site istnieje na GitHubie"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "remote": "origin",
+              "label": {
+                "en": "origin is connected",
+                "ru": "origin подключён",
+                "uk": "origin підключено",
+                "pl": "origin jest podłączony"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "pushed": "main",
+              "label": {
+                "en": "main is pushed and tracks origin/main",
+                "ru": "main отправлена и связана с origin/main",
+                "uk": "main надіслано й пов’язано з origin/main",
+                "pl": "main jest wysłana i śledzi origin/main"
+              }
+            },
+            {
+              "type": "github",
+              "repo": "site",
+              "commits": 3,
+              "file": "index.html",
+              "label": {
+                "en": "GitHub has all 3 commits",
+                "ru": "На GitHub все 3 коммита",
+                "uk": "На GitHub усі 3 коміти",
+                "pl": "GitHub ma wszystkie 3 commity"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "gh repo create site --public; git remote add origin https://github.com/student/site.git; git push -u origin main",
+              "ru": "gh repo create site --public; git remote add origin https://github.com/student/site.git; git push -u origin main",
+              "uk": "gh repo create site --public; git remote add origin https://github.com/student/site.git; git push -u origin main",
+              "pl": "gh repo create site --public; git remote add origin https://github.com/student/site.git; git push -u origin main"
+            },
+            "command": "git push -u"
+          },
+          "solution": [
+            "gh repo create site --public",
+            "git remote add origin https://github.com/student/site.git",
+            "git push -u origin main"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Commit any change to notes.txt and send it to GitHub.",
+            "ru": "Закоммитьте любое изменение в notes.txt и отправьте его на GitHub.",
+            "uk": "Закомітьте будь-яку зміну в notes.txt і надішліть її на GitHub.",
+            "pl": "Zatwierdź dowolną zmianę w notes.txt i wyślij ją na GitHuba."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "gh repo create site --public",
+            "git remote add origin https://github.com/student/site.git",
+            "git push -qu origin main 2>/dev/null"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "commits": 4,
+              "label": {
+                "en": "A new commit",
+                "ru": "Новый коммит",
+                "uk": "Новий коміт",
+                "pl": "Nowy commit"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "pushed": "main",
+              "label": {
+                "en": "Pushed: up to date with origin/main",
+                "ru": "Отправлено: совпадает с origin/main",
+                "uk": "Надіслано: збігається з origin/main",
+                "pl": "Wysłane: zgodne z origin/main"
+              }
+            },
+            {
+              "type": "github",
+              "repo": "site",
+              "commits": 4,
+              "label": {
+                "en": "GitHub has 4 commits",
+                "ru": "На GitHub 4 коммита",
+                "uk": "На GitHub 4 коміти",
+                "pl": "GitHub ma 4 commity"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git add notes.txt, git commit -m …, then just git push (the upstream is remembered)",
+              "ru": "git add notes.txt, git commit -m …, затем просто git push (upstream запомнен)",
+              "uk": "git add notes.txt, git commit -m …, потім просто git push (upstream запам’ятовано)",
+              "pl": "git add notes.txt, git commit -m …, potem samo git push (upstream jest zapamiętany)"
+            },
+            "command": "git push"
+          },
+          "solution": [
+            "echo \"- blog\" >> notes.txt",
+            "git add notes.txt",
+            "git commit -m \"Add notes\"",
+            "git push"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "`git status` says \"Your branch is ahead of 'origin/main' by 2 commits\". What does it mean?",
+            "ru": "`git status` пишет «Your branch is ahead of 'origin/main' by 2 commits». Что это значит?",
+            "uk": "`git status` пише «Your branch is ahead of 'origin/main' by 2 commits». Що це означає?",
+            "pl": "`git status` pisze „Your branch is ahead of 'origin/main' by 2 commits”. Co to znaczy?"
+          },
+          "options": [
+            {
+              "en": "You have 2 local commits that are not on GitHub yet — run git push",
+              "ru": "У вас 2 локальных коммита, которых ещё нет на GitHub, — нужен git push",
+              "uk": "У вас 2 локальні коміти, яких ще немає на GitHub, — потрібен git push",
+              "pl": "Masz 2 lokalne commity, których jeszcze nie ma na GitHubie — uruchom git push"
+            },
+            {
+              "en": "GitHub has 2 commits you do not have — run git pull",
+              "ru": "На GitHub 2 коммита, которых нет у вас, — нужен git pull",
+              "uk": "На GitHub 2 коміти, яких немає у вас, — потрібен git pull",
+              "pl": "GitHub ma 2 commity, których ty nie masz — uruchom git pull"
+            },
+            {
+              "en": "2 files are not committed",
+              "ru": "2 файла не закоммичены",
+              "uk": "2 файли не закомічено",
+              "pl": "2 pliki nie są zatwierdzone"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "gh-clone-pull",
+      "title": {
+        "en": "Clone and pull: working together",
+        "ru": "Clone и pull: работа вместе",
+        "uk": "Clone і pull: робота разом",
+        "pl": "Clone i pull: praca razem"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Get someone's repository\n```\n$ git clone https://github.com/student/site.git\n$ cd site\n```\n`clone` downloads the whole history, sets up `origin` and checks out `main`.\n\n## Stay up to date\nTeammates push too. Before you start working:\n```\n$ git pull\n```\n`pull` = `fetch` (download new commits) + `merge` (join them into your branch).\n\n## Rejected push\nIf someone pushed while you were working, your push is refused:\n```\n ! [rejected]        main -> main (fetch first)\n```\nNothing is broken: run `git pull` (resolve conflicts if any), then `git push` again.\n\n> Never \"fix\" a rejected push with `git push --force` on a shared branch: it deletes your teammates' commits from GitHub.",
+            "ru": "## Получить чужой репозиторий\n```\n$ git clone https://github.com/student/site.git\n$ cd site\n```\n`clone` скачивает всю историю, настраивает `origin` и разворачивает `main`.\n\n## Будьте в курсе\nКоллеги тоже делают push. Перед началом работы:\n```\n$ git pull\n```\n`pull` = `fetch` (скачать новые коммиты) + `merge` (влить их в вашу ветку).\n\n## Отклонённый push\nЕсли кто-то отправил коммиты, пока вы работали, ваш push отклонят:\n```\n ! [rejected]        main -> main (fetch first)\n```\nНичего не сломано: выполните `git pull` (разрешите конфликты, если будут), затем снова `git push`.\n\n> Никогда не «чините» отклонённый push через `git push --force` в общей ветке: так вы сотрёте коммиты коллег с GitHub.",
+            "uk": "## Отримати чужий репозиторій\n```\n$ git clone https://github.com/student/site.git\n$ cd site\n```\n`clone` завантажує всю історію, налаштовує `origin` і розгортає `main`.\n\n## Будьте в курсі\nКолеги теж роблять push. Перед початком роботи:\n```\n$ git pull\n```\n`pull` = `fetch` (завантажити нові коміти) + `merge` (влити їх у вашу гілку).\n\n## Відхилений push\nЯкщо хтось надіслав коміти, поки ви працювали, ваш push відхилять:\n```\n ! [rejected]        main -> main (fetch first)\n```\nНічого не зламано: виконайте `git pull` (розв’яжіть конфлікти, якщо будуть), потім знову `git push`.\n\n> Ніколи не «лагодьте» відхилений push через `git push --force` у спільній гілці: так ви зітрете коміти колег з GitHub.",
+            "pl": "## Pobierz cudze repozytorium\n```\n$ git clone https://github.com/student/site.git\n$ cd site\n```\n`clone` pobiera całą historię, ustawia `origin` i rozpakowuje `main`.\n\n## Bądź na bieżąco\nKoledzy też robią push. Zanim zaczniesz pracę:\n```\n$ git pull\n```\n`pull` = `fetch` (pobierz nowe commity) + `merge` (scal je z twoją gałęzią).\n\n## Odrzucony push\nJeśli ktoś wysłał commity w trakcie twojej pracy, twój push zostanie odrzucony:\n```\n ! [rejected]        main -> main (fetch first)\n```\nNic się nie zepsuło: wykonaj `git pull` (rozwiąż ewentualne konflikty), potem znów `git push`.\n\n> Nigdy nie „naprawiaj” odrzuconego pusha przez `git push --force` na wspólnej gałęzi: usuniesz commity kolegów z GitHuba."
+          },
+          "title": {
+            "en": "clone, pull, rejected push",
+            "ru": "clone, pull, отклонённый push",
+            "uk": "clone, pull, відхилений push",
+            "pl": "clone, pull, odrzucony push"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Clone the GitHub repository student/site into ~/site-copy.",
+            "ru": "Склонируйте репозиторий student/site с GitHub в ~/site-copy.",
+            "uk": "Склонуйте репозиторій student/site з GitHub у ~/site-copy.",
+            "pl": "Sklonuj repozytorium student/site z GitHuba do ~/site-copy."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "gh repo create site --public",
+            "git remote add origin https://github.com/student/site.git",
+            "git push -qu origin main 2>/dev/null",
+            "cd ~"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/site-copy",
+              "commits": 3,
+              "remote": "origin",
+              "label": {
+                "en": "~/site-copy is a repository",
+                "ru": "~/site-copy — репозиторий",
+                "uk": "~/site-copy — репозиторій",
+                "pl": "~/site-copy to repozytorium"
+              }
+            },
+            {
+              "type": "fileExists",
+              "path": "~/site-copy/index.html",
+              "label": {
+                "en": "The files are there",
+                "ru": "Файлы на месте",
+                "uk": "Файли на місці",
+                "pl": "Pliki są na miejscu"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git clone URL DIRECTORY (the URL is https://github.com/student/site.git)",
+              "ru": "git clone URL ПАПКА (URL — https://github.com/student/site.git)",
+              "uk": "git clone URL ТЕКА (URL — https://github.com/student/site.git)",
+              "pl": "git clone URL KATALOG (URL to https://github.com/student/site.git)"
+            },
+            "command": "git clone"
+          },
+          "solution": [
+            "cd ~",
+            "git clone https://github.com/student/site.git site-copy"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Anna pushed a footer to GitHub. Bring her commit into your ~/project.",
+            "ru": "Анна отправила на GitHub подвал сайта. Заберите её коммит в свой ~/project.",
+            "uk": "Анна надіслала на GitHub підвал сайту. Заберіть її коміт у свій ~/project.",
+            "pl": "Anna wysłała na GitHuba stopkę strony. Ściągnij jej commit do swojego ~/project."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "gh repo create site --public",
+            "git remote add origin https://github.com/student/site.git",
+            "git push -qu origin main 2>/dev/null",
+            "cd ~",
+            "git clone -q https://github.com/student/site.git /tmp/anna 2>/dev/null",
+            "cd /tmp/anna",
+            "echo \"<footer>© 2026</footer>\" >> index.html",
+            "git -c user.name=Anna -c user.email=anna@example.com commit -qam \"Add footer\"",
+            "git push -q 2>/dev/null",
+            "cd ~/project"
+          ],
+          "checks": [
+            {
+              "type": "fileContains",
+              "path": "~/project/index.html",
+              "text": "<footer>",
+              "label": {
+                "en": "The footer is in index.html",
+                "ru": "Подвал есть в index.html",
+                "uk": "Підвал є в index.html",
+                "pl": "Stopka jest w index.html"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "pushed": "main",
+              "commits": 4,
+              "label": {
+                "en": "Up to date with origin/main",
+                "ru": "Совпадает с origin/main",
+                "uk": "Збігається з origin/main",
+                "pl": "Zgodne z origin/main"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "One command: fetch + merge",
+              "ru": "Одна команда: fetch + merge",
+              "uk": "Одна команда: fetch + merge",
+              "pl": "Jedno polecenie: fetch + merge"
+            },
+            "command": "git pull"
+          },
+          "solution": [
+            "git pull"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "You committed a change to notes.txt, but git push is rejected: Anna pushed first. Get her work and publish yours.",
+            "ru": "Вы закоммитили изменение в notes.txt, но git push отклонён: Анна отправила раньше. Заберите её работу и опубликуйте свою.",
+            "uk": "Ви закомітили зміну в notes.txt, але git push відхилено: Анна надіслала раніше. Заберіть її роботу й опублікуйте свою.",
+            "pl": "Zatwierdziłeś zmianę w notes.txt, ale git push został odrzucony: Anna wysłała wcześniej. Pobierz jej pracę i opublikuj swoją."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "gh repo create site --public",
+            "git remote add origin https://github.com/student/site.git",
+            "git push -qu origin main 2>/dev/null",
+            "cd ~",
+            "git clone -q https://github.com/student/site.git /tmp/anna 2>/dev/null",
+            "cd /tmp/anna",
+            "echo \"<footer>© 2026</footer>\" >> index.html",
+            "git -c user.name=Anna -c user.email=anna@example.com commit -qam \"Add footer\"",
+            "git push -q 2>/dev/null",
+            "cd ~/project",
+            "echo \"- blog\" >> notes.txt",
+            "git commit -qam \"Add notes\""
+          ],
+          "checks": [
+            {
+              "type": "fileContains",
+              "path": "~/project/index.html",
+              "text": "<footer>",
+              "label": {
+                "en": "Anna's footer is here",
+                "ru": "Подвал Анны у вас",
+                "uk": "Підвал Анни у вас",
+                "pl": "Stopka Anny jest u ciebie"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "pushed": "main",
+              "label": {
+                "en": "Your branch is pushed",
+                "ru": "Ваша ветка отправлена",
+                "uk": "Вашу гілку надіслано",
+                "pl": "Twoja gałąź jest wysłana"
+              }
+            },
+            {
+              "type": "github",
+              "repo": "site",
+              "commits": 6,
+              "label": {
+                "en": "GitHub has both commits",
+                "ru": "На GitHub оба коммита",
+                "uk": "На GitHub обидва коміти",
+                "pl": "GitHub ma oba commity"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git pull, then git push",
+              "ru": "git pull, затем git push",
+              "uk": "git pull, потім git push",
+              "pl": "git pull, potem git push"
+            },
+            "command": "git pull"
+          },
+          "solution": [
+            "git pull",
+            "git push"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Your push was rejected (fetch first). A colleague suggests `git push --force`. Why is it a bad idea?",
+            "ru": "Ваш push отклонён (fetch first). Коллега советует `git push --force`. Почему это плохая идея?",
+            "uk": "Ваш push відхилено (fetch first). Колега радить `git push --force`. Чому це погана ідея?",
+            "pl": "Twój push odrzucono (fetch first). Kolega radzi `git push --force`. Dlaczego to zły pomysł?"
+          },
+          "options": [
+            {
+              "en": "It overwrites the branch on GitHub and deletes the commits others pushed",
+              "ru": "Он перезапишет ветку на GitHub и удалит коммиты, отправленные другими",
+              "uk": "Він перезапише гілку на GitHub і видалить коміти, надіслані іншими",
+              "pl": "Nadpisze gałąź na GitHubie i usunie commity wysłane przez innych"
+            },
+            {
+              "en": "It is slower than a normal push",
+              "ru": "Он медленнее обычного push",
+              "uk": "Він повільніший за звичайний push",
+              "pl": "Jest wolniejszy niż zwykły push"
+            },
+            {
+              "en": "It works only for the repository owner",
+              "ru": "Он работает только у владельца репозитория",
+              "uk": "Він працює лише у власника репозиторію",
+              "pl": "Działa tylko dla właściciela repozytorium"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "gh-pr",
+      "title": {
+        "en": "Pull requests",
+        "ru": "Pull request’ы",
+        "uk": "Pull request’и",
+        "pl": "Pull requesty"
+      },
+      "commands": [
+        "git",
+        "gh"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Propose, review, merge\nIn a team nobody pushes straight to `main`. The **GitHub flow**:\n1. `git switch -c contact-page` — a branch for the task\n2. commit, then `git push -u origin contact-page`\n3. open a **pull request** (PR): \"please merge contact-page into main\"\n4. teammates review the changes, comment, approve; automatic checks (CI) run\n5. the PR is merged on GitHub; everybody runs `git pull`\n\nFrom the terminal:\n```\n$ gh pr create --title \"Add contact page\" --body \"Closes #3\"\n$ gh pr list\n$ gh pr view 1\n$ gh pr merge 1 --merge --delete-branch\n```\n| merge option | result in main |\n|---|---|\n| `--merge` | all commits of the branch + a merge commit |\n| `--squash` | the whole PR as one commit |\n| `--rebase` | the commits are replayed on top of main, no merge commit |\n\n> A PR is a conversation about a change. Small PRs get reviewed fast; huge ones wait for days.",
+            "ru": "## Предложить, обсудить, слить\nВ команде никто не пушит прямо в `main`. **GitHub flow**:\n1. `git switch -c contact-page` — ветка под задачу\n2. коммиты, затем `git push -u origin contact-page`\n3. открыть **pull request** (PR): «пожалуйста, влейте contact-page в main»\n4. коллеги смотрят изменения, комментируют, одобряют; запускаются автоматические проверки (CI)\n5. PR сливают на GitHub; все делают `git pull`\n\nИз терминала:\n```\n$ gh pr create --title \"Add contact page\" --body \"Closes #3\"\n$ gh pr list\n$ gh pr view 1\n$ gh pr merge 1 --merge --delete-branch\n```\n| вариант слияния | что получится в main |\n|---|---|\n| `--merge` | все коммиты ветки + коммит слияния |\n| `--squash` | весь PR одним коммитом |\n| `--rebase` | коммиты переигрываются поверх main, без коммита слияния |\n\n> PR — это разговор об изменении. Маленькие PR проверяют быстро, огромные ждут днями.",
+            "uk": "## Запропонувати, обговорити, злити\nУ команді ніхто не пушить просто в `main`. **GitHub flow**:\n1. `git switch -c contact-page` — гілка під завдання\n2. коміти, потім `git push -u origin contact-page`\n3. відкрити **pull request** (PR): «будь ласка, влийте contact-page у main»\n4. колеги переглядають зміни, коментують, схвалюють; запускаються автоматичні перевірки (CI)\n5. PR зливають на GitHub; усі роблять `git pull`\n\nЗ термінала:\n```\n$ gh pr create --title \"Add contact page\" --body \"Closes #3\"\n$ gh pr list\n$ gh pr view 1\n$ gh pr merge 1 --merge --delete-branch\n```\n| варіант злиття | що вийде в main |\n|---|---|\n| `--merge` | усі коміти гілки + коміт злиття |\n| `--squash` | увесь PR одним комітом |\n| `--rebase` | коміти програються поверх main, без коміту злиття |\n\n> PR — це розмова про зміну. Маленькі PR перевіряють швидко, величезні чекають днями.",
+            "pl": "## Zaproponuj, omów, scal\nW zespole nikt nie wypycha zmian prosto do `main`. **GitHub flow**:\n1. `git switch -c contact-page` — gałąź na zadanie\n2. commity, potem `git push -u origin contact-page`\n3. otwórz **pull request** (PR): „proszę, scalcie contact-page z main”\n4. koledzy przeglądają zmiany, komentują, zatwierdzają; uruchamiają się automatyczne testy (CI)\n5. PR jest scalany na GitHubie; wszyscy robią `git pull`\n\nZ terminala:\n```\n$ gh pr create --title \"Add contact page\" --body \"Closes #3\"\n$ gh pr list\n$ gh pr view 1\n$ gh pr merge 1 --merge --delete-branch\n```\n| opcja scalania | wynik w main |\n|---|---|\n| `--merge` | wszystkie commity gałęzi + commit scalający |\n| `--squash` | cały PR jako jeden commit |\n| `--rebase` | commity są odtworzone na szczycie main, bez commita scalającego |\n\n> PR to rozmowa o zmianie. Małe PR-y są przeglądane szybko, ogromne czekają dniami."
+          },
+          "title": {
+            "en": "GitHub flow",
+            "ru": "GitHub flow",
+            "uk": "GitHub flow",
+            "pl": "GitHub flow"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Make a branch contact-page with contact.html, push it and open a pull request into main.",
+            "ru": "Создайте ветку contact-page с contact.html, отправьте её и откройте pull request в main.",
+            "uk": "Створіть гілку contact-page з contact.html, надішліть її й відкрийте pull request у main.",
+            "pl": "Utwórz gałąź contact-page z contact.html, wyślij ją i otwórz pull request do main."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "gh repo create site --public",
+            "git remote add origin https://github.com/student/site.git",
+            "git push -qu origin main 2>/dev/null"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "branch": "contact-page",
+              "head": "contact-page",
+              "tracked": "~/project/contact.html",
+              "label": {
+                "en": "contact.html is committed on contact-page",
+                "ru": "contact.html закоммичен в contact-page",
+                "uk": "contact.html закомічено в contact-page",
+                "pl": "contact.html jest zatwierdzony na contact-page"
+              }
+            },
+            {
+              "type": "github",
+              "repo": "site",
+              "branch": "contact-page",
+              "label": {
+                "en": "The branch is on GitHub",
+                "ru": "Ветка есть на GitHub",
+                "uk": "Гілка є на GitHub",
+                "pl": "Gałąź jest na GitHubie"
+              }
+            },
+            {
+              "type": "github",
+              "repo": "site",
+              "prs": 1,
+              "label": {
+                "en": "A pull request is open",
+                "ru": "Pull request открыт",
+                "uk": "Pull request відкрито",
+                "pl": "Pull request jest otwarty"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "switch -c, add + commit, git push -u origin contact-page, gh pr create --title \"…\"",
+              "ru": "switch -c, add + commit, git push -u origin contact-page, gh pr create --title \"…\"",
+              "uk": "switch -c, add + commit, git push -u origin contact-page, gh pr create --title \"…\"",
+              "pl": "switch -c, add + commit, git push -u origin contact-page, gh pr create --title \"…\""
+            },
+            "command": "gh pr create"
+          },
+          "solution": [
+            "git switch -c contact-page",
+            "echo \"<h1>Contacts</h1>\" > contact.html",
+            "git add contact.html",
+            "git commit -m \"Add contact page\"",
+            "git push -u origin contact-page",
+            "gh pr create --title \"Add contact page\" --body \"A page with contacts\""
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The review is done. Merge pull request #1 on GitHub, then update your local main.",
+            "ru": "Ревью пройдено. Слейте pull request #1 на GitHub, затем обновите локальную main.",
+            "uk": "Рев’ю пройдено. Злийте pull request #1 на GitHub, потім оновіть локальну main.",
+            "pl": "Przegląd zakończony. Scal pull request #1 na GitHubie, potem zaktualizuj lokalną main."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "gh repo create site --public",
+            "git remote add origin https://github.com/student/site.git",
+            "git push -qu origin main 2>/dev/null",
+            "git switch -qc contact-page 2>/dev/null",
+            "echo \"<h1>Contacts</h1>\" > contact.html",
+            "git add contact.html",
+            "git commit -qm \"Add contact page\"",
+            "git push -qu origin contact-page 2>/dev/null",
+            "gh pr create --title \"Add contact page\" --body \"Contacts\" > /dev/null"
+          ],
+          "checks": [
+            {
+              "type": "github",
+              "repo": "site",
+              "merged": 1,
+              "label": {
+                "en": "PR #1 is merged",
+                "ru": "PR #1 слит",
+                "uk": "PR #1 злито",
+                "pl": "PR #1 jest scalony"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "head": "main",
+              "label": {
+                "en": "You are on main",
+                "ru": "Вы на main",
+                "uk": "Ви на main",
+                "pl": "Jesteś na main"
+              }
+            },
+            {
+              "type": "fileExists",
+              "path": "~/project/contact.html",
+              "label": {
+                "en": "main has contact.html",
+                "ru": "В main есть contact.html",
+                "uk": "У main є contact.html",
+                "pl": "main ma contact.html"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "pushed": "main",
+              "label": {
+                "en": "main is up to date with GitHub",
+                "ru": "main совпадает с GitHub",
+                "uk": "main збігається з GitHub",
+                "pl": "main jest zgodna z GitHubem"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "gh pr merge 1 --merge, then git switch main and git pull",
+              "ru": "gh pr merge 1 --merge, затем git switch main и git pull",
+              "uk": "gh pr merge 1 --merge, потім git switch main і git pull",
+              "pl": "gh pr merge 1 --merge, potem git switch main i git pull"
+            },
+            "command": "gh pr merge"
+          },
+          "solution": [
+            "gh pr merge 1 --merge",
+            "git switch main",
+            "git pull"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Why open a pull request instead of pushing straight to main?",
+            "ru": "Зачем открывать pull request, а не пушить сразу в main?",
+            "uk": "Навіщо відкривати pull request, а не пушити одразу в main?",
+            "pl": "Po co otwierać pull request zamiast wypychać prosto do main?"
+          },
+          "options": [
+            {
+              "en": "Teammates and automatic checks review the change before it reaches main",
+              "ru": "Коллеги и автоматические проверки смотрят изменение до того, как оно попадёт в main",
+              "uk": "Колеги й автоматичні перевірки переглядають зміну до того, як вона потрапить у main",
+              "pl": "Koledzy i automatyczne testy sprawdzają zmianę, zanim trafi do main"
+            },
+            {
+              "en": "git push to main is impossible",
+              "ru": "git push в main невозможен",
+              "uk": "git push у main неможливий",
+              "pl": "git push do main jest niemożliwy"
+            },
+            {
+              "en": "A pull request makes the code run faster",
+              "ru": "Pull request ускоряет код",
+              "uk": "Pull request пришвидшує код",
+              "pl": "Pull request przyspiesza kod"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "A PR has 12 small \"fix typo\" commits. Which merge keeps main's history tidy with one commit for the whole PR?",
+            "ru": "В PR 12 мелких коммитов «fix typo». Какое слияние сохранит историю main аккуратной — один коммит на весь PR?",
+            "uk": "У PR 12 дрібних комітів «fix typo». Яке злиття збереже історію main охайною — один коміт на весь PR?",
+            "pl": "PR ma 12 drobnych commitów „fix typo”. Które scalanie da w main jeden commit na cały PR?"
+          },
+          "options": [
+            {
+              "en": "--squash",
+              "ru": "--squash",
+              "uk": "--squash",
+              "pl": "--squash"
+            },
+            {
+              "en": "--merge",
+              "ru": "--merge",
+              "uk": "--merge",
+              "pl": "--merge"
+            },
+            {
+              "en": "--rebase",
+              "ru": "--rebase",
+              "uk": "--rebase",
+              "pl": "--rebase"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "gh-team",
+      "title": {
+        "en": "Issues, forks and teamwork",
+        "ru": "Issues, форки и командная работа",
+        "uk": "Issues, форки й командна робота",
+        "pl": "Zgłoszenia, forki i praca zespołowa"
+      },
+      "commands": [
+        "gh"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Issues — the to-do list of a project\nAn **issue** is a task, a bug report or an idea with a number: `#3`. Write `Closes #3` in a PR description — the issue closes itself when the PR is merged.\n```\n$ gh issue create --title \"Menu is broken on phones\" --body \"Steps: …\"\n$ gh issue list\n```\n\n## Forks — contributing to someone else's project\nYou cannot push to a stranger's repository. Instead:\n1. **fork** it — your own copy on GitHub\n2. clone your fork, make a branch, push to *your* fork\n3. open a PR from your fork to the original repository\n\n## Good habits\n| habit | why |\n|---|---|\n| `git pull` before starting work | fewer conflicts |\n| one branch = one task | small, clear PRs |\n| commit messages that explain *why* | history you can read in a year |\n| `.gitignore` for secrets and build output | nothing private leaks to GitHub |\n| protect `main`: changes only via PR | nobody breaks the main line by accident |\n\n## GitHub Actions\nFiles in `.github/workflows/*.yml` describe automatic jobs: run the tests on every push and PR, build the app, deploy the site. A red ❌ next to a PR means a check failed — read its log before merging.",
+            "ru": "## Issues — список дел проекта\n**Issue** — задача, сообщение об ошибке или идея с номером: `#3`. Напишите `Closes #3` в описании PR — issue закроется сам, когда PR сольют.\n```\n$ gh issue create --title \"Menu is broken on phones\" --body \"Steps: …\"\n$ gh issue list\n```\n\n## Форки — вклад в чужой проект\nПушить в чужой репозиторий нельзя. Вместо этого:\n1. сделайте **fork** — свою копию на GitHub\n2. склонируйте форк, создайте ветку, отправьте в *свой* форк\n3. откройте PR из своего форка в исходный репозиторий\n\n## Хорошие привычки\n| привычка | зачем |\n|---|---|\n| `git pull` перед началом работы | меньше конфликтов |\n| одна ветка = одна задача | маленькие понятные PR |\n| сообщения коммитов объясняют *зачем* | историю можно прочитать и через год |\n| `.gitignore` для секретов и сборки | ничего личного не утечёт на GitHub |\n| защищённая `main`: изменения только через PR | никто случайно не сломает основную линию |\n\n## GitHub Actions\nФайлы в `.github/workflows/*.yml` описывают автоматические задачи: прогнать тесты на каждый push и PR, собрать приложение, выложить сайт. Красный ❌ у PR значит, что проверка упала, — прочитайте её лог до слияния.",
+            "uk": "## Issues — список справ проєкту\n**Issue** — завдання, повідомлення про помилку чи ідея з номером: `#3`. Напишіть `Closes #3` в описі PR — issue закриється сам, коли PR зіллють.\n```\n$ gh issue create --title \"Menu is broken on phones\" --body \"Steps: …\"\n$ gh issue list\n```\n\n## Форки — внесок у чужий проєкт\nПушити в чужий репозиторій не можна. Натомість:\n1. зробіть **fork** — свою копію на GitHub\n2. склонуйте форк, створіть гілку, надішліть у *свій* форк\n3. відкрийте PR зі свого форку у вихідний репозиторій\n\n## Добрі звички\n| звичка | навіщо |\n|---|---|\n| `git pull` перед початком роботи | менше конфліктів |\n| одна гілка = одне завдання | маленькі зрозумілі PR |\n| повідомлення комітів пояснюють *навіщо* | історію можна прочитати й через рік |\n| `.gitignore` для секретів і збирання | нічого особистого не витече на GitHub |\n| захищена `main`: зміни лише через PR | ніхто випадково не зламає основну лінію |\n\n## GitHub Actions\nФайли в `.github/workflows/*.yml` описують автоматичні завдання: прогнати тести на кожен push і PR, зібрати застосунок, викласти сайт. Червоний ❌ біля PR означає, що перевірка впала, — прочитайте її лог до злиття.",
+            "pl": "## Zgłoszenia — lista zadań projektu\n**Issue** to zadanie, raport o błędzie lub pomysł z numerem: `#3`. Napisz `Closes #3` w opisie PR — zgłoszenie zamknie się samo po scaleniu PR.\n```\n$ gh issue create --title \"Menu is broken on phones\" --body \"Steps: …\"\n$ gh issue list\n```\n\n## Forki — wkład w cudzy projekt\nNie możesz wypychać do cudzego repozytorium. Zamiast tego:\n1. zrób **fork** — własną kopię na GitHubie\n2. sklonuj fork, utwórz gałąź, wypchnij do *swojego* forka\n3. otwórz PR ze swojego forka do oryginalnego repozytorium\n\n## Dobre nawyki\n| nawyk | po co |\n|---|---|\n| `git pull` przed rozpoczęciem pracy | mniej konfliktów |\n| jedna gałąź = jedno zadanie | małe, czytelne PR-y |\n| opisy commitów wyjaśniają *dlaczego* | historię da się przeczytać po roku |\n| `.gitignore` dla sekretów i wyników budowania | nic prywatnego nie wycieknie na GitHuba |\n| chroniona `main`: zmiany tylko przez PR | nikt przypadkiem nie zepsuje głównej linii |\n\n## GitHub Actions\nPliki w `.github/workflows/*.yml` opisują automatyczne zadania: uruchom testy przy każdym pushu i PR, zbuduj aplikację, opublikuj stronę. Czerwony ❌ przy PR oznacza, że test nie przeszedł — przeczytaj jego log przed scaleniem."
+          },
+          "title": {
+            "en": "Beyond git",
+            "ru": "Больше, чем git",
+            "uk": "Більше, ніж git",
+            "pl": "Więcej niż git"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Report a bug: create an issue in the site repository with the title \"Menu is broken on phones\".",
+            "ru": "Сообщите об ошибке: создайте issue в репозитории site с заголовком «Menu is broken on phones».",
+            "uk": "Повідомте про помилку: створіть issue в репозиторії site із заголовком «Menu is broken on phones».",
+            "pl": "Zgłoś błąd: utwórz issue w repozytorium site z tytułem „Menu is broken on phones”."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "gh repo create site --public",
+            "git remote add origin https://github.com/student/site.git",
+            "git push -qu origin main 2>/dev/null"
+          ],
+          "checks": [
+            {
+              "type": "github",
+              "repo": "site",
+              "issues": 1,
+              "label": {
+                "en": "An issue exists",
+                "ru": "Issue создан",
+                "uk": "Issue створено",
+                "pl": "Zgłoszenie istnieje"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "gh",
+              "args": [
+                "issue",
+                "create"
+              ],
+              "success": true,
+              "label": {
+                "en": "gh issue create",
+                "ru": "gh issue create",
+                "uk": "gh issue create",
+                "pl": "gh issue create"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "gh issue create --title \"…\" --body \"…\"",
+              "ru": "gh issue create --title \"…\" --body \"…\"",
+              "uk": "gh issue create --title \"…\" --body \"…\"",
+              "pl": "gh issue create --title \"…\" --body \"…\""
+            },
+            "command": "gh issue create"
+          },
+          "solution": [
+            "gh issue create --title \"Menu is broken on phones\" --body \"The menu overlaps the logo\""
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You want to fix a bug in an open-source project where you have no write access. What is the usual way?",
+            "ru": "Хотите исправить ошибку в open-source проекте, куда у вас нет прав на запись. Как обычно поступают?",
+            "uk": "Хочете виправити помилку в open-source проєкті, куди у вас немає прав на запис. Як зазвичай роблять?",
+            "pl": "Chcesz naprawić błąd w projekcie open source, do którego nie masz prawa zapisu. Jak zwykle się to robi?"
+          },
+          "options": [
+            {
+              "en": "Fork, push a branch to your fork, open a pull request to the original",
+              "ru": "Сделать fork, отправить ветку в свой форк, открыть pull request в оригинал",
+              "uk": "Зробити fork, надіслати гілку у свій форк, відкрити pull request в оригінал",
+              "pl": "Zrobić fork, wypchnąć gałąź do swojego forka, otworzyć pull request do oryginału"
+            },
+            {
+              "en": "Clone it and git push to their main",
+              "ru": "Склонировать и сделать git push в их main",
+              "uk": "Склонувати й зробити git push у їхню main",
+              "pl": "Sklonować i zrobić git push do ich main"
+            },
+            {
+              "en": "Send the authors a zip file",
+              "ru": "Отправить авторам zip-архив",
+              "uk": "Надіслати авторам zip-архів",
+              "pl": "Wysłać autorom plik zip"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "A PR description says \"Closes #12\". What happens when the PR is merged?",
+            "ru": "В описании PR написано «Closes #12». Что произойдёт при слиянии PR?",
+            "uk": "В описі PR написано «Closes #12». Що станеться під час злиття PR?",
+            "pl": "Opis PR zawiera „Closes #12”. Co się stanie po scaleniu PR?"
+          },
+          "options": [
+            {
+              "en": "Issue #12 is closed automatically",
+              "ru": "Issue #12 закроется автоматически",
+              "uk": "Issue #12 закриється автоматично",
+              "pl": "Zgłoszenie #12 zamknie się automatycznie"
+            },
+            {
+              "en": "Commit #12 is deleted",
+              "ru": "Удалится коммит #12",
+              "uk": "Видалиться коміт #12",
+              "pl": "Commit #12 zostanie usunięty"
+            },
+            {
+              "en": "Nothing, it is just text",
+              "ru": "Ничего, это просто текст",
+              "uk": "Нічого, це просто текст",
+              "pl": "Nic, to tylko tekst"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

@@ -89,7 +89,8 @@ export function useShell(initial: Session, opts: ShellOptions) {
       const before = sessionRef.current;
       const p = prompt(before);
       const result = run(before, line, { now: Date.now(), columns: optsRef.current.columns, isTTY: true });
-      let output = result.output.map((o) => o.text).join('');
+      // errors are tinted red (display only) — easier to spot for beginners
+      let output = result.output.map((o) => (o.stream === 'stderr' && o.text && !o.text.includes('\x1b') ? `\x1b[31m${o.text.replace(/\n$/, '')}\x1b[0m${o.text.endsWith('\n') ? '\n' : ''}` : o.text)).join('');
       const failed = result.exitCode !== 0;
       const cleared = result.events.some((e) => e.type === 'clear');
       if (cleared) output = output.slice(output.lastIndexOf('\x1b[3J') + 4);

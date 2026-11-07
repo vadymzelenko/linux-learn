@@ -19,7 +19,16 @@ import m_14_users from '../modules/14-users.json';
 import m_15_processes from '../modules/15-processes.json';
 import m_16_shell_pro from '../modules/16-shell-pro.json';
 import m_17_textpro from '../modules/17-textpro.json';
+import m_18_docker_basics from '../modules/18-docker-basics.json';
+import m_19_docker_ops from '../modules/19-docker-ops.json';
+import m_20_docker_build from '../modules/20-docker-build.json';
+import m_21_git_basics from '../modules/21-git-basics.json';
+import m_22_git_branches from '../modules/22-git-branches.json';
+import m_23_github from '../modules/23-github.json';
+import f_docker_lab from '../fixtures/docker-lab.json';
 import f_empty_home from '../fixtures/empty-home.json';
+import f_git_fresh from '../fixtures/git-fresh.json';
+import f_git_lab from '../fixtures/git-lab.json';
 import f_home_basic from '../fixtures/home-basic.json';
 import f_noc_busy from '../fixtures/noc-busy.json';
 import f_noc_web01 from '../fixtures/noc-web01.json';
@@ -28,10 +37,13 @@ import f_search from '../fixtures/search.json';
 import f_system from '../fixtures/system.json';
 import f_text_files from '../fixtures/text-files.json';
 
-export const moduleList = [m_01_navigation, m_02_files, m_03_text, m_04_search, m_05_permissions, m_06_power, m_07_noc_intro, m_08_noc_health, m_09_noc_network, m_10_noc_web, m_11_noc_logs, m_12_noc_ir, m_13_fhs, m_14_users, m_15_processes, m_16_shell_pro, m_17_textpro] as unknown as Module[];
+export const moduleList = [m_01_navigation, m_02_files, m_03_text, m_04_search, m_05_permissions, m_06_power, m_07_noc_intro, m_08_noc_health, m_09_noc_network, m_10_noc_web, m_11_noc_logs, m_12_noc_ir, m_13_fhs, m_14_users, m_15_processes, m_16_shell_pro, m_17_textpro, m_18_docker_basics, m_19_docker_ops, m_20_docker_build, m_21_git_basics, m_22_git_branches, m_23_github] as unknown as Module[];
 
 export const fixtureMap: Record<string, MachineSpec> = {
+  'docker-lab': f_docker_lab as unknown as MachineSpec,
   'empty-home': f_empty_home as unknown as MachineSpec,
+  'git-fresh': f_git_fresh as unknown as MachineSpec,
+  'git-lab': f_git_lab as unknown as MachineSpec,
   'home-basic': f_home_basic as unknown as MachineSpec,
   'noc-busy': f_noc_busy as unknown as MachineSpec,
   'noc-web01': f_noc_web01 as unknown as MachineSpec,
