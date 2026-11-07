@@ -57,7 +57,10 @@ export default function RootLayout() {
   const lang = useStore((s) => s.settings.lang);
 
   useEffect(() => {
-    void i18n.changeLanguage(resolveLang(lang));
+    const l = resolveLang(lang);
+    void i18n.changeLanguage(l);
+    // web: the page language follows the app (screen readers, no "translate this page?")
+    if (Platform.OS === 'web' && typeof document !== 'undefined') document.documentElement.lang = l;
   }, [lang]);
 
   const ready = (fontsLoaded || !!fontError) && hydrated;

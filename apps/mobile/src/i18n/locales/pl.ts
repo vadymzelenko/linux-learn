@@ -23,7 +23,7 @@ const pl: Dict = {
     new: 'Nowe',
     copied: 'Skopiowano',
   },
-  tabs: { home: 'Start', courses: 'Kursy', learn: 'Nauka', sandbox: 'Piaskownica', practice: 'Trening', profile: 'Profil' },
+  tabs: { home: 'Start', courses: 'Kursy', learn: 'Nauka', sandbox: 'Konsola', practice: 'Trening', profile: 'Profil' },
   onboarding: {
     s1Title: 'Prawdziwy terminal w kieszeni',
     s1Text: 'Wpisuj prawdziwe polecenia Linuksa w bezpiecznym symulowanym systemie. Wszystko działa offline.',

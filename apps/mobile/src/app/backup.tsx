@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   content: { padding: space.lg, gap: space.md, paddingBottom: space.xxl, maxWidth: 720, width: '100%', alignSelf: 'center' },
   h: { marginTop: space.md, marginBottom: space.sm },
   buttons: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
-  btn: { flexGrow: 1, minWidth: 220 },
+  btn: { flexGrow: 1, flexBasis: 220 },
   num: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   paste: { borderWidth: 1, borderRadius: radius.md, minHeight: 96 },
   input: { fontFamily: MONO, fontSize: 13, padding: 12, minHeight: 96, maxHeight: 200, textAlignVertical: 'top', ...(Platform.OS === 'web' ? ({ outlineStyle: 'none' } as object) : {}) },

@@ -72,7 +72,8 @@ export function Card({ children, style, onPress, accessibilityLabel }: { childre
 /** Layout props of a button that must apply to its animated wrapper. */
 function outer(style: StyleProp<ViewStyle>): ViewStyle {
   const f = (StyleSheet.flatten(style) ?? {}) as ViewStyle;
-  return { ...(f.flex !== undefined ? { flex: f.flex } : {}), ...(f.alignSelf !== undefined ? { alignSelf: f.alignSelf } : {}), ...(f.width !== undefined ? { width: f.width } : {}) };
+  const keys = ['flex', 'flexGrow', 'flexShrink', 'flexBasis', 'alignSelf', 'width', 'minWidth', 'maxWidth'] as const;
+  return Object.fromEntries(keys.filter((k) => f[k] !== undefined).map((k) => [k, f[k]])) as ViewStyle;
 }
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
@@ -125,6 +126,8 @@ export function Button({
         { backgroundColor: bg, opacity: disabled ? 0.45 : pressed ? 0.85 : 1 },
         variant === 'ghost' && { paddingHorizontal: space.sm },
         style,
+        // sizing along the row belongs to the wrapper; inside (a column) it would become height
+        { flexBasis: 'auto', minWidth: undefined, maxWidth: undefined },
       ]}
     >
       {loading ? <ActivityIndicator color={fg} /> : icon ? <Icon name={icon} size={small ? 16 : 20} color={fg} /> : null}

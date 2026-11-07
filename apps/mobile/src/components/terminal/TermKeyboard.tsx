@@ -310,7 +310,6 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
         { backgroundColor: bg, opacity: Animated.multiply(enter, kb.opacity), borderTopColor: theme.border, paddingBottom: Platform.OS === 'ios' ? 6 : 4, transform: [{ translateY: enter.interpolate({ inputRange: [0, 1], outputRange: [32, 0] }) }] },
       ]}
     >
-      {layout.landscape && !layout.tablet ? null : <View style={[styles.grabber, { backgroundColor: theme.border }]} />}
       <View style={{ width: '100%', maxWidth: layout.tablet ? 820 : undefined, alignSelf: 'center', gap: 5 }}>
         {/* quick commands + navigation */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="always" contentContainerStyle={styles.quick}>
@@ -371,7 +370,8 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
               )
             ) : null}
             {row.map((c) => (
-              <Key key={c} id={c} label={show(c)} long={layer === 'abc' ? ALT[c] : undefined} {...common} />
+              // with the number row shown, the digit hints over q…p only repeat it
+              <Key key={c} id={c} label={show(c)} long={layer === 'abc' ? ALT[c] : undefined} {...common} showHint={showHint && !(showNumbers && ri === 0)} />
             ))}
             {ri === 2 ? (
               <Key id="⌫" mod flex={1.5} a11y="backspace" repeat onRepeatStart={repeatStart} onRepeatStop={repeatStop} {...common}>
