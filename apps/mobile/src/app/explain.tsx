@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { KbTextInput } from '../components/terminal/KbTextInput';
+import { KeyboardDock } from '../components/terminal/KeyboardDock';
 import { explain, type ExplainFlag, type ExplainKind, type ExplainPart } from '@linux-learn/engine';
 import { commandSummary, optionText } from '@linux-learn/content';
 import { useTheme, MONO, MONO_BOLD, space } from '../theme';
@@ -78,7 +80,7 @@ export default function ExplainScreen() {
       <ScrollView contentContainerStyle={styles.wrap} keyboardShouldPersistTaps="handled">
         <View style={[styles.inputWrap, { backgroundColor: theme.term.bg, borderColor: theme.border }]}>
           <Text style={{ fontFamily: MONO_BOLD, color: theme.term.user, fontSize: 15, paddingTop: 14 }}>$</Text>
-          <TextInput
+          <KbTextInput
             value={line}
             onChangeText={(v) => setLine(v.replace(/\n/g, ' '))}
             placeholder={t('explain.placeholder')}
@@ -161,6 +163,7 @@ export default function ExplainScreen() {
           ))}
         </View>
       </ScrollView>
+      <KeyboardDock />
     </Screen>
   );
 }

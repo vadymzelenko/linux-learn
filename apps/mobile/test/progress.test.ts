@@ -57,11 +57,14 @@ describe('SM-2', () => {
     expect(f.ef).toBeGreaterThanOrEqual(1.3);
   });
   it('only struggles are scheduled, due cards are found', () => {
-    expect(scheduleStruggles({}, ['ls'], 0, 0, '2026-10-01')).toEqual({});
-    const srs = scheduleStruggles({}, ['grep', 'wc'], 2, 0, '2026-10-01');
-    expect(Object.keys(srs)).toEqual(['grep', 'wc']);
-    expect(dueCards(srs, '2026-10-01')).toEqual([]);
-    expect(dueCards(srs, '2026-10-02').sort()).toEqual(['grep', 'wc']);
+    const clean = scheduleStruggles({}, ['ls'], 0, 0, '2026-10-01');
+    expect(dueCards(clean, '2026-10-01')).toEqual(['ls']);
+    // a known card is not reset by a clean lesson
+    const known = { ls: { ef: 2.6, interval: 6, reps: 2, due: '2026-10-07' } };
+    expect(scheduleStruggles(known, ['ls'], 0, 0, '2026-10-01')).toEqual(known);
+    const srs = scheduleStruggles(known, ['grep', 'ls'], 2, 0, '2026-10-01');
+    expect(dueCards(srs, '2026-10-01').sort()).toEqual(['grep', 'ls']);
+    expect(srs.ls!.ef).toBeCloseTo(2.4);
   });
 });
 

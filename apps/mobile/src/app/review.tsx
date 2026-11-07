@@ -6,7 +6,7 @@ import { commandSummary, optionText } from '@linux-learn/content';
 import { useStore } from '../state/store';
 import { useTheme, MONO, MONO_BOLD, radius, space } from '../theme';
 import { Button, FadeIn, H1, Icon, ProgressBar, Row, Screen } from '../components/ui';
-import { dayKey, dueCards } from '../lib/progress';
+import { dayKey, reviewDeck } from '../lib/progress';
 import { Text } from '../theme/Text';
 import { goBack } from '../lib/nav';
 import { BackButton } from '../components/BackButton';
@@ -21,7 +21,7 @@ export default function ReviewScreen() {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
-  const initial = useMemo(() => dueCards(useStore.getState().progress.srs, dayKey(new Date())).filter((c) => COMMANDS.has(c)), []);
+  const initial = useMemo(() => reviewDeck(useStore.getState().progress, dayKey(new Date()), (c) => COMMANDS.has(c)), []);
   const [queue, setQueue] = useState(initial);
   const [repeated, setRepeated] = useState<string[]>([]);
   const [done, setDone] = useState(0);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { router } from 'expo-router';
 import Constants from 'expo-constants';
 import { useTranslation } from 'react-i18next';
@@ -146,6 +146,15 @@ export default function SettingsScreen() {
               accessibilityLabel={t('settings.sounds')}
             />
           </Row>
+          {Platform.OS === 'android' ? (
+            <Row style={{ justifyContent: 'space-between' }}>
+              <View style={{ flex: 1 }}>
+                <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.immersive')}</Text>
+                <Body dim>{t('settings.immersiveHint')}</Body>
+              </View>
+              <Switch value={s.immersive} onValueChange={(v) => set({ immersive: v })} accessibilityLabel={t('settings.immersive')} />
+            </Row>
+          ) : null}
           <Row style={{ justifyContent: 'space-between' }}>
             <View style={{ flex: 1 }}>
               <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.reminders')}</Text>

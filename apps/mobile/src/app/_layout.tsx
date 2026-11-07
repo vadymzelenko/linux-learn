@@ -1,7 +1,8 @@
 import '../i18n';
 import '../lib/nav';
 import { useEffect } from 'react';
-import { Platform, UIManager, View } from 'react-native';
+import { AppState, Platform, UIManager, View } from 'react-native';
+import * as NavigationBar from 'expo-navigation-bar';
 import { Stack, type ErrorBoundaryProps } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
@@ -33,6 +34,17 @@ function Shell() {
   useEffect(() => {
     sound.preload();
   }, []);
+
+  // Android: system buttons out of the way; a swipe from the bottom edge shows them for a moment
+  useEffect(() => {
+    if (Platform.OS !== 'android') return;
+    const apply = () => void NavigationBar.setVisibilityAsync(settings.immersive ? 'hidden' : 'visible').catch(() => undefined);
+    apply();
+    const sub = AppState.addEventListener('change', (st) => {
+      if (st === 'active') apply();
+    });
+    return () => sub.remove();
+  }, [settings.immersive]);
 
   useEffect(() => {
     void SystemUI.setBackgroundColorAsync(theme.bg).catch(() => undefined);

@@ -139,11 +139,27 @@ export function dueCards(srs: Record<string, SrsCard>, today: DayKey): string[] 
     .map(([k]) => k);
 }
 
-/** After a task: commands where the user struggled go into the review deck. */
+/** Today's review deck: due cards, plus commands of lessons finished before the deck existed. */
+export function reviewDeck(p: Progress, today: DayKey, known: (cmd: string) => boolean = () => true): string[] {
+  const due = dueCards(p.srs, today);
+  const fresh = allLessons
+    .filter((l) => p.lessons[l.lesson.id]?.completedAt)
+    .flatMap((l) => l.lesson.commands)
+    .filter((c, i, a) => !(c in p.srs) && a.indexOf(c) === i);
+  return [...due, ...fresh].filter(known).slice(0, 20);
+}
+
+/** After a lesson: its commands join the review deck; struggles start a card over. */
 export function scheduleStruggles(srs: Record<string, SrsCard>, commands: string[], hintsUsed: number, mistakes: number, today: DayKey) {
-  if (hintsUsed === 0 && mistakes === 0) return srs;
+  // every command of a finished lesson joins the deck and can be reviewed right away;
+  // a struggle (hints / mistakes) starts the card over with a lower ease
   const next = { ...srs };
-  for (const cmd of commands) next[cmd] = reviewCard(next[cmd], hintsUsed > 1 ? 1 : 2, today);
+  const struggled = hintsUsed > 0 || mistakes > 0;
+  for (const cmd of commands) {
+    const c = next[cmd];
+    if (!c) next[cmd] = { ef: struggled ? 2.3 : 2.5, interval: 0, reps: 0, due: today };
+    else if (struggled) next[cmd] = { ef: Math.max(1.3, c.ef - (hintsUsed > 1 ? 0.2 : 0.1)), interval: 0, reps: 0, due: today };
+  }
   return next;
 }
 

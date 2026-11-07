@@ -31,6 +31,8 @@ export interface Settings {
   certName: string;
   /** The one-time "turn the phone sideways" tip was shown. */
   rotateTipSeen: boolean;
+  /** Android: hide the system navigation buttons (they come back with a swipe from the edge). */
+  immersive: boolean;
   keyboard: KeyboardSettings;
 }
 
@@ -113,6 +115,7 @@ const defaultSettings: Settings = {
   onboarded: false,
   certName: '',
   rotateTipSeen: false,
+  immersive: true,
   keyboard: { mode: Platform.OS === 'web' ? 'system' : 'custom', opacity: 1, size: 'M', numberRow: true, keySound: false, quick: DEFAULT_QUICK },
 };
 

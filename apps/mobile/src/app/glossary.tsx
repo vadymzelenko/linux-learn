@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
-import { Pressable, SectionList, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, SectionList, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { KbTextInput } from '../components/terminal/KbTextInput';
+import { KeyboardDock } from '../components/terminal/KeyboardDock';
 import { glossary, tr } from '@linux-learn/content';
 import { Text } from '../theme/Text';
 import { BackButton } from '../components/BackButton';
@@ -31,7 +33,7 @@ export default function GlossaryScreen() {
         <H1 style={{ fontSize: 24 }}>{t('glossary.title')}</H1>
         <Text style={{ color: theme.textDim, marginLeft: 'auto', marginRight: space.md }}>{t('glossary.count', { n: glossary.length })}</Text>
       </Row>
-      <TextInput
+      <KbTextInput
         value={q}
         onChangeText={setQ}
         placeholder={t('glossary.search')}
@@ -73,6 +75,7 @@ export default function GlossaryScreen() {
           );
         }}
       />
+      <KeyboardDock />
     </Screen>
   );
 }

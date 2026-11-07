@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
-import { Modal, Pressable, ScrollView, SectionList, StyleSheet, TextInput, View } from 'react-native';
+import { Modal, Pressable, ScrollView, SectionList, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { KbTextInput } from '../components/terminal/KbTextInput';
+import { KeyboardDock } from '../components/terminal/KeyboardDock';
 import { commandList, formatMan, type CommandDef } from '@linux-learn/engine';
 import { useTheme, MONO, MONO_BOLD, space } from '../theme';
 import { H1, IconButton, Row, Screen } from '../components/ui';
@@ -31,7 +33,7 @@ export default function ReferenceScreen() {
         <BackButton />
         <H1 style={{ fontSize: 22 }}>{t('reference.title')}</H1>
       </Row>
-      <TextInput
+      <KbTextInput
         value={q}
         onChangeText={setQ}
         placeholder={t('reference.search')}
@@ -83,6 +85,7 @@ export default function ReferenceScreen() {
           </ScrollView>
         </Screen>
       </Modal>
+      <KeyboardDock />
     </Screen>
   );
 }

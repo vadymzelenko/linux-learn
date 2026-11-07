@@ -1,12 +1,12 @@
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { commandList } from '@linux-learn/engine';
+import { commandList, COMMANDS } from '@linux-learn/engine';
 import { challenges } from '@linux-learn/content';
 import { useStore } from '../../state/store';
 import { useTheme, space } from '../../theme';
 import { FadeIn, H1, Icon, Row, Screen } from '../../components/ui';
-import { dayKey, dueCards } from '../../lib/progress';
+import { dayKey, reviewDeck } from '../../lib/progress';
 import { Text } from '../../theme/Text';
 
 const INK = '#06240F';
@@ -38,7 +38,7 @@ export default function PracticeScreen() {
   const { t } = useTranslation();
   const progress = useStore((s) => s.progress);
   const today = dayKey(new Date());
-  const due = dueCards(progress.srs, today);
+  const due = reviewDeck(progress, today, (c) => COMMANDS.has(c));
   const solved = challenges.filter((c) => progress.practice?.[c.id]).length;
   const left = challenges.length - solved;
 

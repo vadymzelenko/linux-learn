@@ -168,7 +168,7 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
   );
 
   const card = (
-    <View style={[styles.card, { backgroundColor: theme.surface, borderColor: solved ? theme.success : theme.border }]}>
+    <View style={[styles.card, wide && !collapsed && { flex: 1 }, { backgroundColor: theme.surface, borderColor: solved ? theme.success : theme.border }]}>
       <Row style={{ justifyContent: 'space-between' }}>
         <Text style={{ color: theme.textDim, fontWeight: '800', fontSize: 12, letterSpacing: 1 }}>{(task.title ?? t('lesson.goal')).toUpperCase()}</Text>
         <Row gap={2}>
@@ -200,7 +200,12 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
         </Row>
       </Row>
       {!collapsed ? (
-        <ScrollView style={{ maxHeight: wide ? undefined : height * (kbOpen ? 0.3 : layout.compact ? 0.4 : 0.46) }} contentContainerStyle={{ gap: space.sm }}>
+        <ScrollView
+          style={wide ? { flex: 1 } : { maxHeight: height * (kbOpen ? 0.3 : layout.compact ? 0.4 : 0.46) }}
+          contentContainerStyle={{ gap: space.sm, paddingBottom: wide ? space.md : 0 }}
+          nestedScrollEnabled
+          showsVerticalScrollIndicator={wide}
+        >
           {task.story ? <RichText text={tr(task.story, lang)} style={{ fontSize: 15, color: theme.textDim, marginBottom: 4 }} /> : null}
           {task.goal ? <RichText text={tr(task.goal, lang)} style={{ fontSize: 17, fontWeight: '600', marginBottom: 4 }} /> : null}
           {!solved && !layout.compact ? <HowTo text={t('lesson.howTo.task')} keys="Tab · ↑↓ · Enter" /> : null}
@@ -270,8 +275,8 @@ export function TaskRunner({ task, allowHints = true, onSolved, solvedFooter, on
 
   return (
     <View style={[styles.wrap, wide && { flexDirection: 'row' }]}>
-      <View style={wide ? { width: '38%' } : undefined}>
-        <FadeIn key={mini ? 'mini' : 'card'} from={mini ? -6 : 6} delay={0}>
+      <View style={wide ? { width: '38%', alignSelf: 'stretch' } : undefined}>
+        <FadeIn key={mini ? 'mini' : 'card'} from={mini ? -6 : 6} delay={0} style={wide ? { flex: 1 } : undefined}>
           {mini ? miniCard : card}
         </FadeIn>
         <Collapsible open={tip}>
