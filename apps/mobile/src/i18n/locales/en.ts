@@ -398,8 +398,8 @@ const en = {
     certificate: 'Certificate',
   },
   settings: {
-    immersiveHint: 'More room for the terminal. Swipe up from the bottom edge to show them for a moment.',
-    immersive: 'Hide system buttons',
+    immersiveHint: 'Like in games: the status bar and system buttons hide. Swipe from the top or bottom edge to see them for a moment.',
+    immersive: 'Full screen',
     soundsHint: 'Quiet cues for right and wrong answers and finished lessons',
     sounds: 'Sounds',
     remindersDeniedHint: 'Allow notifications for the app in the system settings, then turn the reminder on again.',

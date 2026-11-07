@@ -35,7 +35,19 @@ function Shell() {
     sound.preload();
   }, []);
 
-  // Android: system buttons out of the way; a swipe from the bottom edge shows them for a moment
+  // web on a phone: fullscreen like a web game (address bar away); browsers allow it only after a tap
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined' || !settings.immersive) return;
+    if (!window.matchMedia?.('(pointer: coarse)').matches || !document.documentElement.requestFullscreen) return;
+    const go = () => {
+      if (!document.fullscreenElement) void document.documentElement.requestFullscreen({ navigationUI: 'hide' }).catch(() => undefined);
+    };
+    document.addEventListener('pointerup', go);
+    return () => document.removeEventListener('pointerup', go);
+  }, [settings.immersive]);
+
+  // Android, like games: status bar and system buttons hidden ("immersive sticky");
+  // a swipe from the top or bottom edge shows them over the app for a moment
   useEffect(() => {
     if (Platform.OS !== 'android') return;
     const apply = () => void NavigationBar.setVisibilityAsync(settings.immersive ? 'hidden' : 'visible').catch(() => undefined);
@@ -56,7 +68,7 @@ function Shell() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.bg }}>
-      <StatusBar style={theme.dark ? 'light' : 'dark'} />
+      <StatusBar style={theme.dark ? 'light' : 'dark'} hidden={Platform.OS === 'android' && settings.immersive} />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.bg }, animation: Platform.OS === 'android' ? 'fade_from_bottom' : 'default', animationDuration: 260, gestureEnabled: true }} />
       <Toasts />
       <DialogHost />

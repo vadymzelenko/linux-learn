@@ -400,8 +400,8 @@ const pl: Dict = {
     certificate: 'Certyfikat',
   },
   settings: {
-    immersiveHint: 'Więcej miejsca na terminal. Przesuń w górę od dolnej krawędzi, by na chwilę je pokazać.',
-    immersive: 'Ukrywaj przyciski systemowe',
+    immersiveHint: 'Jak w grach: pasek stanu i przyciski systemowe są ukryte. Przesuń od górnej lub dolnej krawędzi, by na chwilę je zobaczyć.',
+    immersive: 'Pełny ekran',
     soundsHint: 'Ciche sygnały przy dobrych i złych odpowiedziach oraz ukończonych lekcjach',
     sounds: 'Dźwięki',
     remindersDeniedHint: 'Zezwól aplikacji na powiadomienia w ustawieniach systemu i włącz przypomnienie ponownie.',

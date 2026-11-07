@@ -146,7 +146,7 @@ export default function SettingsScreen() {
               accessibilityLabel={t('settings.sounds')}
             />
           </Row>
-          {Platform.OS === 'android' ? (
+          {Platform.OS !== 'ios' ? (
             <Row style={{ justifyContent: 'space-between' }}>
               <View style={{ flex: 1 }}>
                 <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.immersive')}</Text>

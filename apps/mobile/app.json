@@ -46,6 +46,12 @@
       "expo-sqlite",
       "expo-localization",
       [
+        "expo-navigation-bar",
+        {
+          "hidden": true
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/splash-icon.png",
