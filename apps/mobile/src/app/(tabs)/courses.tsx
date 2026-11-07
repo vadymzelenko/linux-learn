@@ -2,12 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, LayoutAnimation, Pressable, ScrollView, StyleSheet, View, type ScrollViewInstance } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { activeCourses, courseLessons, courseModules, courses, levelFor, lessonMinutes, missions, modules, tr, type Course, type Module } from '@linux-learn/content';
+import { activeCourses, courseLessons, courseModules, courses, lessonMinutes, missions, modules, tr, type Course, type Module } from '@linux-learn/content';
 import { useStore } from '../../state/store';
 import { useTheme, MONO, MONO_BOLD, radius, space } from '../../theme';
 import { Body, Button, Card, FadeIn, H1, H2, Icon, Pill, ProgressBar, Row, Screen } from '../../components/ui';
 import { ND } from '../../components/ui/Motion';
-import { dayKey, liveStreak } from '../../lib/progress';
 import { haptic } from '../../lib/haptics';
 import { showSoon } from '../../lib/soon';
 import { useLayout } from '../../lib/layout';
@@ -235,8 +234,6 @@ export default function CoursesScreen() {
   const lessons = courseLessons(course);
   const next = lessons.find((l) => !progress.lessons[l.lesson.id]?.completedAt);
   const [open, setOpen] = useState<string | null>(next?.module.id ?? course.modules[0] ?? null);
-  const level = levelFor(progress.xp);
-  const streak = liveStreak(progress.streak, dayKey(new Date()));
   const doneCount = lessons.filter((l) => progress.lessons[l.lesson.id]?.completedAt).length;
   const allDone = activeCourses.every((c) => courseLessons(c).every((l) => progress.lessons[l.lesson.id]?.completedAt));
   const mods = courseModules(course);
@@ -259,22 +256,7 @@ export default function CoursesScreen() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={[styles.content, { padding: layout.pad, maxWidth: layout.tablet ? 860 : undefined }]}>
-        <Row style={{ justifyContent: 'space-between' }}>
-          <H1>{t('courses.title')}</H1>
-          <Row gap={12}>
-            <Row gap={4} style={styles.chip}>
-              <Icon name="flame" size={18} color={streak > 0 ? theme.warning : theme.textDim} />
-              <Text style={{ color: theme.text, fontWeight: '800' }}>{streak}</Text>
-            </Row>
-            <Row gap={4} style={styles.chip}>
-              <Icon name="star" size={18} color={theme.accent} />
-              <Text style={{ color: theme.text, fontWeight: '800' }}>{progress.xp}</Text>
-            </Row>
-          </Row>
-        </Row>
-        <Body dim style={{ marginBottom: space.md }}>
-          {t('profile.level')}: {t(`profile.levels.${level.id}` as 'profile.levels.root')}
-        </Body>
+        <H1 style={{ fontSize: 26, marginBottom: space.md }}>{t('courses.title')}</H1>
 
         <ScrollView ref={tabsRef} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingBottom: space.md, paddingRight: space.md }}>
           {courses.map((c) => (
@@ -299,23 +281,24 @@ export default function CoursesScreen() {
         </ScrollView>
 
         <FadeIn key={course.id}>
-          <Body dim style={{ marginBottom: space.md }}>
-            {tr(course.description, i18n.language)}
-          </Body>
           {next ? (
-            <Card style={[styles.hero, { backgroundColor: theme.surface2, borderColor: course.color }]}>
-              <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 12 }} numberOfLines={1}>
-                {next.module.path}/{next.lesson.id}
+            <Pressable
+              onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
+              accessibilityRole="button"
+              style={({ pressed }) => [styles.hero, { backgroundColor: course.color, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
+            >
+              <Text style={{ color: '#06240F', fontWeight: '700', fontSize: 12, opacity: 0.75 }}>{(doneCount === 0 ? t('learn.startCourse') : t('common.continue')).toUpperCase()}</Text>
+              <Text style={{ color: '#06240F', fontWeight: '800', fontSize: 22, paddingRight: 56 }} numberOfLines={2}>
+                {tr(next.lesson.title, i18n.language)}
               </Text>
-              <H2>{tr(next.lesson.title, i18n.language)}</H2>
-              <ProgressBar value={doneCount / lessons.length} color={course.color} track={theme.border} />
-              <Text style={{ color: theme.textDim, fontSize: 13 }}>{t('learn.lessons', { done: doneCount, total: lessons.length })}</Text>
-              <Button
-                title={doneCount === 0 ? t('learn.startCourse') : t('common.continue')}
-                icon="play"
-                onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
-              />
-            </Card>
+              <View style={styles.heroTrack}>
+                <View style={[styles.heroFill, { width: `${Math.max(3, (doneCount / lessons.length) * 100)}%` }]} />
+              </View>
+              <Text style={{ color: '#06240F', fontSize: 13, opacity: 0.8 }}>{t('learn.lessons', { done: doneCount, total: lessons.length })}</Text>
+              <View style={styles.heroPlay}>
+                <Icon name="play" size={22} color={course.color} />
+              </View>
+            </Pressable>
           ) : (
             <Card style={[styles.hero, { borderColor: theme.success }]}>
               <Row>
@@ -407,7 +390,10 @@ export default function CoursesScreen() {
 const styles = StyleSheet.create({
   content: { width: '100%', alignSelf: 'center' },
   chip: { paddingHorizontal: 4 },
-  hero: { gap: space.md, borderWidth: 1 },
+  hero: { gap: 8, borderRadius: 26, padding: space.lg, paddingVertical: space.xl, borderWidth: 0 },
+  heroTrack: { height: 6, borderRadius: 3, backgroundColor: 'rgba(6,36,15,0.18)', overflow: 'hidden', marginTop: 6, marginRight: 64 },
+  heroFill: { height: 6, borderRadius: 3, backgroundColor: '#06240F' },
+  heroPlay: { position: 'absolute', right: 20, bottom: 20, width: 50, height: 50, borderRadius: 25, backgroundColor: '#06240F', alignItems: 'center', justifyContent: 'center' },
   courseTab: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingVertical: 10, borderRadius: radius.pill, minHeight: 44, borderWidth: StyleSheet.hairlineWidth },
   soonBadge: { borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2 },
   treeHead: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: space.xl, marginBottom: space.sm, paddingLeft: (RAIL_W - 30) / 2 },

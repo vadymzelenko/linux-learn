@@ -21,7 +21,6 @@ export default function LibraryScreen() {
         </View>
       </Row>
       <ScrollView contentContainerStyle={styles.content}>
-        <Body dim style={{ marginBottom: space.md }}>{t('library.subtitle')}</Body>
         {activeCourses.map((c) => (
           <View key={c.id} style={{ marginBottom: space.xl, gap: space.md }}>
             <Row>

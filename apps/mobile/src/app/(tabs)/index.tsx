@@ -1,27 +1,66 @@
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { activeCourses, challenges, courseHours, courseLessons, glossary, levelFor, soonCourses, tr } from '@linux-learn/content';
-import { showSoon } from '../../lib/soon';
+import { activeCourses, courseLessons, soonCourses, tr, type Course } from '@linux-learn/content';
 import { Text } from '../../theme/Text';
 import { useStore } from '../../state/store';
 import { useTheme, MONO, space } from '../../theme';
-import { Body, Card, FadeIn, H1, H2, Icon, ProgressBar, Row, Screen } from '../../components/ui';
+import { FadeIn, H2, Icon, Row, Screen } from '../../components/ui';
 import { dayKey, liveStreak } from '../../lib/progress';
+import { showSoon } from '../../lib/soon';
+import { useLayout } from '../../lib/layout';
 
+const INK = '#06240F';
+
+/** A course as a filled colour tile: icon, name, progress. */
+function CourseTile({ c }: { c: Course }) {
+  const { t, i18n } = useTranslation();
+  const progress = useStore((s) => s.progress);
+  const ls = courseLessons(c);
+  const done = ls.filter((l) => progress.lessons[l.lesson.id]?.completedAt).length;
+  const soon = !!c.soon;
+  return (
+    <Pressable
+      onPress={() => (soon ? showSoon(c, i18n.language, t) : router.push({ pathname: '/courses', params: { course: c.id } }))}
+      accessibilityRole="button"
+      accessibilityLabel={`${tr(c.title, i18n.language)}${soon ? `, ${t('courses.soon')}` : ''}`}
+      style={({ pressed }) => [styles.tile, { backgroundColor: c.color, opacity: soon ? 0.55 : pressed ? 0.88 : 1, transform: [{ scale: pressed ? 0.97 : 1 }] }]}
+    >
+      <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <View style={styles.tileIcon}>
+          <Icon name={c.icon} size={24} color={INK} />
+        </View>
+        {soon ? (
+          <View style={styles.soonPill}>
+            <Text style={{ color: INK, fontSize: 11, fontWeight: '800' }}>{t('courses.soon')}</Text>
+          </View>
+        ) : done ? (
+          <Text style={{ color: INK, fontFamily: MONO, fontSize: 12, opacity: 0.75 }}>
+            {done}/{ls.length}
+          </Text>
+        ) : null}
+      </Row>
+      <Text style={{ color: INK, fontWeight: '800', fontSize: 17 }} numberOfLines={2}>
+        {tr(c.title, i18n.language)}
+      </Text>
+      {soon ? null : (
+        <View style={styles.track}>
+          <View style={[styles.fill, { width: `${ls.length ? Math.max(4, (done / ls.length) * 100) : 0}%` }]} />
+        </View>
+      )}
+    </Pressable>
+  );
+}
+
+/** Small action with a tinted, filled icon. */
 function Quick({ icon, label, onPress, color }: { icon: string; label: string; onPress: () => void; color: string }) {
   const theme = useTheme();
   return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      style={({ pressed }) => [styles.quick, { backgroundColor: theme.surface, borderColor: theme.border, opacity: pressed ? 0.85 : 1 }]}
-    >
-      <View style={[styles.quickIcon, { backgroundColor: theme.surface2 }]}>
-        <Icon name={icon} size={24} color={color} />
+    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label} style={({ pressed }) => [styles.quick, { opacity: pressed ? 0.7 : 1 }]}>
+      <View style={[styles.quickIcon, { backgroundColor: color }]}>
+        <Icon name={icon} size={24} color={INK} />
       </View>
-      <Text style={{ color: theme.text, fontWeight: '700', fontSize: 14, textAlign: 'center' }} numberOfLines={2}>
+      <Text style={{ color: theme.text, fontWeight: '700', fontSize: 12, textAlign: 'center' }} numberOfLines={2}>
         {label}
       </Text>
     </Pressable>
@@ -30,29 +69,25 @@ function Quick({ icon, label, onPress, color }: { icon: string; label: string; o
 
 export default function HomeScreen() {
   const theme = useTheme();
+  const layout = useLayout();
   const { t, i18n } = useTranslation();
   const progress = useStore((s) => s.progress);
   const name = useStore((s) => s.settings.certName) || 'student';
-  const level = levelFor(progress.xp);
   const streak = liveStreak(progress.streak, dayKey(new Date()));
-  const today = new Date();
-  const dayIndex = Math.floor(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 86_400_000);
-  const term = glossary.length ? glossary[dayIndex % glossary.length] : undefined;
-  const nextTask = challenges.find((c) => !progress.practice?.[c.id]);
 
-  // the most recently touched unfinished lesson, else the first unfinished lesson of the first course
+  // the most recently touched unfinished lesson, else the first unfinished one
   const all = activeCourses.flatMap((c) => courseLessons(c).map((l) => ({ ...l, course: c })));
   const started = all.find((l) => progress.lessons[l.lesson.id] && !progress.lessons[l.lesson.id]!.completedAt);
   const next = started ?? all.find((l) => !progress.lessons[l.lesson.id]?.completedAt);
+  const cols = layout.width >= 700 ? 3 : 2;
 
   return (
     <Screen>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <View style={{ flex: 1 }}>
-            <H1>{t('home.hello', { name })}</H1>
-            <Body dim>{t('home.subtitle')}</Body>
-          </View>
+      <ScrollView contentContainerStyle={[styles.content, { padding: layout.pad }]}>
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Text style={{ color: theme.text, fontSize: 24, fontWeight: '800', flex: 1 }} numberOfLines={1}>
+            {t('home.hello', { name })}
+          </Text>
           <Pressable onPress={() => router.push('/profile')} accessibilityRole="button" accessibilityLabel={t('profile.title')} style={[styles.badge, { backgroundColor: theme.surface2 }]}>
             <Row gap={4}>
               <Icon name="flame" size={18} color={streak ? theme.warning : theme.textDim} />
@@ -67,137 +102,58 @@ export default function HomeScreen() {
 
         {next ? (
           <FadeIn scale>
-          <Pressable
-            onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
-            accessibilityRole="button"
-            style={({ pressed }) => [styles.hero, { backgroundColor: next.course.color, opacity: pressed ? 0.92 : 1 }]}
-          >
-            <Text style={{ color: '#06240F', fontWeight: '700', fontSize: 13, opacity: 0.8 }}>{t('home.continue').toUpperCase()}</Text>
-            <Text style={{ color: '#06240F', fontWeight: '800', fontSize: 24, paddingRight: 56 }}>{tr(next.lesson.title, i18n.language)}</Text>
-            <Text style={{ color: '#06240F', fontSize: 14, paddingRight: 56 }}>
-              {tr(next.course.title, i18n.language)} · {tr(next.module.title, i18n.language)}
-            </Text>
-            <View style={[styles.play, { backgroundColor: '#06240F' }]}>
-              <Icon name="play" size={22} color={next.course.color} />
-            </View>
-          </Pressable>
+            <Pressable
+              onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
+              accessibilityRole="button"
+              style={({ pressed }) => [styles.hero, { backgroundColor: next.course.color, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
+            >
+              <Text style={{ color: INK, fontWeight: '700', fontSize: 12, opacity: 0.75, letterSpacing: 0.5 }}>{t('home.continue').toUpperCase()}</Text>
+              <Text style={{ color: INK, fontWeight: '800', fontSize: 24, paddingRight: 56 }} numberOfLines={2}>
+                {tr(next.lesson.title, i18n.language)}
+              </Text>
+              <Text style={{ color: INK, fontSize: 14, opacity: 0.8, paddingRight: 56 }} numberOfLines={1}>
+                {tr(next.course.title, i18n.language)} · {tr(next.module.title, i18n.language)}
+              </Text>
+              <View style={[styles.play, { backgroundColor: INK }]}>
+                <Icon name="play" size={24} color={next.course.color} />
+              </View>
+            </Pressable>
           </FadeIn>
         ) : null}
 
         <H2 style={styles.section}>{t('home.courses')}</H2>
-        <View style={{ gap: space.md }}>
-          {activeCourses.map((c, ci) => {
-            const ls = courseLessons(c);
-            const done = ls.filter((l) => progress.lessons[l.lesson.id]?.completedAt).length;
-            return (
-              <FadeIn key={c.id} index={ci + 1}>
-              <Card onPress={() => router.push({ pathname: '/courses', params: { course: c.id } })} accessibilityLabel={tr(c.title, i18n.language)}>
-                <Row gap={14} style={{ alignItems: 'flex-start' }}>
-                  <View style={[styles.courseIcon, { backgroundColor: c.color }]}>
-                    <Icon name={c.icon} size={28} color="#06240F" />
-                  </View>
-                  <View style={{ flex: 1, gap: 4 }}>
-                    <Text style={{ color: theme.text, fontWeight: '800', fontSize: 18 }}>{tr(c.title, i18n.language)}</Text>
-                    <Body dim>{tr(c.subtitle, i18n.language)}</Body>
-                    <Row gap={10} style={{ marginTop: 4 }}>
-                      <Text style={{ color: theme.textDim, fontSize: 12, fontFamily: MONO }}>{t('home.lessonsCount', { n: ls.length })}</Text>
-                      <Text style={{ color: theme.textDim, fontSize: 12, fontFamily: MONO }}>{t('home.hours', { h: courseHours(c) })}</Text>
-                    </Row>
-                    <ProgressBar value={ls.length ? done / ls.length : 0} color={c.color} style={{ marginTop: 6 }} />
-                  </View>
-                </Row>
-              </Card>
-              </FadeIn>
-            );
-          })}
-        </View>
-
-        {soonCourses.length ? (
-          <>
-            <Text style={[styles.soonHead, { color: theme.textDim }]}>{t('home.soon').toUpperCase()}</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingRight: space.md }}>
-              {soonCourses.map((c) => (
-                <Pressable
-                  key={c.id}
-                  onPress={() => showSoon(c, i18n.language, t)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${tr(c.title, i18n.language)}, ${t('courses.soon')}`}
-                  style={({ pressed }) => [styles.soon, { backgroundColor: theme.surface, borderColor: theme.border, opacity: pressed ? 0.8 : 1 }]}
-                >
-                  <View style={[styles.soonIcon, { backgroundColor: theme.surface2 }]}>
-                    <Icon name={c.icon} size={22} color={c.color} />
-                  </View>
-                  <View style={{ flex: 1, gap: 2, paddingTop: 14 }}>
-                    <Text style={{ color: theme.text, fontWeight: '800' }} numberOfLines={1}>
-                      {tr(c.title, i18n.language)}
-                    </Text>
-                    <Text style={{ color: theme.textDim, fontSize: 12 }} numberOfLines={2}>
-                      {tr(c.subtitle, i18n.language)}
-                    </Text>
-                  </View>
-                  <View style={[styles.soonPill, { backgroundColor: theme.surface2 }]}>
-                    <Icon name="clock-outline" size={12} color={theme.textDim} />
-                    <Text style={{ color: theme.textDim, fontSize: 11, fontWeight: '800' }}>{t('courses.soon')}</Text>
-                  </View>
-                </Pressable>
-              ))}
-            </ScrollView>
-          </>
-        ) : null}
-
-        <H2 style={styles.section}>{t('home.quick')}</H2>
         <View style={styles.grid}>
-          <Quick icon="target" color={theme.warning} label={t('practice.tasks')} onPress={() => router.push('/tasks')} />
-          <Quick icon="book-open" color={theme.accent} label={t('glossary.title')} onPress={() => router.push('/glossary')} />
-          <Quick icon="reference" color={theme.term.path} label={t('library.title')} onPress={() => router.push('/library')} />
-          <Quick icon="sandbox" color={theme.accent} label={t('sandbox.title')} onPress={() => router.push('/sandbox')} />
-          <Quick icon="explain" color={theme.term.ansi[5]!} label={t('practice.explain')} onPress={() => router.push('/explain')} />
-          <Quick icon="terminal" color={theme.term.ansi[6]!} label={t('practice.reference')} onPress={() => router.push('/reference')} />
+          {[...activeCourses, ...soonCourses].map((c, i) => (
+            <FadeIn key={c.id} index={i + 1} style={{ width: `${100 / cols - 2}%`, flexGrow: 1 }}>
+              <CourseTile c={c} />
+            </FadeIn>
+          ))}
         </View>
 
-        {nextTask ? (
-          <Card style={{ marginTop: space.lg, gap: 6 }} onPress={() => router.push({ pathname: '/challenge', params: { id: nextTask.id } })}>
-            <Row>
-              <Icon name="target" color={theme.warning} />
-              <Text style={{ color: theme.textDim, fontWeight: '700', fontSize: 12, letterSpacing: 1 }}>{t('practice.nextTask').toUpperCase()}</Text>
-            </Row>
-            <Text style={{ color: theme.text, fontWeight: '800', fontSize: 17 }}>{tr(nextTask.title, i18n.language)}</Text>
-            <Body dim numberOfLines={2}>
-              {tr(nextTask.goal, i18n.language)}
-            </Body>
-          </Card>
-        ) : null}
-
-        {term ? (
-          <Card style={{ marginTop: space.md, marginBottom: space.xxl, gap: 6 }} onPress={() => router.push({ pathname: '/glossary', params: { q: tr(term.term, i18n.language) } })}>
-            <Row>
-              <Icon name="book-open" color={theme.accent} />
-              <Text style={{ color: theme.textDim, fontWeight: '700', fontSize: 12, letterSpacing: 1 }}>{t('home.termOfDay').toUpperCase()}</Text>
-            </Row>
-            <Text style={{ color: theme.text, fontWeight: '800', fontSize: 20 }}>{tr(term.term, i18n.language)}</Text>
-            <Body>{tr(term.definition, i18n.language)}</Body>
-          </Card>
-        ) : null}
-        <Text style={{ color: theme.textDim, textAlign: 'center', fontSize: 12, marginBottom: space.lg }}>
-          {t('profile.level')}: {t(`profile.levels.${level.id}` as 'profile.levels.root')}
-        </Text>
+        <View style={styles.quickRow}>
+          <Quick icon="target" color="#F5C451" label={t('practice.tasks')} onPress={() => router.push('/tasks')} />
+          <Quick icon="explain" color="#B48EF5" label={t('practice.explain')} onPress={() => router.push('/explain')} />
+          <Quick icon="book-open" color="#5EA9FF" label={t('glossary.title')} onPress={() => router.push('/glossary')} />
+          <Quick icon="reference" color="#4DD0E1" label={t('library.title')} onPress={() => router.push('/library')} />
+        </View>
       </ScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: { padding: space.lg, maxWidth: 860, width: '100%', alignSelf: 'center' },
+  content: { maxWidth: 860, width: '100%', alignSelf: 'center', paddingBottom: space.xxl },
   badge: { flexDirection: 'row', gap: 12, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 999 },
-  hero: { marginTop: space.lg, borderRadius: 24, padding: space.xl, gap: 6, minHeight: 150 },
-  play: { position: 'absolute', right: 20, bottom: 20, width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center' },
+  hero: { marginTop: space.lg, borderRadius: 28, padding: space.xl, gap: 6, minHeight: 150 },
+  play: { position: 'absolute', right: 20, bottom: 20, width: 52, height: 52, borderRadius: 26, alignItems: 'center', justifyContent: 'center' },
   section: { marginTop: space.xl, marginBottom: space.md },
-  courseIcon: { width: 56, height: 56, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  quick: { width: '31.5%', flexGrow: 1, minWidth: 100, borderRadius: 18, borderWidth: StyleSheet.hairlineWidth, padding: space.md, alignItems: 'center', gap: 8 },
-  soonHead: { fontWeight: '800', fontSize: 12, letterSpacing: 1, marginTop: space.lg, marginBottom: space.sm },
-  soon: { width: 260, flexDirection: 'row', alignItems: 'center', gap: 10, padding: space.md, borderRadius: 18, borderWidth: StyleSheet.hairlineWidth },
-  soonIcon: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center', opacity: 0.85 },
-  soonPill: { position: 'absolute', top: 8, right: 8, flexDirection: 'row', alignItems: 'center', gap: 3, borderRadius: 999, paddingHorizontal: 7, paddingVertical: 2 },
-  quickIcon: { width: 48, height: 48, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  tile: { borderRadius: 24, padding: space.lg, gap: 12, minHeight: 150, justifyContent: 'space-between' },
+  tileIcon: { width: 44, height: 44, borderRadius: 14, backgroundColor: 'rgba(255,255,255,0.35)', alignItems: 'center', justifyContent: 'center' },
+  soonPill: { backgroundColor: 'rgba(255,255,255,0.45)', borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
+  track: { height: 6, borderRadius: 3, backgroundColor: 'rgba(6,36,15,0.18)', overflow: 'hidden' },
+  fill: { height: 6, borderRadius: 3, backgroundColor: INK },
+  quickRow: { flexDirection: 'row', justifyContent: 'space-between', marginTop: space.xl, gap: 8 },
+  quick: { flex: 1, alignItems: 'center', gap: 8 },
+  quickIcon: { width: 60, height: 60, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
 });

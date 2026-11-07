@@ -1,4 +1,5 @@
 import '../i18n';
+import '../lib/nav';
 import { useEffect } from 'react';
 import { Platform, UIManager, View } from 'react-native';
 import { Stack, type ErrorBoundaryProps } from 'expo-router';

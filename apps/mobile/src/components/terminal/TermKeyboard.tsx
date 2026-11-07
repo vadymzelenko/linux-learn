@@ -43,10 +43,21 @@ const ALT: Record<string, string> = { q: '1', w: '2', e: '3', r: '4', t: '5', y:
 
 const HEIGHT = { S: 38, M: 44, L: 52 } as const;
 
+/** '#RRGGBB' + alpha → rgba(): only backgrounds get see-through, text stays crisp. */
+function alpha(hex: string, a: number): string {
+  if (a >= 1 || !/^#[0-9a-f]{6}$/i.test(hex)) return hex;
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${n >> 16}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
+}
+
 /** Web: keys are buttons, not text — no selection, no copy callout, no double-tap zoom delay. */
 const NO_SELECT = (Platform.OS === 'web' ? { userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none', touchAction: 'manipulation', cursor: 'default' } : {}) as unknown as ViewStyle;
 
 interface KeyColors {
+  /** Bottom edge of a key (depth without shadows: shadows ghost through on Android). */
+  edge: string;
+  /** Solid background of the key preview bubble. */
+  bubble: string;
   key: string;
   mod: string;
   pressed: string;
@@ -103,7 +114,7 @@ const Key = memo(function Key({ id, label, flex = 1, mod, active, long, mono = t
       accessibilityRole="keyboardkey"
       accessibilityLabel={a11y ?? label}
       accessibilityState={active !== undefined ? { selected: active } : undefined}
-      style={[styles.key, NO_SELECT, { flex, height, backgroundColor: active ? colors.active : down ? colors.pressed : mod ? colors.mod : colors.key }]}
+      style={[styles.key, NO_SELECT, { flex, height, borderBottomColor: colors.edge, backgroundColor: active ? colors.active : down ? colors.pressed : mod ? colors.mod : colors.key }]}
     >
       {children ?? (
         <Text selectable={false} style={{ fontFamily: mono ? MONO : undefined, fontSize: label && label.length > 2 ? 13 : height > 46 ? 21 : height < 36 ? 16 : 18, color: active ? colors.onActive : colors.text }}>
@@ -116,7 +127,7 @@ const Key = memo(function Key({ id, label, flex = 1, mod, active, long, mono = t
         </Text>
       ) : null}
       {preview ? (
-        <View pointerEvents="none" style={[styles.bubble, { backgroundColor: colors.key, borderColor: colors.border, bottom: height + 4 }]}>
+        <View pointerEvents="none" style={[styles.bubble, { backgroundColor: colors.bubble, borderColor: colors.border, bottom: height + 4 }]}>
           <Text selectable={false} style={{ fontFamily: MONO, fontSize: 24, color: colors.text }}>
             {label}
           </Text>
@@ -282,20 +293,23 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
     [onKey],
   );
 
+  const op = kb.opacity;
   const colors: KeyColors = useMemo(
     () => ({
-      key: theme.dark ? '#222C38' : '#FFFFFF',
-      mod: theme.dark ? '#16202B' : '#BCC4CF',
+      key: alpha(theme.dark ? '#222C38' : '#FFFFFF', Math.min(1, op + 0.1)),
+      mod: alpha(theme.dark ? '#16202B' : '#C9D0DA', Math.min(1, op + 0.1)),
       pressed: theme.border,
       active: theme.accent,
       text: theme.text,
       onActive: theme.onAccent,
       dim: theme.textDim,
       border: theme.border,
+      edge: theme.dark ? '#0A0F15' : '#AEB7C2',
+      bubble: theme.dark ? '#2A3542' : '#FFFFFF',
     }),
-    [theme],
+    [theme, op],
   );
-  const bg = theme.dark ? '#0E141B' : '#D9DEE5';
+  const bg = alpha(theme.dark ? '#0E141B' : '#E3E7EC', op);
   const common = { height: keyH, colors, showHint, onKey };
 
   const rows = layer === 'abc' ? LETTERS : layer === 'sym' ? SYM : SYM2;
@@ -307,7 +321,7 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
       style={[
         styles.wrap,
         NO_SELECT,
-        { backgroundColor: bg, opacity: Animated.multiply(enter, kb.opacity), borderTopColor: theme.border, paddingBottom: Platform.OS === 'ios' ? 6 : 4, transform: [{ translateY: enter.interpolate({ inputRange: [0, 1], outputRange: [32, 0] }) }] },
+        { backgroundColor: bg, borderTopColor: theme.border, paddingBottom: Platform.OS === 'ios' ? 6 : 4, transform: [{ translateY: enter.interpolate({ inputRange: [0, 1], outputRange: [32, 0] }) }] },
       ]}
     >
       <View style={{ width: '100%', maxWidth: layout.tablet ? 820 : undefined, alignSelf: 'center', gap: 5 }}>
@@ -391,7 +405,7 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
             accessibilityRole="keyboardkey"
             accessibilityLabel="space"
             accessibilityHint={t('keyboard.spaceHint')}
-            style={[styles.key, NO_SELECT, { flex: 3.6, height: keyH, backgroundColor: spaceDown ? colors.pressed : colors.key }]}
+            style={[styles.key, NO_SELECT, { flex: 3.6, height: keyH, borderBottomColor: colors.edge, backgroundColor: spaceDown ? colors.pressed : colors.key }]}
           >
             <Text selectable={false} style={{ fontSize: 13, color: theme.textDim }}>
               ‹ space ›
@@ -413,8 +427,8 @@ const styles = StyleSheet.create({
   quick: { gap: 6, paddingHorizontal: 3, paddingBottom: 2 },
   chip: { height: 34, paddingHorizontal: 12, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
   row: { flexDirection: 'row', gap: 4 },
-  key: { borderRadius: 8, alignItems: 'center', justifyContent: 'center', minWidth: 0, shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 0, shadowOffset: { width: 0, height: 1 }, elevation: 1 },
+  key: { borderRadius: 8, alignItems: 'center', justifyContent: 'center', minWidth: 0, borderBottomWidth: 2 },
   hint: { position: 'absolute', top: 2, right: 4, fontSize: 9, fontFamily: MONO },
-  bubble: { position: 'absolute', minWidth: 44, height: 52, borderRadius: 10, borderWidth: StyleSheet.hairlineWidth, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8, elevation: 6, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 6, shadowOffset: { width: 0, height: 2 }, zIndex: 10 },
+  bubble: { position: 'absolute', minWidth: 44, height: 52, borderRadius: 10, borderWidth: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8, zIndex: 10 },
   grabber: { alignSelf: 'center', width: 36, height: 4, borderRadius: 2, marginBottom: 2, opacity: 0.8 },
 });

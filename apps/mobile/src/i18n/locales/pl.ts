@@ -147,7 +147,7 @@ const pl: Dict = {
     newMachine: 'Nowa maszyna',
     machines: 'Maszyny',
     template: 'Szablon',
-    templates: {
+    templates: { 'git-fresh': 'Strona bez Gita', 'git-lab': 'Projekt Git',
       'docker-lab': 'Host Dockera z kontenerami',
       'noc-web01': 'Serwer WWW z usługami (NOC)',
       'noc-busy': 'Przeciążony serwer (NOC)',
@@ -164,6 +164,9 @@ const pl: Dict = {
     machineName: 'Maszyna {{n}}',
   },
   practice: {
+    reviewThink: 'Najpierw sobie przypomnij, potem sprawdź',
+    hard: 'Trudne',
+    showAnswer: 'Pokaż odpowiedź',
     nextTask: 'Następne zadanie',
     tasksDone: 'Rozwiązano {{done}} z {{total}}',
     tasksIntro: 'Samodzielne zadania z życia: bez podpowiedzi w treści, tylko cel i maszyna. Każde daje XP raz — wracaj, by powtórzyć, kiedy chcesz.',

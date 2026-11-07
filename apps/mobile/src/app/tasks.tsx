@@ -21,7 +21,6 @@ export default function TasksScreen() {
         <H1 style={{ fontSize: 22 }}>{t('practice.tasks')}</H1>
       </Row>
       <ScrollView contentContainerStyle={styles.content}>
-        <Body dim>{t('practice.tasksIntro')}</Body>
         <View style={{ gap: 6, marginVertical: space.md }}>
           <ProgressBar value={challenges.length ? done / challenges.length : 0} />
           <Text style={{ color: theme.textDim, fontSize: 13 }}>{t('practice.tasksDone', { done, total: challenges.length })}</Text>

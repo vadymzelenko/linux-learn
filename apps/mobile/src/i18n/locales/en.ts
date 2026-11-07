@@ -145,7 +145,7 @@ const en = {
     newMachine: 'New machine',
     machines: 'Machines',
     template: 'Template',
-    templates: {
+    templates: { 'git-fresh': 'Website without Git', 'git-lab': 'Git project',
       'docker-lab': 'Docker host with containers',
       'noc-web01': 'Web server with services (NOC)',
       'noc-busy': 'Overloaded server (NOC)',
@@ -162,6 +162,9 @@ const en = {
     machineName: 'Machine {{n}}',
   },
   practice: {
+    reviewThink: 'Recall it first, then check yourself',
+    hard: 'Hard',
+    showAnswer: 'Show answer',
     nextTask: 'Next task',
     tasksDone: 'Solved {{done}} of {{total}}',
     tasksIntro: 'Standalone tasks from real life: no hints in the text, only the goal and a machine. Each one gives XP once — come back any time to repeat.',

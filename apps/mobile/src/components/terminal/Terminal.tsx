@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme, MONO } from '../../theme';
 import { useStore } from '../../state/store';
 import { haptic } from '../../lib/haptics';
-import { AnsiText } from './AnsiText';
+import { AnsiText, CommandText } from './AnsiText';
 import { PromptText } from './Prompt';
 import { KeyBar, type SpecialKey } from './KeyBar';
 import { TermKeyboard, type KeyboardActions } from './TermKeyboard';
@@ -352,7 +352,7 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
         {item.prompt ? (
           <Text style={{ fontFamily: MONO, fontSize, lineHeight, color: theme.term.fg }} selectable={Platform.OS === 'web'}>
             <PromptText prompt={item.prompt} fontSize={fontSize} />
-            {item.command}
+            {item.command ? <CommandText line={item.command} /> : null}
           </Text>
         ) : null}
         {item.output ? (
