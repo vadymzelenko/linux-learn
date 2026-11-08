@@ -1,3 +1,6 @@
+import { Row } from '../components/ui';
+import { challengeLocked } from '../lib/edition';
+import { ProGate } from '../components/ProGate';
 import { useMemo, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -12,7 +15,7 @@ import { Text } from '../theme/Text';
 import { goBack } from '../lib/nav';
 import { BackButton } from '../components/BackButton';
 
-export default function ChallengeScreen() {
+function ChallengeInner() {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const { id } = useLocalSearchParams<{ id?: string }>();
@@ -68,3 +71,22 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', gap: space.sm, padding: space.sm },
   body: { flex: 1, paddingHorizontal: space.md, paddingBottom: space.sm, maxWidth: 1200, width: '100%', alignSelf: 'center' },
 });
+
+/** Free edition: locked content shows what Pro adds instead. */
+function LockedScreen() {
+  return (
+    <Screen edges={['top', 'bottom']}>
+      <Row style={{ padding: space.sm }}>
+        <BackButton />
+      </Row>
+      <ProGate locked />
+    </Screen>
+  );
+}
+
+export default function ChallengeScreen() {
+  const { id } = useLocalSearchParams<{ id?: string }>();
+  const index = Math.max(0, challenges.findIndex((c) => c.id === id));
+  if (challengeLocked(index)) return <LockedScreen />;
+  return <ChallengeInner />;
+}

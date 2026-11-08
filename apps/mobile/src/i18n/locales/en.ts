@@ -141,7 +141,7 @@ const en = {
   sandbox: {
     limitTitle: 'All slots are taken',
     title: 'Sandbox',
-    subtitle: 'Free practice, up to 3 machines',
+    subtitle: 'Free practice on your own Linux machine',
     newMachine: 'New machine',
     machines: 'Machines',
     template: 'Template',
@@ -509,6 +509,23 @@ const en = {
     how: 'How it works',
     entry: 'Move lessons, XP, settings and sandbox machines to another device — e.g. from your phone to the web version on a computer.',
     title: 'Transfer progress',
+  },
+  pro: {
+    oneMachine: 'The free app keeps 1 machine. Pro: 3 machines and every template.',
+    upgrade: 'Unlock everything with Pro',
+    freeIncludes: 'Free: the first 5 Linux modules, 3 missions, reference, glossary, Explain a command.',
+    later: 'Not now',
+    get: 'Get Pro on Google Play',
+    transfer: 'Your progress comes with you: Settings → Transfer progress, then import it in Pro.',
+    f5: 'New courses as they come out — included',
+    f4: 'All practice tasks, 3 sandbox machines and every machine template',
+    f3: '17 missions from real incidents, final exam and certificate',
+    f2: '110 lessons and 240+ hands-on tasks instead of 25',
+    f1: 'All 4 courses: Linux from zero, NOC engineer, Docker, Git & GitHub',
+    lockedTitle: 'This is part of Pro',
+    subtitle: 'The whole path: from the first command to on-call engineer, Docker and Git. One payment, no subscription, no ads.',
+    title: 'Linux Terminal Trainer Pro',
+    badge: 'PRO',
   },
 };
 

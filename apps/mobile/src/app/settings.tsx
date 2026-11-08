@@ -188,7 +188,7 @@ export default function SettingsScreen() {
 
         <Button variant="danger" title={t('settings.resetProgress')} onPress={reset} style={{ marginTop: space.lg }} />
         <Text style={{ color: theme.textDim, textAlign: 'center', marginTop: space.lg }}>
-          Linux Terminal Trainer · {t('settings.version', { v: Constants.expoConfig?.version ?? '1.0.0' })}
+          {Constants.expoConfig?.name ?? 'Linux Terminal Trainer'} · {t('settings.version', { v: Constants.expoConfig?.version ?? '1.0.0' })}
         </Text>
       </ScrollView>
     </Screen>

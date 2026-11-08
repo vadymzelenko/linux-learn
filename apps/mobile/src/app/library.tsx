@@ -1,3 +1,5 @@
+import { moduleLocked } from '../lib/edition';
+import { ProBadge, showPro } from '../components/ProGate';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -33,12 +35,13 @@ export default function LibraryScreen() {
               <Card key={m.id} style={{ gap: 4 }}>
                 <Row style={{ marginBottom: 4 }}>
                   <Icon name={m.icon} size={20} color={theme.term.path} />
-                  <Text style={{ color: theme.text, fontWeight: '800', fontSize: 16 }}>{tr(m.title, i18n.language)}</Text>
+                  <Text style={{ color: theme.text, fontWeight: '800', fontSize: 16, flex: 1 }}>{tr(m.title, i18n.language)}</Text>
+                  {moduleLocked(m.id) ? <ProBadge small /> : null}
                 </Row>
                 {m.lessons.map((l) => (
                   <Text
                     key={l.id}
-                    onPress={() => router.push({ pathname: '/read/[id]', params: { id: l.id } })}
+                    onPress={() => (moduleLocked(m.id) ? showPro() : router.push({ pathname: '/read/[id]', params: { id: l.id } }))}
                     accessibilityRole="link"
                     style={{ color: theme.text, fontSize: 15, paddingVertical: 8 }}
                   >

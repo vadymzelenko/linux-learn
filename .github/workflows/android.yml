@@ -22,9 +22,16 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     timeout-minutes: 75
+    # two Play apps from one code base: the free one and Pro (see apps/mobile/app.config.js)
+    strategy:
+      fail-fast: false
+      matrix:
+        edition: [free, pro]
     env:
       # Play needs a growing versionCode on every upload
       ANDROID_VERSION_CODE: ${{ github.run_number }}
+      APP_EDITION: ${{ matrix.edition }}
+      EXPO_PUBLIC_EDITION: ${{ matrix.edition }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -65,17 +72,17 @@ jobs:
       - name: Collect
         run: |
           mkdir -p out
-          cp apps/mobile/android/app/build/outputs/apk/release/app-release.apk "out/linux-trainer-${{ github.run_number }}.apk"
-          cp apps/mobile/android/app/build/outputs/bundle/release/app-release.aab "out/linux-trainer-${{ github.run_number }}.aab"
+          cp apps/mobile/android/app/build/outputs/apk/release/app-release.apk "out/linux-trainer-${{ matrix.edition }}-${{ github.run_number }}.apk"
+          cp apps/mobile/android/app/build/outputs/bundle/release/app-release.aab "out/linux-trainer-${{ matrix.edition }}-${{ github.run_number }}.aab"
           ls -la out
           "$ANDROID_HOME"/build-tools/$(ls "$ANDROID_HOME"/build-tools | sort -V | tail -1)/aapt2 dump badging out/*.apk | grep -E "package:|uses-permission|sdkVersion|targetSdkVersion" | tee out/badging.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: apk
+          name: apk-${{ matrix.edition }}
           path: out/*.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: aab-for-google-play
+          name: aab-for-google-play-${{ matrix.edition }}
           path: |
             out/*.aab
             out/badging.txt
@@ -84,11 +91,19 @@ jobs:
     needs: build
     runs-on: ubuntu-24.04
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - edition: free
+            app_id: com.vadymzelenko.linuxtrainer
+          - edition: pro
+            app_id: com.vadymzelenko.linuxtrainer.pro
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: apk
+          name: apk-${{ matrix.edition }}
           path: apk
       - name: Enable KVM
         run: |
@@ -116,10 +131,10 @@ jobs:
             adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS || true
             # the app runs full screen: skip Android's one-time "Viewing full screen — Got it" hint
             adb shell settings put secure immersive_mode_confirmations confirmed || true
-            maestro test apps/mobile/.maestro/smoke.yaml --format junit --output maestro-out/report.xml --test-output-dir maestro-out || (echo "::group::What is on screen"; maestro hierarchy | grep -oE '"(text|accessibilityText|resource-id)" *: *"[^"]+"' | head -80; echo "::endgroup::"; echo "::group::Crash / JS errors"; adb logcat -d -s ReactNativeJS:V AndroidRuntime:E ReactNative:E | tail -150; echo "::endgroup::"; adb shell dumpsys activity activities | grep -E "mResumedActivity|topResumedActivity" ; adb logcat -d > maestro-out/logcat.txt; exit 1)
+            maestro test -e APP_ID=${{ matrix.app_id }} apps/mobile/.maestro/smoke.yaml --format junit --output maestro-out/report.xml --test-output-dir maestro-out || (echo "::group::What is on screen"; maestro hierarchy | grep -oE '"(text|accessibilityText|resource-id)" *: *"[^"]+"' | head -80; echo "::endgroup::"; echo "::group::Crash / JS errors"; adb logcat -d -s ReactNativeJS:V AndroidRuntime:E ReactNative:E | tail -150; echo "::endgroup::"; adb shell dumpsys activity activities | grep -E "mResumedActivity|topResumedActivity" ; adb logcat -d > maestro-out/logcat.txt; exit 1)
             adb logcat -d -s ReactNativeJS:V AndroidRuntime:E > maestro-out/logcat.txt || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: smoke-test-screenshots
+          name: smoke-test-screenshots-${{ matrix.edition }}
           path: maestro-out
