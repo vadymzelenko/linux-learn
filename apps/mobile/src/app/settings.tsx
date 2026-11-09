@@ -187,15 +187,24 @@ export default function SettingsScreen() {
         <Body dim>{t('settings.privacyText')}</Body>
 
         <Button variant="danger" title={t('settings.resetProgress')} onPress={reset} style={{ marginTop: space.lg }} />
-        <Text style={{ color: theme.textDim, textAlign: 'center', marginTop: space.lg }}>
-          {Constants.expoConfig?.name ?? 'Linux Terminal Trainer'} · {t('settings.version', { v: Constants.expoConfig?.version ?? '1.0.0' })}
-        </Text>
+        <View style={styles.studio} accessible accessibilityLabel={`VZstudio. ${Constants.expoConfig?.name ?? 'Linux Terminal Trainer'}, ${t('settings.version', { v: Constants.expoConfig?.version ?? '1.0.0' })}`}>
+          <View style={[styles.studioLine, { backgroundColor: theme.border }]} />
+          <Text style={[styles.studioName, { color: theme.text }]}>
+            VZ<Text style={{ color: theme.accent }}>studio</Text>
+          </Text>
+          <Text style={{ color: theme.textDim, fontSize: 12, textAlign: 'center' }}>
+            {Constants.expoConfig?.name ?? 'Linux Terminal Trainer'} · {t('settings.version', { v: Constants.expoConfig?.version ?? '1.0.0' })}
+          </Text>
+        </View>
       </ScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  studio: { alignItems: 'center', gap: 6, marginTop: space.xl, opacity: 0.85 },
+  studioLine: { width: 28, height: 2, borderRadius: 1, marginBottom: 6 },
+  studioName: { fontFamily: MONO, fontSize: 13, fontWeight: '700', letterSpacing: 3 },
   content: { padding: space.lg, gap: space.md, paddingBottom: space.xxl, maxWidth: 720, width: '100%', alignSelf: 'center' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: { paddingHorizontal: 14, paddingVertical: 10, borderRadius: 999, minHeight: 40, justifyContent: 'center' },
