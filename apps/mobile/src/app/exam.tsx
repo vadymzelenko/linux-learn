@@ -41,14 +41,14 @@ function ExamInner() {
   if (phase === 'intro') {
     return (
       <Screen edges={['top', 'bottom']}>
-        <View style={styles.center}>
+        <ScrollView contentContainerStyle={[styles.center, { flexGrow: 1 }]}>
           <Icon name="graduation-cap" size={64} color={theme.accent} />
           <H1 style={{ textAlign: 'center' }}>{t('exam.title')}</H1>
           <Body style={{ textAlign: 'center' }}>{t('exam.intro', { count: tasks.length, pass: PASS_PERCENT })}</Body>
           <Button title={t('common.start')} icon="play" onPress={() => setPhase('run')} style={{ alignSelf: 'stretch' }} />
           {passedAt ? <Button variant="secondary" title={t('exam.certificate')} onPress={() => setPhase('result')} style={{ alignSelf: 'stretch' }} /> : null}
           <Button variant="ghost" title={t('common.back')} onPress={() => goBack()} />
-        </View>
+        </ScrollView>
       </Screen>
     );
   }
@@ -120,7 +120,7 @@ function ExamInner() {
 }
 
 const styles = StyleSheet.create({
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.lg, maxWidth: 560, width: '100%', alignSelf: 'center' },
+  center: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.lg, maxWidth: 560, width: '100%', alignSelf: 'center' },
   name: { alignSelf: 'stretch', borderWidth: 1, borderRadius: 12, padding: 14, fontSize: 17 },
 });
 

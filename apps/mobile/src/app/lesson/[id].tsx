@@ -2,7 +2,7 @@ import { moduleLocked } from '../../lib/edition';
 import { BackButton } from '../../components/BackButton';
 import { ProGate } from '../../components/ProGate';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, BackHandler, Easing, KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Animated, BackHandler, Easing, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { allLessons, findLesson, isTaskStep, stepXp, tr } from '@linux-learn/content';
@@ -52,6 +52,9 @@ function LessonInner() {
   const [index, setIndex] = useState(() => (saved && !saved.completedAt ? Math.min(saved.step, (ref?.lesson.steps.length ?? 1) - 1) : 0));
   const [finished, setFinished] = useState(false);
   const earned = useRef(0);
+  const win = useWindowDimensions();
+  // short landscape phones: badge on the left, text and buttons on the right
+  const wide = win.width > win.height && win.height < 600;
   const hintsTotal = useRef(0);
   const mistakesTotal = useRef(0);
   const [taskSolved, setTaskSolved] = useState<{ xp: number } | null>(null);
@@ -117,37 +120,62 @@ function LessonInner() {
   }
 
   if (finished) {
+    const keys = (
+      <KeyCatcher
+        onKey={(e) => {
+          if (e.key === 'Enter' && next) {
+            router.replace({ pathname: '/lesson/[id]', params: { id: next.lesson.id } });
+            return true;
+          }
+          if (e.key === 'Escape' || (e.key === 'Enter' && !next)) {
+            goBack('/courses');
+            return true;
+          }
+        }}
+      />
+    );
+    const info = (
+      <>
+        <H1 style={{ textAlign: 'center' }}>{t('lesson.finished')}</H1>
+        <Body style={{ textAlign: 'center', fontSize: 18 }}>{tr(lesson.title, i18n.language)}</Body>
+        <Text style={{ color: theme.accent, fontSize: 32, fontWeight: '900' }}>{t('lesson.earned', { xp: earned.current })}</Text>
+      </>
+    );
+    const buttons = (
+      <View style={[styles.finishButtons, { marginTop: wide ? space.md : space.xl }]}>
+        {next ? (
+          <Button
+            title={t('lesson.nextLesson')}
+            hint={Platform.OS === 'web' ? 'Enter' : undefined}
+            icon="play"
+            onPress={() => router.replace({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
+          />
+        ) : null}
+        <Button variant="secondary" icon="map-outline" title={t('lesson.backToMap')} hint={Platform.OS === 'web' ? 'Esc' : undefined} onPress={() => goBack('/courses')} />
+      </View>
+    );
     return (
       <Screen edges={['top', 'bottom']}>
-        <View style={styles.finish}>
-          <KeyCatcher
-            onKey={(e) => {
-              if (e.key === 'Enter' && next) {
-                router.replace({ pathname: '/lesson/[id]', params: { id: next.lesson.id } });
-                return true;
-              }
-              if (e.key === 'Escape' || (e.key === 'Enter' && !next)) {
-                goBack('/courses');
-                return true;
-              }
-            }}
-          />
-          <FinishBadge color={theme.accent} iconColor={theme.onAccent} />
-          <H1 style={{ textAlign: 'center' }}>{t('lesson.finished')}</H1>
-          <Body style={{ textAlign: 'center', fontSize: 18 }}>{tr(lesson.title, i18n.language)}</Body>
-          <Text style={{ color: theme.accent, fontSize: 32, fontWeight: '900' }}>{t('lesson.earned', { xp: earned.current })}</Text>
-          <View style={{ gap: space.md, alignSelf: 'stretch', maxWidth: 420, width: '100%', marginTop: space.xl }}>
-            {next ? (
-              <Button
-                title={t('lesson.nextLesson')}
-                hint={Platform.OS === 'web' ? 'Enter' : undefined}
-                icon="play"
-                onPress={() => router.replace({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
-              />
-            ) : null}
-            <Button variant="secondary" icon="map-outline" title={t('lesson.backToMap')} hint={Platform.OS === 'web' ? 'Esc' : undefined} onPress={() => goBack('/courses')} />
-          </View>
-        </View>
+        {keys}
+        <ScrollView contentContainerStyle={styles.finish} bounces={false}>
+          {wide ? (
+            <View style={styles.finishWide}>
+              <View style={{ padding: space.lg }}>
+                <FinishBadge color={theme.accent} iconColor={theme.onAccent} />
+              </View>
+              <View style={styles.finishCol}>
+                {info}
+                {buttons}
+              </View>
+            </View>
+          ) : (
+            <>
+              <FinishBadge color={theme.accent} iconColor={theme.onAccent} />
+              {info}
+              {buttons}
+            </>
+          )}
+        </ScrollView>
       </Screen>
     );
   }
@@ -261,7 +289,10 @@ const styles = StyleSheet.create({
   slimX: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
   header: { flexDirection: 'row', alignItems: 'center', gap: space.sm, paddingHorizontal: space.sm, paddingVertical: 6 },
   body: { flex: 1, paddingHorizontal: space.md, paddingBottom: space.sm, maxWidth: 1200, width: '100%', alignSelf: 'center' },
-  finish: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.md },
+  finish: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.md },
+  finishWide: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.xl, width: '100%', maxWidth: 900 },
+  finishCol: { flex: 1, alignItems: 'center', gap: space.sm, maxWidth: 440 },
+  finishButtons: { gap: space.md, alignSelf: 'center', maxWidth: 420, width: '100%' },
   badge: { width: 104, height: 104, borderRadius: 52, alignItems: 'center', justifyContent: 'center', marginBottom: space.md },
   halo: { position: 'absolute', width: 150, height: 150, borderRadius: 75, top: -23 },
 });
