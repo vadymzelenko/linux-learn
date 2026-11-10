@@ -398,6 +398,7 @@ const en = {
     certificate: 'Certificate',
   },
   settings: {
+    developer: 'Developer',
     immersiveHint: 'Like in games: the status bar and system buttons hide. Swipe from the top or bottom edge to see them for a moment.',
     immersive: 'Full screen',
     soundsHint: 'Quiet cues for right and wrong answers and finished lessons',

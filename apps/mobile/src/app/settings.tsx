@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { router } from 'expo-router';
-import Constants from 'expo-constants';
 import { useTranslation } from 'react-i18next';
 import { LANGS } from '@linux-learn/content';
 import { useStore } from '../state/store';
@@ -183,28 +182,27 @@ export default function SettingsScreen() {
           </Row>
         </Card>
 
+        <Pressable onPress={() => router.push('/developer')} accessibilityRole="button" accessibilityLabel={t('settings.developer')} style={({ pressed }) => [styles.devRow, { opacity: pressed ? 0.6 : 1 }]}>
+          <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.developer')}</Text>
+          <Row gap={4}>
+            <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 13 }}>VZstudio</Text>
+            <Icon name="chevron-right" color={theme.textDim} />
+          </Row>
+        </Pressable>
+
         <H2>{t('settings.privacy')}</H2>
         <Body dim>{t('settings.privacyText')}</Body>
 
         <Button variant="danger" title={t('settings.resetProgress')} onPress={reset} style={{ marginTop: space.lg }} />
-        <View style={styles.studio} accessible accessibilityLabel={`VZstudio. ${Constants.expoConfig?.name ?? 'Linux Terminal Trainer'}, ${t('settings.version', { v: Constants.expoConfig?.version ?? '1.0.0' })}`}>
-          <View style={[styles.studioLine, { backgroundColor: theme.border }]} />
-          <Text style={[styles.studioName, { color: theme.text }]}>
-            VZ<Text style={{ color: theme.accent }}>studio</Text>
-          </Text>
-          <Text style={{ color: theme.textDim, fontSize: 12, textAlign: 'center' }}>
-            {Constants.expoConfig?.name ?? 'Linux Terminal Trainer'} · {t('settings.version', { v: Constants.expoConfig?.version ?? '1.0.0' })}
-          </Text>
-        </View>
+        <Text style={[styles.studioName, { color: theme.textDim }]}>VZstudio</Text>
       </ScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  studio: { alignItems: 'center', gap: 6, marginTop: space.xl, opacity: 0.85 },
-  studioLine: { width: 28, height: 2, borderRadius: 1, marginBottom: 6 },
-  studioName: { fontFamily: MONO, fontSize: 13, fontWeight: '700', letterSpacing: 3 },
+  studioName: { fontFamily: MONO, fontSize: 12, fontWeight: '700', letterSpacing: 3, textAlign: 'center', marginTop: space.xl },
+  devRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: space.md },
   content: { padding: space.lg, gap: space.md, paddingBottom: space.xxl, maxWidth: 720, width: '100%', alignSelf: 'center' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: { paddingHorizontal: 14, paddingVertical: 10, borderRadius: 999, minHeight: 40, justifyContent: 'center' },

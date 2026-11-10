@@ -400,6 +400,7 @@ const pl: Dict = {
     certificate: 'Certyfikat',
   },
   settings: {
+    developer: 'Twórca',
     immersiveHint: 'Jak w grach: pasek stanu i przyciski systemowe są ukryte. Przesuń od górnej lub dolnej krawędzi, by na chwilę je zobaczyć.',
     immersive: 'Pełny ekran',
     soundsHint: 'Ciche sygnały przy dobrych i złych odpowiedziach oraz ukończonych lekcjach',
