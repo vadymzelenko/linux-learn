@@ -17,7 +17,6 @@ import {
   type Progress,
 } from '../lib/progress';
 import { storage } from './storage';
-import { maxMachines } from '../lib/edition';
 import { importSettings, mergeProgress, type Backup } from '../lib/backup';
 
 export interface Settings {
@@ -253,7 +252,7 @@ export const useStore = create<State>()(
 
         createMachine: (template, name) => {
           const { machines } = get().sandbox;
-          if (machines.length >= maxMachines()) return null;
+          if (machines.length >= MAX_MACHINES) return null;
           const m = freshMachine(template, name);
           set({ sandbox: { machines: [...machines, m], activeId: m.id } });
           return m.id;

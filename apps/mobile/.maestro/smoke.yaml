@@ -1,7 +1,6 @@
 # Smoke test of the release APK on an emulator (run by .github/workflows/android.yml).
 # Onboarding → first command → home → a lesson task solved from the keyboard.
-# APP_ID: com.vadymzelenko.linuxtrainer (free) or com.vadymzelenko.linuxtrainer.pro
-appId: ${APP_ID}
+appId: com.vadymzelenko.linuxtrainer
 ---
 - launchApp:
     clearState: true

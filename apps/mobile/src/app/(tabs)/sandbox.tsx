@@ -1,5 +1,3 @@
-import { isPro, maxMachines, templateLocked } from '../../lib/edition';
-import { ProBadge, showPro } from '../../components/ProGate';
 import { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
@@ -41,16 +39,12 @@ function TemplateGrid({ onPick }: { onPick: (tpl: string) => void }) {
           <Pressable
             onPress={() => {
               haptic.tap();
-              if (templateLocked(tpl)) showPro();
-              else onPick(tpl);
+              onPick(tpl);
             }}
             accessibilityRole="button"
             style={({ pressed }) => [styles.tile, { backgroundColor: look(tpl).color, opacity: pressed ? 0.85 : 1, transform: [{ scale: pressed ? 0.97 : 1 }] }]}
           >
-            <Row style={{ justifyContent: 'space-between' }}>
-              <Icon name={look(tpl).icon} size={24} color="#06240F" />
-              {templateLocked(tpl) ? <ProBadge small /> : null}
-            </Row>
+            <Icon name={look(tpl).icon} size={24} color="#06240F" />
             <Text style={{ color: '#06240F', fontWeight: '800', fontSize: 15 }} numberOfLines={2}>
               {t(`sandbox.templates.${tpl}` as 'sandbox.templates.search')}
             </Text>
@@ -91,10 +85,6 @@ export default function SandboxScreen() {
   const insets = useSafeAreaInsets();
 
   const create = (template: string) => {
-    if (machines.length >= maxMachines()) {
-      setCreating(false);
-      return showPro();
-    }
     const id = useStore.getState().createMachine(template, t('sandbox.machineName', { n: machines.length + 1 }));
     if (!id) infoDialog({ title: t('sandbox.limitTitle'), message: t('sandbox.limit'), ok: t('common.ok'), icon: 'server', tone: 'warning' });
     setCreating(false);
@@ -142,8 +132,8 @@ export default function SandboxScreen() {
                   </Pressable>
                 );
               })}
-              {machines.length < maxMachines() || !isPro ? (
-                <Pressable onPress={() => (machines.length >= maxMachines() ? showPro() : setCreating(true))} accessibilityRole="button" accessibilityLabel={t('sandbox.newMachine')} style={[styles.tab, styles.addTab, { borderColor: theme.border }]}>
+              {machines.length < MAX_MACHINES ? (
+                <Pressable onPress={() => setCreating(true)} accessibilityRole="button" accessibilityLabel={t('sandbox.newMachine')} style={[styles.tab, styles.addTab, { borderColor: theme.border }]}>
                   <Icon name="plus" size={18} color={theme.accent} />
                 </Pressable>
               ) : null}

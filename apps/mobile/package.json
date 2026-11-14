@@ -54,9 +54,7 @@
     "export:web": "expo export --platform web --output-dir dist",
     "android:prebuild": "expo prebuild --platform android --clean",
     "android:apk": "cd android && ./gradlew assembleRelease",
-    "android:aab": "cd android && ./gradlew bundleRelease",
-    "export:web:pro": "APP_EDITION=pro EXPO_PUBLIC_EDITION=pro expo export --platform web --output-dir dist",
-    "start:pro": "APP_EDITION=pro EXPO_PUBLIC_EDITION=pro expo start"
+    "android:aab": "cd android && ./gradlew bundleRelease"
   },
   "private": true
 }

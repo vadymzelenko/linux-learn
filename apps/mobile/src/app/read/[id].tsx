@@ -1,5 +1,3 @@
-import { moduleLocked } from '../../lib/edition';
-import { ProGate } from '../../components/ProGate';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +10,7 @@ import { Button, IconButton, Pill, Row, Screen } from '../../components/ui';
 import { TheoryCards } from '../../components/ui/RichText';
 
 /** Read the theory of one or more lessons (ids separated by commas) — the "quick jump to the topic". */
-function ReadInner() {
+export default function ReadScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const theme = useTheme();
   const { t, i18n } = useTranslation();
@@ -66,22 +64,3 @@ const styles = StyleSheet.create({
   content: { padding: space.lg, paddingTop: 0, maxWidth: 820, width: '100%', alignSelf: 'center' },
   cmd: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: space.md, borderRadius: 12, borderWidth: StyleSheet.hairlineWidth },
 });
-
-/** Free edition: locked content shows what Pro adds instead. */
-function LockedScreen() {
-  return (
-    <Screen edges={['top', 'bottom']}>
-      <Row style={{ padding: space.sm }}>
-        <BackButton />
-      </Row>
-      <ProGate locked />
-    </Screen>
-  );
-}
-
-export default function ReadScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const refs = (id ?? '').split(',').map(findLesson).filter((r) => !!r);
-  if (refs.length && refs.every((r) => moduleLocked(r!.module.id))) return <LockedScreen />;
-  return <ReadInner />;
-}

@@ -143,7 +143,7 @@ const pl: Dict = {
   sandbox: {
     limitTitle: 'Wszystkie miejsca zajęte',
     title: 'Piaskownica',
-    subtitle: 'Swobodna praktyka na własnej maszynie z Linuksem',
+    subtitle: 'Swobodna praktyka, do 3 maszyn',
     newMachine: 'Nowa maszyna',
     machines: 'Maszyny',
     template: 'Szablon',
@@ -501,23 +501,6 @@ const pl: Dict = {
     how: 'Jak to działa',
     entry: 'Przenieś lekcje, XP, ustawienia i maszyny piaskownicy na inne urządzenie — np. z telefonu do wersji webowej na komputerze.',
     title: 'Przenoszenie postępów',
-  },
-  pro: {
-    oneMachine: 'W wersji darmowej 1 maszyna. W Pro — 3 maszyny i wszystkie szablony.',
-    upgrade: 'Odblokuj wszystko w Pro',
-    freeIncludes: 'Za darmo: pierwszych 5 modułów Linuksa, 3 misje, leksykon, słownik, „Wyjaśnij polecenie”.',
-    later: 'Nie teraz',
-    get: 'Pobierz Pro z Google Play',
-    transfer: 'Postępy idą z tobą: Ustawienia → «Przenoszenie postępów», potem import w Pro.',
-    f5: 'Nowe kursy, gdy tylko się pojawią — w cenie',
-    f4: 'Wszystkie zadania praktyczne, 3 maszyny w piaskownicy i wszystkie szablony',
-    f3: '17 misji z prawdziwych incydentów, egzamin końcowy i certyfikat',
-    f2: '110 lekcji i ponad 240 zadań praktycznych zamiast 25',
-    f1: 'Wszystkie 4 kursy: Linux od zera, inżynier NOC, Docker, Git i GitHub',
-    lockedTitle: 'To część wersji Pro',
-    subtitle: 'Cała ścieżka: od pierwszego polecenia do inżyniera dyżurnego, Dockera i Gita. Jedna płatność, bez subskrypcji i reklam.',
-    title: 'Linux Terminal Trainer Pro',
-    badge: 'PRO',
   },
 };
 

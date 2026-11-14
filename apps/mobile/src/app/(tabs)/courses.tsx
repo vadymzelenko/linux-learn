@@ -1,5 +1,3 @@
-import { courseLocked, examLocked, missionLocked, moduleLocked } from '../../lib/edition';
-import { ProBadge, showPro } from '../../components/ProGate';
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, LayoutAnimation, Pressable, ScrollView, StyleSheet, View, type ScrollViewInstance } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -97,7 +95,6 @@ function ModuleBranch({
   const active = module.lessons.some((l) => l.id === nextId);
   const started = done > 0 || module.lessons.some((l) => progress.lessons[l.id]);
   const tint = complete ? theme.success : active ? color : theme.textDim;
-  const locked = moduleLocked(module.id);
   // the path is "lit" up to where you are
   const lineTop = prevDone ? (complete || active ? tint : theme.border) : theme.border;
   const lineBottom = complete ? theme.success : theme.border;
@@ -146,13 +143,9 @@ function ModuleBranch({
             </Text>
             <Row gap={8} style={{ marginTop: 4 }}>
               <ProgressBar value={done / total} height={5} color={complete ? theme.success : color} track={theme.border} style={{ flex: 1, maxWidth: 200 }} />
-              {locked ? (
-                <ProBadge small />
-              ) : (
-                <Text style={{ color: complete ? theme.success : theme.textDim, fontFamily: MONO, fontSize: 12 }}>
-                  {done}/{total}
-                </Text>
-              )}
+              <Text style={{ color: complete ? theme.success : theme.textDim, fontFamily: MONO, fontSize: 12 }}>
+                {done}/{total}
+              </Text>
             </Row>
           </View>
           <Chevron open={open} color={theme.textDim} />
@@ -170,8 +163,7 @@ function ModuleBranch({
                   key={l.id}
                   onPress={() => {
                     haptic.tap();
-                    if (locked) showPro();
-                    else router.push({ pathname: '/lesson/[id]', params: { id: l.id } });
+                    router.push({ pathname: '/lesson/[id]', params: { id: l.id } });
                   }}
                   accessibilityRole="button"
                   accessibilityLabel={tr(l.title, i18n.language)}
@@ -186,7 +178,7 @@ function ModuleBranch({
                       status === 'started' && { borderColor: color },
                     ]}
                   >
-                    {status === 'done' ? <Icon name="check" size={12} color={theme.onAccent} /> : status === 'next' ? <Icon name="play" size={11} color={theme.onAccent} /> : locked ? <Icon name="lock" size={10} color={theme.textDim} /> : null}
+                    {status === 'done' ? <Icon name="check" size={12} color={theme.onAccent} /> : status === 'next' ? <Icon name="play" size={11} color={theme.onAccent} /> : null}
                   </View>
                   <Text style={{ flex: 1, color: status === 'todo' ? theme.textDim : theme.text, fontSize: 15, fontWeight: isNext ? '700' : '400' }} numberOfLines={2}>
                     {tr(l.title, i18n.language)}
@@ -222,7 +214,6 @@ function CourseTab({ c, active, onPress, onLayout }: { c: Course; active: boolea
     >
       <Icon name={c.icon} size={18} color={active ? '#06240F' : c.soon ? theme.textDim : c.color} />
       <Text style={{ color: active ? '#06240F' : theme.text, fontWeight: '700' }}>{tr(c.title, i18n.language)}</Text>
-      {!c.soon && courseLocked(c.id) ? <ProBadge small /> : null}
       {c.soon ? (
         <View style={[styles.soonBadge, { backgroundColor: theme.border }]}>
           <Text style={{ color: theme.textDim, fontSize: 10, fontWeight: '800' }}>{t('courses.soon').toUpperCase()}</Text>
@@ -242,7 +233,6 @@ export default function CoursesScreen() {
   const course = activeCourses.find((c) => c.id === (params.course ?? courseId)) ?? activeCourses[0]!;
   const lessons = courseLessons(course);
   const next = lessons.find((l) => !progress.lessons[l.lesson.id]?.completedAt);
-  const nextLocked = !!next && moduleLocked(next.module.id);
   const [open, setOpen] = useState<string | null>(next?.module.id ?? course.modules[0] ?? null);
   const doneCount = lessons.filter((l) => progress.lessons[l.lesson.id]?.completedAt).length;
   const allDone = activeCourses.every((c) => courseLessons(c).every((l) => progress.lessons[l.lesson.id]?.completedAt));
@@ -293,11 +283,11 @@ export default function CoursesScreen() {
         <FadeIn key={course.id}>
           {next ? (
             <Pressable
-              onPress={() => (nextLocked ? showPro() : router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } }))}
+              onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
               accessibilityRole="button"
               style={({ pressed }) => [styles.hero, { backgroundColor: course.color, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
             >
-              <Text style={{ color: '#06240F', fontWeight: '700', fontSize: 12, opacity: 0.75 }}>{(nextLocked ? t('pro.upgrade') : doneCount === 0 ? t('learn.startCourse') : t('common.continue')).toUpperCase()}</Text>
+              <Text style={{ color: '#06240F', fontWeight: '700', fontSize: 12, opacity: 0.75 }}>{(doneCount === 0 ? t('learn.startCourse') : t('common.continue')).toUpperCase()}</Text>
               <Text style={{ color: '#06240F', fontWeight: '800', fontSize: 22, paddingRight: 56 }} numberOfLines={2}>
                 {tr(next.lesson.title, i18n.language)}
               </Text>
@@ -306,7 +296,7 @@ export default function CoursesScreen() {
               </View>
               <Text style={{ color: '#06240F', fontSize: 13, opacity: 0.8 }}>{t('learn.lessons', { done: doneCount, total: lessons.length })}</Text>
               <View style={styles.heroPlay}>
-                <Icon name={nextLocked ? 'lock' : 'play'} size={22} color={course.color} />
+                <Icon name="play" size={22} color={course.color} />
               </View>
             </Pressable>
           ) : (
@@ -358,7 +348,7 @@ export default function CoursesScreen() {
               const done = !!progress.missions[m.id];
               const req = m.requires ? modules.find((x) => x.id === m.requires) : undefined;
               return (
-                <Card key={m.id} onPress={() => (missionLocked(m.id) ? showPro() : router.push({ pathname: '/mission/[id]', params: { id: m.id } }))} accessibilityLabel={tr(m.title, i18n.language)}>
+                <Card key={m.id} onPress={() => router.push({ pathname: '/mission/[id]', params: { id: m.id } })} accessibilityLabel={tr(m.title, i18n.language)}>
                   <Row style={{ justifyContent: 'space-between' }}>
                     <Row style={{ flex: 1 }}>
                       <Icon name={done ? 'check-circle' : 'flag'} color={done ? theme.success : theme.warning} />
@@ -370,8 +360,8 @@ export default function CoursesScreen() {
                     {tr(m.story, i18n.language)}
                   </Body>
                   <Row style={{ marginTop: 8, flexWrap: 'wrap' }}>
-                    {missionLocked(m.id) ? <ProBadge /> : <Pill text={t('common.xp', { count: m.xp })} />}
-                    {req && !done && !missionLocked(m.id) ? <Pill text={`↳ ${tr(req.title, i18n.language)}`} /> : null}
+                    <Pill text={t('common.xp', { count: m.xp })} />
+                    {req && !done ? <Pill text={`↳ ${tr(req.title, i18n.language)}`} /> : null}
                   </Row>
                 </Card>
               );
@@ -379,8 +369,8 @@ export default function CoursesScreen() {
         </View>
 
         <Card
-          style={{ marginTop: space.xl, marginBottom: space.xxl, opacity: allDone || examLocked() ? 1 : 0.6 }}
-          onPress={examLocked() ? showPro : allDone ? () => router.push('/exam') : undefined}
+          style={{ marginTop: space.xl, marginBottom: space.xxl, opacity: allDone ? 1 : 0.6 }}
+          onPress={allDone ? () => router.push('/exam') : undefined}
           accessibilityLabel={t('learn.exam')}
         >
           <Row>
@@ -389,7 +379,7 @@ export default function CoursesScreen() {
               <H2>{t('learn.exam')}</H2>
               <Body dim>{allDone ? t('learn.examHint') : t('learn.examLocked')}</Body>
             </View>
-            {examLocked() ? <ProBadge /> : progress.exam.passedAt ? <Icon name="check-circle" color={theme.success} /> : null}
+            {progress.exam.passedAt ? <Icon name="check-circle" color={theme.success} /> : null}
           </Row>
         </Card>
       </ScrollView>

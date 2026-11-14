@@ -1,6 +1,3 @@
-import { moduleLocked } from '../../lib/edition';
-import { BackButton } from '../../components/BackButton';
-import { ProGate } from '../../components/ProGate';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, BackHandler, Easing, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -42,7 +39,7 @@ function FinishBadge({ color, iconColor }: { color: string; iconColor: string })
   );
 }
 
-function LessonInner() {
+export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const ref = findLesson(id ?? '');
   const theme = useTheme();
@@ -296,22 +293,3 @@ const styles = StyleSheet.create({
   badge: { width: 104, height: 104, borderRadius: 52, alignItems: 'center', justifyContent: 'center', marginBottom: space.md },
   halo: { position: 'absolute', width: 150, height: 150, borderRadius: 75, top: -23 },
 });
-
-/** Free edition: locked content shows what Pro adds instead. */
-function LockedScreen() {
-  return (
-    <Screen edges={['top', 'bottom']}>
-      <Row style={{ padding: space.sm }}>
-        <BackButton />
-      </Row>
-      <ProGate locked />
-    </Screen>
-  );
-}
-
-export default function LessonScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const ref = findLesson(id ?? '');
-  if (ref && moduleLocked(ref.module.id)) return <LockedScreen />;
-  return <LessonInner />;
-}

@@ -1,5 +1,3 @@
-import { courseLocked, isPro, moduleLocked } from '../../lib/edition';
-import { ProBadge, showPro } from '../../components/ProGate';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -32,9 +30,7 @@ function CourseTile({ c }: { c: Course }) {
         <View style={styles.tileIcon}>
           <Icon name={c.icon} size={24} color={INK} />
         </View>
-        {!soon && courseLocked(c.id) ? (
-          <ProBadge />
-        ) : soon ? (
+        {soon ? (
           <View style={styles.soonPill}>
             <Text style={{ color: INK, fontSize: 11, fontWeight: '800' }}>{t('courses.soon')}</Text>
           </View>
@@ -81,9 +77,8 @@ export default function HomeScreen() {
 
   // the most recently touched unfinished lesson, else the first unfinished one
   const all = activeCourses.flatMap((c) => courseLessons(c).map((l) => ({ ...l, course: c })));
-  const open = all.filter((l) => !moduleLocked(l.module.id));
-  const started = open.find((l) => progress.lessons[l.lesson.id] && !progress.lessons[l.lesson.id]!.completedAt);
-  const next = started ?? open.find((l) => !progress.lessons[l.lesson.id]?.completedAt);
+  const started = all.find((l) => progress.lessons[l.lesson.id] && !progress.lessons[l.lesson.id]!.completedAt);
+  const next = started ?? all.find((l) => !progress.lessons[l.lesson.id]?.completedAt);
   const cols = layout.width >= 700 ? 3 : 2;
 
   return (
@@ -135,19 +130,6 @@ export default function HomeScreen() {
           ))}
         </View>
 
-        {isPro ? null : (
-          <Pressable onPress={showPro} accessibilityRole="button" style={({ pressed }) => [styles.proBanner, { transform: [{ scale: pressed ? 0.98 : 1 }] }]}>
-            <Icon name="crown" size={26} color="#2A1E00" />
-            <View style={{ flex: 1 }}>
-              <Text style={{ color: '#2A1E00', fontWeight: '800', fontSize: 16 }}>{t('pro.upgrade')}</Text>
-              <Text style={{ color: '#2A1E00', opacity: 0.8, fontSize: 13 }} numberOfLines={2}>
-                {t('pro.f1')}
-              </Text>
-            </View>
-            <Icon name="chevron-right" color="#2A1E00" />
-          </Pressable>
-        )}
-
         <View style={styles.quickRow}>
           <Quick icon="target" color="#F5C451" label={t('practice.tasks')} onPress={() => router.push('/tasks')} />
           <Quick icon="explain" color="#B48EF5" label={t('practice.explain')} onPress={() => router.push('/explain')} />
@@ -171,7 +153,6 @@ const styles = StyleSheet.create({
   soonPill: { backgroundColor: 'rgba(255,255,255,0.45)', borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
   track: { height: 6, borderRadius: 3, backgroundColor: 'rgba(6,36,15,0.18)', overflow: 'hidden' },
   fill: { height: 6, borderRadius: 3, backgroundColor: INK },
-  proBanner: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#F5C451', borderRadius: 22, padding: space.lg, marginTop: space.xl },
   quickRow: { flexDirection: 'row', justifyContent: 'space-between', marginTop: space.xl, gap: 8 },
   quick: { flex: 1, alignItems: 'center', gap: 8 },
   quickIcon: { width: 60, height: 60, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },

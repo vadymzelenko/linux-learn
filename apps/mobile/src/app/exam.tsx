@@ -1,5 +1,3 @@
-import { examLocked } from '../lib/edition';
-import { ProGate } from '../components/ProGate';
 import { useMemo, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
@@ -16,7 +14,7 @@ import { BackButton } from '../components/BackButton';
 
 export const PASS_PERCENT = 70;
 
-function ExamInner() {
+export default function ExamScreen() {
   const theme = useTheme();
   const { t } = useTranslation();
   const tasks = useMemo(() => examTasks(), []);
@@ -123,20 +121,3 @@ const styles = StyleSheet.create({
   center: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.lg, maxWidth: 560, width: '100%', alignSelf: 'center' },
   name: { alignSelf: 'stretch', borderWidth: 1, borderRadius: 12, padding: 14, fontSize: 17 },
 });
-
-/** Free edition: locked content shows what Pro adds instead. */
-function LockedScreen() {
-  return (
-    <Screen edges={['top', 'bottom']}>
-      <Row style={{ padding: space.sm }}>
-        <BackButton />
-      </Row>
-      <ProGate locked />
-    </Screen>
-  );
-}
-
-export default function ExamScreen() {
-  if (examLocked()) return <LockedScreen />;
-  return <ExamInner />;
-}

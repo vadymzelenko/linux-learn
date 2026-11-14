@@ -1,5 +1,3 @@
-import { challengeLocked } from '../lib/edition';
-import { ProBadge, showPro } from '../components/ProGate';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +30,7 @@ export default function TasksScreen() {
             const ok = !!solved[c.id];
             return (
               <FadeIn key={c.id} index={i}>
-              <Card onPress={() => (challengeLocked(i) ? showPro() : router.push({ pathname: '/challenge', params: { id: c.id } }))} accessibilityLabel={tr(c.title, i18n.language)} style={{ padding: space.md }}>
+              <Card onPress={() => router.push({ pathname: '/challenge', params: { id: c.id } })} accessibilityLabel={tr(c.title, i18n.language)} style={{ padding: space.md }}>
                 <Row gap={12} style={{ alignItems: 'flex-start' }}>
                   <View style={[styles.num, { backgroundColor: ok ? theme.success : theme.surface2 }]}>
                     {ok ? <Icon name="check" size={18} color={theme.onAccent} /> : <Text style={{ color: theme.text, fontWeight: '800' }}>{i + 1}</Text>}
@@ -43,7 +41,7 @@ export default function TasksScreen() {
                       {tr(c.goal, i18n.language)}
                     </Body>
                   </View>
-                  {challengeLocked(i) ? <ProBadge /> : ok ? null : <Pill text={t('common.xp', { count: c.xp ?? 30 })} />}
+                  {ok ? null : <Pill text={t('common.xp', { count: c.xp ?? 30 })} />}
                 </Row>
               </Card>
               </FadeIn>

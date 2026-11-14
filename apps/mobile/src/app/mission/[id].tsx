@@ -1,6 +1,3 @@
-import { Row } from '../../components/ui';
-import { missionLocked } from '../../lib/edition';
-import { ProGate } from '../../components/ProGate';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -18,7 +15,7 @@ import { goBack } from '../../lib/nav';
 import { BackButton } from '../../components/BackButton';
 import { feedback } from '../../lib/haptics';
 
-function MissionInner() {
+export default function MissionScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const mission = findMission(id ?? '');
   const theme = useTheme();
@@ -94,21 +91,3 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', gap: space.sm, padding: space.sm },
   body: { flex: 1, paddingHorizontal: space.md, paddingBottom: space.sm, maxWidth: 1200, width: '100%', alignSelf: 'center' },
 });
-
-/** Free edition: locked content shows what Pro adds instead. */
-function LockedScreen() {
-  return (
-    <Screen edges={['top', 'bottom']}>
-      <Row style={{ padding: space.sm }}>
-        <BackButton />
-      </Row>
-      <ProGate locked />
-    </Screen>
-  );
-}
-
-export default function MissionScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  if (id && missionLocked(id)) return <LockedScreen />;
-  return <MissionInner />;
-}
