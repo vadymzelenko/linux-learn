@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import * as nav from '../../lib/nav';
 import { Animated, BackHandler, Easing, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -211,7 +212,7 @@ export default function LessonScreen() {
                 <ProgressBar value={index / lesson.steps.length} height={6} />
               </View>
               {step.type !== 'theory' && lesson.steps.some((s) => s.type === 'theory') ? (
-                <IconButton icon="book-open" label={t('topic.readTopic')} color={theme.accent} onPress={() => router.push({ pathname: '/read/[id]', params: { id: lesson.id } })} />
+                <IconButton icon="book-open" label={t('topic.readTopic')} color={theme.accent} onPress={() => nav.push({ pathname: '/read/[id]', params: { id: lesson.id } })} />
               ) : null}
             </View>
         </Collapsible>
@@ -261,7 +262,7 @@ export default function LessonScreen() {
                 ...(step.prefill ? { prefill: step.prefill } : {}),
                 ...(step.instructions ? { instructions: step.instructions } : {}),
               }}
-              onTheory={() => router.push({ pathname: '/read/[id]', params: { id: lesson.id } })}
+              onTheory={() => nav.push({ pathname: '/read/[id]', params: { id: lesson.id } })}
               onSolved={({ hints, mistakes }) => {
                 hintsTotal.current += hints;
                 mistakesTotal.current += mistakes;

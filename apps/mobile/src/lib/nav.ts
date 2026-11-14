@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 
 /** Back if there is somewhere to go back to, otherwise to the home screen (deep links, web reloads). */
 export function goBack(fallback: '/' | '/courses' | '/practice' = '/') {
-  if (router.canGoBack()) router.back();
+  if (router.canGoBack()) back();
   else router.replace(fallback);
 }
 
@@ -90,14 +90,25 @@ function guard<F extends (...a: never[]) => unknown>(fn: F, kind: 'push' | 'navi
     return fn(...args);
   }) as F;
 }
-const r = router as unknown as Record<string, unknown>;
-if (!r.__guarded) {
-  r.push = guard(router.push.bind(router), 'push');
-  r.navigate = guard(router.navigate.bind(router), 'navigate');
-  const back = router.back.bind(router);
-  r.back = () => {
-    wentBack();
-    back();
-  };
-  r.__guarded = true;
+/*
+ * expo-router replaces the methods of its `router` object after the first
+ * render, so patching them does not stick. The app therefore never calls
+ * router.push / router.navigate / router.back directly: it uses these.
+ */
+type Href = Parameters<typeof router.push>[0];
+const guardedPush = guard((href: Href) => router.push(href), 'push');
+const guardedNavigate = guard((href: Href) => router.navigate(href), 'navigate');
+
+/** Open a screen (ignored while another one is opening, or if it is already open). */
+export function push(href: Href) {
+  guardedPush(href);
+}
+/** Go to a tab or screen without stacking a copy (same lock). */
+export function navigate(href: Href) {
+  guardedNavigate(href);
+}
+/** Back one screen. */
+export function back() {
+  wentBack();
+  router.back();
 }

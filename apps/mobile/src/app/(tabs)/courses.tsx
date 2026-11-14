@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import * as nav from '../../lib/nav';
 import { Animated, Easing, LayoutAnimation, Pressable, ScrollView, StyleSheet, View, type ScrollViewInstance } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -163,7 +164,7 @@ function ModuleBranch({
                   key={l.id}
                   onPress={() => {
                     haptic.tap();
-                    router.push({ pathname: '/lesson/[id]', params: { id: l.id } });
+                    nav.push({ pathname: '/lesson/[id]', params: { id: l.id } });
                   }}
                   accessibilityRole="button"
                   accessibilityLabel={tr(l.title, i18n.language)}
@@ -288,7 +289,7 @@ export default function CoursesScreen() {
         <FadeIn key={course.id}>
           {next ? (
             <Pressable
-              onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
+              onPress={() => nav.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
               accessibilityRole="button"
               style={({ pressed }) => [styles.hero, { backgroundColor: course.color, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
             >
@@ -353,7 +354,7 @@ export default function CoursesScreen() {
               const done = !!progress.missions[m.id];
               const req = m.requires ? modules.find((x) => x.id === m.requires) : undefined;
               return (
-                <Card key={m.id} onPress={() => router.push({ pathname: '/mission/[id]', params: { id: m.id } })} accessibilityLabel={tr(m.title, i18n.language)}>
+                <Card key={m.id} onPress={() => nav.push({ pathname: '/mission/[id]', params: { id: m.id } })} accessibilityLabel={tr(m.title, i18n.language)}>
                   <Row style={{ justifyContent: 'space-between' }}>
                     <Row style={{ flex: 1 }}>
                       <Icon name={done ? 'check-circle' : 'flag'} color={done ? theme.success : theme.warning} />
@@ -375,7 +376,7 @@ export default function CoursesScreen() {
 
         <Card
           style={{ marginTop: space.xl, marginBottom: space.xxl, opacity: allDone ? 1 : 0.6 }}
-          onPress={allDone ? () => router.push('/exam') : undefined}
+          onPress={allDone ? () => nav.push('/exam') : undefined}
           accessibilityLabel={t('learn.exam')}
         >
           <Row>

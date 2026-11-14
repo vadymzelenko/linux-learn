@@ -1,5 +1,5 @@
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import * as nav from '../../lib/nav';
 import { useTranslation } from 'react-i18next';
 import { activeCourses, courseLessons, soonCourses, tr, type Course } from '@linux-learn/content';
 import { Text } from '../../theme/Text';
@@ -21,7 +21,7 @@ function CourseTile({ c }: { c: Course }) {
   const soon = !!c.soon;
   return (
     <Pressable
-      onPress={() => (soon ? showSoon(c, i18n.language, t) : router.push({ pathname: '/courses', params: { course: c.id } }))}
+      onPress={() => (soon ? showSoon(c, i18n.language, t) : nav.push({ pathname: '/courses', params: { course: c.id } }))}
       accessibilityRole="button"
       accessibilityLabel={`${tr(c.title, i18n.language)}${soon ? `, ${t('courses.soon')}` : ''}`}
       style={({ pressed }) => [styles.tile, { backgroundColor: c.color, opacity: soon ? 0.55 : pressed ? 0.88 : 1, transform: [{ scale: pressed ? 0.97 : 1 }] }]}
@@ -88,7 +88,7 @@ export default function HomeScreen() {
           <Text style={{ color: theme.text, fontSize: 24, fontWeight: '800', flex: 1 }} numberOfLines={1}>
             {t('home.hello', { name })}
           </Text>
-          <Pressable onPress={() => router.push('/profile')} accessibilityRole="button" accessibilityLabel={t('profile.title')} style={[styles.badge, { backgroundColor: theme.surface2 }]}>
+          <Pressable onPress={() => nav.push('/profile')} accessibilityRole="button" accessibilityLabel={t('profile.title')} style={[styles.badge, { backgroundColor: theme.surface2 }]}>
             <Row gap={4}>
               <Icon name="flame" size={18} color={streak ? theme.warning : theme.textDim} />
               <Text style={{ color: theme.text, fontWeight: '800' }}>{streak}</Text>
@@ -103,7 +103,7 @@ export default function HomeScreen() {
         {next ? (
           <FadeIn scale>
             <Pressable
-              onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
+              onPress={() => nav.push({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
               accessibilityRole="button"
               style={({ pressed }) => [styles.hero, { backgroundColor: next.course.color, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
             >
@@ -131,10 +131,10 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.quickRow}>
-          <Quick icon="target" color="#F5C451" label={t('practice.tasks')} onPress={() => router.push('/tasks')} />
-          <Quick icon="explain" color="#B48EF5" label={t('practice.explain')} onPress={() => router.push('/explain')} />
-          <Quick icon="book-open" color="#5EA9FF" label={t('glossary.title')} onPress={() => router.push('/glossary')} />
-          <Quick icon="reference" color="#4DD0E1" label={t('library.title')} onPress={() => router.push('/library')} />
+          <Quick icon="target" color="#F5C451" label={t('practice.tasks')} onPress={() => nav.push('/tasks')} />
+          <Quick icon="explain" color="#B48EF5" label={t('practice.explain')} onPress={() => nav.push('/explain')} />
+          <Quick icon="book-open" color="#5EA9FF" label={t('glossary.title')} onPress={() => nav.push('/glossary')} />
+          <Quick icon="reference" color="#4DD0E1" label={t('library.title')} onPress={() => nav.push('/library')} />
         </View>
       </ScrollView>
     </Screen>

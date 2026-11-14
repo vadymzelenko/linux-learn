@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
+import * as nav from '../../lib/nav';
 import { Modal, Pressable, StyleSheet, View, type TextStyle } from 'react-native';
-import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { glossary, tr, type GlossaryTerm } from '@linux-learn/content';
 import { Text } from '../../theme/Text';
@@ -106,7 +106,7 @@ export function GlossaryProvider({ children }: { children: ReactNode }) {
                   <Pressable
                     onPress={() => {
                       setTerm(null);
-                      router.push({ pathname: '/reference', params: { cmd: term.command } });
+                      nav.push({ pathname: '/reference', params: { cmd: term.command } });
                     }}
                     style={[styles.popupBtn, { backgroundColor: theme.surface2 }]}
                   >
@@ -116,7 +116,7 @@ export function GlossaryProvider({ children }: { children: ReactNode }) {
                 <Pressable
                   onPress={() => {
                     setTerm(null);
-                    router.push({ pathname: '/glossary', params: { q: tr(term.term, i18n.language) } });
+                    nav.push({ pathname: '/glossary', params: { q: tr(term.term, i18n.language) } });
                   }}
                   style={[styles.popupBtn, { backgroundColor: theme.surface2 }]}
                 >

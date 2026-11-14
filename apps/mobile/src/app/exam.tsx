@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
+import * as nav from '../lib/nav';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -104,7 +105,7 @@ export default function ExamScreen() {
               checks: item.step.checks,
               solution: item.step.solution,
             }}
-            onTheory={() => router.push({ pathname: '/read/[id]', params: { id: item.lesson.id } })}
+            onTheory={() => nav.push({ pathname: '/read/[id]', params: { id: item.lesson.id } })}
             onSolved={() => {
               solved.current++;
               setSolvedNow(true);

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
+import * as nav from '../lib/nav';
 import { Pressable, SectionList, StyleSheet, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { KbTextInput } from '../components/terminal/KbTextInput';
 import { KeyboardDock } from '../components/terminal/KeyboardDock';
@@ -68,7 +69,7 @@ export default function GlossaryScreen() {
                 <View style={{ gap: 8, marginTop: 6 }}>
                   <Text style={{ color: theme.text, fontSize: 15, lineHeight: 22 }}>{tr(item.definition, i18n.language)}</Text>
                   {item.command ? (
-                    <Text onPress={() => router.push({ pathname: '/reference', params: { cmd: item.command } })} style={{ color: theme.accent, fontFamily: MONO }}>
+                    <Text onPress={() => nav.push({ pathname: '/reference', params: { cmd: item.command } })} style={{ color: theme.accent, fontFamily: MONO }}>
                       man {item.command} →
                     </Text>
                   ) : null}

@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import * as nav from '../lib/nav';
 import { useTranslation } from 'react-i18next';
 import { activeCourses, courseModules, lessonMinutes, tr } from '@linux-learn/content';
 import { Text } from '../theme/Text';
@@ -38,7 +38,7 @@ export default function LibraryScreen() {
                 {m.lessons.map((l) => (
                   <Text
                     key={l.id}
-                    onPress={() => router.push({ pathname: '/read/[id]', params: { id: l.id } })}
+                    onPress={() => nav.push({ pathname: '/read/[id]', params: { id: l.id } })}
                     accessibilityRole="link"
                     style={{ color: theme.text, fontSize: 15, paddingVertical: 8 }}
                   >

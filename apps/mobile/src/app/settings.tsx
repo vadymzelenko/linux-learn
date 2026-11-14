@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import * as nav from '../lib/nav';
 import { LayoutAnimation, Platform, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -185,7 +186,7 @@ export default function SettingsScreen() {
         </Section>
 
         <Section last id="data" icon="shield-check-outline" color="#FF8A65" title={t('settings.data')} summary="" open={open} onToggle={toggle}>
-            <Card onPress={() => router.push('/backup')} accessibilityLabel={t('backup.title')}>
+            <Card onPress={() => nav.push('/backup')} accessibilityLabel={t('backup.title')}>
               <Row gap={12}>
                 <Icon name="swap-horizontal-circle-outline" size={28} color={theme.accent} />
                 <View style={{ flex: 1 }}>
@@ -200,7 +201,7 @@ export default function SettingsScreen() {
         </Section>
         </View>
 
-        <Pressable onPress={() => router.push('/developer')} accessibilityRole="button" accessibilityLabel={t('settings.developer')} style={({ pressed }) => [styles.devRow, { opacity: pressed ? 0.6 : 1 }]}>
+        <Pressable onPress={() => nav.push('/developer')} accessibilityRole="button" accessibilityLabel={t('settings.developer')} style={({ pressed }) => [styles.devRow, { opacity: pressed ? 0.6 : 1 }]}>
           <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.developer')}</Text>
           <Row gap={4}>
             <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 13 }}>VZstudio</Text>

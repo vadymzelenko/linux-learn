@@ -1,5 +1,5 @@
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import * as nav from '../../lib/nav';
 import { useTranslation } from 'react-i18next';
 import { commandList, COMMANDS } from '@linux-learn/engine';
 import { challenges } from '@linux-learn/content';
@@ -54,7 +54,7 @@ export default function PracticeScreen() {
             { key: 'reference', icon: 'reference', color: '#4DD0E1', title: t('practice.reference'), text: t('practice.referenceHint', { count: commandList().length }), badge: undefined, go: '/reference' as const },
           ].map((x, i) => (
             <FadeIn key={x.key} index={i} style={styles.cell}>
-              <Tile icon={x.icon} color={x.color} title={x.title} text={x.text} badge={x.badge} onPress={() => router.push(x.go)} />
+              <Tile icon={x.icon} color={x.color} title={x.title} text={x.text} badge={x.badge} onPress={() => nav.push(x.go)} />
             </FadeIn>
           ))}
         </View>

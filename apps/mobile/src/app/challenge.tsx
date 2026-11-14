@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import * as nav from '../lib/nav';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -41,7 +42,7 @@ export default function ChallengeScreen() {
               solution: challenge.solution,
               ...(challenge.instructions ? { instructions: challenge.instructions } : {}),
             }}
-            {...(challenge.topics?.length ? { onTheory: () => router.push({ pathname: '/read/[id]', params: { id: challenge.topics!.join(',') } }) } : {})}
+            {...(challenge.topics?.length ? { onTheory: () => nav.push({ pathname: '/read/[id]', params: { id: challenge.topics!.join(',') } }) } : {})}
             onSolved={({ hints }) => {
               const xp = done ? 0 : rewardAfterHints(challenge.xp ?? 30, hints);
               if (!done) useStore.getState().completePractice(challenge.id, xp);

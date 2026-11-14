@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import * as nav from '../lib/nav';
 import { useTranslation } from 'react-i18next';
 import { challenges, tr } from '@linux-learn/content';
 import { useStore } from '../state/store';
@@ -30,7 +30,7 @@ export default function TasksScreen() {
             const ok = !!solved[c.id];
             return (
               <FadeIn key={c.id} index={i}>
-              <Card onPress={() => router.push({ pathname: '/challenge', params: { id: c.id } })} accessibilityLabel={tr(c.title, i18n.language)} style={{ padding: space.md }}>
+              <Card onPress={() => nav.push({ pathname: '/challenge', params: { id: c.id } })} accessibilityLabel={tr(c.title, i18n.language)} style={{ padding: space.md }}>
                 <Row gap={12} style={{ alignItems: 'flex-start' }}>
                   <View style={[styles.num, { backgroundColor: ok ? theme.success : theme.surface2 }]}>
                     {ok ? <Icon name="check" size={18} color={theme.onAccent} /> : <Text style={{ color: theme.text, fontWeight: '800' }}>{i + 1}</Text>}

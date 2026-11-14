@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import * as nav from '../../lib/nav';
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { findMission, tr } from '@linux-learn/content';
 import { useStore } from '../../state/store';
@@ -61,7 +62,7 @@ export default function MissionScreen() {
               solution: mission.solution,
               ...(mission.instructions ? { instructions: mission.instructions } : {}),
             }}
-            {...(mission.topics?.length ? { onTheory: () => router.push({ pathname: '/read/[id]', params: { id: mission.topics!.join(',') } }) } : {})}
+            {...(mission.topics?.length ? { onTheory: () => nav.push({ pathname: '/read/[id]', params: { id: mission.topics!.join(',') } }) } : {})}
             onSolved={({ hints }) => {
               const xp = rewardAfterHints(mission.xp, hints);
               useStore.getState().completeMission(mission.id, xp, hints);

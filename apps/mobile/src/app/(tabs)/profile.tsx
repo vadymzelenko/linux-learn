@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import * as nav from '../../lib/nav';
 import { useTranslation } from 'react-i18next';
 import { achievements, allLessons, LEVELS, levelFor, missions, tr } from '@linux-learn/content';
 import { useStore } from '../../state/store';
@@ -51,7 +51,7 @@ export default function ProfileScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         <Row style={{ justifyContent: 'space-between' }}>
           <H1>{t('profile.title')}</H1>
-          <IconButton icon="settings" label={t('profile.settings')} onPress={() => router.push('/settings')} />
+          <IconButton icon="settings" label={t('profile.settings')} onPress={() => nav.push('/settings')} />
         </Row>
 
         <Card style={{ gap: space.md, marginTop: space.md }}>
@@ -97,7 +97,7 @@ export default function ProfileScreen() {
         </Card>
 
         {p.exam.passedAt ? (
-          <Button variant="secondary" icon="graduation-cap" title={t('profile.certificate')} onPress={() => router.push('/exam')} style={{ marginTop: space.md }} />
+          <Button variant="secondary" icon="graduation-cap" title={t('profile.certificate')} onPress={() => nav.push('/exam')} style={{ marginTop: space.md }} />
         ) : null}
 
         <H2 style={{ marginTop: space.xl, marginBottom: space.sm }}>
