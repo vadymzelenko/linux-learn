@@ -72,13 +72,13 @@ appId: com.vadymzelenko.linuxtrainer
 - repeat:
     times: 3
     while:
-      notVisible: "Leave the lesson.*"
+      notVisible: "Back to the menu"
     commands:
       - pressKey: Back
       - waitForAnimationToEnd:
           timeout: 2000
 - extendedWaitUntil:
-    visible: "Leave the lesson.*"
+    visible: "Back to the menu"
     timeout: 5000
 - takeScreenshot: 06-exit-dialog
 - tapOn: "Back to the menu"
