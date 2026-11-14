@@ -12,7 +12,7 @@ The app is **free**: no ads, no in-app purchases, no accounts. Nothing has to be
 ## Before publishing
 
 1. **Upload key** and GitHub secrets (`docs/ANDROID.md`, section 4).
-2. **Play Console**: developer account ($25), closed test (12 testers × 14 days for new personal accounts — re-check the current rule), Data safety (no data collected — answers in `docs/store/README.md`), content rating, privacy policy URL (`/privacy` on the web deploy, support e-mail filled in), store listing and screenshots in 4 languages — for both apps (Free and Pro).
+2. **Play Console**: developer account ($25), closed test (12 testers × 14 days for new personal accounts — re-check the current rule), Data safety (no data collected — answers in `google-play/google-play.txt`), content rating, privacy policy URL (`/privacy` on the web deploy, support e-mail filled in), store listing and screenshots in 4 languages.
 3. **Proofreading** of the Polish and Ukrainian texts by native speakers.
 4. **Performance targets**: cold start < 2 s, input latency < 50 ms, AAB < 30 MB.
 

@@ -6,8 +6,6 @@
 
 Каждый push в `main`, `claude/**` и каждый тег `v*` запускает workflow **Android** (`.github/workflows/android.yml`):
 
-Собираются **два приложения** (матрица `edition: [free, pro]`, переменная `APP_EDITION`): бесплатное `com.vadymzelenko.linuxtrainer` и платное Pro `com.vadymzelenko.linuxtrainer.pro`. Для каждого:
-
 1. генерирует нативный проект (`expo prebuild`);
 2. собирает **APK** (для установки на телефон) и **AAB** (для Google Play);
 3. ставит APK на эмулятор Android 14 и прогоняет автотест (`apps/mobile/.maestro/smoke.yaml`): онбординг → первая команда → урок → решение задания с клавиатуры → выход через «Назад» → песочница. Скриншоты каждого шага сохраняются.
@@ -16,9 +14,9 @@
 
 | артефакт | что внутри |
 |---|---|
-| `apk-free`, `apk-pro` | `linux-trainer-<edition>-N.apk` — ставится на любой телефон (оба можно поставить одновременно) |
-| `aab-for-google-play-free`, `aab-for-google-play-pro` | `linux-trainer-<edition>-N.aab` + `badging.txt` (пакет, версия, разрешения, targetSdk) |
-| `smoke-test-screenshots-free`, `-pro` | скриншоты с эмулятора, отчёт и `logcat.txt` при падении |
+| `apk` | `linux-trainer-N.apk` — ставится на любой телефон |
+| `aab-for-google-play` | `linux-trainer-N.aab` + `badging.txt` (пакет, версия, разрешения, targetSdk) |
+| `smoke-test-screenshots` | скриншоты с эмулятора, отчёт и `logcat.txt` при падении |
 
 Можно запустить вручную: Actions → Android → **Run workflow**.
 
@@ -54,7 +52,6 @@ cd apps/mobile
 npx eas-cli@latest login
 npx eas-cli@latest build --profile preview --platform android      # APK для тестировщиков
 npx eas-cli@latest build --profile production --platform android   # AAB для Play
-npx eas-cli@latest build --profile production-pro --platform android # AAB Pro (preview-pro — APK Pro)
 npx eas-cli@latest submit --platform android                       # отправка в Play (track: internal)
 ```
 
@@ -86,13 +83,13 @@ GitHub → Settings → Secrets and variables → Actions → **New repository s
 
 ## 6. Публикация в Google Play — по шагам
 
-Полная инструкция для двух приложений (бесплатное и Pro), готовые тексты, картинки и ответы на все формы App content (Data safety, целевая аудитория, реклама, рейтинг, цена) — в [`docs/store/README.md`](store/README.md).
+Всё для страницы магазина — в папке [`google-play/`](../google-play): иконка, баннер, скриншоты для телефона и планшетов и файл [`google-play.txt`](../google-play/google-play.txt) с текстами на 4 языках и ответами на все формы App content (Data safety, целевая аудитория, реклама, возрастной рейтинг, цена).
 
-Кратко: аккаунт разработчика ($25) → два приложения в консоли → платёжный профиль для Pro → AAB каждого во внутреннее тестирование → страница магазина и App content → закрытый тест (12 человек × 14 дней для нового личного аккаунта) → сначала Pro, потом бесплатное в продакшен.
+Кратко: аккаунт разработчика ($25) → новое бесплатное приложение в консоли → AAB во внутреннее тестирование → страница магазина и App content (по `google-play.txt`) → закрытый тест (12 человек × 14 дней для нового личного аккаунта) → продакшен.
 
 ## Что уже настроено в проекте
 
-- Пакеты `com.vadymzelenko.linuxtrainer` (Free) и `com.vadymzelenko.linuxtrainer.pro` (Pro, золотая иконка), иконка и адаптивная иконка (с монохромной для тематических иконок Android 13+), splash.
+- Пакет `com.vadymzelenko.linuxtrainer`, иконка и адаптивная иконка (с монохромной для тематических иконок Android 13+), splash.
 - Лишние разрешения убраны: нет микрофона, хранилища, фонового воспроизведения и рекламного ID (`blockedPermissions` в `app.json`; `expo-audio` настроен без записи). Остаются только вибрация, уведомления (по согласию) и стандартные. Перенос прогресса работает через системные «Поделиться» и выбор файла — разрешение на хранилище не нужно.
 - Экран адаптируется под 5" телефоны, 6–7" телефоны, ландшафт и планшеты: высота клавиатуры терминала ограничена долей экрана, на планшетах и в ландшафте задание и терминал стоят рядом.
 - Прогресс хранится в SQLite на устройстве и переживает обновления приложения.

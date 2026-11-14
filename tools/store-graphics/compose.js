@@ -3,13 +3,13 @@
 //   tablet 7":  4 × 1080×1920 (9:16)
 //   tablet 10": 4 × 1920×1080 (16:9)
 //   feature graphic 1024×500, icon 512×512
-// Usage: RAW_DIR=raw OUT_DIR=../../docs/store node compose.js
+// Usage: RAW_DIR=raw node compose.js   (writes ../../google-play/*.png)
 const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 
 const RAW = path.resolve(process.env.RAW_DIR || 'raw');
-const OUT = path.resolve(process.env.OUT_DIR || path.join(__dirname, '../../docs/store'));
+const OUT = path.resolve(process.env.OUT_DIR || path.join(__dirname, '../../google-play'));
 const ROOT = path.resolve(__dirname, '../..');
 const font = (f) => 'file://' + path.join(ROOT, 'node_modules/@expo-google-fonts', f);
 const img = (f) => 'file://' + path.join(RAW, f);
@@ -81,13 +81,13 @@ function tablet10Slide(s) {
 }
 
 function featureGraphic(ed) {
-  const pro = ed === 'pro';
+  const pro = false; // one app: green accent, the Git line in the terminal
   const accent = pro ? '#F5C451' : '#3DDC84';
   const icon = 'file://' + path.join(ROOT, 'apps/mobile/assets', pro ? 'pro/icon.png' : 'icon.png');
   const lines = [
     ['student@trainer', '~', 'ls -la ~/projects'],
     ['student@trainer', '~/projects', 'grep -rn TODO . | wc -l'],
-    ['student@trainer', '~/projects', pro ? 'git push -u origin main' : 'chmod 750 deploy.sh'],
+    ['student@trainer', '~/projects', 'git push -u origin main'],
   ];
   const term = lines
     .map(([u, p, c]) => `<div><span style="color:#3DDC84">${u}</span><span style="color:#8A97A6">:</span><span style="color:#5EA9FF">${p}</span><span style="color:#3DDC84">$ </span><b style="color:#5AF78E">${c.split(' ')[0]}</b> <span style="color:#F3F99D">${c.split(' ').slice(1).join(' ')}</span></div>`)
@@ -99,7 +99,7 @@ function featureGraphic(ed) {
         ${pro ? `<div style="padding:6px 16px;border-radius:999px;background:${accent};color:#2A1E00;font:800 22px Onest;letter-spacing:2px">PRO</div>` : ''}
       </div>
       <h1 style="font:800 54px/1.02 Onest;letter-spacing:-1.5px">Linux Terminal<br>Trainer${pro ? ' <span style="color:' + accent + '">Pro</span>' : ''}</h1>
-      <p style="font:400 22px/1.35 Onest;color:#AAB6C3">${pro ? 'Linux, networks, Docker and Git — learn by typing real commands.' : 'Learn Linux by typing real commands. Safe, offline, free.'}</p>
+      <p style="font:400 22px/1.35 Onest;color:#AAB6C3">Linux, networks, Docker and Git — learn by typing real commands. Free.</p>
     </div>
     <div style="position:absolute;right:-40px;top:70px;width:500px;height:350px;border-radius:26px;background:#05080A;border:2px solid #2A323C;box-shadow:0 30px 90px ${accent}38;padding:28px 26px;font:400 14.5px/1.9 Mono;white-space:nowrap;transform:rotate(-4deg)">
       <div style="display:flex;gap:9px;margin-bottom:18px"><i style="width:13px;height:13px;border-radius:7px;background:#FF5C57"></i><i style="width:13px;height:13px;border-radius:7px;background:#F3F99D"></i><i style="width:13px;height:13px;border-radius:7px;background:#5AF78E"></i></div>
@@ -111,52 +111,28 @@ function featureGraphic(ed) {
 }
 
 const SLIDES = {
-  free: {
+  app: {
     phone: [
-      { file: 'free_home.png', accent: '#3DDC84', eyebrow: 'LINUX TERMINAL TRAINER', title: 'Learn Linux by\ntyping real commands', sub: 'A safe Linux machine in your pocket. Offline, free, no account.' },
-      { file: 'free_task.png', accent: '#5EA9FF', eyebrow: 'HANDS-ON', title: 'Real tasks,\nchecked instantly', sub: 'Any correct solution counts — just like on a real server.' },
-      { file: 'free_courses.png', accent: '#3DDC84', eyebrow: 'STEP BY STEP', title: 'A clear path\nfrom zero', sub: 'Navigation, files, text, search and permissions in short lessons.' },
-      { file: 'free_explain.png', accent: '#B48EF5', eyebrow: 'EXPLAIN A COMMAND', title: 'Understand\nevery command', sub: 'Paste any command and see what each part does.' },
-      { file: 'free_sandbox.png', accent: '#4DD0E1', eyebrow: 'SANDBOX', title: 'Break things.\nReset in one tap.', sub: 'Your own Linux machine with real, colourful output.' },
-      { file: 'free_predict.png', accent: '#FF8A65', eyebrow: 'THINK LIKE THE SHELL', title: 'Predict, build,\nfix commands', sub: 'Quizzes that train how commands really behave.' },
-      { file: 'free_review.png', accent: '#B48EF5', eyebrow: 'SPACED REPETITION', title: 'Remember it\nfor good', sub: 'Flashcards bring back the commands you struggled with.' },
-      { file: 'free_pro.png', accent: '#F5C451', eyebrow: 'WANT MORE?', title: 'Go further\nwith Pro', sub: 'Networks & NOC, Docker, Git & GitHub. One payment, no ads.' },
+      { file: 'app_home.png', accent: '#3DDC84', eyebrow: 'LINUX TERMINAL TRAINER', title: 'Linux, networks,\nDocker & Git', sub: '4 courses · 118 lessons · 250+ hands-on tasks. Free.' },
+      { file: 'app_task.png', accent: '#5EA9FF', eyebrow: 'HANDS-ON', title: 'Real tasks,\nchecked instantly', sub: 'Any correct solution counts — just like on a real server.' },
+      { file: 'app_mission.png', accent: '#FF6B6B', eyebrow: 'MISSIONS', title: 'Real incidents,\nreal fixes', sub: 'A 502 on Black Friday, a full disk, a bad deploy — on call, safely.' },
+      { file: 'app_git.png', accent: '#F1502F', eyebrow: 'GIT & GITHUB', title: 'Git the way\nteams use it', sub: 'Branches, conflicts, pull requests and releases on a simulated GitHub.' },
+      { file: 'app_courses.png', accent: '#3DDC84', eyebrow: 'YOUR PATH', title: 'From first command\nto on-call engineer', sub: 'Every lesson mapped out, with progress you can see.' },
+      { file: 'app_explain.png', accent: '#B48EF5', eyebrow: 'EXPLAIN A COMMAND', title: 'Understand\nevery command', sub: 'Paste any command and see what each part does.' },
+      { file: 'app_sandbox.png', accent: '#4DD0E1', eyebrow: 'SANDBOX', title: 'Three machines.\nZero risk.', sub: 'Docker host, web server, Git project and more templates.' },
+      { file: 'app_practice.png', accent: '#F5C451', eyebrow: 'PRACTICE', title: 'Practice\nthat sticks', sub: '14 real-world tasks, spaced repetition, a final exam and certificate.' },
     ],
     t7: [
-      { file: 'free_t7_home.png', accent: '#3DDC84', eyebrow: 'LINUX TERMINAL TRAINER', title: 'Learn Linux by\ntyping real commands', sub: 'Made for phones and tablets.' },
-      { file: 'free_t7_task.png', accent: '#5EA9FF', eyebrow: 'HANDS-ON', title: 'Real tasks,\nchecked instantly', sub: 'Any correct solution counts.' },
-      { file: 'free_t7_courses.png', accent: '#3DDC84', eyebrow: 'STEP BY STEP', title: 'A clear path\nfrom zero', sub: 'Short lessons with a live terminal.' },
-      { file: 'free_explain.png', accent: '#B48EF5', eyebrow: 'EXPLAIN A COMMAND', title: 'Understand\nevery command', sub: 'Every flag and argument, in plain words.', phone: true },
+      { file: 'app_t7_home.png', accent: '#3DDC84', eyebrow: 'LINUX TERMINAL TRAINER', title: 'Linux, networks,\nDocker & Git', sub: 'Made for phones and tablets.' },
+      { file: 'app_t7_task.png', accent: '#5EA9FF', eyebrow: 'HANDS-ON', title: 'Real tasks,\nchecked instantly', sub: 'Any correct solution counts.' },
+      { file: 'app_t7_courses.png', accent: '#3DDC84', eyebrow: 'YOUR PATH', title: 'Four courses,\none clear path', sub: 'Linux, NOC engineer, Docker, Git & GitHub.' },
+      { file: 'app_mission.png', accent: '#FF6B6B', eyebrow: 'MISSIONS', title: 'Real incidents,\nreal fixes', sub: 'Practise on-call work safely.', phone: true },
     ],
     t10: [
-      { file: 'free_t10_task.png', accent: '#5EA9FF', eyebrow: 'TABLET', title: 'Task and terminal\nside by side', sub: 'Read the goal on the left, type on the right.' },
-      { file: 'free_t10_courses.png', accent: '#3DDC84', eyebrow: 'STEP BY STEP', title: 'A clear path\nfrom zero', sub: 'Short lessons, real commands, instant checks.' },
-      { file: 'free_t10_explain.png', accent: '#B48EF5', eyebrow: 'EXPLAIN A COMMAND', title: 'Understand\nevery command', sub: 'Paste any command and see what each part does.' },
-      { file: 'free_t10_task.png', accent: '#3DDC84', eyebrow: 'OFFLINE · NO ACCOUNT', title: 'Learn anywhere,\nat your own pace', sub: 'A few minutes a day builds real terminal skills.' },
-    ],
-  },
-  pro: {
-    phone: [
-      { file: 'pro_home.png', accent: '#F5C451', eyebrow: 'LINUX TERMINAL TRAINER PRO', title: 'Linux, networks,\nDocker & Git', sub: '4 courses · 110 lessons · 240+ hands-on tasks.' },
-      { file: 'pro_task.png', accent: '#5EA9FF', eyebrow: 'HANDS-ON', title: 'Real tasks,\nchecked instantly', sub: 'Any correct solution counts — just like on a real server.' },
-      { file: 'pro_mission.png', accent: '#FF6B6B', eyebrow: 'MISSIONS', title: 'Real incidents,\nreal fixes', sub: 'A 502 on Black Friday, a full disk, a bad deploy — on call, safely.' },
-      { file: 'pro_git.png', accent: '#F1502F', eyebrow: 'GIT & GITHUB', title: 'Git the way\nteams use it', sub: 'Branches, merge conflicts and pull requests on a simulated GitHub.' },
-      { file: 'pro_courses.png', accent: '#F5C451', eyebrow: 'YOUR PATH', title: 'From first command\nto on-call engineer', sub: 'Every lesson mapped out, with progress you can see.' },
-      { file: 'pro_explain.png', accent: '#B48EF5', eyebrow: 'EXPLAIN A COMMAND', title: 'Understand\nevery command', sub: 'Paste any command and see what each part does.' },
-      { file: 'pro_sandbox.png', accent: '#4DD0E1', eyebrow: 'SANDBOX', title: 'Three machines.\nZero risk.', sub: 'Docker host, web server, Git project and more templates.' },
-      { file: 'pro_practice.png', accent: '#B48EF5', eyebrow: 'PRACTICE', title: 'Practice\nthat sticks', sub: '14 real-world tasks, spaced repetition, a final exam and certificate.' },
-    ],
-    t7: [
-      { file: 'pro_t7_home.png', accent: '#F5C451', eyebrow: 'PRO', title: 'Linux, networks,\nDocker & Git', sub: 'Made for phones and tablets.' },
-      { file: 'pro_t7_task.png', accent: '#5EA9FF', eyebrow: 'HANDS-ON', title: 'Real tasks,\nchecked instantly', sub: 'Any correct solution counts.' },
-      { file: 'pro_t7_courses.png', accent: '#F5C451', eyebrow: 'YOUR PATH', title: 'Four courses,\none clear path', sub: 'Linux, NOC engineer, Docker, Git & GitHub.' },
-      { file: 'pro_mission.png', accent: '#FF6B6B', eyebrow: 'MISSIONS', title: 'Real incidents,\nreal fixes', sub: 'Practise on-call work safely.', phone: true },
-    ],
-    t10: [
-      { file: 'pro_t10_task.png', accent: '#5EA9FF', eyebrow: 'TABLET', title: 'Task and terminal\nside by side', sub: 'Read the goal on the left, type on the right.' },
-      { file: 'pro_t10_courses.png', accent: '#F5C451', eyebrow: 'YOUR PATH', title: 'Four courses,\none clear path', sub: 'Linux, NOC engineer, Docker, Git & GitHub.' },
-      { file: 'pro_t10_explain.png', accent: '#B48EF5', eyebrow: 'EXPLAIN A COMMAND', title: 'Understand\nevery command', sub: 'Paste any command and see what each part does.' },
-      { file: 'pro_t10_task.png', accent: '#F5C451', eyebrow: 'ONE PAYMENT · NO ADS', title: 'Everything,\nforever', sub: 'All courses and every future course included.' },
+      { file: 'app_t10_task.png', accent: '#5EA9FF', eyebrow: 'TABLET', title: 'Task and terminal\nside by side', sub: 'Read the goal on the left, type on the right.' },
+      { file: 'app_t10_courses.png', accent: '#3DDC84', eyebrow: 'YOUR PATH', title: 'Four courses,\none clear path', sub: 'Linux, NOC engineer, Docker, Git & GitHub.' },
+      { file: 'app_t10_explain.png', accent: '#B48EF5', eyebrow: 'EXPLAIN A COMMAND', title: 'Understand\nevery command', sub: 'Paste any command and see what each part does.' },
+      { file: 'app_t10_task.png', accent: '#F5C451', eyebrow: 'FREE · OFFLINE · NO ADS', title: 'Everything,\nfor everyone', sub: 'Every course and mission is free. No account needed.' },
     ],
   },
 };
@@ -168,8 +144,8 @@ function t7PhoneSlide(s) {
 
 (async () => {
   const b = await chromium.launch({ args: ['--allow-file-access-from-files'] });
-  for (const ed of ['free', 'pro']) {
-    const dir = path.join(OUT, ed, 'graphics');
+  for (const ed of ['app']) {
+    const dir = OUT;
     fs.mkdirSync(dir, { recursive: true });
     const render = async (html, w, h, file) => {
       const p = await b.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });

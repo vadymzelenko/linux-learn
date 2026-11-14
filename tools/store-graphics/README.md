@@ -1,19 +1,16 @@
-# Store graphics and listings
+# Store graphics and listing
 
-Generates the Google Play assets in `docs/store/{free,pro}/` from the real web build.
+Generates everything in `google-play/` from the real web build: framed screenshots, the feature graphic, the 512 icon and `google-play.txt`.
 
 ```bash
-cd apps/mobile
-EXPO_PUBLIC_EDITION=free npx expo export --platform web --output-dir /tmp/web-free
-APP_EDITION=pro EXPO_PUBLIC_EDITION=pro npx expo export --platform web --output-dir /tmp/web-pro
-(cd /tmp/web-free && python3 -m http.server 8801) &
-(cd /tmp/web-pro && python3 -m http.server 8802) &
+cd apps/mobile && npx expo export --platform web --output-dir /tmp/web
+# serve it with an SPA fallback (any static server that answers unknown paths with index.html) on :8801
 cd ../../tools/store-graphics
-RAW_DIR=/tmp/raw node capture.js      # raw app screenshots (phone 3x, tablets 2x)
-RAW_DIR=/tmp/raw node compose.js      # framed slides + feature graphics -> docs/store/*/graphics
-python3 icon.py                       # icon-512.png for both editions
-python3 listings.py                   # listing.md for both editions (checks Play length limits)
+RAW_DIR=/tmp/raw node capture.js      # raw app screens (phone 3x, tablets 2x)
+RAW_DIR=/tmp/raw node compose.js      # framed slides + feature graphic -> google-play/
+python3 icon.py                       # google-play/icon-512.png
+python3 listings.py                   # google-play/google-play.txt (checks Play length limits)
 ```
 
-`compose.js` loads the Onest and JetBrains Mono fonts from `node_modules/@expo-google-fonts` (run `pnpm install` first); slide captions live in its `SLIDES` table.
-The website images in `apps/mobile/public/site/img/` are downscaled copies of these slides (540×960 WebP).
+`compose.js` loads the Onest and JetBrains Mono fonts from `node_modules/@expo-google-fonts` (run `pnpm install` first); captions live in its `SLIDES` table.
+The website images in `apps/mobile/public/site/img/` are downscaled copies of the phone slides.

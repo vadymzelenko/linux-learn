@@ -19,9 +19,8 @@ pnpm run ci         # всё, что проверяет CI
 
 Веб-версия деплоится на Vercel без настройки: `vercel.json` в корне задаёт установку, сборку (`expo export --platform web`) и папку `apps/mobile/dist`. Достаточно импортировать репозиторий на vercel.com.
 
-**APK и AAB собираются в GitHub Actions** на каждый push (workflow *Android*): APK ставится на телефон, AAB — для Google Play, а APK сразу проходит автотест на эмуляторе со скриншотами. Подробно — сборка локально и через EAS, ключ загрузки, публикация в Play по шагам: [`docs/ANDROID.md`](docs/ANDROID.md). Тексты, картинки и ответы на формы Play Console — [`docs/store/`](docs/store/README.md).
+**APK и AAB собираются в GitHub Actions** на каждый push (workflow *Android*): APK ставится на телефон, AAB — для Google Play, а APK сразу проходит автотест на эмуляторе со скриншотами. Подробно — сборка локально и через EAS, ключ загрузки, публикация в Play по шагам: [`docs/ANDROID.md`](docs/ANDROID.md). Всё для Google Play (иконка, баннер, скриншоты, тексты на 4 языках и ответы на формы Play Console) — в папке [`google-play/`](google-play/google-play.txt).
 
-**Два приложения из одного кода**: бесплатное (первые 5 модулей Linux, 3 миссии, справочник) и **Pro** (открыто всё). Редакция задаётся при сборке: `APP_EDITION=pro` (`pnpm --filter @linux-learn/mobile export:web:pro`, EAS-профили `*-pro`); все ограничения — в `apps/mobile/src/lib/edition.ts`.
 
 **Сайт приложения** (лендинг, политика конфиденциальности, поддержка) — `apps/mobile/public/site/`, деплоится вместе с веб-версией: `/site/`, `/privacy`, `/support`.
 

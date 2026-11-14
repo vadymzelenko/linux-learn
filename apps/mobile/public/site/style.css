@@ -52,7 +52,6 @@ h3 { font-size: 20px; margin: 0 0 6px; }
 .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
 .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 16px; font-weight: 800; font-size: 16px; color: #06240f; background: var(--green); transition: transform 0.15s ease, filter 0.15s ease; }
 .btn:hover { text-decoration: none; transform: translateY(-1px); filter: brightness(1.05); }
-.btn.pro { background: var(--gold); color: #2a1e00; }
 .btn.ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
 .btn small { display: block; font-weight: 600; font-size: 11px; opacity: 0.75; line-height: 1.1; }
 .btn span { line-height: 1.15; text-align: left; }
@@ -75,22 +74,6 @@ section { padding: 60px 0; }
 /* screenshots */
 .strip { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px 4px 18px; }
 .strip img { flex: 0 0 auto; width: 240px; border-radius: 22px; scroll-snap-align: start; border: 1px solid var(--border); }
-
-/* pricing */
-.plans { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 900px; margin: 0 auto; }
-@media (max-width: 760px) { .plans { grid-template-columns: 1fr; } }
-.plan { background: var(--surface); border: 1px solid var(--border); border-radius: 26px; padding: 26px; display: flex; flex-direction: column; gap: 12px; }
-.plan.pro { border-color: rgba(245, 196, 81, 0.6); box-shadow: 0 20px 70px rgba(245, 196, 81, 0.12); }
-.plan .head { display: flex; align-items: center; gap: 12px; }
-.plan .head img { width: 48px; height: 48px; border-radius: 14px; }
-.price { font-size: 15px; color: var(--dim); }
-.plan ul { list-style: none; padding: 0; margin: 4px 0 8px; display: grid; gap: 9px; }
-.plan li { padding-left: 28px; position: relative; font-size: 15px; }
-.plan li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 20px; height: 20px; border-radius: 10px; background: var(--green); color: #06240f; font-size: 12px; font-weight: 800; display: grid; place-items: center; }
-.plan.pro li::before { background: var(--gold); color: #2a1e00; }
-.plan li.no { color: var(--dim); }
-.plan li.no::before { content: '–'; background: var(--surface2); color: var(--dim); }
-.plan .btn { justify-content: center; margin-top: auto; }
 
 /* faq */
 details { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 16px 20px; margin-bottom: 10px; }

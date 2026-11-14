@@ -1,5 +1,5 @@
 // Step 1 of the store graphics: raw app screens (1170x2532 phone, 7" and 10" tablets).
-// Serve the two web builds first (see README.md): free on :8801, pro on :8802.
+// Serve the web build first (see README.md) on :8801.
 // Output: $RAW_DIR (default ./raw)
 const { chromium } = require('playwright');
 const fs = require('fs');
@@ -35,14 +35,14 @@ async function shoot(b, ed, port, name, vp, scale, fn, extra = []) {
 (async () => {
   const b = await chromium.launch();
   const phone = { width: 390, height: 844 };
-  for (const [ed, port] of [['free', 8801], ['pro', 8802]]) {
-    const extra = ed === 'pro' ? ['gt-why', 'gt-setup', 'dk-why', 'dk-hello', 'noc-role'] : [];
+  for (const [ed, port] of [['app', 8801]]) {
+    const extra = ['gt-why', 'gt-setup', 'dk-why', 'dk-hello', 'noc-role'];
     const P = (name, fn, vp = phone, scale = 3) => shoot(b, ed, port, name, vp, scale, fn, extra);
     await P('home', async (p) => { await p.goto(`http://127.0.0.1:${port}/`); await p.waitForTimeout(1500); });
-    await P('courses', async (p) => { await p.goto(`http://127.0.0.1:${port}/courses?course=${ed === 'pro' ? 'git' : 'linux'}`); await p.waitForTimeout(1500); await p.evaluate(() => { for (const el of document.querySelectorAll('div')) { const s = getComputedStyle(el); if (s.overflowY === 'auto' && el.scrollHeight > el.clientHeight + 10) el.scrollTop = 330; } }); });
+    await P('courses', async (p) => { await p.goto(`http://127.0.0.1:${port}/courses?course=git`); await p.waitForTimeout(1500); await p.evaluate(() => { for (const el of document.querySelectorAll('div')) { const s = getComputedStyle(el); if (s.overflowY === 'auto' && el.scrollHeight > el.clientHeight + 10) el.scrollTop = 330; } }); });
     await P('task', async (p) => {
       await p.goto(`http://127.0.0.1:${port}/lesson/text-pipes`); await p.waitForTimeout(1500);
-      await p.getByRole('button', { name: /Continue/ }).last().click(); await p.waitForTimeout(1200);
+      await p.getByRole('button', { name: /^(Continue|Next)/ }).last().click(); await p.waitForTimeout(1200);
       await type(p, ['ls data', 'cat data/names.txt | sort', 'sort data/names.txt | uniq -c | sort -rn']);
     });
     await P('explain', async (p) => { await p.goto(`http://127.0.0.1:${port}/explain?cmd=${encodeURIComponent("find /var/log -name '*.log' -mtime +7 | xargs gzip")}`); await p.waitForTimeout(1500); });
@@ -53,25 +53,21 @@ async function shoot(b, ed, port, name, vp, scale, fn, extra = []) {
       await type(p, ['ls -la ~/docs', 'grep -rn "TODO" ~/projects | head -3', 'echo "Hello, $USER" > hi.txt && cat hi.txt', 'cat nope.txt']);
       await p.getByRole('button', { name: /Hide keyboard/ }).first().click().catch(() => {});
     });
-    await P('predict', async (p) => { await p.goto(`http://127.0.0.1:${port}/lesson/text-sort-uniq`); await p.waitForTimeout(1400); await p.getByRole('button', { name: /Continue/ }).last().click(); await p.waitForTimeout(1300); });
+    await P('predict', async (p) => { await p.goto(`http://127.0.0.1:${port}/lesson/text-sort-uniq`); await p.waitForTimeout(1400); await p.getByRole('button', { name: /^(Continue|Next)/ }).last().click(); await p.waitForTimeout(1300); });
     await P('review', async (p) => { await p.goto(`http://127.0.0.1:${port}/review`); await p.waitForTimeout(1200); await p.getByRole('button', { name: /Show answer/ }).click(); await p.waitForTimeout(600); });
     await P('practice', async (p) => { await p.goto(`http://127.0.0.1:${port}/practice`); await p.waitForTimeout(1300); });
-    if (ed === 'pro') {
-      await P('mission', async (p) => { await p.goto(`http://127.0.0.1:${port}/mission/noc-shop-502`); await p.waitForTimeout(1500); await p.getByRole('button', { name: /Hide keyboard/ }).first().click().catch(() => {}); await p.waitForTimeout(400); await type(p, ['curl -I localhost', 'systemctl status api']); });
-      await P('git', async (p) => {
-        await p.goto(`http://127.0.0.1:${port}/lesson/gt-merge`); await p.waitForTimeout(1400);
-        await p.getByRole('button', { name: /Continue/ }).last().click(); await p.waitForTimeout(1300);
-        await type(p, ['git log --oneline --graph --all', 'git merge dark-theme']);
-      });
-    } else {
-      await P('pro', async (p) => { await p.goto(`http://127.0.0.1:${port}/pro`); await p.waitForTimeout(1500); });
-      await P('glossary', async (p) => { await p.goto(`http://127.0.0.1:${port}/glossary`); await p.waitForTimeout(1300); });
-    }
+
+    await P('mission', async (p) => { await p.goto(`http://127.0.0.1:${port}/mission/noc-shop-502`); await p.waitForTimeout(1500); await p.getByRole('button', { name: /Hide keyboard/ }).first().click().catch(() => {}); await p.waitForTimeout(400); await type(p, ['curl -I localhost', 'systemctl status api']); });
+    await P('git', async (p) => {
+      await p.goto(`http://127.0.0.1:${port}/lesson/gt-merge`); await p.waitForTimeout(1400);
+      await p.getByRole('button', { name: /^(Continue|Next)/ }).last().click(); await p.waitForTimeout(1300);
+      await type(p, ['git log --oneline --graph --all', 'git merge dark-theme']);
+    });
     // tablets: 7" portrait (600x960) and 10" landscape (1280x800, split view)
     const T7 = { width: 600, height: 960 }, T10 = { width: 1280, height: 800 };
     await P('t7_home', async (p) => { await p.goto(`http://127.0.0.1:${port}/`); await p.waitForTimeout(1500); }, T7, 2);
-    await P('t7_task', async (p) => { await p.goto(`http://127.0.0.1:${port}/lesson/text-pipes`); await p.waitForTimeout(1400); await p.getByRole('button', { name: /Continue/ }).last().click(); await p.waitForTimeout(1200); await type(p, ['cat data/names.txt | sort | uniq']); }, T7, 2);
-    await P('t10_task', async (p) => { await p.goto(`http://127.0.0.1:${port}/lesson/text-wc-grep`); await p.waitForTimeout(1400); await p.getByRole('button', { name: /Continue/ }).last().click(); await p.waitForTimeout(1200); await type(p, ['grep -c error logs/app.log', 'grep -i warn logs/app.log | wc -l']); }, T10, 2);
+    await P('t7_task', async (p) => { await p.goto(`http://127.0.0.1:${port}/lesson/text-pipes`); await p.waitForTimeout(1400); await p.getByRole('button', { name: /^(Continue|Next)/ }).last().click(); await p.waitForTimeout(1200); await type(p, ['cat data/names.txt | sort | uniq']); }, T7, 2);
+    await P('t10_task', async (p) => { await p.goto(`http://127.0.0.1:${port}/lesson/text-wc-grep`); await p.waitForTimeout(1400); await p.getByRole('button', { name: /^(Continue|Next)/ }).last().click(); await p.waitForTimeout(1200); await type(p, ['grep -c error logs/app.log', 'grep -i warn logs/app.log | wc -l']); }, T10, 2);
     await P('t10_courses', async (p) => { await p.goto(`http://127.0.0.1:${port}/courses`); await p.waitForTimeout(1500); }, T10, 2);
     await P('t10_explain', async (p) => { await p.goto(`http://127.0.0.1:${port}/explain?cmd=${encodeURIComponent('sudo chown -R www-data:www-data /var/www && chmod 750 deploy.sh')}`); await p.waitForTimeout(1500); }, T10, 2);
     await P('t7_courses', async (p) => { await p.goto(`http://127.0.0.1:${port}/courses`); await p.waitForTimeout(1500); }, T7, 2);
