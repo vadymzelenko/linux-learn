@@ -99,6 +99,7 @@ export const DOCKER_HUB: DockerImage[] = [
   { repo: 'hello-world', tag: 'latest', id: '', size: '13.3kB', created: -540 * DAY, cmd: '/hello', oneShot: HELLO, os: 'scratch' },
   nginxImage('latest', '192MB', 14),
   nginxImage('1.27', '192MB', 14),
+  nginxImage('1.26', '188MB', 160),
   nginxImage('alpine', '47.9MB', 14),
   { repo: 'alpine', tag: 'latest', id: '', size: '7.8MB', created: -40 * DAY, cmd: '/bin/sh', os: 'alpine', shell: true },
   { repo: 'alpine', tag: '3.20', id: '', size: '7.8MB', created: -40 * DAY, cmd: '/bin/sh', os: 'alpine', shell: true },

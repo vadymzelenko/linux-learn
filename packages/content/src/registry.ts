@@ -25,6 +25,8 @@ import m_20_docker_build from '../modules/20-docker-build.json';
 import m_21_git_basics from '../modules/21-git-basics.json';
 import m_22_git_branches from '../modules/22-git-branches.json';
 import m_23_github from '../modules/23-github.json';
+import m_24_docker_prod from '../modules/24-docker-prod.json';
+import m_25_git_pro from '../modules/25-git-pro.json';
 import f_docker_lab from '../fixtures/docker-lab.json';
 import f_empty_home from '../fixtures/empty-home.json';
 import f_git_fresh from '../fixtures/git-fresh.json';
@@ -37,7 +39,7 @@ import f_search from '../fixtures/search.json';
 import f_system from '../fixtures/system.json';
 import f_text_files from '../fixtures/text-files.json';
 
-export const moduleList = [m_01_navigation, m_02_files, m_03_text, m_04_search, m_05_permissions, m_06_power, m_07_noc_intro, m_08_noc_health, m_09_noc_network, m_10_noc_web, m_11_noc_logs, m_12_noc_ir, m_13_fhs, m_14_users, m_15_processes, m_16_shell_pro, m_17_textpro, m_18_docker_basics, m_19_docker_ops, m_20_docker_build, m_21_git_basics, m_22_git_branches, m_23_github] as unknown as Module[];
+export const moduleList = [m_01_navigation, m_02_files, m_03_text, m_04_search, m_05_permissions, m_06_power, m_07_noc_intro, m_08_noc_health, m_09_noc_network, m_10_noc_web, m_11_noc_logs, m_12_noc_ir, m_13_fhs, m_14_users, m_15_processes, m_16_shell_pro, m_17_textpro, m_18_docker_basics, m_19_docker_ops, m_20_docker_build, m_21_git_basics, m_22_git_branches, m_23_github, m_24_docker_prod, m_25_git_pro] as unknown as Module[];
 
 export const fixtureMap: Record<string, MachineSpec> = {
   'docker-lab': f_docker_lab as unknown as MachineSpec,

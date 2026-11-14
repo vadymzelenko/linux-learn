@@ -1366,7 +1366,8 @@ MISSION = {
 }
 
 MP = os.path.join(ROOT, 'missions', 'missions.json')
-ms = [m for m in json.load(open(MP)) if m.get('course') != 'git'] + [MISSION]
+from git_pro import MISSIONS as PRO_MISSIONS
+ms = [m for m in json.load(open(MP)) if m.get('course') != 'git'] + [MISSION] + PRO_MISSIONS
 with open(MP, 'w') as f:
     json.dump(ms, f, indent=2, ensure_ascii=False)
     f.write('\n')

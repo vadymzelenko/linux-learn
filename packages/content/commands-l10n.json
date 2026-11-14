@@ -511,10 +511,20 @@
     "uk": "керувати іменованими томами",
     "pl": "zarządzaj nazwanymi wolumenami"
    },
-   "network ls|create": {
-    "ru": "список или создание сетей",
-    "uk": "список або створення мереж",
-    "pl": "lista lub tworzenie sieci"
+   "network ls|create|inspect|rm": {
+    "ru": "список, создание, просмотр или удаление сетей",
+    "uk": "список, створення, перегляд або видалення мереж",
+    "pl": "lista, tworzenie, podgląd lub usuwanie sieci"
+   },
+   "network connect NET CONTAINER": {
+    "ru": "подключить работающий контейнер ещё к одной сети",
+    "uk": "під’єднати запущений контейнер ще до однієї мережі",
+    "pl": "podłącz działający kontener do kolejnej sieci"
+   },
+   "rename CONTAINER NAME": {
+    "ru": "дать контейнеру новое имя",
+    "uk": "дати контейнеру нове ім’я",
+    "pl": "nadaj kontenerowi nową nazwę"
    },
    "-d, --detach": {
     "ru": "запустить в фоне и напечатать ID контейнера",
@@ -873,6 +883,16 @@
     "uk": "закрити issue",
     "pl": "zamknij zgłoszenie"
    },
+   "release create TAG": {
+    "ru": "опубликовать релиз для тега (--title, --notes)",
+    "uk": "опублікувати реліз для тегу (--title, --notes)",
+    "pl": "opublikuj wydanie dla tagu (--title, --notes)"
+   },
+   "release list": {
+    "ru": "релизы репозитория",
+    "uk": "релізи репозиторію",
+    "pl": "wydania repozytorium"
+   },
    "--title, -t TEXT": {
     "ru": "заголовок pull request’а или issue",
     "uk": "заголовок pull request’а або issue",
@@ -1008,9 +1028,19 @@
     "pl": "odłóż niedokończone zmiany (stash pop — przywróć)"
    },
    "tag NAME": {
-    "ru": "пометить коммит, например релиз v1.0",
-    "uk": "позначити коміт, наприклад реліз v1.0",
-    "pl": "oznacz commit, np. wydanie v1.0"
+    "ru": "пометить коммит, например релиз v1.0 (-a -m — аннотированный тег)",
+    "uk": "позначити коміт, наприклад реліз v1.0 (-a -m — анотований тег)",
+    "pl": "oznacz commit, np. wydanie v1.0 (-a -m — tag z opisem)"
+   },
+   "cherry-pick COMMIT": {
+    "ru": "скопировать один коммит из другой ветки в текущую",
+    "uk": "скопіювати один коміт з іншої гілки в поточну",
+    "pl": "skopiuj jeden commit z innej gałęzi do bieżącej"
+   },
+   "blame FILE": {
+    "ru": "кто и в каком коммите последним менял каждую строку",
+    "uk": "хто і в якому коміті востаннє змінював кожен рядок",
+    "pl": "kto i w którym commicie ostatnio zmienił każdy wiersz"
    },
    "config KEY VALUE": {
     "ru": "настройки, например user.name и user.email (--global — для всех ваших репозиториев)",
@@ -1021,6 +1051,21 @@
     "ru": "commit: сообщение коммита",
     "uk": "commit: повідомлення коміту",
     "pl": "commit: opis commita"
+   },
+   "--tags": {
+    "ru": "push: отправить все теги на remote",
+    "uk": "push: надіслати всі теги на remote",
+    "pl": "push: wyślij wszystkie tagi na remote"
+   },
+   "--grep TEXT": {
+    "ru": "log: только коммиты, в сообщении которых есть TEXT",
+    "uk": "log: лише коміти, у повідомленні яких є TEXT",
+    "pl": "log: tylko commity, których opis zawiera TEXT"
+   },
+   "--author NAME": {
+    "ru": "log: только коммиты этого автора",
+    "uk": "log: лише коміти цього автора",
+    "pl": "log: tylko commity tego autora"
    },
    "-a, --all": {
     "ru": "commit: сначала добавить все изменённые отслеживаемые файлы",

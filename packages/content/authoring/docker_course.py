@@ -1249,7 +1249,8 @@ MISSION = {
 }
 
 MP = os.path.join(ROOT, 'missions', 'missions.json')
-ms = [m for m in json.load(open(MP)) if m.get('course') != 'docker'] + [MISSION]
+from docker_prod import MISSIONS as PROD_MISSIONS
+ms = [m for m in json.load(open(MP)) if m.get('course') != 'docker'] + [MISSION] + PROD_MISSIONS
 with open(MP, 'w') as f:
     json.dump(ms, f, indent=2, ensure_ascii=False)
     f.write('\n')
