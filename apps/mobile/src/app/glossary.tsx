@@ -43,6 +43,9 @@ export default function GlossaryScreen() {
         style={[styles.search, { color: theme.text, backgroundColor: theme.surface, borderColor: theme.border, fontFamily: 'Onest_400Regular' }]}
       />
       <SectionList
+        initialNumToRender={14}
+        maxToRenderPerBatch={20}
+        windowSize={7}
         sections={sections}
         keyExtractor={(g) => g.id}
         contentContainerStyle={{ paddingHorizontal: space.lg, paddingBottom: space.xxl, maxWidth: 820, width: '100%', alignSelf: 'center' }}

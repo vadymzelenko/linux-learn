@@ -139,6 +139,11 @@ const en = {
     discard: 'Discard',
   },
   sandbox: {
+    pick: 'Your own Linux machine. Pick a ready-made one to start:',
+    tip: 'Type ls and press ⏎ to start. Stuck? Tap ? at the top.',
+    more: 'More',
+    helpText: 'A safe Linux computer inside the app — practise anything you like, there are no tasks here.\n\n1. Type a command and press ⏎, for example ls, pwd or cat notes.txt.\n2. Type help to see all commands, or man ls to read about one.\n3. Nothing can break your phone. Broke the machine? ⋯ → Reset returns it to the start.\n\nYou can keep up to 3 machines, each made from a ready template.',
+    helpTitle: 'What is the sandbox?',
     limitTitle: 'All slots are taken',
     title: 'Sandbox',
     subtitle: 'Free practice, up to 3 machines',

@@ -325,8 +325,9 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
       ]}
     >
       <View style={{ width: '100%', maxWidth: layout.tablet ? 820 : undefined, alignSelf: 'center', gap: 5 }}>
-        {/* quick commands + navigation */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="always" contentContainerStyle={styles.quick}>
+        {/* quick commands + navigation; the hide button is pinned on the right */}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <ScrollView style={{ flex: 1 }} horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="always" contentContainerStyle={styles.quick}>
           {(['tab', 'up', 'down', 'left', 'right'] as const).map((k) => (
             <Pressable
               key={k}
@@ -359,10 +360,20 @@ export function TermKeyboard({ actions }: { actions: KeyboardActions }) {
               </Text>
             </Pressable>
           ))}
-          <Pressable onPress={actions.hide} accessibilityRole="button" accessibilityLabel={t('keyboard.hide')} style={({ pressed }) => [styles.chip, NO_SELECT, { height: chipH, backgroundColor: pressed ? theme.border : colors.mod }]}>
-            <Icon name="keyboard-close" size={18} color={theme.text} />
-          </Pressable>
         </ScrollView>
+          <Pressable
+            onPress={() => {
+              feedback();
+              actions.hide();
+            }}
+            hitSlop={6}
+            accessibilityRole="button"
+            accessibilityLabel={t('keyboard.hide')}
+            style={({ pressed }) => [styles.chip, styles.hide, NO_SELECT, { height: chipH, backgroundColor: pressed ? theme.border : theme.accent }]}
+          >
+            <Icon name="keyboard-close" size={20} color={theme.onAccent} />
+          </Pressable>
+        </View>
 
         {showNumbers || layer !== 'abc' ? (
           <View style={styles.row}>
@@ -426,6 +437,7 @@ const styles = StyleSheet.create({
   wrap: { borderTopWidth: StyleSheet.hairlineWidth, paddingHorizontal: 3, paddingTop: 4, gap: 5 },
   quick: { gap: 6, paddingHorizontal: 3, paddingBottom: 2 },
   chip: { height: 34, paddingHorizontal: 12, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  hide: { marginLeft: 4, marginRight: 3, paddingHorizontal: 14 },
   row: { flexDirection: 'row', gap: 4 },
   key: { borderRadius: 8, alignItems: 'center', justifyContent: 'center', minWidth: 0, borderBottomWidth: 2 },
   hint: { position: 'absolute', top: 2, right: 4, fontSize: 9, fontFamily: MONO },

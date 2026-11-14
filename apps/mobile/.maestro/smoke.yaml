@@ -34,8 +34,11 @@ appId: com.vadymzelenko.linuxtrainer
 - tapOn:
     text: "Got it"
     optional: true
-- inputText: "pwd"
-- pressKey: Enter
+# the command line is drawn by the app (no native text field): type with its keyboard
+- tapOn: "p"
+- tapOn: "w"
+- tapOn: "d"
+- tapOn: "Enter"
 - extendedWaitUntil:
     visible: "Let’s go"
     timeout: 10000
@@ -65,7 +68,15 @@ appId: com.vadymzelenko.linuxtrainer
     visible: "Task solved.*"
     timeout: 10000
 - takeScreenshot: 05-task-solved
-- pressKey: Back
+# Back first closes the built-in keyboard, the next Back asks to leave
+- repeat:
+    times: 3
+    while:
+      notVisible: "Leave the lesson.*"
+    commands:
+      - pressKey: Back
+      - waitForAnimationToEnd:
+          timeout: 2000
 - extendedWaitUntil:
     visible: "Leave the lesson.*"
     timeout: 5000
@@ -74,3 +85,13 @@ appId: com.vadymzelenko.linuxtrainer
 - assertVisible: "Courses"
 - tapOn: "Sandbox"
 - takeScreenshot: 07-sandbox
+# a machine, typing and the always-visible "hide keyboard" button
+- tapOn: "Clean system"
+- tapOn: "Show keyboard"
+- tapOn: "l"
+- tapOn: "s"
+- tapOn: "Enter"
+- takeScreenshot: 08-sandbox-typing
+- tapOn: "Hide keyboard"
+- assertVisible: "Show keyboard"
+- takeScreenshot: 09-sandbox-keyboard-hidden

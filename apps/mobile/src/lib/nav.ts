@@ -7,16 +7,29 @@ export function goBack(fallback: '/' | '/courses' | '/practice' = '/') {
 }
 
 /**
- * Tapping a link five times must not open five screens: every push or
- * navigate within 700 ms of the previous one is ignored (app-wide).
+ * Tapping a link several times must not open several screens. A heavy screen
+ * (glossary, reference) can take a second to appear on a phone; taps made
+ * meanwhile are queued and arrive after it, so a plain time window is not
+ * enough. After a push or navigate every further one is ignored until the
+ * new screen has been drawn (two frames once JS is free) plus a short pause.
  */
+let busy = false;
 let lastNav = 0;
+function release() {
+  // runs only when JS is idle again: queued taps are handled before this
+  setTimeout(() => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(() => (busy = false), 450))), 0);
+}
 function guard<F extends (...a: never[]) => unknown>(fn: F): F {
   return ((...args: Parameters<F>) => {
     const now = Date.now();
-    if (now - lastNav < 700) return;
+    if (busy || now - lastNav < 700) return;
+    busy = true;
     lastNav = now;
-    return fn(...args);
+    try {
+      return fn(...args);
+    } finally {
+      release();
+    }
   }) as F;
 }
 const r = router as unknown as Record<string, unknown>;

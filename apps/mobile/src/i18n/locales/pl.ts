@@ -141,6 +141,11 @@ const pl: Dict = {
     discard: 'Odrzuć',
   },
   sandbox: {
+    pick: 'Twoja własna maszyna z Linuksem. Wybierz gotową, aby zacząć:',
+    tip: 'Wpisz ls i naciśnij ⏎. Nie wiesz, co dalej? Dotknij ? na górze.',
+    more: 'Więcej',
+    helpText: 'Bezpieczny komputer z Linuksem w aplikacji — ćwicz, co chcesz, nie ma tu zadań.\n\n1. Wpisz polecenie i naciśnij ⏎, np. ls, pwd albo cat notes.txt.\n2. help pokaże wszystkie polecenia, man ls — opis jednego.\n3. Telefonowi nic nie grozi. Zepsułeś maszynę? ⋯ → Resetuj przywróci ją do początku.\n\nMożesz mieć do 3 maszyn, każda powstaje z gotowego szablonu.',
+    helpTitle: 'Czym jest piaskownica?',
     limitTitle: 'Wszystkie miejsca zajęte',
     title: 'Piaskownica',
     subtitle: 'Swobodna praktyka, do 3 maszyn',

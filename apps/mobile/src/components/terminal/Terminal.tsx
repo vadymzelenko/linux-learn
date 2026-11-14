@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState, type Ref } from 'react';
-import { FlatList, Keyboard, Platform, Pressable, StyleSheet, TextInput, useWindowDimensions, View, type TextInputInstance, type TextInputKeyPressEvent, type ViewStyle } from 'react-native';
+import { BackHandler, FlatList, Keyboard, Platform, Pressable, StyleSheet, TextInput, useWindowDimensions, View, type TextInputInstance, type TextInputKeyPressEvent, type ViewStyle } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { stripAnsi } from '@linux-learn/engine';
 import { useTranslation } from 'react-i18next';
@@ -63,6 +63,13 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
   }, [custom]);
   const [input, setInput] = useState(prefill ?? '');
   /**
+   * Android/iOS with our keyboard: the command line is drawn as text with our
+   * own cursor — no native text field. A native field raced with our edits
+   * (late echoes erased what was typed) and could pop up the phone keyboard.
+   */
+  const textMode = custom && Platform.OS !== 'web';
+  const [cursorPos, setCursorPos] = useState((prefill ?? '').length);
+  /**
    * The cursor position is NOT a controlled prop all the time: re-applying a
    * stale selection on every keystroke made the cursor jump to the start of the
    * line. We only push a selection for one render when we move the cursor
@@ -96,6 +103,7 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
     sel.current = { start: cursor, end: cursor };
     ownSelUntil.current = Date.now() + 250;
     setInput(text);
+    setCursorPos(cursor);
     setForcedSel({ start: cursor, end: cursor });
   }, []);
 
@@ -118,6 +126,7 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
     (d: number) => {
       const p = Math.max(0, Math.min(inputValue.current.length, sel.current.start + d));
       sel.current = { start: p, end: p };
+      setCursorPos(p);
       setForcedSel({ start: p, end: p });
       inputRef.current?.focus();
     },
@@ -132,6 +141,17 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
     setInput: (text) => setText(text),
     focus: () => inputRef.current?.focus(),
   }));
+
+  // Android back (gesture or button) first closes our keyboard
+  useEffect(() => {
+    if (!custom || !kbVisible || Platform.OS !== 'android') return;
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      setKbVisible(false);
+      inputRef.current?.blur();
+      return true;
+    });
+    return () => sub.remove();
+  }, [custom, kbVisible, setKbVisible]);
 
   const submit = useCallback(() => {
     const line = inputValue.current;
@@ -416,6 +436,26 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
           ListFooterComponent={
             <View style={styles.inputRow}>
               <PromptText prompt={shell.prompt} fontSize={fontSize} />
+              {textMode ? (
+                <Pressable
+                  style={styles.textLine}
+                  onPress={() => setKbVisible(true)}
+                  accessibilityRole="button"
+                  accessibilityLabel={input || t('terminal.placeholder')}
+                >
+                  {input === '' && shell.blocks.length === 0 && !kbVisible ? (
+                    <Text style={{ fontFamily: MONO, fontSize, lineHeight, color: theme.textDim }}>{t('terminal.placeholder')}</Text>
+                  ) : (
+                    <Text style={{ fontFamily: MONO, fontSize, lineHeight, color: theme.term.fg }}>
+                      {input.slice(0, cursorPos)}
+                      <Text style={{ backgroundColor: kbVisible ? theme.term.cursor : 'transparent', color: kbVisible ? theme.term.bg : theme.term.fg, textDecorationLine: kbVisible ? 'none' : 'underline' }}>
+                        {input[cursorPos] ?? ' '}
+                      </Text>
+                      {input.slice(cursorPos + 1)}
+                    </Text>
+                  )}
+                </Pressable>
+              ) : (
               <TextInput
                 ref={inputRef}
                 value={input}
@@ -452,6 +492,7 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
                 selectionColor={theme.term.selection}
                 style={[styles.input, { color: theme.term.fg, fontSize, lineHeight, fontFamily: MONO }]}
               />
+              )}
             </View>
           }
         />
@@ -505,6 +546,7 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   content: { padding: 12, paddingBottom: 8 },
   inputRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', overflow: 'hidden' },
+  textLine: { flex: 1, minWidth: 80, minHeight: 24, justifyContent: 'center' },
   input: { flex: 1, minWidth: 80, padding: 0, margin: 0, minHeight: 24, ...(Platform.OS === 'web' ? ({ outlineStyle: 'none' } as object) : {}) },
   note: { marginVertical: 4, paddingLeft: 8, borderLeftWidth: 2 },
   showKb: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 10, borderTopWidth: StyleSheet.hairlineWidth },

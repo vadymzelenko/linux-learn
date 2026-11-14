@@ -11,7 +11,7 @@ import { haptic } from '../../lib/haptics';
 import { Terminal, useColumns } from '../../components/terminal/Terminal';
 import { useShell } from '../../components/terminal/useShell';
 import { Text } from '../../theme/Text';
-import { confirmDialog, infoDialog } from '../../components/Dialog';
+import { confirmDialog, infoDialog, useDialog } from '../../components/Dialog';
 
 /** Machines to start from (git-fresh is a lesson-only copy of the website). */
 const TEMPLATES = Object.keys(fixtures).filter((k) => k !== 'git-fresh');
@@ -60,6 +60,7 @@ function confirm(title: string, onYes: () => void, yes: string, cancel: string, 
 }
 
 function MachineTerminal({ machine, onKeyboardChange }: { machine: Machine; onKeyboardChange: (v: boolean) => void }) {
+  const { t } = useTranslation();
   const columns = useColumns();
   const template = machine.template;
   const shell = useShell(machine.session, {
@@ -67,7 +68,7 @@ function MachineTerminal({ machine, onKeyboardChange }: { machine: Machine; onKe
     onSession: (s) => useStore.getState().updateMachine(machine.id, s),
     makeSession: () => createShell(fixtures[template] ?? {}),
   });
-  return <Terminal shell={shell} style={{ flex: 1 }} welcome={`Linux trainer 6.8.0 — ${machine.name}`} onKeyboardChange={onKeyboardChange} />;
+  return <Terminal shell={shell} style={{ flex: 1 }} welcome={`Linux trainer 6.8.0 — ${machine.name}\n${t('sandbox.tip')}`} onKeyboardChange={onKeyboardChange} />;
 }
 
 export default function SandboxScreen() {
@@ -84,6 +85,22 @@ export default function SandboxScreen() {
   const [typing, setTyping] = useState(false);
   const insets = useSafeAreaInsets();
 
+  const showHelp = () => infoDialog({ title: t('sandbox.helpTitle'), message: t('sandbox.helpText'), ok: t('common.ok'), icon: 'help-circle-outline' });
+
+  /** Rename, reset and delete live in one menu: the header stays calm. */
+  const openMenu = (m: Machine) =>
+    useDialog.getState().show({
+      title: m.name,
+      icon: look(m.template).icon,
+      tone: 'info',
+      actions: [
+        { label: t('sandbox.rename'), icon: 'edit', onPress: () => { setName(m.name); setRenaming(m.id); } },
+        { label: t('common.reset'), icon: 'refresh', onPress: () => confirm(t('lesson.resetConfirm'), () => { useStore.getState().resetMachine(m.id); setResetCount((c) => c + 1); }, t('common.reset'), t('common.cancel'), 'refresh') },
+        { label: t('common.delete'), icon: 'trash', style: 'destructive', onPress: () => confirm(t('sandbox.deleteConfirm', { name: m.name }), () => useStore.getState().deleteMachine(m.id), t('common.delete'), t('common.cancel'), 'trash') },
+        { label: t('common.cancel'), style: 'cancel' },
+      ],
+    });
+
   const create = (template: string) => {
     const id = useStore.getState().createMachine(template, t('sandbox.machineName', { n: machines.length + 1 }));
     if (!id) infoDialog({ title: t('sandbox.limitTitle'), message: t('sandbox.limit'), ok: t('common.ok'), icon: 'server', tone: 'warning' });
@@ -96,24 +113,8 @@ export default function SandboxScreen() {
         <Collapsible open={!typing || !active}>
           <View style={styles.header}>
             <H1 style={{ fontSize: 24, flex: 1 }}>{t('sandbox.title')}</H1>
-            {active ? (
-              <>
-                <IconButton icon="edit" label={t('sandbox.rename')} onPress={() => { setName(active.name); setRenaming(active.id); }} />
-                <IconButton
-                  icon="refresh"
-                  label={t('common.reset')}
-                  onPress={() =>
-                    confirm(t('lesson.resetConfirm'), () => { useStore.getState().resetMachine(active.id); setResetCount((c) => c + 1); }, t('common.reset'), t('common.cancel'), 'refresh')
-                  }
-                />
-                <IconButton
-                  icon="trash"
-                  label={t('common.delete')}
-                  color={theme.danger}
-                  onPress={() => confirm(t('sandbox.deleteConfirm', { name: active.name }), () => useStore.getState().deleteMachine(active.id), t('common.delete'), t('common.cancel'), 'trash')}
-                />
-              </>
-            ) : null}
+            <IconButton icon="help-circle-outline" label={t('sandbox.helpTitle')} onPress={showHelp} />
+            {active ? <IconButton icon="dots-horizontal" label={t('sandbox.more')} onPress={() => openMenu(active)} /> : null}
           </View>
           {machines.length ? (
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={styles.tabs}>
@@ -148,7 +149,11 @@ export default function SandboxScreen() {
               <View style={[styles.hero, { backgroundColor: theme.accent }]}>
                 <Icon name="terminal" size={30} color={theme.onAccent} />
                 <Text style={{ color: theme.onAccent, fontWeight: '800', fontSize: 20 }}>{t('sandbox.subtitle')}</Text>
-                <Text style={{ color: theme.onAccent, opacity: 0.85 }}>{t('sandbox.template')}</Text>
+                <Text style={{ color: theme.onAccent, opacity: 0.85 }}>{t('sandbox.pick')}</Text>
+                <Pressable onPress={showHelp} accessibilityRole="button" style={styles.heroHelp}>
+                  <Icon name="help-circle-outline" size={18} color={theme.onAccent} />
+                  <Text style={{ color: theme.onAccent, fontWeight: '700' }}>{t('sandbox.helpTitle')}</Text>
+                </Pressable>
               </View>
               <TemplateGrid onPick={create} />
             </ScrollView>
@@ -203,6 +208,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: space.lg, paddingTop: space.sm, gap: 2 },
   addTab: { borderWidth: 1, borderStyle: 'dashed', paddingHorizontal: 12 },
   hero: { borderRadius: 24, padding: space.xl, gap: 6 },
+  heroHelp: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', marginTop: 6, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.3)' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   tileWrap: { width: '48%', flexGrow: 1 },
   tile: { borderRadius: 20, padding: space.md, minHeight: 96, gap: 10, justifyContent: 'space-between' },
