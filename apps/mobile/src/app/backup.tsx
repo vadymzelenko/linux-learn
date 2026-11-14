@@ -163,7 +163,7 @@ export default function BackupScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { padding: space.lg, gap: space.md, paddingBottom: space.xxl, maxWidth: 720, width: '100%', alignSelf: 'center' },
+  content: { padding: space.lg, gap: space.md, paddingBottom: space.xxl, maxWidth: 860, width: '100%', alignSelf: 'center' },
   h: { marginTop: space.md, marginBottom: space.sm },
   buttons: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
   btn: { flexGrow: 1, flexBasis: 220 },

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState, type Ref } from 'react';
-import { FlatList, Platform, Pressable, StyleSheet, TextInput, useWindowDimensions, View, type TextInputInstance, type TextInputKeyPressEvent, type ViewStyle } from 'react-native';
+import { FlatList, Keyboard, Platform, Pressable, StyleSheet, TextInput, useWindowDimensions, View, type TextInputInstance, type TextInputKeyPressEvent, type ViewStyle } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { stripAnsi } from '@linux-learn/engine';
 import { useTranslation } from 'react-i18next';
@@ -86,7 +86,10 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
 
   /** Selection events older than our own last edit are stale (fast typing). */
   const ownSelUntil = useRef(0);
+  /** The text before our last own edit: a late native echo of it must not undo the edit. */
+  const prevOwnText = useRef<string | null>(null);
   const setText = useCallback((text: string, cursor = text.length) => {
+    prevOwnText.current = inputValue.current;
     // update the refs right away: the next key may arrive before React renders,
     // otherwise it would edit the old text and the previous character is lost
     inputValue.current = text;
@@ -278,6 +281,9 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
         if (control(ch)) return;
       }
       const clean = text.replace(/\n/g, '');
+      // Android can deliver the old text after we changed it ourselves (key taps,
+      // Tab, history): taking it would erase what was just typed
+      if (Date.now() < ownSelUntil.current && clean === prevOwnText.current && clean !== cur) return;
       inputValue.current = clean;
       setInput(clean);
     },
@@ -406,7 +412,7 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
           keyboardShouldPersistTaps="handled"
           initialNumToRender={30}
           windowSize={9}
-          removeClippedSubviews={Platform.OS === 'android'}
+          removeClippedSubviews={false}
           ListFooterComponent={
             <View style={styles.inputRow}>
               <PromptText prompt={shell.prompt} fontSize={fontSize} />
@@ -481,7 +487,7 @@ export function Terminal({ shell, style, autoFocus, prefill, ref, welcome, onEmp
           </Pressable>
         )
       ) : (
-        <KeyBar onKey={onSpecial} ctrl={ctrl} onRun={submit} />
+        <KeyBar onKey={onSpecial} ctrl={ctrl} onRun={submit} onHide={() => { inputRef.current?.blur(); Keyboard.dismiss(); }} />
       )}
       {shell.editor ? <Editor state={shell.editor} onSave={shell.saveEditor} onClose={shell.closeEditor} /> : null}
     </View>

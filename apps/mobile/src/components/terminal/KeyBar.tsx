@@ -1,4 +1,5 @@
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Icon } from '../ui/Icon';
 import { useTranslation } from 'react-i18next';
 import { useTheme, MONO } from '../../theme';
 import { Text } from '../../theme/Text';
@@ -17,7 +18,7 @@ const KEYS: { key: SpecialKey; label: string; a11y?: string }[] = [
 ];
 
 /** Extra keys above the system keyboard: everything a phone keyboard hides. */
-export function KeyBar({ onKey, ctrl, onRun }: { onKey: (k: SpecialKey) => void; ctrl: boolean; onRun: () => void }) {
+export function KeyBar({ onKey, ctrl, onRun, onHide }: { onKey: (k: SpecialKey) => void; ctrl: boolean; onRun: () => void; onHide?: () => void }) {
   const theme = useTheme();
   const { t } = useTranslation();
   return (
@@ -42,6 +43,17 @@ export function KeyBar({ onKey, ctrl, onRun }: { onKey: (k: SpecialKey) => void;
           );
         })}
       </ScrollView>
+      {onHide && Platform.OS !== 'web' ? (
+        // in full-screen mode there is no system Back button to close the keyboard
+        <Pressable
+          onPress={onHide}
+          accessibilityRole="button"
+          accessibilityLabel={t('keyboard.hide')}
+          style={({ pressed }) => [styles.run, { marginRight: 0, backgroundColor: pressed ? theme.border : theme.surface2 }]}
+        >
+          <Icon name="keyboard-close" size={20} color={theme.text} />
+        </Pressable>
+      ) : null}
       <Pressable
         onPress={onRun}
         accessibilityRole="button"

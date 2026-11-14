@@ -127,6 +127,7 @@ export function DialogHost() {
       <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.55)', opacity: anim }]}>
         <Pressable style={{ flex: 1 }} onPress={() => finish(cancel)} accessibilityLabel={cancel?.label} />
       </Animated.View>
+      <View style={[styles.dock, { paddingLeft: insets.left, paddingRight: insets.right }]} pointerEvents="box-none">
       <Animated.View
         style={[
           styles.sheet,
@@ -175,16 +176,15 @@ export function DialogHost() {
           })}
         </View>
       </Animated.View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  // centred at the bottom on any width: phones, landscape, tablets
+  dock: { position: 'absolute', left: 0, right: 0, bottom: 0, alignItems: 'center' },
   sheet: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     borderWidth: StyleSheet.hairlineWidth,
@@ -193,8 +193,6 @@ const styles = StyleSheet.create({
     gap: space.lg,
     maxWidth: 560,
     width: '100%',
-    alignSelf: 'center',
-    marginHorizontal: 'auto',
   },
   grabber: { width: 40, height: 4, borderRadius: 2, alignSelf: 'center', marginBottom: 4 },
   head: { flexDirection: 'row', gap: space.md, alignItems: 'flex-start' },

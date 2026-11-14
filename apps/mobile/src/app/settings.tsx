@@ -203,7 +203,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   studioName: { fontFamily: MONO, fontSize: 12, fontWeight: '700', letterSpacing: 3, textAlign: 'center', marginTop: space.xl },
   devRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: space.md },
-  content: { padding: space.lg, gap: space.md, paddingBottom: space.xxl, maxWidth: 720, width: '100%', alignSelf: 'center' },
+  content: { padding: space.lg, gap: space.md, paddingBottom: space.xxl, maxWidth: 860, width: '100%', alignSelf: 'center' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: { paddingHorizontal: 14, paddingVertical: 10, borderRadius: 999, minHeight: 40, justifyContent: 'center' },
   qchip: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8 },
