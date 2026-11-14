@@ -71,6 +71,7 @@ export default function SettingsScreen() {
         <H1 style={{ fontSize: 24 }}>{t('settings.title')}</H1>
       </Row>
       <ScrollView contentContainerStyle={styles.content}>
+        <View style={[styles.group, { backgroundColor: theme.surface, borderColor: theme.border }]}>
         <Section id="lang" icon="translate" color="#5EA9FF" title={t('settings.language')} summary={s.lang === 'system' ? t('settings.system') : LANGUAGE_NAMES[s.lang as keyof typeof LANGUAGE_NAMES]} open={open} onToggle={toggle}>
             <View style={styles.chips}>
               <Chip label={t('settings.system')} active={s.lang === 'system'} onPress={() => { haptic.tap(); set({ lang: 'system' }); }} />
@@ -80,7 +81,7 @@ export default function SettingsScreen() {
             </View>
         </Section>
 
-        <Section id="look" icon="palette-outline" color="#B48EF5" title={t('settings.appearance')} summary={`${t(`settings.themes.${s.theme}` as 'settings.themes.classic')} · ${s.fontSize} pt`} open={open} onToggle={toggle}>
+        <Section id="look" icon="palette-outline" color="#B48EF5" title={t('settings.appearance')} summary={t(`settings.themes.${s.theme}` as 'settings.themes.classic')} open={open} onToggle={toggle}>
           <Text style={{ color: theme.textDim, fontWeight: '700' }}>{t('settings.theme')}</Text>
             <View style={styles.themes}>
               {THEME_IDS.map((id) => {
@@ -126,7 +127,7 @@ export default function SettingsScreen() {
           <KeyboardSettingsCard />
         </Section>
 
-        <Section id="sound" icon="bell-outline" color="#F5C451" title={t('settings.soundNotif')} summary={`${t('settings.sounds')}: ${s.sounds ? t('settings.on') : t('settings.off')} · ${t('settings.reminders')}: ${s.reminders ? `${s.reminderHour}:00` : t('settings.off')}`} open={open} onToggle={toggle}>
+        <Section id="sound" title={t('settings.soundNotif')} summary="" open={open} onToggle={toggle}>
             <View style={{ gap: space.md }}>
               <Row style={{ justifyContent: 'space-between' }}>
                 <View style={{ flex: 1 }}>
@@ -183,7 +184,7 @@ export default function SettingsScreen() {
             </View>
         </Section>
 
-        <Section id="data" icon="shield-check-outline" color="#FF8A65" title={t('settings.data')} summary={t('backup.title')} open={open} onToggle={toggle}>
+        <Section last id="data" icon="shield-check-outline" color="#FF8A65" title={t('settings.data')} summary="" open={open} onToggle={toggle}>
             <Card onPress={() => router.push('/backup')} accessibilityLabel={t('backup.title')}>
               <Row gap={12}>
                 <Icon name="swap-horizontal-circle-outline" size={28} color={theme.accent} />
@@ -197,6 +198,7 @@ export default function SettingsScreen() {
             <Body dim>{t('settings.privacyText')}</Body>
             <Button variant="danger" title={t('settings.resetProgress')} onPress={reset} />
         </Section>
+        </View>
 
         <Pressable onPress={() => router.push('/developer')} accessibilityRole="button" accessibilityLabel={t('settings.developer')} style={({ pressed }) => [styles.devRow, { opacity: pressed ? 0.6 : 1 }]}>
           <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.developer')}</Text>
@@ -213,9 +215,8 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  section: { borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
-  sectionHead: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: space.md },
-  sectionIcon: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  group: { borderRadius: 16, borderWidth: StyleSheet.hairlineWidth, overflow: 'hidden' },
+  sectionHead: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: space.md, minHeight: 56 },
   sectionBody: { paddingHorizontal: space.md, paddingBottom: space.md, gap: space.md },
   studioName: { fontFamily: MONO, fontSize: 12, fontWeight: '700', letterSpacing: 3, textAlign: 'center', marginTop: space.xl },
   devRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: space.md },
@@ -229,12 +230,12 @@ const styles = StyleSheet.create({
   themeCard: { width: '48%', flexGrow: 1, minWidth: 150, borderRadius: 14, padding: 12, gap: 2 },
 });
 
-/** A settings group: a coloured row with the current value, unfolds on tap. */
-function Section({ id, icon, color, title, summary, open, onToggle, children }: { id: string; icon: string; color: string; title: string; summary: string; open: string | null; onToggle: (id: string) => void; children: ReactNode }) {
+/** A settings group: its name and current value; unfolds on tap. */
+function Section({ id, title, summary, open, onToggle, children, last }: { id: string; icon?: string; color?: string; title: string; summary: string; open: string | null; onToggle: (id: string) => void; children: ReactNode; last?: boolean }) {
   const theme = useTheme();
   const isOpen = open === id;
   return (
-    <View style={[styles.section, { backgroundColor: theme.surface, borderColor: isOpen ? color : theme.border }]}>
+    <View style={!last ? { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: theme.border } : undefined}>
       <Pressable
         onPress={() => {
           haptic.tap();
@@ -243,20 +244,13 @@ function Section({ id, icon, color, title, summary, open, onToggle, children }: 
         accessibilityRole="button"
         accessibilityState={{ expanded: isOpen }}
         accessibilityLabel={title}
-        style={({ pressed }) => [styles.sectionHead, { opacity: pressed ? 0.7 : 1 }]}
+        style={({ pressed }) => [styles.sectionHead, { backgroundColor: pressed ? theme.surface2 : 'transparent' }]}
       >
-        <View style={[styles.sectionIcon, { backgroundColor: color }]}>
-          <Icon name={icon} size={20} color="#06240F" />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={{ color: theme.text, fontWeight: '800', fontSize: 16 }}>{title}</Text>
-          {isOpen ? null : (
-            <Text style={{ color: theme.textDim, fontSize: 13 }} numberOfLines={1}>
-              {summary}
-            </Text>
-          )}
-        </View>
-        <Icon name={isOpen ? 'chevron-up' : 'chevron-down'} color={theme.textDim} />
+        <Text style={{ color: theme.text, fontWeight: '600', fontSize: 16, flex: 1 }} numberOfLines={1}>{title}</Text>
+        <Text style={{ color: theme.textDim, fontSize: 14, maxWidth: '45%' }} numberOfLines={1}>
+          {isOpen ? '' : summary}
+        </Text>
+        <Icon name={isOpen ? 'chevron-up' : 'chevron-down'} size={20} color={theme.textDim} />
       </Pressable>
       {isOpen ? <View style={styles.sectionBody}>{children}</View> : null}
     </View>

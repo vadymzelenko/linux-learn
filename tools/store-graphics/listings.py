@@ -11,18 +11,18 @@ L = {}
 L['en'] = dict(
     title='Linux Terminal Trainer',
     short='Learn Linux, networks, Docker & Git by typing real commands. Free, offline.',
-    full='''The complete path from your first Linux command to on-call engineer — learned by typing real commands in a safe, simulated system. Everything is free: no ads, no subscription, no account.
+    full='''Learn Linux from your first command to the work of an on-call engineer, by typing real commands in a safe, simulated system. Everything is free: no ads, no subscription, no account.
 
-Linux Terminal Trainer is a full Linux and networking course in your pocket: a realistic shell with almost 120 commands, instant checks of your work, and missions taken from real on-call shifts.
+The app has a realistic shell with almost 120 commands, checks your work as you type, and has missions based on real on-call shifts.
 
 4 COURSES · 118 LESSONS · 250+ HANDS-ON TASKS
 • Linux from zero (≈13 h): navigation, files, text processing, search, permissions, the filesystem, users and groups, processes and services, shell scripting with loops and conditions, sed, awk and more
 • NOC engineer (≈7.5 h): server health, networking (ip, ping, traceroute, DNS, ports), web services (HTTP codes, curl, systemctl, journalctl), logs, incident management, escalation and postmortems
 • Docker (≈3.5 h): images and containers, ports, logs, volumes, Dockerfile, Docker Compose, container networks, restart policies, pinned image versions
-• Git & GitHub (≈3.5 h): commits, history, undo, .gitignore, branches, merge conflicts, push and pull, pull requests, stash, tags and releases, cherry-pick — on a simulated GitHub
+• Git & GitHub (≈3.5 h): commits, history, undo, .gitignore, branches, merge conflicts, push and pull, pull requests, stash, tags and releases, cherry-pick, all on a simulated GitHub
 
 21 MISSIONS FROM REAL LIFE
-A 502 on Black Friday, a disk at 95%, a DNS mystery, a brute-force attack in the logs, containers killed by OOM, a cache that can't be found by name, a release rollback at night, a leaked password in a commit, release day with a hotfix — practise on-call work without risk.
+A 502 during a sale, a disk at 95%, a DNS problem, a brute-force attack in the logs, containers killed by OOM, a cache that can't be found by name, a release rollback at night, a password committed by mistake, release day with a hotfix. Practise on-call work without risk.
 
 LEARN BY DOING
 • Tasks are checked by the result: any correct solution counts
@@ -32,7 +32,7 @@ LEARN BY DOING
 • Final exam and a shareable certificate
 • Sandbox with 3 machines and templates: Docker host, web server, Git project, overloaded server…
 
-MADE FOR PHONES AND TABLETS
+PHONES AND TABLETS
 • A keyboard built for the terminal: symbols one tap away, Tab, arrows, Ctrl and Alt, drag the space bar to move the cursor
 • Syntax-highlighted terminal in four themes
 • Portrait, landscape and tablet layouts with goal and terminal side by side; hardware keyboards supported
@@ -40,8 +40,8 @@ MADE FOR PHONES AND TABLETS
 • English, Ukrainian, Russian and Polish
 • Continue on a computer: Settings → Transfer progress moves everything to the web version
 
-Ideal for future system administrators, DevOps, SRE, NOC and support engineers, students, and anyone preparing for a Linux certification or a first IT job. New courses (Bash scripting, networks deep dive, Kubernetes) are on the way.''',
-    notes='4 courses free: Linux, NOC engineer, Docker and Git & GitHub — 118 lessons, 250+ hands-on tasks and 21 missions. New: Docker in production and Git in practice. No ads, works offline.',
+For future system administrators, DevOps, SRE, NOC and support engineers, students, and anyone preparing for a Linux certification or a first IT job. Bash scripting, a deeper networking course and Kubernetes are in the works.''',
+    notes='All 4 courses are free: Linux, NOC engineer, Docker, Git and GitHub. 118 lessons, 250+ tasks and 21 missions. New modules: Docker in production and Git in practice. No ads, works offline.',
 )
 L['ru'] = dict(
     title='Linux Terminal Trainer',

@@ -150,9 +150,8 @@ export default function SandboxScreen() {
                 <Icon name="terminal" size={30} color={theme.onAccent} />
                 <Text style={{ color: theme.onAccent, fontWeight: '800', fontSize: 20 }}>{t('sandbox.subtitle')}</Text>
                 <Text style={{ color: theme.onAccent, opacity: 0.85 }}>{t('sandbox.pick')}</Text>
-                <Pressable onPress={showHelp} accessibilityRole="button" style={styles.heroHelp}>
-                  <Icon name="help-circle-outline" size={18} color={theme.onAccent} />
-                  <Text style={{ color: theme.onAccent, fontWeight: '700' }}>{t('sandbox.helpTitle')}</Text>
+                <Pressable onPress={showHelp} accessibilityRole="button" hitSlop={8} style={{ alignSelf: 'flex-start', marginTop: 4 }}>
+                  <Text style={{ color: theme.onAccent, fontWeight: '700', textDecorationLine: 'underline' }}>{t('sandbox.helpTitle')}</Text>
                 </Pressable>
               </View>
               <TemplateGrid onPick={create} />
@@ -208,7 +207,6 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: space.lg, paddingTop: space.sm, gap: 2 },
   addTab: { borderWidth: 1, borderStyle: 'dashed', paddingHorizontal: 12 },
   hero: { borderRadius: 24, padding: space.xl, gap: 6 },
-  heroHelp: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', marginTop: 6, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.3)' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   tileWrap: { width: '48%', flexGrow: 1 },
   tile: { borderRadius: 20, padding: space.md, minHeight: 96, gap: 10, justifyContent: 'space-between' },
