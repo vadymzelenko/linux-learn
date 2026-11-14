@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { COMMANDS } from '@linux-learn/engine';
 import { findLesson, lessonMinutes, tr } from '@linux-learn/content';
 import { Text } from '../../theme/Text';
+import { BackButton } from '../../components/BackButton';
 import { useTheme, MONO, MONO_BOLD, space } from '../../theme';
 import { Button, IconButton, Pill, Row, Screen } from '../../components/ui';
 import { TheoryCards } from '../../components/ui/RichText';
@@ -18,7 +19,7 @@ export default function ReadScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
-        <IconButton icon="chevron-left" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />
+        <BackButton />
         <Text style={{ color: theme.textDim, fontWeight: '700', letterSpacing: 1, fontSize: 12 }}>{t('topic.theory').toUpperCase()}</Text>
       </Row>
       <ScrollView contentContainerStyle={styles.content}>

@@ -432,7 +432,7 @@ $ nc -zv db01 5432
 `ss -tulpn`: **t**cp, **u**dp, **l**istening (що слухають), **p**rocesses (процеси), **n**umeric (числа). Без sudo імена процесів інших користувачів приховано."""),
                demo=['ss -tln']),
         task(L('Which programs listen on which ports on web01? Show TCP+UDP listening sockets with process names.', 'Какие программы на каких портах слушают на web01? Покажите слушающие TCP+UDP-сокеты с именами процессов.', 'Які програми на яких портах слухають на web01? Покажіть TCP+UDP-сокети, що слухають, з іменами процесів.'),
-             [used('ss', L('ss -tulpn', 'ss -tulpn', 'ss -tulpn'), flags=['-t', '-u', '-l', '-p', '-n']), out(L('nginx is visible on port 80', 'Виден nginx на порту 80', 'Видно nginx на порту 80'), text='"nginx"')],
+             [used('ss', L('ss -tulpn', 'ss -tulpn', 'ss -tulpn'), flags=['-t', '-u', '-l', '-p']), out(L('nginx is visible on port 80', 'Виден nginx на порту 80', 'Видно nginx на порту 80'), text='"nginx"')],
              L('Process names of other users need sudo.', 'Имена процессов других пользователей требуют sudo.', 'Імена процесів інших користувачів потребують sudo.'), 'ss', ['sudo ss -tulpn']),
         task(L('Is PostgreSQL on db01 reachable from web01? Check port 5432 with nc.', 'Доступен ли PostgreSQL на db01 с web01? Проверьте порт 5432 через nc.', 'Чи доступний PostgreSQL на db01 з web01? Перевірте порт 5432 через nc.'),
              [used('nc', L('nc -zv', 'nc -zv', 'nc -zv'), flags=['-z', '-v']), out(L('succeeded', 'succeeded', 'succeeded'), text='succeeded')],

@@ -1,14 +1,19 @@
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { findMission, tr } from '@linux-learn/content';
 import { useStore } from '../../state/store';
 import { useTheme, space } from '../../theme';
-import { Button, IconButton, Screen } from '../../components/ui';
+import { Button, Collapsible, Icon, IconButton, Screen } from '../../components/ui';
+import { useUi } from '../../state/ui';
+import { useLayout } from '../../lib/layout';
 import { TaskRunner } from '../../components/steps/TaskRunner';
 import { rewardAfterHints } from '../../lib/progress';
 import { Text } from '../../theme/Text';
+import { goBack } from '../../lib/nav';
+import { BackButton } from '../../components/BackButton';
+import { feedback } from '../../lib/haptics';
 
 export default function MissionScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -16,17 +21,33 @@ export default function MissionScreen() {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const [reward, setReward] = useState<number | null>(null);
+  const focus = useUi((u) => u.focus);
+  const layout = useLayout();
+  /** Terminal keyboard open on a phone, or a phone on its side: a slim header. */
+  const slim = focus || (layout.landscape && !layout.tablet);
   if (!mission) return null;
   return (
     <Screen edges={['top', 'bottom']}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <Collapsible open={!slim}>
         <View style={styles.header}>
-          <IconButton icon="x" label={t('common.close')} onPress={() => router.back()} />
+          <BackButton />
           <Text style={{ color: theme.text, fontWeight: '800', fontSize: 17, flex: 1 }} numberOfLines={1}>
             {tr(mission.title, i18n.language)}
           </Text>
           <Text style={{ color: theme.warning, letterSpacing: 2 }}>{'★'.repeat(mission.difficulty)}</Text>
         </View>
+        </Collapsible>
+        <Collapsible open={slim}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, height: 28, paddingHorizontal: space.md }}>
+            <Pressable onPress={() => goBack('/courses')} hitSlop={10} accessibilityRole="button" accessibilityLabel={t('common.back')}>
+              <Icon name="chevron-left" size={20} color={theme.textDim} />
+            </Pressable>
+            <Text style={{ color: theme.textDim, fontWeight: '700', fontSize: 13, flex: 1 }} numberOfLines={1}>
+              {tr(mission.title, i18n.language)}
+            </Text>
+          </View>
+        </Collapsible>
         <View style={styles.body}>
           <TaskRunner
             task={{
@@ -45,14 +66,17 @@ export default function MissionScreen() {
               const xp = rewardAfterHints(mission.xp, hints);
               useStore.getState().completeMission(mission.id, xp, hints);
               setReward(xp);
+              setTimeout(() => feedback.complete(), 350);
             }}
+            onContinue={reward !== null ? () => goBack('/courses') : undefined}
+            continueLabel={t('lesson.backToMap')}
             solvedFooter={
               reward !== null ? (
                 <View style={{ gap: space.sm }}>
                   <Text style={{ color: theme.accent, fontWeight: '900', fontSize: 20 }}>
                     {t('mission.accomplished')} {t('lesson.earned', { xp: reward })}
                   </Text>
-                  <Button title={t('lesson.backToMap')} onPress={() => router.back()} />
+                  <Button title={t('lesson.backToMap')} onPress={() => goBack()} />
                 </View>
               ) : null
             }

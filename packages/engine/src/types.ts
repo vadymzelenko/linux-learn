@@ -140,6 +140,78 @@ export interface SystemInfo {
   logins: { user: string; tty: string; from: string; at: string }[];
 }
 
+/** An image in the simulated Docker (local or in the "Docker Hub" catalog). */
+export interface DockerImage {
+  repo: string;
+  tag: string;
+  /** 12 hex chars; empty in the catalog (derived from repo:tag). */
+  id: string;
+  /** Human size as docker prints it, e.g. "192MB". */
+  size: string;
+  /** ms since epoch; negative in the catalog = that long before "now". */
+  created: number;
+  /** Default command (CMD). */
+  cmd: string;
+  entrypoint?: string;
+  workdir?: string;
+  env?: Record<string, string>;
+  /** Ports the image EXPOSEs. */
+  expose?: number[];
+  /** Log lines printed when a container starts. */
+  startLogs?: string[];
+  /** The container fails to start unless these variables are set (-e). */
+  requiredEnv?: string[];
+  crashLogs?: string[];
+  /** Runs, prints this text and exits (hello-world). */
+  oneShot?: string;
+  /** A distro image whose default command is a shell (alpine, ubuntu). */
+  shell?: boolean;
+  os?: string;
+  /** Files inside the image, by absolute path. */
+  files?: Record<string, string>;
+  /** Static web root served on the first exposed port (nginx). */
+  serveDir?: string;
+  /** Write an access-log line for every HTTP request (nginx). */
+  accessLog?: boolean;
+  http?: Record<string, HttpResponse>;
+  /** Image this one was built FROM. */
+  base?: string;
+}
+
+export interface DockerContainer {
+  /** 24 hex chars (docker shows the first 12). */
+  id: string;
+  name: string;
+  /** repo:tag */
+  image: string;
+  command: string;
+  created: number;
+  state: 'running' | 'exited' | 'created' | 'paused';
+  exitCode: number;
+  startedAt: number;
+  finishedAt?: number;
+  ports: { host: number; container: number }[];
+  env: Record<string, string>;
+  /** Named volumes "name:/path". */
+  volumes: string[];
+  /** Bind mounts of host directories. */
+  binds?: { host: string; container: string }[];
+  logs: string[];
+  /** Files changed inside the container. */
+  files?: Record<string, string>;
+  restart?: string;
+  network?: string;
+  /** Networks attached later with `docker network connect`. */
+  extraNetworks?: string[];
+}
+
+export interface DockerState {
+  images: DockerImage[];
+  containers: DockerContainer[];
+  volumes: string[];
+  networks: string[];
+}
+
 export interface Machine {
   hostname: string;
   fs: DirNode;
@@ -149,6 +221,8 @@ export interface Machine {
   network?: Network;
   services?: Service[];
   system?: SystemInfo;
+  /** Docker is installed (the daemon is the `docker` service). */
+  docker?: DockerState;
 }
 
 export interface Session {

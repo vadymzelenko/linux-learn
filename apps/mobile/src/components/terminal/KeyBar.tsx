@@ -1,21 +1,24 @@
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Icon } from '../ui/Icon';
 import { useTranslation } from 'react-i18next';
 import { useTheme, MONO } from '../../theme';
 import { Text } from '../../theme/Text';
 
-export type SpecialKey = 'tab' | 'up' | 'down' | 'ctrl' | 'esc' | string;
+export type SpecialKey = 'tab' | 'up' | 'down' | 'left' | 'right' | 'home' | 'end' | 'ctrl' | 'esc' | string;
 
 const KEYS: { key: SpecialKey; label: string; a11y?: string }[] = [
   { key: 'tab', label: 'Tab' },
   { key: 'up', label: '↑', a11y: 'history up' },
   { key: 'down', label: '↓', a11y: 'history down' },
+  { key: 'left', label: '←', a11y: 'cursor left' },
+  { key: 'right', label: '→', a11y: 'cursor right' },
   { key: 'ctrl', label: 'Ctrl' },
   { key: 'esc', label: 'Esc' },
   ...['|', '>', '<', '~', '/', '-', '$', '*', '&', ';', '"', "'", '.', '_', '='].map((c) => ({ key: c, label: c })),
 ];
 
 /** Extra keys above the system keyboard: everything a phone keyboard hides. */
-export function KeyBar({ onKey, ctrl, onRun }: { onKey: (k: SpecialKey) => void; ctrl: boolean; onRun: () => void }) {
+export function KeyBar({ onKey, ctrl, onRun, onHide }: { onKey: (k: SpecialKey) => void; ctrl: boolean; onRun: () => void; onHide?: () => void }) {
   const theme = useTheme();
   const { t } = useTranslation();
   return (
@@ -40,6 +43,17 @@ export function KeyBar({ onKey, ctrl, onRun }: { onKey: (k: SpecialKey) => void;
           );
         })}
       </ScrollView>
+      {onHide && Platform.OS !== 'web' ? (
+        // in full-screen mode there is no system Back button to close the keyboard
+        <Pressable
+          onPress={onHide}
+          accessibilityRole="button"
+          accessibilityLabel={t('keyboard.hide')}
+          style={({ pressed }) => [styles.run, { marginRight: 0, backgroundColor: pressed ? theme.border : theme.surface2 }]}
+        >
+          <Icon name="keyboard-close" size={20} color={theme.text} />
+        </Pressable>
+      ) : null}
       <Pressable
         onPress={onRun}
         accessibilityRole="button"
@@ -55,7 +69,7 @@ export function KeyBar({ onKey, ctrl, onRun }: { onKey: (k: SpecialKey) => void;
 const styles = StyleSheet.create({
   bar: { flexDirection: 'row', alignItems: 'center', borderTopWidth: StyleSheet.hairlineWidth, paddingVertical: 6, paddingLeft: 6 },
   row: { gap: 6, paddingRight: 6 },
-  key: { minWidth: 40, height: 38, paddingHorizontal: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
-  run: { width: 48, height: 38, borderRadius: 8, alignItems: 'center', justifyContent: 'center', marginHorizontal: 6 },
+  key: { minWidth: 42, height: 40, paddingHorizontal: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  run: { width: 52, height: 40, borderRadius: 8, alignItems: 'center', justifyContent: 'center', marginHorizontal: 6 },
   label: { fontFamily: MONO, fontSize: 15 },
 });

@@ -19,7 +19,7 @@ import { DEFAULT_NETWORK, DEFAULT_SERVICES, DEFAULT_SYSTEM } from './machine';
 export type { Check, CheckContext, CheckResult, CheckStatus, TaskEvaluation } from './checks';
 export { evaluateCheck, evaluateChecks } from './checks';
 export type { Completion } from './complete';
-export type { Explanation, ExplainPart, ExplainKind } from './explain';
+export type { Explanation, ExplainPart, ExplainKind, ExplainFlag } from './explain';
 export type { CommandDef, CommandDoc } from './shell/context';
 export { normalizeFlags } from './shell/args';
 export { editDistance, suggest } from './util/levenshtein';

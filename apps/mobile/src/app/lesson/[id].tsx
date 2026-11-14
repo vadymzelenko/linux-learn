@@ -1,32 +1,88 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, BackHandler, Easing, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { allLessons, findLesson, isTaskStep, stepXp, tr } from '@linux-learn/content';
 import { useStore } from '../../state/store';
-import { useTheme, space } from '../../theme';
-import { Body, Button, H1, Icon, IconButton, ProgressBar, Row, Screen } from '../../components/ui';
+import { useTheme, space, MONO } from '../../theme';
+import { Body, Button, Collapsible, H1, Icon, IconButton, ProgressBar, Row, Screen } from '../../components/ui';
 import { BuildStep, PredictStep, QuizStep, TheoryStep } from '../../components/steps/Steps';
 import { TaskRunner } from '../../components/steps/TaskRunner';
 import { rewardAfterHints } from '../../lib/progress';
-import { ads } from '../../lib/ads';
 import { Text } from '../../theme/Text';
+import { feedback } from '../../lib/haptics';
+import { goBack } from '../../lib/nav';
+import { confirmDialog } from '../../components/Dialog';
+import { KeyCatcher } from '../../components/KeyCatcher';
+import { SlideIn } from '../../components/ui';
+import { useLayout } from '../../lib/layout';
+import { useUi } from '../../state/ui';
+
+/** The finish badge pops in with a spring and the "lesson complete" cue. */
+function FinishBadge({ color, iconColor }: { color: string; iconColor: string }) {
+  const scale = useRef(new Animated.Value(0.3)).current;
+  const glow = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    feedback.complete();
+    Animated.parallel([
+      Animated.spring(scale, { toValue: 1, friction: 4, tension: 120, useNativeDriver: Platform.OS !== 'web' }),
+      Animated.loop(Animated.sequence([Animated.timing(glow, { toValue: 1, duration: 1200, easing: Easing.inOut(Easing.quad), useNativeDriver: Platform.OS !== 'web' }), Animated.timing(glow, { toValue: 0, duration: 1200, easing: Easing.inOut(Easing.quad), useNativeDriver: Platform.OS !== 'web' })])),
+    ]).start();
+  }, [glow, scale]);
+  return (
+    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Animated.View style={[styles.halo, { backgroundColor: color, opacity: glow.interpolate({ inputRange: [0, 1], outputRange: [0.12, 0.28] }), transform: [{ scale: glow.interpolate({ inputRange: [0, 1], outputRange: [1, 1.15] }) }] }]} />
+      <Animated.View style={[styles.badge, { backgroundColor: color, transform: [{ scale }] }]}>
+        <Icon name="check" size={56} color={iconColor} />
+      </Animated.View>
+    </View>
+  );
+}
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const ref = findLesson(id ?? '');
   const theme = useTheme();
+  const layout = useLayout();
   const { t, i18n } = useTranslation();
   const saved = useStore((s) => (ref ? s.progress.lessons[ref.lesson.id] : undefined));
   const [index, setIndex] = useState(() => (saved && !saved.completedAt ? Math.min(saved.step, (ref?.lesson.steps.length ?? 1) - 1) : 0));
   const [finished, setFinished] = useState(false);
   const earned = useRef(0);
+  const win = useWindowDimensions();
+  // short landscape phones: badge on the left, text and buttons on the right
+  const wide = win.width > win.height && win.height < 600;
   const hintsTotal = useRef(0);
   const mistakesTotal = useRef(0);
   const [taskSolved, setTaskSolved] = useState<{ xp: number } | null>(null);
 
   const lesson = ref?.lesson;
   const step = lesson?.steps[index];
+  const focus = useUi((u) => u.focus);
+  /** Phone with the terminal keyboard open, or a phone on its side: a slim header. */
+  const slim = !!step && isTaskStep(step) && (focus || (layout.landscape && !layout.tablet));
+
+  /** Leaving mid-lesson asks first (progress is kept); a finished lesson just closes. */
+  const askExit = useCallback(() => {
+    if (finished || !lesson) return goBack('/courses');
+    confirmDialog({
+      title: t('lesson.exitTitle'),
+      message: t('lesson.exitText', { n: index + 1, total: lesson.steps.length }),
+      confirm: t('lesson.exitConfirm'),
+      cancel: t('lesson.exitStay'),
+      icon: 'exit-to-app',
+      onConfirm: () => goBack('/courses'),
+    });
+  }, [finished, index, lesson, t]);
+
+  useEffect(() => {
+    if (Platform.OS === 'web') return;
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      askExit();
+      return true;
+    });
+    return () => sub.remove();
+  }, [askExit]);
   const next = useMemo(() => (ref ? allLessons[ref.globalIndex + 1] : undefined), [ref]);
 
   const advance = useCallback(
@@ -43,7 +99,6 @@ export default function LessonScreen() {
         st.completeLesson(lesson.id, earned.current);
         st.scheduleReview(lesson.commands, hintsTotal.current, mistakesTotal.current);
         if (hintsTotal.current) st.addHints(lesson.id, 0);
-        ads.onLessonCompleted();
         setFinished(true);
       }
     },
@@ -55,36 +110,69 @@ export default function LessonScreen() {
       <Screen>
         <View style={{ padding: space.lg, gap: space.md }}>
           <H1>404</H1>
-          <Button title={t('lesson.backToMap')} onPress={() => router.replace('/')} />
+          <Button title={t('lesson.backToMap')} onPress={() => goBack('/courses')} />
         </View>
       </Screen>
     );
   }
 
   if (finished) {
+    const keys = (
+      <KeyCatcher
+        onKey={(e) => {
+          if (e.key === 'Enter' && next) {
+            router.replace({ pathname: '/lesson/[id]', params: { id: next.lesson.id } });
+            return true;
+          }
+          if (e.key === 'Escape' || (e.key === 'Enter' && !next)) {
+            goBack('/courses');
+            return true;
+          }
+        }}
+      />
+    );
+    const info = (
+      <>
+        <H1 style={{ textAlign: 'center' }}>{t('lesson.finished')}</H1>
+        <Body style={{ textAlign: 'center', fontSize: 18 }}>{tr(lesson.title, i18n.language)}</Body>
+        <Text style={{ color: theme.accent, fontSize: 32, fontWeight: '900' }}>{t('lesson.earned', { xp: earned.current })}</Text>
+      </>
+    );
+    const buttons = (
+      <View style={[styles.finishButtons, { marginTop: wide ? space.md : space.xl }]}>
+        {next ? (
+          <Button
+            title={t('lesson.nextLesson')}
+            hint={Platform.OS === 'web' ? 'Enter' : undefined}
+            icon="play"
+            onPress={() => router.replace({ pathname: '/lesson/[id]', params: { id: next.lesson.id } })}
+          />
+        ) : null}
+        <Button variant="secondary" icon="map-outline" title={t('lesson.backToMap')} hint={Platform.OS === 'web' ? 'Esc' : undefined} onPress={() => goBack('/courses')} />
+      </View>
+    );
     return (
       <Screen edges={['top', 'bottom']}>
-        <View style={styles.finish}>
-          <View style={[styles.badge, { backgroundColor: theme.accent }]}>
-            <Icon name="check" size={56} color={theme.onAccent} />
-          </View>
-          <H1 style={{ textAlign: 'center' }}>{t('lesson.finished')}</H1>
-          <Body style={{ textAlign: 'center', fontSize: 18 }}>{tr(lesson.title, i18n.language)}</Body>
-          <Text style={{ color: theme.accent, fontSize: 32, fontWeight: '900' }}>{t('lesson.earned', { xp: earned.current })}</Text>
-          <View style={{ gap: space.md, alignSelf: 'stretch', maxWidth: 420, width: '100%', marginTop: space.xl }}>
-            {next ? (
-              <Button
-                title={t('lesson.nextLesson')}
-                icon="play"
-                onPress={() => {
-                  if (ads.shouldShowInterstitial()) ads.showInterstitial();
-                  router.replace({ pathname: '/lesson/[id]', params: { id: next.lesson.id } });
-                }}
-              />
-            ) : null}
-            <Button variant="secondary" title={t('lesson.backToMap')} onPress={() => router.back()} />
-          </View>
-        </View>
+        {keys}
+        <ScrollView contentContainerStyle={styles.finish} bounces={false}>
+          {wide ? (
+            <View style={styles.finishWide}>
+              <View style={{ padding: space.lg }}>
+                <FinishBadge color={theme.accent} iconColor={theme.onAccent} />
+              </View>
+              <View style={styles.finishCol}>
+                {info}
+                {buttons}
+              </View>
+            </View>
+          ) : (
+            <>
+              <FinishBadge color={theme.accent} iconColor={theme.onAccent} />
+              {info}
+              {buttons}
+            </>
+          )}
+        </ScrollView>
       </Screen>
     );
   }
@@ -108,23 +196,49 @@ export default function LessonScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <View style={styles.header}>
-          <IconButton icon="x" label={t('common.close')} onPress={() => router.back()} />
-          <View style={{ flex: 1, gap: 4 }}>
-            <Row style={{ justifyContent: 'space-between' }}>
-              <Text style={{ color: theme.text, fontWeight: '800', fontSize: 15, flexShrink: 1 }} numberOfLines={1}>
-                {tr(lesson.title, i18n.language)}
-              </Text>
-              <Text style={{ color: theme.textDim, fontSize: 12 }}>{t('lesson.step', { n: index + 1, total: lesson.steps.length })}</Text>
-            </Row>
-            <ProgressBar value={index / lesson.steps.length} height={6} />
+        <Collapsible open={!slim}>
+          <View style={styles.header}>
+              <IconButton icon="x" label={t('lesson.exitTitle')} onPress={askExit} />
+              <View style={{ flex: 1, gap: 4 }}>
+                <Row style={{ justifyContent: 'space-between' }}>
+                  <Text style={{ color: theme.text, fontWeight: '800', fontSize: 15, flexShrink: 1 }} numberOfLines={1}>
+                      {tr(lesson.title, i18n.language)}
+                  </Text>
+                  <Text style={{ color: theme.textDim, fontSize: 12, flexShrink: 0, fontFamily: MONO }} numberOfLines={1}>
+                      {layout.width < 520 ? `${index + 1}/${lesson.steps.length}` : t('lesson.step', { n: index + 1, total: lesson.steps.length })}
+                  </Text>
+                </Row>
+                <ProgressBar value={index / lesson.steps.length} height={6} />
+              </View>
+              {step.type !== 'theory' && lesson.steps.some((s) => s.type === 'theory') ? (
+                <IconButton icon="book-open" label={t('topic.readTopic')} color={theme.accent} onPress={() => router.push({ pathname: '/read/[id]', params: { id: lesson.id } })} />
+              ) : null}
+            </View>
+        </Collapsible>
+        <Collapsible open={slim}>
+          <View style={styles.slim}>
+            <Pressable onPress={askExit} hitSlop={10} accessibilityRole="button" accessibilityLabel={t('lesson.exitTitle')} style={styles.slimX}>
+              <Icon name="x" size={18} color={theme.textDim} />
+            </Pressable>
+            <ProgressBar value={index / lesson.steps.length} height={4} style={{ flex: 1 }} />
+            <Text style={{ color: theme.textDim, fontSize: 11, fontFamily: MONO }}>
+              {index + 1}/{lesson.steps.length}
+            </Text>
           </View>
-          {step.type !== 'theory' && lesson.steps.some((s) => s.type === 'theory') ? (
-            <IconButton icon="book-open" label={t('topic.readTopic')} color={theme.accent} onPress={() => router.push({ pathname: '/read/[id]', params: { id: lesson.id } })} />
-          ) : null}
-        </View>
-        <View style={styles.body}>
-          <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 12, letterSpacing: 1, marginBottom: space.sm }}>{kindLabel.toUpperCase()}</Text>
+        </Collapsible>
+        <KeyCatcher
+          webOnly
+          onKey={(e) => {
+            if (e.key === 'Escape') {
+              askExit();
+              return true;
+            }
+          }}
+        />
+        <SlideIn key={index} style={[styles.body, { paddingHorizontal: layout.pad, maxWidth: layout.split ? 1200 : layout.contentMax + layout.pad * 2 }]}>
+          <Collapsible open={!(slim || (layout.compact && isTaskStep(step)))}>
+            <Text style={{ color: theme.accent, fontWeight: '800', fontSize: 12, letterSpacing: 1, paddingBottom: space.sm }}>{kindLabel.toUpperCase()}</Text>
+          </Collapsible>
           {step.type === 'theory' ? (
             <TheoryStep key={index} step={step} lessonSetup={lesson.setup} onDone={onSimpleDone(stepXp(step))} />
           ) : step.type === 'quiz' ? (
@@ -154,20 +268,28 @@ export default function LessonScreen() {
                 if (hints) useStore.getState().addHints(lesson.id, hints);
                 setTaskSolved({ xp: rewardAfterHints(stepXp(step), hints) });
               }}
+              onContinue={taskSolved ? () => advance(taskSolved.xp) : undefined}
+              continueLabel={taskSolved ? `${t('common.continue')} · ${t('lesson.earned', { xp: taskSolved.xp })}` : undefined}
               solvedFooter={
-                taskSolved ? <Button title={`${t('common.continue')} · ${t('lesson.earned', { xp: taskSolved.xp })}`} onPress={() => advance(taskSolved.xp)} /> : null
+                taskSolved ? <Button title={`${t('common.continue')} · ${t('lesson.earned', { xp: taskSolved.xp })}`} hint={Platform.OS === 'web' ? 'Enter' : undefined} onPress={() => advance(taskSolved.xp)} /> : null
               }
             />
           ) : null}
-        </View>
+        </SlideIn>
       </KeyboardAvoidingView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: space.sm, paddingHorizontal: space.sm, paddingVertical: space.sm },
+  slim: { flexDirection: 'row', alignItems: 'center', gap: 10, height: 28, paddingHorizontal: space.md },
+  slimX: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
+  header: { flexDirection: 'row', alignItems: 'center', gap: space.sm, paddingHorizontal: space.sm, paddingVertical: 6 },
   body: { flex: 1, paddingHorizontal: space.md, paddingBottom: space.sm, maxWidth: 1200, width: '100%', alignSelf: 'center' },
-  finish: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.md },
+  finish: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.md },
+  finishWide: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.xl, width: '100%', maxWidth: 900 },
+  finishCol: { flex: 1, alignItems: 'center', gap: space.sm, maxWidth: 440 },
+  finishButtons: { gap: space.md, alignSelf: 'center', maxWidth: 420, width: '100%' },
   badge: { width: 104, height: 104, borderRadius: 52, alignItems: 'center', justifyContent: 'center', marginBottom: space.md },
+  halo: { position: 'absolute', width: 150, height: 150, borderRadius: 75, top: -23 },
 });

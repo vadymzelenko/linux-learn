@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { produce } from 'immer';
@@ -16,17 +17,39 @@ import {
   type Progress,
 } from '../lib/progress';
 import { storage } from './storage';
+import { importSettings, mergeProgress, type Backup } from '../lib/backup';
 
 export interface Settings {
   lang: 'system' | Lang;
   theme: ThemeId;
   fontSize: number;
   haptics: boolean;
+  sounds: boolean;
   reminders: boolean;
   reminderHour: number;
   onboarded: boolean;
   certName: string;
+  /** The one-time "turn the phone sideways" tip was shown. */
+  rotateTipSeen: boolean;
+  /** Android: hide the system navigation buttons (they come back with a swipe from the edge). */
+  immersive: boolean;
+  keyboard: KeyboardSettings;
 }
+
+/** The in-app terminal keyboard (instead of the phone's system keyboard). */
+export interface KeyboardSettings {
+  /** custom: our keyboard; system: the phone keyboard (other languages, swipe typing). */
+  mode: 'custom' | 'system';
+  /** 0.55–1: see the output through the keyboard. */
+  opacity: number;
+  size: 'S' | 'M' | 'L';
+  numberRow: boolean;
+  keySound: boolean;
+  /** Quick-insert chips above the keys. */
+  quick: string[];
+}
+
+export const DEFAULT_QUICK = ['ls -la', 'cd ', 'cd ..', 'cat ', 'grep ', 'sudo ', '| ', '> ', '~/', 'clear'];
 
 export interface Machine {
   id: string;
@@ -61,7 +84,7 @@ interface State {
   gainXp(xp: number): void;
   completeLesson(lessonId: string, xp: number): void;
   completeMission(missionId: string, xp: number, hints: number): void;
-  completeDaily(xp: number): void;
+  completePractice(id: string, xp: number): void;
   completeExam(score: number, passed: boolean): void;
   scheduleReview(commands: string[], hints: number, mistakes: number): void;
   review(command: string, quality: number): void;
@@ -77,6 +100,8 @@ interface State {
   dismissToast(id: number): void;
   pushToast(t: DistributiveOmit<Toast, 'id'>): void;
   resetAll(): void;
+  /** Apply a backup from another device: replace everything or merge progress. */
+  importBackup(b: Backup, mode: 'replace' | 'merge'): void;
 }
 
 const defaultSettings: Settings = {
@@ -84,10 +109,14 @@ const defaultSettings: Settings = {
   theme: 'classic',
   fontSize: 14,
   haptics: true,
+  sounds: true,
   reminders: false,
   reminderHour: 19,
   onboarded: false,
   certName: '',
+  rotateTipSeen: false,
+  immersive: true,
+  keyboard: { mode: Platform.OS === 'web' ? 'system' : 'custom', opacity: 1, size: 'M', numberRow: true, keySound: false, quick: DEFAULT_QUICK },
 };
 
 let toastSeq = 1;
@@ -186,11 +215,11 @@ export const useStore = create<State>()(
             activity(p);
           }),
 
-        completeDaily: (xp) =>
+        completePractice: (id, xp) =>
           update((p) => {
-            const today = dayKey(new Date());
-            if (p.daily.last === today) return;
-            p.daily = { last: today, count: p.daily.count + 1 };
+            p.practice ??= {};
+            if (p.practice[id]) return;
+            p.practice[id] = Date.now();
             p.xp += xp;
             activity(p);
           }),
@@ -255,6 +284,20 @@ export const useStore = create<State>()(
             settings: { ...get().settings, onboarded: true },
             toasts: [],
           }),
+        importBackup: (b, mode) => {
+          const cur = get();
+          const incoming = b.sandbox?.machines ?? [];
+          const machines =
+            mode === 'merge'
+              ? [...cur.sandbox.machines, ...incoming.filter((m) => !cur.sandbox.machines.some((x) => x.id === m.id))].slice(0, MAX_MACHINES)
+              : incoming.slice(0, MAX_MACHINES);
+          const activeId = machines.some((m) => m.id === cur.sandbox.activeId) ? cur.sandbox.activeId : machines.some((m) => m.id === b.sandbox?.activeId) ? b.sandbox!.activeId : (machines[0]?.id ?? null);
+          set({
+            progress: mode === 'merge' ? mergeProgress(cur.progress, b.progress) : b.progress,
+            settings: { ...importSettings(cur.settings, b.settings), onboarded: true },
+            sandbox: { machines, activeId },
+          });
+        },
       };
     },
     {
@@ -270,7 +313,7 @@ export const useStore = create<State>()(
           .slice(0, MAX_MACHINES);
         return {
           ...current,
-          settings: { ...defaultSettings, ...(p.settings ?? {}) },
+          settings: { ...defaultSettings, ...(p.settings ?? {}), keyboard: { ...defaultSettings.keyboard, ...(p.settings?.keyboard ?? {}) } },
           progress: { ...initialProgress(), ...(p.progress ?? {}), stats: { ...initialProgress().stats, ...(p.progress?.stats ?? {}) } },
           sandbox: { machines, activeId: machines.some((m) => m.id === p.sandbox?.activeId) ? p.sandbox!.activeId : (machines[0]?.id ?? null) },
         };

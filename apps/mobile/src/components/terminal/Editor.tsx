@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useTheme, MONO } from '../../theme';
@@ -12,6 +12,7 @@ export function Editor({ state, onSave, onClose }: { state: EditorState; onSave:
   const { t } = useTranslation();
   const [text, setText] = useState(state.content);
   const [status, setStatus] = useState<string | null>(null);
+  const [ask, setAsk] = useState(false);
   const name = state.path.split('/').pop() ?? state.path;
   const dirty = text !== state.content;
 
@@ -22,19 +23,11 @@ export function Editor({ state, onSave, onClose }: { state: EditorState; onSave:
   };
   const exit = () => {
     if (!dirty) return onClose();
-    if (Platform.OS === 'web') {
-      if (save()) onClose();
-      return;
-    }
-    Alert.alert(t('terminal.unsaved'), undefined, [
-      { text: t('terminal.discard'), style: 'destructive', onPress: onClose },
-      { text: t('common.cancel'), style: 'cancel' },
-      { text: t('common.save'), onPress: () => save() && onClose() },
-    ]);
+    setAsk(true);
   };
 
   return (
-    <Modal visible animationType="slide" onRequestClose={exit}>
+    <Modal visible animationType="slide" onRequestClose={() => (ask ? setAsk(false) : exit())}>
       <SafeAreaView style={{ flex: 1, backgroundColor: theme.term.bg }}>
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <View style={[styles.title, { backgroundColor: theme.term.fg }]}>
@@ -58,6 +51,22 @@ export function Editor({ state, onSave, onClose }: { state: EditorState; onSave:
             accessibilityLabel={name}
           />
           {status ? <Text style={[styles.mono, styles.status, { color: theme.term.fg }]}>[ {status} ]</Text> : null}
+          {ask ? (
+            <View style={[styles.ask, { backgroundColor: theme.surface, borderTopColor: theme.border }]} accessibilityRole="alert">
+              <Text style={[styles.mono, { color: theme.text }]}>{t('terminal.unsaved')}</Text>
+              <View style={{ flexDirection: 'row', gap: 10 }}>
+                <Pressable onPress={() => save() && onClose()} style={[styles.btn, { backgroundColor: theme.accent }]} accessibilityRole="button">
+                  <Text style={[styles.mono, { color: theme.onAccent }]}>{t('common.save')}</Text>
+                </Pressable>
+                <Pressable onPress={onClose} style={[styles.btn, { backgroundColor: theme.danger }]} accessibilityRole="button">
+                  <Text style={[styles.mono, { color: '#FFFFFF' }]}>{t('terminal.discard')}</Text>
+                </Pressable>
+                <Pressable onPress={() => setAsk(false)} style={[styles.btn, { backgroundColor: theme.surface2 }]} accessibilityRole="button">
+                  <Text style={[styles.mono, { color: theme.text }]}>{t('common.cancel')}</Text>
+                </Pressable>
+              </View>
+            </View>
+          ) : null}
           <View style={[styles.bar, { borderTopColor: theme.border }]}>
             <Pressable onPress={save} style={[styles.btn, { backgroundColor: theme.surface2 }]} accessibilityRole="button">
               <Text style={[styles.mono, { color: theme.text }]}>{t('terminal.editorSave')}</Text>
@@ -78,5 +87,6 @@ const styles = StyleSheet.create({
   area: { flex: 1, padding: 12, lineHeight: 20 },
   status: { textAlign: 'center', paddingVertical: 4 },
   bar: { flexDirection: 'row', gap: 10, padding: 10, borderTopWidth: StyleSheet.hairlineWidth },
+  ask: { padding: 10, gap: 10, borderTopWidth: StyleSheet.hairlineWidth },
   btn: { flex: 1, paddingVertical: 12, borderRadius: 10, alignItems: 'center' },
 });

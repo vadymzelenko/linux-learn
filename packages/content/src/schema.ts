@@ -48,6 +48,42 @@ export const CheckSchema = z
     z.object({ type: z.literal('exitCode'), code: z.number() }),
     z.object({ type: z.literal('serviceState'), name: z.string(), state: z.enum(['active', 'inactive', 'failed']) }),
     z.object({ type: z.literal('serviceEnabled'), name: z.string(), enabled: z.boolean() }),
+    z.object({ type: z.literal('containerState'), name: z.string(), state: z.enum(['running', 'exited', 'absent']), image: z.string().optional(), hostPort: z.number().int().optional(), network: z.string().optional() }),
+    z.object({ type: z.literal('imageExists'), name: z.string(), exists: z.boolean().optional() }),
+    z.object({
+      type: z.literal('git'),
+      path,
+      commits: z.number().int().optional(),
+      branch: z.string().optional(),
+      noBranch: z.string().optional(),
+      head: z.string().optional(),
+      clean: z.boolean().optional(),
+      tracked: z.string().optional(),
+      untracked: z.string().optional(),
+      staged: z.string().optional(),
+      remote: z.string().optional(),
+      pushed: z.string().optional(),
+      message: z.string().optional(),
+      merged: z.string().optional(),
+      merging: z.boolean().optional(),
+      tag: z.string().optional(),
+      ignored: z.string().optional(),
+    }),
+    z.object({
+      type: z.literal('github'),
+      repo: z.string(),
+      exists: z.boolean().optional(),
+      branch: z.string().optional(),
+      file: z.string().optional(),
+      commits: z.number().int().optional(),
+      prs: z.number().int().optional(),
+      merged: z.number().int().optional(),
+      issues: z.number().int().optional(),
+      tag: z.string().optional(),
+      release: z.string().optional(),
+      fileContains: z.string().optional(),
+    }),
+    z.object({ type: z.literal('containerCount'), eq: z.number().int().optional(), min: z.number().int().optional(), max: z.number().int().optional(), running: z.boolean().optional() }),
   ])
   .and(z.object({ label: L10n }));
 export type ContentCheck = z.infer<typeof CheckSchema>;
@@ -182,7 +218,9 @@ export const CourseSchema = z.object({
   title: L10n,
   subtitle: L10n,
   description: L10n,
-  modules: z.array(z.string()).min(1),
+  /** Announced course ("Later"): shown greyed out, no modules yet. */
+  soon: z.boolean().optional(),
+  modules: z.array(z.string()),
 });
 export type Course = z.infer<typeof CourseSchema>;
 

@@ -1,6 +1,7 @@
-import type { DirNode, DiskInfo, FsNode, Machine, Network, ProcessInfo, Service, Session, SystemInfo, UserInfo } from './types';
+import type { DirNode, DiskInfo, DockerContainer, DockerState, FsNode, Machine, Network, ProcessInfo, Service, Session, SystemInfo, UserInfo } from './types';
 import { makeDir, makeFile, makeSymlink, type NodeDefaults } from './vfs/fs';
 import { expandTilde, splitPath } from './vfs/path';
+import { DOCKER_HUB, emptyDocker, imageId, parseRef } from './commands/docker';
 
 /** 2026-10-01 09:00 UTC – timestamp of the "installed" system files. */
 export const SYSTEM_EPOCH = Date.UTC(2026, 9, 1, 9, 0, 0);
@@ -46,6 +47,33 @@ export interface MachineSpec {
   now?: number;
   /** Is the main user in the sudo group (default true). */
   sudo?: boolean;
+  /** Docker installed: the `docker` service, images pulled from the catalog, containers. */
+  docker?: DockerSpec;
+}
+
+export interface DockerSpec {
+  /** State of the docker daemon service (default active). */
+  daemon?: 'active' | 'inactive' | 'failed';
+  /** The main user is in the `docker` group (default true). */
+  group?: boolean;
+  /** Images already pulled, e.g. ["nginx:latest", "alpine"]. */
+  images?: string[];
+  containers?: {
+    name: string;
+    image: string;
+    state?: 'running' | 'exited' | 'created';
+    exitCode?: number;
+    /** "8080:80" */
+    ports?: string[];
+    env?: Record<string, string>;
+    command?: string;
+    /** Extra log lines after the image's start logs. */
+    logs?: string[];
+    /** Minutes since the container was created (default 120). */
+    age?: number;
+    restart?: string;
+  }[];
+  volumes?: string[];
 }
 
 export const DEFAULT_USER = 'student';
@@ -144,7 +172,7 @@ export function buildMachine(spec: MachineSpec = {}, opts: CreateMachineOptions 
   const users: UserInfo[] = [
     { name: 'root', uid: 0, gid: 0, home: '/root', groups: ['root'], shell: '/bin/bash' },
   ];
-  if (user !== 'root') users.push({ name: user, uid: 1000, gid: 1000, home, groups: spec.sudo === false ? [user] : [user, 'sudo'], shell: '/bin/bash' });
+  if (user !== 'root') users.push({ name: user, uid: 1000, gid: 1000, home, groups: [user, ...(spec.sudo === false ? [] : ['sudo']), ...(spec.docker && spec.docker.group !== false ? ['docker'] : [])], shell: '/bin/bash' });
   (spec.users ?? []).forEach((u, i) => {
     if (users.some((x) => x.name === u.name)) return;
     users.push({
@@ -185,6 +213,8 @@ export function buildMachine(spec: MachineSpec = {}, opts: CreateMachineOptions 
   );
   const groups = new Map<string, string[]>();
   for (const u of users) for (const g of u.groups) groups.set(g, [...(groups.get(g) ?? []), ...(g === u.name ? [] : [u.name])]);
+  // installing docker creates the docker group even when nobody is in it yet
+  if (spec.docker && !groups.has('docker')) groups.set('docker', []);
   etc.children['group'] = makeFile(
     'group',
     [...groups.entries()].map(([g, m], i) => `${g}:x:${g === 'root' ? 0 : g === 'sudo' ? 27 : (users.find((u) => u.name === g)?.gid ?? 2000 + i)}:${m.join(',')}`).join('\n') + '\n',
@@ -260,6 +290,18 @@ export function buildMachine(spec: MachineSpec = {}, opts: CreateMachineOptions 
     ...(spec.services ?? []),
   ];
   const system: SystemInfo = { ...DEFAULT_SYSTEM(user), ...(spec.system ?? {}) };
+  if (spec.docker) {
+    if (!services.some((x) => x.name === 'docker'))
+      services.push({
+        name: 'docker',
+        description: 'Docker Application Container Engine',
+        state: spec.docker.daemon ?? 'active',
+        enabled: true,
+        pid: 880,
+        logs: [`Oct 31 09:00:02 ${hostname} systemd[1]: Starting docker.service - Docker Application Container Engine...`, `Oct 31 09:00:03 ${hostname} dockerd[880]: API listen on /run/docker.sock`, `Oct 31 09:00:03 ${hostname} systemd[1]: Started docker.service - Docker Application Container Engine.`],
+      });
+    return { hostname, fs: root, users, processes, disks, network, services, system, docker: buildDocker(spec.docker, now) };
+  }
 
   return { hostname, fs: root, users, processes, disks, network, services, system };
 }
@@ -363,4 +405,45 @@ export function createSession(machine: Machine, spec: Pick<MachineSpec, 'user' |
     history: [],
     lastExitCode: 0,
   };
+}
+
+function buildDocker(spec: DockerSpec, now: number): DockerState {
+  const st = emptyDocker();
+  const want = new Set([...(spec.images ?? []), ...(spec.containers ?? []).map((c) => c.image)].map((r) => {
+    const p = parseRef(r);
+    return `${p.repo}:${p.tag}`;
+  }));
+  for (const ref of want) {
+    const { repo, tag } = parseRef(ref);
+    const cat = DOCKER_HUB.find((i) => i.repo === repo && i.tag === tag);
+    if (cat) st.images.push({ ...cat, id: imageId(cat), created: now + cat.created });
+  }
+  (spec.containers ?? []).forEach((c, i) => {
+    const { repo, tag } = parseRef(c.image);
+    const img = st.images.find((x) => x.repo === repo && x.tag === tag);
+    const created = now - (c.age ?? 120) * 60_000;
+    const id = (imageId({ repo: c.name, tag: String(i) }) + imageId({ repo: repo, tag: c.name })).slice(0, 24);
+    const container: DockerContainer = {
+      id,
+      name: c.name,
+      image: `${repo}:${tag}`,
+      command: c.command ?? img?.cmd ?? '',
+      created,
+      state: c.state ?? 'running',
+      exitCode: c.exitCode ?? 0,
+      startedAt: created + 1000,
+      ...(c.state === 'exited' ? { finishedAt: created + 60_000 } : {}),
+      ports: (c.ports ?? []).map((p) => {
+        const [h, ct] = p.split(':');
+        return { host: Number(h), container: Number(ct) };
+      }),
+      env: c.env ?? {},
+      volumes: [],
+      logs: [...(c.exitCode && img?.crashLogs ? img.crashLogs : (img?.startLogs ?? [])), ...(c.logs ?? [])],
+      ...(c.restart ? { restart: c.restart } : {}),
+    };
+    st.containers.push(container);
+  });
+  st.volumes.push(...(spec.volumes ?? []));
+  return st;
 }

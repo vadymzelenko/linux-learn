@@ -56,6 +56,8 @@ export interface Progress {
   achievements: Record<string, number>;
   streak: Streak;
   daily: { last: DayKey | null; count: number };
+  /** Solved practice tasks: id -> completedAt. */
+  practice: Record<string, number>;
   srs: Record<string, SrsCard>;
   stats: { commands: number; grep: number; pipes: number; sudo: number; dirs: string[] };
   exam: { passedAt?: number; best: number };
@@ -69,6 +71,7 @@ export const initialProgress = (): Progress => ({
   achievements: {},
   streak: { current: 0, best: 0, last: null, freezes: 0 },
   daily: { last: null, count: 0 },
+  practice: {},
   srs: {},
   stats: { commands: 0, grep: 0, pipes: 0, sudo: 0, dirs: [] },
   exam: { best: 0 },
@@ -136,11 +139,27 @@ export function dueCards(srs: Record<string, SrsCard>, today: DayKey): string[] 
     .map(([k]) => k);
 }
 
-/** After a task: commands where the user struggled go into the review deck. */
+/** Today's review deck: due cards, plus commands of lessons finished before the deck existed. */
+export function reviewDeck(p: Progress, today: DayKey, known: (cmd: string) => boolean = () => true): string[] {
+  const due = dueCards(p.srs, today);
+  const fresh = allLessons
+    .filter((l) => p.lessons[l.lesson.id]?.completedAt)
+    .flatMap((l) => l.lesson.commands)
+    .filter((c, i, a) => !(c in p.srs) && a.indexOf(c) === i);
+  return [...due, ...fresh].filter(known).slice(0, 20);
+}
+
+/** After a lesson: its commands join the review deck; struggles start a card over. */
 export function scheduleStruggles(srs: Record<string, SrsCard>, commands: string[], hintsUsed: number, mistakes: number, today: DayKey) {
-  if (hintsUsed === 0 && mistakes === 0) return srs;
+  // every command of a finished lesson joins the deck and can be reviewed right away;
+  // a struggle (hints / mistakes) starts the card over with a lower ease
   const next = { ...srs };
-  for (const cmd of commands) next[cmd] = reviewCard(next[cmd], hintsUsed > 1 ? 1 : 2, today);
+  const struggled = hintsUsed > 0 || mistakes > 0;
+  for (const cmd of commands) {
+    const c = next[cmd];
+    if (!c) next[cmd] = { ef: struggled ? 2.3 : 2.5, interval: 0, reps: 0, due: today };
+    else if (struggled) next[cmd] = { ef: Math.max(1.3, c.ef - (hintsUsed > 1 ? 0.2 : 0.1)), interval: 0, reps: 0, due: today };
+  }
   return next;
 }
 
@@ -207,7 +226,7 @@ export function newAchievements(p: Progress, ctx: AchievementContext): string[] 
   add('all-missions', missionsDone >= missions.length);
   add('streak-3', p.streak.best >= 3);
   add('streak-7', p.streak.best >= 7);
-  add('daily-challenge', p.daily.count > 0);
+  add('daily-challenge', p.daily.count > 0 || Object.keys(p.practice ?? {}).length > 0);
   add('level-root', levelFor(p.xp).id === 'root');
   add('exam-passed', !!p.exam.passedAt);
   for (const e of ctx.events ?? []) {

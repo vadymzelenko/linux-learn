@@ -1,0 +1,706 @@
+{
+  "id": "docker-prod",
+  "path": "/docker/prod",
+  "icon": "shield",
+  "title": {
+    "en": "Docker in production",
+    "ru": "Docker в продакшене",
+    "uk": "Docker у продакшені",
+    "pl": "Docker na produkcji"
+  },
+  "description": {
+    "en": "Networks, restart policies, pinned versions and inspecting containers",
+    "ru": "Сети, политики перезапуска, закреплённые версии и разбор контейнеров",
+    "uk": "Мережі, політики перезапуску, закріплені версії й розбір контейнерів",
+    "pl": "Sieci, zasady restartu, przypięte wersje i analiza kontenerów"
+  },
+  "lessons": [
+    {
+      "id": "dk-networks",
+      "title": {
+        "en": "Container networks",
+        "ru": "Сети контейнеров",
+        "uk": "Мережі контейнерів",
+        "pl": "Sieci kontenerów"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": "docker-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Containers talk to each other by name\nA web app needs its database and cache. Inside Docker they find each other **by container name** — but only on a **user-defined network**:\n```\n$ docker network create shop-net\n$ docker network connect shop-net web\n$ docker network connect shop-net cache\n$ docker exec web getent hosts cache\n172.18.0.3      cache\n```\nDocker runs a small DNS server for every such network: the name `cache` turns into the container's IP address.\n\n## The default bridge is different\nContainers started without `--network` land on the default `bridge`. There they get an IP, but **names do not resolve** — and IPs change after every restart. Real projects always create their own network.\n\n## Start a container right on a network\n```\n$ docker run -d --name api --network shop-net nginx\n$ docker network inspect shop-net\n$ docker network ls\n```\n`docker network inspect` lists the containers on the network with their addresses.",
+            "ru": "## Контейнеры общаются по имени\nВеб-приложению нужны база и кэш. Внутри Docker они находят друг друга **по имени контейнера** — но только в **пользовательской сети**:\n```\n$ docker network create shop-net\n$ docker network connect shop-net web\n$ docker network connect shop-net cache\n$ docker exec web getent hosts cache\n172.18.0.3      cache\n```\nДля каждой такой сети Docker запускает маленький DNS-сервер: имя `cache` превращается в IP-адрес контейнера.\n\n## Стандартный bridge — другое дело\nКонтейнеры без `--network` попадают в стандартную сеть `bridge`. Там у них есть IP, но **имена не разрешаются** — а IP меняются после каждого перезапуска. В реальных проектах всегда создают свою сеть.\n\n## Запуск сразу в сети\n```\n$ docker run -d --name api --network shop-net nginx\n$ docker network inspect shop-net\n$ docker network ls\n```\n`docker network inspect` показывает контейнеры в сети и их адреса.",
+            "uk": "## Контейнери спілкуються за іменем\nВебзастосунку потрібні база й кеш. Усередині Docker вони знаходять одне одного **за іменем контейнера** — але лише в **користувацькій мережі**:\n```\n$ docker network create shop-net\n$ docker network connect shop-net web\n$ docker network connect shop-net cache\n$ docker exec web getent hosts cache\n172.18.0.3      cache\n```\nДля кожної такої мережі Docker запускає маленький DNS-сервер: ім’я `cache` перетворюється на IP-адресу контейнера.\n\n## Стандартний bridge — інша справа\nКонтейнери без `--network` потрапляють у стандартну мережу `bridge`. Там у них є IP, але **імена не розв’язуються** — а IP змінюються після кожного перезапуску. У реальних проєктах завжди створюють власну мережу.\n\n## Запуск одразу в мережі\n```\n$ docker run -d --name api --network shop-net nginx\n$ docker network inspect shop-net\n$ docker network ls\n```\n`docker network inspect` показує контейнери в мережі та їхні адреси.",
+            "pl": "## Kontenery rozmawiają po nazwie\nAplikacja webowa potrzebuje bazy i cache. W Dockerze znajdują się nawzajem **po nazwie kontenera** — ale tylko w **sieci zdefiniowanej przez użytkownika**:\n```\n$ docker network create shop-net\n$ docker network connect shop-net web\n$ docker network connect shop-net cache\n$ docker exec web getent hosts cache\n172.18.0.3      cache\n```\nDla każdej takiej sieci Docker uruchamia mały serwer DNS: nazwa `cache` zamienia się w adres IP kontenera.\n\n## Domyślny bridge działa inaczej\nKontenery bez `--network` trafiają do domyślnej sieci `bridge`. Mają tam IP, ale **nazwy się nie rozwiązują** — a adresy IP zmieniają się po każdym restarcie. W prawdziwych projektach zawsze tworzy się własną sieć.\n\n## Uruchomienie od razu w sieci\n```\n$ docker run -d --name api --network shop-net nginx\n$ docker network inspect shop-net\n$ docker network ls\n```\n`docker network inspect` pokazuje kontenery w sieci i ich adresy."
+          },
+          "title": {
+            "en": "One network — names work",
+            "ru": "Одна сеть — имена работают",
+            "uk": "Одна мережа — імена працюють",
+            "pl": "Jedna sieć — nazwy działają"
+          },
+          "demo": {
+            "commands": [
+              "docker network create demo-net",
+              "docker network connect demo-net web",
+              "docker network connect demo-net cache",
+              "docker exec web getent hosts cache"
+            ]
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "web and cache run on the default bridge. `docker exec web getent hosts cache` prints nothing. Why?",
+            "ru": "web и cache работают в стандартной сети bridge. `docker exec web getent hosts cache` ничего не выводит. Почему?",
+            "uk": "web і cache працюють у стандартній мережі bridge. `docker exec web getent hosts cache` нічого не виводить. Чому?",
+            "pl": "web i cache działają w domyślnej sieci bridge. `docker exec web getent hosts cache` nic nie wypisuje. Dlaczego?"
+          },
+          "options": [
+            {
+              "en": "Names resolve only on a user-defined network",
+              "ru": "Имена разрешаются только в пользовательской сети",
+              "uk": "Імена розв’язуються лише в користувацькій мережі",
+              "pl": "Nazwy rozwiązują się tylko w sieci użytkownika"
+            },
+            {
+              "en": "cache needs -p 6379:6379",
+              "ru": "cache нужен -p 6379:6379",
+              "uk": "cache потрібен -p 6379:6379",
+              "pl": "cache potrzebuje -p 6379:6379"
+            },
+            {
+              "en": "getent does not work in containers",
+              "ru": "getent не работает в контейнерах",
+              "uk": "getent не працює в контейнерах",
+              "pl": "getent nie działa w kontenerach"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "-p publishes a port to the host; containers on one user network reach each other directly by name.",
+            "ru": "-p пробрасывает порт на хост; контейнеры одной пользовательской сети видят друг друга напрямую по имени.",
+            "uk": "-p прокидає порт на хост; контейнери однієї користувацької мережі бачать одне одного напряму за іменем.",
+            "pl": "-p publikuje port na hoście; kontenery w jednej sieci użytkownika widzą się bezpośrednio po nazwie."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Put web and cache on a new network shop-net and prove that web finds cache by name.",
+            "ru": "Подключите web и cache к новой сети shop-net и докажите, что web находит cache по имени.",
+            "uk": "Під’єднайте web і cache до нової мережі shop-net і доведіть, що web знаходить cache за іменем.",
+            "pl": "Podłącz web i cache do nowej sieci shop-net i udowodnij, że web znajduje cache po nazwie."
+          },
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "web",
+              "state": "running",
+              "network": "shop-net",
+              "label": {
+                "en": "web runs on the network shop-net",
+                "ru": "web работает в сети shop-net",
+                "uk": "web працює в мережі shop-net",
+                "pl": "web działa w sieci shop-net"
+              }
+            },
+            {
+              "type": "containerState",
+              "name": "cache",
+              "state": "running",
+              "network": "shop-net",
+              "label": {
+                "en": "cache runs on the network shop-net",
+                "ru": "cache работает в сети shop-net",
+                "uk": "cache працює в мережі shop-net",
+                "pl": "cache działa w sieci shop-net"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "172\\.\\d+\\.0\\.\\d+\\s+cache",
+              "label": {
+                "en": "web resolves the name cache",
+                "ru": "web разрешает имя cache",
+                "uk": "web розв’язує ім’я cache",
+                "pl": "web rozwiązuje nazwę cache"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "network create, then network connect for each container, then exec web getent hosts cache.",
+              "ru": "network create, затем network connect для каждого контейнера, затем exec web getent hosts cache.",
+              "uk": "network create, потім network connect для кожного контейнера, потім exec web getent hosts cache.",
+              "pl": "network create, potem network connect dla każdego kontenera, potem exec web getent hosts cache."
+            },
+            "command": "docker network connect"
+          },
+          "solution": [
+            "docker network create shop-net",
+            "docker network connect shop-net web",
+            "docker network connect shop-net cache",
+            "docker exec web getent hosts cache"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Start a second Redis named queue (image redis:7) directly on shop-net, then ping it from cache: redis-cli -h queue ping.",
+            "ru": "Запустите второй Redis с именем queue (образ redis:7) сразу в сети shop-net и пропингуйте его из cache: redis-cli -h queue ping.",
+            "uk": "Запустіть другий Redis з іменем queue (образ redis:7) одразу в мережі shop-net і пропінгуйте його з cache: redis-cli -h queue ping.",
+            "pl": "Uruchom drugi Redis o nazwie queue (obraz redis:7) od razu w sieci shop-net i spinguj go z cache: redis-cli -h queue ping."
+          },
+          "prepare": [
+            "docker network create shop-net",
+            "docker network connect shop-net web",
+            "docker network connect shop-net cache"
+          ],
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "queue",
+              "state": "running",
+              "image": "redis:7",
+              "network": "shop-net",
+              "label": {
+                "en": "queue runs on the network shop-net",
+                "ru": "queue работает в сети shop-net",
+                "uk": "queue працює в мережі shop-net",
+                "pl": "queue działa w sieci shop-net"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "PONG",
+              "label": {
+                "en": "cache got PONG from queue",
+                "ru": "cache получил PONG от queue",
+                "uk": "cache отримав PONG від queue",
+                "pl": "cache dostał PONG od queue"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker run -d --name queue --network shop-net redis:7, then docker exec cache redis-cli -h queue ping",
+              "ru": "docker run -d --name queue --network shop-net redis:7, затем docker exec cache redis-cli -h queue ping",
+              "uk": "docker run -d --name queue --network shop-net redis:7, потім docker exec cache redis-cli -h queue ping",
+              "pl": "docker run -d --name queue --network shop-net redis:7, potem docker exec cache redis-cli -h queue ping"
+            },
+            "command": "docker run -d"
+          },
+          "solution": [
+            "docker run -d --name queue --network shop-net redis:7",
+            "docker exec cache redis-cli -h queue ping"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dk-restart",
+      "title": {
+        "en": "Restart policies",
+        "ru": "Политики перезапуска",
+        "uk": "Політики перезапуску",
+        "pl": "Zasady restartu"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": "docker-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## What happens after a crash or a reboot?\nBy default — nothing: a stopped container stays stopped. In production that means a night call. A **restart policy** tells Docker what to do:\n\n| `--restart` | the container is started again… |\n|---|---|\n| `no` (default) | never |\n| `on-failure[:N]` | only after a crash (exit code ≠ 0), up to N times |\n| `always` | always, even after `docker stop` + a daemon restart |\n| `unless-stopped` | always — unless *you* stopped it |\n\n`unless-stopped` is the usual choice for services.\n\n## Set and check\nThe policy is chosen when the container is created:\n```\n$ docker run -d --name api --restart unless-stopped nginx\n$ docker inspect -f '{{.HostConfig.RestartPolicy.Name}}' api\nunless-stopped\n```\nFor an existing container, recreate it: `docker rm -f`, then `docker run` with the same options plus `--restart`.\n\n## Keep an eye on resources\n```\n$ docker stats --no-stream\n```\nCPU and memory of every running container — the first thing to look at when the host is slow.",
+            "ru": "## Что будет после сбоя или перезагрузки?\nПо умолчанию — ничего: остановленный контейнер так и стоит. В проде это ночной звонок. **Политика перезапуска** говорит Docker, что делать:\n\n| `--restart` | контейнер снова запускается… |\n|---|---|\n| `no` (по умолчанию) | никогда |\n| `on-failure[:N]` | только после падения (код выхода ≠ 0), до N раз |\n| `always` | всегда, даже после `docker stop` + перезапуска демона |\n| `unless-stopped` | всегда — если только *вы* его не остановили |\n\nДля сервисов обычно выбирают `unless-stopped`.\n\n## Задать и проверить\nПолитика задаётся при создании контейнера:\n```\n$ docker run -d --name api --restart unless-stopped nginx\n$ docker inspect -f '{{.HostConfig.RestartPolicy.Name}}' api\nunless-stopped\n```\nДля существующего контейнера — пересоздайте его: `docker rm -f`, затем `docker run` с теми же опциями плюс `--restart`.\n\n## Следите за ресурсами\n```\n$ docker stats --no-stream\n```\nCPU и память каждого работающего контейнера — первое, на что смотреть, когда хост тормозит.",
+            "uk": "## Що буде після збою чи перезавантаження?\nЗа замовчуванням — нічого: зупинений контейнер так і стоїть. У проді це нічний дзвінок. **Політика перезапуску** каже Docker, що робити:\n\n| `--restart` | контейнер знову запускається… |\n|---|---|\n| `no` (за замовчуванням) | ніколи |\n| `on-failure[:N]` | лише після падіння (код виходу ≠ 0), до N разів |\n| `always` | завжди, навіть після `docker stop` + перезапуску демона |\n| `unless-stopped` | завжди — якщо тільки *ви* його не зупинили |\n\nДля сервісів зазвичай обирають `unless-stopped`.\n\n## Задати й перевірити\nПолітика задається під час створення контейнера:\n```\n$ docker run -d --name api --restart unless-stopped nginx\n$ docker inspect -f '{{.HostConfig.RestartPolicy.Name}}' api\nunless-stopped\n```\nДля наявного контейнера — перестворіть його: `docker rm -f`, потім `docker run` з тими самими опціями плюс `--restart`.\n\n## Стежте за ресурсами\n```\n$ docker stats --no-stream\n```\nCPU і пам’ять кожного запущеного контейнера — перше, на що дивитися, коли хост гальмує.",
+            "pl": "## Co się stanie po awarii lub restarcie?\nDomyślnie — nic: zatrzymany kontener tak stoi. Na produkcji oznacza to nocny telefon. **Zasada restartu** mówi Dockerowi, co robić:\n\n| `--restart` | kontener jest uruchamiany ponownie… |\n|---|---|\n| `no` (domyślnie) | nigdy |\n| `on-failure[:N]` | tylko po awarii (kod wyjścia ≠ 0), do N razy |\n| `always` | zawsze, nawet po `docker stop` + restarcie demona |\n| `unless-stopped` | zawsze — chyba że *Ty* go zatrzymałeś |\n\nDla usług zwykle wybiera się `unless-stopped`.\n\n## Ustaw i sprawdź\nZasadę wybiera się przy tworzeniu kontenera:\n```\n$ docker run -d --name api --restart unless-stopped nginx\n$ docker inspect -f '{{.HostConfig.RestartPolicy.Name}}' api\nunless-stopped\n```\nDla istniejącego kontenera — utwórz go ponownie: `docker rm -f`, potem `docker run` z tymi samymi opcjami plus `--restart`.\n\n## Pilnuj zasobów\n```\n$ docker stats --no-stream\n```\nCPU i pamięć każdego działającego kontenera — pierwsze, na co patrzysz, gdy host zwalnia."
+          },
+          "title": {
+            "en": "--restart",
+            "ru": "--restart",
+            "uk": "--restart",
+            "pl": "--restart"
+          },
+          "demo": {
+            "commands": [
+              "docker run -d --name api --restart unless-stopped nginx",
+              "docker inspect -f '{{.HostConfig.RestartPolicy.Name}}' api",
+              "docker stats --no-stream"
+            ]
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "The server reboots at night. Which containers come back by themselves?",
+            "ru": "Ночью сервер перезагрузился. Какие контейнеры поднимутся сами?",
+            "uk": "Уночі сервер перезавантажився. Які контейнери піднімуться самі?",
+            "pl": "W nocy serwer się zrestartował. Które kontenery wstaną same?"
+          },
+          "options": [
+            {
+              "en": "Those started with --restart unless-stopped or always",
+              "ru": "Запущенные с --restart unless-stopped или always",
+              "uk": "Запущені з --restart unless-stopped або always",
+              "pl": "Uruchomione z --restart unless-stopped lub always"
+            },
+            {
+              "en": "All containers that were running",
+              "ru": "Все, что работали",
+              "uk": "Усі, що працювали",
+              "pl": "Wszystkie, które działały"
+            },
+            {
+              "en": "Only those with published ports",
+              "ru": "Только с проброшенными портами",
+              "uk": "Лише з прокинутими портами",
+              "pl": "Tylko te z opublikowanymi portami"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "Without a restart policy a container stays down after a reboot.",
+            "ru": "Без политики перезапуска контейнер после перезагрузки так и лежит.",
+            "uk": "Без політики перезапуску контейнер після перезавантаження так і лежить.",
+            "pl": "Bez zasady restartu kontener po restarcie serwera nie wstaje."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Make the site survive reboots: recreate web (nginx, port 8080) with the restart policy unless-stopped and check the policy with docker inspect.",
+            "ru": "Сделайте так, чтобы сайт переживал перезагрузки: пересоздайте web (nginx, порт 8080) с политикой unless-stopped и проверьте её через docker inspect.",
+            "uk": "Зробіть так, щоб сайт переживав перезавантаження: перестворіть web (nginx, порт 8080) з політикою unless-stopped і перевірте її через docker inspect.",
+            "pl": "Spraw, by strona przetrwała restarty: utwórz ponownie web (nginx, port 8080) z zasadą unless-stopped i sprawdź ją przez docker inspect."
+          },
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "web",
+              "state": "running",
+              "image": "nginx",
+              "hostPort": 8080,
+              "label": {
+                "en": "web runs on port 8080",
+                "ru": "web работает на порту 8080",
+                "uk": "web працює на порту 8080",
+                "pl": "web działa na porcie 8080"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "unless-stopped",
+              "label": {
+                "en": "docker inspect shows unless-stopped",
+                "ru": "docker inspect показывает unless-stopped",
+                "uk": "docker inspect показує unless-stopped",
+                "pl": "docker inspect pokazuje unless-stopped"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker rm -f web, then docker run -d --name web -p 8080:80 --restart unless-stopped nginx, then docker inspect.",
+              "ru": "docker rm -f web, затем docker run -d --name web -p 8080:80 --restart unless-stopped nginx, затем docker inspect.",
+              "uk": "docker rm -f web, потім docker run -d --name web -p 8080:80 --restart unless-stopped nginx, потім docker inspect.",
+              "pl": "docker rm -f web, potem docker run -d --name web -p 8080:80 --restart unless-stopped nginx, potem docker inspect."
+            },
+            "command": "docker inspect"
+          },
+          "solution": [
+            "docker rm -f web",
+            "docker run -d --name web -p 8080:80 --restart unless-stopped nginx",
+            "docker inspect -f '{{.HostConfig.RestartPolicy.Name}}' web"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The host is slow. Find the running container that uses the most memory and stop it.",
+            "ru": "Хост тормозит. Найдите работающий контейнер, который ест больше всего памяти, и остановите его.",
+            "uk": "Хост гальмує. Знайдіть запущений контейнер, що їсть найбільше пам’яті, і зупиніть його.",
+            "pl": "Host zwalnia. Znajdź działający kontener, który zużywa najwięcej pamięci, i zatrzymaj go."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "docker",
+              "args": [
+                "stats"
+              ],
+              "label": {
+                "en": "Looked at docker stats",
+                "ru": "Посмотрели docker stats",
+                "uk": "Подивилися docker stats",
+                "pl": "Sprawdzono docker stats"
+              }
+            },
+            {
+              "type": "containerState",
+              "name": "cache",
+              "state": "exited",
+              "label": {
+                "en": "Container cache is stopped",
+                "ru": "Контейнер cache остановлен",
+                "uk": "Контейнер cache зупинено",
+                "pl": "Kontener cache jest zatrzymany"
+              }
+            },
+            {
+              "type": "containerState",
+              "name": "web",
+              "state": "running",
+              "label": {
+                "en": "web keeps running",
+                "ru": "web продолжает работать",
+                "uk": "web і далі працює",
+                "pl": "web nadal działa"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker stats --no-stream: compare MEM USAGE, then docker stop the biggest one.",
+              "ru": "docker stats --no-stream: сравните MEM USAGE и остановите самый большой через docker stop.",
+              "uk": "docker stats --no-stream: порівняйте MEM USAGE і зупиніть найбільший через docker stop.",
+              "pl": "docker stats --no-stream: porównaj MEM USAGE i zatrzymaj największy przez docker stop."
+            },
+            "command": "docker stats"
+          },
+          "solution": [
+            "docker stats --no-stream",
+            "docker stop cache"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dk-tags",
+      "title": {
+        "en": "Image versions and tags",
+        "ru": "Версии образов и теги",
+        "uk": "Версії образів і теги",
+        "pl": "Wersje obrazów i tagi"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": "docker-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## latest is just a name\nAn image reference is `repository:tag`. `nginx` means `nginx:latest` — and **latest** is not \"the newest\", it is simply the default tag. Today it is one version, after the next pull another.\n\nIn production you **pin** versions:\n```\n$ docker pull nginx:1.27\n$ docker run -d --name web -p 8080:80 nginx:1.27\n```\nThen every server runs exactly the same code, and a rollback is just starting the previous tag.\n\n## Your own names\n`docker tag` adds one more name to an existing image — nothing is copied:\n```\n$ docker tag nginx:1.27 shop-web:1.0\n$ docker images\n```\nBoth lines have the same IMAGE ID. `docker rmi shop-web:1.0` then only **untags**: the image stays while another name points to it.",
+            "ru": "## latest — просто имя\nСсылка на образ — это `репозиторий:тег`. `nginx` значит `nginx:latest`, а **latest** — не «самый новый», а просто тег по умолчанию. Сегодня это одна версия, после следующего pull — другая.\n\nВ проде версии **закрепляют**:\n```\n$ docker pull nginx:1.27\n$ docker run -d --name web -p 8080:80 nginx:1.27\n```\nТогда на всех серверах работает ровно один и тот же код, а откат — это просто запуск предыдущего тега.\n\n## Свои имена\n`docker tag` добавляет существующему образу ещё одно имя — ничего не копируется:\n```\n$ docker tag nginx:1.27 shop-web:1.0\n$ docker images\n```\nУ обеих строк одинаковый IMAGE ID. `docker rmi shop-web:1.0` тогда лишь **снимает тег**: образ остаётся, пока на него указывает другое имя.",
+            "uk": "## latest — просто ім’я\nПосилання на образ — це `репозиторій:тег`. `nginx` означає `nginx:latest`, а **latest** — не «найновіший», а просто тег за замовчуванням. Сьогодні це одна версія, після наступного pull — інша.\n\nУ проді версії **закріплюють**:\n```\n$ docker pull nginx:1.27\n$ docker run -d --name web -p 8080:80 nginx:1.27\n```\nТоді на всіх серверах працює рівно той самий код, а відкат — це просто запуск попереднього тегу.\n\n## Власні імена\n`docker tag` додає наявному образу ще одне ім’я — нічого не копіюється:\n```\n$ docker tag nginx:1.27 shop-web:1.0\n$ docker images\n```\nВ обох рядків однаковий IMAGE ID. `docker rmi shop-web:1.0` тоді лише **знімає тег**: образ лишається, доки на нього вказує інше ім’я.",
+            "pl": "## latest to tylko nazwa\nOdwołanie do obrazu to `repozytorium:tag`. `nginx` oznacza `nginx:latest`, a **latest** to nie „najnowszy”, tylko domyślny tag. Dziś to jedna wersja, po następnym pull — inna.\n\nNa produkcji wersje się **przypina**:\n```\n$ docker pull nginx:1.27\n$ docker run -d --name web -p 8080:80 nginx:1.27\n```\nWtedy na każdym serwerze działa dokładnie ten sam kod, a wycofanie zmian to po prostu uruchomienie poprzedniego tagu.\n\n## Własne nazwy\n`docker tag` dodaje istniejącemu obrazowi kolejną nazwę — nic nie jest kopiowane:\n```\n$ docker tag nginx:1.27 shop-web:1.0\n$ docker images\n```\nOba wiersze mają ten sam IMAGE ID. `docker rmi shop-web:1.0` wtedy tylko **usuwa tag**: obraz zostaje, dopóki wskazuje na niego inna nazwa."
+          },
+          "title": {
+            "en": "repository:tag",
+            "ru": "репозиторий:тег",
+            "uk": "репозиторій:тег",
+            "pl": "repozytorium:tag"
+          },
+          "demo": {
+            "commands": [
+              "docker pull nginx:1.27",
+              "docker tag nginx:1.27 shop-web:1.0",
+              "docker images"
+            ]
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "`docker tag nginx:1.27 shop-web:1.0`, then `docker rmi shop-web:1.0`. What happens to nginx:1.27?",
+            "ru": "`docker tag nginx:1.27 shop-web:1.0`, затем `docker rmi shop-web:1.0`. Что станет с nginx:1.27?",
+            "uk": "`docker tag nginx:1.27 shop-web:1.0`, потім `docker rmi shop-web:1.0`. Що станеться з nginx:1.27?",
+            "pl": "`docker tag nginx:1.27 shop-web:1.0`, potem `docker rmi shop-web:1.0`. Co stanie się z nginx:1.27?"
+          },
+          "options": [
+            {
+              "en": "Nothing — only the name shop-web:1.0 is removed",
+              "ru": "Ничего — удаляется только имя shop-web:1.0",
+              "uk": "Нічого — видаляється лише ім’я shop-web:1.0",
+              "pl": "Nic — znika tylko nazwa shop-web:1.0"
+            },
+            {
+              "en": "It is deleted too: it is the same image",
+              "ru": "Тоже удалится: это тот же образ",
+              "uk": "Теж видалиться: це той самий образ",
+              "pl": "Też zostanie usunięty: to ten sam obraz"
+            },
+            {
+              "en": "rmi refuses: the image has two names",
+              "ru": "rmi откажет: у образа два имени",
+              "uk": "rmi відмовить: в образу два імені",
+              "pl": "rmi odmówi: obraz ma dwie nazwy"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "While another tag points to the image, rmi prints only \"Untagged\".",
+            "ru": "Пока на образ указывает другой тег, rmi пишет только «Untagged».",
+            "uk": "Доки на образ вказує інший тег, rmi пише лише «Untagged».",
+            "pl": "Dopóki na obraz wskazuje inny tag, rmi wypisuje tylko „Untagged”."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Pin the version for the release: download nginx:1.27 and give it the name shop-web:1.0.",
+            "ru": "Закрепите версию для релиза: скачайте nginx:1.27 и дайте ему имя shop-web:1.0.",
+            "uk": "Закріпіть версію для релізу: завантажте nginx:1.27 і дайте йому ім’я shop-web:1.0.",
+            "pl": "Przypnij wersję do wydania: pobierz nginx:1.27 i nadaj mu nazwę shop-web:1.0."
+          },
+          "checks": [
+            {
+              "type": "imageExists",
+              "name": "nginx:1.27",
+              "label": {
+                "en": "nginx:1.27 is downloaded",
+                "ru": "nginx:1.27 скачан",
+                "uk": "nginx:1.27 завантажено",
+                "pl": "nginx:1.27 pobrany"
+              }
+            },
+            {
+              "type": "imageExists",
+              "name": "shop-web:1.0",
+              "label": {
+                "en": "shop-web:1.0 exists",
+                "ru": "shop-web:1.0 существует",
+                "uk": "shop-web:1.0 існує",
+                "pl": "shop-web:1.0 istnieje"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker pull nginx:1.27, then docker tag nginx:1.27 shop-web:1.0",
+              "ru": "docker pull nginx:1.27, затем docker tag nginx:1.27 shop-web:1.0",
+              "uk": "docker pull nginx:1.27, потім docker tag nginx:1.27 shop-web:1.0",
+              "pl": "docker pull nginx:1.27, potem docker tag nginx:1.27 shop-web:1.0"
+            },
+            "command": "docker tag"
+          },
+          "solution": [
+            "docker pull nginx:1.27",
+            "docker tag nginx:1.27 shop-web:1.0"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Switch the site to the pinned version: web must run shop-web:1.0 on port 8080. The old tag shop-web:beta is not needed — remove only that name.",
+            "ru": "Переведите сайт на закреплённую версию: web должен работать из shop-web:1.0 на порту 8080. Старый тег shop-web:beta не нужен — удалите только это имя.",
+            "uk": "Переведіть сайт на закріплену версію: web має працювати з shop-web:1.0 на порту 8080. Старий тег shop-web:beta не потрібен — видаліть лише це ім’я.",
+            "pl": "Przełącz stronę na przypiętą wersję: web ma działać z shop-web:1.0 na porcie 8080. Stary tag shop-web:beta nie jest potrzebny — usuń tylko tę nazwę."
+          },
+          "prepare": [
+            "docker pull -q nginx:1.27 > /dev/null",
+            "docker tag nginx:1.27 shop-web:1.0",
+            "docker tag nginx:1.27 shop-web:beta"
+          ],
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "web",
+              "state": "running",
+              "image": "shop-web:1.0",
+              "hostPort": 8080,
+              "label": {
+                "en": "web runs shop-web:1.0 on 8080",
+                "ru": "web работает из shop-web:1.0 на 8080",
+                "uk": "web працює з shop-web:1.0 на 8080",
+                "pl": "web działa z shop-web:1.0 na 8080"
+              }
+            },
+            {
+              "type": "imageExists",
+              "name": "shop-web:beta",
+              "exists": false,
+              "label": {
+                "en": "The tag shop-web:beta is gone",
+                "ru": "Тега shop-web:beta больше нет",
+                "uk": "Тегу shop-web:beta більше немає",
+                "pl": "Tagu shop-web:beta już nie ma"
+              }
+            },
+            {
+              "type": "imageExists",
+              "name": "nginx:1.27",
+              "label": {
+                "en": "nginx:1.27 is kept",
+                "ru": "nginx:1.27 сохранён",
+                "uk": "nginx:1.27 збережено",
+                "pl": "nginx:1.27 zachowany"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker rm -f web; docker run -d --name web -p 8080:80 shop-web:1.0; docker rmi shop-web:beta",
+              "ru": "docker rm -f web; docker run -d --name web -p 8080:80 shop-web:1.0; docker rmi shop-web:beta",
+              "uk": "docker rm -f web; docker run -d --name web -p 8080:80 shop-web:1.0; docker rmi shop-web:beta",
+              "pl": "docker rm -f web; docker run -d --name web -p 8080:80 shop-web:1.0; docker rmi shop-web:beta"
+            },
+            "command": "docker rmi"
+          },
+          "solution": [
+            "docker rm -f web",
+            "docker run -d --name web -p 8080:80 shop-web:1.0",
+            "docker rmi shop-web:beta"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dk-inspect",
+      "title": {
+        "en": "Inspecting containers",
+        "ru": "Разбор контейнера по косточкам",
+        "uk": "Розбір контейнера до гвинтика",
+        "pl": "Kontener pod lupą"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": "docker-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## docker inspect knows everything\n`docker inspect NAME` prints the whole description of a container as JSON: state, exit code, image, ports, variables, volumes, networks. It is long — pick one field with a template:\n```\n$ docker inspect -f '{{.State.Status}}' db\nexited\n$ docker inspect -f '{{.State.ExitCode}}' db\n1\n$ docker inspect -f '{{.Config.Image}}' web\nnginx:latest\n```\nField names follow the JSON: `.State`, `.Config`, `.HostConfig`, `.NetworkSettings`.\n\n## Rename instead of deleting\nA broken container is evidence. Keep it under another name and start a fresh one:\n```\n$ docker rename db db-broken\n$ docker logs db-broken\n```\nNames must be unique — that is why the old one has to move out of the way.",
+            "ru": "## docker inspect знает всё\n`docker inspect ИМЯ` выводит полное описание контейнера в JSON: состояние, код выхода, образ, порты, переменные, тома, сети. Это длинно — выберите одно поле шаблоном:\n```\n$ docker inspect -f '{{.State.Status}}' db\nexited\n$ docker inspect -f '{{.State.ExitCode}}' db\n1\n$ docker inspect -f '{{.Config.Image}}' web\nnginx:latest\n```\nИмена полей повторяют JSON: `.State`, `.Config`, `.HostConfig`, `.NetworkSettings`.\n\n## Переименовать, а не удалить\nСломанный контейнер — это улика. Сохраните его под другим именем и запустите новый:\n```\n$ docker rename db db-broken\n$ docker logs db-broken\n```\nИмена уникальны — поэтому старому нужно уступить место.",
+            "uk": "## docker inspect знає все\n`docker inspect ІМ’Я` виводить повний опис контейнера в JSON: стан, код виходу, образ, порти, змінні, томи, мережі. Це довго — виберіть одне поле шаблоном:\n```\n$ docker inspect -f '{{.State.Status}}' db\nexited\n$ docker inspect -f '{{.State.ExitCode}}' db\n1\n$ docker inspect -f '{{.Config.Image}}' web\nnginx:latest\n```\nІмена полів повторюють JSON: `.State`, `.Config`, `.HostConfig`, `.NetworkSettings`.\n\n## Перейменувати, а не видалити\nЗламаний контейнер — це доказ. Збережіть його під іншим іменем і запустіть новий:\n```\n$ docker rename db db-broken\n$ docker logs db-broken\n```\nІмена унікальні — тому старому треба поступитися місцем.",
+            "pl": "## docker inspect wie wszystko\n`docker inspect NAZWA` wypisuje pełny opis kontenera w JSON: stan, kod wyjścia, obraz, porty, zmienne, wolumeny, sieci. To długie — wybierz jedno pole szablonem:\n```\n$ docker inspect -f '{{.State.Status}}' db\nexited\n$ docker inspect -f '{{.State.ExitCode}}' db\n1\n$ docker inspect -f '{{.Config.Image}}' web\nnginx:latest\n```\nNazwy pól odpowiadają JSON: `.State`, `.Config`, `.HostConfig`, `.NetworkSettings`.\n\n## Zmień nazwę zamiast usuwać\nZepsuty kontener to dowód. Zachowaj go pod inną nazwą i uruchom nowy:\n```\n$ docker rename db db-broken\n$ docker logs db-broken\n```\nNazwy są unikalne — dlatego stary musi zrobić miejsce."
+          },
+          "title": {
+            "en": "-f TEMPLATE",
+            "ru": "-f ШАБЛОН",
+            "uk": "-f ШАБЛОН",
+            "pl": "-f SZABLON"
+          },
+          "demo": {
+            "commands": [
+              "docker inspect -f '{{.State.Status}}' db",
+              "docker inspect -f '{{.State.ExitCode}}' db",
+              "docker inspect -f '{{.Config.Image}}' web"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Without reading the whole JSON: print only the exit code of the db container.",
+            "ru": "Не читая весь JSON: выведите только код выхода контейнера db.",
+            "uk": "Не читаючи весь JSON: виведіть лише код виходу контейнера db.",
+            "pl": "Bez czytania całego JSON: wypisz tylko kod wyjścia kontenera db."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "docker",
+              "args": [
+                "inspect"
+              ],
+              "label": {
+                "en": "Used docker inspect with a template",
+                "ru": "docker inspect с шаблоном",
+                "uk": "docker inspect із шаблоном",
+                "pl": "docker inspect z szablonem"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 1,
+              "label": {
+                "en": "Exactly one line: the code",
+                "ru": "Ровно одна строка — код",
+                "uk": "Рівно один рядок — код",
+                "pl": "Dokładnie jeden wiersz: kod"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "^1\\n?$",
+              "label": {
+                "en": "The exit code is 1",
+                "ru": "Код выхода — 1",
+                "uk": "Код виходу — 1",
+                "pl": "Kod wyjścia to 1"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker inspect -f '{{.State.ExitCode}}' db",
+              "ru": "docker inspect -f '{{.State.ExitCode}}' db",
+              "uk": "docker inspect -f '{{.State.ExitCode}}' db",
+              "pl": "docker inspect -f '{{.State.ExitCode}}' db"
+            },
+            "command": "docker inspect"
+          },
+          "solution": [
+            "docker inspect -f '{{.State.ExitCode}}' db"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Keep the broken db for the post-mortem as db-broken, and start a new db from postgres:16 with POSTGRES_PASSWORD=secret.",
+            "ru": "Сохраните сломанный db для разбора как db-broken и запустите новый db из postgres:16 с POSTGRES_PASSWORD=secret.",
+            "uk": "Збережіть зламаний db для розбору як db-broken і запустіть новий db з postgres:16 з POSTGRES_PASSWORD=secret.",
+            "pl": "Zachowaj zepsuty db do analizy jako db-broken i uruchom nowy db z postgres:16 z POSTGRES_PASSWORD=secret."
+          },
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "db-broken",
+              "state": "exited",
+              "label": {
+                "en": "The old container is kept as db-broken",
+                "ru": "Старый контейнер сохранён как db-broken",
+                "uk": "Старий контейнер збережено як db-broken",
+                "pl": "Stary kontener zachowany jako db-broken"
+              }
+            },
+            {
+              "type": "containerState",
+              "name": "db",
+              "state": "running",
+              "image": "postgres:16",
+              "label": {
+                "en": "A new db is running",
+                "ru": "Новый db работает",
+                "uk": "Новий db працює",
+                "pl": "Nowy db działa"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker rename db db-broken, then docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:16",
+              "ru": "docker rename db db-broken, затем docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:16",
+              "uk": "docker rename db db-broken, потім docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:16",
+              "pl": "docker rename db db-broken, potem docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:16"
+            },
+            "command": "docker rename"
+          },
+          "solution": [
+            "docker rename db db-broken",
+            "docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:16"
+          ]
+        }
+      ]
+    }
+  ]
+}

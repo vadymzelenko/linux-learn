@@ -88,7 +88,8 @@
           "instructions": {
             "en": "1. The log is the file logs/app.log in your home directory\n2. `head -n 5 FILE` shows the first 5 lines",
             "ru": "1. Лог — это файл logs/app.log в домашней папке\n2. `head -n 5 ФАЙЛ` покажет первые 5 строк",
-            "uk": "1. Лог — це файл logs/app.log у домашній теці\n2. `head -n 5 ФАЙЛ` покаже перші 5 рядків"
+            "uk": "1. Лог — це файл logs/app.log у домашній теці\n2. `head -n 5 ФАЙЛ` покаже перші 5 рядків",
+            "pl": "1. Log to plik logs/app.log w Twoim katalogu domowym\n2. `head -n 5 PLIK` pokazuje pierwsze 5 wierszy"
           }
         },
         {
@@ -136,7 +137,8 @@
           "instructions": {
             "en": "1. The log is logs/app.log\n2. tail shows the end of a file; -n sets how many lines",
             "ru": "1. Лог — logs/app.log\n2. tail показывает конец файла; -n задаёт число строк",
-            "uk": "1. Лог — logs/app.log\n2. tail показує кінець файлу; -n задає кількість рядків"
+            "uk": "1. Лог — logs/app.log\n2. tail показує кінець файлу; -n задає кількість рядків",
+            "pl": "1. Log to logs/app.log\n2. tail pokazuje koniec pliku; -n ustala, ile wierszy"
           }
         },
         {
@@ -287,7 +289,8 @@
           "instructions": {
             "en": "1. The log is logs/app.log\n2. `grep WORD FILE` prints only matching lines",
             "ru": "1. Лог — logs/app.log\n2. `grep СЛОВО ФАЙЛ` выведет только подходящие строки",
-            "uk": "1. Лог — logs/app.log\n2. `grep СЛОВО ФАЙЛ` виведе лише відповідні рядки"
+            "uk": "1. Лог — logs/app.log\n2. `grep СЛОВО ФАЙЛ` виведе лише відповідні рядки",
+            "pl": "1. Log to logs/app.log\n2. `grep SŁOWO PLIK` wypisuje tylko pasujące wiersze"
           }
         },
         {
@@ -459,7 +462,8 @@
           "instructions": {
             "en": "1. First find: `grep ERROR logs/app.log`\n2. Press ↑ to recall it and add `| wc -l` at the end",
             "ru": "1. Сначала найдите: `grep ERROR logs/app.log`\n2. Нажмите ↑, чтобы вернуть команду, и допишите в конце `| wc -l`",
-            "uk": "1. Спершу знайдіть: `grep ERROR logs/app.log`\n2. Натисніть ↑, щоб повернути команду, і допишіть у кінці `| wc -l`"
+            "uk": "1. Спершу знайдіть: `grep ERROR logs/app.log`\n2. Натисніть ↑, щоб повернути команду, і допишіть у кінці `| wc -l`",
+            "pl": "1. Najpierw znajdź: `grep ERROR logs/app.log`\n2. Naciśnij ↑, żeby je przywołać, i dopisz na końcu `| wc -l`"
           }
         },
         {

@@ -1,29 +1,66 @@
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { createShell } from '@linux-learn/engine';
 import { fixtures } from '@linux-learn/content';
 import { MAX_MACHINES, useStore, type Machine } from '../../state/store';
 import { useTheme, MONO, space } from '../../theme';
-import { Body, Button, Card, H1, Icon, IconButton, Row, Screen } from '../../components/ui';
+import { Button, Collapsible, FadeIn, H1, Icon, IconButton, Row, Screen } from '../../components/ui';
+import { haptic } from '../../lib/haptics';
 import { Terminal, useColumns } from '../../components/terminal/Terminal';
 import { useShell } from '../../components/terminal/useShell';
 import { Text } from '../../theme/Text';
+import { confirmDialog, infoDialog, useDialog } from '../../components/Dialog';
 
-const TEMPLATES = Object.keys(fixtures);
+/** Machines to start from (git-fresh is a lesson-only copy of the website). */
+const TEMPLATES = Object.keys(fixtures).filter((k) => k !== 'git-fresh');
+const TPL_LOOK: Record<string, { icon: string; color: string }> = {
+  'empty-home': { icon: 'terminal', color: '#3DDC84' },
+  'home-basic': { icon: 'folder', color: '#5EA9FF' },
+  'text-files': { icon: 'file-text', color: '#F5C451' },
+  search: { icon: 'search', color: '#B48EF5' },
+  permissions: { icon: 'lock', color: '#FF8A65' },
+  system: { icon: 'activity', color: '#4DD0E1' },
+  'noc-web01': { icon: 'server', color: '#7C9CFF' },
+  'noc-busy': { icon: 'alert-octagon', color: '#FF6B6B' },
+  'docker-lab': { icon: 'docker', color: '#4AA8FF' },
+  'git-lab': { icon: 'git', color: '#F1502F' },
+};
+const look = (tpl: string) => TPL_LOOK[tpl] ?? { icon: 'terminal', color: '#3DDC84' };
 
-function confirm(title: string, onYes: () => void, yes: string, cancel: string) {
-  if (Platform.OS === 'web') {
-    if (globalThis.confirm?.(title) ?? true) onYes();
-    return;
-  }
-  Alert.alert(title, undefined, [
-    { text: cancel, style: 'cancel' },
-    { text: yes, style: 'destructive', onPress: onYes },
-  ]);
+/** Template tiles: filled colour blocks, two per row. */
+function TemplateGrid({ onPick }: { onPick: (tpl: string) => void }) {
+  const { t } = useTranslation();
+  return (
+    <View style={styles.grid}>
+      {TEMPLATES.map((tpl, i) => (
+        <FadeIn key={tpl} index={i} from={8} style={styles.tileWrap}>
+          <Pressable
+            onPress={() => {
+              haptic.tap();
+              onPick(tpl);
+            }}
+            accessibilityRole="button"
+            style={({ pressed }) => [styles.tile, { backgroundColor: look(tpl).color, opacity: pressed ? 0.85 : 1, transform: [{ scale: pressed ? 0.97 : 1 }] }]}
+          >
+            <Icon name={look(tpl).icon} size={24} color="#06240F" />
+            <Text style={{ color: '#06240F', fontWeight: '800', fontSize: 15 }} numberOfLines={2}>
+              {t(`sandbox.templates.${tpl}` as 'sandbox.templates.search')}
+            </Text>
+          </Pressable>
+        </FadeIn>
+      ))}
+    </View>
+  );
 }
 
-function MachineTerminal({ machine }: { machine: Machine }) {
+function confirm(title: string, onYes: () => void, yes: string, cancel: string, icon = 'alert-triangle') {
+  confirmDialog({ title, confirm: yes, cancel, destructive: true, icon, onConfirm: onYes });
+}
+
+function MachineTerminal({ machine, onKeyboardChange }: { machine: Machine; onKeyboardChange: (v: boolean) => void }) {
+  const { t } = useTranslation();
   const columns = useColumns();
   const template = machine.template;
   const shell = useShell(machine.session, {
@@ -31,7 +68,7 @@ function MachineTerminal({ machine }: { machine: Machine }) {
     onSession: (s) => useStore.getState().updateMachine(machine.id, s),
     makeSession: () => createShell(fixtures[template] ?? {}),
   });
-  return <Terminal shell={shell} style={{ flex: 1 }} welcome={`Linux trainer 6.8.0 — ${machine.name}`} />;
+  return <Terminal shell={shell} style={{ flex: 1 }} welcome={`Linux trainer 6.8.0 — ${machine.name}\n${t('sandbox.tip')}`} onKeyboardChange={onKeyboardChange} />;
 }
 
 export default function SandboxScreen() {
@@ -44,86 +81,98 @@ export default function SandboxScreen() {
   const [name, setName] = useState('');
   // remount the terminal when the machine is reset or switched
   const [resetCount, setResetCount] = useState(0);
+  /** Our keyboard is open: the header folds away to give the terminal room. */
+  const [typing, setTyping] = useState(false);
+  const insets = useSafeAreaInsets();
+
+  const showHelp = () => infoDialog({ title: t('sandbox.helpTitle'), message: t('sandbox.helpText'), ok: t('common.ok'), icon: 'help-circle-outline' });
+
+  /** Rename, reset and delete live in one menu: the header stays calm. */
+  const openMenu = (m: Machine) =>
+    useDialog.getState().show({
+      title: m.name,
+      icon: look(m.template).icon,
+      tone: 'info',
+      actions: [
+        { label: t('sandbox.rename'), icon: 'edit', onPress: () => { setName(m.name); setRenaming(m.id); } },
+        { label: t('common.reset'), icon: 'refresh', onPress: () => confirm(t('lesson.resetConfirm'), () => { useStore.getState().resetMachine(m.id); setResetCount((c) => c + 1); }, t('common.reset'), t('common.cancel'), 'refresh') },
+        { label: t('common.delete'), icon: 'trash', style: 'destructive', onPress: () => confirm(t('sandbox.deleteConfirm', { name: m.name }), () => useStore.getState().deleteMachine(m.id), t('common.delete'), t('common.cancel'), 'trash') },
+        { label: t('common.cancel'), style: 'cancel' },
+      ],
+    });
 
   const create = (template: string) => {
     const id = useStore.getState().createMachine(template, t('sandbox.machineName', { n: machines.length + 1 }));
-    if (!id) Alert.alert(t('sandbox.limit'));
+    if (!id) infoDialog({ title: t('sandbox.limitTitle'), message: t('sandbox.limit'), ok: t('common.ok'), icon: 'server', tone: 'warning' });
     setCreating(false);
   };
 
   return (
     <Screen>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <View style={styles.header}>
-          <View style={{ flex: 1 }}>
-            <H1>{t('sandbox.title')}</H1>
-            <Body dim>{t('sandbox.subtitle')}</Body>
+        <Collapsible open={!typing || !active}>
+          <View style={styles.header}>
+            <H1 style={{ fontSize: 24, flex: 1 }}>{t('sandbox.title')}</H1>
+            <IconButton icon="help-circle-outline" label={t('sandbox.helpTitle')} onPress={showHelp} />
+            {active ? <IconButton icon="dots-horizontal" label={t('sandbox.more')} onPress={() => openMenu(active)} /> : null}
           </View>
-          {active ? (
-            <>
-              <IconButton icon="edit" label={t('sandbox.rename')} onPress={() => { setName(active.name); setRenaming(active.id); }} />
-              <IconButton
-                icon="refresh"
-                label={t('common.reset')}
-                onPress={() =>
-                  confirm(t('lesson.resetConfirm'), () => { useStore.getState().resetMachine(active.id); setResetCount((c) => c + 1); }, t('common.reset'), t('common.cancel'))
-                }
-              />
-              <IconButton
-                icon="trash"
-                label={t('common.delete')}
-                color={theme.danger}
-                onPress={() => confirm(t('sandbox.deleteConfirm', { name: active.name }), () => useStore.getState().deleteMachine(active.id), t('common.delete'), t('common.cancel'))}
-              />
-            </>
+          {machines.length ? (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={styles.tabs}>
+              {machines.map((m) => {
+                const on = m.id === active?.id;
+                return (
+                  <Pressable
+                    key={m.id}
+                    onPress={() => useStore.getState().setActiveMachine(m.id)}
+                    accessibilityRole="tab"
+                    accessibilityState={{ selected: on }}
+                    style={[styles.tab, { backgroundColor: on ? look(m.template).color : theme.surface2 }]}
+                  >
+                    <Icon name={look(m.template).icon} size={16} color={on ? '#06240F' : theme.textDim} />
+                    <Text style={{ color: on ? '#06240F' : theme.text, fontWeight: '700' }}>{m.name}</Text>
+                  </Pressable>
+                );
+              })}
+              {machines.length < MAX_MACHINES ? (
+                <Pressable onPress={() => setCreating(true)} accessibilityRole="button" accessibilityLabel={t('sandbox.newMachine')} style={[styles.tab, styles.addTab, { borderColor: theme.border }]}>
+                  <Icon name="plus" size={18} color={theme.accent} />
+                </Pressable>
+              ) : null}
+            </ScrollView>
           ) : null}
-        </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={styles.tabs}>
-          {machines.map((m) => (
-            <Pressable
-              key={m.id}
-              onPress={() => useStore.getState().setActiveMachine(m.id)}
-              accessibilityRole="tab"
-              accessibilityState={{ selected: m.id === active?.id }}
-              style={[styles.tab, { backgroundColor: m.id === active?.id ? theme.accent : theme.surface2 }]}
-            >
-              <Icon name="terminal" size={16} color={m.id === active?.id ? theme.onAccent : theme.textDim} />
-              <Text style={{ color: m.id === active?.id ? theme.onAccent : theme.text, fontWeight: '700' }}>{m.name}</Text>
-            </Pressable>
-          ))}
-          {machines.length < MAX_MACHINES ? (
-            <Pressable onPress={() => setCreating(true)} accessibilityRole="button" accessibilityLabel={t('sandbox.newMachine')} style={[styles.tab, { borderWidth: 1, borderColor: theme.border, borderStyle: 'dashed' }]}>
-              <Icon name="plus" size={16} color={theme.accent} />
-              <Text style={{ color: theme.accent, fontWeight: '700' }}>{t('sandbox.newMachine')}</Text>
-            </Pressable>
-          ) : null}
-        </ScrollView>
+        </Collapsible>
         <View style={{ flex: 1, padding: space.md, paddingTop: space.sm }}>
           {active ? (
-            <MachineTerminal key={`${active.id}-${resetCount}`} machine={active} />
+            <MachineTerminal key={`${active.id}-${resetCount}`} machine={active} onKeyboardChange={setTyping} />
           ) : (
-            <Card style={{ gap: space.md, alignItems: 'center', marginTop: space.xl }}>
-              <Icon name="terminal" size={48} color={theme.accent} />
-              <Body dim style={{ textAlign: 'center' }}>{t('sandbox.subtitle')}</Body>
-              <Button title={t('sandbox.newMachine')} icon="plus" onPress={() => setCreating(true)} />
-            </Card>
+            <ScrollView contentContainerStyle={{ gap: space.md, paddingBottom: space.xl }}>
+              <View style={[styles.hero, { backgroundColor: theme.accent }]}>
+                <Icon name="terminal" size={30} color={theme.onAccent} />
+                <Text style={{ color: theme.onAccent, fontWeight: '800', fontSize: 20 }}>{t('sandbox.subtitle')}</Text>
+                <Text style={{ color: theme.onAccent, opacity: 0.85 }}>{t('sandbox.pick')}</Text>
+                <Pressable onPress={showHelp} accessibilityRole="button" style={styles.heroHelp}>
+                  <Icon name="help-circle-outline" size={18} color={theme.onAccent} />
+                  <Text style={{ color: theme.onAccent, fontWeight: '700' }}>{t('sandbox.helpTitle')}</Text>
+                </Pressable>
+              </View>
+              <TemplateGrid onPick={create} />
+            </ScrollView>
           )}
         </View>
       </KeyboardAvoidingView>
 
-      <Modal visible={creating} transparent animationType="fade" onRequestClose={() => setCreating(false)}>
-        <Pressable style={styles.backdrop} onPress={() => setCreating(false)}>
-          <Pressable style={[styles.sheet, { backgroundColor: theme.surface }]} onPress={() => undefined}>
-            <Text style={{ color: theme.text, fontSize: 19, fontWeight: '800', marginBottom: space.sm }}>{t('sandbox.template')}</Text>
-            {TEMPLATES.map((tpl) => (
-              <Pressable key={tpl} onPress={() => create(tpl)} accessibilityRole="button" style={({ pressed }) => [styles.tpl, { backgroundColor: pressed ? theme.surface2 : 'transparent', borderColor: theme.border }]}>
-                <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t(`sandbox.templates.${tpl}` as 'sandbox.templates.search')}</Text>
-                <Text style={{ color: theme.textDim, fontFamily: MONO, fontSize: 12 }}>{tpl}</Text>
-              </Pressable>
-            ))}
-            <Button variant="ghost" title={t('common.cancel')} onPress={() => setCreating(false)} />
-          </Pressable>
-        </Pressable>
+      <Modal visible={creating} transparent animationType="slide" onRequestClose={() => setCreating(false)}>
+        <Pressable style={styles.sheetBackdrop} onPress={() => setCreating(false)} accessibilityLabel={t('common.cancel')} />
+        <View style={[styles.bottomSheet, { backgroundColor: theme.surface, paddingBottom: insets.bottom + space.md }]}>
+          <View style={[styles.handle, { backgroundColor: theme.border }]} />
+          <Row style={{ justifyContent: 'space-between', marginBottom: space.sm }}>
+            <Text style={{ color: theme.text, fontSize: 19, fontWeight: '800' }}>{t('sandbox.template')}</Text>
+            <IconButton icon="x" label={t('common.cancel')} onPress={() => setCreating(false)} />
+          </Row>
+          <ScrollView contentContainerStyle={{ paddingBottom: space.md }}>
+            <TemplateGrid onPick={create} />
+          </ScrollView>
+        </View>
       </Modal>
 
       <Modal visible={renaming !== null} transparent animationType="fade" onRequestClose={() => setRenaming(null)}>
@@ -156,7 +205,16 @@ export default function SandboxScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: space.lg, paddingTop: space.md, gap: 2 },
+  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: space.lg, paddingTop: space.sm, gap: 2 },
+  addTab: { borderWidth: 1, borderStyle: 'dashed', paddingHorizontal: 12 },
+  hero: { borderRadius: 24, padding: space.xl, gap: 6 },
+  heroHelp: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', marginTop: 6, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.3)' },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  tileWrap: { width: '48%', flexGrow: 1 },
+  tile: { borderRadius: 20, padding: space.md, minHeight: 96, gap: 10, justifyContent: 'space-between' },
+  sheetBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' },
+  bottomSheet: { maxHeight: '82%', borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingHorizontal: space.lg, paddingTop: space.sm },
+  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: 3, marginBottom: space.sm },
   tabs: { gap: 8, paddingHorizontal: space.md, paddingVertical: space.sm },
   tab: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 14, paddingVertical: 10, borderRadius: 999, minHeight: 40 },
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', justifyContent: 'center', padding: space.lg },
