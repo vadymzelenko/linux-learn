@@ -201,6 +201,8 @@ export interface DockerContainer {
   files?: Record<string, string>;
   restart?: string;
   network?: string;
+  /** Networks attached later with `docker network connect`. */
+  extraNetworks?: string[];
 }
 
 export interface DockerState {

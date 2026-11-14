@@ -35,7 +35,7 @@ export type Check =
   | { type: 'serviceEnabled'; name: string; enabled: boolean }
   | { type: 'exitCode'; code: number }
   /** A docker container by name: running / exited / absent; optionally its image and a published host port. */
-  | { type: 'containerState'; name: string; state: 'running' | 'exited' | 'absent'; image?: string; hostPort?: number }
+  | { type: 'containerState'; name: string; state: 'running' | 'exited' | 'absent'; image?: string; hostPort?: number; network?: string }
   /** A local docker image (repo or repo:tag) exists (or not). */
   | { type: 'imageExists'; name: string; exists?: boolean }
   /** Number of docker containers (all or only running). */
@@ -51,7 +51,7 @@ export type Check =
    */
   | { type: 'git'; path: string; commits?: number; branch?: string; noBranch?: string; head?: string; clean?: boolean; tracked?: string; untracked?: string; staged?: string; remote?: string; pushed?: string; message?: string; merged?: string; merging?: boolean; tag?: string; ignored?: string }
   /** A repository on the simulated GitHub (OWNER/NAME or NAME of the student). */
-  | { type: 'github'; repo: string; exists?: boolean; branch?: string; file?: string; commits?: number; prs?: number; merged?: number; issues?: number };
+  | { type: 'github'; repo: string; exists?: boolean; branch?: string; file?: string; commits?: number; prs?: number; merged?: number; issues?: number; tag?: string; release?: string; fileContains?: string };
 
 export interface CheckContext {
   session: Session;
@@ -197,7 +197,7 @@ export function evaluateCheck(check: Check, ctx: CheckContext): CheckResult {
       if (check.state === 'absent') return ok(!c);
       if (!c) return ok(false);
       const img = check.image ? (check.image.includes(':') ? check.image : `${check.image}:latest`) : null;
-      return ok((c.state === check.state || (check.state === 'exited' && c.state === 'created')) && (!img || c.image === img) && (check.hostPort === undefined || c.ports.some((p) => p.host === check.hostPort)));
+      return ok((c.state === check.state || (check.state === 'exited' && c.state === 'created')) && (!img || c.image === img) && (check.hostPort === undefined || c.ports.some((p) => p.host === check.hostPort)) && (check.network === undefined || [c.network ?? 'bridge', ...(c.extraNetworks ?? [])].includes(check.network)));
     }
     case 'imageExists': {
       const [repo, tag] = check.name.includes(':') ? check.name.split(':') : [check.name, undefined];
@@ -273,6 +273,9 @@ export function evaluateCheck(check: Check, ctx: CheckContext): CheckResult {
       if (check.prs !== undefined) conds.push((db.pulls ?? []).length >= check.prs);
       if (check.merged !== undefined) conds.push((db.pulls ?? []).filter((x) => x.state === 'MERGED').length >= check.merged);
       if (check.issues !== undefined) conds.push((db.issues ?? []).length >= check.issues);
+      if (check.tag !== undefined) conds.push(db.tags[check.tag] !== undefined);
+      if (check.release !== undefined) conds.push((db.releases ?? []).some((x) => x.tag === check.release));
+      if (check.fileContains !== undefined && check.file !== undefined) conds.push((db.commits[db.branches[main] ?? '']?.tree[check.file] ?? '').includes(check.fileContains));
       return ok(conds.every(Boolean));
     }
     case 'containerCount': {

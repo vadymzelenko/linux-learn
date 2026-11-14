@@ -232,6 +232,28 @@ function findContainer(s: DockerState, key: string): DockerContainer | undefined
   return s.containers.find((c) => c.name === key) ?? (key.length >= 2 ? s.containers.find((c) => c.id.startsWith(key)) : undefined);
 }
 
+const BUILTIN_NETS = new Set(['bridge', 'host', 'none']);
+/** Every network a container is attached to. */
+function netsOf(c: DockerContainer): string[] {
+  return [c.network ?? 'bridge', ...(c.extraNetworks ?? [])];
+}
+/** IP address of a container on one of its networks (172.17.0.x on the default bridge). */
+function ipOn(s: DockerState, c: DockerContainer, net: string): string {
+  const members = s.containers.filter((x) => x.state === 'running' && netsOf(x).includes(net));
+  const subnet = 17 + Math.max(0, s.networks.filter((n) => !BUILTIN_NETS.has(n) || n === 'bridge').indexOf(net));
+  return `172.${subnet}.0.${2 + Math.max(0, members.indexOf(c))}`;
+}
+/**
+ * Name lookup from inside a container: Docker's embedded DNS answers container
+ * names only on user-defined networks shared by both containers.
+ */
+function resolveFrom(s: DockerState, from: DockerContainer, host: string): { target: DockerContainer; ip: string } | null {
+  const target = s.containers.find((x) => x.name === host && x.state === 'running');
+  if (!target) return null;
+  const shared = netsOf(from).find((n) => !BUILTIN_NETS.has(n) && netsOf(target).includes(n));
+  return shared ? { target, ip: ipOn(s, target, shared) } : null;
+}
+
 function materialize(img: DockerImage, now: number): DockerImage {
   return { ...img, id: img.id || imageId(img), created: img.created < 0 ? now + img.created : img.created };
 }
@@ -532,9 +554,34 @@ function execIn(ctx: Ctx, s: DockerState, c: DockerContainer, argv: string[]): {
       if (rest.includes('-t')) return { out: '', err: 'nginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful\n', code: 0 };
       if (rest.join(' ') === '-s reload') return { out: '', err: '2026/10/31 09:00:00 [notice] 42#42: signal process started\n', code: 0 };
       return { out: '', err: 'nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)\n', code: 1 };
-    case 'redis-cli':
+    case 'redis-cli': {
       if (img?.repo !== 'redis') return notFound();
-      return { out: rest[0]?.toUpperCase() === 'PING' || rest.length === 0 ? 'PONG\n' : 'OK\n', err: '', code: 0 };
+      const hi = rest.indexOf('-h');
+      const host = hi >= 0 ? rest[hi + 1] : undefined;
+      const words = hi >= 0 ? rest.filter((_, i) => i !== hi && i !== hi + 1) : rest;
+      if (host && !['localhost', '127.0.0.1', c.name].includes(host)) {
+        const r = resolveFrom(s, c, host);
+        if (!r) return { out: '', err: `Could not connect to Redis at ${host}:6379: Name or service not known\n`, code: 1 };
+        if (findImage(s, r.target.image)?.repo !== 'redis') return { out: '', err: `Could not connect to Redis at ${host}:6379: Connection refused\n`, code: 1 };
+      }
+      return { out: words[0]?.toUpperCase() === 'PING' || words.length === 0 ? 'PONG\n' : 'OK\n', err: '', code: 0 };
+    }
+    case 'getent': {
+      if (rest[0] !== 'hosts' || !rest[1]) return { out: '', err: 'Usage: getent hosts NAME\n', code: 1 };
+      const name = rest[1];
+      if (name === 'localhost') return { out: '::1             localhost\n', err: '', code: 0 };
+      if (name === c.name || name === c.id.slice(0, 12)) return { out: `${ipOn(s, c, netsOf(c)[0]!)}      ${c.id.slice(0, 12)}\n`, err: '', code: 0 };
+      const r = resolveFrom(s, c, name);
+      return r ? { out: `${r.ip}      ${name}\n`, err: '', code: 0 } : { out: '', err: '', code: 2 };
+    }
+    case 'ping': {
+      if (img?.os !== 'alpine') return notFound();
+      const host = rest.filter((a) => !a.startsWith('-') && !/^\d+$/.test(a))[0];
+      if (!host) return { out: '', err: 'BusyBox v1.36.1 multi-call binary.\n\nUsage: ping [OPTIONS] HOST\n', code: 1 };
+      const r = resolveFrom(s, c, host);
+      if (!r) return { out: '', err: `ping: bad address '${host}'\n`, code: 1 };
+      return { out: `PING ${host} (${r.ip}): 56 data bytes\n64 bytes from ${r.ip}: seq=0 ttl=64 time=0.092 ms\n\n--- ${host} ping statistics ---\n1 packets transmitted, 1 packets received, 0% packet loss\nround-trip min/avg/max = 0.092/0.092/0.092 ms\n`, err: '', code: 0 };
+    }
     case 'psql':
       if (img?.repo !== 'postgres') return notFound();
       return { out: ' ?column? \n----------\n        1\n(1 row)\n\n', err: '', code: 0 };
@@ -624,7 +671,11 @@ function doRun(ctx: Ctx, args: string[]): number {
 
   let output = '';
   let exitNow: number | null = null;
-  if (img.oneShot && !cmd.length) {
+  // `docker run -d alpine sleep 3600`, `tail -f /dev/null` or `-dit` with a shell keep a container up
+  const keepsRunning = !!opts.detach && (cmd[0] === 'sleep' || (cmd[0] === 'tail' && cmd.includes('-f')) || (!cmd.length && !!img.shell && !!opts.interactive));
+  if (keepsRunning) {
+    output = '';
+  } else if (img.oneShot && !cmd.length) {
     output = img.oneShot;
     exitNow = 0;
   } else if (missingEnv.length) {
@@ -1073,7 +1124,7 @@ function inspectJson(ctx: Ctx, s: DockerState, c: DockerContainer) {
     HostConfig: { RestartPolicy: { Name: c.restart ?? 'no' }, PortBindings: Object.fromEntries(c.ports.map((p) => [`${p.container}/tcp`, [{ HostIp: '', HostPort: String(p.host) }]])), Binds: (c.binds ?? []).map((b) => `${b.host}:${b.container}`) },
     Mounts: [...(c.binds ?? []).map((b) => ({ Type: 'bind', Source: b.host, Destination: b.container })), ...c.volumes.map((v) => ({ Type: 'volume', Name: v.split(':')[0], Destination: v.split(':')[1] }))],
     Config: { Hostname: c.id.slice(0, 12), Env: [...Object.entries(c.env).map(([k, v]) => `${k}=${v}`), 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'], Cmd: c.command.split(' '), Image: c.image, WorkingDir: img?.workdir ?? '', ExposedPorts: Object.fromEntries((img?.expose ?? []).map((p) => [`${p}/tcp`, {}])) },
-    NetworkSettings: { IPAddress: c.state === 'running' ? `172.17.0.${2 + s.containers.filter((x) => x.state === 'running').indexOf(c)}` : '', Ports: Object.fromEntries(c.ports.map((p) => [`${p.container}/tcp`, [{ HostIp: '0.0.0.0', HostPort: String(p.host) }]])), Networks: { [c.network ?? 'bridge']: {} } },
+    NetworkSettings: { IPAddress: c.state === 'running' ? ipOn(s, c, netsOf(c)[0]!) : '', Ports: Object.fromEntries(c.ports.map((p) => [`${p.container}/tcp`, [{ HostIp: '0.0.0.0', HostPort: String(p.host) }]])), Networks: Object.fromEntries(netsOf(c).map((n) => [n, { IPAddress: c.state === 'running' ? ipOn(s, c, n) : '' }])) },
   };
 }
 
@@ -1149,7 +1200,9 @@ export const docker: CommandDef = {
       ['compose up -d', 'start every service from compose.yaml'],
       ['compose down', 'stop and remove the services of compose.yaml'],
       ['volume ls|create|rm', 'manage named volumes'],
-      ['network ls|create', 'list or create networks'],
+      ['network ls|create|inspect|rm', 'list, create, inspect or remove networks'],
+      ['network connect NET CONTAINER', 'attach a running container to one more network'],
+      ['rename CONTAINER NAME', 'give a container a new name'],
       ['-d, --detach', 'run the container in the background and print its ID'],
       ['-p, --publish HOST:CONTAINER', 'publish a container port on the host, e.g. 8080:80'],
       ['--name NAME', 'give the container a name'],
@@ -1399,7 +1452,9 @@ export const docker: CommandDef = {
             continue;
           }
           s = { ...s, images: s.images.filter((x) => x !== img) };
-          ctx.out(`Untagged: ${refOf(img)}\nDeleted: sha256:${img.id || imageId(img)}${hash(img.repo).repeat(4).slice(0, 52)}\n`);
+          // another tag still points at the same image: only the name goes away
+          const shared = !!img.id && s.images.some((x) => x.id === img.id);
+          ctx.out(`Untagged: ${refOf(img)}\n${shared ? '' : `Deleted: sha256:${img.id || imageId(img)}${hash(img.repo).repeat(4).slice(0, 52)}\n`}`);
         }
         save(ctx, s);
         return code;
@@ -1496,6 +1551,24 @@ export const docker: CommandDef = {
         save(ctx, s);
         return 0;
       }
+      case 'rename': {
+        const [from, to] = rest;
+        const c = from ? findContainer(s, from) : undefined;
+        if (!from || !to) {
+          ctx.err(`"docker rename" requires exactly 2 arguments.\nSee 'docker rename --help'.\n\nUsage:  docker rename CONTAINER NEW_NAME\n`);
+          return 1;
+        }
+        if (!c) {
+          ctx.err(`Error response from daemon: No such container: ${from}\n`);
+          return 1;
+        }
+        if (s.containers.some((x) => x.name === to)) {
+          ctx.err(`Error response from daemon: Conflict. The container name "/${to}" is already in use by container "${s.containers.find((x) => x.name === to)!.id}". You have to remove (or rename) that container to be able to reuse that name.\n`);
+          return 1;
+        }
+        save(ctx, { ...s, containers: s.containers.map((x) => (x === c ? { ...c, name: to } : x)) });
+        return 0;
+      }
       case 'build':
         return doBuild(ctx, rest);
       case 'compose':
@@ -1569,12 +1642,64 @@ export const docker: CommandDef = {
           ctx.out(table([['NETWORK ID', 'NAME', 'DRIVER', 'SCOPE'], ...s.networks.map((n) => [hash(n).slice(0, 12), n, n === 'host' ? 'host' : n === 'none' ? 'null' : 'bridge', 'local'])]));
           return 0;
         }
-        if (rest[0] === 'create' && rest[1]) {
-          if (!s.networks.includes(rest[1])) save(ctx, { ...s, networks: [...s.networks, rest[1]] });
-          ctx.out(hash(rest[1]) + hash(rest[1] + 'x') + '\n');
+        const [op, a1, a2] = rest.filter((x) => !x.startsWith('-'));
+        if (op === 'create' && a1) {
+          if (s.networks.includes(a1)) {
+            ctx.err(`Error response from daemon: network with name ${a1} already exists\n`);
+            return 1;
+          }
+          save(ctx, { ...s, networks: [...s.networks, a1] });
+          ctx.out(hash(a1) + hash(a1 + 'x') + '\n');
           return 0;
         }
-        ctx.err(`Usage:  docker network COMMAND\n\nManage networks\n\nCommands:\n  create      Create a network\n  ls          List networks\n`);
+        if ((op === 'inspect' || op === 'rm' || op === 'connect' || op === 'disconnect') && a1 && !s.networks.includes(a1)) {
+          ctx.err(`Error response from daemon: network ${a1} not found\n`);
+          return 1;
+        }
+        if (op === 'inspect' && a1) {
+          const members = s.containers.filter((c) => c.state === 'running' && netsOf(c).includes(a1));
+          const info = { Name: a1, Id: hash(a1) + hash(a1 + 'x'), Scope: 'local', Driver: a1 === 'host' ? 'host' : a1 === 'none' ? 'null' : 'bridge', Containers: Object.fromEntries(members.map((c) => [fullId(c.id), { Name: c.name, IPv4Address: `${ipOn(s, c, a1)}/16` }])) };
+          ctx.out(JSON.stringify([info], null, 4) + '\n');
+          return 0;
+        }
+        if (op === 'rm' && a1) {
+          if (BUILTIN_NETS.has(a1)) {
+            ctx.err(`Error response from daemon: ${a1} is a pre-defined network and cannot be removed\n`);
+            return 1;
+          }
+          if (s.containers.some((c) => netsOf(c).includes(a1))) {
+            ctx.err(`Error response from daemon: error while removing network: network ${a1} has active endpoints\n`);
+            return 1;
+          }
+          save(ctx, { ...s, networks: s.networks.filter((n) => n !== a1) });
+          ctx.out(a1 + '\n');
+          return 0;
+        }
+        if ((op === 'connect' || op === 'disconnect') && a1 && a2) {
+          const c = findContainer(s, a2);
+          if (!c) {
+            ctx.err(`Error response from daemon: No such container: ${a2}\n`);
+            return 1;
+          }
+          const on = netsOf(c).includes(a1);
+          if (op === 'connect' && on) {
+            ctx.err(`Error response from daemon: endpoint with name ${c.name} already exists in network ${a1}\n`);
+            return 1;
+          }
+          if (op === 'disconnect' && !on) {
+            ctx.err(`Error response from daemon: container ${c.id.slice(0, 12)} is not connected to network ${a1}\n`);
+            return 1;
+          }
+          let next: DockerContainer;
+          if (op === 'connect') next = { ...c, extraNetworks: [...(c.extraNetworks ?? []), a1] };
+          else if ((c.network ?? 'bridge') === a1) {
+            const [first, ...others] = c.extraNetworks ?? [];
+            next = { ...c, network: first ?? 'none', extraNetworks: others };
+          } else next = { ...c, extraNetworks: (c.extraNetworks ?? []).filter((n) => n !== a1) };
+          save(ctx, { ...s, containers: s.containers.map((x) => (x === c ? next : x)) });
+          return 0;
+        }
+        ctx.err(`Usage:  docker network COMMAND\n\nManage networks\n\nCommands:\n  connect     Connect a container to a network\n  create      Create a network\n  disconnect  Disconnect a container from a network\n  inspect     Display detailed information on one or more networks\n  ls          List networks\n  rm          Remove one or more networks\n`);
         return 1;
       }
       default:

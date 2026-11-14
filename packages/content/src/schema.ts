@@ -48,7 +48,7 @@ export const CheckSchema = z
     z.object({ type: z.literal('exitCode'), code: z.number() }),
     z.object({ type: z.literal('serviceState'), name: z.string(), state: z.enum(['active', 'inactive', 'failed']) }),
     z.object({ type: z.literal('serviceEnabled'), name: z.string(), enabled: z.boolean() }),
-    z.object({ type: z.literal('containerState'), name: z.string(), state: z.enum(['running', 'exited', 'absent']), image: z.string().optional(), hostPort: z.number().int().optional() }),
+    z.object({ type: z.literal('containerState'), name: z.string(), state: z.enum(['running', 'exited', 'absent']), image: z.string().optional(), hostPort: z.number().int().optional(), network: z.string().optional() }),
     z.object({ type: z.literal('imageExists'), name: z.string(), exists: z.boolean().optional() }),
     z.object({
       type: z.literal('git'),
@@ -79,6 +79,9 @@ export const CheckSchema = z
       prs: z.number().int().optional(),
       merged: z.number().int().optional(),
       issues: z.number().int().optional(),
+      tag: z.string().optional(),
+      release: z.string().optional(),
+      fileContains: z.string().optional(),
     }),
     z.object({ type: z.literal('containerCount'), eq: z.number().int().optional(), min: z.number().int().optional(), max: z.number().int().optional(), running: z.boolean().optional() }),
   ])

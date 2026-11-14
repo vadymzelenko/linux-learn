@@ -60,10 +60,11 @@ def uexists(name, label, group=None, exists=True):
     if group: d["group"] = group
     if not exists: d["exists"] = False
     return _c(d, label)
-def container(name, state, label, image=None, port=None):
+def container(name, state, label, image=None, port=None, network=None):
     d = {"type": "containerState", "name": name, "state": state}
     if image: d["image"] = image
     if port is not None: d["hostPort"] = port
+    if network: d["network"] = network
     return _c(d, label)
 def image(name, label, exists=True):
     d = {"type": "imageExists", "name": name}

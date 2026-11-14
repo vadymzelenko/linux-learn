@@ -69,6 +69,7 @@ export interface GitDb {
   /** GitHub side (bare repositories only). */
   pulls?: PullRequest[];
   issues?: Issue[];
+  releases?: { tag: string; title: string; notes: string; author: string; time: number }[];
   description?: string;
   visibility?: 'public' | 'private';
 }
@@ -621,7 +622,7 @@ function flagsOf(args: string[]): { flags: Set<string>; values: Record<string, s
   const flags = new Set<string>();
   const values: Record<string, string> = {};
   const rest: string[] = [];
-  const withValue = new Set(['-m', '--message', '-n', '-b', '-B', '-c', '-C', '--max-count', '--branch', '--set-upstream-to', '--author', '--format', '--pretty', '-d', '-D', '-M']);
+  const withValue = new Set(['-m', '--message', '-n', '-b', '-B', '-c', '-C', '--max-count', '--branch', '--set-upstream-to', '--author', '--grep', '--format', '--pretty', '-d', '-D', '-M']);
   let i = 0;
   let dashdash = false;
   while (i < args.length) {
@@ -1094,6 +1095,13 @@ const sub: Record<string, Sub> = {
         return sp.some((s) => [...new Set([...Object.keys(parent), ...Object.keys(c.tree)])].some((p) => under(p, s) && parent[p] !== c.tree[p]));
       });
     }
+    const author = values['--author'];
+    if (author) list = list.filter((c) => `${c.author} <${c.email}>`.toLowerCase().includes(author.toLowerCase()));
+    const grep = values['--grep'];
+    if (grep) {
+      const ci = flags.has('-i') || flags.has('--regexp-ignore-case');
+      list = list.filter((c) => (ci ? c.message.toLowerCase().includes(grep.toLowerCase()) : c.message.includes(grep)));
+    }
     if (max !== undefined) list = list.slice(0, Number(max));
     const graph = flags.has('--graph');
     let out = '';
@@ -1412,11 +1420,18 @@ const sub: Record<string, Sub> = {
       ctx.out(db.stash.map((s, i) => `stash@{${i}}: ${s.message}\n`).join(''));
       return 0;
     }
-    if (action === 'pop' || action === 'apply' || action === 'drop') {
-      const s = db.stash[0];
+    if (action === 'pop' || action === 'apply' || action === 'drop' || action === 'show') {
+      const ref = args[1] ?? 'stash@{0}';
+      const m = /^(?:stash@\{)?(\d+)\}?$/.exec(ref);
+      const n = m ? Number(m[1]) : -1;
+      const s = db.stash[n];
       if (!s) {
-        ctx.err('No stash entries found.\n');
+        ctx.err(db.stash.length ? `error: ${ref} is not a valid reference\n` : 'No stash entries found.\n');
         return 1;
+      }
+      if (action === 'show') {
+        ctx.out(diffStat(ctx, db.commits[s.base]?.tree ?? {}, s.work, true));
+        return 0;
       }
       if (action !== 'drop') {
         const work = readTree(ctx, repo.root);
@@ -1424,10 +1439,21 @@ const sub: Record<string, Sub> = {
         checkoutTree(ctx, repo, tracked, s.work);
         db.index = { ...s.index };
       }
-      if (action !== 'apply') db.stash.shift();
+      if (action !== 'apply') db.stash.splice(n, 1);
       saveDb(ctx, repo);
-      if (action === 'drop' || action === 'pop') ctx.out(`Dropped refs/stash@{0}\n`);
-      return sub.status!(ctx, [], o) && 0;
+      const dropped = `Dropped stash@{${n}} (${fnv(s.message + s.base, 7)}${fnv(s.base + s.message, 3)})\n`;
+      if (action === 'drop') {
+        ctx.out(dropped);
+        return 0;
+      }
+      sub.status!(ctx, [], o);
+      if (action === 'pop') ctx.out(dropped);
+      return 0;
+    }
+    if (action === 'clear') {
+      db.stash = [];
+      saveDb(ctx, repo);
+      return 0;
     }
     const st = computeStatus(ctx, repo);
     if (!st.staged.length && !st.unstaged.length) {
@@ -1438,7 +1464,9 @@ const sub: Record<string, Sub> = {
     const tracked = Object.fromEntries(Object.entries(work).filter(([p]) => p in db.index || p in headTree(db)));
     for (const p of Object.keys(db.index)) if (!(p in work)) delete tracked[p];
     const head = headCommit(db)!;
-    const msg = `WIP on ${currentBranch(db)}: ${short(head)} ${subject(db.commits[head]!.message)}`;
+    const mi = args.findIndex((a) => a === '-m' || a === '--message');
+    const own = mi >= 0 ? args[mi + 1] : undefined;
+    const msg = own ? `On ${currentBranch(db)}: ${own}` : `WIP on ${currentBranch(db)}: ${short(head)} ${subject(db.commits[head]!.message)}`;
     db.stash.unshift({ message: msg, index: { ...db.index }, work: tracked, base: head });
     checkoutTree(ctx, repo, tracked, headTree(db));
     db.index = { ...headTree(db) };
@@ -1447,6 +1475,86 @@ const sub: Record<string, Sub> = {
     return 0;
   },
 
+  'cherry-pick'(ctx, args, o) {
+    const repo = needRepo(ctx, o);
+    if (!repo) return 128;
+    const db = repo.db;
+    const { rest } = flagsOf(args);
+    if (!rest.length) {
+      ctx.err('usage: git cherry-pick [<options>] <commit-ish>...\n');
+      return 129;
+    }
+    const st = computeStatus(ctx, repo);
+    if (st.staged.length || st.unstaged.length) {
+      ctx.err('error: your local changes would be overwritten by cherry-pick.\nhint: commit your changes or stash them to proceed.\nfatal: cherry-pick failed\n');
+      return 128;
+    }
+    for (const r of rest) {
+      const id = revParse(db, r);
+      const c = id ? db.commits[id] : undefined;
+      if (!c) {
+        ctx.err(`fatal: bad revision '${r}'\n`);
+        return 128;
+      }
+      const parent = c.parents[0] ? db.commits[c.parents[0]]!.tree : {};
+      const head = headTree(db);
+      const next = { ...head };
+      const conflicts: string[] = [];
+      for (const p of new Set([...Object.keys(parent), ...Object.keys(c.tree)])) {
+        if (parent[p] === c.tree[p]) continue;
+        if (head[p] === parent[p] || head[p] === c.tree[p]) {
+          if (c.tree[p] === undefined) delete next[p];
+          else next[p] = c.tree[p]!;
+        } else conflicts.push(p);
+      }
+      if (conflicts.length) {
+        ctx.err(`error: could not apply ${short(c.id)}... ${subject(c.message)}\nhint: The commit changes lines that are different on this branch (${conflicts.join(', ')}).\nhint: Apply the change by hand instead, or merge the branch.\n`);
+        return 1;
+      }
+      const made = commitNow(ctx, repo, o, c.message, headCommit(db) ? [headCommit(db)!] : [], next);
+      if (!made) return 128;
+      checkoutTree(ctx, repo, head, next);
+      db.index = { ...next };
+      saveDb(ctx, repo);
+      const changed = Object.keys(next).filter((p) => next[p] !== head[p]).length + Object.keys(head).filter((p) => !(p in next)).length;
+      ctx.out(`[${currentBranch(db) ?? 'HEAD'} ${short(made.id)}] ${subject(c.message)}\n Date: ${gitDate(c.time)}\n ${changed} file${changed === 1 ? '' : 's'} changed\n`);
+    }
+    return 0;
+  },
+  blame(ctx, args, o) {
+    const repo = needRepo(ctx, o);
+    if (!repo) return 128;
+    const db = repo.db;
+    const { rest } = flagsOf(args);
+    if (!rest[0]) {
+      ctx.err('usage: git blame [<options>] [<rev-opts>] [<rev>] [--] <file>\n');
+      return 129;
+    }
+    const path = rel(ctx, repo, rest[0]);
+    const chain: GitCommit[] = [];
+    for (let id = headCommit(db); id; id = db.commits[id]?.parents[0]) chain.push(db.commits[id]!);
+    const text = chain[0]?.tree[path];
+    if (text === undefined) {
+      ctx.err(`fatal: no such path '${path}' in HEAD\n`);
+      return 128;
+    }
+    const lines = splitLines(text);
+    const width = Math.max(...chain.map((c) => c.author.length));
+    let out = '';
+    lines.forEach((line, i) => {
+      // the oldest commit from which this line has been in the file ever since
+      let owner = chain[0]!;
+      for (const c of chain) {
+        if (!splitLines(c.tree[path] ?? '').includes(line)) break;
+        owner = c;
+      }
+      const root = owner.parents.length === 0 ? '^' : '';
+      const d = new Date(owner.time).toISOString().replace('T', ' ').slice(0, 19);
+      out += `${root}${short(owner.id).slice(0, root ? 7 : 8)} (${owner.author.padEnd(width)} ${d} +0000 ${String(i + 1).padStart(String(lines.length).length)}) ${line}\n`;
+    });
+    ctx.out(out);
+    return 0;
+  },
   tag(ctx, args, o) {
     const repo = needRepo(ctx, o);
     if (!repo) return 128;
@@ -1635,6 +1743,32 @@ const sub: Record<string, Sub> = {
       ctx.err('fatal: No configured push destination.\nEither specify the URL from the command-line or configure a remote repository using\n\n    git remote add <name> <url>\n\nand then push using the remote name\n\n    git push <name>\n\n');
       return 128;
     }
+    const pushTags = flags.has('--tags');
+    // a tag: git push origin v1.0  /  git push --tags
+    if (pushTags || (rest[1] && db.tags[rest[1]] !== undefined && db.branches[rest[1]] === undefined)) {
+      const url = db.remotes[remoteName]!;
+      const remote = openRemote(ctx, url);
+      if (!remote) return notFound(ctx, url);
+      const names = pushTags ? Object.keys(db.tags).sort() : [rest[1]!];
+      let lines = '';
+      for (const t of names) {
+        if (remote.db.tags[t] === db.tags[t]) continue;
+        if (remote.db.tags[t] !== undefined && !force) {
+          ctx.err(`To ${url}\n ! [rejected]        ${t} -> ${t} (already exists)\nerror: failed to push some refs to '${url}'\nhint: Updates were rejected because the tag already exists in the remote.\n`);
+          return 1;
+        }
+        copyCommits(db, remote.db, db.tags[t]);
+        remote.db.tags[t] = db.tags[t]!;
+        lines += ` * [new tag]         ${t} -> ${t}\n`;
+      }
+      if (!lines) {
+        ctx.err('Everything up-to-date\n');
+        return 0;
+      }
+      saveDb(ctx, remote);
+      ctx.err(`Enumerating objects: 1, done.\nTotal 0 (delta 0), reused 0 (delta 0), pack-reused 0\nTo ${url}\n${lines}`);
+      return 0;
+    }
     let refspec = rest[1] ?? (up && !rest[0] ? up.branch : undefined);
     if (!refspec) {
       if (!setUp && !rest[0]) {
@@ -1683,9 +1817,9 @@ const sub: Record<string, Sub> = {
     }
     db.tracking[`${remoteName}/${dstName}`] = src;
     ctx.err(line);
-    if (setUp && branch) {
-      db.upstream[branch] = { remote: remoteName, branch: dstName! };
-      ctx.out(`branch '${branch}' set up to track '${remoteName}/${dstName}'.\n`);
+    if (setUp && srcName && db.branches[srcName] !== undefined) {
+      db.upstream[srcName] = { remote: remoteName, branch: dstName! };
+      ctx.out(`branch '${srcName}' set up to track '${remoteName}/${dstName}'.\n`);
     }
     saveDb(ctx, repo);
     return 0;
@@ -1910,7 +2044,9 @@ export const git: CommandDef = {
       ['reset', 'move the branch back (--hard also discards changes)'],
       ['revert COMMIT', 'a new commit that undoes an old one'],
       ['stash', 'put unfinished changes aside (stash pop: bring them back)'],
-      ['tag NAME', 'mark a commit, e.g. a release v1.0'],
+      ['tag NAME', 'mark a commit, e.g. a release v1.0 (-a -m: annotated)'],
+      ['cherry-pick COMMIT', 'copy one commit from another branch onto the current one'],
+      ['blame FILE', 'who last changed each line, and in which commit'],
       ['config KEY VALUE', 'settings such as user.name and user.email (--global: for all your repositories)'],
       ['-m, --message MSG', 'commit: the commit message'],
       ['-a, --all', 'commit: stage every modified tracked file first'],
@@ -1924,6 +2060,9 @@ export const git: CommandDef = {
       ['-d NAME', 'branch: delete a merged branch (-D: delete anyway)'],
       ['--global', 'config: the setting is for all your repositories'],
       ['--amend', 'commit: replace the last commit'],
+      ['--tags', 'push: send all tags to the remote'],
+      ['--grep TEXT', 'log: only commits whose message contains TEXT'],
+      ['--author NAME', 'log: only commits by this author'],
       ['--abort', 'merge: give up a merge with conflicts'],
     ],
     examples: [
@@ -2043,6 +2182,8 @@ export const gh: CommandDef = {
       ['issue create', 'open an issue (--title, --body)'],
       ['issue list', 'open issues'],
       ['issue close N', 'close an issue'],
+      ['release create TAG', 'publish a release for a tag (--title, --notes)'],
+      ['release list', 'releases of the repository'],
       ['--title, -t TEXT', 'title of a pull request or issue'],
       ['--body, -b TEXT', 'description of a pull request or issue'],
       ['--base, -B BRANCH', 'pr create: the branch to merge into (default: main)'],
@@ -2068,10 +2209,10 @@ export const gh: CommandDef = {
       }
       return undefined;
     };
-    const positional = rest.filter((a, i) => !a.startsWith('-') && !(i > 0 && /^-(t|b|B|H|-title|-body|-base|-head|-description)$/.test(rest[i - 1]!)));
+    const positional = rest.filter((a, i) => !a.startsWith('-') && !(i > 0 && /^-(t|b|B|H|n|R|-title|-body|-base|-head|-description|-notes|-repo)$/.test(rest[i - 1]!)));
     const user = ghUser(ctx);
     if (!area || area === '--help' || area === 'help') {
-      ctx.out('Work seamlessly with GitHub from the command line.\n\nUSAGE\n  gh <command> <subcommand> [flags]\n\nCORE COMMANDS\n  auth:   Authenticate gh and git with GitHub\n  issue:  Manage issues\n  pr:     Manage pull requests\n  repo:   Manage repositories\n');
+      ctx.out('Work seamlessly with GitHub from the command line.\n\nUSAGE\n  gh <command> <subcommand> [flags]\n\nCORE COMMANDS\n  auth:   Authenticate gh and git with GitHub\n  issue:  Manage issues\n  pr:     Manage pull requests\n  release: Manage releases\n  repo:   Manage repositories\n');
       return 0;
     }
     if (area === '--version') {
@@ -2135,6 +2276,59 @@ export const gh: CommandDef = {
         ctx.out(`${r.owner}/${r.name}\n${r.repo.db.description ?? 'No description provided'}\n\n${readme ?? 'This repository does not have a README'}\n\nView this repository on GitHub: https://github.com/${r.owner}/${r.name}\n`);
         return 0;
       }
+    }
+    if (area === 'release') {
+      const r = ghRepoOf(ctx, val(['--repo', '-R']));
+      if (!r) return ghNoRepo(ctx);
+      const db = r.repo.db;
+      db.releases ??= [];
+      const url = `https://github.com/${r.owner}/${r.name}`;
+      const tag = positional[0];
+      if (action === 'create') {
+        if (!tag) {
+          ctx.err('could not create: no tag name provided\n');
+          return 1;
+        }
+        if (db.releases.some((x) => x.tag === tag)) {
+          ctx.err(`HTTP 422: Validation Failed (${url.replace('https://github.com', 'https://api.github.com/repos')}/releases)\nRelease.tag_name already exists\n`);
+          return 1;
+        }
+        if (db.tags[tag] === undefined) {
+          // like GitHub: a missing tag is created from the default branch
+          const head = db.branches[remoteHeadBranch(db)];
+          if (!head) {
+            ctx.err('HTTP 422: Validation Failed\nRepository is empty\n');
+            return 1;
+          }
+          db.tags[tag] = head;
+        }
+        db.releases.push({ tag, title: val(['--title', '-t']) ?? tag, notes: val(['--notes', '-n']) ?? '', author: user, time: ctx.now });
+        const root = asRoot(ctx);
+        saveDb(root, r.repo);
+        ctx.fs = root.fs;
+        ctx.out(`${url}/releases/tag/${tag}\n`);
+        return 0;
+      }
+      if (action === 'list') {
+        const list = [...db.releases].reverse();
+        if (!list.length) {
+          ctx.err('no releases found\n');
+          return 1;
+        }
+        ctx.out(list.map((x, i) => `${x.title}\t${i === 0 ? 'Latest' : ''}\t${x.tag}\t${new Date(x.time).toISOString().slice(0, 10)}\n`).join(''));
+        return 0;
+      }
+      if (action === 'view') {
+        const x = tag ? db.releases.find((y) => y.tag === tag) : db.releases[db.releases.length - 1];
+        if (!x) {
+          ctx.err('release not found\n');
+          return 1;
+        }
+        ctx.out(`${x.title}\n${x.tag}\n${x.author} released this ${new Date(x.time).toISOString().slice(0, 10)}\n\n  ${x.notes || 'No release notes'}\n\nView on GitHub: ${url}/releases/tag/${x.tag}\n`);
+        return 0;
+      }
+      ctx.err(`unknown command "release ${action ?? ''}" for "gh"\n`);
+      return 1;
     }
     if (area === 'pr' || area === 'issue') {
       const r = ghRepoOf(ctx, val(['--repo', '-R']));
