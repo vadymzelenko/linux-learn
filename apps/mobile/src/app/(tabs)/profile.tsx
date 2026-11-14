@@ -8,6 +8,43 @@ import { Body, Button, Card, H1, H2, Icon, IconButton, ProgressBar, Row, Screen 
 import { dayKey, liveStreak } from '../../lib/progress';
 import { Text } from '../../theme/Text';
 
+/** Each level has its own colour and symbol; the avatar grows with the learner. */
+const LEVEL_LOOK: Record<string, { color: string; icon: string }> = {
+  newbie: { color: '#3DDC84', icon: 'sprout' },
+  user: { color: '#5EA9FF', icon: 'console' },
+  scripter: { color: '#B48EF5', icon: 'script-text-outline' },
+  poweruser: { color: '#4DD0E1', icon: 'lightning-bolt' },
+  admin: { color: '#FF8A65', icon: 'server' },
+  sysadmin: { color: '#F5C451', icon: 'shield-star-outline' },
+  root: { color: '#FF6B6B', icon: 'crown-outline' },
+};
+const INK = '#06240F';
+
+function Avatar({ name, levelId, levelNo }: { name: string; levelId: string; levelNo: number }) {
+  const theme = useTheme();
+  const look = LEVEL_LOOK[levelId] ?? LEVEL_LOOK.newbie!;
+  const initials = name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => [...w][0]!.toUpperCase())
+    .join('');
+  return (
+    <View style={[styles.avatar, { backgroundColor: look.color }]}>
+      {initials ? (
+        <Text style={{ color: INK, fontSize: 24, fontWeight: '900', letterSpacing: -0.5 }}>{initials}</Text>
+      ) : (
+        <Icon name={look.icon} size={30} color={INK} />
+      )}
+      <View style={[styles.levelBadge, { backgroundColor: theme.surface, borderColor: look.color }]}>
+        <Icon name={look.icon} size={12} color={look.color} />
+        <Text style={{ color: theme.text, fontSize: 11, fontWeight: '800' }}>{levelNo}</Text>
+      </View>
+    </View>
+  );
+}
+
 function Stat({ value, label }: { value: string | number; label: string }) {
   const theme = useTheme();
   return (
@@ -22,6 +59,7 @@ export default function ProfileScreen() {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const p = useStore((s) => s.progress);
+  const certName = useStore((s) => s.settings.certName);
   const level = levelFor(p.xp);
   const nextLevel = LEVELS[level.index + 1];
   const streak = liveStreak(p.streak, dayKey(new Date()));
@@ -38,9 +76,7 @@ export default function ProfileScreen() {
 
         <Card style={{ gap: space.md, marginTop: space.md }}>
           <Row>
-            <View style={[styles.avatar, { backgroundColor: theme.term.bg, borderColor: theme.accent }]}>
-              <Text style={{ fontFamily: MONO, color: theme.term.user, fontSize: 22 }}>{level.id === 'root' ? '#' : '$'}</Text>
-            </View>
+            <Avatar name={certName} levelId={level.id} levelNo={level.index + 1} />
             <View style={{ flex: 1 }}>
               <Text style={{ color: theme.textDim, fontSize: 13 }}>{t('profile.level')} {level.index + 1}</Text>
               <H2>{levelName(level.id)}</H2>
@@ -116,7 +152,8 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   content: { padding: space.lg, paddingBottom: space.xxl, maxWidth: 820, width: '100%', alignSelf: 'center' },
-  avatar: { width: 60, height: 60, borderRadius: 30, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
+  avatar: { width: 64, height: 64, borderRadius: 22, alignItems: 'center', justifyContent: 'center', marginRight: 4 },
+  levelBadge: { position: 'absolute', right: -6, bottom: -6, flexDirection: 'row', alignItems: 'center', gap: 2, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 999, borderWidth: 2 },
   stat: { alignItems: 'center', gap: 2, flex: 1 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
   ach: { width: '31.5%', minWidth: 100, flexGrow: 1, borderWidth: 1, borderRadius: 16, padding: space.md, alignItems: 'center', gap: 6 },

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { useState, type ReactNode } from 'react';
+import { LayoutAnimation, Platform, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { LANGS } from '@linux-learn/content';
@@ -57,6 +57,13 @@ export default function SettingsScreen() {
     confirmDialog({ title: t('settings.resetProgress'), message: t('settings.resetConfirm'), confirm: t('common.reset'), cancel: t('common.cancel'), destructive: true, icon: 'trash', onConfirm: doIt });
   };
 
+  // one section open at a time keeps the screen short and calm
+  const [open, setOpen] = useState<string | null>(null);
+  const toggle = (id: string) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setOpen((o) => (o === id ? null : id));
+  };
+
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
@@ -64,123 +71,132 @@ export default function SettingsScreen() {
         <H1 style={{ fontSize: 24 }}>{t('settings.title')}</H1>
       </Row>
       <ScrollView contentContainerStyle={styles.content}>
-        <H2>{t('settings.language')}</H2>
-        <View style={styles.chips}>
-          <Chip label={t('settings.system')} active={s.lang === 'system'} onPress={() => { haptic.tap(); set({ lang: 'system' }); }} />
-          {LANGS.map((l) => (
-            <Chip key={l} label={LANGUAGE_NAMES[l]} active={s.lang === l} onPress={() => set({ lang: l })} />
-          ))}
-        </View>
-
-        <H2>{t('settings.theme')}</H2>
-        <View style={styles.themes}>
-          {THEME_IDS.map((id) => {
-            const th = themes[id];
-            const active = s.theme === id;
-            return (
-              <Pressable
-                key={id}
-                onPress={() => set({ theme: id })}
-                accessibilityRole="radio"
-                accessibilityState={{ checked: active }}
-                accessibilityLabel={t(`settings.themes.${id}`)}
-                style={[styles.themeCard, { backgroundColor: th.term.bg, borderColor: active ? theme.accent : theme.border, borderWidth: active ? 2 : 1 }]}
-              >
-                <Text style={{ fontFamily: MONO, fontSize: 12 }}>
-                  <Text style={{ fontFamily: MONO, color: th.term.user }}>student@trainer</Text>
-                  <Text style={{ fontFamily: MONO, color: th.term.fg }}>:</Text>
-                  <Text style={{ fontFamily: MONO, color: th.term.path }}>~</Text>
-                  <Text style={{ fontFamily: MONO, color: th.term.fg }}>$ ls</Text>
-                </Text>
-                <Text style={{ fontFamily: MONO, fontSize: 12 }}>
-                  <Text style={{ fontFamily: MONO, color: th.term.ansi[12] }}>docs</Text>
-                  <Text style={{ fontFamily: MONO, color: th.term.fg }}>  notes.txt  </Text>
-                  <Text style={{ fontFamily: MONO, color: th.term.ansi[10] }}>run.sh</Text>
-                </Text>
-                <Text style={{ color: th.term.fg, marginTop: 6, fontWeight: '700' }}>{t(`settings.themes.${id}`)}</Text>
-              </Pressable>
-            );
-          })}
-        </View>
-
-        <H2>{t('keyboard.title')}</H2>
-        <KeyboardSettingsCard />
-
-        <H2>{t('settings.fontSize')}</H2>
-        <Card style={{ gap: space.md }}>
-          <Text style={{ fontFamily: MONO, fontSize: s.fontSize, color: theme.text }}>$ echo &quot;Hello, Linux&quot;</Text>
-          <Row>
-            <Button small variant="secondary" title="A−" onPress={() => set({ fontSize: Math.max(11, s.fontSize - 1) })} />
-            <Text style={{ color: theme.text, fontFamily: MONO, minWidth: 40, textAlign: 'center' }}>{s.fontSize}</Text>
-            <Button small variant="secondary" title="A+" onPress={() => set({ fontSize: Math.min(22, s.fontSize + 1) })} />
-          </Row>
-        </Card>
-
-        <Card style={{ gap: space.md }}>
-          <Row style={{ justifyContent: 'space-between' }}>
-            <View style={{ flex: 1 }}>
-              <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.haptics')}</Text>
-              <Body dim>{t('settings.hapticsHint')}</Body>
-            </View>
-            <Switch
-              value={s.haptics}
-              onValueChange={(v) => {
-                set({ haptics: v });
-                if (v) setTimeout(() => haptic.success(), 50);
-              }}
-              accessibilityLabel={t('settings.haptics')}
-            />
-          </Row>
-          <Row style={{ justifyContent: 'space-between' }}>
-            <View style={{ flex: 1 }}>
-              <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.sounds')}</Text>
-              <Body dim>{t('settings.soundsHint')}</Body>
-            </View>
-            <Switch
-              value={s.sounds}
-              onValueChange={(v) => {
-                set({ sounds: v });
-                if (v) setTimeout(() => sound.play('success'), 50);
-              }}
-              accessibilityLabel={t('settings.sounds')}
-            />
-          </Row>
-          {Platform.OS !== 'ios' ? (
-            <Row style={{ justifyContent: 'space-between' }}>
-              <View style={{ flex: 1 }}>
-                <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.immersive')}</Text>
-                <Body dim>{t('settings.immersiveHint')}</Body>
-              </View>
-              <Switch value={s.immersive} onValueChange={(v) => set({ immersive: v })} accessibilityLabel={t('settings.immersive')} />
-            </Row>
-          ) : null}
-          <Row style={{ justifyContent: 'space-between' }}>
-            <View style={{ flex: 1 }}>
-              <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.reminders')}</Text>
-              <Body dim>{t('settings.remindersHint')}</Body>
-            </View>
-            <Switch value={s.reminders} onValueChange={(v) => void toggleReminders(v)} accessibilityLabel={t('settings.reminders')} />
-          </Row>
-          {s.reminders ? (
-            <Row>
-              <Text style={{ color: theme.textDim }}>{t('settings.reminderTime')}</Text>
-              {[8, 12, 19, 21].map((h) => (
-                <Chip key={h} label={`${h}:00`} active={s.reminderHour === h} onPress={() => set({ reminderHour: h })} />
+        <Section id="lang" icon="translate" color="#5EA9FF" title={t('settings.language')} summary={s.lang === 'system' ? t('settings.system') : LANGUAGE_NAMES[s.lang as keyof typeof LANGUAGE_NAMES]} open={open} onToggle={toggle}>
+            <View style={styles.chips}>
+              <Chip label={t('settings.system')} active={s.lang === 'system'} onPress={() => { haptic.tap(); set({ lang: 'system' }); }} />
+              {LANGS.map((l) => (
+                <Chip key={l} label={LANGUAGE_NAMES[l]} active={s.lang === l} onPress={() => set({ lang: l })} />
               ))}
-            </Row>
-          ) : null}
-        </Card>
-
-        <Card onPress={() => router.push('/backup')} accessibilityLabel={t('backup.title')}>
-          <Row gap={12}>
-            <Icon name="swap-horizontal-circle-outline" size={28} color={theme.accent} />
-            <View style={{ flex: 1 }}>
-              <Text style={{ color: theme.text, fontWeight: '800', fontSize: 16 }}>{t('backup.title')}</Text>
-              <Body dim>{t('backup.entry')}</Body>
             </View>
-            <Icon name="chevron-right" color={theme.textDim} />
-          </Row>
-        </Card>
+        </Section>
+
+        <Section id="look" icon="palette-outline" color="#B48EF5" title={t('settings.appearance')} summary={`${t(`settings.themes.${s.theme}` as 'settings.themes.classic')} · ${s.fontSize} pt`} open={open} onToggle={toggle}>
+          <Text style={{ color: theme.textDim, fontWeight: '700' }}>{t('settings.theme')}</Text>
+            <View style={styles.themes}>
+              {THEME_IDS.map((id) => {
+                const th = themes[id];
+                const active = s.theme === id;
+                return (
+                  <Pressable
+                    key={id}
+                    onPress={() => set({ theme: id })}
+                    accessibilityRole="radio"
+                    accessibilityState={{ checked: active }}
+                    accessibilityLabel={t(`settings.themes.${id}`)}
+                    style={[styles.themeCard, { backgroundColor: th.term.bg, borderColor: active ? theme.accent : theme.border, borderWidth: active ? 2 : 1 }]}
+                  >
+                    <Text style={{ fontFamily: MONO, fontSize: 12 }}>
+                      <Text style={{ fontFamily: MONO, color: th.term.user }}>student@trainer</Text>
+                      <Text style={{ fontFamily: MONO, color: th.term.fg }}>:</Text>
+                      <Text style={{ fontFamily: MONO, color: th.term.path }}>~</Text>
+                      <Text style={{ fontFamily: MONO, color: th.term.fg }}>$ ls</Text>
+                    </Text>
+                    <Text style={{ fontFamily: MONO, fontSize: 12 }}>
+                      <Text style={{ fontFamily: MONO, color: th.term.ansi[12] }}>docs</Text>
+                      <Text style={{ fontFamily: MONO, color: th.term.fg }}>  notes.txt  </Text>
+                      <Text style={{ fontFamily: MONO, color: th.term.ansi[10] }}>run.sh</Text>
+                    </Text>
+                    <Text style={{ color: th.term.fg, marginTop: 6, fontWeight: '700' }}>{t(`settings.themes.${id}`)}</Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          <Text style={{ color: theme.textDim, fontWeight: '700' }}>{t('settings.fontSize')}</Text>
+            <View style={{ gap: space.md }}>
+              <Text style={{ fontFamily: MONO, fontSize: s.fontSize, color: theme.text }}>$ echo &quot;Hello, Linux&quot;</Text>
+              <Row>
+                <Button small variant="secondary" title="A−" onPress={() => set({ fontSize: Math.max(11, s.fontSize - 1) })} />
+                <Text style={{ color: theme.text, fontFamily: MONO, minWidth: 40, textAlign: 'center' }}>{s.fontSize}</Text>
+                <Button small variant="secondary" title="A+" onPress={() => set({ fontSize: Math.min(22, s.fontSize + 1) })} />
+              </Row>
+            </View>
+        </Section>
+
+        <Section id="kb" icon="keyboard-outline" color="#3DDC84" title={t('keyboard.title')} summary={s.keyboard.mode === 'custom' ? t('keyboard.custom') : t('keyboard.system')} open={open} onToggle={toggle}>
+          <KeyboardSettingsCard />
+        </Section>
+
+        <Section id="sound" icon="bell-outline" color="#F5C451" title={t('settings.soundNotif')} summary={`${t('settings.sounds')}: ${s.sounds ? t('settings.on') : t('settings.off')} · ${t('settings.reminders')}: ${s.reminders ? `${s.reminderHour}:00` : t('settings.off')}`} open={open} onToggle={toggle}>
+            <View style={{ gap: space.md }}>
+              <Row style={{ justifyContent: 'space-between' }}>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.haptics')}</Text>
+                  <Body dim>{t('settings.hapticsHint')}</Body>
+                </View>
+                <Switch
+                  value={s.haptics}
+                  onValueChange={(v) => {
+                    set({ haptics: v });
+                    if (v) setTimeout(() => haptic.success(), 50);
+                  }}
+                  accessibilityLabel={t('settings.haptics')}
+                />
+              </Row>
+              <Row style={{ justifyContent: 'space-between' }}>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.sounds')}</Text>
+                  <Body dim>{t('settings.soundsHint')}</Body>
+                </View>
+                <Switch
+                  value={s.sounds}
+                  onValueChange={(v) => {
+                    set({ sounds: v });
+                    if (v) setTimeout(() => sound.play('success'), 50);
+                  }}
+                  accessibilityLabel={t('settings.sounds')}
+                />
+              </Row>
+              {Platform.OS !== 'ios' ? (
+                <Row style={{ justifyContent: 'space-between' }}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.immersive')}</Text>
+                    <Body dim>{t('settings.immersiveHint')}</Body>
+                  </View>
+                  <Switch value={s.immersive} onValueChange={(v) => set({ immersive: v })} accessibilityLabel={t('settings.immersive')} />
+                </Row>
+              ) : null}
+              <Row style={{ justifyContent: 'space-between' }}>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.reminders')}</Text>
+                  <Body dim>{t('settings.remindersHint')}</Body>
+                </View>
+                <Switch value={s.reminders} onValueChange={(v) => void toggleReminders(v)} accessibilityLabel={t('settings.reminders')} />
+              </Row>
+              {s.reminders ? (
+                <Row>
+                  <Text style={{ color: theme.textDim }}>{t('settings.reminderTime')}</Text>
+                  {[8, 12, 19, 21].map((h) => (
+                    <Chip key={h} label={`${h}:00`} active={s.reminderHour === h} onPress={() => set({ reminderHour: h })} />
+                  ))}
+                </Row>
+              ) : null}
+            </View>
+        </Section>
+
+        <Section id="data" icon="shield-check-outline" color="#FF8A65" title={t('settings.data')} summary={t('backup.title')} open={open} onToggle={toggle}>
+            <Card onPress={() => router.push('/backup')} accessibilityLabel={t('backup.title')}>
+              <Row gap={12}>
+                <Icon name="swap-horizontal-circle-outline" size={28} color={theme.accent} />
+                <View style={{ flex: 1 }}>
+                  <Text style={{ color: theme.text, fontWeight: '800', fontSize: 16 }}>{t('backup.title')}</Text>
+                  <Body dim>{t('backup.entry')}</Body>
+                </View>
+                <Icon name="chevron-right" color={theme.textDim} />
+              </Row>
+            </Card>
+            <Body dim>{t('settings.privacyText')}</Body>
+            <Button variant="danger" title={t('settings.resetProgress')} onPress={reset} />
+        </Section>
 
         <Pressable onPress={() => router.push('/developer')} accessibilityRole="button" accessibilityLabel={t('settings.developer')} style={({ pressed }) => [styles.devRow, { opacity: pressed ? 0.6 : 1 }]}>
           <Text style={{ color: theme.text, fontWeight: '700', fontSize: 16 }}>{t('settings.developer')}</Text>
@@ -190,10 +206,6 @@ export default function SettingsScreen() {
           </Row>
         </Pressable>
 
-        <H2>{t('settings.privacy')}</H2>
-        <Body dim>{t('settings.privacyText')}</Body>
-
-        <Button variant="danger" title={t('settings.resetProgress')} onPress={reset} style={{ marginTop: space.lg }} />
         <Text style={[styles.studioName, { color: theme.textDim }]}>VZstudio</Text>
       </ScrollView>
     </Screen>
@@ -201,6 +213,10 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
+  section: { borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
+  sectionHead: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: space.md },
+  sectionIcon: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  sectionBody: { paddingHorizontal: space.md, paddingBottom: space.md, gap: space.md },
   studioName: { fontFamily: MONO, fontSize: 12, fontWeight: '700', letterSpacing: 3, textAlign: 'center', marginTop: space.xl },
   devRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: space.md },
   content: { padding: space.lg, gap: space.md, paddingBottom: space.xxl, maxWidth: 860, width: '100%', alignSelf: 'center' },
@@ -213,6 +229,40 @@ const styles = StyleSheet.create({
   themeCard: { width: '48%', flexGrow: 1, minWidth: 150, borderRadius: 14, padding: 12, gap: 2 },
 });
 
+/** A settings group: a coloured row with the current value, unfolds on tap. */
+function Section({ id, icon, color, title, summary, open, onToggle, children }: { id: string; icon: string; color: string; title: string; summary: string; open: string | null; onToggle: (id: string) => void; children: ReactNode }) {
+  const theme = useTheme();
+  const isOpen = open === id;
+  return (
+    <View style={[styles.section, { backgroundColor: theme.surface, borderColor: isOpen ? color : theme.border }]}>
+      <Pressable
+        onPress={() => {
+          haptic.tap();
+          onToggle(id);
+        }}
+        accessibilityRole="button"
+        accessibilityState={{ expanded: isOpen }}
+        accessibilityLabel={title}
+        style={({ pressed }) => [styles.sectionHead, { opacity: pressed ? 0.7 : 1 }]}
+      >
+        <View style={[styles.sectionIcon, { backgroundColor: color }]}>
+          <Icon name={icon} size={20} color="#06240F" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={{ color: theme.text, fontWeight: '800', fontSize: 16 }}>{title}</Text>
+          {isOpen ? null : (
+            <Text style={{ color: theme.textDim, fontSize: 13 }} numberOfLines={1}>
+              {summary}
+            </Text>
+          )}
+        </View>
+        <Icon name={isOpen ? 'chevron-up' : 'chevron-down'} color={theme.textDim} />
+      </Pressable>
+      {isOpen ? <View style={styles.sectionBody}>{children}</View> : null}
+    </View>
+  );
+}
+
 /** Keyboard settings with a live preview of the keyboard itself. */
 function KeyboardSettingsCard() {
   const theme = useTheme();
@@ -224,7 +274,7 @@ function KeyboardSettingsCard() {
   const set = (patch: Partial<KeyboardSettings>) => setSettings({ keyboard: { ...kb, ...patch } });
   const noop = () => undefined;
   return (
-    <Card style={{ gap: space.md }}>
+    <View style={{ gap: space.md }}>
       <View style={styles.chips}>
         <Chip label={t('keyboard.custom')} active={kb.mode === 'custom'} onPress={() => set({ mode: 'custom' })} />
         <Chip label={t('keyboard.system')} active={kb.mode === 'system'} onPress={() => set({ mode: 'system' })} />
@@ -303,6 +353,6 @@ function KeyboardSettingsCard() {
           </View>
         </>
       ) : null}
-    </Card>
+    </View>
   );
 }

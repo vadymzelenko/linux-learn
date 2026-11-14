@@ -1,4 +1,6 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, type ReactNode } from 'react';
+import { useFocusEffect } from 'expo-router';
+import { screenReady } from '../../lib/nav';
 import { ActivityIndicator, Animated, Easing, Pressable, StyleSheet, useWindowDimensions, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
 import { useTheme, radius, space, MONO } from '../../theme';
@@ -18,6 +20,8 @@ export function Screen({ children, edges = ['top'], style }: { children: ReactNo
   useEffect(() => {
     Animated.timing(v, { toValue: 1, duration: 240, easing: Easing.out(Easing.quad), useNativeDriver: ND }).start();
   }, [v]);
+  // tells the navigation lock that this screen is on screen now
+  useFocusEffect(useCallback(() => screenReady(), []));
   return (
     <SafeAreaView edges={[...new Set<Edge>([...edges, 'left', 'right'])]} style={[{ flex: 1, backgroundColor: t.bg }, style]}>
       <Animated.View style={{ flex: 1, opacity: v.interpolate({ inputRange: [0, 1], outputRange: [0.35, 1] }), transform: [{ translateY: v.interpolate({ inputRange: [0, 1], outputRange: [6, 0] }) }] }}>{children}</Animated.View>

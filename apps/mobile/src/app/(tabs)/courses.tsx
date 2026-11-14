@@ -238,6 +238,11 @@ export default function CoursesScreen() {
   const allDone = activeCourses.every((c) => courseLessons(c).every((l) => progress.lessons[l.lesson.id]?.completedAt));
   const mods = courseModules(course);
   const tabsRef = useRef<ScrollViewInstance>(null);
+  const pageRef = useRef<ScrollViewInstance>(null);
+  // another course starts from its top, not where the previous one was scrolled
+  useEffect(() => {
+    pageRef.current?.scrollTo({ y: 0, animated: false });
+  }, [course.id]);
   const tabX = useRef<Record<string, number>>({});
   // keep the selected course tab in view (it may be off-screen on a phone)
   useEffect(() => {
@@ -255,7 +260,7 @@ export default function CoursesScreen() {
 
   return (
     <Screen>
-      <ScrollView contentContainerStyle={[styles.content, { padding: layout.pad, maxWidth: layout.tablet ? 860 : undefined }]}>
+      <ScrollView ref={pageRef} contentContainerStyle={[styles.content, { padding: layout.pad, maxWidth: layout.tablet ? 860 : undefined }]}>
         <H1 style={{ fontSize: 26, marginBottom: space.md }}>{t('courses.title')}</H1>
 
         <ScrollView ref={tabsRef} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingBottom: space.md, paddingRight: space.md }}>

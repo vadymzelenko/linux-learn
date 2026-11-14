@@ -405,6 +405,11 @@ const pl: Dict = {
     certificate: 'Certyfikat',
   },
   settings: {
+    off: 'wył.',
+    on: 'wł.',
+    data: 'Dane i prywatność',
+    soundNotif: 'Dźwięk i powiadomienia',
+    appearance: 'Wygląd',
     developer: 'Twórca',
     immersiveHint: 'Jak w grach: pasek stanu i przyciski systemowe są ukryte. Przesuń od górnej lub dolnej krawędzi, by na chwilę je zobaczyć.',
     immersive: 'Pełny ekran',

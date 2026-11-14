@@ -16,6 +16,7 @@ import { AppThemeProvider, useTheme } from '../theme';
 import { useStore } from '../state/store';
 import { Toasts } from '../components/Toasts';
 import { DialogHost } from '../components/Dialog';
+import { NavBlocker } from '../components/NavBlocker';
 import { sound } from '../lib/sound';
 import { syncReminder } from '../lib/reminders';
 import { Button } from '../components/ui';
@@ -72,6 +73,7 @@ function Shell() {
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.bg }, animation: Platform.OS === 'android' ? 'fade_from_bottom' : 'default', animationDuration: 260, gestureEnabled: true }} />
       <Toasts />
       <DialogHost />
+      <NavBlocker />
     </View>
   );
 }

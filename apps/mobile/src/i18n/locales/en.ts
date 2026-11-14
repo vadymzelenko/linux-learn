@@ -403,6 +403,11 @@ const en = {
     certificate: 'Certificate',
   },
   settings: {
+    off: 'off',
+    on: 'on',
+    data: 'Data and privacy',
+    soundNotif: 'Sound and notifications',
+    appearance: 'Appearance',
     developer: 'Developer',
     immersiveHint: 'Like in games: the status bar and system buttons hide. Swipe from the top or bottom edge to see them for a moment.',
     immersive: 'Full screen',
