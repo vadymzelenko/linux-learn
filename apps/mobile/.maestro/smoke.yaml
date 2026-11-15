@@ -106,13 +106,14 @@ appId: com.vadymzelenko.linuxtrainer
     text: "Glossary"
     repeat: 5
     delay: 80
+# "Argument" is the first glossary term: only the glossary screen shows it
 - extendedWaitUntil:
-    visible: ".* terms"
+    visible: "Argument"
     timeout: 10000
 - takeScreenshot: 10-glossary-once
 - pressKey: Back
 - waitForAnimationToEnd:
     timeout: 3000
-- assertNotVisible: ".* terms"
-- assertVisible: "Explain a command"
+- assertNotVisible: "Argument"
+- assertVisible: "Practice set"
 - takeScreenshot: 11-back-home
