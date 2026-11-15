@@ -15,7 +15,8 @@
 | артефакт | что внутри |
 |---|---|
 | `apk` | `linux-trainer-N.apk` — ставится на любой телефон |
-| `aab-for-google-play` | `linux-trainer-N.aab` + `badging.txt` (пакет, версия, разрешения, targetSdk) |
+| `aab-for-google-play` | `linux-trainer-N.aab` + `badging.txt` — подписан ключом загрузки, для Google Play |
+| `aab-DEBUG-not-for-google-play` | то же, но с отладочной подписью: появляется, пока не добавлены секреты (раздел 4); Play его не примет |
 | `smoke-test-screenshots` | скриншоты с эмулятора, отчёт и `logcat.txt` при падении |
 
 Можно запустить вручную: Actions → Android → **Run workflow**.
@@ -57,24 +58,29 @@ npx eas-cli@latest submit --platform android                       # отпра�
 
 ## 4. Ключ загрузки для Google Play
 
-Google Play принимает AAB, подписанный вашим **ключом загрузки** (upload key); финальной подписью занимается сам Google (Play App Signing). Создайте ключ один раз **на своём компьютере** и храните его копию в надёжном месте — без него не выпустить обновление (восстанавливается только через поддержку Google).
+Google Play принимает только AAB, подписанный вашим **ключом загрузки** (upload key); финальной подписью занимается сам Google (Play App Signing). Без ключа CI подписывает сборку отладочным ключом — тогда артефакт называется `aab-DEBUG-not-for-google-play`, а Play отвечает «подписан в режиме отладки».
+
+**Создать ключ — одна команда на вашем компьютере** (нужна Java: Android Studio или `brew install openjdk`):
 
 ```bash
-keytool -genkeypair -v -storetype JKS -keystore upload.jks -alias upload \
-  -keyalg RSA -keysize 2048 -validity 10000
-base64 -w0 upload.jks > upload.jks.b64      # macOS: base64 -i upload.jks -o upload.jks.b64
+git clone https://github.com/vadymzelenko/linux-learn && cd linux-learn
+bash scripts/make-upload-key.sh
 ```
 
-GitHub → Settings → Secrets and variables → Actions → **New repository secret**:
+Скрипт создаст папку `~/linux-trainer-upload-key/` с `upload.jks` и `secrets.txt` (4 значения со случайным паролем). Если установлен и авторизован GitHub CLI (`gh`), он предложит сам добавить секреты. Иначе вручную: GitHub → Settings → Secrets and variables → Actions → **New repository secret**, по одному на каждую пару «имя — значение» из `secrets.txt`:
 
 | секрет | значение |
 |---|---|
-| `ANDROID_KEYSTORE_BASE64` | содержимое `upload.jks.b64` |
-| `ANDROID_KEYSTORE_PASSWORD` | пароль хранилища |
+| `ANDROID_KEYSTORE_BASE64` | длинная строка из `secrets.txt` |
+| `ANDROID_KEYSTORE_PASSWORD` | пароль |
 | `ANDROID_KEY_ALIAS` | `upload` |
-| `ANDROID_KEY_PASSWORD` | пароль ключа |
+| `ANDROID_KEY_PASSWORD` | тот же пароль |
 
-После этого все сборки из Actions подписываются ключом загрузки. Локально то же самое — через переменные `ANDROID_KEYSTORE_PATH`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD` перед `pnpm android:aab` (их читает плагин `apps/mobile/plugins/withReleaseSigning.js`).
+Затем Actions → Android → **Run workflow**. В сводке запуска появится «✅ AAB signed with the upload key», артефакт — `aab-for-google-play`. Если секреты заданы, но AAB всё равно отладочный, сборка упадёт с понятной ошибкой.
+
+⚠️ Сохраните `upload.jks` и `secrets.txt` в двух надёжных местах (менеджер паролей + резервная копия) и **не коммитьте** их. Потеряете ключ — сбросить его можно только через поддержку Google Play.
+
+Локальная сборка с тем же ключом: переменные `ANDROID_KEYSTORE_PATH`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD` перед `pnpm android:aab` (их читает плагин `apps/mobile/plugins/withReleaseSigning.js`).
 
 ## 5. Версии
 
