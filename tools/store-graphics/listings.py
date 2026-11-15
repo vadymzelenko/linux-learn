@@ -158,7 +158,7 @@ FORMS = f'''{LINE}
 APP DETAILS
 {LINE}
 App name ............ Linux Terminal Trainer
-Package ............. com.vadymzelenko.linuxtrainer
+Package ............. com.vadymzelenko.linuxterminaltrainer
 Developer ........... VZstudio
 App or game ......... App
 Free or paid ........ Free

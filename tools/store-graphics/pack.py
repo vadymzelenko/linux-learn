@@ -67,7 +67,7 @@ Linux Terminal Trainer — learn the Linux command line by doing
 Description:
 Learn the Linux terminal by typing real commands in a safe simulated system: short lessons, tasks checked by the result, on-call missions, "Explain a command", Docker and Git courses. Free, offline, no account, no ads.
 
-Android: https://play.google.com/store/apps/details?id=com.vadymzelenko.linuxtrainer
+Android: https://play.google.com/store/apps/details?id=com.vadymzelenko.linuxterminaltrainer
 In the browser: https://vadymzelenko.github.io/linux-learn/app/
 Website: https://vadymzelenko.github.io/linux-learn/
 

@@ -9,7 +9,7 @@ Manage translations → Add your own translations.
 APP DETAILS
 ==============================================================================
 App name ............ Linux Terminal Trainer
-Package ............. com.vadymzelenko.linuxtrainer
+Package ............. com.vadymzelenko.linuxterminaltrainer
 Developer ........... VZstudio
 App or game ......... App
 Free or paid ........ Free
