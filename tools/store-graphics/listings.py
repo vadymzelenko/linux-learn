@@ -151,6 +151,8 @@ Dla przyszłych administratorów, inżynierów DevOps, SRE, NOC i wsparcia, stud
 
 NAMES = {'en': 'ENGLISH (en-US) — default language', 'ru': 'РУССКИЙ (ru-RU)', 'uk': 'УКРАЇНСЬКА (uk)', 'pl': 'POLSKI (pl-PL)'}
 LINE = '=' * 78
+# language tags Play Console uses in release notes
+PLAY_CODE = {'en': 'en-US', 'ru': 'ru-RU', 'uk': 'uk', 'pl': 'pl-PL'}
 
 FORMS = f'''{LINE}
 APP DETAILS
@@ -241,9 +243,9 @@ Full description ({sizes["full"]}/4000):
 {d["full"]}
 
 Release notes / What's new ({sizes["notes"]}/500):
-<{lang}>
+<{PLAY_CODE[lang]}>
 {d["notes"]}
-</{lang}>
+</{PLAY_CODE[lang]}>
 ''')
     with open(os.path.join(OUT, 'google-play.txt'), 'w') as f:
         f.write('\n'.join(parts))

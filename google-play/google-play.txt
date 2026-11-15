@@ -107,9 +107,9 @@ PHONES AND TABLETS
 For future system administrators, DevOps, SRE, NOC and support engineers, students, and anyone preparing for a Linux certification or a first IT job. Bash scripting, a deeper networking course and Kubernetes are in the works.
 
 Release notes / What's new (187/500):
-<en>
+<en-US>
 All 4 courses are free: Linux, NOC engineer, Docker, Git and GitHub. 118 lessons, 250+ tasks and 21 missions. New modules: Docker in production and Git in practice. No ads, works offline.
-</en>
+</en-US>
 
 ==============================================================================
 STORE LISTING — РУССКИЙ (ru-RU)
@@ -154,9 +154,9 @@ Linux Terminal Trainer — это полноценный курс Linux и се�
 Для будущих системных администраторов, DevOps, SRE, NOC- и support-инженеров, студентов и всех, кто готовится к сертификации по Linux или к первой работе в IT. Скоро новые курсы: Bash-скрипты, сети глубже, Kubernetes.
 
 Release notes / What's new (188/500):
-<ru>
+<ru-RU>
 4 курса бесплатно: Linux, NOC-инженер, Docker, Git и GitHub — 118 уроков, 250+ практических заданий и 21 миссия. Новое: Docker в продакшене и Git на практике. Без рекламы, работает офлайн.
-</ru>
+</ru-RU>
 
 ==============================================================================
 STORE LISTING — УКРАЇНСЬКА (uk)
@@ -248,6 +248,6 @@ NA TELEFONY I TABLETY
 Dla przyszłych administratorów, inżynierów DevOps, SRE, NOC i wsparcia, studentów oraz wszystkich, którzy szykują się do certyfikacji z Linuksa lub pierwszej pracy w IT. Wkrótce nowe kursy: skrypty Bash, sieci dogłębnie, Kubernetes.
 
 Release notes / What's new (188/500):
-<pl>
+<pl-PL>
 4 kursy za darmo: Linux, inżynier NOC, Docker, Git i GitHub — 118 lekcji, ponad 250 zadań praktycznych i 21 misji. Nowość: Docker na produkcji i Git w praktyce. Bez reklam, działa offline.
-</pl>
+</pl-PL>
