@@ -405,6 +405,8 @@ const pl: Dict = {
     certificate: 'Certyfikat',
   },
   settings: {
+    support: 'Pomoc i wsparcie',
+    privacyPolicy: 'Polityka prywatności',
     off: 'wył.',
     on: 'wł.',
     data: 'Dane i prywatność',

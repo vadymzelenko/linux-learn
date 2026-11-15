@@ -18,6 +18,7 @@ import { BackButton } from '../components/BackButton';
 import { confirmDialog, infoDialog } from '../components/Dialog';
 import { sound } from '../lib/sound';
 import { haptic } from '../lib/haptics';
+import { openUrl, PRIVACY_URL, SUPPORT_URL } from '../lib/links';
 
 function Chip({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
   const theme = useTheme();
@@ -197,6 +198,26 @@ export default function SettingsScreen() {
               </Row>
             </Card>
             <Body dim>{t('settings.privacyText')}</Body>
+            <Row gap={8} style={{ flexWrap: 'wrap' }}>
+              {[
+                { icon: 'shield-check-outline', label: t('settings.privacyPolicy'), url: PRIVACY_URL },
+                { icon: 'help-circle-outline', label: t('settings.support'), url: SUPPORT_URL },
+              ].map((l) => (
+                <Button
+                  key={l.url}
+                  small
+                  variant="secondary"
+                  icon={l.icon}
+                  title={l.label}
+                  onPress={() => {
+                    haptic.tap();
+                    void openUrl(l.url).then((ok) => {
+                      if (!ok) infoDialog({ title: l.label, message: l.url, ok: t('common.ok') });
+                    });
+                  }}
+                />
+              ))}
+            </Row>
             <Button variant="danger" title={t('settings.resetProgress')} onPress={reset} />
         </Section>
         </View>

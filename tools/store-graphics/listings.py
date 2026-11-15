@@ -163,8 +163,8 @@ Free or paid ........ Free
 Category ............ Education
 Tags ................ Education; Developer tools / Programming
 Contact e-mail ...... <your public support e-mail>   (required, shown on the store page)
-Website ............. https://<your-domain>/site/
-Privacy policy URL .. https://<your-domain>/privacy
+Website ............. https://vadymzelenko.github.io/linux-learn/
+Privacy policy URL .. https://vadymzelenko.github.io/linux-learn/privacy/
 
 {LINE}
 GRAPHICS (files in this folder, upload in this order)
@@ -179,7 +179,7 @@ The captions on the images are in English; use the same images for every languag
 {LINE}
 APP CONTENT (Policy → App content)
 {LINE}
-Privacy policy ...... https://<your-domain>/privacy  (page: apps/mobile/public/site/privacy.html)
+Privacy policy ...... https://vadymzelenko.github.io/linux-learn/privacy/  (source: apps/mobile/public/site/privacy.html, published by the Website workflow; Settings → Pages → Source: GitHub Actions)
 Ads ................. No, my app does not contain ads
 App access .......... All functionality is available without special access (no login)
 Content rating ...... Category: Reference, News, or Educational.

@@ -403,6 +403,8 @@ const en = {
     certificate: 'Certificate',
   },
   settings: {
+    support: 'Help & support',
+    privacyPolicy: 'Privacy policy',
     off: 'off',
     on: 'on',
     data: 'Data and privacy',

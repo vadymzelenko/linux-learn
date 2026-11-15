@@ -1,0 +1,57 @@
+name: Website
+
+# Publishes the product website (apps/mobile/public/site: home, privacy policy,
+# support) to GitHub Pages with HTTPS:
+#   https://vadymzelenko.github.io/linux-learn/          home
+#   https://vadymzelenko.github.io/linux-learn/privacy/  privacy policy (Play Console URL)
+#   https://vadymzelenko.github.io/linux-learn/support/  support
+# One-time setup: Settings → Pages → Build and deployment → Source: "GitHub Actions".
+on:
+  push:
+    branches: [main, 'claude/**']
+    paths: ['apps/mobile/public/site/**', '.github/workflows/pages.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the site
+        # The pages link to /site/... (Vercel layout); rewrite the links for /linux-learn/.
+        run: |
+          set -e
+          SRC=apps/mobile/public/site
+          OUT=_site
+          mkdir -p $OUT/privacy $OUT/support
+          cp -r $SRC/img $SRC/style.css $OUT/
+          fix() {
+            sed -e 's#href="/site/privacy.html"#href="/linux-learn/privacy/"#g' \
+                -e 's#href="/site/support.html"#href="/linux-learn/support/"#g' \
+                -e 's#"/site/#"/linux-learn/#g' \
+                -e 's#href="/"#href="/linux-learn/"#g' "$1" > "$2"
+          }
+          fix $SRC/index.html   $OUT/index.html
+          fix $SRC/privacy.html $OUT/privacy/index.html
+          fix $SRC/support.html $OUT/support/index.html
+          cp $OUT/index.html $OUT/404.html
+          touch $OUT/.nojekyll
+          if grep -n '"/site/' $OUT/*.html $OUT/*/index.html; then echo "unrewritten links"; exit 1; fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

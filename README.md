@@ -24,6 +24,8 @@ pnpm run ci         # всё, что проверяет CI
 
 **Сайт приложения** (лендинг, политика конфиденциальности, поддержка) — `apps/mobile/public/site/`, деплоится вместе с веб-версией: `/site/`, `/privacy`, `/support`.
 
+Тот же сайт бесплатно публикуется на **GitHub Pages** (HTTPS, без входа, доступен во всех странах — подходит для Google Play): https://vadymzelenko.github.io/linux-learn/, политика — https://vadymzelenko.github.io/linux-learn/privacy/, поддержка — https://vadymzelenko.github.io/linux-learn/support/. Включить один раз: GitHub → Settings → Pages → Source: **GitHub Actions**, затем Actions → **Website** → Run workflow. Дальше сайт обновляется сам при изменениях в `apps/mobile/public/site/`. В приложении ссылки — Настройки → Данные.
+
 ## Архитектура
 
 ```

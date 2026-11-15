@@ -405,6 +405,8 @@ const uk: Dict = {
     certificate: 'Сертифікат',
   },
   settings: {
+    support: 'Допомога та підтримка',
+    privacyPolicy: 'Політика конфіденційності',
     off: 'вимк.',
     on: 'увімк.',
     data: 'Дані й конфіденційність',

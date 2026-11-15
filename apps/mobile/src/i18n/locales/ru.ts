@@ -405,6 +405,8 @@ const ru: Dict = {
     certificate: 'Сертификат',
   },
   settings: {
+    support: 'Помощь и поддержка',
+    privacyPolicy: 'Политика конфиденциальности',
     off: 'выкл.',
     on: 'вкл.',
     data: 'Данные и конфиденциальность',
