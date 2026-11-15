@@ -114,7 +114,7 @@ const SLIDES = {
       { file: 'app_courses.png', accent: '#3DDC84', eyebrow: 'YOUR PATH', title: 'Course map', sub: 'Modules and lessons in order, with your progress.' },
       { file: 'app_explain.png', accent: '#B48EF5', eyebrow: 'EXPLAIN A COMMAND', title: 'Explain a command', sub: 'Paste a command and see what each part does.' },
       { file: 'app_sandbox.png', accent: '#4DD0E1', eyebrow: 'SANDBOX', title: 'Sandbox', sub: 'Up to three machines: Docker host, web server, Git project and more.' },
-      { file: 'app_practice.png', accent: '#F5C451', eyebrow: 'PRACTICE', title: 'Practice', sub: '14 practice tasks, review cards, a final exam.' },
+      { file: 'app_practice.png', accent: '#F5C451', eyebrow: 'PRACTICE', title: 'Practice', sub: 'Practice tasks, review cards, command reference and glossary.' },
     ],
     t7: [
       { file: 'app_t7_home.png', accent: '#3DDC84', eyebrow: 'LINUX TERMINAL TRAINER', title: 'Linux, networks,\nDocker and Git', sub: 'For phones and tablets.' },

@@ -96,7 +96,7 @@ appId: com.vadymzelenko.linuxtrainer
 - assertVisible: "Show keyboard"
 - takeScreenshot: 09-sandbox-keyboard-hidden
 # rapid repeated taps must open a screen only once: one Back returns home
-- tapOn: "Home"
+- tapOn: "Practice"
 - scrollUntilVisible:
     element:
       text: "Glossary"
@@ -114,5 +114,5 @@ appId: com.vadymzelenko.linuxtrainer
 - waitForAnimationToEnd:
     timeout: 3000
 - assertNotVisible: ".* terms"
-- assertVisible: "Home"
+- assertVisible: "Explain a command"
 - takeScreenshot: 11-back-home

@@ -52,21 +52,6 @@ function CourseTile({ c }: { c: Course }) {
   );
 }
 
-/** Small action with a tinted, filled icon. */
-function Quick({ icon, label, onPress, color }: { icon: string; label: string; onPress: () => void; color: string }) {
-  const theme = useTheme();
-  return (
-    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label} style={({ pressed }) => [styles.quick, { opacity: pressed ? 0.7 : 1 }]}>
-      <View style={[styles.quickIcon, { backgroundColor: color }]}>
-        <Icon name={icon} size={24} color={INK} />
-      </View>
-      <Text style={{ color: theme.text, fontWeight: '700', fontSize: 12, textAlign: 'center' }} numberOfLines={2}>
-        {label}
-      </Text>
-    </Pressable>
-  );
-}
-
 export default function HomeScreen() {
   const theme = useTheme();
   const layout = useLayout();
@@ -130,12 +115,6 @@ export default function HomeScreen() {
           ))}
         </View>
 
-        <View style={styles.quickRow}>
-          <Quick icon="target" color="#F5C451" label={t('practice.tasks')} onPress={() => nav.push('/tasks')} />
-          <Quick icon="explain" color="#B48EF5" label={t('practice.explain')} onPress={() => nav.push('/explain')} />
-          <Quick icon="book-open" color="#5EA9FF" label={t('glossary.title')} onPress={() => nav.push('/glossary')} />
-          <Quick icon="reference" color="#4DD0E1" label={t('library.title')} onPress={() => nav.push('/library')} />
-        </View>
       </ScrollView>
     </Screen>
   );
@@ -153,7 +132,4 @@ const styles = StyleSheet.create({
   soonPill: { backgroundColor: 'rgba(255,255,255,0.45)', borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
   track: { height: 6, borderRadius: 3, backgroundColor: 'rgba(6,36,15,0.18)', overflow: 'hidden' },
   fill: { height: 6, borderRadius: 3, backgroundColor: INK },
-  quickRow: { flexDirection: 'row', justifyContent: 'space-between', marginTop: space.xl, gap: 8 },
-  quick: { flex: 1, alignItems: 'center', gap: 8 },
-  quickIcon: { width: 60, height: 60, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
 });

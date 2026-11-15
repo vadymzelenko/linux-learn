@@ -2,7 +2,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import * as nav from '../../lib/nav';
 import { useTranslation } from 'react-i18next';
 import { commandList, COMMANDS } from '@linux-learn/engine';
-import { challenges } from '@linux-learn/content';
+import { challenges, glossary } from '@linux-learn/content';
 import { useStore } from '../../state/store';
 import { useTheme, space } from '../../theme';
 import { FadeIn, H1, Icon, Row, Screen } from '../../components/ui';
@@ -52,6 +52,7 @@ export default function PracticeScreen() {
             { key: 'review', icon: 'repeat', color: '#B48EF5', title: t('practice.review'), text: due.length ? t('practice.reviewHint', { count: due.length }) : t('practice.reviewEmpty'), badge: due.length ? String(due.length) : undefined, go: '/review' as const },
             { key: 'explain', icon: 'explain', color: '#5EA9FF', title: t('practice.explain'), text: t('practice.explainHint'), badge: undefined, go: '/explain' as const },
             { key: 'reference', icon: 'reference', color: '#4DD0E1', title: t('practice.reference'), text: t('practice.referenceHint', { count: commandList().length }), badge: undefined, go: '/reference' as const },
+            { key: 'glossary', icon: 'book-open', color: '#3DDC84', title: t('glossary.title'), text: t('glossary.count', { n: glossary.length }), badge: undefined, go: '/glossary' as const },
           ].map((x, i) => (
             <FadeIn key={x.key} index={i} style={styles.cell}>
               <Tile icon={x.icon} color={x.color} title={x.title} text={x.text} badge={x.badge} onPress={() => nav.push(x.go)} />
