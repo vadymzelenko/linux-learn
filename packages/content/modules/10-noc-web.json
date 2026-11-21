@@ -5,12 +5,14 @@
   "title": {
     "en": "Web services",
     "ru": "Веб-сервисы",
-    "uk": "Веб-сервіси"
+    "uk": "Веб-сервіси",
+    "pl": "Usługi WWW"
   },
   "description": {
     "en": "HTTP codes, curl checks, systemd services, journals and broken configs.",
     "ru": "Коды HTTP, проверки curl, сервисы systemd, журналы и сломанные конфиги.",
-    "uk": "Коди HTTP, перевірки curl, сервіси systemd, журнали та зламані конфіги."
+    "uk": "Коди HTTP, перевірки curl, сервіси systemd, журнали та зламані конфіги.",
+    "pl": "Kody HTTP, sprawdzenia przez curl, usługi systemd, dzienniki i zepsute konfiguracje."
   },
   "lessons": [
     {
@@ -18,7 +20,8 @@
       "title": {
         "en": "HTTP and status codes",
         "ru": "HTTP и коды ответов",
-        "uk": "HTTP і коди відповідей"
+        "uk": "HTTP і коди відповідей",
+        "pl": "HTTP i kody statusu"
       },
       "commands": [
         "curl"
@@ -30,12 +33,14 @@
           "text": {
             "en": "## Request and response\nThe browser (client) sends a **request**: `GET /api/items HTTP/1.1` plus headers. The server sends a **response**: a status line, headers and a body.\n\n## Status codes\n| class | meaning | examples |\n|---|---|---|\n| 2xx | success | 200 OK, 204 No Content |\n| 3xx | go elsewhere | 301 Moved Permanently, 302 Found |\n| 4xx | the **client** is wrong | 400, 401 Unauthorized, 403 Forbidden, 404 Not Found |\n| 5xx | the **server** is broken | 500 Internal Error, 502 Bad Gateway, 503 Unavailable, 504 Timeout |\n\n## What the 5xx tell a NOC engineer\n- **500** — the application crashed on this request (read the app logs)\n- **502** — the proxy (nginx) is alive, the backend behind it is not answering\n- **503** — the service is overloaded or in maintenance\n- **504** — the backend answers too slowly\n\n> A spike of 4xx is usually a client / bot problem; a spike of 5xx is **our** problem.",
             "ru": "## Запрос и ответ\nБраузер (клиент) отправляет **запрос**: `GET /api/items HTTP/1.1` плюс заголовки. Сервер присылает **ответ**: строку статуса, заголовки и тело.\n\n## Коды ответа\n| класс | значение | примеры |\n|---|---|---|\n| 2xx | успех | 200 OK, 204 No Content |\n| 3xx | идите в другое место | 301 Moved Permanently, 302 Found |\n| 4xx | ошибся **клиент** | 400, 401 Unauthorized, 403 Forbidden, 404 Not Found |\n| 5xx | сломался **сервер** | 500 Internal Error, 502 Bad Gateway, 503 Unavailable, 504 Timeout |\n\n## Что 5xx говорят NOC-инженеру\n- **500** — приложение упало на этом запросе (читайте логи приложения)\n- **502** — прокси (nginx) жив, а бэкенд за ним не отвечает\n- **503** — сервис перегружен или на обслуживании\n- **504** — бэкенд отвечает слишком медленно\n\n> Всплеск 4xx — обычно проблема клиентов или ботов; всплеск 5xx — **наша** проблема.",
-            "uk": "## Запит і відповідь\nБраузер (клієнт) надсилає **запит**: `GET /api/items HTTP/1.1` плюс заголовки. Сервер надсилає **відповідь**: рядок статусу, заголовки й тіло.\n\n## Коди відповіді\n| клас | значення | приклади |\n|---|---|---|\n| 2xx | успіх | 200 OK, 204 No Content |\n| 3xx | ідіть в інше місце | 301 Moved Permanently, 302 Found |\n| 4xx | помилився **клієнт** | 400, 401 Unauthorized, 403 Forbidden, 404 Not Found |\n| 5xx | зламався **сервер** | 500 Internal Error, 502 Bad Gateway, 503 Unavailable, 504 Timeout |\n\n## Що 5xx кажуть NOC-інженеру\n- **500** — застосунок упав на цьому запиті (читайте логи застосунку)\n- **502** — проксі (nginx) живий, а бекенд за ним не відповідає\n- **503** — сервіс перевантажений або на обслуговуванні\n- **504** — бекенд відповідає надто повільно\n\n> Сплеск 4xx — зазвичай проблема клієнтів чи ботів; сплеск 5xx — **наша** проблема."
+            "uk": "## Запит і відповідь\nБраузер (клієнт) надсилає **запит**: `GET /api/items HTTP/1.1` плюс заголовки. Сервер надсилає **відповідь**: рядок статусу, заголовки й тіло.\n\n## Коди відповіді\n| клас | значення | приклади |\n|---|---|---|\n| 2xx | успіх | 200 OK, 204 No Content |\n| 3xx | ідіть в інше місце | 301 Moved Permanently, 302 Found |\n| 4xx | помилився **клієнт** | 400, 401 Unauthorized, 403 Forbidden, 404 Not Found |\n| 5xx | зламався **сервер** | 500 Internal Error, 502 Bad Gateway, 503 Unavailable, 504 Timeout |\n\n## Що 5xx кажуть NOC-інженеру\n- **500** — застосунок упав на цьому запиті (читайте логи застосунку)\n- **502** — проксі (nginx) живий, а бекенд за ним не відповідає\n- **503** — сервіс перевантажений або на обслуговуванні\n- **504** — бекенд відповідає надто повільно\n\n> Сплеск 4xx — зазвичай проблема клієнтів чи ботів; сплеск 5xx — **наша** проблема.",
+            "pl": "## Żądanie i odpowiedź\nPrzeglądarka (klient) wysyła **żądanie**: `GET /api/items HTTP/1.1` plus nagłówki. Serwer wysyła **odpowiedź**: wiersz statusu, nagłówki i treść.\n\n## Kody statusu\n| klasa | znaczenie | przykłady |\n|---|---|---|\n| 2xx | sukces | 200 OK, 204 No Content |\n| 3xx | idź gdzie indziej | 301 Moved Permanently, 302 Found |\n| 4xx | błąd po stronie **klienta** | 400, 401 Unauthorized, 403 Forbidden, 404 Not Found |\n| 5xx | zepsuty **serwer** | 500 Internal Error, 502 Bad Gateway, 503 Unavailable, 504 Timeout |\n\n## Co 5xx mówią inżynierowi NOC\n- **500** — aplikacja wyłożyła się na tym żądaniu (czytaj logi aplikacji)\n- **502** — proxy (nginx) żyje, a backend za nim nie odpowiada\n- **503** — usługa jest przeciążona albo w trakcie prac\n- **504** — backend odpowiada zbyt wolno\n\n> Skok 4xx to zwykle problem klientów albo botów; skok 5xx to **nasz** problem."
           },
           "title": {
             "en": "How the web talks",
             "ru": "Как разговаривает веб",
-            "uk": "Як розмовляє веб"
+            "uk": "Як розмовляє веб",
+            "pl": "Jak rozmawia sieć WWW"
           },
           "terminal": false
         },
@@ -44,23 +49,27 @@
           "question": {
             "en": "nginx answers but the page shows \"502 Bad Gateway\". Where do you look first?",
             "ru": "nginx отвечает, но страница показывает «502 Bad Gateway». Куда смотреть в первую очередь?",
-            "uk": "nginx відповідає, але сторінка показує «502 Bad Gateway». Куди дивитися насамперед?"
+            "uk": "nginx відповідає, але сторінка показує «502 Bad Gateway». Куди дивитися насамперед?",
+            "pl": "nginx odpowiada, ale strona pokazuje „502 Bad Gateway”. Gdzie patrzysz najpierw?"
           },
           "options": [
             {
               "en": "At the backend application behind nginx",
               "ru": "На бэкенд-приложение за nginx",
-              "uk": "На бекенд-застосунок за nginx"
+              "uk": "На бекенд-застосунок за nginx",
+              "pl": "Na aplikację backendu za nginx"
             },
             {
               "en": "At the user's browser",
               "ru": "В браузер пользователя",
-              "uk": "У браузер користувача"
+              "uk": "У браузер користувача",
+              "pl": "Na przeglądarkę użytkownika"
             },
             {
               "en": "At DNS",
               "ru": "В DNS",
-              "uk": "У DNS"
+              "uk": "У DNS",
+              "pl": "Na DNS"
             }
           ],
           "answer": 0
@@ -70,28 +79,33 @@
           "question": {
             "en": "Which code means \"the requested page does not exist\"?",
             "ru": "Какой код означает «запрошенной страницы нет»?",
-            "uk": "Який код означає «запитаної сторінки немає»?"
+            "uk": "Який код означає «запитаної сторінки немає»?",
+            "pl": "Który kod oznacza „żądana strona nie istnieje”?"
           },
           "options": [
             {
               "en": "404",
               "ru": "404",
-              "uk": "404"
+              "uk": "404",
+              "pl": "404"
             },
             {
               "en": "500",
               "ru": "500",
-              "uk": "500"
+              "uk": "500",
+              "pl": "500"
             },
             {
               "en": "301",
               "ru": "301",
-              "uk": "301"
+              "uk": "301",
+              "pl": "301"
             },
             {
               "en": "503",
               "ru": "503",
-              "uk": "503"
+              "uk": "503",
+              "pl": "503"
             }
           ],
           "answer": 0
@@ -101,7 +115,8 @@
           "goal": {
             "en": "Check the status code of http://example.com with curl (headers only).",
             "ru": "Проверьте код ответа http://example.com через curl (только заголовки).",
-            "uk": "Перевірте код відповіді http://example.com через curl (лише заголовки)."
+            "uk": "Перевірте код відповіді http://example.com через curl (лише заголовки).",
+            "pl": "Sprawdź kod statusu http://example.com przez curl (tylko nagłówki)."
           },
           "checks": [
             {
@@ -113,7 +128,8 @@
               "label": {
                 "en": "curl -I",
                 "ru": "curl -I",
-                "uk": "curl -I"
+                "uk": "curl -I",
+                "pl": "curl -I"
               }
             },
             {
@@ -122,7 +138,8 @@
               "label": {
                 "en": "200 OK",
                 "ru": "200 OK",
-                "uk": "200 OK"
+                "uk": "200 OK",
+                "pl": "200 OK"
               }
             }
           ],
@@ -130,7 +147,8 @@
             "direction": {
               "en": "-I = headers only.",
               "ru": "-I = только заголовки.",
-              "uk": "-I = лише заголовки."
+              "uk": "-I = лише заголовки.",
+              "pl": "-I = tylko nagłówki."
             },
             "command": "curl"
           },
@@ -143,12 +161,14 @@
           "goal": {
             "en": "Request a page that does not exist: http://example.com/nope — print just the status code.",
             "ru": "Запросите несуществующую страницу http://example.com/nope — выведите только код ответа.",
-            "uk": "Запитайте неіснуючу сторінку http://example.com/nope — виведіть лише код відповіді."
+            "uk": "Запитайте неіснуючу сторінку http://example.com/nope — виведіть лише код відповіді.",
+            "pl": "Zażądaj nieistniejącej strony http://example.com/nope — wypisz tylko kod statusu."
           },
           "instructions": {
             "en": "1. `-s` — silent\n2. `-o /dev/null` — throw the body away\n3. `-w '%{http_code}'` — print only the code",
             "ru": "1. `-s` — тихо\n2. `-o /dev/null` — тело выбросить\n3. `-w '%{http_code}'` — напечатать только код",
-            "uk": "1. `-s` — тихо\n2. `-o /dev/null` — тіло викинути\n3. `-w '%{http_code}'` — надрукувати лише код"
+            "uk": "1. `-s` — тихо\n2. `-o /dev/null` — тіло викинути\n3. `-w '%{http_code}'` — надрукувати лише код",
+            "pl": "1. `-s` — cicho\n2. `-o /dev/null` — wyrzuć treść\n3. `-w '%{http_code}'` — wypisz tylko kod"
           },
           "checks": [
             {
@@ -157,7 +177,8 @@
               "label": {
                 "en": "curl with -w",
                 "ru": "curl с -w",
-                "uk": "curl з -w"
+                "uk": "curl з -w",
+                "pl": "curl z -w"
               }
             },
             {
@@ -166,7 +187,8 @@
               "label": {
                 "en": "404",
                 "ru": "404",
-                "uk": "404"
+                "uk": "404",
+                "pl": "404"
               }
             }
           ],
@@ -174,7 +196,8 @@
             "direction": {
               "en": "curl -s -o /dev/null -w '%{http_code}' URL",
               "ru": "curl -s -o /dev/null -w '%{http_code}' URL",
-              "uk": "curl -s -o /dev/null -w '%{http_code}' URL"
+              "uk": "curl -s -o /dev/null -w '%{http_code}' URL",
+              "pl": "curl -s -o /dev/null -w '%{http_code}' URL"
             },
             "command": "curl"
           },
@@ -189,7 +212,8 @@
       "title": {
         "en": "curl like a NOC engineer",
         "ru": "curl как у NOC-инженера",
-        "uk": "curl як у NOC-інженера"
+        "uk": "curl як у NOC-інженера",
+        "pl": "curl jak u inżyniera NOC"
       },
       "commands": [
         "curl",
@@ -495,12 +519,14 @@
           "text": {
             "en": "## Useful forms\n```\n$ curl -I http://localhost\n$ curl -s localhost/health\n$ curl -s -o /dev/null -w '%{http_code}\\n' localhost\n$ curl -v http://localhost\n```\n## curl error codes\n| error | meaning |\n|---|---|\n| (6) Could not resolve host | DNS / typo |\n| (7) Couldn't connect | nothing listens on that port |\n| (28) Timeout | host down or firewall |\n| (22) with -f | HTTP ≥ 400 |\n\n> Check **from the server itself** (localhost) and **from outside**: if only one works, the problem is in between — firewall, proxy, DNS.",
             "ru": "## Полезные формы\n```\n$ curl -I http://localhost\n$ curl -s localhost/health\n$ curl -s -o /dev/null -w '%{http_code}\\n' localhost\n$ curl -v http://localhost\n```\n## Коды ошибок curl\n| ошибка | значение |\n|---|---|\n| (6) Could not resolve host | DNS / опечатка |\n| (7) Couldn't connect | на порту никто не слушает |\n| (28) Timeout | хост выключен или файрвол |\n| (22) с -f | HTTP ≥ 400 |\n\n> Проверяйте **с самого сервера** (localhost) и **снаружи**: если работает только одно, проблема посередине — файрвол, прокси, DNS.",
-            "uk": "## Корисні форми\n```\n$ curl -I http://localhost\n$ curl -s localhost/health\n$ curl -s -o /dev/null -w '%{http_code}\\n' localhost\n$ curl -v http://localhost\n```\n## Коди помилок curl\n| помилка | значення |\n|---|---|\n| (6) Could not resolve host | DNS / друкарська помилка |\n| (7) Couldn't connect | на порту ніхто не слухає |\n| (28) Timeout | хост вимкнено або файрвол |\n| (22) з -f | HTTP ≥ 400 |\n\n> Перевіряйте **із самого сервера** (localhost) і **ззовні**: якщо працює лише одне, проблема посередині — файрвол, проксі, DNS."
+            "uk": "## Корисні форми\n```\n$ curl -I http://localhost\n$ curl -s localhost/health\n$ curl -s -o /dev/null -w '%{http_code}\\n' localhost\n$ curl -v http://localhost\n```\n## Коди помилок curl\n| помилка | значення |\n|---|---|\n| (6) Could not resolve host | DNS / друкарська помилка |\n| (7) Couldn't connect | на порту ніхто не слухає |\n| (28) Timeout | хост вимкнено або файрвол |\n| (22) з -f | HTTP ≥ 400 |\n\n> Перевіряйте **із самого сервера** (localhost) і **ззовні**: якщо працює лише одне, проблема посередині — файрвол, проксі, DNS.",
+            "pl": "## Przydatne formy\n```\n$ curl -I http://localhost\n$ curl -s localhost/health\n$ curl -s -o /dev/null -w '%{http_code}\\n' localhost\n$ curl -v http://localhost\n```\n## Kody błędów curl\n| błąd | znaczenie |\n|---|---|\n| (6) Could not resolve host | DNS / literówka |\n| (7) Couldn't connect | nic nie nasłuchuje na tym porcie |\n| (28) Timeout | host leży albo zapora |\n| (22) z -f | HTTP ≥ 400 |\n\n> Sprawdzaj **z samego serwera** (localhost) i **z zewnątrz**: jeśli działa tylko jedno, problem jest pomiędzy — zapora, proxy, DNS."
           },
           "title": {
             "en": "Checking a site",
             "ru": "Проверяем сайт",
-            "uk": "Перевіряємо сайт"
+            "uk": "Перевіряємо сайт",
+            "pl": "Sprawdzanie strony"
           },
           "demo": {
             "commands": [
@@ -513,7 +539,8 @@
           "goal": {
             "en": "Alert: \"shop 5xx rate high\". Check what nginx returns on http://localhost/api/items.",
             "ru": "Алерт: «у магазина много 5xx». Проверьте, что nginx отвечает на http://localhost/api/items.",
-            "uk": "Алерт: «у магазину багато 5xx». Перевірте, що nginx відповідає на http://localhost/api/items."
+            "uk": "Алерт: «у магазину багато 5xx». Перевірте, що nginx відповідає на http://localhost/api/items.",
+            "pl": "Alert: „dużo 5xx w sklepie”. Sprawdź, co nginx zwraca na http://localhost/api/items."
           },
           "checks": [
             {
@@ -525,7 +552,8 @@
               "label": {
                 "en": "Request it with curl -I",
                 "ru": "Запросите через curl -I",
-                "uk": "Запитайте через curl -I"
+                "uk": "Запитайте через curl -I",
+                "pl": "Zapytaj przez curl -I"
               }
             },
             {
@@ -534,7 +562,8 @@
               "label": {
                 "en": "502 Bad Gateway",
                 "ru": "502 Bad Gateway",
-                "uk": "502 Bad Gateway"
+                "uk": "502 Bad Gateway",
+                "pl": "502 Bad Gateway"
               }
             }
           ],
@@ -542,7 +571,8 @@
             "direction": {
               "en": "curl -I URL",
               "ru": "curl -I URL",
-              "uk": "curl -I URL"
+              "uk": "curl -I URL",
+              "pl": "curl -I URL"
             },
             "command": "curl"
           },
@@ -555,7 +585,8 @@
           "goal": {
             "en": "nginx proxies to the API on 127.0.0.1:3000. Check whether anything listens there.",
             "ru": "nginx проксирует на API по адресу 127.0.0.1:3000. Проверьте, слушает ли там кто-нибудь.",
-            "uk": "nginx проксує на API за адресою 127.0.0.1:3000. Перевірте, чи слухає там хтось."
+            "uk": "nginx проксує на API за адресою 127.0.0.1:3000. Перевірте, чи слухає там хтось.",
+            "pl": "nginx przekazuje ruch do API na 127.0.0.1:3000. Sprawdź, czy ktoś tam nasłuchuje."
           },
           "checks": [
             {
@@ -567,7 +598,8 @@
               "label": {
                 "en": "Request localhost:3000/health",
                 "ru": "Запросите localhost:3000/health",
-                "uk": "Запитайте localhost:3000/health"
+                "uk": "Запитайте localhost:3000/health",
+                "pl": "Zapytaj localhost:3000/health"
               }
             },
             {
@@ -576,7 +608,8 @@
               "label": {
                 "en": "Couldn't connect",
                 "ru": "Couldn't connect",
-                "uk": "Couldn't connect"
+                "uk": "Couldn't connect",
+                "pl": "Couldn't connect"
               }
             }
           ],
@@ -584,7 +617,8 @@
             "direction": {
               "en": "curl localhost:3000/health",
               "ru": "curl localhost:3000/health",
-              "uk": "curl localhost:3000/health"
+              "uk": "curl localhost:3000/health",
+              "pl": "curl localhost:3000/health"
             },
             "command": "curl"
           },
@@ -597,23 +631,27 @@
           "question": {
             "en": "nginx returns 502 and curl to the backend port says \"Couldn't connect\". Next step?",
             "ru": "nginx отдаёт 502, а curl на порт бэкенда — «Couldn't connect». Следующий шаг?",
-            "uk": "nginx віддає 502, а curl на порт бекенда — «Couldn't connect». Наступний крок?"
+            "uk": "nginx віддає 502, а curl на порт бекенда — «Couldn't connect». Наступний крок?",
+            "pl": "nginx zwraca 502, a curl na port backendu mówi „Couldn't connect”. Następny krok?"
           },
           "options": [
             {
               "en": "Check the backend service: systemctl status api",
               "ru": "Проверить бэкенд-сервис: systemctl status api",
-              "uk": "Перевірити бекенд-сервіс: systemctl status api"
+              "uk": "Перевірити бекенд-сервіс: systemctl status api",
+              "pl": "Sprawdzić usługę backendu: systemctl status api"
             },
             {
               "en": "Restart nginx again and again",
               "ru": "Перезапускать nginx снова и снова",
-              "uk": "Перезапускати nginx знову й знову"
+              "uk": "Перезапускати nginx знову й знову",
+              "pl": "Restartować nginx raz po raz"
             },
             {
               "en": "Clear the browser cache",
               "ru": "Очистить кэш браузера",
-              "uk": "Очистити кеш браузера"
+              "uk": "Очистити кеш браузера",
+              "pl": "Wyczyścić cache przeglądarki"
             }
           ],
           "answer": 0
@@ -625,7 +663,8 @@
       "title": {
         "en": "Services with systemctl",
         "ru": "Сервисы и systemctl",
-        "uk": "Сервіси та systemctl"
+        "uk": "Сервіси та systemctl",
+        "pl": "Usługi i systemctl"
       },
       "commands": [
         "systemctl",
@@ -931,12 +970,14 @@
           "text": {
             "en": "## systemd manages daemons\nEvery daemon is a **unit**: nginx.service, postgresql.service, api.service.\n```\n$ systemctl status api\n$ systemctl --failed\n$ sudo systemctl restart api\n$ systemctl is-active api\n```\n## States\n| Active: | meaning |\n|---|---|\n| active (running) | works |\n| inactive (dead) | stopped normally |\n| failed | crashed or failed to start — read the log lines under it |\n\n## Changing state needs root\nstart / stop / restart / enable need `sudo`. Without it: \"Interactive authentication required\".\n\n> `restart` is a **mitigation**, not a fix: always read why it died (the log lines in status, journalctl) and write it into the ticket.",
             "ru": "## systemd управляет демонами\nКаждый демон — это **юнит**: nginx.service, postgresql.service, api.service.\n```\n$ systemctl status api\n$ systemctl --failed\n$ sudo systemctl restart api\n$ systemctl is-active api\n```\n## Состояния\n| Active: | значение |\n|---|---|\n| active (running) | работает |\n| inactive (dead) | остановлен штатно |\n| failed | упал или не смог стартовать — читайте строки лога под ним |\n\n## Менять состояние может только root\nstart / stop / restart / enable требуют `sudo`. Без него: «Interactive authentication required».\n\n> `restart` — это **митигация**, а не исправление: всегда выясняйте, почему сервис упал (строки лога в status, journalctl), и записывайте это в тикет.",
-            "uk": "## systemd керує демонами\nКожен демон — це **юніт**: nginx.service, postgresql.service, api.service.\n```\n$ systemctl status api\n$ systemctl --failed\n$ sudo systemctl restart api\n$ systemctl is-active api\n```\n## Стани\n| Active: | значення |\n|---|---|\n| active (running) | працює |\n| inactive (dead) | зупинено штатно |\n| failed | упав або не зміг стартувати — читайте рядки логу під ним |\n\n## Змінювати стан може лише root\nstart / stop / restart / enable потребують `sudo`. Без нього: «Interactive authentication required».\n\n> `restart` — це **мітигація**, а не виправлення: завжди з’ясовуйте, чому сервіс упав (рядки логу в status, journalctl), і записуйте це в тікет."
+            "uk": "## systemd керує демонами\nКожен демон — це **юніт**: nginx.service, postgresql.service, api.service.\n```\n$ systemctl status api\n$ systemctl --failed\n$ sudo systemctl restart api\n$ systemctl is-active api\n```\n## Стани\n| Active: | значення |\n|---|---|\n| active (running) | працює |\n| inactive (dead) | зупинено штатно |\n| failed | упав або не зміг стартувати — читайте рядки логу під ним |\n\n## Змінювати стан може лише root\nstart / stop / restart / enable потребують `sudo`. Без нього: «Interactive authentication required».\n\n> `restart` — це **мітигація**, а не виправлення: завжди з’ясовуйте, чому сервіс упав (рядки логу в status, journalctl), і записуйте це в тікет.",
+            "pl": "## systemd zarządza demonami\nKażdy demon to **unit**: nginx.service, postgresql.service, api.service.\n```\n$ systemctl status api\n$ systemctl --failed\n$ sudo systemctl restart api\n$ systemctl is-active api\n```\n## Stany\n| Active: | znaczenie |\n|---|---|\n| active (running) | działa |\n| inactive (dead) | zatrzymana normalnie |\n| failed | padła lub nie wystartowała — czytaj wiersze logu pod spodem |\n\n## Zmiana stanu wymaga roota\nstart / stop / restart / enable wymagają `sudo`. Bez niego: „Interactive authentication required”.\n\n> `restart` to **mitygacja**, nie naprawa: zawsze przeczytaj, dlaczego usługa padła (wiersze logu w status, journalctl), i zapisz to w zgłoszeniu."
           },
           "title": {
             "en": "Units and states",
             "ru": "Юниты и состояния",
-            "uk": "Юніти та стани"
+            "uk": "Юніти та стани",
+            "pl": "Unity i stany"
           },
           "demo": {
             "commands": [
@@ -949,7 +990,8 @@
           "goal": {
             "en": "Which services are broken on web01?",
             "ru": "Какие сервисы сломаны на web01?",
-            "uk": "Які сервіси зламано на web01?"
+            "uk": "Які сервіси зламано на web01?",
+            "pl": "Które usługi na web01 są zepsute?"
           },
           "checks": [
             {
@@ -958,7 +1000,8 @@
               "label": {
                 "en": "systemctl --failed",
                 "ru": "systemctl --failed",
-                "uk": "systemctl --failed"
+                "uk": "systemctl --failed",
+                "pl": "systemctl --failed"
               }
             },
             {
@@ -967,7 +1010,8 @@
               "label": {
                 "en": "api.service is failed",
                 "ru": "api.service в состоянии failed",
-                "uk": "api.service у стані failed"
+                "uk": "api.service у стані failed",
+                "pl": "api.service jest failed"
               }
             }
           ],
@@ -975,7 +1019,8 @@
             "direction": {
               "en": "systemctl --failed",
               "ru": "systemctl --failed",
-              "uk": "systemctl --failed"
+              "uk": "systemctl --failed",
+              "pl": "systemctl --failed"
             },
             "command": "systemctl"
           },
@@ -988,7 +1033,8 @@
           "goal": {
             "en": "Look at the status of the api service and read why it stopped.",
             "ru": "Посмотрите статус сервиса api и прочитайте, почему он остановился.",
-            "uk": "Подивіться статус сервісу api і прочитайте, чому він зупинився."
+            "uk": "Подивіться статус сервісу api і прочитайте, чому він зупинився.",
+            "pl": "Sprawdź status usługi api i przeczytaj, dlaczego się zatrzymała."
           },
           "checks": [
             {
@@ -1001,7 +1047,8 @@
               "label": {
                 "en": "systemctl status api",
                 "ru": "systemctl status api",
-                "uk": "systemctl status api"
+                "uk": "systemctl status api",
+                "pl": "systemctl status api"
               }
             },
             {
@@ -1010,7 +1057,8 @@
               "label": {
                 "en": "The FATAL line is visible",
                 "ru": "Видна строка FATAL",
-                "uk": "Видно рядок FATAL"
+                "uk": "Видно рядок FATAL",
+                "pl": "Widać wiersz FATAL"
               }
             }
           ],
@@ -1018,7 +1066,8 @@
             "direction": {
               "en": "systemctl status NAME",
               "ru": "systemctl status ИМЯ",
-              "uk": "systemctl status НАЗВА"
+              "uk": "systemctl status НАЗВА",
+              "pl": "systemctl status NAZWA"
             },
             "command": "systemctl"
           },
@@ -1031,12 +1080,14 @@
           "goal": {
             "en": "Mitigate: restart the api service and make sure the shop answers 200 again.",
             "ru": "Митигация: перезапустите сервис api и убедитесь, что магазин снова отвечает 200.",
-            "uk": "Мітигація: перезапустіть сервіс api і переконайтеся, що магазин знову відповідає 200."
+            "uk": "Мітигація: перезапустіть сервіс api і переконайтеся, що магазин знову відповідає 200.",
+            "pl": "Mitygacja: zrestartuj usługę api i upewnij się, że sklep znów odpowiada 200."
           },
           "instructions": {
             "en": "1. `sudo systemctl restart api`\n2. `systemctl is-active api` → active\n3. `curl -I http://localhost/api/items` → 200",
             "ru": "1. `sudo systemctl restart api`\n2. `systemctl is-active api` → active\n3. `curl -I http://localhost/api/items` → 200",
-            "uk": "1. `sudo systemctl restart api`\n2. `systemctl is-active api` → active\n3. `curl -I http://localhost/api/items` → 200"
+            "uk": "1. `sudo systemctl restart api`\n2. `systemctl is-active api` → active\n3. `curl -I http://localhost/api/items` → 200",
+            "pl": "1. `sudo systemctl restart api`\n2. `systemctl is-active api` → active\n3. `curl -I http://localhost/api/items` → 200"
           },
           "checks": [
             {
@@ -1046,7 +1097,8 @@
               "label": {
                 "en": "api is active",
                 "ru": "api активен",
-                "uk": "api активний"
+                "uk": "api активний",
+                "pl": "api jest aktywne"
               }
             },
             {
@@ -1055,7 +1107,8 @@
               "label": {
                 "en": "Check the site with curl",
                 "ru": "Проверьте сайт через curl",
-                "uk": "Перевірте сайт через curl"
+                "uk": "Перевірте сайт через curl",
+                "pl": "Sprawdź stronę przez curl"
               }
             },
             {
@@ -1064,7 +1117,8 @@
               "label": {
                 "en": "HTTP 200",
                 "ru": "HTTP 200",
-                "uk": "HTTP 200"
+                "uk": "HTTP 200",
+                "pl": "HTTP 200"
               }
             }
           ],
@@ -1072,7 +1126,8 @@
             "direction": {
               "en": "sudo systemctl restart api, then curl -I localhost",
               "ru": "sudo systemctl restart api, затем curl -I localhost",
-              "uk": "sudo systemctl restart api, потім curl -I localhost"
+              "uk": "sudo systemctl restart api, потім curl -I localhost",
+              "pl": "sudo systemctl restart api, potem curl -I localhost"
             },
             "command": "systemctl"
           },
@@ -1086,23 +1141,27 @@
           "question": {
             "en": "You ran \"systemctl restart api\" without sudo and got \"Interactive authentication required\". Why?",
             "ru": "Вы выполнили «systemctl restart api» без sudo и получили «Interactive authentication required». Почему?",
-            "uk": "Ви виконали «systemctl restart api» без sudo і отримали «Interactive authentication required». Чому?"
+            "uk": "Ви виконали «systemctl restart api» без sudo і отримали «Interactive authentication required». Чому?",
+            "pl": "Wykonałeś „systemctl restart api” bez sudo i dostałeś „Interactive authentication required”. Dlaczego?"
           },
           "options": [
             {
               "en": "Changing a service state needs root",
               "ru": "Менять состояние сервиса может только root",
-              "uk": "Змінювати стан сервісу може лише root"
+              "uk": "Змінювати стан сервісу може лише root",
+              "pl": "Zmiana stanu usługi wymaga roota"
             },
             {
               "en": "The service does not exist",
               "ru": "Сервиса не существует",
-              "uk": "Сервісу не існує"
+              "uk": "Сервісу не існує",
+              "pl": "Usługa nie istnieje"
             },
             {
               "en": "systemd is broken",
               "ru": "systemd сломан",
-              "uk": "systemd зламано"
+              "uk": "systemd зламано",
+              "pl": "systemd jest zepsuty"
             }
           ],
           "answer": 0
@@ -1114,7 +1173,8 @@
       "title": {
         "en": "Service logs with journalctl",
         "ru": "Логи сервисов: journalctl",
-        "uk": "Логи сервісів: journalctl"
+        "uk": "Логи сервісів: journalctl",
+        "pl": "Logi usług i journalctl"
       },
       "commands": [
         "journalctl"
@@ -1419,12 +1479,14 @@
           "text": {
             "en": "## The journal\nsystemd collects the output of every service:\n```\n$ journalctl -u api -n 20\n$ journalctl -p err -n 20\n$ journalctl -u nginx -r\n```\n- `-u NAME` — one unit\n- `-n 20` — the last 20 lines\n- `-p err` — only errors and worse\n- `-r` — newest first\n- `-f` — follow live (Ctrl+C to stop)\n\n> Read from the **first** error, not the last: the last lines are often only consequences (\"Failed with result\"), the cause is above.",
             "ru": "## Журнал\nsystemd собирает вывод каждого сервиса:\n```\n$ journalctl -u api -n 20\n$ journalctl -p err -n 20\n$ journalctl -u nginx -r\n```\n- `-u ИМЯ` — один юнит\n- `-n 20` — последние 20 строк\n- `-p err` — только ошибки и хуже\n- `-r` — сначала новые\n- `-f` — следить вживую (Ctrl+C — выход)\n\n> Читайте с **первой** ошибки, а не с последней: последние строки часто лишь следствия («Failed with result»), причина — выше.",
-            "uk": "## Журнал\nsystemd збирає вивід кожного сервісу:\n```\n$ journalctl -u api -n 20\n$ journalctl -p err -n 20\n$ journalctl -u nginx -r\n```\n- `-u НАЗВА` — один юніт\n- `-n 20` — останні 20 рядків\n- `-p err` — лише помилки й гірше\n- `-r` — спершу нові\n- `-f` — стежити наживо (Ctrl+C — вихід)\n\n> Читайте з **першої** помилки, а не з останньої: останні рядки часто лише наслідки («Failed with result»), причина — вище."
+            "uk": "## Журнал\nsystemd збирає вивід кожного сервісу:\n```\n$ journalctl -u api -n 20\n$ journalctl -p err -n 20\n$ journalctl -u nginx -r\n```\n- `-u НАЗВА` — один юніт\n- `-n 20` — останні 20 рядків\n- `-p err` — лише помилки й гірше\n- `-r` — спершу нові\n- `-f` — стежити наживо (Ctrl+C — вихід)\n\n> Читайте з **першої** помилки, а не з останньої: останні рядки часто лише наслідки («Failed with result»), причина — вище.",
+            "pl": "## Dziennik\nsystemd zbiera wyjście każdej usługi:\n```\n$ journalctl -u api -n 20\n$ journalctl -p err -n 20\n$ journalctl -u nginx -r\n```\n- `-u NAZWA` — jeden unit\n- `-n 20` — ostatnie 20 wierszy\n- `-p err` — tylko błędy i gorsze\n- `-r` — najnowsze najpierw\n- `-f` — śledź na żywo (Ctrl+C kończy)\n\n> Czytaj od **pierwszego** błędu, nie od ostatniego: ostatnie wiersze to często tylko skutki („Failed with result”), przyczyna jest wyżej."
           },
           "title": {
             "en": "Reading the journal",
             "ru": "Читаем журнал",
-            "uk": "Читаємо журнал"
+            "uk": "Читаємо журнал",
+            "pl": "Czytanie dziennika"
           },
           "demo": {
             "commands": [
@@ -1437,7 +1499,8 @@
           "goal": {
             "en": "Show the last 5 log lines of the api service.",
             "ru": "Покажите последние 5 строк лога сервиса api.",
-            "uk": "Покажіть останні 5 рядків логу сервісу api."
+            "uk": "Покажіть останні 5 рядків логу сервісу api.",
+            "pl": "Pokaż ostatnie 5 wierszy logu usługi api."
           },
           "checks": [
             {
@@ -1449,7 +1512,8 @@
               "label": {
                 "en": "journalctl -u api -n 5",
                 "ru": "journalctl -u api -n 5",
-                "uk": "journalctl -u api -n 5"
+                "uk": "journalctl -u api -n 5",
+                "pl": "journalctl -u api -n 5"
               }
             },
             {
@@ -1458,7 +1522,8 @@
               "label": {
                 "en": "Exactly 5 lines",
                 "ru": "Ровно 5 строк",
-                "uk": "Рівно 5 рядків"
+                "uk": "Рівно 5 рядків",
+                "pl": "Dokładnie 5 wierszy"
               }
             }
           ],
@@ -1466,7 +1531,8 @@
             "direction": {
               "en": "-u for the unit, -n for the count.",
               "ru": "-u — юнит, -n — количество.",
-              "uk": "-u — юніт, -n — кількість."
+              "uk": "-u — юніт, -n — кількість.",
+              "pl": "-u dla unitu, -n dla liczby."
             },
             "command": "journalctl"
           },
@@ -1479,7 +1545,8 @@
           "goal": {
             "en": "Show only the errors of the whole journal.",
             "ru": "Покажите только ошибки всего журнала.",
-            "uk": "Покажіть лише помилки всього журналу."
+            "uk": "Покажіть лише помилки всього журналу.",
+            "pl": "Pokaż tylko błędy z całego dziennika."
           },
           "checks": [
             {
@@ -1491,7 +1558,8 @@
               "label": {
                 "en": "journalctl -p err",
                 "ru": "journalctl -p err",
-                "uk": "journalctl -p err"
+                "uk": "journalctl -p err",
+                "pl": "journalctl -p err"
               }
             },
             {
@@ -1500,7 +1568,8 @@
               "label": {
                 "en": "ECONNRESET is visible",
                 "ru": "Виден ECONNRESET",
-                "uk": "Видно ECONNRESET"
+                "uk": "Видно ECONNRESET",
+                "pl": "Widać ECONNRESET"
               }
             }
           ],
@@ -1508,7 +1577,8 @@
             "direction": {
               "en": "-p err",
               "ru": "-p err",
-              "uk": "-p err"
+              "uk": "-p err",
+              "pl": "-p err"
             },
             "command": "journalctl"
           },
@@ -1825,7 +1895,8 @@
           "explanation": {
             "en": "-n 1 prints only the newest entry — a consequence, not the cause.",
             "ru": "-n 1 выводит только самую новую запись — следствие, а не причину.",
-            "uk": "-n 1 виводить лише найновіший запис — наслідок, а не причину."
+            "uk": "-n 1 виводить лише найновіший запис — наслідок, а не причину.",
+            "pl": "-n 1 wypisuje tylko najnowszy wpis — skutek, a nie przyczynę."
           }
         },
         {
@@ -1833,23 +1904,27 @@
           "question": {
             "en": "The last line says \"Failed with result 'exit-code'\". Where is the real cause?",
             "ru": "Последняя строка: «Failed with result 'exit-code'». Где настоящая причина?",
-            "uk": "Останній рядок: «Failed with result 'exit-code'». Де справжня причина?"
+            "uk": "Останній рядок: «Failed with result 'exit-code'». Де справжня причина?",
+            "pl": "Ostatni wiersz mówi „Failed with result 'exit-code'”. Gdzie jest prawdziwa przyczyna?"
           },
           "options": [
             {
               "en": "In the earlier lines of the same service",
               "ru": "В более ранних строках того же сервиса",
-              "uk": "У ранніших рядках того самого сервісу"
+              "uk": "У ранніших рядках того самого сервісу",
+              "pl": "We wcześniejszych wierszach tej samej usługi"
             },
             {
               "en": "In that very line",
               "ru": "Именно в этой строке",
-              "uk": "Саме в цьому рядку"
+              "uk": "Саме в цьому рядку",
+              "pl": "Właśnie w tym wierszu"
             },
             {
               "en": "In /etc/hosts",
               "ru": "В /etc/hosts",
-              "uk": "В /etc/hosts"
+              "uk": "В /etc/hosts",
+              "pl": "W /etc/hosts"
             }
           ],
           "answer": 0
@@ -1861,7 +1936,8 @@
       "title": {
         "en": "A broken config",
         "ru": "Сломанный конфиг",
-        "uk": "Зламаний конфіг"
+        "uk": "Зламаний конфіг",
+        "pl": "Zepsuta konfiguracja"
       },
       "commands": [
         "systemctl",
@@ -2168,12 +2244,14 @@
           "text": {
             "en": "## The classic incident\nSomeone edited a config and restarted the service — it does not start. The journal says exactly what is wrong:\n```\nnginx: [emerg] unknown directive \"listn\" in /etc/nginx/nginx.conf:8\n```\n- **what**: unknown directive \"listn\" (a typo of `listen`)\n- **where**: file /etc/nginx/nginx.conf, **line 8**\n\n## Fix it carefully\n1. Look at the line: `sed -n '8p' FILE` or `grep -n listn FILE`\n2. Back up before editing: `sudo cp FILE FILE.bak`\n3. Fix: `sudo sed -i 's/listn/listen/' FILE` (or `sudo nano FILE`)\n4. Start: `sudo systemctl restart nginx`\n5. Verify: `systemctl is-active nginx`, `curl -I localhost`\n\n> In real life nginx has `nginx -t` to test the config before restarting — always use it if available.",
             "ru": "## Классический инцидент\nКто-то поправил конфиг и перезапустил сервис — тот не стартует. Журнал прямо говорит, что не так:\n```\nnginx: [emerg] unknown directive \"listn\" in /etc/nginx/nginx.conf:8\n```\n- **что**: неизвестная директива «listn» (опечатка в `listen`)\n- **где**: файл /etc/nginx/nginx.conf, **строка 8**\n\n## Чиним аккуратно\n1. Посмотрите строку: `sed -n '8p' ФАЙЛ` или `grep -n listn ФАЙЛ`\n2. Сделайте копию перед правкой: `sudo cp ФАЙЛ ФАЙЛ.bak`\n3. Исправьте: `sudo sed -i 's/listn/listen/' ФАЙЛ` (или `sudo nano ФАЙЛ`)\n4. Запустите: `sudo systemctl restart nginx`\n5. Проверьте: `systemctl is-active nginx`, `curl -I localhost`\n\n> В реальной жизни у nginx есть `nginx -t` для проверки конфига перед рестартом — используйте, если доступно.",
-            "uk": "## Класичний інцидент\nХтось поправив конфіг і перезапустив сервіс — той не стартує. Журнал прямо каже, що не так:\n```\nnginx: [emerg] unknown directive \"listn\" in /etc/nginx/nginx.conf:8\n```\n- **що**: невідома директива «listn» (друкарська помилка в `listen`)\n- **де**: файл /etc/nginx/nginx.conf, **рядок 8**\n\n## Лагодимо обережно\n1. Подивіться рядок: `sed -n '8p' ФАЙЛ` або `grep -n listn ФАЙЛ`\n2. Зробіть копію перед правкою: `sudo cp ФАЙЛ ФАЙЛ.bak`\n3. Виправте: `sudo sed -i 's/listn/listen/' ФАЙЛ` (або `sudo nano ФАЙЛ`)\n4. Запустіть: `sudo systemctl restart nginx`\n5. Перевірте: `systemctl is-active nginx`, `curl -I localhost`\n\n> У реальному житті в nginx є `nginx -t` для перевірки конфігу перед рестартом — використовуйте, якщо доступно."
+            "uk": "## Класичний інцидент\nХтось поправив конфіг і перезапустив сервіс — той не стартує. Журнал прямо каже, що не так:\n```\nnginx: [emerg] unknown directive \"listn\" in /etc/nginx/nginx.conf:8\n```\n- **що**: невідома директива «listn» (друкарська помилка в `listen`)\n- **де**: файл /etc/nginx/nginx.conf, **рядок 8**\n\n## Лагодимо обережно\n1. Подивіться рядок: `sed -n '8p' ФАЙЛ` або `grep -n listn ФАЙЛ`\n2. Зробіть копію перед правкою: `sudo cp ФАЙЛ ФАЙЛ.bak`\n3. Виправте: `sudo sed -i 's/listn/listen/' ФАЙЛ` (або `sudo nano ФАЙЛ`)\n4. Запустіть: `sudo systemctl restart nginx`\n5. Перевірте: `systemctl is-active nginx`, `curl -I localhost`\n\n> У реальному житті в nginx є `nginx -t` для перевірки конфігу перед рестартом — використовуйте, якщо доступно.",
+            "pl": "## Klasyczny incydent\nKtoś zmienił konfigurację i zrestartował usługę — nie startuje. Dziennik mówi dokładnie, co jest nie tak:\n```\nnginx: [emerg] unknown directive \"listn\" in /etc/nginx/nginx.conf:8\n```\n- **co**: nieznana dyrektywa „listn” (literówka w `listen`)\n- **gdzie**: plik /etc/nginx/nginx.conf, **wiersz 8**\n\n## Napraw ostrożnie\n1. Spójrz na wiersz: `sed -n '8p' PLIK` albo `grep -n listn PLIK`\n2. Zrób kopię przed edycją: `sudo cp PLIK PLIK.bak`\n3. Popraw: `sudo sed -i 's/listn/listen/' PLIK` (albo `sudo nano PLIK`)\n4. Uruchom: `sudo systemctl restart nginx`\n5. Sprawdź: `systemctl is-active nginx`, `curl -I localhost`\n\n> W prawdziwym życiu nginx ma `nginx -t` do testu konfiguracji przed restartem — zawsze go używaj, jeśli jest dostępny."
           },
           "title": {
             "en": "Read the error, fix the line",
             "ru": "Прочитать ошибку, исправить строку",
-            "uk": "Прочитати помилку, виправити рядок"
+            "uk": "Прочитати помилку, виправити рядок",
+            "pl": "Przeczytaj błąd, popraw wiersz"
           },
           "terminal": false
         },
@@ -2182,7 +2260,8 @@
           "goal": {
             "en": "nginx does not start. Find in the journal which file and line are broken.",
             "ru": "nginx не стартует. Найдите в журнале, какой файл и какая строка сломаны.",
-            "uk": "nginx не стартує. Знайдіть у журналі, який файл і який рядок зламано."
+            "uk": "nginx не стартує. Знайдіть у журналі, який файл і який рядок зламано.",
+            "pl": "nginx nie startuje. Znajdź w dzienniku, który plik i wiersz są zepsute."
           },
           "checks": [
             {
@@ -2194,7 +2273,8 @@
               "label": {
                 "en": "Read the nginx journal",
                 "ru": "Прочитайте журнал nginx",
-                "uk": "Прочитайте журнал nginx"
+                "uk": "Прочитайте журнал nginx",
+                "pl": "Przeczytaj dziennik nginx"
               }
             },
             {
@@ -2203,7 +2283,8 @@
               "label": {
                 "en": "The [emerg] line is visible",
                 "ru": "Видна строка [emerg]",
-                "uk": "Видно рядок [emerg]"
+                "uk": "Видно рядок [emerg]",
+                "pl": "Widać wiersz [emerg]"
               }
             }
           ],
@@ -2211,7 +2292,8 @@
             "direction": {
               "en": "journalctl -u nginx",
               "ru": "journalctl -u nginx",
-              "uk": "journalctl -u nginx"
+              "uk": "journalctl -u nginx",
+              "pl": "journalctl -u nginx"
             },
             "command": "journalctl"
           },
@@ -2224,7 +2306,8 @@
           "goal": {
             "en": "Show the broken line with its number.",
             "ru": "Покажите сломанную строку вместе с номером.",
-            "uk": "Покажіть зламаний рядок разом із номером."
+            "uk": "Покажіть зламаний рядок разом із номером.",
+            "pl": "Pokaż zepsuty wiersz z jego numerem."
           },
           "checks": [
             {
@@ -2236,7 +2319,8 @@
               "label": {
                 "en": "grep -n",
                 "ru": "grep -n",
-                "uk": "grep -n"
+                "uk": "grep -n",
+                "pl": "grep -n"
               }
             },
             {
@@ -2245,7 +2329,8 @@
               "label": {
                 "en": "8: listn 80;",
                 "ru": "8: listn 80;",
-                "uk": "8: listn 80;"
+                "uk": "8: listn 80;",
+                "pl": "8: listn 80;"
               }
             }
           ],
@@ -2253,7 +2338,8 @@
             "direction": {
               "en": "grep -n WORD FILE prints line numbers.",
               "ru": "grep -n СЛОВО ФАЙЛ выводит номера строк.",
-              "uk": "grep -n СЛОВО ФАЙЛ виводить номери рядків."
+              "uk": "grep -n СЛОВО ФАЙЛ виводить номери рядків.",
+              "pl": "grep -n SŁOWO PLIK wypisuje numery wierszy."
             },
             "command": "grep"
           },
@@ -2266,12 +2352,14 @@
           "goal": {
             "en": "Back up the config, fix the typo and start nginx again.",
             "ru": "Сделайте копию конфига, исправьте опечатку и снова запустите nginx.",
-            "uk": "Зробіть копію конфігу, виправте друкарську помилку й знову запустіть nginx."
+            "uk": "Зробіть копію конфігу, виправте друкарську помилку й знову запустіть nginx.",
+            "pl": "Zrób kopię konfiguracji, popraw literówkę i ponownie uruchom nginx."
           },
           "instructions": {
             "en": "1. `sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak`\n2. `sudo sed -i 's/listn/listen/' /etc/nginx/nginx.conf`\n3. `sudo systemctl restart nginx`\n4. `curl -I localhost`",
             "ru": "1. `sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak`\n2. `sudo sed -i 's/listn/listen/' /etc/nginx/nginx.conf`\n3. `sudo systemctl restart nginx`\n4. `curl -I localhost`",
-            "uk": "1. `sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak`\n2. `sudo sed -i 's/listn/listen/' /etc/nginx/nginx.conf`\n3. `sudo systemctl restart nginx`\n4. `curl -I localhost`"
+            "uk": "1. `sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak`\n2. `sudo sed -i 's/listn/listen/' /etc/nginx/nginx.conf`\n3. `sudo systemctl restart nginx`\n4. `curl -I localhost`",
+            "pl": "1. `sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak`\n2. `sudo sed -i 's/listn/listen/' /etc/nginx/nginx.conf`\n3. `sudo systemctl restart nginx`\n4. `curl -I localhost`"
           },
           "checks": [
             {
@@ -2280,7 +2368,8 @@
               "label": {
                 "en": "A backup exists",
                 "ru": "Есть резервная копия",
-                "uk": "Є резервна копія"
+                "uk": "Є резервна копія",
+                "pl": "Kopia zapasowa istnieje"
               }
             },
             {
@@ -2290,7 +2379,8 @@
               "label": {
                 "en": "listen 80; is fixed",
                 "ru": "listen 80; исправлен",
-                "uk": "listen 80; виправлено"
+                "uk": "listen 80; виправлено",
+                "pl": "listen 80; poprawione"
               }
             },
             {
@@ -2300,7 +2390,8 @@
               "label": {
                 "en": "nginx is active",
                 "ru": "nginx активен",
-                "uk": "nginx активний"
+                "uk": "nginx активний",
+                "pl": "nginx jest aktywny"
               }
             }
           ],
@@ -2308,7 +2399,8 @@
             "direction": {
               "en": "sudo cp, sudo sed -i, sudo systemctl restart.",
               "ru": "sudo cp, sudo sed -i, sudo systemctl restart.",
-              "uk": "sudo cp, sudo sed -i, sudo systemctl restart."
+              "uk": "sudo cp, sudo sed -i, sudo systemctl restart.",
+              "pl": "sudo cp, sudo sed -i, sudo systemctl restart."
             },
             "command": "sed"
           },
@@ -2324,23 +2416,27 @@
           "question": {
             "en": "Why back up a config before editing it on a production server?",
             "ru": "Зачем делать копию конфига перед правкой на продакшене?",
-            "uk": "Навіщо робити копію конфігу перед правкою на продакшені?"
+            "uk": "Навіщо робити копію конфігу перед правкою на продакшені?",
+            "pl": "Po co robić kopię konfiguracji przed edycją na serwerze produkcyjnym?"
           },
           "options": [
             {
               "en": "To roll back in seconds if the edit makes things worse",
               "ru": "Чтобы за секунды откатиться, если правка сделает хуже",
-              "uk": "Щоб за секунди відкотитися, якщо правка зробить гірше"
+              "uk": "Щоб за секунди відкотитися, якщо правка зробить гірше",
+              "pl": "Żeby w kilka sekund się wycofać, jeśli zmiana pogorszy sytuację"
             },
             {
               "en": "Linux requires it",
               "ru": "Этого требует Linux",
-              "uk": "Цього вимагає Linux"
+              "uk": "Цього вимагає Linux",
+              "pl": "Wymaga tego Linux"
             },
             {
               "en": "It makes nginx faster",
               "ru": "Это ускоряет nginx",
-              "uk": "Це пришвидшує nginx"
+              "uk": "Це пришвидшує nginx",
+              "pl": "Przyspiesza to nginx"
             }
           ],
           "answer": 0

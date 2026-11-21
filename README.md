@@ -1,88 +1,87 @@
 # Linux Terminal Trainer
 
-Карманный тренажёр Linux-терминала для Android: настоящие команды в симулированной системе, уроки, задания и сюжетные миссии. Офлайн, без аккаунта, на четырёх языках (en / uk / ru / pl).
+A pocket Linux terminal trainer for Android: real commands in a simulated system, lessons, exercises and story missions. No ads, works offline, no account required. Available in English, Ukrainian, Russian and Polish, including the "Explain command" feature. Progress can be moved between devices (phone to the web version on a computer) as a file or text.
 
-| | |
+Web version and app site: https://vadymzelenko.github.io/linux-learn/
+
+| Part | Description |
 |---|---|
-| **Движок** | `packages/engine` — чистый TypeScript без React Native: виртуальная ФС с правами и симлинками, bash-парсер с циклами и условиями, интерпретатор, ~120 команд (включая сеть, systemd и журналы), проверка заданий, автодополнение, «объясни команду» |
-| **Контент** | `packages/content` — 2 курса (**Linux с нуля** ≈ 13 ч и **NOC-инженер** ≈ 7.5 ч), 17 модулей, 85 уроков, 403 шага (199 заданий в терминале), 15 миссий, 14 челленджей, словарь из 132 терминов, 19 достижений (JSON + zod) |
-| **Приложение** | `apps/mobile` — Expo SDK 58, expo-router, Zustand + immer, expo-sqlite, i18next |
+| Engine, `packages/engine` | Pure TypeScript, no React Native: a virtual file system with permissions and symlinks, a bash parser with loops and conditionals, an interpreter, about 120 commands (including networking, systemd, logs, Docker, git and the GitHub CLI), exercise checking, autocompletion and command explanations |
+| Content, `packages/content` | 4 courses (Linux from scratch, about 13 h; NOC engineer, about 7.5 h; Docker, about 3.5 h; Git and GitHub, about 3.5 h), 25 modules, 118 lessons, 532 steps (258 terminal exercises), 21 missions, 14 practice challenges, a 140-term glossary, 19 achievements. JSON validated with zod |
+| App, `apps/mobile` | Expo SDK 58, expo-router, Zustand with immer, expo-sqlite for progress and sandboxes on the device, i18next, expo-audio and expo-haptics |
 
-## Быстрый старт
+## Getting started
 
 ```bash
 pnpm install
-pnpm web            # веб-версия (демо для портфолио)
-pnpm android        # Expo dev server для Android
-pnpm run ci         # всё, что проверяет CI
+pnpm web            # web version
+pnpm android        # Expo dev server for Android
+pnpm run ci         # everything CI checks
 ```
 
-Веб-версия деплоится на Vercel без настройки: `vercel.json` в корне задаёт установку, сборку (`expo export --platform web`) и папку `apps/mobile/dist`. Достаточно импортировать репозиторий на vercel.com.
+The web version deploys to Vercel without configuration: `vercel.json` defines the install and build commands (`expo export --platform web`) and the `apps/mobile/dist` output.
 
-Сборка для Google Play — через EAS (`apps/mobile/eas.json`):
+APK and AAB files are built by GitHub Actions on every push (the Android workflow). The APK is installed on an emulator and smoke-tested with screenshots. Local and EAS builds, the upload key and Google Play publishing are described in [`docs/ANDROID.md`](docs/ANDROID.md). Store assets (icon, feature graphic, screenshots, listings in four languages, Play Console form answers) are in [`google-play/`](google-play/google-play.txt).
 
-```bash
-cd apps/mobile
-npx eas-cli@latest build --profile preview --platform android     # APK для тестировщиков
-npx eas-cli@latest build --profile production --platform android  # AAB для Play Console
-```
+The app website (landing page, privacy policy, support) lives in `apps/mobile/public/site/` and is published to GitHub Pages by the Website workflow: [site](https://vadymzelenko.github.io/linux-learn/), [web app](https://vadymzelenko.github.io/linux-learn/app/), [privacy](https://vadymzelenko.github.io/linux-learn/privacy/), [support](https://vadymzelenko.github.io/linux-learn/support/).
 
-## Архитектура
+## Architecture
 
 ```
-apps/mobile  ──действия──▶  Zustand store  ──команда──▶  packages/engine
-   экраны                   прогресс, песочницы            парсер → интерпретатор → команды → ВФС
-                            (expo-sqlite)                  проверка заданий
-packages/content ──JSON уроков, миссий, «машин»──▶ store / engine
+apps/mobile  ──actions──▶  Zustand store  ──command──▶  packages/engine
+  screens                  progress, sandboxes          parser → interpreter → commands → VFS
+                           (expo-sqlite)                exercise checks
+packages/content ──lessons, missions, machine definitions (JSON)──▶ store / engine
 ```
 
-Экраны никогда не меняют файловую систему напрямую: `run(session, line)` — чистая функция, возвращающая новую сессию. Поэтому тот же движок без изменений работает в Node, в браузере и в Hermes.
+Screens never modify the file system directly. `run(session, line)` is a pure function that returns a new session, so the same engine runs unchanged in Node, in the browser and in Hermes.
 
-### Движок
+### Engine
 
-- **ВФС**: файлы, директории, симлинки (с защитой от циклов), права `rwx` + setuid/setgid/sticky, владельцы и группы, `student` и `root` через `sudo`, неизменяемые обновления (immer).
-- **Шелл**: кавычки `'…'` `"…"`, `\`, `#`, переменные (`$HOME`, `$?`, `${X}`, `export`), `$(…)`, `$((…))`, `{a,b}` и `{1..9}`, глобы `* ? [abc]`, пайпы, `> >> < 2> 2>&1 &>`, `; && ||`, `for` / `while` / `until` / `if` / `{ …; }`, `read`, `break`/`continue`, алиасы, `!!`, история, скрипты (`./script.sh`, `bash`, `source`, скрипты из `$PATH`), `test`/`[`.
-- **Сеть и сервисы (курс NOC)**: `ping traceroute ip ss netstat dig nslookup host curl wget nc`, `systemctl service journalctl`, `uptime free nproc top w who`. Машина урока описывает хосты (недоступные, с потерями, только в /etc/hosts), сервисы (конфиг ломает рестарт, `upstream` даёт 502) и нагрузку.
-- **Администрирование**: `useradd usermod userdel groupadd passwd`, `pgrep pkill killall`, `diff comm paste`, `zcat zgrep`.
-- **Команды** (вывод и ошибки дословно как в GNU coreutils 9.4): `pwd ls cd tree mkdir touch cat rm rmdir cp mv ln readlink realpath echo printf head tail wc grep sort uniq cut tr tee tac nl rev seq sed awk find du df which file stat xargs chmod chown whoami id groups sudo su ps kill uname hostname date basename dirname sleep man whatis help nano vim less more clear history export unset env printenv alias unalias type exit true false bash sh source test …`
-- **Защита**: лимит вывода, лимит шагов и глубины рекурсии (fork-бомба и рекурсивные скрипты не вешают приложение), фиксированное время для детерминированных тестов. Неожиданная ошибка в команде превращается в сообщение, а не в падение.
+- **File system:** files, directories, symlinks with loop protection, `rwx` permissions plus setuid, setgid and sticky bits, owners and groups, a `student` user and `root` through `sudo`, immutable updates with immer.
+- **Shell:** quoting and escaping, comments, variables (`$HOME`, `$?`, `${X}`, `export`), `$(…)`, `$((…))`, brace expansion, globs, pipes, redirections (`> >> < 2> 2>&1 &>`), `; && ||`, `for`, `while`, `until`, `if`, command groups, `read`, `break` and `continue`, aliases, `!!`, history, scripts (`./script.sh`, `bash`, `source`, scripts on `$PATH`), `test` and `[`.
+- **Networking and services:** `ping traceroute ip ss netstat dig nslookup host curl wget nc`, `systemctl service journalctl`, `uptime free nproc top w who`. Each lesson machine describes hosts (unreachable, lossy, only in `/etc/hosts`), services (a broken config fails a restart, a dead upstream returns 502) and load.
+- **Administration:** `useradd usermod userdel groupadd passwd`, `pgrep pkill killall`, `diff comm paste`, `zcat zgrep`.
+- **Git and GitHub:** a repository is a real `.git` folder in the virtual file system. Supported: `init clone status add rm mv restore commit log show diff branch switch checkout merge` (fast-forward, three-way merge, conflicts with markers, `--abort`), `reset revert stash tag remote fetch pull push` (non-fast-forward rejection, upstream tracking). "GitHub" is a set of bare repositories reachable by `https://github.com/…` and `git@github.com:…` URLs, with `gh repo`, `gh pr` and `gh issue` commands.
+- **Docker:** `run ps images pull logs exec stop start restart kill pause rm rmi build inspect stats tag volume network system` and `docker compose up/down/ps/logs`. Published ports are reachable with `curl` and visible in `ss`, bind mounts reflect host files live, the daemon is a `docker` service and the socket requires the `docker` group. Errors (port in use, name conflict, `pull access denied`, broken `COPY`) match Docker 27 with BuildKit.
+- **Commands:** output and error messages match GNU coreutils 9.4 exactly: `pwd ls cd tree mkdir touch cat rm cp mv ln echo printf head tail wc grep sort uniq cut tr tee sed awk find du df chmod chown sudo ps kill nano vim less` and many more.
+- **Safety limits:** output, step and recursion limits (fork bombs and recursive scripts cannot freeze the app), a fixed clock for deterministic tests. An unexpected error inside a command becomes a message instead of a crash.
 
-### Качество
+### Quality
 
-- **408 тестов движка** (Vitest + fast-check), покрытие строк **93%** (порог в CI — 90%).
-- **Golden-тесты**: 239 команд записаны в настоящем bash 5.2 + coreutils 9.4 (`packages/engine/golden/scenarios.ts`, перезапись — `pnpm --filter @linux-learn/engine golden:record[:docker]`) и совпадают с выводом движка байт в байт.
-- **Линтер контента**: каждый JSON проверяется схемой, затем движок *решает* каждое задание, миссию и челлендж эталонным решением, проверяет ответы «что выведет команда» и полноту переводов. Нерешаемый урок валит CI.
-- Тесты приложения: SM-2, серии и заморозки, разблокировка уроков, достижения, политика рекламы, контраст тем по WCAG AA, полнота переводов UI.
+- 459 engine tests (Vitest and fast-check), 93% line coverage, with a 90% threshold in CI.
+- Golden tests: 239 commands recorded in real bash 5.2 with coreutils 9.4 (`packages/engine/golden/scenarios.ts`) match the engine output byte for byte. Re-record with `pnpm --filter @linux-learn/engine golden:record` (or `golden:record:docker`).
+- Content linter: every JSON file is schema-checked, then the engine solves every exercise, mission and challenge with its reference solution, verifies "what will this print" answers and checks translation completeness. An unsolvable lesson fails CI.
+- App tests: SM-2 spaced repetition, streaks and streak freezes, lesson unlocking, achievements, progress transfer, WCAG AA contrast of all themes, UI translation completeness.
 
-## Что реализовано из ТЗ
+## App features
 
-- Терминал: JetBrains Mono, 4 темы (зелёная, Dracula, Solarized, светлая), цвета `ls`/`grep` через ANSI, приглашение `student@trainer:~/dir$`, буфер 1000 строк в виртуализированном списке, долгое нажатие копирует вывод, Tab-автодополнение команд/путей/переменных, история ↑↓, панель Tab ↑ ↓ Ctrl Esc `| > < ~ / - $ * & ; " '`, Ctrl+C/L/U/A/E/D, автозамена и подсказки клавиатуры отключены, вибрация, упрощённый `nano`.
-- Обучение: курс → модуль → урок → шаг; шаги «теория» (с живым терминалом, демо и вставкой команд по нажатию), «задание», «исправь команду», «что выведет команда», «собери команду», квиз. Проверка по состоянию ФС, частичный зачёт за пропущенный флаг, 3 уровня подсказок, уменьшающих награду.
-- Мотивация: XP и уровни newbie → root, серия дней с заморозками, ежедневный челлендж (одинаковый для всех, seed из даты), интервальное повторение SM-2, 19 достижений (включая пасхалку `rm -rf /`), карта прогресса в виде дерева ФС, итоговый экзамен и сертификат-картинка, локальные напоминания только с согласия.
-- Песочница: до 3 сохраняемых машин, 6 шаблонов, сброс одной кнопкой.
-- «Объясни команду», справочник с man-страницами по всем командам.
-- Онбординг из трёх экранов → сразу первая команда `pwd`; планшеты/ландшафт: задание слева, терминал справа; подписи для экранного диктора.
+- **Terminal:** JetBrains Mono, four themes (green, Dracula, Solarized, light), ANSI colours for `ls` and `grep`, a 1000-line virtualised buffer, long-press to copy output, Tab completion for commands, paths and variables, history, a helper key row and Ctrl shortcuts, a simplified `nano`. A custom terminal keyboard adapts to the screen size and supports cursor movement by swiping on the space bar.
+- **Learning:** course, module, lesson and step. Step types: theory with a live terminal, exercise, fix the command, predict the output, build the command, quiz. Checks are based on file system state, with partial credit and three levels of hints.
+- **Motivation:** XP and levels from newbie to root, daily streaks with freezes, 14 practice challenges, SM-2 spaced repetition, 19 achievements, a progress map drawn as a file system tree, a final exam with a certificate image, optional local reminders.
+- **Sandbox:** up to three saved machines, six templates, one-tap reset.
+- **Progress transfer:** export lessons, XP, settings and machines to a JSON file or the clipboard; import with merge or replace.
+- **Explain command:** the role of every argument (grep patterns, sed scripts, awk programs, chmod permissions, kill signals, docker, systemctl and ip subcommands, loops and conditionals), plus a reference with man pages.
+- **Courses:** the Linux course covers navigation, files, text processing, search, permissions, file system layout, users and groups, processes and services, shell scripting, sed, awk and diff. The NOC course covers SLA and MTTR, server health, networking, web services, logs and incident management, with on-call missions such as a 502 on Black Friday, a disk at 95% and rolling back a Friday deployment.
+- Accessible layout: bottom sheets instead of system alerts, screen reader labels, side-by-side task and terminal on tablets and in landscape.
 
-## Курсы и контент
+## Authoring content
 
-- **Главный экран**: продолжить с места остановки, карточки курсов с прогрессом и часами, быстрые переходы (челлендж, словарь, библиотека теории, песочница, «объясни», справочник), термин дня.
-- **Теория** выводится карточками: заголовки, списки, таблицы, советы и предупреждения, код с кнопкой «вставить в терминал», **выделение и подчёркивание**. Термины из словаря подчёркнуты пунктиром и открывают определение по нажатию.
-- **Быстрый переход к теме**: в каждом задании, миссии и челлендже есть кнопка «Теория» — открывает нужные уроки для повторения, не теряя прогресса. Кнопка 📁 показывает файлы машины и текущую папку, а в «что выведет команда» есть карточка с содержимым машины — не нужно помнить, что где лежит.
-- **Курс Linux**: навигация, файлы, текст, поиск, права, устройство ФС, пользователи и группы, процессы и сервисы, shell как профи (циклы, условия, кавычки), обработка текста (sed, awk, diff), мощные приёмы.
-- **Курс NOC-инженера**: профессия и метрики (SLA, MTTR), здоровье сервера, сеть (ip, ping, traceroute, DNS, порты), веб-сервисы (HTTP-коды, curl, systemctl, journalctl, сломанный конфиг), логи (access.log, auth.log, таймлайн), управление инцидентами (ранбуки, эскалация, откат изменений, постмортем). Миссии курса — настоящие дежурства: 502 в Чёрную пятницу, диск 95%, «у меня на сервере работает», шторм из 401, откат пятничного деплоя.
-
-### Как писать контент
-
-Уроки генерируются Python-скриптами из `packages/content/authoring/` (по одному на модуль: `noc_web.py`, `linux_shell.py`, …; общие хелперы — `lib.py`). После правки:
+Lessons are generated by Python scripts in `packages/content/authoring/` (one per module, shared helpers in `lib.py`):
 
 ```bash
 cd packages/content
-python3 authoring/<модуль>.py && python3 authoring/courses.py && python3 authoring/register.py
-npx tsx scripts/lint.ts          # решает каждое задание эталоном и считает часы курса
+python3 authoring/<module>.py && python3 authoring/courses.py && python3 authoring/register.py
+python3 authoring/pl_tools.py apply   # Polish translations (authoring/pl/*.py, keyed by a hash of the English text)
+npx tsx scripts/lint.ts               # solves every exercise and computes course hours
 ```
 
-Обязательные языки — en / ru / uk; польский перевод нового контента пока частичный (556 из 1976 текстов), недостающее показывается по-английски — линтер сообщает об этом строкой `info`.
+`python3 authoring/pl_tools.py todo <file>` lists untranslated strings.
 
-## Дальше по роадмапу
+## Roadmap
 
-См. [`docs/RELEASE.md`](docs/RELEASE.md): подключение AdMob + UMP и Google Play Billing (политика показа рекламы уже реализована и покрыта тестами в `apps/mobile/src/lib/ads.ts`), Maestro E2E, закрытое тестирование и формы Play Console. Политика конфиденциальности — [`docs/PRIVACY.md`](docs/PRIVACY.md).
+See [`docs/RELEASE.md`](docs/RELEASE.md): AdMob with UMP consent and Google Play Billing (the ad display policy is already implemented and tested in `apps/mobile/src/lib/ads.ts`), Maestro end-to-end tests, closed testing and Play Console forms. Privacy policy: [`docs/PRIVACY.md`](docs/PRIVACY.md).
+
+## License
+
+Copyright © Vadym Zelenko. All rights reserved. The source is published for review; reuse or redistribution of the app or its course content requires permission.

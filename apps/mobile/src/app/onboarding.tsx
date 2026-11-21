@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { createShell } from '@linux-learn/engine';
@@ -60,6 +60,7 @@ function FirstCommand() {
 
 export default function Onboarding() {
   const theme = useTheme();
+  const short = useWindowDimensions().height < 500;
   const { t } = useTranslation();
   const [index, setIndex] = useState(0);
   const lang = useStore((s) => s.settings.lang);
@@ -94,10 +95,12 @@ export default function Onboarding() {
         ) : (
           <View style={{ height: 44 }} />
         )}
-        <View style={styles.center}>
-          <View style={[styles.icon, { backgroundColor: theme.surface2 }]}>
-            <Icon name={slide.icon} size={52} color={theme.accent} />
-          </View>
+        <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.center, { flexGrow: 1 }]} showsVerticalScrollIndicator={false}>
+          {short ? null : (
+            <View style={[styles.icon, { backgroundColor: theme.surface2 }]}>
+              <Icon name={slide.icon} size={52} color={theme.accent} />
+            </View>
+          )}
           <View style={[styles.art, { backgroundColor: theme.term.bg, borderColor: theme.border }]}>
             <Text style={{ fontFamily: MONO, color: theme.term.fg, fontSize: 13, lineHeight: 20 }}>{slide.art}</Text>
           </View>
@@ -105,7 +108,7 @@ export default function Onboarding() {
           <Body dim style={{ textAlign: 'center', fontSize: 17, lineHeight: 25 }}>
             {t(slide.text)}
           </Body>
-        </View>
+        </ScrollView>
         <Row style={{ justifyContent: 'center', marginBottom: space.lg }}>
           {SLIDES.map((_, i) => (
             <View key={i} style={[styles.dot, { backgroundColor: i === index ? theme.accent : theme.border, width: i === index ? 22 : 8 }]} />
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
   wrap: { flex: 1, padding: space.xl, maxWidth: 560, width: '100%', alignSelf: 'center' },
   langs: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center' },
   lang: { paddingHorizontal: 14, paddingVertical: 10, borderRadius: 999, minHeight: 40 },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.lg },
+  center: { alignItems: 'center', justifyContent: 'center', gap: space.lg, paddingVertical: space.md },
   icon: { width: 96, height: 96, borderRadius: 48, alignItems: 'center', justifyContent: 'center' },
   art: { borderWidth: 1, borderRadius: 14, padding: 14, alignSelf: 'stretch' },
   dot: { height: 8, borderRadius: 4 },

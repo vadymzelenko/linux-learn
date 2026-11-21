@@ -9,6 +9,7 @@ import { ArgError, parseArgs } from '../shell/args';
 import { resolve as fsResolve, type Cred } from '../vfs/fs';
 import { DEFAULT_NETWORK } from '../machine';
 import { humanSize, strftime } from './util';
+import { containerHttp, containerServices, logContainerRequest } from './docker';
 
 const ROOT: Cred = { name: 'root', groups: ['root'], root: true };
 const IPV4 = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
@@ -72,7 +73,7 @@ export function resolveHost(ctx: Ctx, name: string, dnsOnly = false): Target | n
 type PortState = 'open' | 'refused' | 'timeout';
 
 function localService(ctx: Ctx, port: number): Service | undefined {
-  return ctx.shell.services().find((s) => s.state === 'active' && s.port === port);
+  return ctx.shell.services().find((s) => s.state === 'active' && s.port === port) ?? containerServices(ctx).find((s) => s.port === port);
 }
 
 function tcpState(ctx: Ctx, t: Target, port: number): PortState {
@@ -282,7 +283,7 @@ interface Sock {
 
 function sockets(ctx: Ctx): Sock[] {
   const out: Sock[] = [];
-  for (const s of ctx.shell.services()) {
+  for (const s of [...ctx.shell.services(), ...containerServices(ctx)]) {
     if (s.state !== 'active' || !s.port) continue;
     const proto = s.proto ?? 'tcp';
     out.push({ proto, state: proto === 'udp' ? 'UNCONN' : 'LISTEN', local: s.bind ?? '0.0.0.0', port: s.port, peer: '0.0.0.0:*', svc: s });
@@ -456,6 +457,13 @@ function parseUrl(raw: string): { scheme: string; host: string; port: number; pa
 }
 
 function fetchHttp(ctx: Ctx, t: Target, port: number, path: string): HttpResponse {
+  if (t.local && !ctx.shell.services().some((s) => s.state === 'active' && s.port === port)) {
+    const fromContainer = containerHttp(ctx, port, path);
+    if (fromContainer) {
+      if (fromContainer.status) logContainerRequest(ctx, port, path, fromContainer.status);
+      return fromContainer;
+    }
+  }
   const table = t.local ? localService(ctx, port)?.http : t.host?.http;
   const r = table?.[path];
   if (r?.upstream && t.local && ctx.shell.services().find((x) => x.name === r.upstream)?.state !== 'active') {
@@ -520,6 +528,10 @@ export const curl: CommandDef = {
         return 28;
       }
       const r = fetchHttp(ctx, t, u.port, u.path);
+      if (r.status === 0) {
+        ctx.err(`curl: (52) Empty reply from server\n`);
+        return 52;
+      }
       const body = r.body ?? '';
       const headers: Record<string, string> = { ...(r.headers ?? {}), 'Content-Length': String(body.length) };
       const loc = headers['Location'];

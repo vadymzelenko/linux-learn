@@ -1,4 +1,4 @@
-import type { DirNode, Machine, OutputChunk, ProcessInfo, Service, ShellEvent, UserInfo } from '../types';
+import type { DirNode, DockerState, Machine, OutputChunk, ProcessInfo, Service, ShellEvent, UserInfo } from '../types';
 import {
   can,
   FsError,
@@ -54,6 +54,8 @@ export interface ShellApi {
   loopControl(kind: 'break' | 'continue', n: number): boolean;
   setUsers(u: UserInfo[]): void;
   setServices(s: Service[]): void;
+  docker(): DockerState | undefined;
+  setDocker(d: DockerState): void;
   cwd(): string;
   setCwd(path: string): void;
   getVar(name: string): string | undefined;

@@ -1,0 +1,40 @@
+{
+  "hostname": "dock01",
+  "docker": {
+    "images": [
+      "nginx:latest",
+      "redis:7",
+      "postgres:16",
+      "alpine:latest"
+    ],
+    "containers": [
+      {
+        "name": "web",
+        "image": "nginx",
+        "ports": [
+          "8080:80"
+        ],
+        "age": 180
+      },
+      {
+        "name": "cache",
+        "image": "redis:7",
+        "age": 180
+      },
+      {
+        "name": "db",
+        "image": "postgres:16",
+        "state": "exited",
+        "exitCode": 1,
+        "age": 30
+      }
+    ]
+  },
+  "files": {
+    "~/site/index.html": "<!doctype html>\n<h1>Hello from my site</h1>\n",
+    "~/app/Dockerfile": "FROM nginx:alpine\nWORKDIR /usr/share/nginx/html\nCOPY index.html .\nEXPOSE 80\n",
+    "~/app/index.html": "<!doctype html>\n<h1>Shop v2 — built with Docker</h1>\n",
+    "~/shop/compose.yaml": "services:\n  web:\n    image: nginx:alpine\n    ports:\n      - \"8090:80\"\n  cache:\n    image: redis:7\n",
+    "~/notes.txt": "web   -> http://localhost:8080\ncache -> redis on 6379 (internal)\ndb    -> postgres (broken since the last deploy?)\n"
+  }
+}

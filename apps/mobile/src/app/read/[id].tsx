@@ -1,9 +1,11 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import * as nav from '../../lib/nav';
+import { useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { COMMANDS } from '@linux-learn/engine';
 import { findLesson, lessonMinutes, tr } from '@linux-learn/content';
 import { Text } from '../../theme/Text';
+import { BackButton } from '../../components/BackButton';
 import { useTheme, MONO, MONO_BOLD, space } from '../../theme';
 import { Button, IconButton, Pill, Row, Screen } from '../../components/ui';
 import { TheoryCards } from '../../components/ui/RichText';
@@ -18,7 +20,7 @@ export default function ReadScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
-        <IconButton icon="chevron-left" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />
+        <BackButton />
         <Text style={{ color: theme.textDim, fontWeight: '700', letterSpacing: 1, fontSize: 12 }}>{t('topic.theory').toUpperCase()}</Text>
       </Row>
       <ScrollView contentContainerStyle={styles.content}>
@@ -43,7 +45,7 @@ export default function ReadScreen() {
                 const def = COMMANDS.get(c);
                 return (
                   <View key={c} style={[styles.cmd, { backgroundColor: theme.surface, borderColor: theme.border }]}>
-                    <Text style={{ fontFamily: MONO_BOLD, color: theme.term.user, fontSize: 16, width: 96 }} onPress={() => router.push({ pathname: '/reference', params: { cmd: c } })}>
+                    <Text style={{ fontFamily: MONO_BOLD, color: theme.term.user, fontSize: 16, width: 96 }} onPress={() => nav.push({ pathname: '/reference', params: { cmd: c } })}>
                       {c}
                     </Text>
                     <Text style={{ color: theme.text, flex: 1 }}>{def?.doc.summary}</Text>
@@ -51,7 +53,7 @@ export default function ReadScreen() {
                 );
               })}
             </View>
-            <Button variant="secondary" icon="play" title={t('library.practice')} onPress={() => router.push({ pathname: '/lesson/[id]', params: { id: ref.lesson.id } })} />
+            <Button variant="secondary" icon="play" title={t('library.practice')} onPress={() => nav.push({ pathname: '/lesson/[id]', params: { id: ref.lesson.id } })} />
           </View>
         ))}
       </ScrollView>

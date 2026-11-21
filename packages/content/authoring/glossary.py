@@ -6,8 +6,8 @@ G = []
 
 
 def g(id, cat, term, definition, ru=(), uk=(), en=(), cmd=None):
-    d = {"id": id, "category": cat, "term": {"en": term[0], "ru": term[1], "uk": term[2]},
-         "definition": {"en": definition[0], "ru": definition[1], "uk": definition[2]},
+    d = {"id": id, "category": cat, "term": {"en": term[0], "ru": term[1], "uk": term[2], **({"pl": term[3]} if len(term) > 3 else {})},
+         "definition": {"en": definition[0], "ru": definition[1], "uk": definition[2], **({"pl": definition[3]} if len(definition) > 3 else {})},
          "match": {"en": [x.lower() for x in en] or [term[0].lower()], "ru": list(ru), "uk": list(uk)}}
     if cmd: d["command"] = cmd
     G.append(d)
@@ -396,6 +396,32 @@ g('blameless', 'noc', ('Blameless', 'Без поиска виноватых (bla
 g('five-whys', 'noc', ('5 whys', '5 почему', '5 чому'),
   ('Asking "why?" again and again (about five times) to get from a symptom to the root cause.', 'Спрашивать «почему?» снова и снова (около пяти раз), чтобы дойти от симптома до первопричины.', 'Питати «чому?» знову й знову (близько п’яти разів), щоб дійти від симптому до першопричини.'),
   ru=['5 почему', 'пять почему'], uk=['5 чому', "п'ять чому"], en=['5 whys', 'five whys'])
+
+# ---------------------------------------------------------------- docker
+g('container', 'docker', ('Container', 'Контейнер', 'Контейнер', 'Kontener'),
+  ('An isolated process started from an image, with its own file system, network and process list, sharing the host kernel.', 'Изолированный процесс, запущенный из образа, со своей файловой системой, сетью и списком процессов, на общем ядре хоста.', 'Ізольований процес, запущений з образу, зі своєю файловою системою, мережею й списком процесів, на спільному ядрі хоста.', 'Odizolowany proces uruchomiony z obrazu, z własnym systemem plików, siecią i listą procesów, na wspólnym jądrze hosta.'),
+  ru=['контейнер'], uk=['контейнер'], en=['container'], cmd='docker')
+g('image', 'docker', ('Image', 'Образ (image)', 'Образ (image)', 'Obraz (image)'),
+  ('A read-only template for containers: the files of an application and the command to start it, stored in layers.', 'Шаблон для контейнеров только для чтения: файлы приложения и команда запуска, хранится слоями.', 'Шаблон для контейнерів лише для читання: файли застосунку й команда запуску, зберігається шарами.', 'Szablon kontenerów tylko do odczytu: pliki aplikacji i polecenie startowe, przechowywany w warstwach.'),
+  ru=['образы', 'образов', 'образа', 'образе', 'образами'], uk=['образи', 'образів', 'образу', 'образами'], en=['image'], cmd='docker')
+g('dockerfile', 'docker', ('Dockerfile', 'Dockerfile', 'Dockerfile', 'Dockerfile'),
+  ('A text recipe for building an image: FROM a base image, COPY files, RUN commands, set the CMD.', 'Текстовый рецепт сборки образа: FROM базовый образ, COPY файлов, RUN команд, CMD запуска.', 'Текстовий рецепт збирання образу: FROM базовий образ, COPY файлів, RUN команд, CMD запуску.', 'Tekstowy przepis budowania obrazu: FROM obraz bazowy, COPY plików, RUN poleceń, CMD startu.'),
+  ru=['dockerfile'], uk=['dockerfile'], en=['dockerfile'])
+g('registry', 'docker', ('Registry', 'Реестр образов', 'Реєстр образів', 'Rejestr obrazów'),
+  ('A server that stores images, e.g. Docker Hub; docker pull downloads from it, docker push uploads.', 'Сервер, где хранятся образы, например Docker Hub; docker pull скачивает оттуда, docker push загружает.', 'Сервер, де зберігаються образи, наприклад Docker Hub; docker pull завантажує звідти, docker push вивантажує.', 'Serwer przechowujący obrazy, np. Docker Hub; docker pull pobiera z niego, docker push wysyła.'),
+  ru=['реестр', 'docker hub'], uk=['реєстр', 'docker hub'], en=['registry', 'docker hub'])
+g('tag', 'docker', ('Tag', 'Тег образа', 'Тег образу', 'Tag obrazu'),
+  ('The version part of an image name after the colon: nginx:1.27. No tag means latest.', 'Часть имени образа после двоеточия — версия: nginx:1.27. Без тега — latest.', 'Частина імені образу після двокрапки — версія: nginx:1.27. Без тегу — latest.', 'Część nazwy obrazu po dwukropku — wersja: nginx:1.27. Bez tagu — latest.'),
+  ru=['тег'], uk=['тег'], en=['tag'])
+g('volume', 'docker', ('Volume', 'Том (volume)', 'Том (volume)', 'Wolumen'),
+  ('Storage that lives outside a container and survives its removal: a named volume or a bind-mounted host folder (-v).', 'Хранилище вне контейнера, переживающее его удаление: именованный том или примонтированная папка хоста (-v).', 'Сховище поза контейнером, що переживає його видалення: іменований том або примонтована тека хоста (-v).', 'Magazyn poza kontenerem, który przetrwa jego usunięcie: nazwany wolumen lub zamontowany katalog hosta (-v).'),
+  ru=['томов', 'томами', 'именованный том'], uk=['томів', 'томами', 'іменований том'], en=['volume'])
+g('port-publish', 'docker', ('Port publishing', 'Проброс порта', 'Прокидання порту', 'Publikowanie portu'),
+  ('-p HOST:CONTAINER connects a port on the host to a port inside the container, e.g. -p 8080:80.', '-p ХОСТ:КОНТЕЙНЕР связывает порт хоста с портом внутри контейнера, например -p 8080:80.', '-p ХОСТ:КОНТЕЙНЕР пов’язує порт хоста з портом усередині контейнера, наприклад -p 8080:80.', '-p HOST:KONTENER łączy port hosta z portem w kontenerze, np. -p 8080:80.'),
+  ru=['проброс'], uk=['прокидання'], en=['publish'])
+g('compose', 'docker', ('Docker Compose', 'Docker Compose', 'Docker Compose', 'Docker Compose'),
+  ('A tool that starts several containers described in compose.yaml with one command: docker compose up -d.', 'Инструмент, который поднимает несколько контейнеров из compose.yaml одной командой: docker compose up -d.', 'Інструмент, що піднімає кілька контейнерів із compose.yaml однією командою: docker compose up -d.', 'Narzędzie uruchamiające kilka kontenerów z compose.yaml jednym poleceniem: docker compose up -d.'),
+  ru=['compose'], uk=['compose'], en=['compose'], cmd='docker')
 
 out = os.path.join(ROOT, 'glossary.json')
 with open(out, 'w') as f:

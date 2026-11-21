@@ -236,7 +236,8 @@
           "instructions": {
             "en": "1. Search from your home: `find ~`\n2. Add the size filter -size +100M",
             "ru": "1. Ищите от домашней папки: `find ~`\n2. Добавьте фильтр размера -size +100M",
-            "uk": "1. Шукайте від домашньої теки: `find ~`\n2. Додайте фільтр розміру -size +100M"
+            "uk": "1. Шукайте від домашньої теки: `find ~`\n2. Додайте фільтр розміру -size +100M",
+            "pl": "1. Szukaj od katalogu domowego: `find ~`\n2. Dodaj filtr rozmiaru -size +100M"
           }
         },
         {

@@ -5,12 +5,14 @@
   "title": {
     "en": "Shell like a pro",
     "ru": "Shell как профи",
-    "uk": "Shell як профі"
+    "uk": "Shell як профі",
+    "pl": "Powłoka jak u profesjonalisty"
   },
   "description": {
     "en": "&& and ||, quotes, braces, for and while loops, if, hotkeys.",
     "ru": "&& и ||, кавычки, скобки, циклы for и while, if, горячие клавиши.",
-    "uk": "&& і ||, лапки, дужки, цикли for і while, if, гарячі клавіші."
+    "uk": "&& і ||, лапки, дужки, цикли for і while, if, гарячі клавіші.",
+    "pl": "&& i ||, cudzysłowy, nawiasy klamrowe, pętle for i while, if, skróty klawiszowe."
   },
   "lessons": [
     {
@@ -18,7 +20,8 @@
       "title": {
         "en": "Chaining commands",
         "ru": "Цепочки команд",
-        "uk": "Ланцюжки команд"
+        "uk": "Ланцюжки команд",
+        "pl": "Łączenie poleceń"
       },
       "commands": [
         "echo",
@@ -51,12 +54,14 @@
           "text": {
             "en": "## Exit codes\nEvery command returns a number: **0 = success**, anything else = an error. The last one is in `$?`.\n```\n$ ls /nope\n$ echo $?\n```\n## Four connectors\n| syntax | runs the second command… |\n|---|---|\n| `a ; b` | always |\n| `a && b` | only if a **succeeded** |\n| `a \\|\\| b` | only if a **failed** |\n| `a \\| b` | at the same time, a's output goes into b |\n\n```\n$ mkdir -p backup && cp report.txt backup/\n$ grep -q web servers.txt && echo \"found\" || echo \"missing\"\n```\n> `&&` is a safety belt: `cd /var/www && rm -rf old` — if the cd fails, rm never runs in the wrong folder.",
             "ru": "## Коды завершения\nКаждая команда возвращает число: **0 = успех**, всё остальное — ошибка. Код последней — в `$?`.\n```\n$ ls /nope\n$ echo $?\n```\n## Четыре соединителя\n| синтаксис | вторая команда выполняется… |\n|---|---|\n| `a ; b` | всегда |\n| `a && b` | только если a **успешна** |\n| `a \\|\\| b` | только если a **упала** |\n| `a \\| b` | одновременно, вывод a идёт в b |\n\n```\n$ mkdir -p backup && cp report.txt backup/\n$ grep -q web servers.txt && echo \"found\" || echo \"missing\"\n```\n> `&&` — ремень безопасности: `cd /var/www && rm -rf old` — если cd не удался, rm не выполнится в чужой папке.",
-            "uk": "## Коди завершення\nКожна команда повертає число: **0 = успіх**, усе інше — помилка. Код останньої — у `$?`.\n```\n$ ls /nope\n$ echo $?\n```\n## Чотири з’єднувачі\n| синтаксис | друга команда виконується… |\n|---|---|\n| `a ; b` | завжди |\n| `a && b` | лише якщо a **успішна** |\n| `a \\|\\| b` | лише якщо a **впала** |\n| `a \\| b` | одночасно, вивід a йде в b |\n\n```\n$ mkdir -p backup && cp report.txt backup/\n$ grep -q web servers.txt && echo \"found\" || echo \"missing\"\n```\n> `&&` — пасок безпеки: `cd /var/www && rm -rf old` — якщо cd не вдався, rm не виконається в чужій папці."
+            "uk": "## Коди завершення\nКожна команда повертає число: **0 = успіх**, усе інше — помилка. Код останньої — у `$?`.\n```\n$ ls /nope\n$ echo $?\n```\n## Чотири з’єднувачі\n| синтаксис | друга команда виконується… |\n|---|---|\n| `a ; b` | завжди |\n| `a && b` | лише якщо a **успішна** |\n| `a \\|\\| b` | лише якщо a **впала** |\n| `a \\| b` | одночасно, вивід a йде в b |\n\n```\n$ mkdir -p backup && cp report.txt backup/\n$ grep -q web servers.txt && echo \"found\" || echo \"missing\"\n```\n> `&&` — пасок безпеки: `cd /var/www && rm -rf old` — якщо cd не вдався, rm не виконається в чужій папці.",
+            "pl": "## Kody wyjścia\nKażde polecenie zwraca liczbę: **0 = sukces**, cokolwiek innego = błąd. Ostatni kod jest w `$?`.\n```\n$ ls /nope\n$ echo $?\n```\n## Cztery łączniki\n| składnia | drugie polecenie wykona się… |\n|---|---|\n| `a ; b` | zawsze |\n| `a && b` | tylko jeśli a **się powiodło** |\n| `a \\|\\| b` | tylko jeśli a **się nie powiodło** |\n| `a \\| b` | równocześnie, wyjście a trafia do b |\n\n```\n$ mkdir -p backup && cp report.txt backup/\n$ grep -q web servers.txt && echo \"found\" || echo \"missing\"\n```\n> `&&` to pas bezpieczeństwa: `cd /var/www && rm -rf old` — jeśli cd się nie uda, rm nigdy nie uruchomi się w złym katalogu."
           },
           "title": {
             "en": "Exit codes and connectors",
             "ru": "Коды завершения и соединители",
-            "uk": "Коди завершення та з’єднувачі"
+            "uk": "Коди завершення та з’єднувачі",
+            "pl": "Kody wyjścia i łączniki"
           },
           "demo": {
             "commands": [
@@ -69,7 +74,8 @@
           "goal": {
             "en": "Create ~/backup and copy ~/report.txt into it — in ONE line, the copy only if mkdir succeeded.",
             "ru": "Создайте ~/backup и скопируйте туда ~/report.txt — ОДНОЙ строкой, копирование только если mkdir удался.",
-            "uk": "Створіть ~/backup і скопіюйте туди ~/report.txt — ОДНИМ рядком, копіювання лише якщо mkdir вдався."
+            "uk": "Створіть ~/backup і скопіюйте туди ~/report.txt — ОДНИМ рядком, копіювання лише якщо mkdir вдався.",
+            "pl": "Utwórz ~/backup i skopiuj do niego ~/report.txt — w JEDNYM wierszu, kopiowanie tylko jeśli mkdir się powiódł."
           },
           "checks": [
             {
@@ -78,7 +84,8 @@
               "label": {
                 "en": "~/backup/report.txt exists",
                 "ru": "~/backup/report.txt есть",
-                "uk": "~/backup/report.txt є"
+                "uk": "~/backup/report.txt є",
+                "pl": "~/backup/report.txt istnieje"
               }
             },
             {
@@ -87,7 +94,8 @@
               "label": {
                 "en": "cp after &&",
                 "ru": "cp после &&",
-                "uk": "cp після &&"
+                "uk": "cp після &&",
+                "pl": "cp po &&"
               }
             }
           ],
@@ -95,7 +103,8 @@
             "direction": {
               "en": "mkdir -p ~/backup && cp ~/report.txt ~/backup/",
               "ru": "mkdir -p ~/backup && cp ~/report.txt ~/backup/",
-              "uk": "mkdir -p ~/backup && cp ~/report.txt ~/backup/"
+              "uk": "mkdir -p ~/backup && cp ~/report.txt ~/backup/",
+              "pl": "mkdir -p ~/backup && cp ~/report.txt ~/backup/"
             },
             "command": "mkdir"
           },
@@ -108,7 +117,8 @@
           "goal": {
             "en": "Print \"found\" if db01 is in ~/servers.txt, otherwise \"missing\". Use grep -q, && and ||.",
             "ru": "Выведите «found», если db01 есть в ~/servers.txt, иначе «missing». Используйте grep -q, && и ||.",
-            "uk": "Виведіть «found», якщо db01 є в ~/servers.txt, інакше «missing». Використайте grep -q, && і ||."
+            "uk": "Виведіть «found», якщо db01 є в ~/servers.txt, інакше «missing». Використайте grep -q, && і ||.",
+            "pl": "Wypisz „found”, jeśli db01 jest w ~/servers.txt, w przeciwnym razie „missing”. Użyj grep -q, && i ||."
           },
           "checks": [
             {
@@ -120,7 +130,8 @@
               "label": {
                 "en": "grep -q",
                 "ru": "grep -q",
-                "uk": "grep -q"
+                "uk": "grep -q",
+                "pl": "grep -q"
               }
             },
             {
@@ -129,7 +140,8 @@
               "label": {
                 "en": "found",
                 "ru": "found",
-                "uk": "found"
+                "uk": "found",
+                "pl": "found"
               }
             }
           ],
@@ -137,7 +149,8 @@
             "direction": {
               "en": "grep -q db01 ~/servers.txt && echo found || echo missing",
               "ru": "grep -q db01 ~/servers.txt && echo found || echo missing",
-              "uk": "grep -q db01 ~/servers.txt && echo found || echo missing"
+              "uk": "grep -q db01 ~/servers.txt && echo found || echo missing",
+              "pl": "grep -q db01 ~/servers.txt && echo found || echo missing"
             },
             "command": "grep"
           },
@@ -178,7 +191,8 @@
           "explanation": {
             "en": "ls returns 2 for \"serious trouble\" such as a missing argument path.",
             "ru": "ls возвращает 2 при «серьёзной проблеме», например несуществующем пути.",
-            "uk": "ls повертає 2 у разі «серйозної проблеми», наприклад неіснуючого шляху."
+            "uk": "ls повертає 2 у разі «серйозної проблеми», наприклад неіснуючого шляху.",
+            "pl": "ls zwraca 2 przy „poważnym problemie”, np. nieistniejącej ścieżce w argumencie."
           }
         },
         {
@@ -186,23 +200,27 @@
           "question": {
             "en": "\"cd /data && rm -rf tmp\" — what if /data does not exist?",
             "ru": "«cd /data && rm -rf tmp» — что будет, если /data нет?",
-            "uk": "«cd /data && rm -rf tmp» — що буде, якщо /data немає?"
+            "uk": "«cd /data && rm -rf tmp» — що буде, якщо /data немає?",
+            "pl": "„cd /data && rm -rf tmp” — co, jeśli /data nie istnieje?"
           },
           "options": [
             {
               "en": "cd fails, rm does not run — safe",
               "ru": "cd падает, rm не выполняется — безопасно",
-              "uk": "cd падає, rm не виконується — безпечно"
+              "uk": "cd падає, rm не виконується — безпечно",
+              "pl": "cd się nie udaje, rm się nie wykona — bezpiecznie"
             },
             {
               "en": "rm deletes tmp in the current folder",
               "ru": "rm удалит tmp в текущей папке",
-              "uk": "rm видалить tmp у поточній папці"
+              "uk": "rm видалить tmp у поточній папці",
+              "pl": "rm usunie tmp w bieżącym katalogu"
             },
             {
               "en": "Both run",
               "ru": "Выполнятся обе",
-              "uk": "Виконаються обидві"
+              "uk": "Виконаються обидві",
+              "pl": "Wykonają się oba"
             }
           ],
           "answer": 0
@@ -214,7 +232,8 @@
       "title": {
         "en": "Quotes and substitution",
         "ru": "Кавычки и подстановка",
-        "uk": "Лапки та підстановка"
+        "uk": "Лапки та підстановка",
+        "pl": "Cudzysłowy i podstawianie"
       },
       "commands": [
         "echo"
@@ -245,12 +264,14 @@
           "text": {
             "en": "## Three kinds of quoting\n| form | `$VAR` and `$(cmd)` | spaces |\n|---|---|---|\n| `\"double\"` | **expanded** | kept, one word |\n| `'single'` | literally, as typed | kept, one word |\n| `\\` before a char | that char is literal | — |\n\n```\n$ echo \"Home: $HOME\"\n$ echo 'Home: $HOME'\n$ echo \"Today is $(date +%A)\"\n$ echo \"Files: $(ls | wc -l)\"\n```\n## Command substitution\n`$(command)` is replaced by the command's output. Old style: backticks `` `command` ``.\n\n> Rule: put variables in **double quotes** — `rm \"$file\"` — otherwise a file name with spaces becomes two arguments.",
             "ru": "## Три вида кавычек\n| форма | `$VAR` и `$(cmd)` | пробелы |\n|---|---|---|\n| `\"двойные\"` | **подставляются** | сохраняются, одно слово |\n| `'одинарные'` | буквально, как написано | сохраняются, одно слово |\n| `\\` перед символом | этот символ буквальный | — |\n\n```\n$ echo \"Home: $HOME\"\n$ echo 'Home: $HOME'\n$ echo \"Today is $(date +%A)\"\n$ echo \"Files: $(ls | wc -l)\"\n```\n## Подстановка команд\n`$(команда)` заменяется выводом команды. Старый стиль: обратные кавычки `` `команда` ``.\n\n> Правило: переменные — в **двойных кавычках** — `rm \"$file\"` — иначе имя файла с пробелами станет двумя аргументами.",
-            "uk": "## Три види лапок\n| форма | `$VAR` і `$(cmd)` | пробіли |\n|---|---|---|\n| `\"подвійні\"` | **підставляються** | зберігаються, одне слово |\n| `'одинарні'` | буквально, як написано | зберігаються, одне слово |\n| `\\` перед символом | цей символ буквальний | — |\n\n```\n$ echo \"Home: $HOME\"\n$ echo 'Home: $HOME'\n$ echo \"Today is $(date +%A)\"\n$ echo \"Files: $(ls | wc -l)\"\n```\n## Підстановка команд\n`$(команда)` замінюється виводом команди. Старий стиль: зворотні лапки `` `команда` ``.\n\n> Правило: змінні — у **подвійних лапках** — `rm \"$file\"` — інакше назва файлу з пробілами стане двома аргументами."
+            "uk": "## Три види лапок\n| форма | `$VAR` і `$(cmd)` | пробіли |\n|---|---|---|\n| `\"подвійні\"` | **підставляються** | зберігаються, одне слово |\n| `'одинарні'` | буквально, як написано | зберігаються, одне слово |\n| `\\` перед символом | цей символ буквальний | — |\n\n```\n$ echo \"Home: $HOME\"\n$ echo 'Home: $HOME'\n$ echo \"Today is $(date +%A)\"\n$ echo \"Files: $(ls | wc -l)\"\n```\n## Підстановка команд\n`$(команда)` замінюється виводом команди. Старий стиль: зворотні лапки `` `команда` ``.\n\n> Правило: змінні — у **подвійних лапках** — `rm \"$file\"` — інакше назва файлу з пробілами стане двома аргументами.",
+            "pl": "## Trzy rodzaje cytowania\n| forma | `$VAR` i `$(cmd)` | spacje |\n|---|---|---|\n| `\"podwójne\"` | **rozwijane** | zachowane, jedno słowo |\n| `'pojedyncze'` | dosłownie, jak wpisano | zachowane, jedno słowo |\n| `\\` przed znakiem | ten znak dosłownie | — |\n\n```\n$ echo \"Home: $HOME\"\n$ echo 'Home: $HOME'\n$ echo \"Today is $(date +%A)\"\n$ echo \"Files: $(ls | wc -l)\"\n```\n## Podstawianie poleceń\n`$(polecenie)` zostaje zastąpione wyjściem polecenia. Stary styl: odwrotne apostrofy `` `polecenie` ``.\n\n> Zasada: zmienne bierz w **podwójne cudzysłowy** — `rm \"$file\"` — inaczej nazwa pliku ze spacją stanie się dwoma argumentami."
           },
           "title": {
             "en": "\"…\" vs '…'",
             "ru": "\"…\" и '…'",
-            "uk": "\"…\" і '…'"
+            "uk": "\"…\" і '…'",
+            "pl": "„…” a '…'"
           },
           "demo": {
             "commands": [
@@ -292,7 +313,8 @@
           "explanation": {
             "en": "Single quotes keep everything literally.",
             "ru": "Одинарные кавычки сохраняют всё буквально.",
-            "uk": "Одинарні лапки зберігають усе буквально."
+            "uk": "Одинарні лапки зберігають усе буквально.",
+            "pl": "Pojedyncze cudzysłowy zachowują wszystko dosłownie."
           }
         },
         {
@@ -300,7 +322,8 @@
           "goal": {
             "en": "Print exactly: \"There are 3 servers\" — the number must come from counting the lines of ~/servers.txt.",
             "ru": "Выведите ровно: «There are 3 servers» — число должно получиться подсчётом строк ~/servers.txt.",
-            "uk": "Виведіть рівно: «There are 3 servers» — число має вийти з підрахунку рядків ~/servers.txt."
+            "uk": "Виведіть рівно: «There are 3 servers» — число має вийти з підрахунку рядків ~/servers.txt.",
+            "pl": "Wypisz dokładnie: „There are 3 servers” — liczba ma pochodzić z policzenia wierszy ~/servers.txt."
           },
           "checks": [
             {
@@ -309,7 +332,8 @@
               "label": {
                 "en": "wc -l inside $( )",
                 "ru": "wc -l внутри $( )",
-                "uk": "wc -l усередині $( )"
+                "uk": "wc -l усередині $( )",
+                "pl": "wc -l wewnątrz $( )"
               }
             },
             {
@@ -318,7 +342,8 @@
               "label": {
                 "en": "There are 3 servers",
                 "ru": "There are 3 servers",
-                "uk": "There are 3 servers"
+                "uk": "There are 3 servers",
+                "pl": "There are 3 servers"
               }
             }
           ],
@@ -326,7 +351,8 @@
             "direction": {
               "en": "echo \"There are $(wc -l < ~/servers.txt) servers\"",
               "ru": "echo \"There are $(wc -l < ~/servers.txt) servers\"",
-              "uk": "echo \"There are $(wc -l < ~/servers.txt) servers\""
+              "uk": "echo \"There are $(wc -l < ~/servers.txt) servers\"",
+              "pl": "echo \"There are $(wc -l < ~/servers.txt) servers\""
             },
             "command": "echo"
           },
@@ -339,7 +365,8 @@
           "goal": {
             "en": "Create a file whose name contains a space: \"~/my notes.txt\".",
             "ru": "Создайте файл с пробелом в имени: «~/my notes.txt».",
-            "uk": "Створіть файл із пробілом у назві: «~/my notes.txt»."
+            "uk": "Створіть файл із пробілом у назві: «~/my notes.txt».",
+            "pl": "Utwórz plik, którego nazwa zawiera spację: „~/my notes.txt”."
           },
           "checks": [
             {
@@ -348,7 +375,8 @@
               "label": {
                 "en": "\"my notes.txt\" exists",
                 "ru": "«my notes.txt» есть",
-                "uk": "«my notes.txt» є"
+                "uk": "«my notes.txt» є",
+                "pl": "„my notes.txt” istnieje"
               }
             },
             {
@@ -357,7 +385,8 @@
               "label": {
                 "en": "No stray file \"my\"",
                 "ru": "Нет лишнего файла «my»",
-                "uk": "Немає зайвого файлу «my»"
+                "uk": "Немає зайвого файлу «my»",
+                "pl": "Brak przypadkowego pliku „my”"
               }
             }
           ],
@@ -365,7 +394,8 @@
             "direction": {
               "en": "touch ~/\"my notes.txt\"",
               "ru": "touch ~/\"my notes.txt\"",
-              "uk": "touch ~/\"my notes.txt\""
+              "uk": "touch ~/\"my notes.txt\"",
+              "pl": "touch ~/\"my notes.txt\""
             },
             "command": "touch"
           },
@@ -378,30 +408,35 @@
           "question": {
             "en": "FILE=\"my notes.txt\"; rm $FILE — what does rm try to delete?",
             "ru": "FILE=\"my notes.txt\"; rm $FILE — что попытается удалить rm?",
-            "uk": "FILE=\"my notes.txt\"; rm $FILE — що спробує видалити rm?"
+            "uk": "FILE=\"my notes.txt\"; rm $FILE — що спробує видалити rm?",
+            "pl": "FILE=\"my notes.txt\"; rm $FILE — co rm próbuje usunąć?"
           },
           "options": [
             {
               "en": "Two files: \"my\" and \"notes.txt\"",
               "ru": "Два файла: «my» и «notes.txt»",
-              "uk": "Два файли: «my» і «notes.txt»"
+              "uk": "Два файли: «my» і «notes.txt»",
+              "pl": "Dwa pliki: „my” i „notes.txt”"
             },
             {
               "en": "\"my notes.txt\"",
               "ru": "«my notes.txt»",
-              "uk": "«my notes.txt»"
+              "uk": "«my notes.txt»",
+              "pl": "„my notes.txt”"
             },
             {
               "en": "Nothing",
               "ru": "Ничего",
-              "uk": "Нічого"
+              "uk": "Нічого",
+              "pl": "Niczego"
             }
           ],
           "answer": 0,
           "explanation": {
             "en": "Without quotes the value is split on spaces. Use rm \"$FILE\".",
             "ru": "Без кавычек значение разбивается по пробелам. Пишите rm \"$FILE\".",
-            "uk": "Без лапок значення розбивається за пробілами. Пишіть rm \"$FILE\"."
+            "uk": "Без лапок значення розбивається за пробілами. Пишіть rm \"$FILE\".",
+            "pl": "Bez cudzysłowów wartość jest dzielona na spacjach. Pisz rm \"$FILE\"."
           }
         }
       ]
@@ -411,7 +446,8 @@
       "title": {
         "en": "Brace expansion",
         "ru": "Фигурные скобки",
-        "uk": "Фігурні дужки"
+        "uk": "Фігурні дужки",
+        "pl": "Rozwijanie nawiasów klamrowych"
       },
       "commands": [
         "mkdir",
@@ -444,12 +480,14 @@
           "text": {
             "en": "## Bash writes the list for you\n```\n$ echo file{1,2,3}.txt\nfile1.txt file2.txt file3.txt\n$ echo {1..5}\n$ echo {a..e}\n$ echo log-{01..12}\n```\n## Real uses\n```\n$ mkdir -p project/{src,docs,tests}\n$ touch project/src/{main,utils}.py\n$ cp config.yml{,.bak}\n```\nThe last one is a favourite: `{,.bak}` expands to `config.yml config.yml.bak` — a backup in 12 characters.\n\n> Braces are expanded **before** anything else and do not look at the disk — unlike `*`, they create names that do not exist yet.",
             "ru": "## Bash пишет список за вас\n```\n$ echo file{1,2,3}.txt\nfile1.txt file2.txt file3.txt\n$ echo {1..5}\n$ echo {a..e}\n$ echo log-{01..12}\n```\n## Реальное применение\n```\n$ mkdir -p project/{src,docs,tests}\n$ touch project/src/{main,utils}.py\n$ cp config.yml{,.bak}\n```\nПоследнее — любимый трюк: `{,.bak}` раскрывается в `config.yml config.yml.bak` — бэкап в 12 символов.\n\n> Скобки раскрываются **раньше** всего остального и не смотрят на диск — в отличие от `*`, они создают имена, которых ещё нет.",
-            "uk": "## Bash пише список за вас\n```\n$ echo file{1,2,3}.txt\nfile1.txt file2.txt file3.txt\n$ echo {1..5}\n$ echo {a..e}\n$ echo log-{01..12}\n```\n## Реальне застосування\n```\n$ mkdir -p project/{src,docs,tests}\n$ touch project/src/{main,utils}.py\n$ cp config.yml{,.bak}\n```\nОстаннє — улюблений трюк: `{,.bak}` розкривається в `config.yml config.yml.bak` — бекап у 12 символів.\n\n> Дужки розкриваються **раніше** за все інше й не дивляться на диск — на відміну від `*`, вони створюють назви, яких ще немає."
+            "uk": "## Bash пише список за вас\n```\n$ echo file{1,2,3}.txt\nfile1.txt file2.txt file3.txt\n$ echo {1..5}\n$ echo {a..e}\n$ echo log-{01..12}\n```\n## Реальне застосування\n```\n$ mkdir -p project/{src,docs,tests}\n$ touch project/src/{main,utils}.py\n$ cp config.yml{,.bak}\n```\nОстаннє — улюблений трюк: `{,.bak}` розкривається в `config.yml config.yml.bak` — бекап у 12 символів.\n\n> Дужки розкриваються **раніше** за все інше й не дивляться на диск — на відміну від `*`, вони створюють назви, яких ще немає.",
+            "pl": "## Bash napisze listę za Ciebie\n```\n$ echo file{1,2,3}.txt\nfile1.txt file2.txt file3.txt\n$ echo {1..5}\n$ echo {a..e}\n$ echo log-{01..12}\n```\n## Prawdziwe zastosowania\n```\n$ mkdir -p project/{src,docs,tests}\n$ touch project/src/{main,utils}.py\n$ cp config.yml{,.bak}\n```\nOstatnie to ulubieniec: `{,.bak}` rozwija się do `config.yml config.yml.bak` — kopia zapasowa w 12 znakach.\n\n> Nawiasy są rozwijane **przed** wszystkim innym i nie patrzą na dysk — w przeciwieństwie do `*` tworzą nazwy, których jeszcze nie ma."
           },
           "title": {
             "en": "{a,b} and {1..9}",
             "ru": "{a,b} и {1..9}",
-            "uk": "{a,b} і {1..9}"
+            "uk": "{a,b} і {1..9}",
+            "pl": "{a,b} i {1..9}"
           },
           "demo": {
             "commands": [
@@ -463,7 +501,8 @@
           "goal": {
             "en": "Create the project skeleton ~/site with folders css, js and img — in one command.",
             "ru": "Создайте каркас проекта ~/site с папками css, js и img — одной командой.",
-            "uk": "Створіть каркас проєкту ~/site з папками css, js і img — однією командою."
+            "uk": "Створіть каркас проєкту ~/site з папками css, js і img — однією командою.",
+            "pl": "Utwórz szkielet projektu ~/site z katalogami css, js i img — jednym poleceniem."
           },
           "checks": [
             {
@@ -472,7 +511,8 @@
               "label": {
                 "en": "css",
                 "ru": "css",
-                "uk": "css"
+                "uk": "css",
+                "pl": "css"
               }
             },
             {
@@ -481,7 +521,8 @@
               "label": {
                 "en": "js",
                 "ru": "js",
-                "uk": "js"
+                "uk": "js",
+                "pl": "js"
               }
             },
             {
@@ -490,7 +531,8 @@
               "label": {
                 "en": "img",
                 "ru": "img",
-                "uk": "img"
+                "uk": "img",
+                "pl": "img"
               }
             },
             {
@@ -499,7 +541,8 @@
               "label": {
                 "en": "one mkdir with braces",
                 "ru": "один mkdir со скобками",
-                "uk": "один mkdir з дужками"
+                "uk": "один mkdir з дужками",
+                "pl": "jedno mkdir z nawiasami"
               }
             }
           ],
@@ -507,7 +550,8 @@
             "direction": {
               "en": "mkdir -p ~/site/{css,js,img}",
               "ru": "mkdir -p ~/site/{css,js,img}",
-              "uk": "mkdir -p ~/site/{css,js,img}"
+              "uk": "mkdir -p ~/site/{css,js,img}",
+              "pl": "mkdir -p ~/site/{css,js,img}"
             },
             "command": "mkdir"
           },
@@ -520,7 +564,8 @@
           "goal": {
             "en": "Create 7 empty daily logs ~/logs/day1.log … ~/logs/day7.log.",
             "ru": "Создайте 7 пустых дневных логов ~/logs/day1.log … ~/logs/day7.log.",
-            "uk": "Створіть 7 порожніх денних логів ~/logs/day1.log … ~/logs/day7.log."
+            "uk": "Створіть 7 порожніх денних логів ~/logs/day1.log … ~/logs/day7.log.",
+            "pl": "Utwórz 7 pustych dziennych logów ~/logs/day1.log … ~/logs/day7.log."
           },
           "checks": [
             {
@@ -530,7 +575,8 @@
               "label": {
                 "en": "7 files",
                 "ru": "7 файлов",
-                "uk": "7 файлів"
+                "uk": "7 файлів",
+                "pl": "7 plików"
               }
             },
             {
@@ -539,7 +585,8 @@
               "label": {
                 "en": "day7.log",
                 "ru": "day7.log",
-                "uk": "day7.log"
+                "uk": "day7.log",
+                "pl": "day7.log"
               }
             }
           ],
@@ -547,7 +594,8 @@
             "direction": {
               "en": "mkdir -p ~/logs && touch ~/logs/day{1..7}.log",
               "ru": "mkdir -p ~/logs && touch ~/logs/day{1..7}.log",
-              "uk": "mkdir -p ~/logs && touch ~/logs/day{1..7}.log"
+              "uk": "mkdir -p ~/logs && touch ~/logs/day{1..7}.log",
+              "pl": "mkdir -p ~/logs && touch ~/logs/day{1..7}.log"
             },
             "command": "touch"
           },
@@ -560,7 +608,8 @@
           "goal": {
             "en": "Back up ~/report.txt to ~/report.txt.bak using the {,.bak} trick.",
             "ru": "Сделайте копию ~/report.txt в ~/report.txt.bak трюком {,.bak}.",
-            "uk": "Зробіть копію ~/report.txt у ~/report.txt.bak трюком {,.bak}."
+            "uk": "Зробіть копію ~/report.txt у ~/report.txt.bak трюком {,.bak}.",
+            "pl": "Zrób kopię ~/report.txt jako ~/report.txt.bak sztuczką {,.bak}."
           },
           "checks": [
             {
@@ -569,7 +618,8 @@
               "label": {
                 "en": "report.txt.bak exists",
                 "ru": "report.txt.bak есть",
-                "uk": "report.txt.bak є"
+                "uk": "report.txt.bak є",
+                "pl": "report.txt.bak istnieje"
               }
             },
             {
@@ -578,7 +628,8 @@
               "label": {
                 "en": "The original stays",
                 "ru": "Оригинал на месте",
-                "uk": "Оригінал на місці"
+                "uk": "Оригінал на місці",
+                "pl": "Oryginał zostaje"
               }
             }
           ],
@@ -586,7 +637,8 @@
             "direction": {
               "en": "cp ~/report.txt{,.bak}",
               "ru": "cp ~/report.txt{,.bak}",
-              "uk": "cp ~/report.txt{,.bak}"
+              "uk": "cp ~/report.txt{,.bak}",
+              "pl": "cp ~/report.txt{,.bak}"
             },
             "command": "cp"
           },
@@ -628,7 +680,8 @@
           "explanation": {
             "en": "Two brace groups give every combination.",
             "ru": "Две группы скобок дают все комбинации.",
-            "uk": "Дві групи дужок дають усі комбінації."
+            "uk": "Дві групи дужок дають усі комбінації.",
+            "pl": "Dwie grupy nawiasów dają wszystkie kombinacje."
           }
         }
       ]
@@ -638,7 +691,8 @@
       "title": {
         "en": "Loops: for and while",
         "ru": "Циклы: for и while",
-        "uk": "Цикли: for і while"
+        "uk": "Цикли: for і while",
+        "pl": "Pętle: for i while"
       },
       "commands": [
         "read",
@@ -671,12 +725,14 @@
           "text": {
             "en": "## for — repeat for each item\n```\n$ for s in web01 web02 db01; do echo \"checking $s\"; done\n$ for f in ~/photos/*.JPG; do echo \"$f\"; done\n$ for i in {1..3}; do echo \"try $i\"; done\n```\nStructure: `for NAME in LIST; do COMMANDS; done`.\n\n## while read — line by line\n```\n$ while read host; do echo \"ping $host\"; done < servers.txt\n```\n`read` takes one line per round; the loop stops at the end of the file.\n\n## Arithmetic\n```\n$ i=0; while [ $i -lt 3 ]; do echo $i; i=$((i+1)); done\n```\n> One line in the terminal or many lines in a script — both work. In a script put `do` and `done` on their own lines.",
             "ru": "## for — повторить для каждого элемента\n```\n$ for s in web01 web02 db01; do echo \"checking $s\"; done\n$ for f in ~/photos/*.JPG; do echo \"$f\"; done\n$ for i in {1..3}; do echo \"try $i\"; done\n```\nСтруктура: `for ИМЯ in СПИСОК; do КОМАНДЫ; done`.\n\n## while read — строка за строкой\n```\n$ while read host; do echo \"ping $host\"; done < servers.txt\n```\n`read` берёт по одной строке за круг; цикл останавливается в конце файла.\n\n## Арифметика\n```\n$ i=0; while [ $i -lt 3 ]; do echo $i; i=$((i+1)); done\n```\n> Одной строкой в терминале или многими строками в скрипте — работает и так, и так. В скрипте пишите `do` и `done` на отдельных строках.",
-            "uk": "## for — повторити для кожного елемента\n```\n$ for s in web01 web02 db01; do echo \"checking $s\"; done\n$ for f in ~/photos/*.JPG; do echo \"$f\"; done\n$ for i in {1..3}; do echo \"try $i\"; done\n```\nСтруктура: `for НАЗВА in СПИСОК; do КОМАНДИ; done`.\n\n## while read — рядок за рядком\n```\n$ while read host; do echo \"ping $host\"; done < servers.txt\n```\n`read` бере по одному рядку за коло; цикл зупиняється наприкінці файлу.\n\n## Арифметика\n```\n$ i=0; while [ $i -lt 3 ]; do echo $i; i=$((i+1)); done\n```\n> Одним рядком у терміналі чи багатьма рядками в скрипті — працює і так, і так. У скрипті пишіть `do` і `done` на окремих рядках."
+            "uk": "## for — повторити для кожного елемента\n```\n$ for s in web01 web02 db01; do echo \"checking $s\"; done\n$ for f in ~/photos/*.JPG; do echo \"$f\"; done\n$ for i in {1..3}; do echo \"try $i\"; done\n```\nСтруктура: `for НАЗВА in СПИСОК; do КОМАНДИ; done`.\n\n## while read — рядок за рядком\n```\n$ while read host; do echo \"ping $host\"; done < servers.txt\n```\n`read` бере по одному рядку за коло; цикл зупиняється наприкінці файлу.\n\n## Арифметика\n```\n$ i=0; while [ $i -lt 3 ]; do echo $i; i=$((i+1)); done\n```\n> Одним рядком у терміналі чи багатьма рядками в скрипті — працює і так, і так. У скрипті пишіть `do` і `done` на окремих рядках.",
+            "pl": "## for — powtórz dla każdego elementu\n```\n$ for s in web01 web02 db01; do echo \"checking $s\"; done\n$ for f in ~/photos/*.JPG; do echo \"$f\"; done\n$ for i in {1..3}; do echo \"try $i\"; done\n```\nBudowa: `for NAZWA in LISTA; do POLECENIA; done`.\n\n## while read — wiersz po wierszu\n```\n$ while read host; do echo \"ping $host\"; done < servers.txt\n```\n`read` bierze jeden wiersz na obrót; pętla kończy się na końcu pliku.\n\n## Arytmetyka\n```\n$ i=0; while [ $i -lt 3 ]; do echo $i; i=$((i+1)); done\n```\n> Jeden wiersz w terminalu albo wiele wierszy w skrypcie — działa jedno i drugie. W skrypcie `do` i `done` stawiaj w osobnych wierszach."
           },
           "title": {
             "en": "Repeat without copy-paste",
             "ru": "Повтор без копипаста",
-            "uk": "Повтор без копіпасту"
+            "uk": "Повтор без копіпасту",
+            "pl": "Powtarzaj bez kopiuj-wklej"
           },
           "demo": {
             "commands": [
@@ -689,7 +745,8 @@
           "goal": {
             "en": "For each server in ~/servers.txt print \"ok: NAME\".",
             "ru": "Для каждого сервера из ~/servers.txt выведите «ok: ИМЯ».",
-            "uk": "Для кожного сервера з ~/servers.txt виведіть «ok: НАЗВА»."
+            "uk": "Для кожного сервера з ~/servers.txt виведіть «ok: НАЗВА».",
+            "pl": "Dla każdego serwera z ~/servers.txt wypisz „ok: NAZWA”."
           },
           "checks": [
             {
@@ -698,7 +755,8 @@
               "label": {
                 "en": "ok: web01",
                 "ru": "ok: web01",
-                "uk": "ok: web01"
+                "uk": "ok: web01",
+                "pl": "ok: web01"
               }
             },
             {
@@ -707,7 +765,8 @@
               "label": {
                 "en": "ok: db01",
                 "ru": "ok: db01",
-                "uk": "ok: db01"
+                "uk": "ok: db01",
+                "pl": "ok: db01"
               }
             },
             {
@@ -716,7 +775,8 @@
               "label": {
                 "en": "3 lines",
                 "ru": "3 строки",
-                "uk": "3 рядки"
+                "uk": "3 рядки",
+                "pl": "3 wiersze"
               }
             }
           ],
@@ -724,7 +784,8 @@
             "direction": {
               "en": "while read s; do echo \"ok: $s\"; done < ~/servers.txt",
               "ru": "while read s; do echo \"ok: $s\"; done < ~/servers.txt",
-              "uk": "while read s; do echo \"ok: $s\"; done < ~/servers.txt"
+              "uk": "while read s; do echo \"ok: $s\"; done < ~/servers.txt",
+              "pl": "while read s; do echo \"ok: $s\"; done < ~/servers.txt"
             },
             "command": "while"
           },
@@ -737,12 +798,14 @@
           "goal": {
             "en": "Rename every ~/photos/*.JPG to lowercase .jpg (IMG_001.JPG → IMG_001.jpg).",
             "ru": "Переименуйте все ~/photos/*.JPG в .jpg строчными (IMG_001.JPG → IMG_001.jpg).",
-            "uk": "Перейменуйте всі ~/photos/*.JPG на .jpg малими (IMG_001.JPG → IMG_001.jpg)."
+            "uk": "Перейменуйте всі ~/photos/*.JPG на .jpg малими (IMG_001.JPG → IMG_001.jpg).",
+            "pl": "Zmień wszystkie ~/photos/*.JPG na .jpg małymi literami (IMG_001.JPG → IMG_001.jpg)."
           },
           "instructions": {
             "en": "1. `for f in ~/photos/*.JPG; do … done` walks over the files\n2. `basename \"$f\" .JPG` → IMG_001 (name without extension)\n3. `mv \"$f\" ~/photos/NAME.jpg`",
             "ru": "1. `for f in ~/photos/*.JPG; do … done` перебирает файлы\n2. `basename \"$f\" .JPG` → IMG_001 (имя без расширения)\n3. `mv \"$f\" ~/photos/ИМЯ.jpg`",
-            "uk": "1. `for f in ~/photos/*.JPG; do … done` перебирає файли\n2. `basename \"$f\" .JPG` → IMG_001 (назва без розширення)\n3. `mv \"$f\" ~/photos/НАЗВА.jpg`"
+            "uk": "1. `for f in ~/photos/*.JPG; do … done` перебирає файли\n2. `basename \"$f\" .JPG` → IMG_001 (назва без розширення)\n3. `mv \"$f\" ~/photos/НАЗВА.jpg`",
+            "pl": "1. `for f in ~/photos/*.JPG; do … done` przechodzi po plikach\n2. `basename \"$f\" .JPG` → IMG_001 (nazwa bez rozszerzenia)\n3. `mv \"$f\" ~/photos/NAZWA.jpg`"
           },
           "checks": [
             {
@@ -751,7 +814,8 @@
               "label": {
                 "en": "IMG_001.jpg",
                 "ru": "IMG_001.jpg",
-                "uk": "IMG_001.jpg"
+                "uk": "IMG_001.jpg",
+                "pl": "IMG_001.jpg"
               }
             },
             {
@@ -760,7 +824,8 @@
               "label": {
                 "en": "IMG_003.jpg",
                 "ru": "IMG_003.jpg",
-                "uk": "IMG_003.jpg"
+                "uk": "IMG_003.jpg",
+                "pl": "IMG_003.jpg"
               }
             },
             {
@@ -771,7 +836,8 @@
               "label": {
                 "en": "No .JPG left",
                 "ru": "Не осталось .JPG",
-                "uk": "Не лишилося .JPG"
+                "uk": "Не лишилося .JPG",
+                "pl": "Nie zostało żadne .JPG"
               }
             }
           ],
@@ -779,7 +845,8 @@
             "direction": {
               "en": "for f in ~/photos/*.JPG; do mv \"$f\" \"${f%.JPG}.jpg\"; done — or use basename",
               "ru": "for f in ~/photos/*.JPG; do mv \"$f\" \"$(dirname $f)/$(basename $f .JPG).jpg\"; done",
-              "uk": "for f in ~/photos/*.JPG; do mv \"$f\" \"$(dirname $f)/$(basename $f .JPG).jpg\"; done"
+              "uk": "for f in ~/photos/*.JPG; do mv \"$f\" \"$(dirname $f)/$(basename $f .JPG).jpg\"; done",
+              "pl": "for f in ~/photos/*.JPG; do mv \"$f\" \"${f%.JPG}.jpg\"; done — albo użyj basename"
             },
             "command": "for"
           },
@@ -822,7 +889,8 @@
           "explanation": {
             "en": "$(( )) does integer arithmetic, echo prints each result on its own line.",
             "ru": "$(( )) — целочисленная арифметика, echo печатает каждый результат на новой строке.",
-            "uk": "$(( )) — цілочисельна арифметика, echo друкує кожен результат на новому рядку."
+            "uk": "$(( )) — цілочисельна арифметика, echo друкує кожен результат на новому рядку.",
+            "pl": "$(( )) liczy w liczbach całkowitych, echo wypisuje każdy wynik w osobnym wierszu."
           }
         },
         {
@@ -830,30 +898,35 @@
           "question": {
             "en": "Which loop reads ~/servers.txt line by line correctly?",
             "ru": "Какой цикл правильно читает ~/servers.txt построчно?",
-            "uk": "Який цикл правильно читає ~/servers.txt порядково?"
+            "uk": "Який цикл правильно читає ~/servers.txt порядково?",
+            "pl": "Która pętla poprawnie czyta ~/servers.txt wiersz po wierszu?"
           },
           "options": [
             {
               "en": "while read s; do …; done < ~/servers.txt",
               "ru": "while read s; do …; done < ~/servers.txt",
-              "uk": "while read s; do …; done < ~/servers.txt"
+              "uk": "while read s; do …; done < ~/servers.txt",
+              "pl": "while read s; do …; done < ~/servers.txt"
             },
             {
               "en": "for s in ~/servers.txt; do …; done",
               "ru": "for s in ~/servers.txt; do …; done",
-              "uk": "for s in ~/servers.txt; do …; done"
+              "uk": "for s in ~/servers.txt; do …; done",
+              "pl": "for s in ~/servers.txt; do …; done"
             },
             {
               "en": "while ~/servers.txt; do …; done",
               "ru": "while ~/servers.txt; do …; done",
-              "uk": "while ~/servers.txt; do …; done"
+              "uk": "while ~/servers.txt; do …; done",
+              "pl": "while ~/servers.txt; do …; done"
             }
           ],
           "answer": 0,
           "explanation": {
             "en": "\"for s in FILE\" loops once over the file NAME, not its lines.",
             "ru": "«for s in ФАЙЛ» делает один круг — по ИМЕНИ файла, а не по строкам.",
-            "uk": "«for s in ФАЙЛ» робить одне коло — за НАЗВОЮ файлу, а не за рядками."
+            "uk": "«for s in ФАЙЛ» робить одне коло — за НАЗВОЮ файлу, а не за рядками.",
+            "pl": "„for s in PLIK” robi jeden obrót — po NAZWIE pliku, a nie po jego wierszach."
           }
         }
       ]
@@ -863,7 +936,8 @@
       "title": {
         "en": "Conditions: if and test",
         "ru": "Условия: if и test",
-        "uk": "Умови: if і test"
+        "uk": "Умови: if і test",
+        "pl": "Warunki: if i test"
       },
       "commands": [
         "test",
@@ -895,12 +969,14 @@
           "text": {
             "en": "## if\n```\nif [ -f ~/report.txt ]; then\n  echo \"report exists\"\nelif [ -d ~/reports ]; then\n  echo \"there is a folder\"\nelse\n  echo \"nothing\"\nfi\n```\n`[ … ]` is the command `test`. **Spaces inside the brackets are required.**\n\n## Most useful tests\n| test | true when |\n|---|---|\n| `-f FILE` / `-d DIR` / `-e PATH` | a file / directory / anything exists |\n| `-s FILE` | the file is not empty |\n| `-z \"$S\"` / `-n \"$S\"` | the string is empty / not empty |\n| `\"$A\" = \"$B\"` / `!=` | strings equal / differ |\n| `N -eq M`, `-ne`, `-lt`, `-le`, `-gt`, `-ge` | numbers: =, ≠, <, ≤, >, ≥ |\n\nAny command can be a condition: `if grep -q error app.log; then …`.",
             "ru": "## if\n```\nif [ -f ~/report.txt ]; then\n  echo \"report exists\"\nelif [ -d ~/reports ]; then\n  echo \"there is a folder\"\nelse\n  echo \"nothing\"\nfi\n```\n`[ … ]` — это команда `test`. **Пробелы внутри скобок обязательны.**\n\n## Самые полезные проверки\n| проверка | истинна, когда |\n|---|---|\n| `-f ФАЙЛ` / `-d ПАПКА` / `-e ПУТЬ` | есть файл / папка / что угодно |\n| `-s ФАЙЛ` | файл не пустой |\n| `-z \"$S\"` / `-n \"$S\"` | строка пустая / не пустая |\n| `\"$A\" = \"$B\"` / `!=` | строки равны / различаются |\n| `N -eq M`, `-ne`, `-lt`, `-le`, `-gt`, `-ge` | числа: =, ≠, <, ≤, >, ≥ |\n\nУсловием может быть любая команда: `if grep -q error app.log; then …`.",
-            "uk": "## if\n```\nif [ -f ~/report.txt ]; then\n  echo \"report exists\"\nelif [ -d ~/reports ]; then\n  echo \"there is a folder\"\nelse\n  echo \"nothing\"\nfi\n```\n`[ … ]` — це команда `test`. **Пробіли всередині дужок обов’язкові.**\n\n## Найкорисніші перевірки\n| перевірка | істинна, коли |\n|---|---|\n| `-f ФАЙЛ` / `-d ПАПКА` / `-e ШЛЯХ` | є файл / папка / будь-що |\n| `-s ФАЙЛ` | файл не порожній |\n| `-z \"$S\"` / `-n \"$S\"` | рядок порожній / не порожній |\n| `\"$A\" = \"$B\"` / `!=` | рядки рівні / різні |\n| `N -eq M`, `-ne`, `-lt`, `-le`, `-gt`, `-ge` | числа: =, ≠, <, ≤, >, ≥ |\n\nУмовою може бути будь-яка команда: `if grep -q error app.log; then …`."
+            "uk": "## if\n```\nif [ -f ~/report.txt ]; then\n  echo \"report exists\"\nelif [ -d ~/reports ]; then\n  echo \"there is a folder\"\nelse\n  echo \"nothing\"\nfi\n```\n`[ … ]` — це команда `test`. **Пробіли всередині дужок обов’язкові.**\n\n## Найкорисніші перевірки\n| перевірка | істинна, коли |\n|---|---|\n| `-f ФАЙЛ` / `-d ПАПКА` / `-e ШЛЯХ` | є файл / папка / будь-що |\n| `-s ФАЙЛ` | файл не порожній |\n| `-z \"$S\"` / `-n \"$S\"` | рядок порожній / не порожній |\n| `\"$A\" = \"$B\"` / `!=` | рядки рівні / різні |\n| `N -eq M`, `-ne`, `-lt`, `-le`, `-gt`, `-ge` | числа: =, ≠, <, ≤, >, ≥ |\n\nУмовою може бути будь-яка команда: `if grep -q error app.log; then …`.",
+            "pl": "## if\n```\nif [ -f ~/report.txt ]; then\n  echo \"report exists\"\nelif [ -d ~/reports ]; then\n  echo \"there is a folder\"\nelse\n  echo \"nothing\"\nfi\n```\n`[ … ]` to polecenie `test`. **Spacje wewnątrz nawiasów są obowiązkowe.**\n\n## Najprzydatniejsze testy\n| test | prawdziwy, gdy |\n|---|---|\n| `-f PLIK` / `-d KATALOG` / `-e ŚCIEŻKA` | istnieje plik / katalog / cokolwiek |\n| `-s PLIK` | plik nie jest pusty |\n| `-z \"$S\"` / `-n \"$S\"` | napis jest pusty / niepusty |\n| `\"$A\" = \"$B\"` / `!=` | napisy równe / różne |\n| `N -eq M`, `-ne`, `-lt`, `-le`, `-gt`, `-ge` | liczby: =, ≠, <, ≤, >, ≥ |\n\nWarunkiem może być dowolne polecenie: `if grep -q error app.log; then …`."
           },
           "title": {
             "en": "Making decisions",
             "ru": "Принимаем решения",
-            "uk": "Ухвалюємо рішення"
+            "uk": "Ухвалюємо рішення",
+            "pl": "Podejmowanie decyzji"
           },
           "demo": {
             "commands": [
@@ -913,7 +989,8 @@
           "goal": {
             "en": "Print \"big\" if ~/photos has more than 3 entries, else \"small\".",
             "ru": "Выведите «big», если в ~/photos больше 3 элементов, иначе «small».",
-            "uk": "Виведіть «big», якщо в ~/photos більше 3 елементів, інакше «small»."
+            "uk": "Виведіть «big», якщо в ~/photos більше 3 елементів, інакше «small».",
+            "pl": "Wypisz „big”, jeśli w ~/photos jest więcej niż 3 elementy, w przeciwnym razie „small”."
           },
           "checks": [
             {
@@ -922,7 +999,8 @@
               "label": {
                 "en": "if … then … else … fi",
                 "ru": "if … then … else … fi",
-                "uk": "if … then … else … fi"
+                "uk": "if … then … else … fi",
+                "pl": "if … then … else … fi"
               }
             },
             {
@@ -931,7 +1009,8 @@
               "label": {
                 "en": "big (4 entries)",
                 "ru": "big (4 элемента)",
-                "uk": "big (4 елементи)"
+                "uk": "big (4 елементи)",
+                "pl": "big (4 elementy)"
               }
             }
           ],
@@ -939,7 +1018,8 @@
             "direction": {
               "en": "n=$(ls ~/photos | wc -l); if [ $n -gt 3 ]; then echo big; else echo small; fi",
               "ru": "n=$(ls ~/photos | wc -l); if [ $n -gt 3 ]; then echo big; else echo small; fi",
-              "uk": "n=$(ls ~/photos | wc -l); if [ $n -gt 3 ]; then echo big; else echo small; fi"
+              "uk": "n=$(ls ~/photos | wc -l); if [ $n -gt 3 ]; then echo big; else echo small; fi",
+              "pl": "n=$(ls ~/photos | wc -l); if [ $n -gt 3 ]; then echo big; else echo small; fi"
             },
             "command": "if"
           },
@@ -952,12 +1032,14 @@
           "goal": {
             "en": "Write ~/check.sh: if ~/report.txt exists it prints \"report ok\", otherwise \"report missing\" and exits with code 1. Run it.",
             "ru": "Напишите ~/check.sh: если ~/report.txt есть — печатает «report ok», иначе «report missing» и выходит с кодом 1. Запустите.",
-            "uk": "Напишіть ~/check.sh: якщо ~/report.txt є — друкує «report ok», інакше «report missing» і виходить із кодом 1. Запустіть."
+            "uk": "Напишіть ~/check.sh: якщо ~/report.txt є — друкує «report ok», інакше «report missing» і виходить із кодом 1. Запустіть.",
+            "pl": "Napisz ~/check.sh: jeśli ~/report.txt istnieje, wypisuje „report ok”, w przeciwnym razie „report missing” i kończy się kodem 1. Uruchom go."
           },
           "instructions": {
             "en": "1. `nano ~/check.sh` (or echo '…' > ~/check.sh)\n2. Write: `if [ -f ~/report.txt ]; then echo \"report ok\"; else echo \"report missing\"; exit 1; fi`\n3. `bash ~/check.sh`",
             "ru": "1. `nano ~/check.sh` (или echo '…' > ~/check.sh)\n2. Напишите: `if [ -f ~/report.txt ]; then echo \"report ok\"; else echo \"report missing\"; exit 1; fi`\n3. `bash ~/check.sh`",
-            "uk": "1. `nano ~/check.sh` (або echo '…' > ~/check.sh)\n2. Напишіть: `if [ -f ~/report.txt ]; then echo \"report ok\"; else echo \"report missing\"; exit 1; fi`\n3. `bash ~/check.sh`"
+            "uk": "1. `nano ~/check.sh` (або echo '…' > ~/check.sh)\n2. Напишіть: `if [ -f ~/report.txt ]; then echo \"report ok\"; else echo \"report missing\"; exit 1; fi`\n3. `bash ~/check.sh`",
+            "pl": "1. `nano ~/check.sh` (albo echo '…' > ~/check.sh)\n2. Napisz: `if [ -f ~/report.txt ]; then echo \"report ok\"; else echo \"report missing\"; exit 1; fi`\n3. `bash ~/check.sh`"
           },
           "checks": [
             {
@@ -967,7 +1049,8 @@
               "label": {
                 "en": "The script uses if",
                 "ru": "В скрипте есть if",
-                "uk": "У скрипті є if"
+                "uk": "У скрипті є if",
+                "pl": "Skrypt używa if"
               }
             },
             {
@@ -977,7 +1060,8 @@
               "label": {
                 "en": "… and fi",
                 "ru": "… и fi",
-                "uk": "… і fi"
+                "uk": "… і fi",
+                "pl": "… i fi"
               }
             },
             {
@@ -986,7 +1070,8 @@
               "label": {
                 "en": "report ok",
                 "ru": "report ok",
-                "uk": "report ok"
+                "uk": "report ok",
+                "pl": "report ok"
               }
             }
           ],
@@ -994,7 +1079,8 @@
             "direction": {
               "en": "Write it with nano, then bash ~/check.sh",
               "ru": "Напишите через nano, затем bash ~/check.sh",
-              "uk": "Напишіть через nano, потім bash ~/check.sh"
+              "uk": "Напишіть через nano, потім bash ~/check.sh",
+              "pl": "Napisz go w nano, potem bash ~/check.sh"
             },
             "command": "bash"
           },
@@ -1007,25 +1093,29 @@
         {
           "type": "quiz",
           "question": {
-            "en": "Why does \"[$n -gt 3]\" fail with \"command not found\"?",
-            "ru": "Почему «[$n -gt 3]» падает с «command not found»?",
-            "uk": "Чому «[$n -gt 3]» падає з «command not found»?"
+            "en": "n=4. Why does \"[$n -gt 3]\" fail with \"command not found\"?",
+            "ru": "n=4. Почему «[$n -gt 3]» падает с «command not found»?",
+            "uk": "n=4. Чому «[$n -gt 3]» падає з «command not found»?",
+            "pl": "n=4. Dlaczego „[$n -gt 3]” kończy się „command not found”?"
           },
           "options": [
             {
               "en": "No spaces: bash looks for a command named \"[4\"",
               "ru": "Нет пробелов: bash ищет команду «[4»",
-              "uk": "Немає пробілів: bash шукає команду «[4»"
+              "uk": "Немає пробілів: bash шукає команду «[4»",
+              "pl": "Brak spacji: bash szuka polecenia o nazwie „[4”"
             },
             {
               "en": "-gt does not exist",
               "ru": "-gt не существует",
-              "uk": "-gt не існує"
+              "uk": "-gt не існує",
+              "pl": "-gt nie istnieje"
             },
             {
               "en": "Variables are not allowed in tests",
               "ru": "В проверках нельзя переменные",
-              "uk": "У перевірках не можна змінні"
+              "uk": "У перевірках не можна змінні",
+              "pl": "W testach nie wolno używać zmiennych"
             }
           ],
           "answer": 0
@@ -1035,23 +1125,27 @@
           "question": {
             "en": "Which test is true when the variable NAME is empty?",
             "ru": "Какая проверка истинна, когда переменная NAME пустая?",
-            "uk": "Яка перевірка істинна, коли змінна NAME порожня?"
+            "uk": "Яка перевірка істинна, коли змінна NAME порожня?",
+            "pl": "Który test jest prawdziwy, gdy zmienna NAME jest pusta?"
           },
           "options": [
             {
               "en": "[ -z \"$NAME\" ]",
               "ru": "[ -z \"$NAME\" ]",
-              "uk": "[ -z \"$NAME\" ]"
+              "uk": "[ -z \"$NAME\" ]",
+              "pl": "[ -z \"$NAME\" ]"
             },
             {
               "en": "[ -n \"$NAME\" ]",
               "ru": "[ -n \"$NAME\" ]",
-              "uk": "[ -n \"$NAME\" ]"
+              "uk": "[ -n \"$NAME\" ]",
+              "pl": "[ -n \"$NAME\" ]"
             },
             {
               "en": "[ -f \"$NAME\" ]",
               "ru": "[ -f \"$NAME\" ]",
-              "uk": "[ -f \"$NAME\" ]"
+              "uk": "[ -f \"$NAME\" ]",
+              "pl": "[ -f \"$NAME\" ]"
             }
           ],
           "answer": 0
@@ -1063,7 +1157,8 @@
       "title": {
         "en": "Terminal speed tricks",
         "ru": "Скорость в терминале",
-        "uk": "Швидкість у терміналі"
+        "uk": "Швидкість у терміналі",
+        "pl": "Szybkie sztuczki w terminalu"
       },
       "commands": [
         "history"
@@ -1094,12 +1189,14 @@
           "text": {
             "en": "## Keys that save hours\n| keys | action |\n|---|---|\n| **Tab** | complete a command or a file name; Tab Tab — show options |\n| **↑ / ↓** | previous / next command |\n| **Ctrl+R** | search the history: type a part, Ctrl+R again for older |\n| **Ctrl+A / Ctrl+E** | jump to the start / end of the line |\n| **Ctrl+W** | delete the word before the cursor |\n| **Ctrl+U** | delete everything before the cursor |\n| **Ctrl+L** | clear the screen (like `clear`) |\n| **Ctrl+C** | stop the running command |\n| **Ctrl+D** | end of input / log out |\n\n## History tricks\n- `history` — the numbered list\n- `!!` — repeat the last command (`sudo !!` — repeat it with sudo)\n- `!42` — run command number 42\n- `!$` — the last argument of the previous command\n\n> In the trainer: Tab and ↑/↓ work in the terminal, history and !! too.",
             "ru": "## Клавиши, которые экономят часы\n| клавиши | действие |\n|---|---|\n| **Tab** | дополнить команду или имя файла; Tab Tab — показать варианты |\n| **↑ / ↓** | предыдущая / следующая команда |\n| **Ctrl+R** | поиск по истории: введите часть, Ctrl+R ещё раз — старее |\n| **Ctrl+A / Ctrl+E** | в начало / конец строки |\n| **Ctrl+W** | удалить слово перед курсором |\n| **Ctrl+U** | удалить всё до курсора |\n| **Ctrl+L** | очистить экран (как `clear`) |\n| **Ctrl+C** | остановить запущенную команду |\n| **Ctrl+D** | конец ввода / выход |\n\n## Трюки с историей\n- `history` — пронумерованный список\n- `!!` — повторить последнюю команду (`sudo !!` — повторить её с sudo)\n- `!42` — выполнить команду номер 42\n- `!$` — последний аргумент предыдущей команды\n\n> В тренажёре в терминале работают Tab и ↑/↓, history и !! тоже.",
-            "uk": "## Клавіші, що заощаджують години\n| клавіші | дія |\n|---|---|\n| **Tab** | доповнити команду чи назву файлу; Tab Tab — показати варіанти |\n| **↑ / ↓** | попередня / наступна команда |\n| **Ctrl+R** | пошук в історії: введіть частину, Ctrl+R ще раз — старіше |\n| **Ctrl+A / Ctrl+E** | на початок / кінець рядка |\n| **Ctrl+W** | видалити слово перед курсором |\n| **Ctrl+U** | видалити все до курсора |\n| **Ctrl+L** | очистити екран (як `clear`) |\n| **Ctrl+C** | зупинити запущену команду |\n| **Ctrl+D** | кінець введення / вихід |\n\n## Трюки з історією\n- `history` — пронумерований список\n- `!!` — повторити останню команду (`sudo !!` — повторити її із sudo)\n- `!42` — виконати команду номер 42\n- `!$` — останній аргумент попередньої команди\n\n> У тренажері в терміналі працюють Tab і ↑/↓, history і !! теж."
+            "uk": "## Клавіші, що заощаджують години\n| клавіші | дія |\n|---|---|\n| **Tab** | доповнити команду чи назву файлу; Tab Tab — показати варіанти |\n| **↑ / ↓** | попередня / наступна команда |\n| **Ctrl+R** | пошук в історії: введіть частину, Ctrl+R ще раз — старіше |\n| **Ctrl+A / Ctrl+E** | на початок / кінець рядка |\n| **Ctrl+W** | видалити слово перед курсором |\n| **Ctrl+U** | видалити все до курсора |\n| **Ctrl+L** | очистити екран (як `clear`) |\n| **Ctrl+C** | зупинити запущену команду |\n| **Ctrl+D** | кінець введення / вихід |\n\n## Трюки з історією\n- `history` — пронумерований список\n- `!!` — повторити останню команду (`sudo !!` — повторити її із sudo)\n- `!42` — виконати команду номер 42\n- `!$` — останній аргумент попередньої команди\n\n> У тренажері в терміналі працюють Tab і ↑/↓, history і !! теж.",
+            "pl": "## Klawisze, które oszczędzają godziny\n| klawisze | działanie |\n|---|---|\n| **Tab** | dokończ polecenie lub nazwę pliku; Tab Tab — pokaż opcje |\n| **↑ / ↓** | poprzednie / następne polecenie |\n| **Ctrl+R** | szukaj w historii: wpisz fragment, Ctrl+R ponownie — starsze |\n| **Ctrl+A / Ctrl+E** | skok na początek / koniec wiersza |\n| **Ctrl+W** | usuń słowo przed kursorem |\n| **Ctrl+U** | usuń wszystko przed kursorem |\n| **Ctrl+L** | wyczyść ekran (jak `clear`) |\n| **Ctrl+C** | zatrzymaj działające polecenie |\n| **Ctrl+D** | koniec wejścia / wylogowanie |\n\n## Sztuczki z historią\n- `history` — ponumerowana lista\n- `!!` — powtórz ostatnie polecenie (`sudo !!` — powtórz je z sudo)\n- `!42` — uruchom polecenie numer 42\n- `!$` — ostatni argument poprzedniego polecenia\n\n> W trenażerze: Tab i ↑/↓ działają w terminalu, historia i !! też."
           },
           "title": {
             "en": "Hotkeys and history",
             "ru": "Горячие клавиши и история",
-            "uk": "Гарячі клавіші та історія"
+            "uk": "Гарячі клавіші та історія",
+            "pl": "Skróty klawiszowe i historia"
           },
           "terminal": false
         },
@@ -1108,12 +1205,14 @@
           "goal": {
             "en": "Read /etc/shadow with cat (it will be denied), then repeat the same command with sudo — without retyping it.",
             "ru": "Прочитайте /etc/shadow через cat (будет отказ), затем повторите ту же команду с sudo — не набирая её заново.",
-            "uk": "Прочитайте /etc/shadow через cat (буде відмова), потім повторіть ту саму команду із sudo — не набираючи її знову."
+            "uk": "Прочитайте /etc/shadow через cat (буде відмова), потім повторіть ту саму команду із sudo — не набираючи її знову.",
+            "pl": "Przeczytaj /etc/shadow przez cat (dostaniesz odmowę), potem powtórz to samo polecenie z sudo — bez wpisywania go od nowa."
           },
           "instructions": {
             "en": "1. `cat /etc/shadow` → Permission denied\n2. `sudo !!` — bash puts the previous command after sudo",
             "ru": "1. `cat /etc/shadow` → Permission denied\n2. `sudo !!` — bash подставит предыдущую команду после sudo",
-            "uk": "1. `cat /etc/shadow` → Permission denied\n2. `sudo !!` — bash підставить попередню команду після sudo"
+            "uk": "1. `cat /etc/shadow` → Permission denied\n2. `sudo !!` — bash підставить попередню команду після sudo",
+            "pl": "1. `cat /etc/shadow` → Permission denied\n2. `sudo !!` — bash wstawia poprzednie polecenie po sudo"
           },
           "checks": [
             {
@@ -1123,7 +1222,8 @@
               "label": {
                 "en": "sudo !!",
                 "ru": "sudo !!",
-                "uk": "sudo !!"
+                "uk": "sudo !!",
+                "pl": "sudo !!"
               }
             }
           ],
@@ -1131,7 +1231,8 @@
             "direction": {
               "en": "sudo !!",
               "ru": "sudo !!",
-              "uk": "sudo !!"
+              "uk": "sudo !!",
+              "pl": "sudo !!"
             },
             "command": "sudo"
           },
@@ -1145,23 +1246,27 @@
           "question": {
             "en": "You typed half of a very long command and want to find the full one you used yesterday. Fastest way?",
             "ru": "Вы набрали половину длинной команды и хотите найти полную, которую вводили вчера. Самый быстрый способ?",
-            "uk": "Ви набрали половину довгої команди й хочете знайти повну, яку вводили вчора. Найшвидший спосіб?"
+            "uk": "Ви набрали половину довгої команди й хочете знайти повну, яку вводили вчора. Найшвидший спосіб?",
+            "pl": "Wpisałeś połowę bardzo długiego polecenia i chcesz znaleźć pełne, którego użyłeś wczoraj. Najszybszy sposób?"
           },
           "options": [
             {
               "en": "Ctrl+R and type a part of it",
               "ru": "Ctrl+R и ввести её часть",
-              "uk": "Ctrl+R і ввести її частину"
+              "uk": "Ctrl+R і ввести її частину",
+              "pl": "Ctrl+R i wpisać jego fragment"
             },
             {
               "en": "Press ↑ 300 times",
               "ru": "Нажать ↑ 300 раз",
-              "uk": "Натиснути ↑ 300 разів"
+              "uk": "Натиснути ↑ 300 разів",
+              "pl": "Nacisnąć ↑ 300 razy"
             },
             {
               "en": "Retype everything",
               "ru": "Набрать всё заново",
-              "uk": "Набрати все знову"
+              "uk": "Набрати все знову",
+              "pl": "Wpisać wszystko od nowa"
             }
           ],
           "answer": 0
@@ -1171,23 +1276,27 @@
           "question": {
             "en": "What does Tab Tab do after \"systemctl re\"?",
             "ru": "Что делает Tab Tab после «systemctl re»?",
-            "uk": "Що робить Tab Tab після «systemctl re»?"
+            "uk": "Що робить Tab Tab після «systemctl re»?",
+            "pl": "Co robi Tab Tab po „systemctl re”?"
           },
           "options": [
             {
               "en": "Shows all possible completions (restart, reload, …)",
               "ru": "Показывает все варианты (restart, reload, …)",
-              "uk": "Показує всі варіанти (restart, reload, …)"
+              "uk": "Показує всі варіанти (restart, reload, …)",
+              "pl": "Pokazuje wszystkie możliwe dopełnienia (restart, reload, …)"
             },
             {
               "en": "Runs the command",
               "ru": "Запускает команду",
-              "uk": "Запускає команду"
+              "uk": "Запускає команду",
+              "pl": "Uruchamia polecenie"
             },
             {
               "en": "Deletes the line",
               "ru": "Удаляет строку",
-              "uk": "Видаляє рядок"
+              "uk": "Видаляє рядок",
+              "pl": "Usuwa wiersz"
             }
           ],
           "answer": 0

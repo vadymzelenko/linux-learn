@@ -11,7 +11,7 @@ for (const i of issues) {
 }
 const s = contentStats();
 console.log(
-  `\n${s.courses} courses (${hoursNote}), ${s.modules} modules, ${s.lessons} lessons, ${s.steps} steps (${s.tasks} terminal tasks), ${s.missions} missions, ${s.challenges} daily challenges, ${s.glossary} glossary terms, ${s.achievements} achievements`,
+  `\n${s.courses} courses (${hoursNote}), ${s.modules} modules, ${s.lessons} lessons, ${s.steps} steps (${s.tasks} terminal tasks), ${s.missions} missions, ${s.challenges} practice tasks, ${s.glossary} glossary terms, ${s.achievements} achievements`,
 );
 if (errors.length) {
   console.log(`\x1b[31m✗ ${errors.length} problem(s)\x1b[0m`);

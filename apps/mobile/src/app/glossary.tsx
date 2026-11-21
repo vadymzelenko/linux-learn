@@ -1,13 +1,17 @@
 import { useMemo, useState } from 'react';
-import { Pressable, SectionList, StyleSheet, TextInput, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import * as nav from '../lib/nav';
+import { Pressable, SectionList, StyleSheet, View } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { KbTextInput } from '../components/terminal/KbTextInput';
+import { KeyboardDock } from '../components/terminal/KeyboardDock';
 import { glossary, tr } from '@linux-learn/content';
 import { Text } from '../theme/Text';
+import { BackButton } from '../components/BackButton';
 import { useTheme, MONO, space } from '../theme';
 import { H1, IconButton, Row, Screen } from '../components/ui';
 
-const ORDER = ['basics', 'files', 'text', 'permissions', 'processes', 'shell', 'network', 'noc'];
+const ORDER = ['basics', 'files', 'text', 'permissions', 'processes', 'shell', 'network', 'noc', 'docker'];
 
 export default function GlossaryScreen() {
   const theme = useTheme();
@@ -26,11 +30,11 @@ export default function GlossaryScreen() {
   return (
     <Screen edges={['top', 'bottom']}>
       <Row style={{ padding: space.sm }}>
-        <IconButton icon="chevron-left" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />
+        <BackButton />
         <H1 style={{ fontSize: 24 }}>{t('glossary.title')}</H1>
         <Text style={{ color: theme.textDim, marginLeft: 'auto', marginRight: space.md }}>{t('glossary.count', { n: glossary.length })}</Text>
       </Row>
-      <TextInput
+      <KbTextInput
         value={q}
         onChangeText={setQ}
         placeholder={t('glossary.search')}
@@ -40,6 +44,9 @@ export default function GlossaryScreen() {
         style={[styles.search, { color: theme.text, backgroundColor: theme.surface, borderColor: theme.border, fontFamily: 'Onest_400Regular' }]}
       />
       <SectionList
+        initialNumToRender={14}
+        maxToRenderPerBatch={20}
+        windowSize={7}
         sections={sections}
         keyExtractor={(g) => g.id}
         contentContainerStyle={{ paddingHorizontal: space.lg, paddingBottom: space.xxl, maxWidth: 820, width: '100%', alignSelf: 'center' }}
@@ -62,7 +69,7 @@ export default function GlossaryScreen() {
                 <View style={{ gap: 8, marginTop: 6 }}>
                   <Text style={{ color: theme.text, fontSize: 15, lineHeight: 22 }}>{tr(item.definition, i18n.language)}</Text>
                   {item.command ? (
-                    <Text onPress={() => router.push({ pathname: '/reference', params: { cmd: item.command } })} style={{ color: theme.accent, fontFamily: MONO }}>
+                    <Text onPress={() => nav.push({ pathname: '/reference', params: { cmd: item.command } })} style={{ color: theme.accent, fontFamily: MONO }}>
                       man {item.command} →
                     </Text>
                   ) : null}
@@ -72,6 +79,7 @@ export default function GlossaryScreen() {
           );
         }}
       />
+      <KeyboardDock />
     </Screen>
   );
 }

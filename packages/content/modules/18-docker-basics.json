@@ -1,0 +1,682 @@
+{
+  "id": "docker-basics",
+  "path": "/docker/basics",
+  "icon": "docker",
+  "title": {
+    "en": "First containers",
+    "ru": "Первые контейнеры",
+    "uk": "Перші контейнери",
+    "pl": "Pierwsze kontenery"
+  },
+  "description": {
+    "en": "Images, containers, the life cycle and ports",
+    "ru": "Образы, контейнеры, жизненный цикл и порты",
+    "uk": "Образи, контейнери, життєвий цикл і порти",
+    "pl": "Obrazy, kontenery, cykl życia i porty"
+  },
+  "lessons": [
+    {
+      "id": "dk-why",
+      "title": {
+        "en": "Why Docker",
+        "ru": "Зачем нужен Docker",
+        "uk": "Навіщо потрібен Docker",
+        "pl": "Po co Docker"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": {
+        "hostname": "dock01",
+        "docker": {}
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## \"It works on my machine\"\nAn application needs more than its code: a language runtime, libraries, config files, the right versions of all of them. On the server something is always different — and the app breaks.\n\n**Docker** packs the application *together with everything it needs* into an **image**. The image runs the same way on a laptop, a test server and in production.\n\n## Three words\n| word | what it is | analogy |\n|---|---|---|\n| **image** | a read-only template: files + the command to start | a recipe / an installer |\n| **container** | a running (or stopped) instance of an image | a dish cooked from the recipe |\n| **registry** | a store of images (Docker Hub) | a recipe book in the library |\n\nOne image → as many containers as you like.\n\n## Container ≠ virtual machine\nA VM emulates a whole computer with its own kernel and boots in minutes. A container is just an **isolated process** on the host's Linux kernel: it starts in a second and weighs megabytes.\n\n> Everything you learned in the Linux course works inside containers too: processes, files, permissions, ports, logs.",
+            "ru": "## «У меня на машине работает»\nПриложению нужен не только код: среда выполнения языка, библиотеки, конфиги — и всё нужных версий. На сервере что-то всегда отличается, и приложение ломается.\n\n**Docker** упаковывает приложение *вместе со всем необходимым* в **образ** (image). Образ запускается одинаково на ноутбуке, тестовом сервере и в проде.\n\n## Три слова\n| слово | что это | аналогия |\n|---|---|---|\n| **образ** (image) | шаблон только для чтения: файлы + команда запуска | рецепт / установщик |\n| **контейнер** | запущенный (или остановленный) экземпляр образа | блюдо, приготовленное по рецепту |\n| **реестр** (registry) | хранилище образов (Docker Hub) | книга рецептов в библиотеке |\n\nИз одного образа — сколько угодно контейнеров.\n\n## Контейнер ≠ виртуальная машина\nВМ эмулирует целый компьютер со своим ядром и загружается минутами. Контейнер — это просто **изолированный процесс** на ядре Linux хоста: стартует за секунду и весит мегабайты.\n\n> Всё, что вы узнали в курсе Linux, работает и внутри контейнеров: процессы, файлы, права, порты, логи.",
+            "uk": "## «У мене на машині працює»\nЗастосунку потрібен не лише код: середовище виконання мови, бібліотеки, конфіги — і все потрібних версій. На сервері щось завжди відрізняється, і застосунок ламається.\n\n**Docker** пакує застосунок *разом з усім потрібним* в **образ** (image). Образ запускається однаково на ноутбуці, тестовому сервері й у проді.\n\n## Три слова\n| слово | що це | аналогія |\n|---|---|---|\n| **образ** (image) | шаблон лише для читання: файли + команда запуску | рецепт / інсталятор |\n| **контейнер** | запущений (або зупинений) екземпляр образу | страва, приготована за рецептом |\n| **реєстр** (registry) | сховище образів (Docker Hub) | книга рецептів у бібліотеці |\n\nЗ одного образу — скільки завгодно контейнерів.\n\n## Контейнер ≠ віртуальна машина\nВМ емулює цілий комп’ютер зі своїм ядром і завантажується хвилинами. Контейнер — це просто **ізольований процес** на ядрі Linux хоста: стартує за секунду й важить мегабайти.\n\n> Усе, що ви дізналися в курсі Linux, працює й усередині контейнерів: процеси, файли, права, порти, логи.",
+            "pl": "## „U mnie działa”\nAplikacja potrzebuje więcej niż kodu: środowiska uruchomieniowego, bibliotek, plików konfiguracyjnych — i to w odpowiednich wersjach. Na serwerze zawsze coś jest inaczej i aplikacja się psuje.\n\n**Docker** pakuje aplikację *razem ze wszystkim, czego potrzebuje*, w **obraz** (image). Obraz działa tak samo na laptopie, serwerze testowym i na produkcji.\n\n## Trzy słowa\n| słowo | co to jest | analogia |\n|---|---|---|\n| **obraz** (image) | szablon tylko do odczytu: pliki + polecenie startowe | przepis / instalator |\n| **kontener** | uruchomiona (lub zatrzymana) instancja obrazu | danie ugotowane z przepisu |\n| **rejestr** (registry) | magazyn obrazów (Docker Hub) | książka kucharska w bibliotece |\n\nZ jednego obrazu — dowolnie wiele kontenerów.\n\n## Kontener ≠ maszyna wirtualna\nVM emuluje cały komputer z własnym jądrem i uruchamia się minutami. Kontener to po prostu **odizolowany proces** na jądrze Linuksa hosta: startuje w sekundę i waży megabajty.\n\n> Wszystko, czego nauczyłeś się w kursie Linuksa, działa też w kontenerach: procesy, pliki, uprawnienia, porty, logi."
+          },
+          "title": {
+            "en": "Images and containers",
+            "ru": "Образы и контейнеры",
+            "uk": "Образи й контейнери",
+            "pl": "Obrazy i kontenery"
+          },
+          "terminal": false
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "What is the relation between an image and a container?",
+            "ru": "Как связаны образ и контейнер?",
+            "uk": "Як пов’язані образ і контейнер?",
+            "pl": "Jaki jest związek między obrazem a kontenerem?"
+          },
+          "options": [
+            {
+              "en": "A container is a running instance of an image; one image can give many containers",
+              "ru": "Контейнер — запущенный экземпляр образа; из одного образа можно запустить много контейнеров",
+              "uk": "Контейнер — запущений екземпляр образу; з одного образу можна запустити багато контейнерів",
+              "pl": "Kontener to uruchomiona instancja obrazu; z jednego obrazu powstaje wiele kontenerów"
+            },
+            {
+              "en": "An image is a running container saved to disk; they are one-to-one",
+              "ru": "Образ — это запущенный контейнер, сохранённый на диск; они один к одному",
+              "uk": "Образ — це запущений контейнер, збережений на диск; вони один до одного",
+              "pl": "Obraz to zapisany na dysk działający kontener; są jeden do jednego"
+            },
+            {
+              "en": "They are two names for the same thing",
+              "ru": "Это два названия одного и того же",
+              "uk": "Це дві назви одного й того самого",
+              "pl": "To dwie nazwy tego samego"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "Image = template (read-only). Container = a process started from it, with its own writable layer.",
+            "ru": "Образ — шаблон (только чтение). Контейнер — процесс, запущенный из него, со своим слоем для записи.",
+            "uk": "Образ — шаблон (лише читання). Контейнер — процес, запущений з нього, зі своїм шаром для запису.",
+            "pl": "Obraz to szablon (tylko odczyt). Kontener to proces uruchomiony z niego, z własną warstwą do zapisu."
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "Why does a container start much faster than a virtual machine?",
+            "ru": "Почему контейнер стартует гораздо быстрее виртуальной машины?",
+            "uk": "Чому контейнер стартує набагато швидше за віртуальну машину?",
+            "pl": "Dlaczego kontener startuje dużo szybciej niż maszyna wirtualna?"
+          },
+          "options": [
+            {
+              "en": "It uses the host kernel: no OS has to boot, just a process starts",
+              "ru": "Он использует ядро хоста: не нужно загружать ОС, просто стартует процесс",
+              "uk": "Він використовує ядро хоста: не треба завантажувати ОС, просто стартує процес",
+              "pl": "Używa jądra hosta: nie trzeba uruchamiać systemu, startuje tylko proces"
+            },
+            {
+              "en": "Containers are compiled to machine code",
+              "ru": "Контейнеры компилируются в машинный код",
+              "uk": "Контейнери компілюються в машинний код",
+              "pl": "Kontenery są kompilowane do kodu maszynowego"
+            },
+            {
+              "en": "Docker skips the application's start command",
+              "ru": "Docker пропускает команду запуска приложения",
+              "uk": "Docker пропускає команду запуску застосунку",
+              "pl": "Docker pomija polecenie startowe aplikacji"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "dk-hello",
+      "title": {
+        "en": "Your first container",
+        "ru": "Первый контейнер",
+        "uk": "Перший контейнер",
+        "pl": "Pierwszy kontener"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": {
+        "hostname": "dock01",
+        "docker": {}
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## docker run\n```\n$ docker run hello-world\n```\nWhat happens:\n1. Docker looks for the image `hello-world` **locally** — it is not there yet\n2. it **pulls** it from Docker Hub (`Unable to find image… Pulling…`)\n3. it **creates** a container and **runs** its command\n4. the program prints its text and **exits** — and so does the container\n\n## Look around\n```\n$ docker ps\n$ docker ps -a\n$ docker images\n```\n- `docker ps` — only **running** containers (hello-world is already finished, so it is not there)\n- `docker ps -a` — **all** containers, including stopped (`Exited (0)` = finished successfully)\n- `docker images` — images downloaded to this machine\n\n> The name `hello-world` means `hello-world:latest`: after the colon comes the **tag** (version). No tag = `latest`.",
+            "ru": "## docker run\n```\n$ docker run hello-world\n```\nЧто происходит:\n1. Docker ищет образ `hello-world` **локально** — его ещё нет\n2. **скачивает** (pull) его с Docker Hub (`Unable to find image… Pulling…`)\n3. **создаёт** контейнер и **запускает** его команду\n4. программа печатает текст и **завершается** — вместе с ней и контейнер\n\n## Осмотритесь\n```\n$ docker ps\n$ docker ps -a\n$ docker images\n```\n- `docker ps` — только **работающие** контейнеры (hello-world уже завершился, его там нет)\n- `docker ps -a` — **все** контейнеры, включая остановленные (`Exited (0)` = завершился успешно)\n- `docker images` — образы, скачанные на эту машину\n\n> Имя `hello-world` означает `hello-world:latest`: после двоеточия идёт **тег** (версия). Нет тега — значит `latest`.",
+            "uk": "## docker run\n```\n$ docker run hello-world\n```\nЩо відбувається:\n1. Docker шукає образ `hello-world` **локально** — його ще немає\n2. **завантажує** (pull) його з Docker Hub (`Unable to find image… Pulling…`)\n3. **створює** контейнер і **запускає** його команду\n4. програма друкує текст і **завершується** — разом з нею й контейнер\n\n## Роздивіться\n```\n$ docker ps\n$ docker ps -a\n$ docker images\n```\n- `docker ps` — лише **запущені** контейнери (hello-world уже завершився, його там немає)\n- `docker ps -a` — **усі** контейнери, разом із зупиненими (`Exited (0)` = завершився успішно)\n- `docker images` — образи, завантажені на цю машину\n\n> Ім’я `hello-world` означає `hello-world:latest`: після двокрапки йде **тег** (версія). Немає тегу — отже `latest`.",
+            "pl": "## docker run\n```\n$ docker run hello-world\n```\nCo się dzieje:\n1. Docker szuka obrazu `hello-world` **lokalnie** — jeszcze go nie ma\n2. **pobiera** go (pull) z Docker Hub (`Unable to find image… Pulling…`)\n3. **tworzy** kontener i **uruchamia** jego polecenie\n4. program wypisuje tekst i **kończy się** — a razem z nim kontener\n\n## Rozejrzyj się\n```\n$ docker ps\n$ docker ps -a\n$ docker images\n```\n- `docker ps` — tylko **działające** kontenery (hello-world już się zakończył, więc go nie ma)\n- `docker ps -a` — **wszystkie** kontenery, także zatrzymane (`Exited (0)` = zakończył się sukcesem)\n- `docker images` — obrazy pobrane na tę maszynę\n\n> Nazwa `hello-world` oznacza `hello-world:latest`: po dwukropku jest **tag** (wersja). Brak tagu = `latest`."
+          },
+          "title": {
+            "en": "Run, list, look",
+            "ru": "Запустить, посмотреть",
+            "uk": "Запустити, подивитися",
+            "pl": "Uruchom i obejrzyj"
+          },
+          "demo": {
+            "commands": [
+              "docker run hello-world",
+              "docker ps -a",
+              "docker images"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Run the hello-world container.",
+            "ru": "Запустите контейнер hello-world.",
+            "uk": "Запустіть контейнер hello-world.",
+            "pl": "Uruchom kontener hello-world."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "docker",
+              "args": [
+                "run"
+              ],
+              "success": true,
+              "label": {
+                "en": "docker run succeeded",
+                "ru": "docker run выполнен успешно",
+                "uk": "docker run виконано успішно",
+                "pl": "docker run zakończony sukcesem"
+              }
+            },
+            {
+              "type": "imageExists",
+              "name": "hello-world",
+              "label": {
+                "en": "The hello-world image was downloaded",
+                "ru": "Образ hello-world скачан",
+                "uk": "Образ hello-world завантажено",
+                "pl": "Obraz hello-world został pobrany"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Hello from Docker!",
+              "label": {
+                "en": "You saw \"Hello from Docker!\"",
+                "ru": "Вы увидели «Hello from Docker!»",
+                "uk": "Ви побачили «Hello from Docker!»",
+                "pl": "Zobaczyłeś „Hello from Docker!”"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker run IMAGE",
+              "ru": "docker run ОБРАЗ",
+              "uk": "docker run ОБРАЗ",
+              "pl": "docker run OBRAZ"
+            },
+            "command": "docker run"
+          },
+          "solution": [
+            "docker run hello-world"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You ran hello-world, but `docker ps` shows an empty table. Why?",
+            "ru": "Вы запустили hello-world, но `docker ps` показывает пустую таблицу. Почему?",
+            "uk": "Ви запустили hello-world, але `docker ps` показує порожню таблицю. Чому?",
+            "pl": "Uruchomiłeś hello-world, ale `docker ps` pokazuje pustą tabelę. Dlaczego?"
+          },
+          "options": [
+            {
+              "en": "The container already finished; docker ps shows only running ones — use docker ps -a",
+              "ru": "Контейнер уже завершился, а docker ps показывает только работающие — нужен docker ps -a",
+              "uk": "Контейнер уже завершився, а docker ps показує лише запущені — потрібен docker ps -a",
+              "pl": "Kontener już się zakończył, a docker ps pokazuje tylko działające — użyj docker ps -a"
+            },
+            {
+              "en": "The container was deleted automatically",
+              "ru": "Контейнер удалился автоматически",
+              "uk": "Контейнер видалився автоматично",
+              "pl": "Kontener usunął się automatycznie"
+            },
+            {
+              "en": "The image failed to download",
+              "ru": "Образ не скачался",
+              "uk": "Образ не завантажився",
+              "pl": "Obraz się nie pobrał"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show all containers, including the stopped ones.",
+            "ru": "Покажите все контейнеры, включая остановленные.",
+            "uk": "Покажіть усі контейнери, включно із зупиненими.",
+            "pl": "Pokaż wszystkie kontenery, także zatrzymane."
+          },
+          "prepare": [
+            "docker run hello-world"
+          ],
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "docker",
+              "flags": [
+                "-a"
+              ],
+              "args": [
+                "ps"
+              ],
+              "label": {
+                "en": "docker ps -a",
+                "ru": "docker ps -a",
+                "uk": "docker ps -a",
+                "pl": "docker ps -a"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "hello-world",
+              "label": {
+                "en": "hello-world is in the list",
+                "ru": "hello-world есть в списке",
+                "uk": "hello-world є у списку",
+                "pl": "hello-world jest na liście"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ps lists containers; one flag adds the stopped ones.",
+              "ru": "ps — список контейнеров; один флаг добавляет остановленные.",
+              "uk": "ps — список контейнерів; один прапорець додає зупинені.",
+              "pl": "ps wyświetla kontenery; jedna flaga dodaje zatrzymane."
+            },
+            "command": "docker ps"
+          },
+          "solution": [
+            "docker ps -a"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dk-background",
+      "title": {
+        "en": "Containers in the background",
+        "ru": "Контейнеры в фоне",
+        "uk": "Контейнери у фоні",
+        "pl": "Kontenery w tle"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": {
+        "hostname": "dock01",
+        "docker": {
+          "images": [
+            "nginx:latest"
+          ]
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Servers run for a long time\nA web server does not \"finish\" — it waits for requests. Run it **detached** (in the background) and give it a **name**:\n```\n$ docker run -d --name web nginx\n$ docker ps\n```\n`-d` prints the container ID and returns the prompt. Without `--name` Docker invents a funny name like `quirky_turing`.\n\n## Life cycle\n```\n$ docker stop web\n$ docker start web\n$ docker restart web\n$ docker rm web\n```\n| command | what it does |\n|---|---|\n| `stop` | stops the process (SIGTERM, then SIGKILL after 10 s) |\n| `start` | starts a stopped container again |\n| `rm` | deletes a **stopped** container |\n| `rm -f` | stops and deletes in one go |\n\n> A stopped container still exists (and keeps its name!) until you `rm` it. That is why `docker run --name web` fails the second time.",
+            "ru": "## Серверы работают долго\nВеб-сервер не «завершается» — он ждёт запросы. Запускайте его **в фоне** (detached) и давайте **имя**:\n```\n$ docker run -d --name web nginx\n$ docker ps\n```\n`-d` печатает ID контейнера и возвращает приглашение. Без `--name` Docker придумает смешное имя вроде `quirky_turing`.\n\n## Жизненный цикл\n```\n$ docker stop web\n$ docker start web\n$ docker restart web\n$ docker rm web\n```\n| команда | что делает |\n|---|---|\n| `stop` | останавливает процесс (SIGTERM, через 10 с — SIGKILL) |\n| `start` | снова запускает остановленный контейнер |\n| `rm` | удаляет **остановленный** контейнер |\n| `rm -f` | останавливает и удаляет за один раз |\n\n> Остановленный контейнер продолжает существовать (и занимать имя!), пока вы не сделаете `rm`. Поэтому `docker run --name web` второй раз выдаёт ошибку.",
+            "uk": "## Сервери працюють довго\nВебсервер не «завершується» — він чекає запитів. Запускайте його **у фоні** (detached) і давайте **ім’я**:\n```\n$ docker run -d --name web nginx\n$ docker ps\n```\n`-d` друкує ID контейнера й повертає запрошення. Без `--name` Docker вигадає кумедне ім’я на кшталт `quirky_turing`.\n\n## Життєвий цикл\n```\n$ docker stop web\n$ docker start web\n$ docker restart web\n$ docker rm web\n```\n| команда | що робить |\n|---|---|\n| `stop` | зупиняє процес (SIGTERM, через 10 с — SIGKILL) |\n| `start` | знову запускає зупинений контейнер |\n| `rm` | видаляє **зупинений** контейнер |\n| `rm -f` | зупиняє й видаляє за один раз |\n\n> Зупинений контейнер продовжує існувати (і займати ім’я!), доки ви не зробите `rm`. Тому `docker run --name web` вдруге видає помилку.",
+            "pl": "## Serwery działają długo\nSerwer WWW się „nie kończy” — czeka na żądania. Uruchamiaj go **w tle** (detached) i nadaj mu **nazwę**:\n```\n$ docker run -d --name web nginx\n$ docker ps\n```\n`-d` wypisuje ID kontenera i oddaje znak zachęty. Bez `--name` Docker wymyśli zabawną nazwę w stylu `quirky_turing`.\n\n## Cykl życia\n```\n$ docker stop web\n$ docker start web\n$ docker restart web\n$ docker rm web\n```\n| polecenie | co robi |\n|---|---|\n| `stop` | zatrzymuje proces (SIGTERM, po 10 s SIGKILL) |\n| `start` | ponownie uruchamia zatrzymany kontener |\n| `rm` | usuwa **zatrzymany** kontener |\n| `rm -f` | zatrzymuje i usuwa za jednym razem |\n\n> Zatrzymany kontener nadal istnieje (i zajmuje nazwę!), dopóki go nie usuniesz `rm`. Dlatego drugie `docker run --name web` kończy się błędem."
+          },
+          "title": {
+            "en": "Detached containers",
+            "ru": "Фоновые контейнеры",
+            "uk": "Фонові контейнери",
+            "pl": "Kontenery w tle"
+          },
+          "demo": {
+            "commands": [
+              "docker run -d --name web nginx",
+              "docker ps",
+              "docker stop web",
+              "docker ps -a"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Start nginx in the background in a container named web.",
+            "ru": "Запустите nginx в фоне в контейнере с именем web.",
+            "uk": "Запустіть nginx у фоні в контейнері з іменем web.",
+            "pl": "Uruchom nginx w tle w kontenerze o nazwie web."
+          },
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "web",
+              "state": "running",
+              "image": "nginx",
+              "label": {
+                "en": "Container web is running",
+                "ru": "Контейнер web запущен",
+                "uk": "Контейнер web запущено",
+                "pl": "Kontener web działa"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "docker",
+              "flags": [
+                "-d"
+              ],
+              "args": [
+                "run"
+              ],
+              "label": {
+                "en": "In the background (-d)",
+                "ru": "В фоне (-d)",
+                "uk": "У фоні (-d)",
+                "pl": "W tle (-d)"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "run + the flag for background + --name",
+              "ru": "run + флаг фона + --name",
+              "uk": "run + прапорець фону + --name",
+              "pl": "run + flaga tła + --name"
+            },
+            "command": "docker run -d"
+          },
+          "solution": [
+            "docker run -d --name web nginx"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Stop the web container, but do not delete it.",
+            "ru": "Остановите контейнер web, но не удаляйте.",
+            "uk": "Зупиніть контейнер web, але не видаляйте.",
+            "pl": "Zatrzymaj kontener web, ale go nie usuwaj."
+          },
+          "prepare": [
+            "docker run -d --name web nginx"
+          ],
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "web",
+              "state": "exited",
+              "label": {
+                "en": "Container web is stopped",
+                "ru": "Контейнер web остановлен",
+                "uk": "Контейнер web зупинено",
+                "pl": "Kontener web jest zatrzymany"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker stop NAME",
+              "ru": "docker stop ИМЯ",
+              "uk": "docker stop ІМ’Я",
+              "pl": "docker stop NAZWA"
+            },
+            "command": "docker stop"
+          },
+          "solution": [
+            "docker stop web"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You stopped web and now run `docker run -d --name web nginx` again. What happens?",
+            "ru": "Вы остановили web и снова запускаете `docker run -d --name web nginx`. Что произойдёт?",
+            "uk": "Ви зупинили web і знову запускаєте `docker run -d --name web nginx`. Що станеться?",
+            "pl": "Zatrzymałeś web i znów uruchamiasz `docker run -d --name web nginx`. Co się stanie?"
+          },
+          "options": [
+            {
+              "en": "An error: the name \"/web\" is already in use by the stopped container",
+              "ru": "Ошибка: имя «/web» уже занято остановленным контейнером",
+              "uk": "Помилка: ім’я «/web» уже зайняте зупиненим контейнером",
+              "pl": "Błąd: nazwa „/web” jest już zajęta przez zatrzymany kontener"
+            },
+            {
+              "en": "The stopped container starts again",
+              "ru": "Остановленный контейнер запустится снова",
+              "uk": "Зупинений контейнер запуститься знову",
+              "pl": "Zatrzymany kontener uruchomi się ponownie"
+            },
+            {
+              "en": "The old container is replaced by a new one",
+              "ru": "Старый контейнер заменится новым",
+              "uk": "Старий контейнер заміниться новим",
+              "pl": "Stary kontener zostanie zastąpiony nowym"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "A stopped container still owns its name. Use docker start web, or remove it first (docker rm web).",
+            "ru": "Остановленный контейнер всё ещё занимает имя. Используйте docker start web или сначала удалите его (docker rm web).",
+            "uk": "Зупинений контейнер досі займає ім’я. Використайте docker start web або спочатку видаліть його (docker rm web).",
+            "pl": "Zatrzymany kontener wciąż zajmuje nazwę. Użyj docker start web albo najpierw go usuń (docker rm web)."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Delete the web container completely (it is running).",
+            "ru": "Полностью удалите контейнер web (он работает).",
+            "uk": "Повністю видаліть контейнер web (він працює).",
+            "pl": "Całkowicie usuń kontener web (działa)."
+          },
+          "prepare": [
+            "docker run -d --name web nginx"
+          ],
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "web",
+              "state": "absent",
+              "label": {
+                "en": "Container web is removed",
+                "ru": "Контейнер web удалён",
+                "uk": "Контейнер web видалено",
+                "pl": "Kontener web jest usunięty"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Either stop + rm, or rm with the force flag.",
+              "ru": "Либо stop + rm, либо rm с флагом принудительно.",
+              "uk": "Або stop + rm, або rm із прапорцем примусово.",
+              "pl": "Albo stop + rm, albo rm z flagą wymuszenia."
+            },
+            "command": "docker rm"
+          },
+          "solution": [
+            "docker rm -f web"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dk-ports",
+      "title": {
+        "en": "Publishing ports",
+        "ru": "Проброс портов",
+        "uk": "Прокидання портів",
+        "pl": "Publikowanie portów"
+      },
+      "commands": [
+        "docker",
+        "curl"
+      ],
+      "setup": {
+        "hostname": "dock01",
+        "docker": {
+          "images": [
+            "nginx:latest"
+          ]
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## A container has its own network\nnginx inside the container listens on port **80** — but that is the container's port 80, not the host's. To reach it from the host, **publish** the port:\n```\n$ docker run -d --name site -p 8080:80 nginx\n$ curl localhost:8080\n```\n`-p HOST:CONTAINER` — the left number is the port **on your machine**, the right one is **inside** the container. Requests to `localhost:8080` go to port 80 of the container.\n\n## Check\n```\n$ docker ps\n$ ss -tln\n```\n`docker ps` shows `0.0.0.0:8080->80/tcp`, and `ss` shows that the host listens on 8080.\n\n## Port already taken\nTwo programs cannot listen on the same host port:\n```\nBind for 0.0.0.0:8080 failed: port is already allocated\n```\nPick another host port (`-p 8081:80`) or stop whatever holds the port.",
+            "ru": "## У контейнера своя сеть\nnginx внутри контейнера слушает порт **80** — но это порт 80 контейнера, а не хоста. Чтобы достучаться с хоста, порт нужно **пробросить** (publish):\n```\n$ docker run -d --name site -p 8080:80 nginx\n$ curl localhost:8080\n```\n`-p ХОСТ:КОНТЕЙНЕР` — левое число — порт **на вашей машине**, правое — **внутри** контейнера. Запросы на `localhost:8080` попадают на порт 80 контейнера.\n\n## Проверка\n```\n$ docker ps\n$ ss -tln\n```\n`docker ps` показывает `0.0.0.0:8080->80/tcp`, а `ss` — что хост слушает 8080.\n\n## Порт уже занят\nДве программы не могут слушать один и тот же порт хоста:\n```\nBind for 0.0.0.0:8080 failed: port is already allocated\n```\nВозьмите другой порт хоста (`-p 8081:80`) или остановите то, что его держит.",
+            "uk": "## У контейнера своя мережа\nnginx усередині контейнера слухає порт **80** — але це порт 80 контейнера, а не хоста. Щоб достукатися з хоста, порт треба **прокинути** (publish):\n```\n$ docker run -d --name site -p 8080:80 nginx\n$ curl localhost:8080\n```\n`-p ХОСТ:КОНТЕЙНЕР` — ліве число — порт **на вашій машині**, праве — **усередині** контейнера. Запити на `localhost:8080` потрапляють на порт 80 контейнера.\n\n## Перевірка\n```\n$ docker ps\n$ ss -tln\n```\n`docker ps` показує `0.0.0.0:8080->80/tcp`, а `ss` — що хост слухає 8080.\n\n## Порт уже зайнятий\nДві програми не можуть слухати той самий порт хоста:\n```\nBind for 0.0.0.0:8080 failed: port is already allocated\n```\nВізьміть інший порт хоста (`-p 8081:80`) або зупиніть те, що його тримає.",
+            "pl": "## Kontener ma własną sieć\nnginx w kontenerze nasłuchuje na porcie **80** — ale to port 80 kontenera, nie hosta. Aby dostać się do niego z hosta, **opublikuj** port:\n```\n$ docker run -d --name site -p 8080:80 nginx\n$ curl localhost:8080\n```\n`-p HOST:KONTENER` — lewa liczba to port **na Twojej maszynie**, prawa — **w kontenerze**. Żądania na `localhost:8080` trafiają na port 80 kontenera.\n\n## Sprawdzenie\n```\n$ docker ps\n$ ss -tln\n```\n`docker ps` pokazuje `0.0.0.0:8080->80/tcp`, a `ss` — że host nasłuchuje na 8080.\n\n## Port zajęty\nDwa programy nie mogą nasłuchiwać na tym samym porcie hosta:\n```\nBind for 0.0.0.0:8080 failed: port is already allocated\n```\nWybierz inny port hosta (`-p 8081:80`) albo zatrzymaj to, co go trzyma."
+          },
+          "title": {
+            "en": "HOST:CONTAINER",
+            "ru": "ХОСТ:КОНТЕЙНЕР",
+            "uk": "ХОСТ:КОНТЕЙНЕР",
+            "pl": "HOST:KONTENER"
+          },
+          "demo": {
+            "commands": [
+              "docker run -d --name site -p 8080:80 nginx",
+              "curl -s localhost:8080 | head -4"
+            ]
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "`docker run -d -p 3000:80 nginx`. Which address opens the site on the host?",
+            "ru": "`docker run -d -p 3000:80 nginx`. По какому адресу сайт откроется на хосте?",
+            "uk": "`docker run -d -p 3000:80 nginx`. За якою адресою сайт відкриється на хості?",
+            "pl": "`docker run -d -p 3000:80 nginx`. Pod jakim adresem strona otworzy się na hoście?"
+          },
+          "options": [
+            {
+              "en": "http://localhost:3000",
+              "ru": "http://localhost:3000",
+              "uk": "http://localhost:3000",
+              "pl": "http://localhost:3000"
+            },
+            {
+              "en": "http://localhost:80",
+              "ru": "http://localhost:80",
+              "uk": "http://localhost:80",
+              "pl": "http://localhost:80"
+            },
+            {
+              "en": "http://localhost:3080",
+              "ru": "http://localhost:3080",
+              "uk": "http://localhost:3080",
+              "pl": "http://localhost:3080"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "Left = host port, right = container port.",
+            "ru": "Слева — порт хоста, справа — порт контейнера.",
+            "uk": "Ліворуч — порт хоста, праворуч — порт контейнера.",
+            "pl": "Lewa = port hosta, prawa = port kontenera."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Start nginx named site so that it opens at http://localhost:8080, and check it with curl.",
+            "ru": "Запустите nginx с именем site так, чтобы он открывался на http://localhost:8080, и проверьте curl.",
+            "uk": "Запустіть nginx з іменем site так, щоб він відкривався на http://localhost:8080, і перевірте curl.",
+            "pl": "Uruchom nginx o nazwie site tak, by otwierał się pod http://localhost:8080, i sprawdź curl."
+          },
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "site",
+              "state": "running",
+              "hostPort": 8080,
+              "label": {
+                "en": "site runs with port 8080 published",
+                "ru": "site работает, порт 8080 проброшен",
+                "uk": "site працює, порт 8080 прокинуто",
+                "pl": "site działa z opublikowanym portem 8080"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Welcome to nginx",
+              "label": {
+                "en": "curl shows the nginx page",
+                "ru": "curl показывает страницу nginx",
+                "uk": "curl показує сторінку nginx",
+                "pl": "curl pokazuje stronę nginx"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "-p 8080:80, then curl localhost:8080",
+              "ru": "-p 8080:80, потом curl localhost:8080",
+              "uk": "-p 8080:80, потім curl localhost:8080",
+              "pl": "-p 8080:80, potem curl localhost:8080"
+            },
+            "command": "docker run -d"
+          },
+          "solution": [
+            "docker run -d --name site -p 8080:80 nginx",
+            "curl localhost:8080"
+          ]
+        },
+        {
+          "type": "fix",
+          "goal": {
+            "en": "A forgotten test container \"old\" holds port 8080. Free the port and start a new nginx container \"blog\" on http://localhost:8080.",
+            "ru": "Забытый тестовый контейнер «old» держит порт 8080. Освободите порт и запустите новый контейнер nginx «blog» на http://localhost:8080.",
+            "uk": "Забутий тестовий контейнер «old» тримає порт 8080. Звільніть порт і запустіть новий контейнер nginx «blog» на http://localhost:8080.",
+            "pl": "Zapomniany testowy kontener „old” trzyma port 8080. Zwolnij port i uruchom nowy kontener nginx „blog” pod http://localhost:8080."
+          },
+          "prepare": [
+            "docker run -d --name old -p 8080:80 nginx"
+          ],
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "old",
+              "state": "absent",
+              "label": {
+                "en": "Container old is removed",
+                "ru": "Контейнер old удалён",
+                "uk": "Контейнер old видалено",
+                "pl": "Kontener old jest usunięty"
+              }
+            },
+            {
+              "type": "containerState",
+              "name": "blog",
+              "state": "running",
+              "hostPort": 8080,
+              "label": {
+                "en": "blog runs on port 8080",
+                "ru": "blog работает на порту 8080",
+                "uk": "blog працює на порту 8080",
+                "pl": "blog działa na porcie 8080"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "Read the error, remove old (rm -f), then run blog again.",
+              "ru": "Прочитайте ошибку, удалите old (rm -f), затем снова запустите blog.",
+              "uk": "Прочитайте помилку, видаліть old (rm -f), потім знову запустіть blog.",
+              "pl": "Przeczytaj błąd, usuń old (rm -f), potem uruchom blog ponownie."
+            },
+            "command": "docker rm -f"
+          },
+          "solution": [
+            "docker rm -f old",
+            "docker rm -f blog",
+            "docker run -d --name blog -p 8080:80 nginx"
+          ],
+          "prefill": "docker run -d --name blog -p 8080:80 nginx"
+        }
+      ]
+    }
+  ]
+}

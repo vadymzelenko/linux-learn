@@ -179,16 +179,16 @@
     "id": "daily-challenge",
     "icon": "target",
     "title": {
-      "en": "Daily challenger",
-      "uk": "Щоденний виклик",
-      "ru": "Ежедневный вызов",
-      "pl": "Codzienne wyzwanie"
+      "en": "Practitioner",
+      "uk": "Практик",
+      "ru": "Практик",
+      "pl": "Praktyk"
     },
     "description": {
-      "en": "Solve a daily challenge.",
-      "uk": "Розв'яжіть щоденний челендж.",
-      "ru": "Решите ежедневный челлендж.",
-      "pl": "Rozwiąż codzienne wyzwanie."
+      "en": "Solve a task in the Practice set.",
+      "uk": "Розв’яжіть задачу з Практикуму.",
+      "ru": "Решите задачу из Практикума.",
+      "pl": "Rozwiąż zadanie z Praktyki."
     }
   },
   {

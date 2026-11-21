@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { lintContent, solveTask } from '../src/lint';
-import { allLessons, challenges, dailyChallenge, examTasks, levelFor, LEVELS, modules, prepareSession, resolveSetup, stepXp, tr } from '../src';
+import { allLessons, challenges, examTasks, findChallenge, levelFor, LEVELS, modules, prepareSession, resolveSetup, stepXp, tr } from '../src';
 
 describe('content', () => {
   it('passes the linter: every task is solvable, no schema errors', () => {
@@ -43,12 +43,8 @@ describe('content', () => {
     expect(examTasks().length).toBeGreaterThanOrEqual(10);
   });
 
-  it('the daily challenge is the same for everybody on a day and changes between days', () => {
-    const a = dailyChallenge(new Date(2026, 9, 31, 8));
-    const b = dailyChallenge(new Date(2026, 9, 31, 23));
-    expect(a.id).toBe(b.id);
-    const week = new Set(Array.from({ length: 14 }, (_, i) => dailyChallenge(new Date(2026, 10, i + 1)).id));
-    expect(week.size).toBe(14);
-    expect(challenges.length).toBeGreaterThan(10);
+  it('practice tasks have unique ids and are found by id', () => {
+    expect(new Set(challenges.map((c) => c.id)).size).toBe(challenges.length);
+    for (const c of challenges) expect(findChallenge(c.id)).toBe(c);
   });
 });

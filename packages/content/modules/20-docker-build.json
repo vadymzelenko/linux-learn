@@ -1,0 +1,683 @@
+{
+  "id": "docker-build",
+  "path": "/docker/build",
+  "icon": "code",
+  "title": {
+    "en": "Images and Compose",
+    "ru": "Свои образы и Compose",
+    "uk": "Свої образи й Compose",
+    "pl": "Własne obrazy i Compose"
+  },
+  "description": {
+    "en": "Dockerfile, build errors, docker compose and typical breakages",
+    "ru": "Dockerfile, ошибки сборки, docker compose и типовые поломки",
+    "uk": "Dockerfile, помилки збирання, docker compose і типові поломки",
+    "pl": "Dockerfile, błędy budowania, docker compose i typowe awarie"
+  },
+  "lessons": [
+    {
+      "id": "dk-dockerfile",
+      "title": {
+        "en": "Dockerfile",
+        "ru": "Dockerfile",
+        "uk": "Dockerfile",
+        "pl": "Dockerfile"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": {
+        "hostname": "dock01",
+        "docker": {
+          "images": [
+            "nginx:latest",
+            "redis:7",
+            "postgres:16",
+            "alpine:latest"
+          ],
+          "containers": [
+            {
+              "name": "web",
+              "image": "nginx",
+              "ports": [
+                "8080:80"
+              ],
+              "age": 180
+            },
+            {
+              "name": "cache",
+              "image": "redis:7",
+              "age": 180
+            },
+            {
+              "name": "db",
+              "image": "postgres:16",
+              "state": "exited",
+              "exitCode": 1,
+              "age": 30
+            }
+          ]
+        },
+        "files": {
+          "~/site/index.html": "<!doctype html>\n<h1>Hello from my site</h1>\n",
+          "~/app/Dockerfile": "FROM nginx:alpine\nWORKDIR /usr/share/nginx/html\nCOPY index.html .\nEXPOSE 80\n",
+          "~/app/index.html": "<!doctype html>\n<h1>Shop v2 — built with Docker</h1>\n",
+          "~/shop/compose.yaml": "services:\n  web:\n    image: nginx:alpine\n    ports:\n      - \"8090:80\"\n  cache:\n    image: redis:7\n",
+          "~/notes.txt": "web   -> http://localhost:8080\ncache -> redis on 6379 (internal)\ndb    -> postgres (broken since the last deploy?)\n"
+        },
+        "cwd": "~/app"
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Your own image\nA **Dockerfile** is a recipe: start from a base image and add your files.\n```\nFROM nginx:alpine\nWORKDIR /usr/share/nginx/html\nCOPY index.html .\nEXPOSE 80\n```\n| instruction | meaning |\n|---|---|\n| `FROM` | the base image |\n| `WORKDIR` | the working directory inside the image (`cd`) |\n| `COPY src dst` | copy files from the **build context** into the image |\n| `RUN cmd` | run a command while building (install packages) |\n| `ENV K=V` | an environment variable |\n| `EXPOSE 80` | document the port the app listens on |\n| `CMD [...]` | the command a container starts with |\n\n## Build and run\n```\n$ cat Dockerfile\n$ docker build -t shop:2 .\n$ docker images\n$ docker run -d --name shop -p 8082:80 shop:2\n```\nThe `.` at the end is the **build context**: the folder whose files `COPY` can see.\n\n> Each instruction is a **layer**. Unchanged layers are taken from the cache, so put rarely changing steps (installing packages) before frequently changing ones (copying your code).",
+            "ru": "## Свой образ\n**Dockerfile** — это рецепт: взять базовый образ и добавить свои файлы.\n```\nFROM nginx:alpine\nWORKDIR /usr/share/nginx/html\nCOPY index.html .\nEXPOSE 80\n```\n| инструкция | значение |\n|---|---|\n| `FROM` | базовый образ |\n| `WORKDIR` | рабочая директория внутри образа (`cd`) |\n| `COPY src dst` | скопировать файлы из **контекста сборки** в образ |\n| `RUN cmd` | выполнить команду при сборке (установка пакетов) |\n| `ENV K=V` | переменная окружения |\n| `EXPOSE 80` | указать порт, который слушает приложение |\n| `CMD [...]` | команда, с которой стартует контейнер |\n\n## Собрать и запустить\n```\n$ cat Dockerfile\n$ docker build -t shop:2 .\n$ docker images\n$ docker run -d --name shop -p 8082:80 shop:2\n```\nТочка в конце — **контекст сборки**: папка, файлы которой видит `COPY`.\n\n> Каждая инструкция — это **слой**. Неизменённые слои берутся из кэша, поэтому редко меняющиеся шаги (установка пакетов) ставьте раньше часто меняющихся (копирование кода).",
+            "uk": "## Свій образ\n**Dockerfile** — це рецепт: узяти базовий образ і додати свої файли.\n```\nFROM nginx:alpine\nWORKDIR /usr/share/nginx/html\nCOPY index.html .\nEXPOSE 80\n```\n| інструкція | значення |\n|---|---|\n| `FROM` | базовий образ |\n| `WORKDIR` | робоча директорія всередині образу (`cd`) |\n| `COPY src dst` | скопіювати файли з **контексту збирання** в образ |\n| `RUN cmd` | виконати команду під час збирання (встановлення пакетів) |\n| `ENV K=V` | змінна оточення |\n| `EXPOSE 80` | вказати порт, який слухає застосунок |\n| `CMD [...]` | команда, з якою стартує контейнер |\n\n## Зібрати й запустити\n```\n$ cat Dockerfile\n$ docker build -t shop:2 .\n$ docker images\n$ docker run -d --name shop -p 8082:80 shop:2\n```\nКрапка в кінці — **контекст збирання**: тека, файли якої бачить `COPY`.\n\n> Кожна інструкція — це **шар**. Незмінені шари беруться з кешу, тому рідко змінювані кроки (встановлення пакетів) ставте раніше за часто змінювані (копіювання коду).",
+            "pl": "## Własny obraz\n**Dockerfile** to przepis: weź obraz bazowy i dodaj swoje pliki.\n```\nFROM nginx:alpine\nWORKDIR /usr/share/nginx/html\nCOPY index.html .\nEXPOSE 80\n```\n| instrukcja | znaczenie |\n|---|---|\n| `FROM` | obraz bazowy |\n| `WORKDIR` | katalog roboczy w obrazie (`cd`) |\n| `COPY src dst` | skopiuj pliki z **kontekstu budowania** do obrazu |\n| `RUN cmd` | wykonaj polecenie podczas budowania (instalacja pakietów) |\n| `ENV K=V` | zmienna środowiska |\n| `EXPOSE 80` | zadeklaruj port, na którym słucha aplikacja |\n| `CMD [...]` | polecenie, od którego startuje kontener |\n\n## Zbuduj i uruchom\n```\n$ cat Dockerfile\n$ docker build -t shop:2 .\n$ docker images\n$ docker run -d --name shop -p 8082:80 shop:2\n```\nKropka na końcu to **kontekst budowania**: katalog, którego pliki widzi `COPY`.\n\n> Każda instrukcja to **warstwa**. Niezmienione warstwy pochodzą z cache, więc rzadko zmieniane kroki (instalacja pakietów) dawaj przed często zmienianymi (kopiowanie kodu)."
+          },
+          "title": {
+            "en": "FROM, COPY, CMD",
+            "ru": "FROM, COPY, CMD",
+            "uk": "FROM, COPY, CMD",
+            "pl": "FROM, COPY, CMD"
+          },
+          "demo": {
+            "commands": [
+              "cat Dockerfile",
+              "docker build -t shop:2 ."
+            ]
+          }
+        },
+        {
+          "type": "build",
+          "goal": {
+            "en": "Build an image named shop with tag 2 from the current folder.",
+            "ru": "Соберите образ shop с тегом 2 из текущей папки.",
+            "uk": "Зберіть образ shop з тегом 2 з поточної теки.",
+            "pl": "Zbuduj obraz shop z tagiem 2 z bieżącego katalogu."
+          },
+          "answer": [
+            "docker",
+            "build",
+            "-t",
+            "shop:2",
+            "."
+          ],
+          "distractors": [
+            "run",
+            "-p",
+            "~"
+          ],
+          "explanation": {
+            "en": "-t gives the name:tag, \".\" is the build context.",
+            "ru": "-t задаёт имя:тег, «.» — контекст сборки.",
+            "uk": "-t задає ім’я:тег, «.» — контекст збирання.",
+            "pl": "-t nadaje nazwę:tag, „.” to kontekst budowania."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "In ~/app build the image shop:2 and run it as container shop on http://localhost:8082. Check with curl.",
+            "ru": "В ~/app соберите образ shop:2 и запустите его контейнером shop на http://localhost:8082. Проверьте curl.",
+            "uk": "У ~/app зберіть образ shop:2 і запустіть його контейнером shop на http://localhost:8082. Перевірте curl.",
+            "pl": "W ~/app zbuduj obraz shop:2 i uruchom go jako kontener shop pod http://localhost:8082. Sprawdź curl."
+          },
+          "checks": [
+            {
+              "type": "imageExists",
+              "name": "shop:2",
+              "label": {
+                "en": "Image shop:2 exists",
+                "ru": "Образ shop:2 есть",
+                "uk": "Образ shop:2 є",
+                "pl": "Obraz shop:2 istnieje"
+              }
+            },
+            {
+              "type": "containerState",
+              "name": "shop",
+              "state": "running",
+              "hostPort": 8082,
+              "label": {
+                "en": "shop runs on 8082",
+                "ru": "shop работает на 8082",
+                "uk": "shop працює на 8082",
+                "pl": "shop działa na 8082"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Shop v2",
+              "label": {
+                "en": "Your page is served",
+                "ru": "Отдаётся ваша страница",
+                "uk": "Віддається ваша сторінка",
+                "pl": "Serwowana jest Twoja strona"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "build -t shop:2 . → run -d -p 8082:80 → curl",
+              "ru": "build -t shop:2 . → run -d -p 8082:80 → curl",
+              "uk": "build -t shop:2 . → run -d -p 8082:80 → curl",
+              "pl": "build -t shop:2 . → run -d -p 8082:80 → curl"
+            },
+            "command": "docker build -t"
+          },
+          "solution": [
+            "docker build -t shop:2 .",
+            "docker run -d --name shop -p 8082:80 shop:2",
+            "curl localhost:8082"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dk-fix-build",
+      "title": {
+        "en": "When the build fails",
+        "ru": "Когда сборка падает",
+        "uk": "Коли збирання падає",
+        "pl": "Gdy budowanie się nie udaje"
+      },
+      "commands": [
+        "docker",
+        "sed"
+      ],
+      "setup": {
+        "hostname": "dock01",
+        "docker": {
+          "images": [
+            "nginx:latest",
+            "redis:7",
+            "postgres:16",
+            "alpine:latest"
+          ],
+          "containers": [
+            {
+              "name": "web",
+              "image": "nginx",
+              "ports": [
+                "8080:80"
+              ],
+              "age": 180
+            },
+            {
+              "name": "cache",
+              "image": "redis:7",
+              "age": 180
+            },
+            {
+              "name": "db",
+              "image": "postgres:16",
+              "state": "exited",
+              "exitCode": 1,
+              "age": 30
+            }
+          ]
+        },
+        "files": {
+          "~/site/index.html": "<!doctype html>\n<h1>Hello from my site</h1>\n",
+          "~/app/Dockerfile": "FROM nginx:alpine\nWORKDIR /usr/share/nginx/html\nCOPY index.htm .\nEXPOSE 80\n",
+          "~/app/index.html": "<!doctype html>\n<h1>Shop v2 — built with Docker</h1>\n",
+          "~/shop/compose.yaml": "services:\n  web:\n    image: nginx:alpine\n    ports:\n      - \"8090:80\"\n  cache:\n    image: redis:7\n",
+          "~/notes.txt": "web   -> http://localhost:8080\ncache -> redis on 6379 (internal)\ndb    -> postgres (broken since the last deploy?)\n"
+        },
+        "cwd": "~/app"
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Read the error from the end\n```\nERROR: failed to solve: failed to compute cache key: … \"/index.htm\": not found\n```\nBuildKit says *which step* failed and *why*. \"not found\" in a `COPY` means: there is no such file **in the build context** — a typo, a wrong folder, or the file is excluded by `.dockerignore`.\n\n## Typical build errors\n| message | cause |\n|---|---|\n| `\"/x\": not found` | `COPY` of a missing file |\n| `pull access denied` / `not found` in `FROM` | a typo in the base image |\n| `unknown instruction` | a typo in the instruction (`COPPY`) |\n| `failed to read dockerfile` | no `Dockerfile` in the folder |\n\n> Fix the Dockerfile (nano or sed), then run the same `docker build` again — the unchanged steps come from cache.",
+            "ru": "## Читайте ошибку с конца\n```\nERROR: failed to solve: failed to compute cache key: … \"/index.htm\": not found\n```\nBuildKit говорит, *какой шаг* упал и *почему*. «not found» в `COPY` значит: такого файла нет **в контексте сборки** — опечатка, не та папка или файл исключён `.dockerignore`.\n\n## Типовые ошибки сборки\n| сообщение | причина |\n|---|---|\n| `\"/x\": not found` | `COPY` несуществующего файла |\n| `pull access denied` / `not found` во `FROM` | опечатка в базовом образе |\n| `unknown instruction` | опечатка в инструкции (`COPPY`) |\n| `failed to read dockerfile` | в папке нет `Dockerfile` |\n\n> Исправьте Dockerfile (nano или sed) и запустите тот же `docker build` снова — неизменённые шаги возьмутся из кэша.",
+            "uk": "## Читайте помилку з кінця\n```\nERROR: failed to solve: failed to compute cache key: … \"/index.htm\": not found\n```\nBuildKit каже, *який крок* упав і *чому*. «not found» у `COPY` означає: такого файлу немає **в контексті збирання** — одруківка, не та тека або файл виключено `.dockerignore`.\n\n## Типові помилки збирання\n| повідомлення | причина |\n|---|---|\n| `\"/x\": not found` | `COPY` неіснуючого файлу |\n| `pull access denied` / `not found` у `FROM` | одруківка в базовому образі |\n| `unknown instruction` | одруківка в інструкції (`COPPY`) |\n| `failed to read dockerfile` | у теці немає `Dockerfile` |\n\n> Виправте Dockerfile (nano або sed) і запустіть той самий `docker build` знову — незмінені кроки візьмуться з кешу.",
+            "pl": "## Czytaj błąd od końca\n```\nERROR: failed to solve: failed to compute cache key: … \"/index.htm\": not found\n```\nBuildKit mówi, *który krok* się nie udał i *dlaczego*. „not found” w `COPY` oznacza: nie ma takiego pliku **w kontekście budowania** — literówka, zły katalog albo plik wykluczony przez `.dockerignore`.\n\n## Typowe błędy budowania\n| komunikat | przyczyna |\n|---|---|\n| `\"/x\": not found` | `COPY` nieistniejącego pliku |\n| `pull access denied` / `not found` w `FROM` | literówka w obrazie bazowym |\n| `unknown instruction` | literówka w instrukcji (`COPPY`) |\n| `failed to read dockerfile` | brak `Dockerfile` w katalogu |\n\n> Popraw Dockerfile (nano lub sed) i uruchom to samo `docker build` ponownie — niezmienione kroki wezmą się z cache."
+          },
+          "title": {
+            "en": "Build errors",
+            "ru": "Ошибки сборки",
+            "uk": "Помилки збирання",
+            "pl": "Błędy budowania"
+          }
+        },
+        {
+          "type": "fix",
+          "goal": {
+            "en": "The build of shop:3 fails. Find the mistake in ~/app/Dockerfile, fix it and build shop:3.",
+            "ru": "Сборка shop:3 падает. Найдите ошибку в ~/app/Dockerfile, исправьте и соберите shop:3.",
+            "uk": "Збирання shop:3 падає. Знайдіть помилку в ~/app/Dockerfile, виправте й зберіть shop:3.",
+            "pl": "Budowanie shop:3 się nie udaje. Znajdź błąd w ~/app/Dockerfile, popraw go i zbuduj shop:3."
+          },
+          "checks": [
+            {
+              "type": "fileContains",
+              "path": "~/app/Dockerfile",
+              "regex": "COPY index\\.html ",
+              "label": {
+                "en": "COPY copies index.html",
+                "ru": "COPY копирует index.html",
+                "uk": "COPY копіює index.html",
+                "pl": "COPY kopiuje index.html"
+              }
+            },
+            {
+              "type": "imageExists",
+              "name": "shop:3",
+              "label": {
+                "en": "Image shop:3 exists",
+                "ru": "Образ shop:3 есть",
+                "uk": "Образ shop:3 є",
+                "pl": "Obraz shop:3 istnieje"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "ls shows the real file name; sed -i \"s/index.htm /index.html /\" Dockerfile",
+              "ru": "ls покажет настоящее имя файла; sed -i \"s/index.htm /index.html /\" Dockerfile",
+              "uk": "ls покаже справжнє ім’я файлу; sed -i \"s/index.htm /index.html /\" Dockerfile",
+              "pl": "ls pokaże prawdziwą nazwę pliku; sed -i \"s/index.htm /index.html /\" Dockerfile"
+            },
+            "command": "sed -i"
+          },
+          "solution": [
+            "sed -i \"s/index.htm /index.html /\" Dockerfile",
+            "docker build -t shop:3 ."
+          ],
+          "prefill": "docker build -t shop:3 ."
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "`docker build -t app .` says `\"/requirements.txt\": not found`, but the file is in ~/project/. You ran the command in ~/project/docker/. Why?",
+            "ru": "`docker build -t app .` пишет `\"/requirements.txt\": not found`, а файл лежит в ~/project/. Команда запущена в ~/project/docker/. Почему?",
+            "uk": "`docker build -t app .` пише `\"/requirements.txt\": not found`, а файл лежить у ~/project/. Команду запущено в ~/project/docker/. Чому?",
+            "pl": "`docker build -t app .` zgłasza `\"/requirements.txt\": not found`, a plik jest w ~/project/. Uruchomiłeś polecenie w ~/project/docker/. Dlaczego?"
+          },
+          "options": [
+            {
+              "en": "The build context is \".\" = ~/project/docker; COPY cannot see files outside it",
+              "ru": "Контекст сборки «.» = ~/project/docker; COPY не видит файлы снаружи",
+              "uk": "Контекст збирання «.» = ~/project/docker; COPY не бачить файли ззовні",
+              "pl": "Kontekst budowania „.” = ~/project/docker; COPY nie widzi plików poza nim"
+            },
+            {
+              "en": "Docker cannot copy .txt files",
+              "ru": "Docker не умеет копировать .txt",
+              "uk": "Docker не вміє копіювати .txt",
+              "pl": "Docker nie umie kopiować plików .txt"
+            },
+            {
+              "en": "The file must be named Dockerfile",
+              "ru": "Файл должен называться Dockerfile",
+              "uk": "Файл має називатися Dockerfile",
+              "pl": "Plik musi się nazywać Dockerfile"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "dk-compose",
+      "title": {
+        "en": "Docker Compose",
+        "ru": "Docker Compose",
+        "uk": "Docker Compose",
+        "pl": "Docker Compose"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": {
+        "hostname": "dock01",
+        "docker": {
+          "images": [
+            "nginx:latest",
+            "redis:7",
+            "postgres:16",
+            "alpine:latest"
+          ],
+          "containers": [
+            {
+              "name": "web",
+              "image": "nginx",
+              "ports": [
+                "8080:80"
+              ],
+              "age": 180
+            },
+            {
+              "name": "cache",
+              "image": "redis:7",
+              "age": 180
+            },
+            {
+              "name": "db",
+              "image": "postgres:16",
+              "state": "exited",
+              "exitCode": 1,
+              "age": 30
+            }
+          ]
+        },
+        "files": {
+          "~/site/index.html": "<!doctype html>\n<h1>Hello from my site</h1>\n",
+          "~/app/Dockerfile": "FROM nginx:alpine\nWORKDIR /usr/share/nginx/html\nCOPY index.html .\nEXPOSE 80\n",
+          "~/app/index.html": "<!doctype html>\n<h1>Shop v2 — built with Docker</h1>\n",
+          "~/shop/compose.yaml": "services:\n  web:\n    image: nginx:alpine\n    ports:\n      - \"8090:80\"\n  cache:\n    image: redis:7\n",
+          "~/notes.txt": "web   -> http://localhost:8080\ncache -> redis on 6379 (internal)\ndb    -> postgres (broken since the last deploy?)\n"
+        },
+        "cwd": "~/shop"
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Many containers — one file\nA real app is several containers: web, cache, database. Instead of long `docker run` lines, describe them in **compose.yaml**:\n```\nservices:\n  web:\n    image: nginx:alpine\n    ports:\n      - \"8090:80\"\n  cache:\n    image: redis:7\n```\n## Commands (run them in the folder with the file)\n```\n$ cat compose.yaml\n$ docker compose up -d\n$ docker compose ps\n$ docker compose logs web\n$ docker compose down\n```\n- `up -d` — create and start everything in the background\n- containers get names `<folder>-<service>-1`: `shop-web-1`, `shop-cache-1`\n- all services share a network and reach each other **by service name** (`cache:6379`)\n- `down` — stop and remove the containers and the network (volumes stay)\n\n> compose.yaml goes to git next to the code: the whole environment is started with one command.",
+            "ru": "## Много контейнеров — один файл\nНастоящее приложение — это несколько контейнеров: веб, кэш, база. Вместо длинных `docker run` опишите их в **compose.yaml**:\n```\nservices:\n  web:\n    image: nginx:alpine\n    ports:\n      - \"8090:80\"\n  cache:\n    image: redis:7\n```\n## Команды (запускать в папке с файлом)\n```\n$ cat compose.yaml\n$ docker compose up -d\n$ docker compose ps\n$ docker compose logs web\n$ docker compose down\n```\n- `up -d` — создать и запустить всё в фоне\n- контейнеры получают имена `<папка>-<сервис>-1`: `shop-web-1`, `shop-cache-1`\n- все сервисы в общей сети и видят друг друга **по имени сервиса** (`cache:6379`)\n- `down` — остановить и удалить контейнеры и сеть (тома остаются)\n\n> compose.yaml кладут в git рядом с кодом: всё окружение поднимается одной командой.",
+            "uk": "## Багато контейнерів — один файл\nСправжній застосунок — це кілька контейнерів: веб, кеш, база. Замість довгих `docker run` опишіть їх у **compose.yaml**:\n```\nservices:\n  web:\n    image: nginx:alpine\n    ports:\n      - \"8090:80\"\n  cache:\n    image: redis:7\n```\n## Команди (запускати в теці з файлом)\n```\n$ cat compose.yaml\n$ docker compose up -d\n$ docker compose ps\n$ docker compose logs web\n$ docker compose down\n```\n- `up -d` — створити й запустити все у фоні\n- контейнери отримують імена `<тека>-<сервіс>-1`: `shop-web-1`, `shop-cache-1`\n- усі сервіси в спільній мережі й бачать одне одного **за іменем сервісу** (`cache:6379`)\n- `down` — зупинити й видалити контейнери та мережу (томи залишаються)\n\n> compose.yaml кладуть у git поруч із кодом: усе оточення піднімається однією командою.",
+            "pl": "## Wiele kontenerów — jeden plik\nPrawdziwa aplikacja to kilka kontenerów: web, cache, baza. Zamiast długich `docker run` opisz je w **compose.yaml**:\n```\nservices:\n  web:\n    image: nginx:alpine\n    ports:\n      - \"8090:80\"\n  cache:\n    image: redis:7\n```\n## Polecenia (uruchamiaj w katalogu z plikiem)\n```\n$ cat compose.yaml\n$ docker compose up -d\n$ docker compose ps\n$ docker compose logs web\n$ docker compose down\n```\n- `up -d` — utwórz i uruchom wszystko w tle\n- kontenery dostają nazwy `<katalog>-<usługa>-1`: `shop-web-1`, `shop-cache-1`\n- wszystkie usługi są we wspólnej sieci i widzą się **po nazwie usługi** (`cache:6379`)\n- `down` — zatrzymaj i usuń kontenery oraz sieć (wolumeny zostają)\n\n> compose.yaml trafia do gita obok kodu: całe środowisko startuje jednym poleceniem."
+          },
+          "title": {
+            "en": "compose.yaml",
+            "ru": "compose.yaml",
+            "uk": "compose.yaml",
+            "pl": "compose.yaml"
+          },
+          "demo": {
+            "commands": [
+              "cat compose.yaml",
+              "docker compose up -d",
+              "docker compose ps"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Start everything described in ~/shop/compose.yaml in the background and open the site at http://localhost:8090.",
+            "ru": "Запустите в фоне всё, что описано в ~/shop/compose.yaml, и откройте сайт на http://localhost:8090.",
+            "uk": "Запустіть у фоні все, що описано в ~/shop/compose.yaml, і відкрийте сайт на http://localhost:8090.",
+            "pl": "Uruchom w tle wszystko z ~/shop/compose.yaml i otwórz stronę pod http://localhost:8090."
+          },
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "shop-web-1",
+              "state": "running",
+              "label": {
+                "en": "Container shop-web-1 is running",
+                "ru": "Контейнер shop-web-1 запущен",
+                "uk": "Контейнер shop-web-1 запущено",
+                "pl": "Kontener shop-web-1 działa"
+              }
+            },
+            {
+              "type": "containerState",
+              "name": "shop-cache-1",
+              "state": "running",
+              "label": {
+                "en": "Container shop-cache-1 is running",
+                "ru": "Контейнер shop-cache-1 запущен",
+                "uk": "Контейнер shop-cache-1 запущено",
+                "pl": "Kontener shop-cache-1 działa"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Welcome to nginx",
+              "label": {
+                "en": "The site answers",
+                "ru": "Сайт отвечает",
+                "uk": "Сайт відповідає",
+                "pl": "Strona odpowiada"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker compose up -d, then curl",
+              "ru": "docker compose up -d, затем curl",
+              "uk": "docker compose up -d, потім curl",
+              "pl": "docker compose up -d, potem curl"
+            },
+            "command": "docker compose up"
+          },
+          "solution": [
+            "docker compose up -d",
+            "curl localhost:8090"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Stop and remove the whole shop environment with one command.",
+            "ru": "Остановите и удалите всё окружение shop одной командой.",
+            "uk": "Зупиніть і видаліть усе оточення shop однією командою.",
+            "pl": "Zatrzymaj i usuń całe środowisko shop jednym poleceniem."
+          },
+          "prepare": [
+            "docker compose up -d"
+          ],
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "shop-web-1",
+              "state": "absent",
+              "label": {
+                "en": "Container shop-web-1 is removed",
+                "ru": "Контейнер shop-web-1 удалён",
+                "uk": "Контейнер shop-web-1 видалено",
+                "pl": "Kontener shop-web-1 jest usunięty"
+              }
+            },
+            {
+              "type": "containerState",
+              "name": "shop-cache-1",
+              "state": "absent",
+              "label": {
+                "en": "Container shop-cache-1 is removed",
+                "ru": "Контейнер shop-cache-1 удалён",
+                "uk": "Контейнер shop-cache-1 видалено",
+                "pl": "Kontener shop-cache-1 jest usunięty"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "The opposite of up",
+              "ru": "Противоположность up",
+              "uk": "Протилежність up",
+              "pl": "Przeciwieństwo up"
+            },
+            "command": "docker compose"
+          },
+          "solution": [
+            "docker compose down"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dk-troubleshoot",
+      "title": {
+        "en": "Typical breakages",
+        "ru": "Типовые поломки",
+        "uk": "Типові поломки",
+        "pl": "Typowe awarie"
+      },
+      "commands": [
+        "docker",
+        "systemctl",
+        "usermod"
+      ],
+      "setup": {
+        "hostname": "dock01",
+        "docker": {
+          "daemon": "inactive",
+          "images": [
+            "nginx:latest"
+          ]
+        }
+      },
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Five errors you will see\n| error | what to do |\n|---|---|\n| `Cannot connect to the Docker daemon … Is the docker daemon running?` | the `docker` service is stopped: `sudo systemctl start docker` |\n| `permission denied while trying to connect to the Docker daemon socket` | your user is not in the `docker` group: `sudo usermod -aG docker $USER`, then log out and in |\n| `port is already allocated` | the host port is taken: another `-p`, or stop the holder (`docker ps`, `ss -tlnp`) |\n| `Conflict. The container name \"/web\" is already in use` | an old container keeps the name: `docker rm web` |\n| `pull access denied … repository does not exist` | a typo in the image name (`ngnix`) |\n\n## The docker daemon is a service\n`dockerd` is an ordinary systemd service — everything from the NOC course applies:\n```\n$ systemctl status docker\n$ sudo systemctl start docker\n$ journalctl -u docker\n```\n> The `docker` group gives root-equivalent rights on the host (a container can mount `/`). Add only trusted users.",
+            "ru": "## Пять ошибок, которые вы увидите\n| ошибка | что делать |\n|---|---|\n| `Cannot connect to the Docker daemon … Is the docker daemon running?` | сервис `docker` остановлен: `sudo systemctl start docker` |\n| `permission denied while trying to connect to the Docker daemon socket` | вашего пользователя нет в группе `docker`: `sudo usermod -aG docker $USER`, затем перелогиниться |\n| `port is already allocated` | порт хоста занят: другой `-p` или остановить того, кто держит (`docker ps`, `ss -tlnp`) |\n| `Conflict. The container name \"/web\" is already in use` | имя держит старый контейнер: `docker rm web` |\n| `pull access denied … repository does not exist` | опечатка в имени образа (`ngnix`) |\n\n## Демон docker — это сервис\n`dockerd` — обычный сервис systemd, всё из курса NOC применимо:\n```\n$ systemctl status docker\n$ sudo systemctl start docker\n$ journalctl -u docker\n```\n> Группа `docker` даёт права, равные root на хосте (контейнер может смонтировать `/`). Добавляйте только доверенных пользователей.",
+            "uk": "## П’ять помилок, які ви побачите\n| помилка | що робити |\n|---|---|\n| `Cannot connect to the Docker daemon … Is the docker daemon running?` | сервіс `docker` зупинено: `sudo systemctl start docker` |\n| `permission denied while trying to connect to the Docker daemon socket` | вашого користувача немає в групі `docker`: `sudo usermod -aG docker $USER`, потім перелогінитися |\n| `port is already allocated` | порт хоста зайнятий: інший `-p` або зупинити того, хто тримає (`docker ps`, `ss -tlnp`) |\n| `Conflict. The container name \"/web\" is already in use` | ім’я тримає старий контейнер: `docker rm web` |\n| `pull access denied … repository does not exist` | одруківка в імені образу (`ngnix`) |\n\n## Демон docker — це сервіс\n`dockerd` — звичайний сервіс systemd, усе з курсу NOC застосовне:\n```\n$ systemctl status docker\n$ sudo systemctl start docker\n$ journalctl -u docker\n```\n> Група `docker` дає права, рівні root на хості (контейнер може змонтувати `/`). Додавайте лише довірених користувачів.",
+            "pl": "## Pięć błędów, które zobaczysz\n| błąd | co zrobić |\n|---|---|\n| `Cannot connect to the Docker daemon … Is the docker daemon running?` | usługa `docker` jest zatrzymana: `sudo systemctl start docker` |\n| `permission denied while trying to connect to the Docker daemon socket` | Twojego użytkownika nie ma w grupie `docker`: `sudo usermod -aG docker $USER`, potem wyloguj się i zaloguj |\n| `port is already allocated` | port hosta zajęty: inny `-p` albo zatrzymaj to, co go trzyma (`docker ps`, `ss -tlnp`) |\n| `Conflict. The container name \"/web\" is already in use` | nazwę trzyma stary kontener: `docker rm web` |\n| `pull access denied … repository does not exist` | literówka w nazwie obrazu (`ngnix`) |\n\n## Demon docker to usługa\n`dockerd` to zwykła usługa systemd — wszystko z kursu NOC ma zastosowanie:\n```\n$ systemctl status docker\n$ sudo systemctl start docker\n$ journalctl -u docker\n```\n> Grupa `docker` daje uprawnienia równe rootowi na hoście (kontener może zamontować `/`). Dodawaj tylko zaufanych użytkowników."
+          },
+          "title": {
+            "en": "Read the message",
+            "ru": "Читайте сообщение",
+            "uk": "Читайте повідомлення",
+            "pl": "Czytaj komunikat"
+          },
+          "terminal": false
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "`docker ps` cannot reach the daemon. Bring Docker back and make sure `docker ps` works.",
+            "ru": "`docker ps` не может достучаться до демона. Верните Docker к жизни и убедитесь, что `docker ps` работает.",
+            "uk": "`docker ps` не може достукатися до демона. Поверніть Docker до життя й переконайтеся, що `docker ps` працює.",
+            "pl": "`docker ps` nie może połączyć się z demonem. Przywróć Dockera i upewnij się, że `docker ps` działa."
+          },
+          "checks": [
+            {
+              "type": "serviceState",
+              "name": "docker",
+              "state": "active",
+              "label": {
+                "en": "The docker service is active",
+                "ru": "Сервис docker активен",
+                "uk": "Сервіс docker активний",
+                "pl": "Usługa docker jest aktywna"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "docker",
+              "args": [
+                "ps"
+              ],
+              "success": true,
+              "label": {
+                "en": "docker ps succeeded",
+                "ru": "docker ps выполнен успешно",
+                "uk": "docker ps виконано успішно",
+                "pl": "docker ps zakończony sukcesem"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "The daemon is a systemd service named docker.",
+              "ru": "Демон — это сервис systemd с именем docker.",
+              "uk": "Демон — це сервіс systemd з іменем docker.",
+              "pl": "Demon to usługa systemd o nazwie docker."
+            },
+            "command": "sudo systemctl start"
+          },
+          "solution": [
+            "sudo systemctl start docker",
+            "docker ps"
+          ],
+          "prefill": "docker ps"
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "docker says \"permission denied … docker.sock\". Add the user student to the docker group (keep the other groups).",
+            "ru": "docker пишет «permission denied … docker.sock». Добавьте пользователя student в группу docker (не теряя остальные группы).",
+            "uk": "docker пише «permission denied … docker.sock». Додайте користувача student до групи docker (не втрачаючи інших груп).",
+            "pl": "docker zgłasza „permission denied … docker.sock”. Dodaj użytkownika student do grupy docker (zachowując pozostałe grupy)."
+          },
+          "setup": {
+            "hostname": "dock01",
+            "docker": {
+              "group": false,
+              "images": [
+                "nginx:latest"
+              ]
+            }
+          },
+          "checks": [
+            {
+              "type": "userExists",
+              "name": "student",
+              "group": "docker",
+              "label": {
+                "en": "student is in the docker group",
+                "ru": "student в группе docker",
+                "uk": "student у групі docker",
+                "pl": "student jest w grupie docker"
+              }
+            },
+            {
+              "type": "userExists",
+              "name": "student",
+              "group": "sudo",
+              "label": {
+                "en": "student is still in sudo",
+                "ru": "student всё ещё в sudo",
+                "uk": "student досі в sudo",
+                "pl": "student nadal jest w sudo"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "usermod with -a (append) and -G",
+              "ru": "usermod с -a (добавить) и -G",
+              "uk": "usermod з -a (додати) і -G",
+              "pl": "usermod z -a (dopisz) i -G"
+            },
+            "command": "sudo usermod -aG"
+          },
+          "solution": [
+            "sudo usermod -aG docker student"
+          ],
+          "prefill": "docker ps"
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "`docker run -d --name api -p 80:80 myapi` → \"port is already allocated\", and `docker ps` shows no container on 80. What else can hold the port?",
+            "ru": "`docker run -d --name api -p 80:80 myapi` → «port is already allocated», а `docker ps` не показывает контейнера на 80. Кто ещё может держать порт?",
+            "uk": "`docker run -d --name api -p 80:80 myapi` → «port is already allocated», а `docker ps` не показує контейнера на 80. Хто ще може тримати порт?",
+            "pl": "`docker run -d --name api -p 80:80 myapi` → „port is already allocated”, a `docker ps` nie pokazuje kontenera na 80. Co jeszcze może trzymać port?"
+          },
+          "options": [
+            {
+              "en": "A program on the host itself, e.g. a system nginx — check ss -tlnp",
+              "ru": "Программа на самом хосте, например системный nginx — проверьте ss -tlnp",
+              "uk": "Програма на самому хості, наприклад системний nginx — перевірте ss -tlnp",
+              "pl": "Program na samym hoście, np. systemowy nginx — sprawdź ss -tlnp"
+            },
+            {
+              "en": "Nothing: Docker is wrong, restart the computer",
+              "ru": "Никто: Docker ошибается, перезагрузите компьютер",
+              "uk": "Ніхто: Docker помиляється, перезавантажте комп’ютер",
+              "pl": "Nic: Docker się myli, zrestartuj komputer"
+            },
+            {
+              "en": "The image myapi itself",
+              "ru": "Сам образ myapi",
+              "uk": "Сам образ myapi",
+              "pl": "Sam obraz myapi"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

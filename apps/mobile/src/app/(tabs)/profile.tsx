@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import * as nav from '../../lib/nav';
 import { useTranslation } from 'react-i18next';
 import { achievements, allLessons, LEVELS, levelFor, missions, tr } from '@linux-learn/content';
 import { useStore } from '../../state/store';
@@ -7,6 +7,23 @@ import { useTheme, MONO, space } from '../../theme';
 import { Body, Button, Card, H1, H2, Icon, IconButton, ProgressBar, Row, Screen } from '../../components/ui';
 import { dayKey, liveStreak } from '../../lib/progress';
 import { Text } from '../../theme/Text';
+
+/** Initials of the name for the certificate; without a name, the level number. */
+function Avatar({ name, levelNo }: { name: string; levelNo: number }) {
+  const theme = useTheme();
+  const initials = name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => [...w][0]!.toUpperCase())
+    .join('');
+  return (
+    <View style={[styles.avatar, { backgroundColor: theme.surface2, borderColor: theme.border }]}>
+      <Text style={{ color: theme.text, fontSize: initials ? 20 : 22, fontWeight: '700' }}>{initials || levelNo}</Text>
+    </View>
+  );
+}
 
 function Stat({ value, label }: { value: string | number; label: string }) {
   const theme = useTheme();
@@ -22,6 +39,7 @@ export default function ProfileScreen() {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const p = useStore((s) => s.progress);
+  const certName = useStore((s) => s.settings.certName);
   const level = levelFor(p.xp);
   const nextLevel = LEVELS[level.index + 1];
   const streak = liveStreak(p.streak, dayKey(new Date()));
@@ -33,14 +51,12 @@ export default function ProfileScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         <Row style={{ justifyContent: 'space-between' }}>
           <H1>{t('profile.title')}</H1>
-          <IconButton icon="settings" label={t('profile.settings')} onPress={() => router.push('/settings')} />
+          <IconButton icon="settings" label={t('profile.settings')} onPress={() => nav.push('/settings')} />
         </Row>
 
         <Card style={{ gap: space.md, marginTop: space.md }}>
           <Row>
-            <View style={[styles.avatar, { backgroundColor: theme.term.bg, borderColor: theme.accent }]}>
-              <Text style={{ fontFamily: MONO, color: theme.term.user, fontSize: 22 }}>{level.id === 'root' ? '#' : '$'}</Text>
-            </View>
+            <Avatar name={certName} levelNo={level.index + 1} />
             <View style={{ flex: 1 }}>
               <Text style={{ color: theme.textDim, fontSize: 13 }}>{t('profile.level')} {level.index + 1}</Text>
               <H2>{levelName(level.id)}</H2>
@@ -81,7 +97,7 @@ export default function ProfileScreen() {
         </Card>
 
         {p.exam.passedAt ? (
-          <Button variant="secondary" icon="graduation-cap" title={t('profile.certificate')} onPress={() => router.push('/exam')} style={{ marginTop: space.md }} />
+          <Button variant="secondary" icon="graduation-cap" title={t('profile.certificate')} onPress={() => nav.push('/exam')} style={{ marginTop: space.md }} />
         ) : null}
 
         <H2 style={{ marginTop: space.xl, marginBottom: space.sm }}>
@@ -116,7 +132,7 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   content: { padding: space.lg, paddingBottom: space.xxl, maxWidth: 820, width: '100%', alignSelf: 'center' },
-  avatar: { width: 60, height: 60, borderRadius: 30, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
+  avatar: { width: 56, height: 56, borderRadius: 28, borderWidth: StyleSheet.hairlineWidth, alignItems: 'center', justifyContent: 'center', marginRight: 4 },
   stat: { alignItems: 'center', gap: 2, flex: 1 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
   ach: { width: '31.5%', minWidth: 100, flexGrow: 1, borderWidth: 1, borderRadius: 16, padding: space.md, alignItems: 'center', gap: 6 },

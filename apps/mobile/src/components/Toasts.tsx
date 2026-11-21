@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { achievements, tr } from '@linux-learn/content';
 import { useStore, type Toast } from '../state/store';
 import { useTheme } from '../theme';
-import { haptic } from '../lib/haptics';
+import { feedback } from '../lib/haptics';
 import { Icon } from './ui/Icon';
 import { Text } from '../theme/Text';
 
@@ -15,7 +15,7 @@ function ToastView({ toast }: { toast: Toast }) {
   const dismiss = useStore((s) => s.dismissToast);
   const anim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
-    if (toast.kind === 'achievement' || toast.kind === 'level') haptic.success();
+    if (toast.kind === 'achievement' || toast.kind === 'level') feedback.achievement();
     Animated.spring(anim, { toValue: 1, useNativeDriver: true }).start();
     const timer = setTimeout(
       () => Animated.timing(anim, { toValue: 0, duration: 200, useNativeDriver: true }).start(() => dismiss(toast.id)),
@@ -64,7 +64,7 @@ export function Toasts() {
   const toasts = useStore((s) => s.toasts);
   const insets = useSafeAreaInsets();
   return (
-    <View pointerEvents="none" style={[styles.host, { top: insets.top + 8 }]}>
+    <View pointerEvents="none" style={[styles.host, { top: insets.top + 60 }]}>
       {toasts.slice(-3).map((t) => (
         <ToastView key={t.id} toast={t} />
       ))}

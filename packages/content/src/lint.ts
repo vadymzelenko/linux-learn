@@ -16,7 +16,7 @@ import {
   type ContentCheck,
   type L10n,
 } from './schema';
-import { achievements, allLessons, challenges, courses, evaluateTask, fixtures, glossary, missions, modules, prepareSession } from './index';
+import { achievements, allLessons, commandL10n, challenges, courses, evaluateTask, fixtures, glossary, missions, modules, prepareSession } from './index';
 
 export const REQUIRED_LANGS = ['en', 'ru', 'uk'] as const;
 
@@ -132,6 +132,20 @@ export function lintContent(): LintIssue[] {
   }
   if (plMissing) issues.push({ level: 'info', where: 'translations', message: `Polish: ${texts.length - plMissing}/${texts.length} texts translated (the rest falls back to English)` });
 
+  // command manual translations (Explain / reference): every command and option in every language
+  for (const def of COMMANDS.values()) {
+    const l = commandL10n[def.name];
+    if (!l) {
+      warn(`commands-l10n ${def.name}`, 'missing command translation');
+      continue;
+    }
+    for (const lang of ['ru', 'uk', 'pl'] as const) if (!l.summary[lang]) warn(`commands-l10n ${def.name}`, `missing summary: ${lang}`);
+    for (const [spec] of def.doc.options ?? []) {
+      const o = l.options?.[spec];
+      if (!o || !o.ru || !o.uk || !o.pl) warn(`commands-l10n ${def.name}`, `missing option translation: ${spec}`);
+    }
+  }
+
   const checkSetup = (setup: unknown, where: string) => {
     if (typeof setup === 'string' && !fixtures[setup]) err(where, `unknown fixture "${setup}"`);
   };
@@ -164,7 +178,7 @@ export function lintContent(): LintIssue[] {
             if (e) err(sw, e);
             const used = step.solution.flatMap((l) => l.split(/\s*(?:\|\||&&|[|;])\s*/).map((p) => p.trim().split(/\s+/)));
             const names = used.flatMap((w) => (w[0] === 'sudo' ? [w[0], w[1] ?? ''] : [w[0] ?? '']));
-            if (!names.includes(step.hints.command)) warn(sw, `hint command "${step.hints.command}" is not used in the solution`);
+            if (!names.includes(step.hints.command) && !step.solution.some((l) => l.trim() === step.hints.command || l.trim().startsWith(step.hints.command + ' '))) warn(sw, `hint command "${step.hints.command}" is not used in the solution`);
             if (step.type === 'fix') {
               const r = run(prepareSession(step.setup ?? lesson.setup, step.prepare, NOW), step.prefill, { now: NOW });
               const ev = evaluateTask(step.checks, r.session, r.executed, r.output.map((o) => o.text).join(''), r.exitCode);

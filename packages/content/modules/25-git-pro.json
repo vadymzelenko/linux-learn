@@ -1,0 +1,769 @@
+{
+  "id": "git-pro",
+  "path": "/git/pro",
+  "icon": "git",
+  "title": {
+    "en": "Git in practice",
+    "ru": "Git на практике",
+    "uk": "Git на практиці",
+    "pl": "Git w praktyce"
+  },
+  "description": {
+    "en": "Stash, tags and releases, searching history, cherry-pick and amend",
+    "ru": "Stash, теги и релизы, поиск по истории, cherry-pick и amend",
+    "uk": "Stash, теги й релізи, пошук в історії, cherry-pick і amend",
+    "pl": "Stash, tagi i wydania, szukanie w historii, cherry-pick i amend"
+  },
+  "lessons": [
+    {
+      "id": "gt-stash",
+      "title": {
+        "en": "Put work aside: stash",
+        "ru": "Отложить работу: stash",
+        "uk": "Відкласти роботу: stash",
+        "pl": "Odłóż pracę: stash"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## An urgent task in the middle of your work\nYou are halfway through a change — and a bug must be fixed right now on a clean tree. Committing half-done work is ugly, throwing it away is a pity. **Stash** puts the changes on a shelf:\n```\n$ git stash push -m \"contact form\"\nSaved working directory and index state On main: contact form\n$ git status\nnothing to commit, working tree clean\n```\nNow fix the bug, commit — and take your work back:\n```\n$ git stash list\nstash@{0}: On main: contact form\n$ git stash pop\n```\n`pop` returns the changes and removes them from the shelf; `apply` returns them and keeps a copy; `drop` throws one entry away.\n\n> The stash is local: it is not pushed to GitHub. Do not keep work there for weeks — make a branch.",
+            "ru": "## Срочная задача посреди работы\nВы на середине изменений — а баг нужно чинить прямо сейчас на чистом дереве. Коммитить полуготовое некрасиво, выбрасывать жалко. **Stash** кладёт изменения на полку:\n```\n$ git stash push -m \"contact form\"\nSaved working directory and index state On main: contact form\n$ git status\nnothing to commit, working tree clean\n```\nТеперь чините баг, коммитьте — и забирайте работу обратно:\n```\n$ git stash list\nstash@{0}: On main: contact form\n$ git stash pop\n```\n`pop` возвращает изменения и убирает их с полки; `apply` возвращает и оставляет копию; `drop` выбрасывает одну запись.\n\n> Stash локальный: на GitHub он не уходит. Не храните там работу неделями — сделайте ветку.",
+            "uk": "## Термінове завдання посеред роботи\nВи на середині змін — а баг треба лагодити просто зараз на чистому дереві. Комітити напівготове негарно, викидати шкода. **Stash** кладе зміни на полицю:\n```\n$ git stash push -m \"contact form\"\nSaved working directory and index state On main: contact form\n$ git status\nnothing to commit, working tree clean\n```\nТепер лагодьте баг, комітьте — і забирайте роботу назад:\n```\n$ git stash list\nstash@{0}: On main: contact form\n$ git stash pop\n```\n`pop` повертає зміни й прибирає їх з полиці; `apply` повертає й лишає копію; `drop` викидає один запис.\n\n> Stash локальний: на GitHub він не потрапляє. Не тримайте там роботу тижнями — зробіть гілку.",
+            "pl": "## Pilne zadanie w środku pracy\nJesteś w połowie zmian — a błąd trzeba naprawić teraz, na czystym drzewie. Zatwierdzanie niedokończonej pracy jest brzydkie, wyrzucanie — szkoda. **Stash** odkłada zmiany na półkę:\n```\n$ git stash push -m \"contact form\"\nSaved working directory and index state On main: contact form\n$ git status\nnothing to commit, working tree clean\n```\nTeraz napraw błąd, zatwierdź — i zabierz pracę z powrotem:\n```\n$ git stash list\nstash@{0}: On main: contact form\n$ git stash pop\n```\n`pop` przywraca zmiany i zdejmuje je z półki; `apply` przywraca i zostawia kopię; `drop` wyrzuca jeden wpis.\n\n> Stash jest lokalny: nie trafia na GitHuba. Nie trzymaj tam pracy tygodniami — zrób gałąź."
+          },
+          "title": {
+            "en": "A shelf for changes",
+            "ru": "Полка для изменений",
+            "uk": "Полиця для змін",
+            "pl": "Półka na zmiany"
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "You are adding a contact form (index.html is changed). An urgent fix comes in: shelve the change with the message \"contact form\" so the working tree is clean.",
+            "ru": "Вы добавляете форму обратной связи (index.html изменён). Пришёл срочный фикс: уберите изменение на полку с сообщением «contact form», чтобы рабочее дерево стало чистым.",
+            "uk": "Ви додаєте форму зворотного зв’язку (index.html змінено). Прийшов терміновий фікс: приберіть зміну на полицю з повідомленням «contact form», щоб робоче дерево стало чистим.",
+            "pl": "Dodajesz formularz kontaktowy (index.html jest zmieniony). Przyszła pilna poprawka: odłóż zmianę na półkę z opisem „contact form”, żeby drzewo robocze było czyste."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "echo \"<form></form>\" >> index.html"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "clean": true,
+              "label": {
+                "en": "The working tree is clean",
+                "ru": "Рабочее дерево чистое",
+                "uk": "Робоче дерево чисте",
+                "pl": "Drzewo robocze jest czyste"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "args": [
+                "stash",
+                "contact form"
+              ],
+              "success": true,
+              "label": {
+                "en": "Stashed with a message",
+                "ru": "Отложено с сообщением",
+                "uk": "Відкладено з повідомленням",
+                "pl": "Odłożono z opisem"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git stash push -m \"contact form\"",
+              "ru": "git stash push -m \"contact form\"",
+              "uk": "git stash push -m \"contact form\"",
+              "pl": "git stash push -m \"contact form\""
+            },
+            "command": "git stash"
+          },
+          "solution": [
+            "git stash push -m \"contact form\""
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The fix is done. Bring the contact form back from the stash and leave the shelf empty.",
+            "ru": "Фикс готов. Верните форму из stash и оставьте полку пустой.",
+            "uk": "Фікс готовий. Поверніть форму зі stash і залиште полицю порожньою.",
+            "pl": "Poprawka gotowa. Przywróć formularz ze stash i zostaw półkę pustą."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "echo \"<form></form>\" >> index.html",
+            "git stash push -qm \"contact form\"",
+            "sed -i \"s/Hello!/Hello, friends!/\" index.html",
+            "git commit -qam \"Urgent: friendlier greeting\""
+          ],
+          "checks": [
+            {
+              "type": "fileContains",
+              "path": "~/project/index.html",
+              "text": "<form></form>",
+              "label": {
+                "en": "The form is back in index.html",
+                "ru": "Форма снова в index.html",
+                "uk": "Форма знову в index.html",
+                "pl": "Formularz wrócił do index.html"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "args": [
+                "stash",
+                "pop"
+              ],
+              "success": true,
+              "label": {
+                "en": "Used git stash pop",
+                "ru": "Использован git stash pop",
+                "uk": "Використано git stash pop",
+                "pl": "Użyto git stash pop"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git stash list, then git stash pop",
+              "ru": "git stash list, затем git stash pop",
+              "uk": "git stash list, потім git stash pop",
+              "pl": "git stash list, potem git stash pop"
+            },
+            "command": "git stash"
+          },
+          "solution": [
+            "git stash list",
+            "git stash pop"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gt-tags",
+      "title": {
+        "en": "Tags and releases",
+        "ru": "Теги и релизы",
+        "uk": "Теги й релізи",
+        "pl": "Tagi i wydania"
+      },
+      "commands": [
+        "git",
+        "gh"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## A name for a version\nA commit id like `3e6af08` is hard to remember. A **tag** gives a commit a permanent name — usually a version:\n```\n$ git tag -a v1.0 -m \"First public version\"\n$ git tag\nv1.0\n$ git log --oneline --decorate -n 1\n```\n`-a -m` makes an *annotated* tag with a message — the kind used for releases. Unlike a branch, a tag never moves.\n\n## Tags are not pushed by default\n`git push` sends branches only. Send tags explicitly:\n```\n$ git push origin v1.0\n$ git push --tags\n```\n\n## A release on GitHub\nA **release** is a tag plus a title and notes that users can read:\n```\n$ gh release create v1.0 --title \"Version 1.0\" --notes \"First public version\"\n$ gh release list\n```\nVersions usually follow **SemVer**: `MAJOR.MINOR.PATCH` — 1.4.2 → 1.4.3 for a fix, 1.5.0 for a feature, 2.0.0 for breaking changes.",
+            "ru": "## Имя для версии\nId коммита вроде `3e6af08` трудно запомнить. **Тег** даёт коммиту постоянное имя — обычно версию:\n```\n$ git tag -a v1.0 -m \"First public version\"\n$ git tag\nv1.0\n$ git log --oneline --decorate -n 1\n```\n`-a -m` создаёт *аннотированный* тег с сообщением — такие используют для релизов. В отличие от ветки, тег никогда не двигается.\n\n## Теги не отправляются по умолчанию\n`git push` отправляет только ветки. Теги нужно отправить явно:\n```\n$ git push origin v1.0\n$ git push --tags\n```\n\n## Релиз на GitHub\n**Релиз** — это тег плюс заголовок и заметки, которые читают пользователи:\n```\n$ gh release create v1.0 --title \"Version 1.0\" --notes \"First public version\"\n$ gh release list\n```\nВерсии обычно следуют **SemVer**: `MAJOR.MINOR.PATCH` — 1.4.2 → 1.4.3 для исправления, 1.5.0 для новой функции, 2.0.0 для несовместимых изменений.",
+            "uk": "## Ім’я для версії\nId коміту на кшталт `3e6af08` важко запам’ятати. **Тег** дає коміту постійне ім’я — зазвичай версію:\n```\n$ git tag -a v1.0 -m \"First public version\"\n$ git tag\nv1.0\n$ git log --oneline --decorate -n 1\n```\n`-a -m` створює *анотований* тег з повідомленням — такі використовують для релізів. На відміну від гілки, тег ніколи не рухається.\n\n## Теги не надсилаються за замовчуванням\n`git push` надсилає лише гілки. Теги треба надіслати явно:\n```\n$ git push origin v1.0\n$ git push --tags\n```\n\n## Реліз на GitHub\n**Реліз** — це тег плюс заголовок і нотатки, які читають користувачі:\n```\n$ gh release create v1.0 --title \"Version 1.0\" --notes \"First public version\"\n$ gh release list\n```\nВерсії зазвичай дотримуються **SemVer**: `MAJOR.MINOR.PATCH` — 1.4.2 → 1.4.3 для виправлення, 1.5.0 для нової функції, 2.0.0 для несумісних змін.",
+            "pl": "## Nazwa dla wersji\nId commita w rodzaju `3e6af08` trudno zapamiętać. **Tag** nadaje commitowi stałą nazwę — zwykle wersję:\n```\n$ git tag -a v1.0 -m \"First public version\"\n$ git tag\nv1.0\n$ git log --oneline --decorate -n 1\n```\n`-a -m` tworzy tag *z opisem* (annotated) — takich używa się do wydań. W odróżnieniu od gałęzi tag nigdy się nie przesuwa.\n\n## Tagi nie są wysyłane domyślnie\n`git push` wysyła tylko gałęzie. Tagi trzeba wysłać jawnie:\n```\n$ git push origin v1.0\n$ git push --tags\n```\n\n## Wydanie na GitHubie\n**Wydanie** (release) to tag plus tytuł i notatki, które czytają użytkownicy:\n```\n$ gh release create v1.0 --title \"Version 1.0\" --notes \"First public version\"\n$ gh release list\n```\nWersje zwykle stosują **SemVer**: `MAJOR.MINOR.PATCH` — 1.4.2 → 1.4.3 dla poprawki, 1.5.0 dla nowej funkcji, 2.0.0 dla zmian niezgodnych wstecz."
+          },
+          "title": {
+            "en": "v1.0",
+            "ru": "v1.0",
+            "uk": "v1.0",
+            "pl": "v1.0"
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "The current version is 2.3.1. You fixed a bug without changing anything else. Which version is next?",
+            "ru": "Текущая версия 2.3.1. Вы исправили баг, больше ничего не меняя. Какая версия следующая?",
+            "uk": "Поточна версія 2.3.1. Ви виправили баг, нічого більше не змінюючи. Яка версія наступна?",
+            "pl": "Obecna wersja to 2.3.1. Naprawiłeś błąd, nic więcej nie zmieniając. Jaka jest następna wersja?"
+          },
+          "options": [
+            {
+              "en": "2.3.2",
+              "ru": "2.3.2",
+              "uk": "2.3.2",
+              "pl": "2.3.2"
+            },
+            {
+              "en": "2.4.0",
+              "ru": "2.4.0",
+              "uk": "2.4.0",
+              "pl": "2.4.0"
+            },
+            {
+              "en": "3.0.0",
+              "ru": "3.0.0",
+              "uk": "3.0.0",
+              "pl": "3.0.0"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "A fix bumps PATCH; a new feature — MINOR; a breaking change — MAJOR.",
+            "ru": "Исправление увеличивает PATCH; новая функция — MINOR; несовместимое изменение — MAJOR.",
+            "uk": "Виправлення збільшує PATCH; нова функція — MINOR; несумісна зміна — MAJOR.",
+            "pl": "Poprawka zwiększa PATCH; nowa funkcja — MINOR; zmiana niezgodna — MAJOR."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Mark the current commit as version v1.0 with an annotated tag (message \"First public version\").",
+            "ru": "Пометьте текущий коммит как версию v1.0 аннотированным тегом (сообщение «First public version»).",
+            "uk": "Позначте поточний коміт як версію v1.0 анотованим тегом (повідомлення «First public version»).",
+            "pl": "Oznacz bieżący commit jako wersję v1.0 tagiem z opisem („First public version”)."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "gh repo create site --public > /dev/null",
+            "git remote add origin https://github.com/student/site.git",
+            "git push -qu origin main 2>/dev/null"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "tag": "v1.0",
+              "label": {
+                "en": "The tag v1.0 exists",
+                "ru": "Тег v1.0 существует",
+                "uk": "Тег v1.0 існує",
+                "pl": "Tag v1.0 istnieje"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "flags": [
+                "-a"
+              ],
+              "args": [
+                "tag"
+              ],
+              "label": {
+                "en": "An annotated tag (-a)",
+                "ru": "Аннотированный тег (-a)",
+                "uk": "Анотований тег (-a)",
+                "pl": "Tag z opisem (-a)"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git tag -a v1.0 -m \"First public version\"",
+              "ru": "git tag -a v1.0 -m \"First public version\"",
+              "uk": "git tag -a v1.0 -m \"First public version\"",
+              "pl": "git tag -a v1.0 -m \"First public version\""
+            },
+            "command": "git tag"
+          },
+          "solution": [
+            "git tag -a v1.0 -m \"First public version\""
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Publish the release: send the tag v1.0 to GitHub and create a GitHub release for it.",
+            "ru": "Опубликуйте релиз: отправьте тег v1.0 на GitHub и создайте для него релиз на GitHub.",
+            "uk": "Опублікуйте реліз: надішліть тег v1.0 на GitHub і створіть для нього реліз на GitHub.",
+            "pl": "Opublikuj wydanie: wyślij tag v1.0 na GitHuba i utwórz dla niego wydanie na GitHubie."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "gh repo create site --public > /dev/null",
+            "git remote add origin https://github.com/student/site.git",
+            "git push -qu origin main 2>/dev/null",
+            "git tag -a v1.0 -m \"First public version\""
+          ],
+          "checks": [
+            {
+              "type": "github",
+              "repo": "site",
+              "tag": "v1.0",
+              "label": {
+                "en": "The tag v1.0 is on GitHub",
+                "ru": "Тег v1.0 есть на GitHub",
+                "uk": "Тег v1.0 є на GitHub",
+                "pl": "Tag v1.0 jest na GitHubie"
+              }
+            },
+            {
+              "type": "github",
+              "repo": "site",
+              "release": "v1.0",
+              "label": {
+                "en": "A release v1.0 exists",
+                "ru": "Релиз v1.0 создан",
+                "uk": "Реліз v1.0 створено",
+                "pl": "Wydanie v1.0 istnieje"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "args": [
+                "push"
+              ],
+              "success": true,
+              "label": {
+                "en": "The tag was pushed",
+                "ru": "Тег отправлен через push",
+                "uk": "Тег надіслано через push",
+                "pl": "Tag wypchnięty"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git push origin v1.0 (or --tags), then gh release create v1.0 --title ... --notes ...",
+              "ru": "git push origin v1.0 (или --tags), затем gh release create v1.0 --title ... --notes ...",
+              "uk": "git push origin v1.0 (або --tags), потім gh release create v1.0 --title ... --notes ...",
+              "pl": "git push origin v1.0 (lub --tags), potem gh release create v1.0 --title ... --notes ..."
+            },
+            "command": "gh release create"
+          },
+          "solution": [
+            "git push origin v1.0",
+            "gh release create v1.0 --title \"Version 1.0\" --notes \"First public version\""
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gt-search",
+      "title": {
+        "en": "Searching the history",
+        "ru": "Поиск по истории",
+        "uk": "Пошук в історії",
+        "pl": "Szukanie w historii"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Who changed this and why?\nHistory is a database — ask it questions:\n```\n$ git log --oneline --grep=footer      # commits whose message mentions \"footer\"\n$ git log --oneline --author=Anna      # commits by Anna\n$ git log --oneline -- style.css       # commits that touched style.css\n$ git show 3e6af08                     # one commit and its diff\n```\n\n## git blame: line by line\n```\n$ git blame index.html\na1b2c3d4 (Anna    2026-11-14 10:02:11 +0000 5) <footer>© 2026</footer>\n```\nFor every line: the commit, the author, the date and the line number. Found the commit? `git show` it to read *why* the change was made.\n\n> blame is not about blaming people — it is about finding the context of a change.",
+            "ru": "## Кто это поменял и зачем?\nИстория — это база данных, задавайте ей вопросы:\n```\n$ git log --oneline --grep=footer      # коммиты, в сообщении которых есть «footer»\n$ git log --oneline --author=Anna      # коммиты Анны\n$ git log --oneline -- style.css       # коммиты, менявшие style.css\n$ git show 3e6af08                     # один коммит и его diff\n```\n\n## git blame: построчно\n```\n$ git blame index.html\na1b2c3d4 (Anna    2026-11-14 10:02:11 +0000 5) <footer>© 2026</footer>\n```\nДля каждой строки — коммит, автор, дата и номер строки. Нашли коммит? Сделайте `git show`, чтобы прочитать, *зачем* было изменение.\n\n> blame — не про поиск виноватых, а про контекст изменения.",
+            "uk": "## Хто це змінив і навіщо?\nІсторія — це база даних, ставте їй запитання:\n```\n$ git log --oneline --grep=footer      # коміти, у повідомленні яких є «footer»\n$ git log --oneline --author=Anna      # коміти Анни\n$ git log --oneline -- style.css       # коміти, що змінювали style.css\n$ git show 3e6af08                     # один коміт і його diff\n```\n\n## git blame: порядково\n```\n$ git blame index.html\na1b2c3d4 (Anna    2026-11-14 10:02:11 +0000 5) <footer>© 2026</footer>\n```\nДля кожного рядка — коміт, автор, дата й номер рядка. Знайшли коміт? Зробіть `git show`, щоб прочитати, *навіщо* була зміна.\n\n> blame — не про пошук винних, а про контекст зміни.",
+            "pl": "## Kto to zmienił i po co?\nHistoria to baza danych — zadawaj jej pytania:\n```\n$ git log --oneline --grep=footer      # commity, których opis wspomina „footer”\n$ git log --oneline --author=Anna      # commity Anny\n$ git log --oneline -- style.css       # commity, które zmieniały style.css\n$ git show 3e6af08                     # jeden commit i jego diff\n```\n\n## git blame: wiersz po wierszu\n```\n$ git blame index.html\na1b2c3d4 (Anna    2026-11-14 10:02:11 +0000 5) <footer>© 2026</footer>\n```\nDla każdego wiersza: commit, autor, data i numer wiersza. Znalazłeś commit? Zrób `git show`, aby przeczytać, *po co* była zmiana.\n\n> blame nie służy do szukania winnych — tylko do poznania kontekstu zmiany."
+          },
+          "title": {
+            "en": "Ask the history",
+            "ru": "Спросите историю",
+            "uk": "Запитайте історію",
+            "pl": "Zapytaj historię"
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show (one line each) only the commits written by Anna.",
+            "ru": "Покажите (по строке на коммит) только коммиты, написанные Анной.",
+            "uk": "Покажіть (по рядку на коміт) лише коміти, написані Анною.",
+            "pl": "Pokaż (jeden wiersz na commit) tylko commity napisane przez Annę."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "echo \"<footer>© 2026</footer>\" >> index.html",
+            "git -c user.name=Anna -c user.email=anna@example.com commit -qam \"Add footer\"",
+            "echo \"a { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal links\"",
+            "sed -i \"s/Welcome to my site./Welcome to our shop!/\" index.html",
+            "git -c user.name=Anna -c user.email=anna@example.com commit -qam \"New welcome text\""
+          ],
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "args": [
+                "log"
+              ],
+              "success": true,
+              "label": {
+                "en": "git log --author",
+                "ru": "git log --author",
+                "uk": "git log --author",
+                "pl": "git log --author"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 2,
+              "label": {
+                "en": "Exactly Anna’s two commits",
+                "ru": "Ровно два коммита Анны",
+                "uk": "Рівно два коміти Анни",
+                "pl": "Dokładnie dwa commity Anny"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Add footer",
+              "label": {
+                "en": "Her footer commit is listed",
+                "ru": "В списке её коммит с подвалом",
+                "uk": "У списку її коміт з підвалом",
+                "pl": "Na liście jest jej commit ze stopką"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git log --oneline --author=Anna",
+              "ru": "git log --oneline --author=Anna",
+              "uk": "git log --oneline --author=Anna",
+              "pl": "git log --oneline --author=Anna"
+            },
+            "command": "git log"
+          },
+          "solution": [
+            "git log --oneline --author=Anna"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Who wrote the welcome line \"Welcome to our shop!\" in index.html? Find it line by line.",
+            "ru": "Кто написал строку приветствия «Welcome to our shop!» в index.html? Найдите построчно.",
+            "uk": "Хто написав рядок привітання «Welcome to our shop!» в index.html? Знайдіть порядково.",
+            "pl": "Kto napisał wiersz powitania „Welcome to our shop!” w index.html? Znajdź wiersz po wierszu."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "echo \"<footer>© 2026</footer>\" >> index.html",
+            "git -c user.name=Anna -c user.email=anna@example.com commit -qam \"Add footer\"",
+            "echo \"a { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal links\"",
+            "sed -i \"s/Welcome to my site./Welcome to our shop!/\" index.html",
+            "git -c user.name=Anna -c user.email=anna@example.com commit -qam \"New welcome text\""
+          ],
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "args": [
+                "blame"
+              ],
+              "success": true,
+              "label": {
+                "en": "Used git blame",
+                "ru": "Использован git blame",
+                "uk": "Використано git blame",
+                "pl": "Użyto git blame"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "Anna\\s.*Welcome to our shop!",
+              "label": {
+                "en": "The line is attributed to Anna",
+                "ru": "Строка приписана Анне",
+                "uk": "Рядок приписано Анні",
+                "pl": "Wiersz przypisany Annie"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git blame index.html",
+              "ru": "git blame index.html",
+              "uk": "git blame index.html",
+              "pl": "git blame index.html"
+            },
+            "command": "git blame"
+          },
+          "solution": [
+            "git blame index.html"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gt-cherry-amend",
+      "title": {
+        "en": "Cherry-pick and fixing the last commit",
+        "ru": "Cherry-pick и исправление последнего коммита",
+        "uk": "Cherry-pick і виправлення останнього коміту",
+        "pl": "Cherry-pick i poprawianie ostatniego commita"
+      },
+      "commands": [
+        "git"
+      ],
+      "setup": "git-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## A typo in the last commit message\nAs long as the commit is **not pushed**, rewrite it:\n```\n$ git commit --amend -m \"Fix greeting on the home page\"\n```\n`--amend` replaces the last commit (message and content: stage a forgotten file first, then amend). After a push, do not amend — teammates already have the old commit.\n\n## Take one commit from another branch\nThe branch `contact` is not ready, but one of its commits fixes a bug you need on `main` today:\n```\n$ git log --oneline contact\n$ git switch main\n$ git cherry-pick 1a2b3c4\n```\n`cherry-pick` copies the change of that commit onto your branch as a new commit. Later, when `contact` is merged, Git sees the same change and does not apply it twice.",
+            "ru": "## Опечатка в сообщении последнего коммита\nПока коммит **не отправлен**, перепишите его:\n```\n$ git commit --amend -m \"Fix greeting on the home page\"\n```\n`--amend` заменяет последний коммит (сообщение и содержимое: сначала добавьте забытый файл, затем amend). После push — не меняйте: у коллег уже есть старый коммит.\n\n## Взять один коммит из другой ветки\nВетка `contact` ещё не готова, но один из её коммитов чинит баг, который нужен в `main` уже сегодня:\n```\n$ git log --oneline contact\n$ git switch main\n$ git cherry-pick 1a2b3c4\n```\n`cherry-pick` копирует изменение этого коммита в вашу ветку новым коммитом. Позже, когда `contact` сольют, Git увидит то же изменение и не применит его дважды.",
+            "uk": "## Помилка в повідомленні останнього коміту\nДоки коміт **не надіслано**, перепишіть його:\n```\n$ git commit --amend -m \"Fix greeting on the home page\"\n```\n`--amend` замінює останній коміт (повідомлення і вміст: спершу додайте забутий файл, потім amend). Після push — не змінюйте: у колег уже є старий коміт.\n\n## Узяти один коміт з іншої гілки\nГілка `contact` ще не готова, але один з її комітів лагодить баг, який потрібен у `main` уже сьогодні:\n```\n$ git log --oneline contact\n$ git switch main\n$ git cherry-pick 1a2b3c4\n```\n`cherry-pick` копіює зміну цього коміту у вашу гілку новим комітом. Пізніше, коли `contact` зіллють, Git побачить ту саму зміну й не застосує її двічі.",
+            "pl": "## Literówka w opisie ostatniego commita\nDopóki commit **nie jest wypchnięty**, przepisz go:\n```\n$ git commit --amend -m \"Fix greeting on the home page\"\n```\n`--amend` zastępuje ostatni commit (opis i zawartość: najpierw dodaj zapomniany plik, potem amend). Po push — nie zmieniaj: koledzy mają już stary commit.\n\n## Weź jeden commit z innej gałęzi\nGałąź `contact` nie jest gotowa, ale jeden z jej commitów naprawia błąd potrzebny w `main` już dziś:\n```\n$ git log --oneline contact\n$ git switch main\n$ git cherry-pick 1a2b3c4\n```\n`cherry-pick` kopiuje zmianę tego commita do Twojej gałęzi jako nowy commit. Później, gdy `contact` zostanie scalona, Git zobaczy tę samą zmianę i nie zastosuje jej dwa razy."
+          },
+          "title": {
+            "en": "--amend and cherry-pick",
+            "ru": "--amend и cherry-pick",
+            "uk": "--amend і cherry-pick",
+            "pl": "--amend i cherry-pick"
+          }
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You pushed a commit an hour ago and now see a typo in its message. What is the safe way?",
+            "ru": "Вы отправили коммит час назад и заметили опечатку в сообщении. Как поступить безопасно?",
+            "uk": "Ви надіслали коміт годину тому й помітили помилку в повідомленні. Як діяти безпечно?",
+            "pl": "Wypchnąłeś commit godzinę temu i widzisz literówkę w opisie. Jak postąpić bezpiecznie?"
+          },
+          "options": [
+            {
+              "en": "Leave it: the commit is already shared",
+              "ru": "Оставить: коммит уже у всех",
+              "uk": "Залишити: коміт уже в усіх",
+              "pl": "Zostawić: commit jest już współdzielony"
+            },
+            {
+              "en": "git commit --amend and git push --force",
+              "ru": "git commit --amend и git push --force",
+              "uk": "git commit --amend і git push --force",
+              "pl": "git commit --amend i git push --force"
+            },
+            {
+              "en": "Delete the repository and push again",
+              "ru": "Удалить репозиторий и отправить заново",
+              "uk": "Видалити репозиторій і надіслати знову",
+              "pl": "Usunąć repozytorium i wypchnąć ponownie"
+            }
+          ],
+          "answer": 0,
+          "explanation": {
+            "en": "Rewriting pushed history breaks teammates’ copies. A typo is not worth it.",
+            "ru": "Переписывание отправленной истории ломает копии коллег. Опечатка того не стоит.",
+            "uk": "Переписування надісланої історії ламає копії колег. Помилка того не варта.",
+            "pl": "Przepisywanie wypchniętej historii psuje kopie kolegów. Literówka nie jest tego warta."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The last commit says \"Fix greting\" (not pushed yet). Correct the message to \"Fix greeting\" without creating a new commit.",
+            "ru": "В последнем коммите написано «Fix greting» (ещё не отправлен). Исправьте сообщение на «Fix greeting», не создавая нового коммита.",
+            "uk": "В останньому коміті написано «Fix greting» (ще не надіслано). Виправте повідомлення на «Fix greeting», не створюючи нового коміту.",
+            "pl": "Ostatni commit mówi „Fix greting” (jeszcze nie wypchnięty). Popraw opis na „Fix greeting” bez tworzenia nowego commita."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "sed -i \"s/Hello!/Hello, world!/\" index.html",
+            "git commit -qam \"Fix greting\""
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "message": "^Fix greeting$",
+              "label": {
+                "en": "The last commit is \"Fix greeting\"",
+                "ru": "Последний коммит — «Fix greeting»",
+                "uk": "Останній коміт — «Fix greeting»",
+                "pl": "Ostatni commit to „Fix greeting”"
+              }
+            },
+            {
+              "type": "git",
+              "path": "~/project",
+              "commits": 4,
+              "label": {
+                "en": "Still 4 commits — nothing added",
+                "ru": "Всё ещё 4 коммита — ничего не добавлено",
+                "uk": "Досі 4 коміти — нічого не додано",
+                "pl": "Nadal 4 commity — nic nie dodano"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "flags": [
+                "--amend"
+              ],
+              "args": [
+                "commit"
+              ],
+              "label": {
+                "en": "Used --amend",
+                "ru": "Использован --amend",
+                "uk": "Використано --amend",
+                "pl": "Użyto --amend"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git commit --amend -m \"Fix greeting\"",
+              "ru": "git commit --amend -m \"Fix greeting\"",
+              "uk": "git commit --amend -m \"Fix greeting\"",
+              "pl": "git commit --amend -m \"Fix greeting\""
+            },
+            "command": "git commit --amend"
+          },
+          "solution": [
+            "git commit --amend -m \"Fix greeting\""
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "On main, take only the greeting fix from the unfinished branch contact — without the contact page.",
+            "ru": "В main возьмите из незаконченной ветки contact только исправление приветствия — без страницы контактов.",
+            "uk": "У main візьміть з незавершеної гілки contact лише виправлення привітання — без сторінки контактів.",
+            "pl": "W main weź z niedokończonej gałęzi contact tylko poprawkę powitania — bez strony kontaktowej."
+          },
+          "prepare": [
+            "cd ~/project",
+            "git init -q",
+            "git add .",
+            "git commit -qm \"Add home page\"",
+            "echo \"h1 { color: teal; }\" >> style.css",
+            "git commit -qam \"Teal headings\"",
+            "echo \"<p>Welcome to my site.</p>\" >> index.html",
+            "git commit -qam \"Welcome text\"",
+            "git switch -qc contact",
+            "echo \"<p>Contact: hello@example.com</p>\" > contact.html",
+            "git add contact.html",
+            "git commit -qm \"Contact page\"",
+            "sed -i \"s/Hello!/Hello, world!/\" index.html",
+            "git commit -qam \"Fix greeting\"",
+            "git switch -q main"
+          ],
+          "checks": [
+            {
+              "type": "git",
+              "path": "~/project",
+              "head": "main",
+              "label": {
+                "en": "You are on main",
+                "ru": "Вы на main",
+                "uk": "Ви на main",
+                "pl": "Jesteś na main"
+              }
+            },
+            {
+              "type": "fileContains",
+              "path": "~/project/index.html",
+              "text": "Hello, world!",
+              "label": {
+                "en": "The greeting fix is on main",
+                "ru": "Исправление приветствия в main",
+                "uk": "Виправлення привітання в main",
+                "pl": "Poprawka powitania jest w main"
+              }
+            },
+            {
+              "type": "notExists",
+              "path": "~/project/contact.html",
+              "label": {
+                "en": "No contact page on main",
+                "ru": "Страницы контактов в main нет",
+                "uk": "Сторінки контактів у main немає",
+                "pl": "Brak strony kontaktowej w main"
+              }
+            },
+            {
+              "type": "usedCommand",
+              "command": "git",
+              "args": [
+                "cherry-pick"
+              ],
+              "success": true,
+              "label": {
+                "en": "Used cherry-pick",
+                "ru": "Использован cherry-pick",
+                "uk": "Використано cherry-pick",
+                "pl": "Użyto cherry-pick"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "git log --oneline contact shows the \"Fix greeting\" commit; git cherry-pick it on main (contact is the tip, contact~1 the page).",
+              "ru": "git log --oneline contact покажет коммит «Fix greeting»; сделайте git cherry-pick в main (contact — верхушка ветки, contact~1 — страница).",
+              "uk": "git log --oneline contact покаже коміт «Fix greeting»; зробіть git cherry-pick у main (contact — верхівка гілки, contact~1 — сторінка).",
+              "pl": "git log --oneline contact pokaże commit „Fix greeting”; zrób git cherry-pick w main (contact to czubek gałęzi, contact~1 — strona)."
+            },
+            "command": "git cherry-pick"
+          },
+          "solution": [
+            "git log --oneline contact",
+            "git cherry-pick contact"
+          ]
+        }
+      ]
+    }
+  ]
+}

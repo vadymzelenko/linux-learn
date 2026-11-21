@@ -1,0 +1,616 @@
+{
+  "id": "docker-ops",
+  "path": "/docker/ops",
+  "icon": "activity",
+  "title": {
+    "en": "Living with containers",
+    "ru": "Жизнь контейнера",
+    "uk": "Життя контейнера",
+    "pl": "Życie kontenera"
+  },
+  "description": {
+    "en": "Logs, exit codes, exec, variables, volumes and cleanup",
+    "ru": "Логи, коды выхода, exec, переменные, тома и уборка",
+    "uk": "Логи, коди виходу, exec, змінні, томи й прибирання",
+    "pl": "Logi, kody wyjścia, exec, zmienne, wolumeny i sprzątanie"
+  },
+  "lessons": [
+    {
+      "id": "dk-logs",
+      "title": {
+        "en": "Logs and exit codes",
+        "ru": "Логи и коды выхода",
+        "uk": "Логи й коди виходу",
+        "pl": "Logi i kody wyjścia"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": "docker-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## What did the container say?\nEverything the main process prints goes to the container **log**:\n```\n$ docker logs web\n$ docker logs --tail 5 web\n$ docker logs -f web\n```\n`--tail N` — only the last lines, `-f` — keep following (Ctrl+C to stop).\n\n## Why did it stop?\n`docker ps -a` shows the **exit code** of stopped containers:\n| status | meaning |\n|---|---|\n| `Exited (0)` | finished normally |\n| `Exited (1)` | the app reported an error — read `docker logs` |\n| `Exited (137)` | killed by SIGKILL (128 + 9): `docker kill` or **out of memory** |\n| `Exited (143)` | stopped by SIGTERM (128 + 15): a normal `docker stop` |\n\n> The first two commands of any container incident: `docker ps -a` and `docker logs NAME`.",
+            "ru": "## Что сказал контейнер?\nВсё, что печатает главный процесс, попадает в **лог** контейнера:\n```\n$ docker logs web\n$ docker logs --tail 5 web\n$ docker logs -f web\n```\n`--tail N` — только последние строки, `-f` — следить дальше (Ctrl+C — выйти).\n\n## Почему он остановился?\n`docker ps -a` показывает **код выхода** остановленных контейнеров:\n| статус | значение |\n|---|---|\n| `Exited (0)` | завершился нормально |\n| `Exited (1)` | приложение сообщило об ошибке — читайте `docker logs` |\n| `Exited (137)` | убит SIGKILL (128 + 9): `docker kill` или **нехватка памяти** |\n| `Exited (143)` | остановлен SIGTERM (128 + 15): обычный `docker stop` |\n\n> Первые две команды при любом инциденте с контейнером: `docker ps -a` и `docker logs ИМЯ`.",
+            "uk": "## Що сказав контейнер?\nУсе, що друкує головний процес, потрапляє в **лог** контейнера:\n```\n$ docker logs web\n$ docker logs --tail 5 web\n$ docker logs -f web\n```\n`--tail N` — лише останні рядки, `-f` — стежити далі (Ctrl+C — вийти).\n\n## Чому він зупинився?\n`docker ps -a` показує **код виходу** зупинених контейнерів:\n| статус | значення |\n|---|---|\n| `Exited (0)` | завершився нормально |\n| `Exited (1)` | застосунок повідомив про помилку — читайте `docker logs` |\n| `Exited (137)` | убитий SIGKILL (128 + 9): `docker kill` або **брак пам’яті** |\n| `Exited (143)` | зупинений SIGTERM (128 + 15): звичайний `docker stop` |\n\n> Перші дві команди під час будь-якого інциденту з контейнером: `docker ps -a` і `docker logs ІМ’Я`.",
+            "pl": "## Co powiedział kontener?\nWszystko, co wypisuje główny proces, trafia do **logu** kontenera:\n```\n$ docker logs web\n$ docker logs --tail 5 web\n$ docker logs -f web\n```\n`--tail N` — tylko ostatnie wiersze, `-f` — śledź dalej (Ctrl+C — wyjście).\n\n## Dlaczego się zatrzymał?\n`docker ps -a` pokazuje **kod wyjścia** zatrzymanych kontenerów:\n| status | znaczenie |\n|---|---|\n| `Exited (0)` | zakończył się normalnie |\n| `Exited (1)` | aplikacja zgłosiła błąd — czytaj `docker logs` |\n| `Exited (137)` | zabity przez SIGKILL (128 + 9): `docker kill` lub **brak pamięci** |\n| `Exited (143)` | zatrzymany przez SIGTERM (128 + 15): zwykłe `docker stop` |\n\n> Pierwsze dwa polecenia przy każdym incydencie z kontenerem: `docker ps -a` i `docker logs NAZWA`."
+          },
+          "title": {
+            "en": "docker logs",
+            "ru": "docker logs",
+            "uk": "docker logs",
+            "pl": "docker logs"
+          },
+          "demo": {
+            "commands": [
+              "docker ps -a",
+              "docker logs --tail 3 web"
+            ]
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "The db container is not running. Find out why from its log.",
+            "ru": "Контейнер db не работает. Узнайте причину из его лога.",
+            "uk": "Контейнер db не працює. З’ясуйте причину з його логу.",
+            "pl": "Kontener db nie działa. Sprawdź przyczynę w jego logu."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "docker",
+              "args": [
+                "logs",
+                "db"
+              ],
+              "label": {
+                "en": "Read the logs of db",
+                "ru": "Прочитан лог db",
+                "uk": "Прочитано лог db",
+                "pl": "Przeczytano log db"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "POSTGRES_PASSWORD",
+              "label": {
+                "en": "The cause is in the output",
+                "ru": "Причина видна в выводе",
+                "uk": "Причина видна у виводі",
+                "pl": "Przyczyna jest w wyjściu"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker logs NAME",
+              "ru": "docker logs ИМЯ",
+              "uk": "docker logs ІМ’Я",
+              "pl": "docker logs NAZWA"
+            },
+            "command": "docker logs"
+          },
+          "solution": [
+            "docker logs db"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "A container shows `Exited (137)` and its log ends abruptly. What is the most likely cause?",
+            "ru": "Контейнер в статусе `Exited (137)`, а лог обрывается на полуслове. Самая вероятная причина?",
+            "uk": "Контейнер у статусі `Exited (137)`, а лог обривається на півслові. Найімовірніша причина?",
+            "pl": "Kontener ma `Exited (137)`, a log urywa się w pół słowa. Najbardziej prawdopodobna przyczyna?"
+          },
+          "options": [
+            {
+              "en": "It was killed with SIGKILL — often by the out-of-memory killer",
+              "ru": "Его убили SIGKILL — часто это OOM-killer из-за нехватки памяти",
+              "uk": "Його вбили SIGKILL — часто це OOM-killer через брак пам’яті",
+              "pl": "Został zabity SIGKILL — często przez OOM killer z powodu braku pamięci"
+            },
+            {
+              "en": "The application finished successfully",
+              "ru": "Приложение успешно завершило работу",
+              "uk": "Застосунок успішно завершив роботу",
+              "pl": "Aplikacja zakończyła się sukcesem"
+            },
+            {
+              "en": "The image was not found",
+              "ru": "Образ не найден",
+              "uk": "Образ не знайдено",
+              "pl": "Nie znaleziono obrazu"
+            }
+          ],
+          "answer": 0
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Show only the last 2 lines of the web container log.",
+            "ru": "Покажите только 2 последние строки лога контейнера web.",
+            "uk": "Покажіть лише 2 останні рядки логу контейнера web.",
+            "pl": "Pokaż tylko 2 ostatnie wiersze logu kontenera web."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "docker",
+              "args": [
+                "logs",
+                "web"
+              ],
+              "label": {
+                "en": "docker logs --tail",
+                "ru": "docker logs --tail",
+                "uk": "docker logs --tail",
+                "pl": "docker logs --tail"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 2,
+              "label": {
+                "en": "Exactly 2 lines",
+                "ru": "Ровно 2 строки",
+                "uk": "Рівно 2 рядки",
+                "pl": "Dokładnie 2 wiersze"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "--tail N",
+              "ru": "--tail N",
+              "uk": "--tail N",
+              "pl": "--tail N"
+            },
+            "command": "docker logs --tail"
+          },
+          "solution": [
+            "docker logs --tail 2 web"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dk-exec",
+      "title": {
+        "en": "Inside a container",
+        "ru": "Внутри контейнера",
+        "uk": "Усередині контейнера",
+        "pl": "Wewnątrz kontenera"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": "docker-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## docker exec\nRun a command **inside a running** container:\n```\n$ docker exec web cat /etc/nginx/nginx.conf\n$ docker exec web ls /usr/share/nginx/html\n$ docker exec web nginx -t\n```\n`docker exec -it web sh` opens an interactive shell inside (in the trainer, run single commands instead).\n\n## The container has its own file system\n`/etc/nginx/nginx.conf` above is the file **in the container**, not on your host. `cat /etc/nginx/nginx.conf` on the host would say \"No such file\".\n\n## The output is yours\nThe output of `docker exec` comes to your terminal, so pipes work as usual:\n```\n$ docker exec web cat /etc/nginx/nginx.conf | grep worker\n```\n> `exec` only works with a running container. A stopped one: `start` it first, or read its `logs`.",
+            "ru": "## docker exec\nВыполнить команду **внутри работающего** контейнера:\n```\n$ docker exec web cat /etc/nginx/nginx.conf\n$ docker exec web ls /usr/share/nginx/html\n$ docker exec web nginx -t\n```\n`docker exec -it web sh` открывает интерактивную оболочку внутри (в тренажёре запускайте отдельные команды).\n\n## У контейнера своя файловая система\n`/etc/nginx/nginx.conf` выше — файл **в контейнере**, а не на хосте. `cat /etc/nginx/nginx.conf` на хосте скажет «No such file».\n\n## Вывод — ваш\nВывод `docker exec` приходит в ваш терминал, поэтому конвейеры работают как обычно:\n```\n$ docker exec web cat /etc/nginx/nginx.conf | grep worker\n```\n> `exec` работает только с запущенным контейнером. Остановленный — сначала `start` или читайте `logs`.",
+            "uk": "## docker exec\nВиконати команду **всередині запущеного** контейнера:\n```\n$ docker exec web cat /etc/nginx/nginx.conf\n$ docker exec web ls /usr/share/nginx/html\n$ docker exec web nginx -t\n```\n`docker exec -it web sh` відкриває інтерактивну оболонку всередині (у тренажері запускайте окремі команди).\n\n## У контейнера своя файлова система\n`/etc/nginx/nginx.conf` вище — файл **у контейнері**, а не на хості. `cat /etc/nginx/nginx.conf` на хості скаже «No such file».\n\n## Вивід — ваш\nВивід `docker exec` приходить у ваш термінал, тому конвеєри працюють як завжди:\n```\n$ docker exec web cat /etc/nginx/nginx.conf | grep worker\n```\n> `exec` працює лише із запущеним контейнером. Зупинений — спочатку `start` або читайте `logs`.",
+            "pl": "## docker exec\nWykonaj polecenie **wewnątrz działającego** kontenera:\n```\n$ docker exec web cat /etc/nginx/nginx.conf\n$ docker exec web ls /usr/share/nginx/html\n$ docker exec web nginx -t\n```\n`docker exec -it web sh` otwiera interaktywną powłokę w środku (w trenażerze uruchamiaj pojedyncze polecenia).\n\n## Kontener ma własny system plików\n`/etc/nginx/nginx.conf` powyżej to plik **w kontenerze**, nie na hoście. `cat /etc/nginx/nginx.conf` na hoście powie „No such file”.\n\n## Wyjście jest Twoje\nWyjście `docker exec` trafia do Twojego terminala, więc potoki działają jak zwykle:\n```\n$ docker exec web cat /etc/nginx/nginx.conf | grep worker\n```\n> `exec` działa tylko z działającym kontenerem. Zatrzymany — najpierw `start` albo czytaj `logs`."
+          },
+          "title": {
+            "en": "docker exec",
+            "ru": "docker exec",
+            "uk": "docker exec",
+            "pl": "docker exec"
+          },
+          "demo": {
+            "commands": [
+              "docker exec web ls /usr/share/nginx/html",
+              "docker exec web nginx -t"
+            ]
+          }
+        },
+        {
+          "type": "predict",
+          "command": "docker exec web ls /usr/share/nginx/html",
+          "options": [
+            "50x.html\nindex.html",
+            "index.html",
+            "ls: cannot access '/usr/share/nginx/html': No such file or directory"
+          ],
+          "answer": 0,
+          "context": [
+            "docker ps"
+          ],
+          "explanation": {
+            "en": "The command runs inside the nginx container, where the default site lives.",
+            "ru": "Команда выполняется внутри контейнера nginx, где лежит сайт по умолчанию.",
+            "uk": "Команда виконується всередині контейнера nginx, де лежить сайт за замовчуванням.",
+            "pl": "Polecenie działa w kontenerze nginx, gdzie leży domyślna strona."
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Find the worker_processes line in the nginx config inside the web container.",
+            "ru": "Найдите строку worker_processes в конфиге nginx внутри контейнера web.",
+            "uk": "Знайдіть рядок worker_processes у конфігу nginx усередині контейнера web.",
+            "pl": "Znajdź wiersz worker_processes w konfiguracji nginx w kontenerze web."
+          },
+          "checks": [
+            {
+              "type": "usedCommand",
+              "command": "docker",
+              "args": [
+                "exec",
+                "web"
+              ],
+              "label": {
+                "en": "docker exec",
+                "ru": "docker exec",
+                "uk": "docker exec",
+                "pl": "docker exec"
+              }
+            },
+            {
+              "type": "outputContains",
+              "regex": "worker_processes\\s+auto",
+              "label": {
+                "en": "The line is in the output",
+                "ru": "Строка в выводе",
+                "uk": "Рядок у виводі",
+                "pl": "Wiersz jest w wyjściu"
+              }
+            },
+            {
+              "type": "outputLines",
+              "eq": 1,
+              "label": {
+                "en": "Only that line",
+                "ru": "Только эта строка",
+                "uk": "Лише цей рядок",
+                "pl": "Tylko ten wiersz"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "exec … cat the config, pipe to grep",
+              "ru": "exec … cat конфига, конвейер в grep",
+              "uk": "exec … cat конфігу, конвеєр у grep",
+              "pl": "exec … cat konfiguracji, potok do grep"
+            },
+            "command": "docker exec web cat"
+          },
+          "solution": [
+            "docker exec web cat /etc/nginx/nginx.conf | grep worker_processes"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Check the nginx configuration syntax inside web.",
+            "ru": "Проверьте синтаксис конфигурации nginx внутри web.",
+            "uk": "Перевірте синтаксис конфігурації nginx усередині web.",
+            "pl": "Sprawdź składnię konfiguracji nginx w web."
+          },
+          "checks": [
+            {
+              "type": "outputContains",
+              "text": "syntax is ok",
+              "label": {
+                "en": "syntax is ok",
+                "ru": "syntax is ok",
+                "uk": "syntax is ok",
+                "pl": "syntax is ok"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "nginx has a test flag: -t",
+              "ru": "У nginx есть флаг проверки: -t",
+              "uk": "У nginx є прапорець перевірки: -t",
+              "pl": "nginx ma flagę testu: -t"
+            },
+            "command": "docker exec web nginx"
+          },
+          "solution": [
+            "docker exec web nginx -t"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dk-env-volumes",
+      "title": {
+        "en": "Variables and volumes",
+        "ru": "Переменные и тома",
+        "uk": "Змінні й томи",
+        "pl": "Zmienne i wolumeny"
+      },
+      "commands": [
+        "docker",
+        "curl"
+      ],
+      "setup": "docker-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Configure with -e\nImages read settings from **environment variables**:\n```\n$ docker run -d --name db2 -e POSTGRES_PASSWORD=secret postgres:16\n```\nThe postgres image refuses to start without `POSTGRES_PASSWORD` — exactly what happened to `db`.\n\n## Data does not live in the container\n`docker rm` deletes the container **with all files written inside it**. Keep data outside:\n| kind | syntax | when |\n|---|---|---|\n| bind mount | `-v ~/site:/usr/share/nginx/html` | your files from the host (code, configs) |\n| named volume | `-v pgdata:/var/lib/postgresql/data` | data Docker manages (databases) |\n\n```\n$ docker run -d -p 8081:80 -v ~/site:/usr/share/nginx/html nginx\n$ curl localhost:8081\n```\nWith a bind mount the container sees the host folder **live**: edit `~/site/index.html` and the next `curl` shows the change.\n\n> Never store a database inside a container without a volume: the next `rm` — and the data is gone.",
+            "ru": "## Настройка через -e\nОбразы читают настройки из **переменных окружения**:\n```\n$ docker run -d --name db2 -e POSTGRES_PASSWORD=secret postgres:16\n```\nОбраз postgres отказывается стартовать без `POSTGRES_PASSWORD` — именно это случилось с `db`.\n\n## Данные не живут в контейнере\n`docker rm` удаляет контейнер **вместе со всеми файлами, записанными внутри**. Храните данные снаружи:\n| вид | синтаксис | когда |\n|---|---|---|\n| bind mount | `-v ~/site:/usr/share/nginx/html` | ваши файлы с хоста (код, конфиги) |\n| именованный том | `-v pgdata:/var/lib/postgresql/data` | данные, которыми управляет Docker (базы) |\n\n```\n$ docker run -d -p 8081:80 -v ~/site:/usr/share/nginx/html nginx\n$ curl localhost:8081\n```\nС bind mount контейнер видит папку хоста **вживую**: поменяйте `~/site/index.html` — следующий `curl` покажет изменения.\n\n> Никогда не храните базу в контейнере без тома: следующий `rm` — и данных нет.",
+            "uk": "## Налаштування через -e\nОбрази читають налаштування зі **змінних оточення**:\n```\n$ docker run -d --name db2 -e POSTGRES_PASSWORD=secret postgres:16\n```\nОбраз postgres відмовляється стартувати без `POSTGRES_PASSWORD` — саме це сталося з `db`.\n\n## Дані не живуть у контейнері\n`docker rm` видаляє контейнер **разом з усіма файлами, записаними всередині**. Зберігайте дані назовні:\n| вид | синтаксис | коли |\n|---|---|---|\n| bind mount | `-v ~/site:/usr/share/nginx/html` | ваші файли з хоста (код, конфіги) |\n| іменований том | `-v pgdata:/var/lib/postgresql/data` | дані, якими керує Docker (бази) |\n\n```\n$ docker run -d -p 8081:80 -v ~/site:/usr/share/nginx/html nginx\n$ curl localhost:8081\n```\nЗ bind mount контейнер бачить теку хоста **наживо**: змініть `~/site/index.html` — наступний `curl` покаже зміни.\n\n> Ніколи не зберігайте базу в контейнері без тому: наступний `rm` — і даних немає.",
+            "pl": "## Konfiguracja przez -e\nObrazy czytają ustawienia ze **zmiennych środowiska**:\n```\n$ docker run -d --name db2 -e POSTGRES_PASSWORD=secret postgres:16\n```\nObraz postgres nie wystartuje bez `POSTGRES_PASSWORD` — dokładnie to stało się z `db`.\n\n## Dane nie mieszkają w kontenerze\n`docker rm` usuwa kontener **razem ze wszystkimi plikami zapisanymi w środku**. Trzymaj dane na zewnątrz:\n| rodzaj | składnia | kiedy |\n|---|---|---|\n| bind mount | `-v ~/site:/usr/share/nginx/html` | Twoje pliki z hosta (kod, konfiguracje) |\n| nazwany wolumen | `-v pgdata:/var/lib/postgresql/data` | dane zarządzane przez Dockera (bazy) |\n\n```\n$ docker run -d -p 8081:80 -v ~/site:/usr/share/nginx/html nginx\n$ curl localhost:8081\n```\nZ bind mount kontener widzi katalog hosta **na żywo**: zmień `~/site/index.html`, a następny `curl` pokaże zmiany.\n\n> Nigdy nie trzymaj bazy w kontenerze bez wolumenu: następne `rm` — i danych nie ma."
+          },
+          "title": {
+            "en": "-e and -v",
+            "ru": "-e и -v",
+            "uk": "-e і -v",
+            "pl": "-e i -v"
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Start a working postgres:16 container named db2 (the password is up to you).",
+            "ru": "Запустите рабочий контейнер postgres:16 с именем db2 (пароль — на ваш выбор).",
+            "uk": "Запустіть робочий контейнер postgres:16 з іменем db2 (пароль — на ваш вибір).",
+            "pl": "Uruchom działający kontener postgres:16 o nazwie db2 (hasło dowolne)."
+          },
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "db2",
+              "state": "running",
+              "image": "postgres:16",
+              "label": {
+                "en": "Container db2 is running",
+                "ru": "Контейнер db2 запущен",
+                "uk": "Контейнер db2 запущено",
+                "pl": "Kontener db2 działa"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "-e POSTGRES_PASSWORD=…",
+              "ru": "-e POSTGRES_PASSWORD=…",
+              "uk": "-e POSTGRES_PASSWORD=…",
+              "pl": "-e POSTGRES_PASSWORD=…"
+            },
+            "command": "docker run -d"
+          },
+          "solution": [
+            "docker run -d --name db2 -e POSTGRES_PASSWORD=secret postgres:16"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Serve the folder ~/site with nginx at http://localhost:8081 (a container named mysite) and check it with curl.",
+            "ru": "Раздайте папку ~/site через nginx на http://localhost:8081 (контейнер mysite) и проверьте curl.",
+            "uk": "Роздайте теку ~/site через nginx на http://localhost:8081 (контейнер mysite) і перевірте curl.",
+            "pl": "Udostępnij katalog ~/site przez nginx pod http://localhost:8081 (kontener mysite) i sprawdź curl."
+          },
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "mysite",
+              "state": "running",
+              "hostPort": 8081,
+              "label": {
+                "en": "mysite runs on 8081",
+                "ru": "mysite работает на 8081",
+                "uk": "mysite працює на 8081",
+                "pl": "mysite działa na 8081"
+              }
+            },
+            {
+              "type": "outputContains",
+              "text": "Hello from my site",
+              "label": {
+                "en": "curl shows your page",
+                "ru": "curl показывает вашу страницу",
+                "uk": "curl показує вашу сторінку",
+                "pl": "curl pokazuje Twoją stronę"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "-p 8081:80 -v ~/site:/usr/share/nginx/html",
+              "ru": "-p 8081:80 -v ~/site:/usr/share/nginx/html",
+              "uk": "-p 8081:80 -v ~/site:/usr/share/nginx/html",
+              "pl": "-p 8081:80 -v ~/site:/usr/share/nginx/html"
+            },
+            "command": "docker run -d"
+          },
+          "solution": [
+            "docker run -d --name mysite -p 8081:80 -v ~/site:/usr/share/nginx/html nginx",
+            "curl localhost:8081"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "You ran postgres without a volume and later did `docker rm -f db`. What happened to the database data?",
+            "ru": "Вы запустили postgres без тома, а потом сделали `docker rm -f db`. Что стало с данными базы?",
+            "uk": "Ви запустили postgres без тому, а потім зробили `docker rm -f db`. Що сталося з даними бази?",
+            "pl": "Uruchomiłeś postgres bez wolumenu, a potem `docker rm -f db`. Co się stało z danymi bazy?"
+          },
+          "options": [
+            {
+              "en": "They were deleted together with the container",
+              "ru": "Удалены вместе с контейнером",
+              "uk": "Видалені разом із контейнером",
+              "pl": "Zostały usunięte razem z kontenerem"
+            },
+            {
+              "en": "They stay in the image",
+              "ru": "Остались в образе",
+              "uk": "Залишилися в образі",
+              "pl": "Zostały w obrazie"
+            },
+            {
+              "en": "Docker moved them to ~/",
+              "ru": "Docker перенёс их в ~/",
+              "uk": "Docker переніс їх у ~/",
+              "pl": "Docker przeniósł je do ~/"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "dk-cleanup",
+      "title": {
+        "en": "Cleaning up",
+        "ru": "Уборка",
+        "uk": "Прибирання",
+        "pl": "Sprzątanie"
+      },
+      "commands": [
+        "docker"
+      ],
+      "setup": "docker-lab",
+      "steps": [
+        {
+          "type": "theory",
+          "text": {
+            "en": "## Containers and images pile up\nEvery `docker run` without `--rm` leaves a container behind; every version you pull stays on disk.\n```\n$ docker ps -a\n$ docker container prune -f\n$ docker images\n$ docker rmi alpine\n$ docker system df\n```\n| command | removes |\n|---|---|\n| `docker rm NAME` | one stopped container |\n| `docker container prune` | **all** stopped containers |\n| `docker rmi IMAGE` | an image (not used by any container) |\n| `docker image prune` | dangling `<none>` images |\n| `docker run --rm …` | the container right after it exits |\n\n> `docker rmi` refuses to delete an image a container uses — even a stopped one. Remove the container first.",
+            "ru": "## Контейнеры и образы копятся\nКаждый `docker run` без `--rm` оставляет контейнер; каждая скачанная версия остаётся на диске.\n```\n$ docker ps -a\n$ docker container prune -f\n$ docker images\n$ docker rmi alpine\n$ docker system df\n```\n| команда | что удаляет |\n|---|---|\n| `docker rm ИМЯ` | один остановленный контейнер |\n| `docker container prune` | **все** остановленные контейнеры |\n| `docker rmi ОБРАЗ` | образ (не используемый контейнерами) |\n| `docker image prune` | «висящие» образы `<none>` |\n| `docker run --rm …` | контейнер сразу после завершения |\n\n> `docker rmi` отказывается удалять образ, который использует контейнер — даже остановленный. Сначала удалите контейнер.",
+            "uk": "## Контейнери й образи накопичуються\nКожен `docker run` без `--rm` залишає контейнер; кожна завантажена версія лишається на диску.\n```\n$ docker ps -a\n$ docker container prune -f\n$ docker images\n$ docker rmi alpine\n$ docker system df\n```\n| команда | що видаляє |\n|---|---|\n| `docker rm ІМ’Я` | один зупинений контейнер |\n| `docker container prune` | **усі** зупинені контейнери |\n| `docker rmi ОБРАЗ` | образ (що не використовується контейнерами) |\n| `docker image prune` | «висячі» образи `<none>` |\n| `docker run --rm …` | контейнер одразу після завершення |\n\n> `docker rmi` відмовляється видаляти образ, який використовує контейнер — навіть зупинений. Спочатку видаліть контейнер.",
+            "pl": "## Kontenery i obrazy się gromadzą\nKażde `docker run` bez `--rm` zostawia kontener; każda pobrana wersja zostaje na dysku.\n```\n$ docker ps -a\n$ docker container prune -f\n$ docker images\n$ docker rmi alpine\n$ docker system df\n```\n| polecenie | co usuwa |\n|---|---|\n| `docker rm NAZWA` | jeden zatrzymany kontener |\n| `docker container prune` | **wszystkie** zatrzymane kontenery |\n| `docker rmi OBRAZ` | obraz (nieużywany przez kontenery) |\n| `docker image prune` | „wiszące” obrazy `<none>` |\n| `docker run --rm …` | kontener zaraz po zakończeniu |\n\n> `docker rmi` nie usunie obrazu używanego przez kontener — nawet zatrzymany. Najpierw usuń kontener."
+          },
+          "title": {
+            "en": "rm, rmi, prune",
+            "ru": "rm, rmi, prune",
+            "uk": "rm, rmi, prune",
+            "pl": "rm, rmi, prune"
+          }
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Remove all stopped containers, keep the running ones.",
+            "ru": "Удалите все остановленные контейнеры, работающие оставьте.",
+            "uk": "Видаліть усі зупинені контейнери, запущені залиште.",
+            "pl": "Usuń wszystkie zatrzymane kontenery, działające zostaw."
+          },
+          "checks": [
+            {
+              "type": "containerState",
+              "name": "db",
+              "state": "absent",
+              "label": {
+                "en": "Container db is removed",
+                "ru": "Контейнер db удалён",
+                "uk": "Контейнер db видалено",
+                "pl": "Kontener db jest usunięty"
+              }
+            },
+            {
+              "type": "containerState",
+              "name": "web",
+              "state": "running",
+              "label": {
+                "en": "Container web is running",
+                "ru": "Контейнер web запущен",
+                "uk": "Контейнер web запущено",
+                "pl": "Kontener web działa"
+              }
+            },
+            {
+              "type": "containerState",
+              "name": "cache",
+              "state": "running",
+              "label": {
+                "en": "Container cache is running",
+                "ru": "Контейнер cache запущен",
+                "uk": "Контейнер cache запущено",
+                "pl": "Kontener cache działa"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "container prune, or rm of each stopped one",
+              "ru": "container prune или rm каждого остановленного",
+              "uk": "container prune або rm кожного зупиненого",
+              "pl": "container prune albo rm każdego zatrzymanego"
+            },
+            "command": "docker container prune"
+          },
+          "solution": [
+            "docker container prune -f"
+          ]
+        },
+        {
+          "type": "task",
+          "goal": {
+            "en": "Delete the alpine image — nobody uses it.",
+            "ru": "Удалите образ alpine — им никто не пользуется.",
+            "uk": "Видаліть образ alpine — ним ніхто не користується.",
+            "pl": "Usuń obraz alpine — nikt go nie używa."
+          },
+          "checks": [
+            {
+              "type": "imageExists",
+              "name": "alpine",
+              "exists": false,
+              "label": {
+                "en": "No alpine image",
+                "ru": "Образа alpine нет",
+                "uk": "Образу alpine немає",
+                "pl": "Brak obrazu alpine"
+              }
+            }
+          ],
+          "hints": {
+            "direction": {
+              "en": "docker rmi IMAGE",
+              "ru": "docker rmi ОБРАЗ",
+              "uk": "docker rmi ОБРАЗ",
+              "pl": "docker rmi OBRAZ"
+            },
+            "command": "docker rmi"
+          },
+          "solution": [
+            "docker rmi alpine"
+          ]
+        },
+        {
+          "type": "quiz",
+          "question": {
+            "en": "`docker rmi nginx` fails with \"image is being used by stopped container\". What do you do?",
+            "ru": "`docker rmi nginx` падает с «image is being used by stopped container». Что делать?",
+            "uk": "`docker rmi nginx` падає з «image is being used by stopped container». Що робити?",
+            "pl": "`docker rmi nginx` kończy się błędem „image is being used by stopped container”. Co robisz?"
+          },
+          "options": [
+            {
+              "en": "Remove that container first (docker rm), then the image",
+              "ru": "Сначала удалить этот контейнер (docker rm), потом образ",
+              "uk": "Спочатку видалити цей контейнер (docker rm), потім образ",
+              "pl": "Najpierw usuń ten kontener (docker rm), potem obraz"
+            },
+            {
+              "en": "Start the container",
+              "ru": "Запустить контейнер",
+              "uk": "Запустити контейнер",
+              "pl": "Uruchomić kontener"
+            },
+            {
+              "en": "Delete /var/lib/docker by hand",
+              "ru": "Удалить /var/lib/docker вручную",
+              "uk": "Видалити /var/lib/docker вручну",
+              "pl": "Usunąć ręcznie /var/lib/docker"
+            }
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

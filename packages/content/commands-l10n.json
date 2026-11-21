@@ -1,0 +1,2710 @@
+{
+ ".": {
+  "summary": {
+   "ru": "выполнить команды из файла в текущей оболочке",
+   "uk": "виконати команди з файлу в поточній оболонці",
+   "pl": "wykonaj polecenia z pliku w bieżącej powłoce"
+  }
+ },
+ "[": {
+  "summary": {
+   "ru": "проверить условие (то же, что test)",
+   "uk": "перевірити умову (те саме, що test)",
+   "pl": "sprawdź warunek (to samo co test)"
+  },
+  "options": {
+   "-e FILE": {
+    "ru": "FILE существует",
+    "uk": "FILE існує",
+    "pl": "FILE istnieje"
+   },
+   "-f FILE": {
+    "ru": "FILE существует и это обычный файл",
+    "uk": "FILE існує і це звичайний файл",
+    "pl": "FILE istnieje i jest zwykłym plikiem"
+   },
+   "-d FILE": {
+    "ru": "FILE существует и это директория",
+    "uk": "FILE існує і це директорія",
+    "pl": "FILE istnieje i jest katalogiem"
+   },
+   "-s FILE": {
+    "ru": "FILE существует и не пустой",
+    "uk": "FILE існує і не порожній",
+    "pl": "FILE istnieje i nie jest pusty"
+   },
+   "-r/-w/-x FILE": {
+    "ru": "FILE можно читать / писать / выполнять",
+    "uk": "FILE можна читати / писати / виконувати",
+    "pl": "FILE można czytać / zapisywać / wykonywać"
+   },
+   "-z STRING": {
+    "ru": "строка пустая",
+    "uk": "рядок порожній",
+    "pl": "napis jest pusty"
+   },
+   "-n STRING": {
+    "ru": "строка не пустая",
+    "uk": "рядок не порожній",
+    "pl": "napis nie jest pusty"
+   },
+   "S1 = S2, S1 != S2": {
+    "ru": "строки равны / не равны",
+    "uk": "рядки рівні / не рівні",
+    "pl": "napisy równe / różne"
+   },
+   "N1 -eq/-ne/-lt/-le/-gt/-ge N2": {
+    "ru": "сравнение чисел: равно, не равно, меньше, ≤, больше, ≥",
+    "uk": "порівняння чисел: дорівнює, не дорівнює, менше, ≤, більше, ≥",
+    "pl": "porównanie liczb: równe, różne, mniejsze, ≤, większe, ≥"
+   }
+  }
+ },
+ "alias": {
+  "summary": {
+   "ru": "создать или показать сокращения команд",
+   "uk": "створити або показати скорочення команд",
+   "pl": "utwórz lub pokaż skróty poleceń"
+  }
+ },
+ "awk": {
+  "summary": {
+   "ru": "язык обработки текста по колонкам",
+   "uk": "мова обробки тексту за колонками",
+   "pl": "język przetwarzania tekstu kolumnami"
+  },
+  "options": {
+   "-F fs": {
+    "ru": "разделитель полей",
+    "uk": "роздільник полів",
+    "pl": "separator pól"
+   },
+   "-v var=value": {
+    "ru": "задать переменную до запуска программы",
+    "uk": "задати змінну до запуску програми",
+    "pl": "ustaw zmienną przed startem programu"
+   }
+  }
+ },
+ "basename": {
+  "summary": {
+   "ru": "оставить от пути только имя файла",
+   "uk": "залишити від шляху лише ім’я файлу",
+   "pl": "zostaw ze ścieżki tylko nazwę pliku"
+  }
+ },
+ "bash": {
+  "summary": {
+   "ru": "командная оболочка Bash (запустить скрипт)",
+   "uk": "командна оболонка Bash (запустити скрипт)",
+   "pl": "powłoka Bash (uruchom skrypt)"
+  }
+ },
+ "break": {
+  "summary": {
+   "ru": "выйти из цикла for, while или until",
+   "uk": "вийти з циклу for, while або until",
+   "pl": "wyjdź z pętli for, while lub until"
+  }
+ },
+ "cat": {
+  "summary": {
+   "ru": "вывести содержимое файлов (склеить файлы)",
+   "uk": "вивести вміст файлів (склеїти файли)",
+   "pl": "wypisz zawartość plików (połącz pliki)"
+  },
+  "options": {
+   "-A, --show-all": {
+    "ru": "то же, что -vET: показать невидимые символы",
+    "uk": "те саме, що -vET: показати невидимі символи",
+    "pl": "to samo co -vET: pokaż niewidoczne znaki"
+   },
+   "-b, --number-nonblank": {
+    "ru": "нумеровать только непустые строки",
+    "uk": "нумерувати лише непорожні рядки",
+    "pl": "numeruj tylko niepuste wiersze"
+   },
+   "-E, --show-ends": {
+    "ru": "показывать $ в конце каждой строки",
+    "uk": "показувати $ у кінці кожного рядка",
+    "pl": "pokazuj $ na końcu każdego wiersza"
+   },
+   "-n, --number": {
+    "ru": "нумеровать все строки",
+    "uk": "нумерувати всі рядки",
+    "pl": "numeruj wszystkie wiersze"
+   },
+   "-s, --squeeze-blank": {
+    "ru": "сжимать повторяющиеся пустые строки",
+    "uk": "стискати повторювані порожні рядки",
+    "pl": "ściskaj powtarzające się puste wiersze"
+   },
+   "-T, --show-tabs": {
+    "ru": "показывать табуляции как ^I",
+    "uk": "показувати табуляції як ^I",
+    "pl": "pokazuj tabulatory jako ^I"
+   }
+  }
+ },
+ "cd": {
+  "summary": {
+   "ru": "сменить текущую директорию",
+   "uk": "змінити поточну директорію",
+   "pl": "zmień bieżący katalog"
+  },
+  "options": {
+   "-L": {
+    "ru": "следовать символическим ссылкам логически (по умолчанию)",
+    "uk": "слідувати символьним посиланням логічно (за замовчуванням)",
+    "pl": "podążaj za dowiązaniami logicznie (domyślnie)"
+   },
+   "-P": {
+    "ru": "использовать физическую структуру каталогов",
+    "uk": "використовувати фізичну структуру каталогів",
+    "pl": "użyj fizycznej struktury katalogów"
+   }
+  }
+ },
+ "chmod": {
+  "summary": {
+   "ru": "изменить права доступа",
+   "uk": "змінити права доступу",
+   "pl": "zmień uprawnienia"
+  },
+  "options": {
+   "-R, --recursive": {
+    "ru": "менять файлы и директории рекурсивно",
+    "uk": "змінювати файли й директорії рекурсивно",
+    "pl": "zmieniaj pliki i katalogi rekurencyjnie"
+   },
+   "-v, --verbose": {
+    "ru": "сообщать о каждом файле",
+    "uk": "повідомляти про кожен файл",
+    "pl": "informuj o każdym pliku"
+   },
+   "-c, --changes": {
+    "ru": "сообщать только о реальных изменениях",
+    "uk": "повідомляти лише про справжні зміни",
+    "pl": "informuj tylko o rzeczywistych zmianach"
+   }
+  }
+ },
+ "chown": {
+  "summary": {
+   "ru": "сменить владельца и группу файла",
+   "uk": "змінити власника й групу файлу",
+   "pl": "zmień właściciela i grupę pliku"
+  },
+  "options": {
+   "-R, --recursive": {
+    "ru": "менять файлы и директории рекурсивно",
+    "uk": "змінювати файли й директорії рекурсивно",
+    "pl": "zmieniaj pliki i katalogi rekurencyjnie"
+   },
+   "-v, --verbose": {
+    "ru": "сообщать о каждом файле",
+    "uk": "повідомляти про кожен файл",
+    "pl": "informuj o każdym pliku"
+   }
+  }
+ },
+ "clear": {
+  "summary": {
+   "ru": "очистить экран терминала",
+   "uk": "очистити екран термінала",
+   "pl": "wyczyść ekran terminala"
+  }
+ },
+ "comm": {
+  "summary": {
+   "ru": "сравнить два отсортированных файла построчно",
+   "uk": "порівняти два відсортовані файли порядково",
+   "pl": "porównaj dwa posortowane pliki wiersz po wierszu"
+  },
+  "options": {
+   "-1": {
+    "ru": "скрыть колонку 1 (только в первом файле)",
+    "uk": "сховати колонку 1 (лише в першому файлі)",
+    "pl": "ukryj kolumnę 1 (tylko w pierwszym pliku)"
+   },
+   "-2": {
+    "ru": "скрыть колонку 2 (только во втором файле)",
+    "uk": "сховати колонку 2 (лише в другому файлі)",
+    "pl": "ukryj kolumnę 2 (tylko w drugim pliku)"
+   },
+   "-3": {
+    "ru": "скрыть колонку 3 (строки в обоих файлах)",
+    "uk": "сховати колонку 3 (рядки в обох файлах)",
+    "pl": "ukryj kolumnę 3 (wiersze w obu plikach)"
+   }
+  }
+ },
+ "continue": {
+  "summary": {
+   "ru": "перейти к следующей итерации цикла",
+   "uk": "перейти до наступної ітерації циклу",
+   "pl": "przejdź do następnej iteracji pętli"
+  }
+ },
+ "cp": {
+  "summary": {
+   "ru": "копировать файлы и директории",
+   "uk": "копіювати файли й директорії",
+   "pl": "kopiuj pliki i katalogi"
+  },
+  "options": {
+   "-a, --archive": {
+    "ru": "архивный режим: рекурсивно и с сохранением всех атрибутов",
+    "uk": "архівний режим: рекурсивно й зі збереженням усіх атрибутів",
+    "pl": "tryb archiwum: rekurencyjnie z zachowaniem wszystkich atrybutów"
+   },
+   "-n, --no-clobber": {
+    "ru": "не перезаписывать существующий файл",
+    "uk": "не перезаписувати наявний файл",
+    "pl": "nie nadpisuj istniejącego pliku"
+   },
+   "-p": {
+    "ru": "сохранить права, владельца и время",
+    "uk": "зберегти права, власника й час",
+    "pl": "zachowaj uprawnienia, właściciela i czas"
+   },
+   "-r, -R, --recursive": {
+    "ru": "копировать директории рекурсивно (со всем содержимым)",
+    "uk": "копіювати директорії рекурсивно (з усім вмістом)",
+    "pl": "kopiuj katalogi rekurencyjnie (z całą zawartością)"
+   },
+   "-T, --no-target-directory": {
+    "ru": "считать DEST обычным файлом",
+    "uk": "вважати DEST звичайним файлом",
+    "pl": "traktuj DEST jako zwykły plik"
+   },
+   "-v, --verbose": {
+    "ru": "рассказывать, что делается",
+    "uk": "розповідати, що робиться",
+    "pl": "opisuj, co jest robione"
+   }
+  }
+ },
+ "curl": {
+  "summary": {
+   "ru": "сделать запрос по URL (HTTP)",
+   "uk": "зробити запит за URL (HTTP)",
+   "pl": "wykonaj żądanie pod URL (HTTP)"
+  },
+  "options": {
+   "-I, --head": {
+    "ru": "показать только заголовки ответа",
+    "uk": "показати лише заголовки відповіді",
+    "pl": "pokaż tylko nagłówki odpowiedzi"
+   },
+   "-s, --silent": {
+    "ru": "тихий режим, без прогресса",
+    "uk": "тихий режим, без прогресу",
+    "pl": "tryb cichy, bez postępu"
+   },
+   "-o, --output <file>": {
+    "ru": "записать тело ответа в файл",
+    "uk": "записати тіло відповіді у файл",
+    "pl": "zapisz treść odpowiedzi do pliku"
+   },
+   "-L, --location": {
+    "ru": "следовать перенаправлениям",
+    "uk": "слідувати перенаправленням",
+    "pl": "podążaj za przekierowaniami"
+   },
+   "-w, --write-out <format>": {
+    "ru": "вывести доп. данные, напр. -w '%{http_code}'",
+    "uk": "вивести дод. дані, напр. -w '%{http_code}'",
+    "pl": "wypisz dodatkowe dane, np. -w '%{http_code}'"
+   },
+   "-f, --fail": {
+    "ru": "при HTTP-ошибке выйти с кодом 22",
+    "uk": "при HTTP-помилці вийти з кодом 22",
+    "pl": "przy błędzie HTTP zakończ z kodem 22"
+   },
+   "-v, --verbose": {
+    "ru": "показать заголовки запроса и ответа",
+    "uk": "показати заголовки запиту й відповіді",
+    "pl": "pokaż nagłówki żądania i odpowiedzi"
+   }
+  }
+ },
+ "cut": {
+  "summary": {
+   "ru": "вырезать колонки (поля) из строк",
+   "uk": "вирізати колонки (поля) з рядків",
+   "pl": "wytnij kolumny (pola) z wierszy"
+  },
+  "options": {
+   "-c, --characters=LIST": {
+    "ru": "выбрать эти символы (позиции)",
+    "uk": "вибрати ці символи (позиції)",
+    "pl": "wybierz te znaki (pozycje)"
+   },
+   "-d, --delimiter=DELIM": {
+    "ru": "разделитель полей вместо табуляции",
+    "uk": "роздільник полів замість табуляції",
+    "pl": "separator pól zamiast tabulatora"
+   },
+   "-f, --fields=LIST": {
+    "ru": "выбрать эти поля (колонки)",
+    "uk": "вибрати ці поля (колонки)",
+    "pl": "wybierz te pola (kolumny)"
+   },
+   "-s, --only-delimited": {
+    "ru": "пропускать строки без разделителя",
+    "uk": "пропускати рядки без роздільника",
+    "pl": "pomijaj wiersze bez separatora"
+   }
+  }
+ },
+ "date": {
+  "summary": {
+   "ru": "показать дату и время",
+   "uk": "показати дату й час",
+   "pl": "pokaż datę i czas"
+  }
+ },
+ "df": {
+  "summary": {
+   "ru": "показать свободное место на дисках",
+   "uk": "показати вільне місце на дисках",
+   "pl": "pokaż wolne miejsce na dyskach"
+  },
+  "options": {
+   "-h, --human-readable": {
+    "ru": "размеры в понятном виде (1023M)",
+    "uk": "розміри у зрозумілому вигляді (1023M)",
+    "pl": "rozmiary w czytelnej postaci (1023M)"
+   },
+   "-T, --print-type": {
+    "ru": "показать тип файловой системы",
+    "uk": "показати тип файлової системи",
+    "pl": "pokaż typ systemu plików"
+   }
+  }
+ },
+ "diff": {
+  "summary": {
+   "ru": "сравнить файлы построчно",
+   "uk": "порівняти файли порядково",
+   "pl": "porównaj pliki wiersz po wierszu"
+  },
+  "options": {
+   "-u": {
+    "ru": "единый формат (- удалено, + добавлено), как в git",
+    "uk": "єдиний формат (- видалено, + додано), як у git",
+    "pl": "format ujednolicony (- usunięte, + dodane), jak w git"
+   },
+   "-q, --brief": {
+    "ru": "сказать только, различаются ли файлы",
+    "uk": "сказати лише, чи відрізняються файли",
+    "pl": "powiedz tylko, czy pliki się różnią"
+   },
+   "-i": {
+    "ru": "не различать регистр",
+    "uk": "не розрізняти регістр",
+    "pl": "ignoruj wielkość liter"
+   },
+   "-w": {
+    "ru": "не обращать внимания на пробелы",
+    "uk": "не зважати на пробіли",
+    "pl": "ignoruj białe znaki"
+   }
+  }
+ },
+ "dig": {
+  "summary": {
+   "ru": "DNS-запрос: какой IP у имени",
+   "uk": "DNS-запит: який IP у імені",
+   "pl": "zapytanie DNS: jaki IP ma nazwa"
+  },
+  "options": {
+   "+short": {
+    "ru": "только ответ",
+    "uk": "лише відповідь",
+    "pl": "tylko odpowiedź"
+   }
+  }
+ },
+ "dirname": {
+  "summary": {
+   "ru": "оставить от пути только директорию",
+   "uk": "залишити від шляху лише директорію",
+   "pl": "zostaw ze ścieżki tylko katalog"
+  }
+ },
+ "docker": {
+  "summary": {
+   "ru": "запускать контейнеры и управлять ими",
+   "uk": "запускати контейнери й керувати ними",
+   "pl": "uruchamiaj kontenery i zarządzaj nimi"
+  },
+  "options": {
+   "run IMAGE": {
+    "ru": "создать и запустить контейнер из образа",
+    "uk": "створити й запустити контейнер з образу",
+    "pl": "utwórz i uruchom kontener z obrazu"
+   },
+   "ps": {
+    "ru": "список работающих контейнеров (-a — все, -q — только ID)",
+    "uk": "список запущених контейнерів (-a — усі, -q — лише ID)",
+    "pl": "lista działających kontenerów (-a — wszystkie, -q — tylko ID)"
+   },
+   "images": {
+    "ru": "список локальных образов",
+    "uk": "список локальних образів",
+    "pl": "lista lokalnych obrazów"
+   },
+   "pull IMAGE": {
+    "ru": "скачать образ с Docker Hub",
+    "uk": "завантажити образ з Docker Hub",
+    "pl": "pobierz obraz z Docker Hub"
+   },
+   "logs CONTAINER": {
+    "ru": "вывод (логи) контейнера (--tail N, -f)",
+    "uk": "вивід (логи) контейнера (--tail N, -f)",
+    "pl": "wyjście (logi) kontenera (--tail N, -f)"
+   },
+   "exec CONTAINER CMD": {
+    "ru": "выполнить команду внутри работающего контейнера",
+    "uk": "виконати команду всередині запущеного контейнера",
+    "pl": "wykonaj polecenie wewnątrz działającego kontenera"
+   },
+   "stop|start|restart CONTAINER": {
+    "ru": "остановить, запустить или перезапустить контейнер",
+    "uk": "зупинити, запустити або перезапустити контейнер",
+    "pl": "zatrzymaj, uruchom lub zrestartuj kontener"
+   },
+   "rm CONTAINER": {
+    "ru": "удалить остановленный контейнер (-f — и работающий)",
+    "uk": "видалити зупинений контейнер (-f — і запущений)",
+    "pl": "usuń zatrzymany kontener (-f — także działający)"
+   },
+   "rmi IMAGE": {
+    "ru": "удалить образ",
+    "uk": "видалити образ",
+    "pl": "usuń obraz"
+   },
+   "build -t NAME DIR": {
+    "ru": "собрать образ по DIR/Dockerfile",
+    "uk": "зібрати образ за DIR/Dockerfile",
+    "pl": "zbuduj obraz z DIR/Dockerfile"
+   },
+   "inspect CONTAINER": {
+    "ru": "все подробности в JSON (-f — одно поле)",
+    "uk": "усі подробиці в JSON (-f — одне поле)",
+    "pl": "wszystkie szczegóły w JSON (-f — jedno pole)"
+   },
+   "compose up -d": {
+    "ru": "запустить все сервисы из compose.yaml в фоне",
+    "uk": "запустити всі сервіси з compose.yaml у фоні",
+    "pl": "uruchom wszystkie usługi z compose.yaml w tle"
+   },
+   "compose down": {
+    "ru": "остановить и удалить сервисы из compose.yaml",
+    "uk": "зупинити й видалити сервіси з compose.yaml",
+    "pl": "zatrzymaj i usuń usługi z compose.yaml"
+   },
+   "volume ls|create|rm": {
+    "ru": "управлять именованными томами",
+    "uk": "керувати іменованими томами",
+    "pl": "zarządzaj nazwanymi wolumenami"
+   },
+   "network ls|create|inspect|rm": {
+    "ru": "список, создание, просмотр или удаление сетей",
+    "uk": "список, створення, перегляд або видалення мереж",
+    "pl": "lista, tworzenie, podgląd lub usuwanie sieci"
+   },
+   "network connect NET CONTAINER": {
+    "ru": "подключить работающий контейнер ещё к одной сети",
+    "uk": "під’єднати запущений контейнер ще до однієї мережі",
+    "pl": "podłącz działający kontener do kolejnej sieci"
+   },
+   "rename CONTAINER NAME": {
+    "ru": "дать контейнеру новое имя",
+    "uk": "дати контейнеру нове ім’я",
+    "pl": "nadaj kontenerowi nową nazwę"
+   },
+   "-d, --detach": {
+    "ru": "запустить в фоне и напечатать ID контейнера",
+    "uk": "запустити у фоні й надрукувати ID контейнера",
+    "pl": "uruchom w tle i wypisz ID kontenera"
+   },
+   "-p, --publish HOST:CONTAINER": {
+    "ru": "пробросить порт: ХОСТ:КОНТЕЙНЕР, напр. 8080:80",
+    "uk": "прокинути порт: ХОСТ:КОНТЕЙНЕР, напр. 8080:80",
+    "pl": "opublikuj port: HOST:KONTENER, np. 8080:80"
+   },
+   "--name NAME": {
+    "ru": "дать контейнеру имя",
+    "uk": "дати контейнеру ім’я",
+    "pl": "nadaj kontenerowi nazwę"
+   },
+   "-e, --env KEY=VALUE": {
+    "ru": "задать переменную окружения внутри контейнера",
+    "uk": "задати змінну оточення всередині контейнера",
+    "pl": "ustaw zmienną środowiska w kontenerze"
+   },
+   "-v, --volume SRC:DST": {
+    "ru": "подключить папку хоста или именованный том",
+    "uk": "підключити теку хоста або іменований том",
+    "pl": "zamontuj katalog hosta lub nazwany wolumen"
+   },
+   "--rm": {
+    "ru": "удалить контейнер сразу после остановки",
+    "uk": "видалити контейнер одразу після зупинки",
+    "pl": "usuń kontener zaraz po zatrzymaniu"
+   },
+   "--restart POLICY": {
+    "ru": "политика перезапуска: no, always, unless-stopped, on-failure",
+    "uk": "політика перезапуску: no, always, unless-stopped, on-failure",
+    "pl": "polityka restartu: no, always, unless-stopped, on-failure"
+   },
+   "-i, -t, -it": {
+    "ru": "интерактивный режим с терминалом (для оболочек)",
+    "uk": "інтерактивний режим з терміналом (для оболонок)",
+    "pl": "tryb interaktywny z terminalem (dla powłok)"
+   },
+   "-a, --all": {
+    "ru": "ps: показать и остановленные контейнеры",
+    "uk": "ps: показати й зупинені контейнери",
+    "pl": "ps: pokaż też zatrzymane kontenery"
+   },
+   "-q, --quiet": {
+    "ru": "выводить только ID",
+    "uk": "виводити лише ID",
+    "pl": "wypisuj tylko ID"
+   },
+   "-f, --force": {
+    "ru": "принудительно: удалить даже работающий контейнер или используемый образ",
+    "uk": "примусово: видалити навіть запущений контейнер або образ, що використовується",
+    "pl": "wymuś: usuń nawet działający kontener lub używany obraz"
+   },
+   "--tail N": {
+    "ru": "logs: только последние N строк",
+    "uk": "logs: лише останні N рядків",
+    "pl": "logs: tylko ostatnie N wierszy"
+   },
+   "-t, --tag NAME": {
+    "ru": "build: имя (и тег) нового образа, напр. myapp:1.0",
+    "uk": "build: ім’я (і тег) нового образу, напр. myapp:1.0",
+    "pl": "build: nazwa (i tag) nowego obrazu, np. myapp:1.0"
+   },
+   "--format, -f TEMPLATE": {
+    "ru": "вывести только поля по шаблону, напр. {{.State.Status}}",
+    "uk": "вивести лише поля за шаблоном, напр. {{.State.Status}}",
+    "pl": "wypisz tylko pola według szablonu, np. {{.State.Status}}"
+   }
+  }
+ },
+ "du": {
+  "summary": {
+   "ru": "посчитать, сколько места занимают файлы",
+   "uk": "порахувати, скільки місця займають файли",
+   "pl": "policz, ile miejsca zajmują pliki"
+  },
+  "options": {
+   "-a, --all": {
+    "ru": "показывать и файлы, не только директории",
+    "uk": "показувати й файли, не лише директорії",
+    "pl": "pokazuj też pliki, nie tylko katalogi"
+   },
+   "-c, --total": {
+    "ru": "добавить общий итог",
+    "uk": "додати загальний підсумок",
+    "pl": "dodaj sumę całkowitą"
+   },
+   "-d, --max-depth=N": {
+    "ru": "показывать не глубже N уровней",
+    "uk": "показувати не глибше N рівнів",
+    "pl": "pokazuj nie głębiej niż N poziomów"
+   },
+   "-h, --human-readable": {
+    "ru": "размеры в понятном виде (1K 234M 2G)",
+    "uk": "розміри у зрозумілому вигляді (1K 234M 2G)",
+    "pl": "rozmiary w czytelnej postaci (1K 234M 2G)"
+   },
+   "-s, --summarize": {
+    "ru": "только итог для каждого аргумента",
+    "uk": "лише підсумок для кожного аргументу",
+    "pl": "tylko suma dla każdego argumentu"
+   }
+  }
+ },
+ "echo": {
+  "summary": {
+   "ru": "вывести строку текста",
+   "uk": "вивести рядок тексту",
+   "pl": "wypisz wiersz tekstu"
+  },
+  "options": {
+   "-n": {
+    "ru": "не добавлять перевод строки в конце",
+    "uk": "не додавати переведення рядка в кінці",
+    "pl": "nie dodawaj nowej linii na końcu"
+   },
+   "-e": {
+    "ru": "понимать escape-последовательности (\\n, \\t…)",
+    "uk": "розуміти escape-послідовності (\\n, \\t…)",
+    "pl": "interpretuj sekwencje specjalne (\\n, \\t…)"
+   },
+   "-E": {
+    "ru": "не понимать escape-последовательности",
+    "uk": "не розуміти escape-послідовності",
+    "pl": "nie interpretuj sekwencji specjalnych"
+   }
+  }
+ },
+ "env": {
+  "summary": {
+   "ru": "показать переменные окружения или запустить программу с изменёнными",
+   "uk": "показати змінні оточення або запустити програму зі зміненими",
+   "pl": "pokaż zmienne środowiska lub uruchom program ze zmienionymi"
+  }
+ },
+ "exit": {
+  "summary": {
+   "ru": "выйти из оболочки",
+   "uk": "вийти з оболонки",
+   "pl": "wyjdź z powłoki"
+  }
+ },
+ "export": {
+  "summary": {
+   "ru": "сделать переменную видимой для запускаемых программ",
+   "uk": "зробити змінну видимою для програм, що запускаються",
+   "pl": "udostępnij zmienną uruchamianym programom"
+  }
+ },
+ "false": {
+  "summary": {
+   "ru": "ничего не делать и завершиться с ошибкой",
+   "uk": "нічого не робити й завершитися з помилкою",
+   "pl": "nic nie rób i zakończ się błędem"
+  }
+ },
+ "file": {
+  "summary": {
+   "ru": "определить тип файла",
+   "uk": "визначити тип файлу",
+   "pl": "określ typ pliku"
+  },
+  "options": {
+   "-b, --brief": {
+    "ru": "не печатать имя файла",
+    "uk": "не друкувати ім’я файлу",
+    "pl": "nie wypisuj nazwy pliku"
+   }
+  }
+ },
+ "find": {
+  "summary": {
+   "ru": "искать файлы в дереве директорий",
+   "uk": "шукати файли в дереві директорій",
+   "pl": "szukaj plików w drzewie katalogów"
+  },
+  "options": {
+   "-name PATTERN": {
+    "ru": "имя совпадает с шаблоном (берите в кавычки: -name \"*.log\")",
+    "uk": "ім’я збігається з шаблоном (беріть у лапки: -name \"*.log\")",
+    "pl": "nazwa pasuje do wzorca (w cudzysłowie: -name \"*.log\")"
+   },
+   "-iname PATTERN": {
+    "ru": "как -name, но без учёта регистра",
+    "uk": "як -name, але без урахування регістру",
+    "pl": "jak -name, ale bez rozróżniania wielkości liter"
+   },
+   "-path PATTERN": {
+    "ru": "весь путь совпадает с шаблоном",
+    "uk": "увесь шлях збігається з шаблоном",
+    "pl": "cała ścieżka pasuje do wzorca"
+   },
+   "-type c": {
+    "ru": "тип: f — файл, d — директория, l — ссылка",
+    "uk": "тип: f — файл, d — директорія, l — посилання",
+    "pl": "typ: f — plik, d — katalog, l — dowiązanie"
+   },
+   "-size [+-]N[ckMG]": {
+    "ru": "размер больше (+), меньше (-) или ровно N",
+    "uk": "розмір більший (+), менший (-) або рівно N",
+    "pl": "rozmiar większy (+), mniejszy (-) lub równy N"
+   },
+   "-mtime [+-]N": {
+    "ru": "изменён больше (+) или меньше (-) N суток назад",
+    "uk": "змінений більше (+) або менше (-) N діб тому",
+    "pl": "zmieniony ponad (+) lub poniżej (-) N dni temu"
+   },
+   "-mmin [+-]N": {
+    "ru": "изменён больше (+) или меньше (-) N минут назад",
+    "uk": "змінений більше (+) або менше (-) N хвилин тому",
+    "pl": "zmieniony ponad (+) lub poniżej (-) N minut temu"
+   },
+   "-empty": {
+    "ru": "пустой файл или пустая директория",
+    "uk": "порожній файл або порожня директорія",
+    "pl": "pusty plik lub pusty katalog"
+   },
+   "-user NAME": {
+    "ru": "владелец — пользователь NAME",
+    "uk": "власник — користувач NAME",
+    "pl": "właściciel to użytkownik NAME"
+   },
+   "-perm MODE": {
+    "ru": "права ровно MODE (восьмерично)",
+    "uk": "права рівно MODE (вісімково)",
+    "pl": "uprawnienia dokładnie MODE (ósemkowo)"
+   },
+   "-maxdepth N": {
+    "ru": "заходить не глубже N уровней",
+    "uk": "заходити не глибше N рівнів",
+    "pl": "schodź nie głębiej niż N poziomów"
+   },
+   "-mindepth N": {
+    "ru": "не проверять уровни мельче N",
+    "uk": "не перевіряти рівні мілкіші за N",
+    "pl": "nie sprawdzaj poziomów płytszych niż N"
+   },
+   "-newer FILE": {
+    "ru": "изменён позже, чем FILE",
+    "uk": "змінений пізніше, ніж FILE",
+    "pl": "zmieniony później niż FILE"
+   },
+   "-print": {
+    "ru": "напечатать путь (действие по умолчанию)",
+    "uk": "надрукувати шлях (дія за замовчуванням)",
+    "pl": "wypisz ścieżkę (domyślna akcja)"
+   },
+   "-delete": {
+    "ru": "удалить найденные файлы",
+    "uk": "видалити знайдені файли",
+    "pl": "usuń znalezione pliki"
+   },
+   "-exec COMMAND {} ;": {
+    "ru": "выполнить команду для каждого файла: {} — имя файла, конец — \\; или +",
+    "uk": "виконати команду для кожного файлу: {} — ім’я файлу, кінець — \\; або +",
+    "pl": "wykonaj polecenie dla każdego pliku: {} to nazwa pliku, koniec — \\; lub +"
+   }
+  }
+ },
+ "free": {
+  "summary": {
+   "ru": "сколько памяти занято и свободно",
+   "uk": "скільки пам’яті зайнято й вільно",
+   "pl": "ile pamięci jest zajęte i wolne"
+  },
+  "options": {
+   "-h, --human": {
+    "ru": "в понятных единицах",
+    "uk": "у зрозумілих одиницях",
+    "pl": "w czytelnych jednostkach"
+   },
+   "-m, --mebi": {
+    "ru": "в мебибайтах",
+    "uk": "у мебібайтах",
+    "pl": "w mebibajtach"
+   },
+   "-g, --gibi": {
+    "ru": "в гибибайтах",
+    "uk": "у гібібайтах",
+    "pl": "w gibibajtach"
+   }
+  }
+ },
+ "gh": {
+  "summary": {
+   "ru": "GitHub из терминала: репозитории, pull request’ы, issues",
+   "uk": "GitHub з термінала: репозиторії, pull request’и, issues",
+   "pl": "GitHub z terminala: repozytoria, pull requesty, zgłoszenia"
+  },
+  "options": {
+   "auth status": {
+    "ru": "в какой аккаунт GitHub вы вошли",
+    "uk": "у який акаунт GitHub ви увійшли",
+    "pl": "na jakie konto GitHub jesteś zalogowany"
+   },
+   "repo create NAME": {
+    "ru": "создать репозиторий на GitHub (--public / --private)",
+    "uk": "створити репозиторій на GitHub (--public / --private)",
+    "pl": "utwórz repozytorium na GitHubie (--public / --private)"
+   },
+   "repo clone OWNER/NAME": {
+    "ru": "клонировать репозиторий с GitHub",
+    "uk": "клонувати репозиторій з GitHub",
+    "pl": "sklonuj repozytorium z GitHuba"
+   },
+   "repo view": {
+    "ru": "показать репозиторий и его README",
+    "uk": "показати репозиторій і його README",
+    "pl": "pokaż repozytorium i jego README"
+   },
+   "repo list": {
+    "ru": "ваши репозитории",
+    "uk": "ваші репозиторії",
+    "pl": "twoje repozytoria"
+   },
+   "pr create": {
+    "ru": "открыть pull request из текущей ветки (--title, --body, --base)",
+    "uk": "відкрити pull request з поточної гілки (--title, --body, --base)",
+    "pl": "otwórz pull request z bieżącej gałęzi (--title, --body, --base)"
+   },
+   "pr list": {
+    "ru": "открытые pull request’ы",
+    "uk": "відкриті pull request’и",
+    "pl": "otwarte pull requesty"
+   },
+   "pr view N": {
+    "ru": "один pull request",
+    "uk": "один pull request",
+    "pl": "jeden pull request"
+   },
+   "pr merge N": {
+    "ru": "слить pull request на GitHub (--merge, --squash)",
+    "uk": "злити pull request на GitHub (--merge, --squash)",
+    "pl": "scal pull request na GitHubie (--merge, --squash)"
+   },
+   "pr checkout N": {
+    "ru": "перейти на ветку pull request’а",
+    "uk": "перейти на гілку pull request’а",
+    "pl": "przełącz się na gałąź pull requesta"
+   },
+   "issue create": {
+    "ru": "создать issue (--title, --body)",
+    "uk": "створити issue (--title, --body)",
+    "pl": "utwórz zgłoszenie (--title, --body)"
+   },
+   "issue list": {
+    "ru": "открытые issues",
+    "uk": "відкриті issues",
+    "pl": "otwarte zgłoszenia"
+   },
+   "issue close N": {
+    "ru": "закрыть issue",
+    "uk": "закрити issue",
+    "pl": "zamknij zgłoszenie"
+   },
+   "release create TAG": {
+    "ru": "опубликовать релиз для тега (--title, --notes)",
+    "uk": "опублікувати реліз для тегу (--title, --notes)",
+    "pl": "opublikuj wydanie dla tagu (--title, --notes)"
+   },
+   "release list": {
+    "ru": "релизы репозитория",
+    "uk": "релізи репозиторію",
+    "pl": "wydania repozytorium"
+   },
+   "--title, -t TEXT": {
+    "ru": "заголовок pull request’а или issue",
+    "uk": "заголовок pull request’а або issue",
+    "pl": "tytuł pull requesta lub zgłoszenia"
+   },
+   "--body, -b TEXT": {
+    "ru": "описание pull request’а или issue",
+    "uk": "опис pull request’а або issue",
+    "pl": "opis pull requesta lub zgłoszenia"
+   },
+   "--base, -B BRANCH": {
+    "ru": "pr create: ветка, в которую вливать (по умолчанию main)",
+    "uk": "pr create: гілка, у яку вливати (за замовчуванням main)",
+    "pl": "pr create: gałąź docelowa (domyślnie main)"
+   },
+   "--public": {
+    "ru": "repo create: виден всем",
+    "uk": "repo create: видимий усім",
+    "pl": "repo create: widoczne dla wszystkich"
+   },
+   "--private": {
+    "ru": "repo create: виден только вам",
+    "uk": "repo create: видимий лише вам",
+    "pl": "repo create: widoczne tylko dla ciebie"
+   }
+  }
+ },
+ "git": {
+  "summary": {
+   "ru": "контроль версий: сохранять снимки проекта и делиться ими",
+   "uk": "контроль версій: зберігати знімки проєкту й ділитися ними",
+   "pl": "kontrola wersji: zapisuj migawki projektu i udostępniaj je"
+  },
+  "options": {
+   "init": {
+    "ru": "создать пустой репозиторий в текущей директории",
+    "uk": "створити порожній репозиторій у поточній директорії",
+    "pl": "utwórz puste repozytorium w bieżącym katalogu"
+   },
+   "clone URL [DIR]": {
+    "ru": "скопировать удалённый репозиторий со всей историей",
+    "uk": "скопіювати віддалений репозиторій з усією історією",
+    "pl": "skopiuj zdalne repozytorium z całą historią"
+   },
+   "status": {
+    "ru": "что изменилось: в индексе, не в индексе, неотслеживаемые файлы",
+    "uk": "що змінилося: в індексі, не в індексі, невідстежувані файли",
+    "pl": "co się zmieniło: w indeksie, poza indeksem, nieśledzone pliki"
+   },
+   "add FILE...": {
+    "ru": "добавить изменения в индекс для следующего коммита (git add . — всё)",
+    "uk": "додати зміни в індекс для наступного коміту (git add . — усе)",
+    "pl": "dodaj zmiany do indeksu na następny commit (git add . — wszystko)"
+   },
+   "commit -m MESSAGE": {
+    "ru": "сохранить снимок из индекса с сообщением",
+    "uk": "зберегти знімок з індексу з повідомленням",
+    "pl": "zapisz migawkę z indeksu z opisem"
+   },
+   "log": {
+    "ru": "история коммитов (--oneline — по строке на коммит)",
+    "uk": "історія комітів (--oneline — по рядку на коміт)",
+    "pl": "historia commitów (--oneline — jedna linia na commit)"
+   },
+   "diff": {
+    "ru": "незафиксированные изменения построчно (--staged — что уйдёт в коммит)",
+    "uk": "незафіксовані зміни порядково (--staged — що піде в коміт)",
+    "pl": "niezatwierdzone zmiany linia po linii (--staged — co trafi do commita)"
+   },
+   "show COMMIT": {
+    "ru": "один коммит и его изменения",
+    "uk": "один коміт і його зміни",
+    "pl": "jeden commit i jego zmiany"
+   },
+   "branch [NAME]": {
+    "ru": "список веток или создать ветку",
+    "uk": "список гілок або створити гілку",
+    "pl": "lista gałęzi lub utworzenie gałęzi"
+   },
+   "switch BRANCH": {
+    "ru": "перейти на ветку (-c ИМЯ — сначала создать)",
+    "uk": "перейти на гілку (-c НАЗВА — спершу створити)",
+    "pl": "przełącz na gałąź (-c NAZWA — najpierw utwórz)"
+   },
+   "checkout BRANCH": {
+    "ru": "перейти на ветку (старая команда; -b ИМЯ создаёт ветку)",
+    "uk": "перейти на гілку (стара команда; -b НАЗВА створює гілку)",
+    "pl": "przełącz gałąź (starsze polecenie; -b NAZWA tworzy gałąź)"
+   },
+   "merge BRANCH": {
+    "ru": "влить другую ветку в текущую",
+    "uk": "влити іншу гілку в поточну",
+    "pl": "scal inną gałąź z bieżącą"
+   },
+   "remote add NAME URL": {
+    "ru": "подключить удалённый репозиторий (обычно origin)",
+    "uk": "підключити віддалений репозиторій (зазвичай origin)",
+    "pl": "podłącz zdalne repozytorium (zwykle origin)"
+   },
+   "push": {
+    "ru": "отправить свои коммиты в удалённый репозиторий (-u — запомнить его)",
+    "uk": "надіслати свої коміти у віддалений репозиторій (-u — запам’ятати його)",
+    "pl": "wyślij swoje commity do zdalnego repozytorium (-u — zapamiętaj je)"
+   },
+   "pull": {
+    "ru": "получить новые коммиты с сервера и слить их",
+    "uk": "отримати нові коміти із сервера й злити їх",
+    "pl": "pobierz nowe commity z serwera i scal je"
+   },
+   "fetch": {
+    "ru": "скачать новые коммиты, не сливая их",
+    "uk": "завантажити нові коміти, не зливаючи їх",
+    "pl": "pobierz nowe commity bez scalania"
+   },
+   "restore FILE": {
+    "ru": "отменить изменения в файле (--staged — убрать из индекса)",
+    "uk": "скасувати зміни у файлі (--staged — прибрати з індексу)",
+    "pl": "cofnij zmiany w pliku (--staged — usuń z indeksu)"
+   },
+   "reset": {
+    "ru": "передвинуть ветку назад (--hard — заодно стереть изменения)",
+    "uk": "пересунути гілку назад (--hard — заразом стерти зміни)",
+    "pl": "cofnij gałąź (--hard — skasuj też zmiany)"
+   },
+   "revert COMMIT": {
+    "ru": "новый коммит, отменяющий старый",
+    "uk": "новий коміт, що скасовує старий",
+    "pl": "nowy commit cofający stary"
+   },
+   "stash": {
+    "ru": "отложить незаконченные изменения (stash pop — вернуть)",
+    "uk": "відкласти незавершені зміни (stash pop — повернути)",
+    "pl": "odłóż niedokończone zmiany (stash pop — przywróć)"
+   },
+   "tag NAME": {
+    "ru": "пометить коммит, например релиз v1.0 (-a -m — аннотированный тег)",
+    "uk": "позначити коміт, наприклад реліз v1.0 (-a -m — анотований тег)",
+    "pl": "oznacz commit, np. wydanie v1.0 (-a -m — tag z opisem)"
+   },
+   "cherry-pick COMMIT": {
+    "ru": "скопировать один коммит из другой ветки в текущую",
+    "uk": "скопіювати один коміт з іншої гілки в поточну",
+    "pl": "skopiuj jeden commit z innej gałęzi do bieżącej"
+   },
+   "blame FILE": {
+    "ru": "кто и в каком коммите последним менял каждую строку",
+    "uk": "хто і в якому коміті востаннє змінював кожен рядок",
+    "pl": "kto i w którym commicie ostatnio zmienił każdy wiersz"
+   },
+   "config KEY VALUE": {
+    "ru": "настройки, например user.name и user.email (--global — для всех ваших репозиториев)",
+    "uk": "налаштування, наприклад user.name і user.email (--global — для всіх ваших репозиторіїв)",
+    "pl": "ustawienia, np. user.name i user.email (--global — dla wszystkich twoich repozytoriów)"
+   },
+   "-m, --message MSG": {
+    "ru": "commit: сообщение коммита",
+    "uk": "commit: повідомлення коміту",
+    "pl": "commit: opis commita"
+   },
+   "--tags": {
+    "ru": "push: отправить все теги на remote",
+    "uk": "push: надіслати всі теги на remote",
+    "pl": "push: wyślij wszystkie tagi na remote"
+   },
+   "--grep TEXT": {
+    "ru": "log: только коммиты, в сообщении которых есть TEXT",
+    "uk": "log: лише коміти, у повідомленні яких є TEXT",
+    "pl": "log: tylko commity, których opis zawiera TEXT"
+   },
+   "--author NAME": {
+    "ru": "log: только коммиты этого автора",
+    "uk": "log: лише коміти цього автора",
+    "pl": "log: tylko commity tego autora"
+   },
+   "-a, --all": {
+    "ru": "commit: сначала добавить все изменённые отслеживаемые файлы",
+    "uk": "commit: спершу додати всі змінені відстежувані файли",
+    "pl": "commit: najpierw dodaj wszystkie zmienione śledzone pliki"
+   },
+   "--oneline": {
+    "ru": "log: одна короткая строка на коммит",
+    "uk": "log: один короткий рядок на коміт",
+    "pl": "log: jedna krótka linia na commit"
+   },
+   "--graph": {
+    "ru": "log: нарисовать граф веток",
+    "uk": "log: намалювати граф гілок",
+    "pl": "log: narysuj graf gałęzi"
+   },
+   "-u, --set-upstream": {
+    "ru": "push: запомнить удалённую ветку для git push / git pull",
+    "uk": "push: запам’ятати віддалену гілку для git push / git pull",
+    "pl": "push: zapamiętaj zdalną gałąź dla git push / git pull"
+   },
+   "--staged, --cached": {
+    "ru": "diff / restore: индекс (staging area)",
+    "uk": "diff / restore: індекс (staging area)",
+    "pl": "diff / restore: indeks (staging area)"
+   },
+   "--hard": {
+    "ru": "reset: заодно перезаписать файлы в рабочей папке",
+    "uk": "reset: заразом перезаписати файли в робочій теці",
+    "pl": "reset: nadpisz też pliki w katalogu roboczym"
+   },
+   "-b NAME": {
+    "ru": "checkout: создать новую ветку и перейти на неё",
+    "uk": "checkout: створити нову гілку й перейти на неї",
+    "pl": "checkout: utwórz nową gałąź i przełącz się na nią"
+   },
+   "-c NAME": {
+    "ru": "switch: создать новую ветку и перейти на неё",
+    "uk": "switch: створити нову гілку й перейти на неї",
+    "pl": "switch: utwórz nową gałąź i przełącz się na nią"
+   },
+   "-d NAME": {
+    "ru": "branch: удалить слитую ветку (-D — удалить в любом случае)",
+    "uk": "branch: видалити злиту гілку (-D — видалити в будь-якому разі)",
+    "pl": "branch: usuń scaloną gałąź (-D — usuń mimo wszystko)"
+   },
+   "--global": {
+    "ru": "config: настройка для всех ваших репозиториев",
+    "uk": "config: налаштування для всіх ваших репозиторіїв",
+    "pl": "config: ustawienie dla wszystkich twoich repozytoriów"
+   },
+   "--amend": {
+    "ru": "commit: заменить последний коммит",
+    "uk": "commit: замінити останній коміт",
+    "pl": "commit: zastąp ostatni commit"
+   },
+   "--abort": {
+    "ru": "merge: отменить слияние с конфликтами",
+    "uk": "merge: скасувати злиття з конфліктами",
+    "pl": "merge: przerwij scalanie z konfliktami"
+   }
+  }
+ },
+ "grep": {
+  "summary": {
+   "ru": "найти строки по шаблону",
+   "uk": "знайти рядки за шаблоном",
+   "pl": "znajdź wiersze pasujące do wzorca"
+  },
+  "options": {
+   "-E, --extended-regexp": {
+    "ru": "расширенные регулярные выражения (|, +, ?)",
+    "uk": "розширені регулярні вирази (|, +, ?)",
+    "pl": "rozszerzone wyrażenia regularne (|, +, ?)"
+   },
+   "-F, --fixed-strings": {
+    "ru": "искать как обычный текст, без регулярок",
+    "uk": "шукати як звичайний текст, без регулярок",
+    "pl": "szukaj jako zwykły tekst, bez wyrażeń regularnych"
+   },
+   "-e, --regexp=PATTERNS": {
+    "ru": "шаблон для поиска",
+    "uk": "шаблон для пошуку",
+    "pl": "wzorzec do wyszukania"
+   },
+   "-i, --ignore-case": {
+    "ru": "не различать регистр букв",
+    "uk": "не розрізняти регістр літер",
+    "pl": "ignoruj wielkość liter"
+   },
+   "-v, --invert-match": {
+    "ru": "наоборот: строки, которые НЕ подходят",
+    "uk": "навпаки: рядки, які НЕ підходять",
+    "pl": "odwrotnie: wiersze, które NIE pasują"
+   },
+   "-w, --word-regexp": {
+    "ru": "только целые слова",
+    "uk": "лише цілі слова",
+    "pl": "tylko całe słowa"
+   },
+   "-x, --line-regexp": {
+    "ru": "только строка целиком",
+    "uk": "лише рядок цілком",
+    "pl": "tylko cały wiersz"
+   },
+   "-c, --count": {
+    "ru": "вывести только число найденных строк",
+    "uk": "вивести лише кількість знайдених рядків",
+    "pl": "wypisz tylko liczbę znalezionych wierszy"
+   },
+   "-l, --files-with-matches": {
+    "ru": "вывести только имена файлов с совпадениями",
+    "uk": "вивести лише імена файлів зі збігами",
+    "pl": "wypisz tylko nazwy plików z dopasowaniami"
+   },
+   "-L, --files-without-match": {
+    "ru": "имена файлов без совпадений",
+    "uk": "імена файлів без збігів",
+    "pl": "nazwy plików bez dopasowań"
+   },
+   "-n, --line-number": {
+    "ru": "показывать номер строки",
+    "uk": "показувати номер рядка",
+    "pl": "pokazuj numer wiersza"
+   },
+   "-H, --with-filename": {
+    "ru": "показывать имя файла",
+    "uk": "показувати ім’я файлу",
+    "pl": "pokazuj nazwę pliku"
+   },
+   "-h, --no-filename": {
+    "ru": "не показывать имя файла",
+    "uk": "не показувати ім’я файлу",
+    "pl": "nie pokazuj nazwy pliku"
+   },
+   "-o, --only-matching": {
+    "ru": "выводить только совпавший кусок",
+    "uk": "виводити лише збіглий фрагмент",
+    "pl": "wypisuj tylko dopasowany fragment"
+   },
+   "-q, --quiet": {
+    "ru": "ничего не выводить, только код возврата",
+    "uk": "нічого не виводити, лише код повернення",
+    "pl": "nic nie wypisuj, tylko kod wyjścia"
+   },
+   "-r, --recursive": {
+    "ru": "искать во всех файлах внутри директорий",
+    "uk": "шукати в усіх файлах усередині директорій",
+    "pl": "szukaj we wszystkich plikach w katalogach"
+   },
+   "-m, --max-count=NUM": {
+    "ru": "остановиться после NUM найденных строк",
+    "uk": "зупинитися після NUM знайдених рядків",
+    "pl": "zatrzymaj się po NUM znalezionych wierszach"
+   },
+   "--color[=WHEN]": {
+    "ru": "подсвечивать найденное",
+    "uk": "підсвічувати знайдене",
+    "pl": "podświetlaj znalezione"
+   }
+  }
+ },
+ "groupadd": {
+  "summary": {
+   "ru": "создать группу",
+   "uk": "створити групу",
+   "pl": "utwórz grupę"
+  }
+ },
+ "groups": {
+  "summary": {
+   "ru": "показать группы пользователя",
+   "uk": "показати групи користувача",
+   "pl": "pokaż grupy użytkownika"
+  }
+ },
+ "head": {
+  "summary": {
+   "ru": "показать начало файла",
+   "uk": "показати початок файлу",
+   "pl": "pokaż początek pliku"
+  },
+  "options": {
+   "-c, --bytes=NUM": {
+    "ru": "первые NUM байт",
+    "uk": "перші NUM байтів",
+    "pl": "pierwsze NUM bajtów"
+   },
+   "-n, --lines=NUM": {
+    "ru": "первые NUM строк (вместо 10)",
+    "uk": "перші NUM рядків (замість 10)",
+    "pl": "pierwsze NUM wierszy (zamiast 10)"
+   },
+   "-q, --quiet": {
+    "ru": "не печатать заголовки с именами файлов",
+    "uk": "не друкувати заголовки з іменами файлів",
+    "pl": "nie wypisuj nagłówków z nazwami plików"
+   },
+   "-v, --verbose": {
+    "ru": "всегда печатать заголовки с именами файлов",
+    "uk": "завжди друкувати заголовки з іменами файлів",
+    "pl": "zawsze wypisuj nagłówki z nazwami plików"
+   }
+  }
+ },
+ "help": {
+  "summary": {
+   "ru": "справка по встроенным командам",
+   "uk": "довідка з вбудованих команд",
+   "pl": "pomoc do poleceń wbudowanych"
+  }
+ },
+ "history": {
+  "summary": {
+   "ru": "история введённых команд",
+   "uk": "історія введених команд",
+   "pl": "historia wpisanych poleceń"
+  },
+  "options": {
+   "-c": {
+    "ru": "очистить историю",
+    "uk": "очистити історію",
+    "pl": "wyczyść historię"
+   }
+  }
+ },
+ "host": {
+  "summary": {
+   "ru": "DNS-запрос (кратко)",
+   "uk": "DNS-запит (стисло)",
+   "pl": "zapytanie DNS (krótko)"
+  }
+ },
+ "hostname": {
+  "summary": {
+   "ru": "показать имя машины",
+   "uk": "показати ім’я машини",
+   "pl": "pokaż nazwę maszyny"
+  }
+ },
+ "id": {
+  "summary": {
+   "ru": "показать UID, GID и группы пользователя",
+   "uk": "показати UID, GID і групи користувача",
+   "pl": "pokaż UID, GID i grupy użytkownika"
+  },
+  "options": {
+   "-u": {
+    "ru": "только ID пользователя",
+    "uk": "лише ID користувача",
+    "pl": "tylko ID użytkownika"
+   },
+   "-g": {
+    "ru": "только ID основной группы",
+    "uk": "лише ID основної групи",
+    "pl": "tylko ID grupy głównej"
+   },
+   "-G": {
+    "ru": "ID всех групп",
+    "uk": "ID усіх груп",
+    "pl": "ID wszystkich grup"
+   },
+   "-n": {
+    "ru": "имена вместо чисел (с -u, -g, -G)",
+    "uk": "імена замість чисел (з -u, -g, -G)",
+    "pl": "nazwy zamiast liczb (z -u, -g, -G)"
+   }
+  }
+ },
+ "ip": {
+  "summary": {
+   "ru": "сетевые интерфейсы, адреса и маршруты",
+   "uk": "мережеві інтерфейси, адреси й маршрути",
+   "pl": "interfejsy sieciowe, adresy i trasy"
+  },
+  "options": {
+   "-br, -brief": {
+    "ru": "одна строка на интерфейс",
+    "uk": "один рядок на інтерфейс",
+    "pl": "jeden wiersz na interfejs"
+   }
+  }
+ },
+ "journalctl": {
+  "summary": {
+   "ru": "журналы systemd",
+   "uk": "журнали systemd",
+   "pl": "dzienniki systemd"
+  },
+  "options": {
+   "-u, --unit=UNIT": {
+    "ru": "журнал только этого сервиса",
+    "uk": "журнал лише цього сервісу",
+    "pl": "dziennik tylko tej usługi"
+   },
+   "-n, --lines=N": {
+    "ru": "последние N записей",
+    "uk": "останні N записів",
+    "pl": "ostatnie N wpisów"
+   },
+   "-p, --priority=err": {
+    "ru": "только ошибки и хуже",
+    "uk": "лише помилки й гірше",
+    "pl": "tylko błędy i gorsze"
+   },
+   "-r, --reverse": {
+    "ru": "новые записи первыми",
+    "uk": "нові записи першими",
+    "pl": "najnowsze wpisy najpierw"
+   },
+   "-e": {
+    "ru": "сразу в конец журнала",
+    "uk": "одразу в кінець журналу",
+    "pl": "od razu na koniec dziennika"
+   },
+   "-f, --follow": {
+    "ru": "следить за новыми записями",
+    "uk": "стежити за новими записами",
+    "pl": "śledź nowe wpisy"
+   }
+  }
+ },
+ "kill": {
+  "summary": {
+   "ru": "послать сигнал процессу",
+   "uk": "надіслати сигнал процесу",
+   "pl": "wyślij sygnał do procesu"
+  }
+ },
+ "killall": {
+  "summary": {
+   "ru": "завершить процессы по точному имени",
+   "uk": "завершити процеси за точним ім’ям",
+   "pl": "zakończ procesy o dokładnej nazwie"
+  }
+ },
+ "less": {
+  "summary": {
+   "ru": "просматривать файл постранично",
+   "uk": "переглядати файл посторінково",
+   "pl": "przeglądaj plik stronami"
+  }
+ },
+ "ln": {
+  "summary": {
+   "ru": "создать ссылку на файл",
+   "uk": "створити посилання на файл",
+   "pl": "utwórz dowiązanie do pliku"
+  },
+  "options": {
+   "-f, --force": {
+    "ru": "удалить существующий файл назначения",
+    "uk": "видалити наявний файл призначення",
+    "pl": "usuń istniejący plik docelowy"
+   },
+   "-s, --symbolic": {
+    "ru": "символическая ссылка вместо жёсткой",
+    "uk": "символьне посилання замість жорсткого",
+    "pl": "dowiązanie symboliczne zamiast twardego"
+   },
+   "-v, --verbose": {
+    "ru": "печатать имя каждой созданной ссылки",
+    "uk": "друкувати ім’я кожного створеного посилання",
+    "pl": "wypisuj nazwę każdego utworzonego dowiązania"
+   },
+   "-n, --no-dereference": {
+    "ru": "не заходить в ссылку на директорию, а заменить её",
+    "uk": "не заходити в посилання на директорію, а замінити його",
+    "pl": "nie wchodź w dowiązanie do katalogu, tylko je zastąp"
+   }
+  }
+ },
+ "ls": {
+  "summary": {
+   "ru": "показать содержимое директории",
+   "uk": "показати вміст директорії",
+   "pl": "wyświetl zawartość katalogu"
+  },
+  "options": {
+   "-a, --all": {
+    "ru": "показывать и скрытые файлы (имена с точки)",
+    "uk": "показувати й приховані файли (імена з крапки)",
+    "pl": "pokazuj też ukryte pliki (nazwy z kropką)"
+   },
+   "-A, --almost-all": {
+    "ru": "скрытые файлы, но без . и ..",
+    "uk": "приховані файли, але без . і ..",
+    "pl": "ukryte pliki, ale bez . i .."
+   },
+   "-d, --directory": {
+    "ru": "показать саму директорию, а не её содержимое",
+    "uk": "показати саму директорію, а не її вміст",
+    "pl": "pokaż sam katalog, nie jego zawartość"
+   },
+   "-F, --classify": {
+    "ru": "добавить значок типа (*/@) к именам",
+    "uk": "додати значок типу (*/@) до імен",
+    "pl": "dodaj znacznik typu (*/@) do nazw"
+   },
+   "-h, --human-readable": {
+    "ru": "с -l: размеры в понятном виде (1K 234M 2G)",
+    "uk": "з -l: розміри у зрозумілому вигляді (1K 234M 2G)",
+    "pl": "z -l: rozmiary w czytelnej postaci (1K 234M 2G)"
+   },
+   "-l": {
+    "ru": "подробный список: права, владелец, размер, дата",
+    "uk": "докладний список: права, власник, розмір, дата",
+    "pl": "szczegółowa lista: uprawnienia, właściciel, rozmiar, data"
+   },
+   "-r, --reverse": {
+    "ru": "обратный порядок сортировки",
+    "uk": "зворотний порядок сортування",
+    "pl": "odwrotna kolejność sortowania"
+   },
+   "-R, --recursive": {
+    "ru": "показывать поддиректории рекурсивно",
+    "uk": "показувати піддиректорії рекурсивно",
+    "pl": "pokazuj podkatalogi rekurencyjnie"
+   },
+   "-S": {
+    "ru": "сортировать по размеру, крупные первыми",
+    "uk": "сортувати за розміром, великі першими",
+    "pl": "sortuj według rozmiaru, największe najpierw"
+   },
+   "-t": {
+    "ru": "сортировать по времени, новые первыми",
+    "uk": "сортувати за часом, нові першими",
+    "pl": "sortuj według czasu, najnowsze najpierw"
+   },
+   "-1": {
+    "ru": "по одному файлу в строке",
+    "uk": "по одному файлу в рядку",
+    "pl": "jeden plik w wierszu"
+   },
+   "-C": {
+    "ru": "выводить колонками",
+    "uk": "виводити колонками",
+    "pl": "wypisuj w kolumnach"
+   },
+   "--color[=WHEN]": {
+    "ru": "раскрашивать вывод: always, auto или never",
+    "uk": "розфарбовувати вивід: always, auto або never",
+    "pl": "koloruj wyjście: always, auto lub never"
+   }
+  }
+ },
+ "man": {
+  "summary": {
+   "ru": "открыть справочное руководство",
+   "uk": "відкрити довідковий посібник",
+   "pl": "otwórz podręcznik"
+  }
+ },
+ "mkdir": {
+  "summary": {
+   "ru": "создать директории",
+   "uk": "створити директорії",
+   "pl": "utwórz katalogi"
+  },
+  "options": {
+   "-m, --mode=MODE": {
+    "ru": "задать права новой директории (как в chmod)",
+    "uk": "задати права нової директорії (як у chmod)",
+    "pl": "ustaw uprawnienia nowego katalogu (jak w chmod)"
+   },
+   "-p, --parents": {
+    "ru": "создать и родительские директории, без ошибки если уже есть",
+    "uk": "створити й батьківські директорії, без помилки якщо вже є",
+    "pl": "utwórz też katalogi nadrzędne, bez błędu jeśli istnieją"
+   },
+   "-v, --verbose": {
+    "ru": "сообщать о каждой созданной директории",
+    "uk": "повідомляти про кожну створену директорію",
+    "pl": "informuj o każdym utworzonym katalogu"
+   }
+  }
+ },
+ "more": {
+  "summary": {
+   "ru": "просматривать файл постранично (простой)",
+   "uk": "переглядати файл посторінково (простий)",
+   "pl": "przeglądaj plik stronami (prosty)"
+  }
+ },
+ "mv": {
+  "summary": {
+   "ru": "переместить или переименовать файлы",
+   "uk": "перемістити або перейменувати файли",
+   "pl": "przenieś lub zmień nazwę plików"
+  },
+  "options": {
+   "-f, --force": {
+    "ru": "не спрашивать перед перезаписью",
+    "uk": "не питати перед перезаписом",
+    "pl": "nie pytaj przed nadpisaniem"
+   },
+   "-n, --no-clobber": {
+    "ru": "не перезаписывать существующий файл",
+    "uk": "не перезаписувати наявний файл",
+    "pl": "nie nadpisuj istniejącego pliku"
+   },
+   "-T, --no-target-directory": {
+    "ru": "считать DEST обычным файлом",
+    "uk": "вважати DEST звичайним файлом",
+    "pl": "traktuj DEST jako zwykły plik"
+   },
+   "-v, --verbose": {
+    "ru": "рассказывать, что делается",
+    "uk": "розповідати, що робиться",
+    "pl": "opisuj, co jest robione"
+   }
+  }
+ },
+ "nano": {
+  "summary": {
+   "ru": "простой текстовый редактор",
+   "uk": "простий текстовий редактор",
+   "pl": "prosty edytor tekstu"
+  }
+ },
+ "nc": {
+  "summary": {
+   "ru": "подключиться к TCP/UDP-порту",
+   "uk": "підключитися до TCP/UDP-порту",
+   "pl": "połącz się z portem TCP/UDP"
+  },
+  "options": {
+   "-z": {
+    "ru": "только проверить, открыт ли порт",
+    "uk": "лише перевірити, чи відкритий порт",
+    "pl": "tylko sprawdź, czy port jest otwarty"
+   },
+   "-v": {
+    "ru": "подробно",
+    "uk": "докладно",
+    "pl": "szczegółowo"
+   },
+   "-w secs": {
+    "ru": "таймаут в секундах",
+    "uk": "тайм-аут у секундах",
+    "pl": "limit czasu w sekundach"
+   }
+  }
+ },
+ "netstat": {
+  "summary": {
+   "ru": "сетевые соединения (устарело, используйте ss)",
+   "uk": "мережеві з’єднання (застаріло, використовуйте ss)",
+   "pl": "połączenia sieciowe (przestarzałe, użyj ss)"
+  },
+  "options": {
+   "-t": {
+    "ru": "TCP",
+    "uk": "TCP",
+    "pl": "TCP"
+   },
+   "-u": {
+    "ru": "UDP",
+    "uk": "UDP",
+    "pl": "UDP"
+   },
+   "-l": {
+    "ru": "только слушающие порты",
+    "uk": "лише порти, що слухають",
+    "pl": "tylko nasłuchujące porty"
+   },
+   "-p": {
+    "ru": "показать PID и программу",
+    "uk": "показати PID і програму",
+    "pl": "pokaż PID i program"
+   },
+   "-n": {
+    "ru": "адреса цифрами",
+    "uk": "адреси цифрами",
+    "pl": "adresy liczbowo"
+   }
+  }
+ },
+ "nl": {
+  "summary": {
+   "ru": "пронумеровать строки",
+   "uk": "пронумерувати рядки",
+   "pl": "ponumeruj wiersze"
+  }
+ },
+ "nproc": {
+  "summary": {
+   "ru": "число процессорных ядер",
+   "uk": "кількість процесорних ядер",
+   "pl": "liczba rdzeni procesora"
+  }
+ },
+ "nslookup": {
+  "summary": {
+   "ru": "DNS-запрос к серверу имён",
+   "uk": "DNS-запит до сервера імен",
+   "pl": "zapytanie do serwera nazw DNS"
+  }
+ },
+ "passwd": {
+  "summary": {
+   "ru": "сменить пароль пользователя",
+   "uk": "змінити пароль користувача",
+   "pl": "zmień hasło użytkownika"
+  }
+ },
+ "paste": {
+  "summary": {
+   "ru": "склеить строки файлов бок о бок",
+   "uk": "склеїти рядки файлів пліч-о-пліч",
+   "pl": "połącz wiersze plików obok siebie"
+  },
+  "options": {
+   "-d, --delimiters=LIST": {
+    "ru": "разделители вместо табуляции",
+    "uk": "роздільники замість табуляції",
+    "pl": "separatory zamiast tabulatora"
+   },
+   "-s, --serial": {
+    "ru": "склеить строки одного файла в одну",
+    "uk": "склеїти рядки одного файлу в один",
+    "pl": "połącz wiersze jednego pliku w jeden"
+   }
+  }
+ },
+ "pgrep": {
+  "summary": {
+   "ru": "найти процессы по имени",
+   "uk": "знайти процеси за ім’ям",
+   "pl": "znajdź procesy po nazwie"
+  },
+  "options": {
+   "-l": {
+    "ru": "показать и имя процесса",
+    "uk": "показати й ім’я процесу",
+    "pl": "pokaż też nazwę procesu"
+   },
+   "-a": {
+    "ru": "показать полную командную строку",
+    "uk": "показати повний командний рядок",
+    "pl": "pokaż pełny wiersz polecenia"
+   },
+   "-f": {
+    "ru": "искать по всей командной строке, не только по имени",
+    "uk": "шукати за всім командним рядком, не лише за ім’ям",
+    "pl": "szukaj w całym wierszu polecenia, nie tylko w nazwie"
+   },
+   "-u USER": {
+    "ru": "только процессы пользователя USER",
+    "uk": "лише процеси користувача USER",
+    "pl": "tylko procesy użytkownika USER"
+   },
+   "-c": {
+    "ru": "вывести количество найденных процессов",
+    "uk": "вивести кількість знайдених процесів",
+    "pl": "wypisz liczbę znalezionych procesów"
+   }
+  }
+ },
+ "ping": {
+  "summary": {
+   "ru": "проверить, отвечает ли хост (ICMP)",
+   "uk": "перевірити, чи відповідає хост (ICMP)",
+   "pl": "sprawdź, czy host odpowiada (ICMP)"
+  },
+  "options": {
+   "-c count": {
+    "ru": "остановиться после count пакетов",
+    "uk": "зупинитися після count пакетів",
+    "pl": "zatrzymaj się po count pakietach"
+   },
+   "-i interval": {
+    "ru": "пауза между пакетами в секундах",
+    "uk": "пауза між пакетами в секундах",
+    "pl": "przerwa między pakietami w sekundach"
+   },
+   "-W timeout": {
+    "ru": "сколько секунд ждать ответ",
+    "uk": "скільки секунд чекати відповідь",
+    "pl": "ile sekund czekać na odpowiedź"
+   },
+   "-q": {
+    "ru": "тихо: только итог",
+    "uk": "тихо: лише підсумок",
+    "pl": "cicho: tylko podsumowanie"
+   }
+  }
+ },
+ "pkill": {
+  "summary": {
+   "ru": "послать сигнал процессам по имени",
+   "uk": "надіслати сигнал процесам за ім’ям",
+   "pl": "wyślij sygnał procesom po nazwie"
+  },
+  "options": {
+   "-f": {
+    "ru": "искать по всей командной строке",
+    "uk": "шукати за всім командним рядком",
+    "pl": "szukaj w całym wierszu polecenia"
+   },
+   "-u USER": {
+    "ru": "только процессы пользователя USER",
+    "uk": "лише процеси користувача USER",
+    "pl": "tylko procesy użytkownika USER"
+   },
+   "-9": {
+    "ru": "послать SIGKILL (убить сразу)",
+    "uk": "надіслати SIGKILL (вбити одразу)",
+    "pl": "wyślij SIGKILL (zabij od razu)"
+   }
+  }
+ },
+ "printenv": {
+  "summary": {
+   "ru": "показать переменные окружения",
+   "uk": "показати змінні оточення",
+   "pl": "pokaż zmienne środowiska"
+  }
+ },
+ "printf": {
+  "summary": {
+   "ru": "форматированный вывод",
+   "uk": "форматований вивід",
+   "pl": "sformatowane wyjście"
+  }
+ },
+ "ps": {
+  "summary": {
+   "ru": "список запущенных процессов",
+   "uk": "список запущених процесів",
+   "pl": "lista uruchomionych procesów"
+  },
+  "options": {
+   "aux": {
+    "ru": "все процессы всех пользователей, в стиле BSD",
+    "uk": "усі процеси всіх користувачів, у стилі BSD",
+    "pl": "wszystkie procesy wszystkich użytkowników, w stylu BSD"
+   },
+   "-e, -A": {
+    "ru": "все процессы",
+    "uk": "усі процеси",
+    "pl": "wszystkie procesy"
+   },
+   "-f": {
+    "ru": "полный формат",
+    "uk": "повний формат",
+    "pl": "pełny format"
+   }
+  }
+ },
+ "pwd": {
+  "summary": {
+   "ru": "показать путь текущей директории",
+   "uk": "показати шлях поточної директорії",
+   "pl": "wypisz ścieżkę bieżącego katalogu"
+  },
+  "options": {
+   "-L": {
+    "ru": "вывести значение $PWD (по умолчанию)",
+    "uk": "вивести значення $PWD (за замовчуванням)",
+    "pl": "wypisz wartość $PWD (domyślnie)"
+   },
+   "-P": {
+    "ru": "физический путь, без символических ссылок",
+    "uk": "фізичний шлях, без символьних посилань",
+    "pl": "fizyczna ścieżka, bez dowiązań symbolicznych"
+   }
+  }
+ },
+ "read": {
+  "summary": {
+   "ru": "прочитать строку ввода в переменные",
+   "uk": "прочитати рядок вводу в змінні",
+   "pl": "wczytaj wiersz wejścia do zmiennych"
+  },
+  "options": {
+   "-r": {
+    "ru": "не считать обратную косую чертой escape",
+    "uk": "не вважати зворотну скісну escape",
+    "pl": "nie traktuj ukośnika wstecznego jako escape"
+   },
+   "-p PROMPT": {
+    "ru": "сначала напечатать приглашение PROMPT",
+    "uk": "спочатку надрукувати запрошення PROMPT",
+    "pl": "najpierw wypisz zachętę PROMPT"
+   }
+  }
+ },
+ "readlink": {
+  "summary": {
+   "ru": "показать, куда указывает ссылка",
+   "uk": "показати, куди вказує посилання",
+   "pl": "pokaż, dokąd wskazuje dowiązanie"
+  },
+  "options": {
+   "-f, --canonicalize": {
+    "ru": "пройти по всем ссылкам и вывести настоящий путь",
+    "uk": "пройти всіма посиланнями й вивести справжній шлях",
+    "pl": "przejdź przez wszystkie dowiązania i wypisz prawdziwą ścieżkę"
+   }
+  }
+ },
+ "realpath": {
+  "summary": {
+   "ru": "показать полный настоящий путь",
+   "uk": "показати повний справжній шлях",
+   "pl": "wypisz pełną prawdziwą ścieżkę"
+  }
+ },
+ "rev": {
+  "summary": {
+   "ru": "перевернуть каждую строку задом наперёд",
+   "uk": "перевернути кожен рядок задом наперед",
+   "pl": "odwróć każdy wiersz"
+  }
+ },
+ "rm": {
+  "summary": {
+   "ru": "удалить файлы или директории",
+   "uk": "видалити файли або директорії",
+   "pl": "usuń pliki lub katalogi"
+  },
+  "options": {
+   "-f, --force": {
+    "ru": "не спрашивать и молчать о несуществующих файлах",
+    "uk": "не питати й мовчати про неіснуючі файли",
+    "pl": "nie pytaj i milcz o nieistniejących plikach"
+   },
+   "-r, -R, --recursive": {
+    "ru": "удалять директории со всем содержимым",
+    "uk": "видаляти директорії з усім вмістом",
+    "pl": "usuwaj katalogi z całą zawartością"
+   },
+   "-d, --dir": {
+    "ru": "удалять пустые директории",
+    "uk": "видаляти порожні директорії",
+    "pl": "usuwaj puste katalogi"
+   },
+   "-v, --verbose": {
+    "ru": "рассказывать, что удаляется",
+    "uk": "розповідати, що видаляється",
+    "pl": "opisuj, co jest usuwane"
+   },
+   "--no-preserve-root": {
+    "ru": "не защищать корень / (никогда так не делайте)",
+    "uk": "не захищати корінь / (ніколи так не робіть)",
+    "pl": "nie chroń katalogu głównego / (nigdy tego nie rób)"
+   }
+  }
+ },
+ "rmdir": {
+  "summary": {
+   "ru": "удалить пустые директории",
+   "uk": "видалити порожні директорії",
+   "pl": "usuń puste katalogi"
+  },
+  "options": {
+   "-p, --parents": {
+    "ru": "удалить директорию и её пустых родителей",
+    "uk": "видалити директорію та її порожніх батьків",
+    "pl": "usuń katalog i jego puste katalogi nadrzędne"
+   },
+   "-v, --verbose": {
+    "ru": "сообщать о каждой директории",
+    "uk": "повідомляти про кожну директорію",
+    "pl": "informuj o każdym katalogu"
+   }
+  }
+ },
+ "sed": {
+  "summary": {
+   "ru": "потоковый редактор: замена и удаление в строках",
+   "uk": "потоковий редактор: заміна й видалення в рядках",
+   "pl": "edytor strumieniowy: zamiana i usuwanie w wierszach"
+  },
+  "options": {
+   "-n, --quiet": {
+    "ru": "не печатать строки автоматически (только по p)",
+    "uk": "не друкувати рядки автоматично (лише за p)",
+    "pl": "nie wypisuj wierszy automatycznie (tylko przez p)"
+   },
+   "-e script": {
+    "ru": "добавить скрипт (команду sed)",
+    "uk": "додати скрипт (команду sed)",
+    "pl": "dodaj skrypt (polecenie sed)"
+   },
+   "-i, --in-place": {
+    "ru": "менять сам файл",
+    "uk": "змінювати сам файл",
+    "pl": "zmieniaj sam plik"
+   },
+   "-E, -r, --regexp-extended": {
+    "ru": "расширенные регулярные выражения",
+    "uk": "розширені регулярні вирази",
+    "pl": "rozszerzone wyrażenia regularne"
+   }
+  }
+ },
+ "seq": {
+  "summary": {
+   "ru": "вывести последовательность чисел",
+   "uk": "вивести послідовність чисел",
+   "pl": "wypisz ciąg liczb"
+  },
+  "options": {
+   "-s, --separator=STRING": {
+    "ru": "разделитель между числами (по умолчанию \\n)",
+    "uk": "роздільник між числами (за замовчуванням \\n)",
+    "pl": "separator między liczbami (domyślnie \\n)"
+   }
+  }
+ },
+ "service": {
+  "summary": {
+   "ru": "управлять сервисом (обёртка над systemctl)",
+   "uk": "керувати сервісом (обгортка над systemctl)",
+   "pl": "zarządzaj usługą (nakładka na systemctl)"
+  }
+ },
+ "sh": {
+  "summary": {
+   "ru": "командная оболочка (запустить скрипт)",
+   "uk": "командна оболонка (запустити скрипт)",
+   "pl": "powłoka (uruchom skrypt)"
+  }
+ },
+ "sleep": {
+  "summary": {
+   "ru": "подождать заданное время",
+   "uk": "зачекати заданий час",
+   "pl": "poczekaj podany czas"
+  }
+ },
+ "sort": {
+  "summary": {
+   "ru": "отсортировать строки",
+   "uk": "відсортувати рядки",
+   "pl": "posortuj wiersze"
+  },
+  "options": {
+   "-f, --ignore-case": {
+    "ru": "не различать регистр",
+    "uk": "не розрізняти регістр",
+    "pl": "ignoruj wielkość liter"
+   },
+   "-h, --human-numeric-sort": {
+    "ru": "сравнивать размеры вроде 2K и 1G",
+    "uk": "порівнювати розміри на кшталт 2K і 1G",
+    "pl": "porównuj rozmiary jak 2K i 1G"
+   },
+   "-n, --numeric-sort": {
+    "ru": "сортировать как числа",
+    "uk": "сортувати як числа",
+    "pl": "sortuj jako liczby"
+   },
+   "-r, --reverse": {
+    "ru": "обратный порядок",
+    "uk": "зворотний порядок",
+    "pl": "odwrotna kolejność"
+   },
+   "-u, --unique": {
+    "ru": "выводить одинаковые строки один раз",
+    "uk": "виводити однакові рядки один раз",
+    "pl": "wypisuj identyczne wiersze raz"
+   },
+   "-k, --key=KEYDEF": {
+    "ru": "сортировать по полю (колонке) номер N",
+    "uk": "сортувати за полем (колонкою) номер N",
+    "pl": "sortuj według pola (kolumny) nr N"
+   },
+   "-t, --field-separator=SEP": {
+    "ru": "разделитель полей",
+    "uk": "роздільник полів",
+    "pl": "separator pól"
+   },
+   "-o, --output=FILE": {
+    "ru": "записать результат в файл",
+    "uk": "записати результат у файл",
+    "pl": "zapisz wynik do pliku"
+   }
+  }
+ },
+ "source": {
+  "summary": {
+   "ru": "выполнить команды из файла в текущей оболочке",
+   "uk": "виконати команди з файлу в поточній оболонці",
+   "pl": "wykonaj polecenia z pliku w bieżącej powłoce"
+  }
+ },
+ "ss": {
+  "summary": {
+   "ru": "показать сокеты и открытые порты",
+   "uk": "показати сокети й відкриті порти",
+   "pl": "pokaż gniazda i otwarte porty"
+  },
+  "options": {
+   "-t, --tcp": {
+    "ru": "TCP-сокеты",
+    "uk": "TCP-сокети",
+    "pl": "gniazda TCP"
+   },
+   "-u, --udp": {
+    "ru": "UDP-сокеты",
+    "uk": "UDP-сокети",
+    "pl": "gniazda UDP"
+   },
+   "-l, --listening": {
+    "ru": "только слушающие сокеты",
+    "uk": "лише сокети, що слухають",
+    "pl": "tylko nasłuchujące gniazda"
+   },
+   "-a, --all": {
+    "ru": "все сокеты",
+    "uk": "усі сокети",
+    "pl": "wszystkie gniazda"
+   },
+   "-n, --numeric": {
+    "ru": "порты цифрами, без имён сервисов",
+    "uk": "порти цифрами, без імен сервісів",
+    "pl": "porty liczbowo, bez nazw usług"
+   },
+   "-p, --processes": {
+    "ru": "показать процесс у сокета (чужие — только с root)",
+    "uk": "показати процес сокета (чужі — лише з root)",
+    "pl": "pokaż proces gniazda (cudze — tylko jako root)"
+   }
+  }
+ },
+ "stat": {
+  "summary": {
+   "ru": "подробная информация о файле",
+   "uk": "докладна інформація про файл",
+   "pl": "szczegółowe informacje o pliku"
+  }
+ },
+ "su": {
+  "summary": {
+   "ru": "войти под другим пользователем",
+   "uk": "увійти під іншим користувачем",
+   "pl": "przełącz się na innego użytkownika"
+  }
+ },
+ "sudo": {
+  "summary": {
+   "ru": "выполнить команду от имени root (или другого пользователя)",
+   "uk": "виконати команду від імені root (або іншого користувача)",
+   "pl": "wykonaj polecenie jako root (lub inny użytkownik)"
+  },
+  "options": {
+   "-u user": {
+    "ru": "выполнить от имени этого пользователя, а не root",
+    "uk": "виконати від імені цього користувача, а не root",
+    "pl": "wykonaj jako ten użytkownik zamiast roota"
+   },
+   "-i, --login": {
+    "ru": "войти в оболочку целевого пользователя (exit — назад)",
+    "uk": "увійти в оболонку цільового користувача (exit — назад)",
+    "pl": "zaloguj się do powłoki docelowego użytkownika (exit — powrót)"
+   },
+   "-s, --shell": {
+    "ru": "запустить оболочку от имени целевого пользователя",
+    "uk": "запустити оболонку від імені цільового користувача",
+    "pl": "uruchom powłokę jako docelowy użytkownik"
+   },
+   "-l, --list": {
+    "ru": "показать разрешённые команды",
+    "uk": "показати дозволені команди",
+    "pl": "pokaż dozwolone polecenia"
+   }
+  }
+ },
+ "systemctl": {
+  "summary": {
+   "ru": "управлять сервисами systemd",
+   "uk": "керувати сервісами systemd",
+   "pl": "zarządzaj usługami systemd"
+  },
+  "options": {
+   "status UNIT": {
+    "ru": "состояние сервиса и последние строки журнала",
+    "uk": "стан сервісу й останні рядки журналу",
+    "pl": "stan usługi i ostatnie wiersze dziennika"
+   },
+   "start|stop|restart UNIT": {
+    "ru": "запустить, остановить или перезапустить сервис (нужен sudo)",
+    "uk": "запустити, зупинити або перезапустити сервіс (потрібен sudo)",
+    "pl": "uruchom, zatrzymaj lub zrestartuj usługę (potrzebne sudo)"
+   },
+   "reload UNIT": {
+    "ru": "перечитать конфигурацию без остановки",
+    "uk": "перечитати конфігурацію без зупинки",
+    "pl": "przeładuj konfigurację bez zatrzymania"
+   },
+   "enable|disable UNIT": {
+    "ru": "запускать (или нет) при загрузке",
+    "uk": "запускати (чи ні) під час завантаження",
+    "pl": "uruchamiaj (lub nie) przy starcie"
+   },
+   "is-active UNIT": {
+    "ru": "вывести active / inactive / failed",
+    "uk": "вивести active / inactive / failed",
+    "pl": "wypisz active / inactive / failed"
+   },
+   "list-units --type=service": {
+    "ru": "список сервисов",
+    "uk": "список сервісів",
+    "pl": "lista usług"
+   },
+   "--failed": {
+    "ru": "список упавших сервисов",
+    "uk": "список сервісів, що впали",
+    "pl": "lista usług, które padły"
+   }
+  }
+ },
+ "tac": {
+  "summary": {
+   "ru": "вывести файл задом наперёд (с последней строки)",
+   "uk": "вивести файл задом наперед (з останнього рядка)",
+   "pl": "wypisz plik od ostatniego wiersza"
+  }
+ },
+ "tail": {
+  "summary": {
+   "ru": "показать конец файла",
+   "uk": "показати кінець файлу",
+   "pl": "pokaż koniec pliku"
+  },
+  "options": {
+   "-c, --bytes=NUM": {
+    "ru": "последние NUM байт",
+    "uk": "останні NUM байтів",
+    "pl": "ostatnie NUM bajtów"
+   },
+   "-n, --lines=NUM": {
+    "ru": "последние NUM строк (вместо 10); -n +NUM — начиная со строки NUM",
+    "uk": "останні NUM рядків (замість 10); -n +NUM — починаючи з рядка NUM",
+    "pl": "ostatnie NUM wierszy (zamiast 10); -n +NUM — od wiersza NUM"
+   },
+   "-q, --quiet": {
+    "ru": "не печатать заголовки с именами файлов",
+    "uk": "не друкувати заголовки з іменами файлів",
+    "pl": "nie wypisuj nagłówków z nazwami plików"
+   },
+   "-v, --verbose": {
+    "ru": "всегда печатать заголовки с именами файлов",
+    "uk": "завжди друкувати заголовки з іменами файлів",
+    "pl": "zawsze wypisuj nagłówki z nazwami plików"
+   },
+   "-f, --follow": {
+    "ru": "следить за новыми строками (в тренажёре не интерактивно)",
+    "uk": "стежити за новими рядками (у тренажері не інтерактивно)",
+    "pl": "śledź nowe wiersze (w trenażerze nieinteraktywnie)"
+   }
+  }
+ },
+ "tee": {
+  "summary": {
+   "ru": "писать ввод и на экран, и в файлы",
+   "uk": "писати ввід і на екран, і у файли",
+   "pl": "zapisuj wejście na ekran i do plików"
+  },
+  "options": {
+   "-a, --append": {
+    "ru": "дописывать в файлы, а не перезаписывать",
+    "uk": "дописувати у файли, а не перезаписувати",
+    "pl": "dopisuj do plików zamiast nadpisywać"
+   }
+  }
+ },
+ "test": {
+  "summary": {
+   "ru": "проверить условие",
+   "uk": "перевірити умову",
+   "pl": "sprawdź warunek"
+  },
+  "options": {
+   "-e FILE": {
+    "ru": "FILE существует",
+    "uk": "FILE існує",
+    "pl": "FILE istnieje"
+   },
+   "-f FILE": {
+    "ru": "FILE существует и это обычный файл",
+    "uk": "FILE існує і це звичайний файл",
+    "pl": "FILE istnieje i jest zwykłym plikiem"
+   },
+   "-d FILE": {
+    "ru": "FILE существует и это директория",
+    "uk": "FILE існує і це директорія",
+    "pl": "FILE istnieje i jest katalogiem"
+   },
+   "-s FILE": {
+    "ru": "FILE существует и не пустой",
+    "uk": "FILE існує і не порожній",
+    "pl": "FILE istnieje i nie jest pusty"
+   },
+   "-r/-w/-x FILE": {
+    "ru": "FILE можно читать / писать / выполнять",
+    "uk": "FILE можна читати / писати / виконувати",
+    "pl": "FILE można czytać / zapisywać / wykonywać"
+   },
+   "-z STRING": {
+    "ru": "строка пустая",
+    "uk": "рядок порожній",
+    "pl": "napis jest pusty"
+   },
+   "-n STRING": {
+    "ru": "строка не пустая",
+    "uk": "рядок не порожній",
+    "pl": "napis nie jest pusty"
+   },
+   "S1 = S2, S1 != S2": {
+    "ru": "строки равны / не равны",
+    "uk": "рядки рівні / не рівні",
+    "pl": "napisy równe / różne"
+   },
+   "N1 -eq/-ne/-lt/-le/-gt/-ge N2": {
+    "ru": "сравнение чисел: равно, не равно, меньше, ≤, больше, ≥",
+    "uk": "порівняння чисел: дорівнює, не дорівнює, менше, ≤, більше, ≥",
+    "pl": "porównanie liczb: równe, różne, mniejsze, ≤, większe, ≥"
+   }
+  }
+ },
+ "top": {
+  "summary": {
+   "ru": "процессы и нагрузка в реальном времени",
+   "uk": "процеси й навантаження в реальному часі",
+   "pl": "procesy i obciążenie na żywo"
+  },
+  "options": {
+   "-b": {
+    "ru": "пакетный режим (для скриптов)",
+    "uk": "пакетний режим (для скриптів)",
+    "pl": "tryb wsadowy (dla skryptów)"
+   },
+   "-n N": {
+    "ru": "число обновлений",
+    "uk": "кількість оновлень",
+    "pl": "liczba odświeżeń"
+   }
+  }
+ },
+ "touch": {
+  "summary": {
+   "ru": "создать пустой файл или обновить его время",
+   "uk": "створити порожній файл або оновити його час",
+   "pl": "utwórz pusty plik lub zaktualizuj jego czas"
+  },
+  "options": {
+   "-c, --no-create": {
+    "ru": "не создавать файлы",
+    "uk": "не створювати файли",
+    "pl": "nie twórz plików"
+   }
+  }
+ },
+ "tr": {
+  "summary": {
+   "ru": "заменить или удалить символы",
+   "uk": "замінити або видалити символи",
+   "pl": "zamień lub usuń znaki"
+  },
+  "options": {
+   "-d, --delete": {
+    "ru": "удалить символы из набора",
+    "uk": "видалити символи з набору",
+    "pl": "usuń znaki z zestawu"
+   },
+   "-s, --squeeze-repeats": {
+    "ru": "сжать повторы символа в один",
+    "uk": "стиснути повтори символу в один",
+    "pl": "ściśnij powtórzenia znaku do jednego"
+   },
+   "-c, --complement": {
+    "ru": "взять все символы, КРОМЕ набора",
+    "uk": "взяти всі символи, КРІМ набору",
+    "pl": "weź wszystkie znaki OPRÓCZ zestawu"
+   }
+  }
+ },
+ "traceroute": {
+  "summary": {
+   "ru": "показать маршрут пакетов до хоста",
+   "uk": "показати маршрут пакетів до хоста",
+   "pl": "pokaż trasę pakietów do hosta"
+  },
+  "options": {
+   "-n": {
+    "ru": "не превращать IP в имена",
+    "uk": "не перетворювати IP на імена",
+    "pl": "nie zamieniaj IP na nazwy"
+   }
+  }
+ },
+ "tree": {
+  "summary": {
+   "ru": "показать директории в виде дерева",
+   "uk": "показати директорії у вигляді дерева",
+   "pl": "pokaż katalogi w postaci drzewa"
+  },
+  "options": {
+   "-a": {
+    "ru": "показывать и скрытые файлы",
+    "uk": "показувати й приховані файли",
+    "pl": "pokazuj też ukryte pliki"
+   },
+   "-d": {
+    "ru": "только директории",
+    "uk": "лише директорії",
+    "pl": "tylko katalogi"
+   },
+   "-f": {
+    "ru": "печатать полный путь к каждому файлу",
+    "uk": "друкувати повний шлях до кожного файлу",
+    "pl": "wypisuj pełną ścieżkę każdego pliku"
+   },
+   "-L level": {
+    "ru": "максимальная глубина дерева",
+    "uk": "максимальна глибина дерева",
+    "pl": "maksymalna głębokość drzewa"
+   },
+   "--noreport": {
+    "ru": "не печатать итог (число файлов и папок)",
+    "uk": "не друкувати підсумок (кількість файлів і тек)",
+    "pl": "nie wypisuj podsumowania (liczby plików i katalogów)"
+   }
+  }
+ },
+ "true": {
+  "summary": {
+   "ru": "ничего не делать и завершиться успешно",
+   "uk": "нічого не робити й завершитися успішно",
+   "pl": "nic nie rób i zakończ się sukcesem"
+  }
+ },
+ "type": {
+  "summary": {
+   "ru": "показать, что это: команда, встроенная, алиас",
+   "uk": "показати, що це: команда, вбудована, аліас",
+   "pl": "pokaż, czym to jest: polecenie, wbudowane, alias"
+  }
+ },
+ "unalias": {
+  "summary": {
+   "ru": "удалить сокращение",
+   "uk": "видалити скорочення",
+   "pl": "usuń skrót"
+  }
+ },
+ "uname": {
+  "summary": {
+   "ru": "информация о системе и ядре",
+   "uk": "інформація про систему та ядро",
+   "pl": "informacje o systemie i jądrze"
+  },
+  "options": {
+   "-a, --all": {
+    "ru": "вся информация",
+    "uk": "уся інформація",
+    "pl": "wszystkie informacje"
+   },
+   "-r, --kernel-release": {
+    "ru": "версия ядра",
+    "uk": "версія ядра",
+    "pl": "wersja jądra"
+   },
+   "-n, --nodename": {
+    "ru": "сетевое имя машины",
+    "uk": "мережеве ім’я машини",
+    "pl": "sieciowa nazwa maszyny"
+   },
+   "-m, --machine": {
+    "ru": "архитектура процессора",
+    "uk": "архітектура процесора",
+    "pl": "architektura procesora"
+   }
+  }
+ },
+ "uniq": {
+  "summary": {
+   "ru": "убрать или посчитать повторяющиеся строки",
+   "uk": "прибрати або порахувати повторювані рядки",
+   "pl": "usuń lub policz powtarzające się wiersze"
+  },
+  "options": {
+   "-c, --count": {
+    "ru": "показать, сколько раз встретилась строка",
+    "uk": "показати, скільки разів трапився рядок",
+    "pl": "pokaż, ile razy wystąpił wiersz"
+   },
+   "-d, --repeated": {
+    "ru": "только повторяющиеся строки",
+    "uk": "лише повторювані рядки",
+    "pl": "tylko powtarzające się wiersze"
+   },
+   "-u, --unique": {
+    "ru": "только уникальные строки",
+    "uk": "лише унікальні рядки",
+    "pl": "tylko unikalne wiersze"
+   },
+   "-i, --ignore-case": {
+    "ru": "не различать регистр",
+    "uk": "не розрізняти регістр",
+    "pl": "ignoruj wielkość liter"
+   }
+  }
+ },
+ "unset": {
+  "summary": {
+   "ru": "удалить переменную",
+   "uk": "видалити змінну",
+   "pl": "usuń zmienną"
+  }
+ },
+ "uptime": {
+  "summary": {
+   "ru": "сколько система работает и нагрузка",
+   "uk": "скільки система працює і навантаження",
+   "pl": "jak długo działa system i obciążenie"
+  },
+  "options": {
+   "-p, --pretty": {
+    "ru": "в удобном виде",
+    "uk": "у зручному вигляді",
+    "pl": "w czytelnej postaci"
+   },
+   "-s, --since": {
+    "ru": "с какого момента работает",
+    "uk": "з якого моменту працює",
+    "pl": "od kiedy działa"
+   }
+  }
+ },
+ "useradd": {
+  "summary": {
+   "ru": "создать пользователя",
+   "uk": "створити користувача",
+   "pl": "utwórz użytkownika"
+  },
+  "options": {
+   "-m, --create-home": {
+    "ru": "создать домашнюю директорию",
+    "uk": "створити домашню директорію",
+    "pl": "utwórz katalog domowy"
+   },
+   "-s, --shell SHELL": {
+    "ru": "оболочка входа нового пользователя",
+    "uk": "оболонка входу нового користувача",
+    "pl": "powłoka logowania nowego użytkownika"
+   },
+   "-G, --groups GROUPS": {
+    "ru": "дополнительные группы (через запятую)",
+    "uk": "додаткові групи (через кому)",
+    "pl": "dodatkowe grupy (po przecinku)"
+   },
+   "-d, --home-dir DIR": {
+    "ru": "домашняя директория пользователя",
+    "uk": "домашня директорія користувача",
+    "pl": "katalog domowy użytkownika"
+   }
+  }
+ },
+ "userdel": {
+  "summary": {
+   "ru": "удалить пользователя",
+   "uk": "видалити користувача",
+   "pl": "usuń użytkownika"
+  },
+  "options": {
+   "-r, --remove": {
+    "ru": "удалить и домашнюю директорию",
+    "uk": "видалити й домашню директорію",
+    "pl": "usuń też katalog domowy"
+   }
+  }
+ },
+ "usermod": {
+  "summary": {
+   "ru": "изменить учётную запись пользователя",
+   "uk": "змінити обліковий запис користувача",
+   "pl": "zmień konto użytkownika"
+  },
+  "options": {
+   "-a, --append": {
+    "ru": "добавить к группам из -G (не убирая другие)",
+    "uk": "додати до груп із -G (не прибираючи інших)",
+    "pl": "dodaj do grup z -G (nie usuwając innych)"
+   },
+   "-G, --groups GROUPS": {
+    "ru": "новый список дополнительных групп",
+    "uk": "новий список додаткових груп",
+    "pl": "nowa lista dodatkowych grup"
+   },
+   "-s, --shell SHELL": {
+    "ru": "новая оболочка входа",
+    "uk": "нова оболонка входу",
+    "pl": "nowa powłoka logowania"
+   },
+   "-L, --lock": {
+    "ru": "заблокировать пароль",
+    "uk": "заблокувати пароль",
+    "pl": "zablokuj hasło"
+   }
+  }
+ },
+ "vi": {
+  "summary": {
+   "ru": "текстовый редактор vi",
+   "uk": "текстовий редактор vi",
+   "pl": "edytor tekstu vi"
+  }
+ },
+ "vim": {
+  "summary": {
+   "ru": "текстовый редактор vim",
+   "uk": "текстовий редактор vim",
+   "pl": "edytor tekstu vim"
+  }
+ },
+ "w": {
+  "summary": {
+   "ru": "кто в системе и что делает",
+   "uk": "хто в системі й що робить",
+   "pl": "kto jest zalogowany i co robi"
+  }
+ },
+ "wc": {
+  "summary": {
+   "ru": "посчитать строки, слова и байты",
+   "uk": "порахувати рядки, слова й байти",
+   "pl": "policz wiersze, słowa i bajty"
+  },
+  "options": {
+   "-c, --bytes": {
+    "ru": "число байт",
+    "uk": "кількість байтів",
+    "pl": "liczba bajtów"
+   },
+   "-m, --chars": {
+    "ru": "число символов",
+    "uk": "кількість символів",
+    "pl": "liczba znaków"
+   },
+   "-l, --lines": {
+    "ru": "число строк",
+    "uk": "кількість рядків",
+    "pl": "liczba wierszy"
+   },
+   "-w, --words": {
+    "ru": "число слов",
+    "uk": "кількість слів",
+    "pl": "liczba słów"
+   },
+   "-L, --max-line-length": {
+    "ru": "длина самой длинной строки",
+    "uk": "довжина найдовшого рядка",
+    "pl": "długość najdłuższego wiersza"
+   }
+  }
+ },
+ "wget": {
+  "summary": {
+   "ru": "скачать файл по URL",
+   "uk": "завантажити файл за URL",
+   "pl": "pobierz plik z URL"
+  }
+ },
+ "whatis": {
+  "summary": {
+   "ru": "краткое описание команды в одну строку",
+   "uk": "короткий опис команди в один рядок",
+   "pl": "krótki opis polecenia w jednym wierszu"
+  }
+ },
+ "which": {
+  "summary": {
+   "ru": "найти, где лежит программа",
+   "uk": "знайти, де лежить програма",
+   "pl": "znajdź, gdzie leży program"
+  }
+ },
+ "who": {
+  "summary": {
+   "ru": "кто вошёл в систему",
+   "uk": "хто увійшов у систему",
+   "pl": "kto jest zalogowany"
+  }
+ },
+ "whoami": {
+  "summary": {
+   "ru": "показать имя текущего пользователя",
+   "uk": "показати ім’я поточного користувача",
+   "pl": "pokaż nazwę bieżącego użytkownika"
+  }
+ },
+ "xargs": {
+  "summary": {
+   "ru": "превратить ввод в аргументы команды",
+   "uk": "перетворити ввід на аргументи команди",
+   "pl": "zamień wejście na argumenty polecenia"
+  },
+  "options": {
+   "-n, --max-args=MAX-ARGS": {
+    "ru": "не больше MAX-ARGS аргументов за один запуск",
+    "uk": "не більше MAX-ARGS аргументів за один запуск",
+    "pl": "nie więcej niż MAX-ARGS argumentów na jedno uruchomienie"
+   },
+   "-I R": {
+    "ru": "подставлять каждую строку ввода вместо R",
+    "uk": "підставляти кожен рядок вводу замість R",
+    "pl": "wstawiaj każdy wiersz wejścia w miejsce R"
+   },
+   "-0, --null": {
+    "ru": "элементы разделены нулевым байтом",
+    "uk": "елементи розділені нульовим байтом",
+    "pl": "elementy rozdzielone bajtem zerowym"
+   }
+  }
+ },
+ "zcat": {
+  "summary": {
+   "ru": "вывести содержимое сжатых файлов",
+   "uk": "вивести вміст стиснутих файлів",
+   "pl": "wypisz zawartość skompresowanych plików"
+  }
+ },
+ "zgrep": {
+  "summary": {
+   "ru": "искать в сжатых файлах",
+   "uk": "шукати в стиснутих файлах",
+   "pl": "szukaj w skompresowanych plikach"
+  }
+ },
+ "zless": {
+  "summary": {
+   "ru": "просматривать сжатые файлы",
+   "uk": "переглядати стиснуті файли",
+   "pl": "przeglądaj skompresowane pliki"
+  }
+ }
+}

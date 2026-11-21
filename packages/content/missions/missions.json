@@ -839,12 +839,14 @@
     "title": {
       "en": "Black Friday 502",
       "ru": "Чёрная пятница: 502",
-      "uk": "Чорна п’ятниця: 502"
+      "uk": "Чорна п’ятниця: 502",
+      "pl": "Czarny piątek: 502"
     },
     "story": {
       "en": "10:43 UTC, Black Friday. Alert: the shop returns 5xx to 40% of buyers (ticket ~/tickets/INC-3001.txt). Find which part of the chain is broken, bring the shop back and leave a note in the ticket: what was down and what you did.",
       "ru": "10:43 UTC, Чёрная пятница. Алерт: магазин отдаёт 5xx 40% покупателей (тикет ~/tickets/INC-3001.txt). Найдите, какое звено цепочки сломано, верните магазин и оставьте запись в тикете: что лежало и что вы сделали.",
-      "uk": "10:43 UTC, Чорна п’ятниця. Алерт: магазин віддає 5xx 40% покупців (тікет ~/tickets/INC-3001.txt). Знайдіть, яка ланка ланцюжка зламана, поверніть магазин і залиште запис у тікеті: що лежало і що ви зробили."
+      "uk": "10:43 UTC, Чорна п’ятниця. Алерт: магазин віддає 5xx 40% покупців (тікет ~/tickets/INC-3001.txt). Знайдіть, яка ланка ланцюжка зламана, поверніть магазин і залиште запис у тікеті: що лежало і що ви зробили.",
+      "pl": "10:43 UTC, Czarny piątek. Alert: sklep zwraca 5xx 40% kupujących (zgłoszenie ~/tickets/INC-3001.txt). Ustal, które ogniwo łańcucha jest zepsute, przywróć sklep i zostaw notatkę w zgłoszeniu: co nie działało i co zrobiłeś."
     },
     "difficulty": 2,
     "requires": "noc-web",
@@ -1150,7 +1152,8 @@
     "instructions": {
       "en": "1. Confirm: `curl -I http://localhost/api/items`\n2. What is broken? `systemctl --failed`\n3. Why? `journalctl -u api -n 5`\n4. Mitigate and verify with curl\n5. `echo \"…\" >> ~/tickets/INC-3001.txt`",
       "ru": "1. Подтвердите: `curl -I http://localhost/api/items`\n2. Что сломано? `systemctl --failed`\n3. Почему? `journalctl -u api -n 5`\n4. Митигируйте и проверьте через curl\n5. `echo \"…\" >> ~/tickets/INC-3001.txt`",
-      "uk": "1. Підтвердіть: `curl -I http://localhost/api/items`\n2. Що зламано? `systemctl --failed`\n3. Чому? `journalctl -u api -n 5`\n4. Мітигуйте й перевірте через curl\n5. `echo \"…\" >> ~/tickets/INC-3001.txt`"
+      "uk": "1. Підтвердіть: `curl -I http://localhost/api/items`\n2. Що зламано? `systemctl --failed`\n3. Чому? `journalctl -u api -n 5`\n4. Мітигуйте й перевірте через curl\n5. `echo \"…\" >> ~/tickets/INC-3001.txt`",
+      "pl": "1. Potwierdź: `curl -I http://localhost/api/items`\n2. Co jest zepsute? `systemctl --failed`\n3. Dlaczego? `journalctl -u api -n 5`\n4. Napraw doraźnie i sprawdź przez curl\n5. `echo \"…\" >> ~/tickets/INC-3001.txt`"
     },
     "checks": [
       {
@@ -1160,7 +1163,8 @@
         "label": {
           "en": "The api service is running",
           "ru": "Сервис api работает",
-          "uk": "Сервіс api працює"
+          "uk": "Сервіс api працює",
+          "pl": "Usługa api działa"
         }
       },
       {
@@ -1169,7 +1173,8 @@
         "label": {
           "en": "You verified the site with curl",
           "ru": "Вы проверили сайт через curl",
-          "uk": "Ви перевірили сайт через curl"
+          "uk": "Ви перевірили сайт через curl",
+          "pl": "Sprawdziłeś stronę przez curl"
         }
       },
       {
@@ -1179,7 +1184,8 @@
         "label": {
           "en": "The ticket still has its header",
           "ru": "Заголовок тикета сохранён",
-          "uk": "Заголовок тікета збережено"
+          "uk": "Заголовок тікета збережено",
+          "pl": "Zgłoszenie wciąż ma nagłówek"
         }
       },
       {
@@ -1189,7 +1195,8 @@
         "label": {
           "en": "The ticket mentions api",
           "ru": "В тикете упомянут api",
-          "uk": "У тікеті згадано api"
+          "uk": "У тікеті згадано api",
+          "pl": "Zgłoszenie wspomina api"
         }
       }
     ],
@@ -1197,7 +1204,8 @@
       "direction": {
         "en": "curl -I localhost/api/items → systemctl --failed → status / journal → sudo systemctl restart api → echo \"…\" >> ticket",
         "ru": "curl -I localhost/api/items → systemctl --failed → status / journal → sudo systemctl restart api → echo \"…\" >> тикет",
-        "uk": "curl -I localhost/api/items → systemctl --failed → status / journal → sudo systemctl restart api → echo \"…\" >> тікет"
+        "uk": "curl -I localhost/api/items → systemctl --failed → status / journal → sudo systemctl restart api → echo \"…\" >> тікет",
+        "pl": "curl -I localhost/api/items → systemctl --failed → status / dziennik → sudo systemctl restart api → echo \"…\" >> zgłoszenie"
       },
       "command": "systemctl"
     },
@@ -1219,12 +1227,14 @@
     "title": {
       "en": "95% and climbing",
       "ru": "95% и растёт",
-      "uk": "95% і зростає"
+      "uk": "95% і зростає",
+      "pl": "95% i rośnie"
     },
     "story": {
       "en": "The root filesystem of web01 is at 95%. Free space by following ~/runbooks/disk-full.md — remove only what the runbook allows — and save the \"after\" df -h / output to ~/disk-after.txt for the ticket.",
       "ru": "Корневая ФС web01 заполнена на 95%. Освободите место по ~/runbooks/disk-full.md — удаляйте только то, что разрешает ранбук — и сохраните вывод df -h / «после» в ~/disk-after.txt для тикета.",
-      "uk": "Коренева ФС web01 заповнена на 95%. Звільніть місце за ~/runbooks/disk-full.md — видаляйте лише те, що дозволяє ранбук — і збережіть вивід df -h / «після» у ~/disk-after.txt для тікета."
+      "uk": "Коренева ФС web01 заповнена на 95%. Звільніть місце за ~/runbooks/disk-full.md — видаляйте лише те, що дозволяє ранбук — і збережіть вивід df -h / «після» у ~/disk-after.txt для тікета.",
+      "pl": "Główny system plików web01 jest zapełniony w 95%. Zwolnij miejsce według ~/runbooks/disk-full.md — usuń tylko to, na co pozwala runbook — i zapisz wynik „po” z df -h / do ~/disk-after.txt dla zgłoszenia."
     },
     "difficulty": 2,
     "requires": "noc-health",
@@ -1237,7 +1247,8 @@
         "label": {
           "en": "The old rotated log is removed",
           "ru": "Старый ротированный лог удалён",
-          "uk": "Старий ротований лог видалено"
+          "uk": "Старий ротований лог видалено",
+          "pl": "Stary zrotowany log usunięty"
         }
       },
       {
@@ -1246,7 +1257,8 @@
         "label": {
           "en": "The core dump is removed",
           "ru": "Core dump удалён",
-          "uk": "Core dump видалено"
+          "uk": "Core dump видалено",
+          "pl": "Zrzut pamięci (core dump) usunięty"
         }
       },
       {
@@ -1255,7 +1267,8 @@
         "label": {
           "en": "The LIVE log was not deleted",
           "ru": "ЖИВОЙ лог не удалён",
-          "uk": "ЖИВИЙ лог не видалено"
+          "uk": "ЖИВИЙ лог не видалено",
+          "pl": "ŻYWY log nie został usunięty"
         }
       },
       {
@@ -1265,7 +1278,8 @@
         "label": {
           "en": "df output saved",
           "ru": "Вывод df сохранён",
-          "uk": "Вивід df збережено"
+          "uk": "Вивід df збережено",
+          "pl": "Wynik df zapisany"
         }
       }
     ],
@@ -1273,7 +1287,8 @@
       "direction": {
         "en": "cat the runbook; sudo du -sh /var/log/* /var/crash/*; delete *.gz and the core dump; df -h / > ~/disk-after.txt",
         "ru": "cat ранбука; sudo du -sh /var/log/* /var/crash/*; удалить *.gz и core dump; df -h / > ~/disk-after.txt",
-        "uk": "cat ранбука; sudo du -sh /var/log/* /var/crash/*; видалити *.gz і core dump; df -h / > ~/disk-after.txt"
+        "uk": "cat ранбука; sudo du -sh /var/log/* /var/crash/*; видалити *.gz і core dump; df -h / > ~/disk-after.txt",
+        "pl": "cat runbooka; sudo du -sh /var/log/* /var/crash/*; usuń *.gz i core dump; df -h / > ~/disk-after.txt"
       },
       "command": "rm"
     },
@@ -1293,12 +1308,14 @@
     "title": {
       "en": "Works on my server",
       "ru": "У меня на сервере работает",
-      "uk": "У мене на сервері працює"
+      "uk": "У мене на сервері працює",
+      "pl": "U mnie na serwerze działa"
     },
     "story": {
       "en": "Ticket INC-3017: legacy.shop.local opens from web01 but not from the office. Find out WHY. Write into ~/tickets/INC-3017.txt the IP that web01 uses for legacy.shop.local and the file where it comes from.",
       "ru": "Тикет INC-3017: legacy.shop.local открывается с web01, но не из офиса. Выясните ПОЧЕМУ. Запишите в ~/tickets/INC-3017.txt IP, который web01 использует для legacy.shop.local, и файл, откуда он берётся.",
-      "uk": "Тікет INC-3017: legacy.shop.local відкривається з web01, але не з офісу. З’ясуйте ЧОМУ. Запишіть у ~/tickets/INC-3017.txt IP, який web01 використовує для legacy.shop.local, і файл, звідки він береться."
+      "uk": "Тікет INC-3017: legacy.shop.local відкривається з web01, але не з офісу. З’ясуйте ЧОМУ. Запишіть у ~/tickets/INC-3017.txt IP, який web01 використовує для legacy.shop.local, і файл, звідки він береться.",
+      "pl": "Zgłoszenie INC-3017: legacy.shop.local otwiera się z web01, ale nie z biura. Ustal DLACZEGO. Zapisz w ~/tickets/INC-3017.txt adres IP, którego web01 używa dla legacy.shop.local, i plik, z którego pochodzi."
     },
     "difficulty": 2,
     "requires": "noc-network",
@@ -1373,7 +1390,8 @@
         "label": {
           "en": "You asked DNS with dig",
           "ru": "Вы спросили DNS через dig",
-          "uk": "Ви запитали DNS через dig"
+          "uk": "Ви запитали DNS через dig",
+          "pl": "Zapytałeś DNS przez dig"
         }
       },
       {
@@ -1383,7 +1401,8 @@
         "label": {
           "en": "The IP 10.0.9.15",
           "ru": "IP 10.0.9.15",
-          "uk": "IP 10.0.9.15"
+          "uk": "IP 10.0.9.15",
+          "pl": "Adres IP 10.0.9.15"
         }
       },
       {
@@ -1393,7 +1412,8 @@
         "label": {
           "en": "The source: /etc/hosts",
           "ru": "Источник: /etc/hosts",
-          "uk": "Джерело: /etc/hosts"
+          "uk": "Джерело: /etc/hosts",
+          "pl": "Źródło: /etc/hosts"
         }
       }
     ],
@@ -1401,7 +1421,8 @@
       "direction": {
         "en": "ping legacy.shop.local shows the IP; dig says NXDOMAIN — so the name is not in DNS. grep it in /etc/hosts.",
         "ru": "ping legacy.shop.local покажет IP; dig скажет NXDOMAIN — значит, в DNS имени нет. Найдите его grep в /etc/hosts.",
-        "uk": "ping legacy.shop.local покаже IP; dig скаже NXDOMAIN — отже, у DNS імені немає. Знайдіть його grep в /etc/hosts."
+        "uk": "ping legacy.shop.local покаже IP; dig скаже NXDOMAIN — отже, у DNS імені немає. Знайдіть його grep в /etc/hosts.",
+        "pl": "ping legacy.shop.local pokazuje IP; dig mówi NXDOMAIN — więc nazwy nie ma w DNS. Poszukaj jej grepem w /etc/hosts."
       },
       "command": "dig"
     },
@@ -1423,12 +1444,14 @@
     "title": {
       "en": "The 401 storm",
       "ru": "Шторм из 401",
-      "uk": "Шторм із 401"
+      "uk": "Шторм із 401",
+      "pl": "Burza 401"
     },
     "story": {
       "en": "Security asks for a short report: which IP hammers /login on the shop, how many requests it made and with which user agent. Analyse /var/log/nginx/access.log and write the answer into ~/incident/bot.txt.",
       "ru": "Безопасники просят короткий отчёт: какой IP долбит /login магазина, сколько запросов он сделал и с каким user agent. Проанализируйте /var/log/nginx/access.log и запишите ответ в ~/incident/bot.txt.",
-      "uk": "Безпека просить короткий звіт: який IP довбає /login магазину, скільки запитів він зробив і з яким user agent. Проаналізуйте /var/log/nginx/access.log і запишіть відповідь у ~/incident/bot.txt."
+      "uk": "Безпека просить короткий звіт: який IP довбає /login магазину, скільки запитів він зробив і з яким user agent. Проаналізуйте /var/log/nginx/access.log і запишіть відповідь у ~/incident/bot.txt.",
+      "pl": "Dział bezpieczeństwa prosi o krótki raport: który IP atakuje /login sklepu, ile wysłał żądań i z jakim user agentem. Przeanalizuj /var/log/nginx/access.log i zapisz odpowiedź w ~/incident/bot.txt."
     },
     "difficulty": 3,
     "requires": "noc-logs",
@@ -1742,7 +1765,8 @@
         "label": {
           "en": "The IP 45.155.205.66",
           "ru": "IP 45.155.205.66",
-          "uk": "IP 45.155.205.66"
+          "uk": "IP 45.155.205.66",
+          "pl": "Adres IP 45.155.205.66"
         }
       },
       {
@@ -1752,7 +1776,8 @@
         "label": {
           "en": "The count: 48",
           "ru": "Количество: 48",
-          "uk": "Кількість: 48"
+          "uk": "Кількість: 48",
+          "pl": "Liczba: 48"
         }
       },
       {
@@ -1762,7 +1787,8 @@
         "label": {
           "en": "The user agent",
           "ru": "User agent",
-          "uk": "User agent"
+          "uk": "User agent",
+          "pl": "User agent"
         }
       }
     ],
@@ -1770,7 +1796,8 @@
       "direction": {
         "en": "awk '$9 == 401 {print $1}' … | sort | uniq -c; then grep the IP and look at the last field",
         "ru": "awk '$9 == 401 {print $1}' … | sort | uniq -c; затем grep по IP и посмотрите последнее поле",
-        "uk": "awk '$9 == 401 {print $1}' … | sort | uniq -c; потім grep за IP і подивіться останнє поле"
+        "uk": "awk '$9 == 401 {print $1}' … | sort | uniq -c; потім grep за IP і подивіться останнє поле",
+        "pl": "awk '$9 == 401 {print $1}' … | sort | uniq -c; potem grep tego IP i spójrz na ostatnie pole"
       },
       "command": "awk"
     },
@@ -1792,12 +1819,14 @@
     "title": {
       "en": "Friday deploy",
       "ru": "Деплой в пятницу",
-      "uk": "Деплой у п’ятницю"
+      "uk": "Деплой у п’ятницю",
+      "pl": "Wdrożenie w piątek"
     },
     "story": {
       "en": "12:15 UTC. Right after change CHG-118 the shop is down. Follow the rollback plan in ~/tickets/CHG-118.txt, make sure the shop answers 200 and append \"rolled back\" with the time to the change ticket.",
       "ru": "12:15 UTC. Сразу после изменения CHG-118 магазин лёг. Выполните план отката из ~/tickets/CHG-118.txt, убедитесь, что магазин отвечает 200, и допишите в тикет изменения «rolled back» со временем.",
-      "uk": "12:15 UTC. Одразу після зміни CHG-118 магазин ліг. Виконайте план відкату з ~/tickets/CHG-118.txt, переконайтеся, що магазин відповідає 200, і допишіть у тікет зміни «rolled back» із часом."
+      "uk": "12:15 UTC. Одразу після зміни CHG-118 магазин ліг. Виконайте план відкату з ~/tickets/CHG-118.txt, переконайтеся, що магазин відповідає 200, і допишіть у тікет зміни «rolled back» із часом.",
+      "pl": "12:15 UTC. Zaraz po zmianie CHG-118 sklep leży. Wykonaj plan wycofania z ~/tickets/CHG-118.txt, upewnij się, że sklep odpowiada 200, i dopisz do zgłoszenia zmiany „rolled back” z godziną."
     },
     "difficulty": 3,
     "requires": "noc-ir",
@@ -2108,7 +2137,8 @@
         "label": {
           "en": "The config is restored",
           "ru": "Конфиг восстановлен",
-          "uk": "Конфіг відновлено"
+          "uk": "Конфіг відновлено",
+          "pl": "Konfiguracja przywrócona"
         }
       },
       {
@@ -2118,7 +2148,8 @@
         "label": {
           "en": "nginx is active",
           "ru": "nginx активен",
-          "uk": "nginx активний"
+          "uk": "nginx активний",
+          "pl": "nginx jest aktywny"
         }
       },
       {
@@ -2127,7 +2158,8 @@
         "label": {
           "en": "Verified with curl",
           "ru": "Проверено через curl",
-          "uk": "Перевірено через curl"
+          "uk": "Перевірено через curl",
+          "pl": "Sprawdzone przez curl"
         }
       },
       {
@@ -2137,7 +2169,8 @@
         "label": {
           "en": "\"rolled back\" noted",
           "ru": "Отмечено «rolled back»",
-          "uk": "Позначено «rolled back»"
+          "uk": "Позначено «rolled back»",
+          "pl": "Zapisano „rolled back”"
         }
       },
       {
@@ -2147,7 +2180,8 @@
         "label": {
           "en": "The rollback plan is still there",
           "ru": "План отката на месте",
-          "uk": "План відкату на місці"
+          "uk": "План відкату на місці",
+          "pl": "Plan wycofania wciąż jest na miejscu"
         }
       }
     ],
@@ -2155,7 +2189,8 @@
       "direction": {
         "en": "cat the ticket, diff .bak with the config, sudo cp, sudo systemctl restart nginx, curl, echo >>",
         "ru": "cat тикета, diff .bak с конфигом, sudo cp, sudo systemctl restart nginx, curl, echo >>",
-        "uk": "cat тікета, diff .bak з конфігом, sudo cp, sudo systemctl restart nginx, curl, echo >>"
+        "uk": "cat тікета, diff .bak з конфігом, sudo cp, sudo systemctl restart nginx, curl, echo >>",
+        "pl": "cat zgłoszenia, diff .bak z konfiguracją, sudo cp, sudo systemctl restart nginx, curl, echo >>"
       },
       "command": "cp"
     },
@@ -2166,6 +2201,688 @@
       "sudo systemctl restart nginx",
       "curl -I http://localhost",
       "echo \"12:20 rolled back to nginx.conf.bak, nginx active, HTTP 200\" >> ~/tickets/CHG-118.txt"
+    ]
+  },
+  {
+    "id": "git-hotfix",
+    "course": "git",
+    "topics": [
+      "gt-branches",
+      "gh-pr",
+      "gh-clone-pull"
+    ],
+    "title": {
+      "en": "Friday hotfix",
+      "ru": "Хотфикс в пятницу",
+      "uk": "Хотфікс у п’ятницю",
+      "pl": "Piątkowy hotfix"
+    },
+    "story": {
+      "en": "17:40, Friday. The site has a typo in the main heading: \"Helo!\". Anna already pushed a footer to GitHub. Fix the typo the team way: get the latest main, make a branch hotfix, commit, push it, open a pull request and merge it — main on GitHub must have both the fix and the footer.",
+      "ru": "17:40, пятница. На сайте опечатка в главном заголовке: «Helo!». Анна уже отправила на GitHub подвал. Исправьте опечатку по-командному: заберите свежую main, создайте ветку hotfix, закоммитьте, отправьте, откройте pull request и слейте его — в main на GitHub должны быть и исправление, и подвал.",
+      "uk": "17:40, п’ятниця. На сайті помилка в головному заголовку: «Helo!». Анна вже надіслала на GitHub підвал. Виправте помилку по-командному: заберіть свіжу main, створіть гілку hotfix, закомітьте, надішліть, відкрийте pull request і злийте його — у main на GitHub мають бути і виправлення, і підвал.",
+      "pl": "17:40, piątek. Na stronie jest literówka w głównym nagłówku: „Helo!”. Anna wysłała już stopkę na GitHuba. Popraw literówkę zespołowo: pobierz świeżą main, utwórz gałąź hotfix, zatwierdź, wypchnij, otwórz pull request i scal go — main na GitHubie musi mieć i poprawkę, i stopkę."
+    },
+    "difficulty": 2,
+    "requires": "github",
+    "xp": 120,
+    "setup": "git-lab",
+    "prepare": [
+      "cd ~/project",
+      "git init -q",
+      "git add .",
+      "git commit -qm \"Add home page\"",
+      "echo \"h1 { color: teal; }\" >> style.css",
+      "git commit -qam \"Teal headings\"",
+      "echo \"<p>Welcome to my site.</p>\" >> index.html",
+      "git commit -qam \"Welcome text\"",
+      "sed -i \"s/Hello!/Helo!/\" index.html",
+      "git commit -qam \"New heading\"",
+      "gh repo create site --public > /dev/null",
+      "git remote add origin https://github.com/student/site.git",
+      "git push -qu origin main 2>/dev/null",
+      "cd ~",
+      "git clone -q https://github.com/student/site.git /tmp/anna 2>/dev/null",
+      "cd /tmp/anna",
+      "echo \"<footer>© 2026</footer>\" >> index.html",
+      "git -c user.name=Anna -c user.email=anna@example.com commit -qam \"Add footer\"",
+      "git push -q 2>/dev/null",
+      "cd ~/project"
+    ],
+    "checks": [
+      {
+        "type": "github",
+        "repo": "site",
+        "merged": 1,
+        "label": {
+          "en": "A pull request was merged on GitHub",
+          "ru": "На GitHub слит pull request",
+          "uk": "На GitHub злито pull request",
+          "pl": "Na GitHubie scalono pull request"
+        }
+      },
+      {
+        "type": "github",
+        "repo": "site",
+        "branch": "hotfix",
+        "label": {
+          "en": "The branch hotfix was pushed",
+          "ru": "Ветка hotfix отправлена",
+          "uk": "Гілку hotfix надіслано",
+          "pl": "Gałąź hotfix została wypchnięta"
+        }
+      },
+      {
+        "type": "git",
+        "path": "~/project",
+        "pushed": "main",
+        "head": "main",
+        "label": {
+          "en": "Your main has the merged result",
+          "ru": "В вашей main результат слияния",
+          "uk": "У вашій main результат злиття",
+          "pl": "Twoja main ma wynik scalenia"
+        }
+      },
+      {
+        "type": "fileContains",
+        "path": "~/project/index.html",
+        "text": "<h1>Hello!</h1>",
+        "label": {
+          "en": "The heading is fixed",
+          "ru": "Заголовок исправлен",
+          "uk": "Заголовок виправлено",
+          "pl": "Nagłówek poprawiony"
+        }
+      },
+      {
+        "type": "fileContains",
+        "path": "~/project/index.html",
+        "text": "<footer>",
+        "label": {
+          "en": "Anna's footer is kept",
+          "ru": "Подвал Анны на месте",
+          "uk": "Підвал Анни на місці",
+          "pl": "Stopka Anny została"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "git pull first; then git switch -c hotfix, sed or nano to fix, commit, git push -u origin hotfix, gh pr create, gh pr merge, git switch main, git pull.",
+        "ru": "Сначала git pull; затем git switch -c hotfix, sed или nano для правки, commit, git push -u origin hotfix, gh pr create, gh pr merge, git switch main, git pull.",
+        "uk": "Спершу git pull; потім git switch -c hotfix, sed або nano для правки, commit, git push -u origin hotfix, gh pr create, gh pr merge, git switch main, git pull.",
+        "pl": "Najpierw git pull; potem git switch -c hotfix, sed lub nano do poprawki, commit, git push -u origin hotfix, gh pr create, gh pr merge, git switch main, git pull."
+      },
+      "command": "gh pr create"
+    },
+    "solution": [
+      "git pull",
+      "git switch -c hotfix",
+      "sed -i \"s/Helo!/Hello!/\" index.html",
+      "git commit -am \"Fix heading typo\"",
+      "git push -u origin hotfix",
+      "gh pr create --title \"Fix heading typo\" --body \"Helo -> Hello\"",
+      "gh pr merge 1 --merge",
+      "git switch main",
+      "git pull"
+    ]
+  },
+  {
+    "id": "git-leaked-env",
+    "course": "git",
+    "topics": [
+      "gt-ignore",
+      "gt-undo"
+    ],
+    "title": {
+      "en": "Secrets in the repo",
+      "ru": "Секреты в репозитории",
+      "uk": "Секрети в репозиторії",
+      "pl": "Sekrety w repozytorium"
+    },
+    "story": {
+      "en": "Code review, 16:05. Your last commit \"Add config\" put .env with a database password into the repository — luckily it is not pushed yet. Stop tracking .env (the file must stay on disk, the app needs it), make Git ignore it from now on, and commit the fix. The working tree must end up clean.",
+      "ru": "Код-ревью, 16:05. Ваш последний коммит «Add config» добавил в репозиторий .env с паролем от базы — к счастью, ещё не отправлен. Перестаньте отслеживать .env (файл должен остаться на диске, он нужен приложению), сделайте так, чтобы Git его игнорировал, и закоммитьте исправление. Рабочее дерево в итоге должно быть чистым.",
+      "uk": "Код-рев’ю, 16:05. Ваш останній коміт «Add config» додав у репозиторій .env з паролем від бази — на щастя, ще не надісланий. Перестаньте відстежувати .env (файл має лишитися на диску, він потрібен застосунку), зробіть так, щоб Git його ігнорував, і закомітьте виправлення. Робоче дерево зрештою має бути чистим.",
+      "pl": "Code review, 16:05. Twój ostatni commit „Add config” dodał do repozytorium .env z hasłem do bazy — na szczęście jeszcze nie wypchnięty. Przestań śledzić .env (plik musi zostać na dysku, aplikacja go potrzebuje), spraw, by Git go ignorował, i zatwierdź poprawkę. Na koniec drzewo robocze ma być czyste."
+    },
+    "difficulty": 2,
+    "requires": "git-pro",
+    "xp": 120,
+    "setup": "git-lab",
+    "prepare": [
+      "cd ~/project",
+      "git init -q",
+      "git add .",
+      "git commit -qm \"Add home page\"",
+      "echo \"h1 { color: teal; }\" >> style.css",
+      "git commit -qam \"Teal headings\"",
+      "echo \"<p>Welcome to my site.</p>\" >> index.html",
+      "git commit -qam \"Welcome text\"",
+      "printf \"DB_PASSWORD=Sup3rS3cret\\nAPI_KEY=sk_live_42\\n\" > .env",
+      "git add .env",
+      "git commit -qm \"Add config\""
+    ],
+    "checks": [
+      {
+        "type": "fileExists",
+        "path": "~/project/.env",
+        "label": {
+          "en": ".env is still on disk",
+          "ru": ".env остался на диске",
+          "uk": ".env лишився на диску",
+          "pl": ".env nadal jest na dysku"
+        }
+      },
+      {
+        "type": "git",
+        "path": "~/project",
+        "untracked": ".env",
+        "label": {
+          "en": ".env is no longer tracked",
+          "ru": ".env больше не отслеживается",
+          "uk": ".env більше не відстежується",
+          "pl": ".env nie jest już śledzony"
+        }
+      },
+      {
+        "type": "git",
+        "path": "~/project",
+        "ignored": ".env",
+        "label": {
+          "en": ".env is ignored",
+          "ru": ".env игнорируется",
+          "uk": ".env ігнорується",
+          "pl": ".env jest ignorowany"
+        }
+      },
+      {
+        "type": "git",
+        "path": "~/project",
+        "clean": true,
+        "label": {
+          "en": "The fix is committed, the tree is clean",
+          "ru": "Исправление закоммичено, дерево чистое",
+          "uk": "Виправлення закомічено, дерево чисте",
+          "pl": "Poprawka zatwierdzona, drzewo czyste"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "git rm --cached .env keeps the file; echo .env >> .gitignore; git add .gitignore; git commit.",
+        "ru": "git rm --cached .env оставит файл; echo .env >> .gitignore; git add .gitignore; git commit.",
+        "uk": "git rm --cached .env залишить файл; echo .env >> .gitignore; git add .gitignore; git commit.",
+        "pl": "git rm --cached .env zostawi plik; echo .env >> .gitignore; git add .gitignore; git commit."
+      },
+      "command": "git rm"
+    },
+    "solution": [
+      "git show --stat",
+      "git rm --cached .env",
+      "echo .env >> .gitignore",
+      "git add .gitignore",
+      "git commit -m \"Stop tracking .env\"",
+      "git status"
+    ]
+  },
+  {
+    "id": "git-release-day",
+    "course": "git",
+    "topics": [
+      "gt-tags",
+      "gt-cherry-amend"
+    ],
+    "title": {
+      "en": "Release day",
+      "ru": "День релиза",
+      "uk": "День релізу",
+      "pl": "Dzień wydania"
+    },
+    "story": {
+      "en": "Thursday, 11:00 — release 1.1.0. The greeting fix lives on the unfinished branch contact; it must ship today, the contact page must not. Bring just that fix to main, push main, tag it v1.1.0, push the tag and publish a GitHub release v1.1.0.",
+      "ru": "Четверг, 11:00 — релиз 1.1.0. Исправление приветствия лежит в незаконченной ветке contact; оно должно уйти сегодня, а страница контактов — нет. Перенесите в main только это исправление, отправьте main, поставьте тег v1.1.0, отправьте тег и опубликуйте релиз v1.1.0 на GitHub.",
+      "uk": "Четвер, 11:00 — реліз 1.1.0. Виправлення привітання лежить у незавершеній гілці contact; воно має піти сьогодні, а сторінка контактів — ні. Перенесіть у main лише це виправлення, надішліть main, поставте тег v1.1.0, надішліть тег і опублікуйте реліз v1.1.0 на GitHub.",
+      "pl": "Czwartek, 11:00 — wydanie 1.1.0. Poprawka powitania jest w niedokończonej gałęzi contact; musi wyjść dziś, a strona kontaktowa — nie. Przenieś do main tylko tę poprawkę, wypchnij main, oznacz tagiem v1.1.0, wypchnij tag i opublikuj wydanie v1.1.0 na GitHubie."
+    },
+    "difficulty": 3,
+    "requires": "git-pro",
+    "xp": 150,
+    "setup": "git-lab",
+    "prepare": [
+      "cd ~/project",
+      "git init -q",
+      "git add .",
+      "git commit -qm \"Add home page\"",
+      "echo \"h1 { color: teal; }\" >> style.css",
+      "git commit -qam \"Teal headings\"",
+      "echo \"<p>Welcome to my site.</p>\" >> index.html",
+      "git commit -qam \"Welcome text\"",
+      "git switch -qc contact",
+      "echo \"<p>Contact: hello@example.com</p>\" > contact.html",
+      "git add contact.html",
+      "git commit -qm \"Contact page\"",
+      "sed -i \"s/Hello!/Hello, world!/\" index.html",
+      "git commit -qam \"Fix greeting\"",
+      "git switch -q main",
+      "gh repo create site --public > /dev/null",
+      "git remote add origin https://github.com/student/site.git",
+      "git push -qu origin main 2>/dev/null"
+    ],
+    "checks": [
+      {
+        "type": "github",
+        "repo": "site",
+        "file": "index.html",
+        "fileContains": "Hello, world!",
+        "label": {
+          "en": "main on GitHub has the greeting fix",
+          "ru": "В main на GitHub есть исправление приветствия",
+          "uk": "У main на GitHub є виправлення привітання",
+          "pl": "main na GitHubie ma poprawkę powitania"
+        }
+      },
+      {
+        "type": "github",
+        "repo": "site",
+        "tag": "v1.1.0",
+        "label": {
+          "en": "The tag v1.1.0 is on GitHub",
+          "ru": "Тег v1.1.0 на GitHub",
+          "uk": "Тег v1.1.0 на GitHub",
+          "pl": "Tag v1.1.0 jest na GitHubie"
+        }
+      },
+      {
+        "type": "github",
+        "repo": "site",
+        "release": "v1.1.0",
+        "label": {
+          "en": "The release v1.1.0 is published",
+          "ru": "Релиз v1.1.0 опубликован",
+          "uk": "Реліз v1.1.0 опубліковано",
+          "pl": "Wydanie v1.1.0 opublikowane"
+        }
+      },
+      {
+        "type": "notExists",
+        "path": "~/project/contact.html",
+        "label": {
+          "en": "The contact page did not ship",
+          "ru": "Страница контактов не попала в релиз",
+          "uk": "Сторінка контактів не потрапила в реліз",
+          "pl": "Strona kontaktowa nie weszła do wydania"
+        }
+      },
+      {
+        "type": "git",
+        "path": "~/project",
+        "pushed": "main",
+        "head": "main",
+        "label": {
+          "en": "Local main is pushed",
+          "ru": "Локальная main отправлена",
+          "uk": "Локальну main надіслано",
+          "pl": "Lokalna main wypchnięta"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "git log --oneline contact; git cherry-pick the fix; git push; git tag -a v1.1.0 -m ...; git push origin v1.1.0; gh release create v1.1.0.",
+        "ru": "git log --oneline contact; git cherry-pick исправления; git push; git tag -a v1.1.0 -m ...; git push origin v1.1.0; gh release create v1.1.0.",
+        "uk": "git log --oneline contact; git cherry-pick виправлення; git push; git tag -a v1.1.0 -m ...; git push origin v1.1.0; gh release create v1.1.0.",
+        "pl": "git log --oneline contact; git cherry-pick poprawki; git push; git tag -a v1.1.0 -m ...; git push origin v1.1.0; gh release create v1.1.0."
+      },
+      "command": "git cherry-pick"
+    },
+    "solution": [
+      "git log --oneline contact",
+      "git cherry-pick contact",
+      "git push",
+      "git tag -a v1.1.0 -m \"Release 1.1.0\"",
+      "git push origin v1.1.0",
+      "gh release create v1.1.0 --title \"1.1.0\" --notes \"Greeting fix\""
+    ]
+  },
+  {
+    "id": "docker-shop-down",
+    "course": "docker",
+    "topics": [
+      "dk-logs",
+      "dk-env-volumes"
+    ],
+    "title": {
+      "en": "Containers down",
+      "ru": "Контейнеры легли",
+      "uk": "Контейнери лягли",
+      "pl": "Kontenery padły"
+    },
+    "story": {
+      "en": "11:58 UTC, P1. After a memory spike on dock01 the shop is down. Read ~/tickets/INC-4102.txt, find out why each container stopped, bring web back on http://localhost:8080 and get the db container running.",
+      "ru": "11:58 UTC, P1. После скачка памяти на dock01 магазин лежит. Прочитайте ~/tickets/INC-4102.txt, выясните, почему остановился каждый контейнер, верните web на http://localhost:8080 и запустите контейнер db.",
+      "uk": "11:58 UTC, P1. Після стрибка пам’яті на dock01 магазин лежить. Прочитайте ~/tickets/INC-4102.txt, з’ясуйте, чому зупинився кожен контейнер, поверніть web на http://localhost:8080 і запустіть контейнер db.",
+      "pl": "11:58 UTC, P1. Po skoku pamięci na dock01 sklep leży. Przeczytaj ~/tickets/INC-4102.txt, ustal, dlaczego zatrzymał się każdy kontener, przywróć web pod http://localhost:8080 i uruchom kontener db."
+    },
+    "difficulty": 2,
+    "requires": "docker-ops",
+    "xp": 120,
+    "setup": {
+      "hostname": "dock01",
+      "docker": {
+        "images": [
+          "nginx:latest",
+          "postgres:16"
+        ],
+        "containers": [
+          {
+            "name": "web",
+            "image": "nginx",
+            "ports": [
+              "8080:80"
+            ],
+            "state": "exited",
+            "exitCode": 137,
+            "age": 25,
+            "logs": [
+              "2026/10/31 11:58:02 [notice] 1#1: signal 9 (SIGKILL) received from kernel: Out of memory"
+            ]
+          },
+          {
+            "name": "db",
+            "image": "postgres:16",
+            "state": "exited",
+            "exitCode": 1,
+            "age": 25
+          }
+        ]
+      },
+      "files": {
+        "~/tickets/INC-4102.txt": "INC-4102  P1  Shop on dock01 is down: http://localhost:8080 refuses connections (11:58 UTC)\nThe database container must run too (any password, the app is not connected yet).\n"
+      }
+    },
+    "checks": [
+      {
+        "type": "containerState",
+        "name": "web",
+        "state": "running",
+        "hostPort": 8080,
+        "label": {
+          "en": "web is running again",
+          "ru": "web снова работает",
+          "uk": "web знову працює",
+          "pl": "web znów działa"
+        }
+      },
+      {
+        "type": "usedCommand",
+        "command": "curl",
+        "success": true,
+        "label": {
+          "en": "Checked the site with curl",
+          "ru": "Сайт проверен curl",
+          "uk": "Сайт перевірено curl",
+          "pl": "Strona sprawdzona curl"
+        }
+      },
+      {
+        "type": "containerState",
+        "name": "db",
+        "state": "running",
+        "image": "postgres:16",
+        "label": {
+          "en": "A working db container",
+          "ru": "Рабочий контейнер db",
+          "uk": "Робочий контейнер db",
+          "pl": "Działający kontener db"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "docker ps -a and docker logs for both. web just needs a start; db needs to be recreated with POSTGRES_PASSWORD.",
+        "ru": "docker ps -a и docker logs для обоих. web достаточно запустить; db нужно пересоздать с POSTGRES_PASSWORD.",
+        "uk": "docker ps -a і docker logs для обох. web достатньо запустити; db треба перестворити з POSTGRES_PASSWORD.",
+        "pl": "docker ps -a i docker logs dla obu. web wystarczy uruchomić; db trzeba utworzyć ponownie z POSTGRES_PASSWORD."
+      },
+      "command": "docker logs"
+    },
+    "solution": [
+      "docker start web",
+      "curl localhost:8080",
+      "docker rm db",
+      "docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:16"
+    ]
+  },
+  {
+    "id": "docker-cache-dns",
+    "course": "docker",
+    "topics": [
+      "dk-networks"
+    ],
+    "title": {
+      "en": "Cache not found",
+      "ru": "Кэш не найден",
+      "uk": "Кеш не знайдено",
+      "pl": "Nie znaleziono cache"
+    },
+    "story": {
+      "en": "09:12, P2. The payment API on pay01 logs \"getaddrinfo ENOTFOUND cache\" — it cannot reach Redis by name. Someone started both containers without a network. Put api and cache on a network pay-net (do not recreate them) and prove that api resolves cache.",
+      "ru": "09:12, P2. Платёжный API на pay01 пишет в лог «getaddrinfo ENOTFOUND cache» — не может достучаться до Redis по имени. Кто-то запустил оба контейнера без сети. Подключите api и cache к сети pay-net (не пересоздавая их) и докажите, что api разрешает имя cache.",
+      "uk": "09:12, P2. Платіжний API на pay01 пише в лог «getaddrinfo ENOTFOUND cache» — не може достукатися до Redis за іменем. Хтось запустив обидва контейнери без мережі. Під’єднайте api і cache до мережі pay-net (не перестворюючи їх) і доведіть, що api розв’язує ім’я cache.",
+      "pl": "09:12, P2. API płatności na pay01 loguje „getaddrinfo ENOTFOUND cache” — nie może dotrzeć do Redisa po nazwie. Ktoś uruchomił oba kontenery bez sieci. Podłącz api i cache do sieci pay-net (bez tworzenia ich od nowa) i udowodnij, że api rozwiązuje nazwę cache."
+    },
+    "difficulty": 2,
+    "requires": "docker-prod",
+    "xp": 120,
+    "setup": {
+      "hostname": "pay01",
+      "docker": {
+        "images": [
+          "nginx:latest",
+          "redis:7"
+        ],
+        "containers": [
+          {
+            "name": "api",
+            "image": "nginx",
+            "ports": [
+              "8080:80"
+            ],
+            "age": 60,
+            "logs": [
+              "2026/11/14 09:12:03 [error] upstream: getaddrinfo ENOTFOUND cache",
+              "2026/11/14 09:12:04 [error] upstream: getaddrinfo ENOTFOUND cache"
+            ]
+          },
+          {
+            "name": "cache",
+            "image": "redis:7",
+            "age": 60
+          }
+        ]
+      },
+      "files": {
+        "~/tickets/INC-5120.txt": "INC-5120  P2  pay01: payments fail, api log: getaddrinfo ENOTFOUND cache\nAction: put api and cache on network pay-net. Do NOT recreate the containers (in-memory sessions).\n"
+      }
+    },
+    "checks": [
+      {
+        "type": "containerState",
+        "name": "api",
+        "state": "running",
+        "network": "pay-net",
+        "label": {
+          "en": "api runs on the network pay-net",
+          "ru": "api работает в сети pay-net",
+          "uk": "api працює в мережі pay-net",
+          "pl": "api działa w sieci pay-net"
+        }
+      },
+      {
+        "type": "containerState",
+        "name": "cache",
+        "state": "running",
+        "network": "pay-net",
+        "label": {
+          "en": "cache runs on the network pay-net",
+          "ru": "cache работает в сети pay-net",
+          "uk": "cache працює в мережі pay-net",
+          "pl": "cache działa w sieci pay-net"
+        }
+      },
+      {
+        "type": "usedCommand",
+        "command": "docker",
+        "args": [
+          "exec",
+          "api"
+        ],
+        "success": true,
+        "label": {
+          "en": "Checked name resolution from api",
+          "ru": "Проверено разрешение имени из api",
+          "uk": "Перевірено розв’язування імені з api",
+          "pl": "Sprawdzono rozwiązywanie nazwy z api"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "docker logs api shows the error. docker network create pay-net, docker network connect for both, then docker exec api getent hosts cache.",
+        "ru": "docker logs api покажет ошибку. docker network create pay-net, docker network connect для обоих, затем docker exec api getent hosts cache.",
+        "uk": "docker logs api покаже помилку. docker network create pay-net, docker network connect для обох, потім docker exec api getent hosts cache.",
+        "pl": "docker logs api pokaże błąd. docker network create pay-net, docker network connect dla obu, potem docker exec api getent hosts cache."
+      },
+      "command": "docker network connect"
+    },
+    "solution": [
+      "cat ~/tickets/INC-5120.txt",
+      "docker logs api",
+      "docker network create pay-net",
+      "docker network connect pay-net api",
+      "docker network connect pay-net cache",
+      "docker exec api getent hosts cache"
+    ]
+  },
+  {
+    "id": "docker-rollback",
+    "course": "docker",
+    "topics": [
+      "dk-tags",
+      "dk-restart",
+      "dk-logs"
+    ],
+    "title": {
+      "en": "Roll it back",
+      "ru": "Откатить релиз",
+      "uk": "Відкотити реліз",
+      "pl": "Wycofaj wydanie"
+    },
+    "story": {
+      "en": "22:40, P1. An hour ago web was upgraded to nginx:1.27 and the site is down. The previous version nginx:1.26 is still on the host. Roll web back to 1.26 on port 8080 with the restart policy unless-stopped, and mark that image as shop-web:stable so nobody deploys the broken one again.",
+      "ru": "22:40, P1. Час назад web обновили до nginx:1.27, и сайт лежит. Прошлая версия nginx:1.26 ещё есть на хосте. Откатите web на 1.26 на порту 8080 с политикой unless-stopped и пометьте этот образ как shop-web:stable, чтобы никто снова не выкатил сломанный.",
+      "uk": "22:40, P1. Годину тому web оновили до nginx:1.27, і сайт лежить. Попередня версія nginx:1.26 ще є на хості. Відкотіть web на 1.26 на порту 8080 з політикою unless-stopped і позначте цей образ як shop-web:stable, щоб ніхто знову не викотив зламаний.",
+      "pl": "22:40, P1. Godzinę temu web zaktualizowano do nginx:1.27 i strona leży. Poprzednia wersja nginx:1.26 jest jeszcze na hoście. Wycofaj web do 1.26 na porcie 8080 z zasadą unless-stopped i oznacz ten obraz jako shop-web:stable, żeby nikt znów nie wdrożył zepsutego."
+    },
+    "difficulty": 3,
+    "requires": "docker-prod",
+    "xp": 150,
+    "setup": {
+      "hostname": "web01",
+      "docker": {
+        "images": [
+          "nginx:1.26",
+          "nginx:1.27"
+        ],
+        "containers": [
+          {
+            "name": "web",
+            "image": "nginx:1.27",
+            "ports": [
+              "8080:80"
+            ],
+            "state": "exited",
+            "exitCode": 1,
+            "age": 1,
+            "logs": [
+              "2026/11/14 21:40:12 [emerg] 1#1: unknown directive \"ssl_legacy_renegotiation\" in /etc/nginx/conf.d/shop.conf:14",
+              "nginx: [emerg] unknown directive \"ssl_legacy_renegotiation\" in /etc/nginx/conf.d/shop.conf:14"
+            ]
+          }
+        ]
+      },
+      "files": {
+        "~/tickets/INC-5133.txt": "INC-5133  P1  web01: shop down since the 21:40 upgrade to nginx:1.27\nRollback approved: nginx:1.26. Keep port 8080. Must survive reboots.\n"
+      }
+    },
+    "checks": [
+      {
+        "type": "containerState",
+        "name": "web",
+        "state": "running",
+        "image": "nginx:1.26",
+        "hostPort": 8080,
+        "label": {
+          "en": "web runs nginx:1.26 on 8080",
+          "ru": "web работает на nginx:1.26, порт 8080",
+          "uk": "web працює на nginx:1.26, порт 8080",
+          "pl": "web działa na nginx:1.26, port 8080"
+        }
+      },
+      {
+        "type": "usedCommand",
+        "command": "docker",
+        "args": [
+          "run",
+          "unless-stopped"
+        ],
+        "success": true,
+        "label": {
+          "en": "The restart policy unless-stopped is set",
+          "ru": "Задана политика unless-stopped",
+          "uk": "Задано політику unless-stopped",
+          "pl": "Ustawiono zasadę unless-stopped"
+        }
+      },
+      {
+        "type": "imageExists",
+        "name": "shop-web:stable",
+        "label": {
+          "en": "shop-web:stable is tagged",
+          "ru": "Образ помечен как shop-web:stable",
+          "uk": "Образ позначено як shop-web:stable",
+          "pl": "Obraz oznaczony jako shop-web:stable"
+        }
+      },
+      {
+        "type": "usedCommand",
+        "command": "curl",
+        "success": true,
+        "label": {
+          "en": "Checked the site with curl",
+          "ru": "Сайт проверен curl",
+          "uk": "Сайт перевірено curl",
+          "pl": "Strona sprawdzona curl"
+        }
+      }
+    ],
+    "hints": {
+      "direction": {
+        "en": "docker logs web explains the crash. docker rm web, docker run -d --name web -p 8080:80 --restart unless-stopped nginx:1.26, docker tag nginx:1.26 shop-web:stable, curl localhost:8080.",
+        "ru": "docker logs web объяснит падение. docker rm web, docker run -d --name web -p 8080:80 --restart unless-stopped nginx:1.26, docker tag nginx:1.26 shop-web:stable, curl localhost:8080.",
+        "uk": "docker logs web пояснить падіння. docker rm web, docker run -d --name web -p 8080:80 --restart unless-stopped nginx:1.26, docker tag nginx:1.26 shop-web:stable, curl localhost:8080.",
+        "pl": "docker logs web wyjaśni awarię. docker rm web, docker run -d --name web -p 8080:80 --restart unless-stopped nginx:1.26, docker tag nginx:1.26 shop-web:stable, curl localhost:8080."
+      },
+      "command": "docker tag"
+    },
+    "solution": [
+      "docker logs web",
+      "docker rm web",
+      "docker run -d --name web -p 8080:80 --restart unless-stopped nginx:1.26",
+      "docker tag nginx:1.26 shop-web:stable",
+      "curl localhost:8080"
     ]
   }
 ]

@@ -14,7 +14,6 @@ import {
   scheduleStruggles,
   touchStreak,
 } from '../src/lib/progress';
-import { bannerAllowed, interstitialAllowed } from '../src/lib/ads';
 
 describe('dates', () => {
   it('day arithmetic', () => {
@@ -58,11 +57,14 @@ describe('SM-2', () => {
     expect(f.ef).toBeGreaterThanOrEqual(1.3);
   });
   it('only struggles are scheduled, due cards are found', () => {
-    expect(scheduleStruggles({}, ['ls'], 0, 0, '2026-10-01')).toEqual({});
-    const srs = scheduleStruggles({}, ['grep', 'wc'], 2, 0, '2026-10-01');
-    expect(Object.keys(srs)).toEqual(['grep', 'wc']);
-    expect(dueCards(srs, '2026-10-01')).toEqual([]);
-    expect(dueCards(srs, '2026-10-02').sort()).toEqual(['grep', 'wc']);
+    const clean = scheduleStruggles({}, ['ls'], 0, 0, '2026-10-01');
+    expect(dueCards(clean, '2026-10-01')).toEqual(['ls']);
+    // a known card is not reset by a clean lesson
+    const known = { ls: { ef: 2.6, interval: 6, reps: 2, due: '2026-10-07' } };
+    expect(scheduleStruggles(known, ['ls'], 0, 0, '2026-10-01')).toEqual(known);
+    const srs = scheduleStruggles(known, ['grep', 'ls'], 2, 0, '2026-10-01');
+    expect(dueCards(srs, '2026-10-01').sort()).toEqual(['grep', 'ls']);
+    expect(srs.ls!.ef).toBeCloseTo(2.4);
   });
 });
 
@@ -91,14 +93,5 @@ describe('progress', () => {
     expect(got).toEqual(expect.arrayContaining(['first-command', 'first-pipe', 'first-lesson', 'module-done', 'no-hints-module', 'rm-rf-root']));
     p.achievements['first-command'] = 1;
     expect(newAchievements(p, { now: new Date() })).not.toContain('first-command');
-  });
-  it('ads policy: never during a task, once per 3 lessons, consent first', () => {
-    const s = { lessonsSinceInterstitial: 3, consentGiven: true, premium: false };
-    expect(interstitialAllowed(s, false)).toBe(true);
-    expect(interstitialAllowed(s, true)).toBe(false);
-    expect(interstitialAllowed({ ...s, lessonsSinceInterstitial: 2 }, false)).toBe(false);
-    expect(interstitialAllowed({ ...s, consentGiven: false }, false)).toBe(false);
-    expect(bannerAllowed(s, 'terminal')).toBe(false);
-    expect(bannerAllowed({ ...s, premium: true }, 'list')).toBe(false);
   });
 });

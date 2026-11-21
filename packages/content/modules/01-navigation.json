@@ -78,7 +78,8 @@
           "instructions": {
             "en": "1. Type `pwd` in the terminal\n2. Press Enter (⏎)",
             "ru": "1. Наберите в терминале `pwd`\n2. Нажмите Enter (⏎)",
-            "uk": "1. Наберіть у терміналі `pwd`\n2. Натисніть Enter (⏎)"
+            "uk": "1. Наберіть у терміналі `pwd`\n2. Натисніть Enter (⏎)",
+            "pl": "1. Wpisz `pwd` w terminalu\n2. Naciśnij Enter (⏎)"
           }
         },
         {
@@ -116,7 +117,8 @@
           "instructions": {
             "en": "1. Type the command `whoami` (who am I)\n2. Press Enter — the system prints your user name",
             "ru": "1. Наберите команду `whoami` (who am I — «кто я»)\n2. Нажмите Enter — система сама напечатает имя пользователя",
-            "uk": "1. Наберіть команду `whoami` (who am I — «хто я»)\n2. Натисніть Enter — система сама надрукує ім'я користувача"
+            "uk": "1. Наберіть команду `whoami` (who am I — «хто я»)\n2. Натисніть Enter — система сама надрукує ім'я користувача",
+            "pl": "1. Wpisz polecenie `whoami` (kim jestem)\n2. Naciśnij Enter — system wypisze nazwę Twojego użytkownika"
           }
         },
         {
@@ -230,7 +232,8 @@
           "instructions": {
             "en": "1. Type `ls` and press Enter\n2. Look at the list: blue names are directories",
             "ru": "1. Наберите `ls` и нажмите Enter\n2. Посмотрите на список: синие имена — это директории",
-            "uk": "1. Наберіть `ls` і натисніть Enter\n2. Подивіться на список: сині назви — це директорії"
+            "uk": "1. Наберіть `ls` і натисніть Enter\n2. Подивіться на список: сині назви — це директорії",
+            "pl": "1. Wpisz `ls` i naciśnij Enter\n2. Spójrz na listę: niebieskie nazwy to katalogi"
           }
         },
         {
@@ -278,7 +281,8 @@
           "instructions": {
             "en": "1. The directory is ~/projects/website (projects → website)\n2. Give the path to ls: `ls projects/website`\n3. Do not use cd",
             "ru": "1. Директория лежит по пути ~/projects/website (projects → website)\n2. Передайте путь команде ls: `ls projects/website`\n3. cd использовать не нужно",
-            "uk": "1. Директорія лежить за шляхом ~/projects/website (projects → website)\n2. Передайте шлях команді ls: `ls projects/website`\n3. cd використовувати не потрібно"
+            "uk": "1. Директорія лежить за шляхом ~/projects/website (projects → website)\n2. Передайте шлях команді ls: `ls projects/website`\n3. cd використовувати не потрібно",
+            "pl": "1. Katalog to ~/projects/website (projects → website)\n2. Podaj ścieżkę do ls: `ls projects/website`\n3. Nie używaj cd"
           }
         },
         {
@@ -370,7 +374,8 @@
           "instructions": {
             "en": "1. Not sure what is here? Run `ls` or press the 📁 button\n2. Go there with cd and the path projects/website",
             "ru": "1. Не помните, что здесь есть? Выполните `ls` или нажмите кнопку 📁\n2. Перейдите туда командой cd с путём projects/website",
-            "uk": "1. Не пам'ятаєте, що тут є? Виконайте `ls` або натисніть кнопку 📁\n2. Перейдіть туди командою cd зі шляхом projects/website"
+            "uk": "1. Не пам'ятаєте, що тут є? Виконайте `ls` або натисніть кнопку 📁\n2. Перейдіть туди командою cd зі шляхом projects/website",
+            "pl": "1. Nie wiesz, co tu jest? Uruchom `ls` albo naciśnij przycisk 📁\n2. Przejdź tam przez cd i ścieżkę projects/website"
           }
         },
         {
@@ -600,7 +605,8 @@
           "instructions": {
             "en": "1. The photos are in ~/photos (your home directory)\n2. Use ls with two flags: -l (long) and -h (human sizes)\n3. Example form: `ls -lh DIRECTORY`",
             "ru": "1. Фото лежат в ~/photos (в вашей домашней папке)\n2. Используйте ls с двумя флагами: -l (длинный формат) и -h (удобные размеры)\n3. Форма команды: `ls -lh ДИРЕКТОРИЯ`",
-            "uk": "1. Фото лежать у ~/photos (у вашій домашній теці)\n2. Використайте ls з двома прапорцями: -l (довгий формат) і -h (зручні розміри)\n3. Форма команди: `ls -lh ДИРЕКТОРІЯ`"
+            "uk": "1. Фото лежать у ~/photos (у вашій домашній теці)\n2. Використайте ls з двома прапорцями: -l (довгий формат) і -h (зручні розміри)\n3. Форма команди: `ls -lh ДИРЕКТОРІЯ`",
+            "pl": "1. Zdjęcia są w ~/photos (Twój katalog domowy)\n2. Użyj ls z dwiema flagami: -l (długi format) i -h (czytelne rozmiary)\n3. Przykładowa postać: `ls -lh KATALOG`"
           }
         },
         {
@@ -702,7 +708,8 @@
           "instructions": {
             "en": "1. You are in /tmp — check with `pwd`\n2. Your docs directory is ~/docs\n3. Run ls with that path, without cd",
             "ru": "1. Вы в /tmp — проверьте командой `pwd`\n2. Ваша директория docs — это ~/docs\n3. Выполните ls с этим путём, без cd",
-            "uk": "1. Ви в /tmp — перевірте командою `pwd`\n2. Ваша директорія docs — це ~/docs\n3. Виконайте ls із цим шляхом, без cd"
+            "uk": "1. Ви в /tmp — перевірте командою `pwd`\n2. Ваша директорія docs — це ~/docs\n3. Виконайте ls із цим шляхом, без cd",
+            "pl": "1. Jesteś w /tmp — sprawdź przez `pwd`\n2. Twój katalog docs to ~/docs\n3. Uruchom ls z tą ścieżką, bez cd"
           }
         },
         {
@@ -743,7 +750,8 @@
           "instructions": {
             "en": "1. From ~/projects/website go up two levels: ../..\n2. Then into photos: `cd ../../photos`",
             "ru": "1. Из ~/projects/website нужно подняться на два уровня: ../..\n2. Затем в photos: `cd ../../photos`",
-            "uk": "1. З ~/projects/website треба піднятися на два рівні: ../..\n2. Потім у photos: `cd ../../photos`"
+            "uk": "1. З ~/projects/website треба піднятися на два рівні: ../..\n2. Потім у photos: `cd ../../photos`",
+            "pl": "1. Z ~/projects/website idź dwa poziomy w górę: ../..\n2. Potem do photos: `cd ../../photos`"
           }
         },
         {
